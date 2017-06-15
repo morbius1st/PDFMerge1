@@ -35,6 +35,9 @@ namespace PDFMerge1
 	{
 		private int maxFileNameLen = 0;
 
+		private string error;
+
+
 		private string nl = Environment.NewLine;
 		private const string spacer = "                                  ";
 
@@ -99,7 +102,7 @@ namespace PDFMerge1
 		{
 			clearConsole();
 
-			bool result = true;
+			bool result = false;
 			bool keepOldBookmarks = false;
 			bool keepOldTags = false;
 
@@ -186,13 +189,36 @@ namespace PDFMerge1
 					logMsgFmtln("final path| ", path);
 					logMsg(nl);
 
+
+					if (File.Exists(output_file))
+					{
+						try
+						{
+							var f = File.OpenWrite(output_file);
+							f.Close();
+						}
+						catch (Exception ex)
+						{
+							logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere");
+							return;
+						}
+					}
+
 					Dictionary<string, Bookmark> bookmarkList = createBookmarkList2(path);
 
 					if (bookmarkList != null)
 					{
-//						listBookmarkTree(bookmarkList, path);
-						mergePDF(bookmarkList, path, output_file, 
-							keepOldTags, keepOldBookmarks);
+
+						if (!mergePDF(bookmarkList, path, output_file,
+							keepOldTags, keepOldBookmarks))
+						{
+							logMsgln("PDF File Merge Failed - No File Created");
+							logMsgln(error);
+						}
+						else
+						{
+							result = true;
+						}
 					}
 					else
 					{
@@ -202,8 +228,7 @@ namespace PDFMerge1
 				}
 			}
 
-
-			logMsgFmtln("result| ", result.ToString());
+//			logMsgFmtln("result| ", result.ToString());
 		}
 
 		string pathSet(string path)
@@ -379,12 +404,12 @@ namespace PDFMerge1
 			return bookmarkList;
 		}
 
-		void mergePDF(Dictionary<string, Bookmark> bookmarkList, 
+		bool mergePDF(Dictionary<string, Bookmark> bookmarkList, 
 			String rootPath, string outputName, bool keepOldTags, bool keepOldBookmarks)
 		{
 			const int maxBookmarkDepth = 32;
 
-			int tabLevel = 1;
+			int tabLevel = 0;
 			int bookmarkSplitPathLength;
 			int pagesDoc;
 			int pagesTotal = 1;
@@ -397,15 +422,30 @@ namespace PDFMerge1
 			string pattern = "{0,-" + (maxFileNameLen + 5) + "}";
 
 			bool found;
+			bool newLevel = false;
+
+			PdfOutline tempOutline;
 
 			PdfOutline[] pdfOutlineList = new PdfOutline[maxBookmarkDepth];
 
+			PdfDocument pdfDoc = null;
 
-			PdfDocument pdfDoc = new PdfDocument(new PdfWriter(outputName));
+			error = "";
+
+			try
+			{
+				pdfDoc = new PdfDocument(new PdfWriter(outputName));
+			}
+			catch (Exception e)
+			{
+				error = e.Message;
+				return false;
+			}
+
 			PdfMerger merger = new PdfMerger(pdfDoc, keepOldTags, keepOldBookmarks);
 			merger.SetCloseSourceDocuments(false);
 
-			pdfOutlineList[0] = pdfDoc.GetOutlines(false);
+			pdfOutlineList[tabLevel] = pdfDoc.GetOutlines(false);
 
 			foreach (KeyValuePair<string, Bookmark> kvp in bookmarkList)
 			{
@@ -428,23 +468,18 @@ namespace PDFMerge1
 					{
 						bookmarkKey = bookmarkSplitPath[tabLevel - 1];
 
-						logMsgln("tab level| " + tabLevel);
-						logMsg(spacer.Substring(0, tabLevel * 3));
-						logMsgln(bookmarkKey);
+						pdfOutlineList[tabLevel] =
+							pdfOutlineList[tabLevel - 1].AddOutline(bookmarkKey);
 
-						tabLevel++;
+						newLevel = true;
 					}
 					else
 					{
+						// this should never happen
 						tabLevel = 1;
 						bookmarkKey = "";
 					}
 				}
-
-// *******
-//tabLevel = 1;
-
-				
 
 				fileAndPath = rootPath + "\\";
 
@@ -457,13 +492,7 @@ namespace PDFMerge1
 
 				found = File.Exists(fileAndPath);
 
-				logMsg(spacer.Substring(0, tabLevel * 3));
-				logMsgln(kvp.Value.bookmark + ".pdf");
-
-
-				//				logMsgFmt("Merging| ", 
-				//					String.Format(pattern, kvp.Value.bookmark + ".pdf") 
-				//					+ "  found?| ");
+				logMsgFmt("Merging |", fmtMsg(kvp.Value.bookmark + ".pdf", -40) + "| ");
 
 				if (found)
 				{
@@ -474,28 +503,35 @@ namespace PDFMerge1
 						merger.Merge(src, 1, pagesDoc);
 						src.Close();
 
-//						pdfOutlineList[tabLevel] = pdfOutlineList[tabLevel - 1].AddOutline(kvp.Value.bookmark);
-//						pdfOutlineList[tabLevel].AddDestination(PdfExplicitDestination.CreateFit(pdfDoc.GetPage(pagesTotal)));
+						tempOutline = 
+							pdfOutlineList[tabLevel].AddOutline(kvp.Value.bookmark);
+
+						tempOutline.
+							AddDestination(PdfExplicitDestination.CreateFit(pdfDoc.GetPage(pagesTotal)));
+
+						if (newLevel)
+						{
+							pdfOutlineList[tabLevel].
+								AddDestination(PdfExplicitDestination.CreateFit(pdfDoc.GetPage(pagesTotal)));
+
+							newLevel = false;
+						}
 
 						pagesTotal += pagesDoc;
 
-//						logMsg("Yes", Color.Green, null);
-//						logMsg("  pages| " + pagesDoc + "  total| " + pagesTotal);
-
+						logMsg("Worked", Color.Green, null);
 					}
 					catch (PdfException)
 					{
-//						logMsg("Corrupted", Color.Red, null);
+						logMsg("Corrupted", Color.Red, null);
 					}
 				}
 				else
 				{
-//					logMsg("No", Color.Maroon, null);
+					logMsg("Failed", Color.Maroon, null);
 				}
 
-				
-				
-//				logMsg(nl);
+				logMsg(nl);
 			}
 
 			try
@@ -504,8 +540,11 @@ namespace PDFMerge1
 			}
 			catch (Exception e)
 			{
-				logMsgln("PDF File Merge Failed - No File Created");
+				error = e.Message;
+				return false;
 			}
+
+			return true;
 		}
 
 		void listDirectories(string path, SearchOption searchOption)
@@ -891,11 +930,18 @@ namespace PDFMerge1
 			logMsg(fmtMsg(msg1, msg2, column), color, font);
 		}
 
-		string fmtMsg(string msg1, string msg2, int column = -1)
+		string fmtMsg(string msg1, string msg2, int column = 0)
 		{
-			if (column < 0) { column = defColumn; }
+			if (column == 0) { column = defColumn; }
 
 			return String.Format("{0," + column + "}{1}", msg1, msg2);
+		}
+
+		string fmtMsg(string msg1, int column = 0)
+		{
+			if (column == 0) { column = defColumn; }
+
+			return String.Format("{0," + column + "}", msg1);
 		}
 
 		void logMsgln(string msg)
@@ -930,10 +976,6 @@ namespace PDFMerge1
 				Console.Write(msg);
 			}
 		}
-
-
-
-
 
 		void clearConsole()
 		{
