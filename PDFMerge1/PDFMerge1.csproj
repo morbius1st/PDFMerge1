@@ -55,7 +55,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookmarkTree.cs" />
+    <Compile Include="PdfMergeTree.cs" />
     <Compile Include="FileList.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

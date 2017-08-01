@@ -9,12 +9,12 @@ using iText.Kernel.Utils;
 
 using static PDFMerge1.Utility;
 using static PDFMerge1.FileList.FileItemType;
-using static PDFMerge1.BookmarkTree;
-using static PDFMerge1.BookmarkTree.bookmarkType;
+using static PDFMerge1.PdfMergeTree;
+using static PDFMerge1.PdfMergeTree.bookmarkType;
 
 namespace PDFMerge1
 {
-	internal class PDFMergeFileList
+	internal class PdfMergeFileList
 	{
 
 		internal bool OVERWITE_OUTPUT { get; set; } = true;
@@ -53,7 +53,7 @@ namespace PDFMerge1
 			return true;
 		}
 
-		internal PdfDocument Merge(string outputFile, List<Bookmark> tree)
+		internal PdfDocument Merge(string outputFile, List<MergeItem> tree)
 		{
 			if (!verifyOutputFile(outputFile))
 			{
@@ -78,13 +78,13 @@ namespace PDFMerge1
 			return pdf;
 		}
 
-		private int merge(PdfMerger merger, List<Bookmark> bookmarks, int initialPageCount)
+		private int merge(PdfMerger merger, List<MergeItem> bookmarks, int initialPageCount)
 		{
 			int pageCount = initialPageCount;
 			PdfDocument src = null;
 			bool doPageCount;
 
-			foreach (Bookmark bm in bookmarks)
+			foreach (MergeItem bm in bookmarks)
 			{
 				doPageCount = true;
 
@@ -102,7 +102,8 @@ namespace PDFMerge1
 					}
 					catch (Exception ex)
 					{
-						logMsgln("NOT merging| ", ex.Message);
+						logMsgln("NOT merging| ", ex.Message 
+							+ "  (" + bm.fileItem.getFullPath + ")");
 						bm.fileItem.ItemType = MISSING;
 						bm.pageNumber = -1;
 						doPageCount = false;
@@ -119,9 +120,9 @@ namespace PDFMerge1
 					}
 				}
 
-				if (bm.bookmarks != null)
+				if (bm.mergeItems != null)
 				{
-					pageCount = merge(merger, bm.bookmarks, pageCount);
+					pageCount = merge(merger, bm.mergeItems, pageCount);
 				}
 			}
 

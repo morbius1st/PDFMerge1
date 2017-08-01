@@ -145,15 +145,18 @@ namespace PDFMerge1
 //			logMsgln(fileList.ToString());
 //			logMsgln(fileList.listFiles());
 
-			BookmarkTree bookmarkTree = new BookmarkTree(fileList.RootPath);
-			bookmarkTree.Add(fileList);
+			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
+			pdfMergeTree.Add(fileList);
 
 //			logMsg(nl);
-//			logMsgln(bookmarkTree.ToString());
+//			logMsgln(pdfMergeTree.ToString());
 
-			PDFMergeFileList merger = new PDFMergeFileList();
+			PdfMergeFileList merger = new PdfMergeFileList();
 
-			merger.Merge(outputFile, bookmarkTree.getBookmarks);
+			merger.Merge(outputFile, pdfMergeTree.GetMergeItems);
+
+//			logMsg(nl);
+//			logMsgln(pdfMergeTree.ToString());
 
 		}
 
