@@ -1,0 +1,72 @@
+	d
+	e
+i	p
+d	t
+x	h
+--	--
+0	0	X X0.0 This is a Test X00.pdf
+1	0	X X1.0 This is a Test X10.pdf
+2	0	X X2.0 This is a Test X20.pdf
+3	1	00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+4	2	00 Cover A\0.1 Test Sub Dir 1\A CS1.1-0 This is a Test CS11.pdf
+5	3	00 Cover A\0.1 Test Sub Dir 1\0.1.1 Test Sub-Sub Dir 1.1\A CS1.1-1 This is a Test CS11.1.pdf
+6	2	00 Cover A\0.2 Test Sub Dir 2\A CS2.1-0 This is a Test CS21.pdf
+7	3	00 Cover A\0.2 Test Sub Dir 2\0.2.1 Test Sub-Sub Dir 2.1\A CS2.1-1 This is a Test CS21.1.pdf
+8	1	00 General A\A T1.0-0 This is a Test T10.pdf
+9	1	00 General A\A T2.0-0 This is a Test T20.pdf
+10	1	01 Civil A\C1.0-0 This is a Test C10.pdf
+11	2	01 Civil A\1.1 Test Sub Dir 1\C1.0-0 This is a Test C10.pdf
+12	1	01 Civil A\C2.0-0 This is a Test C20.pdf
+13	1	07 Architectural\A A1.0-0 This is a Test A10.pdf
+14	1	07 Architectural\A A1.1-0 This is a Test A11.pdf
+15	1	07 Architectural\A A2.0-0 This is a Test A20.pdf
+16	1	07 Architectural\A A2.1-0 This is a Test A21.pdf
+17	4	Programming\VisualStudioProjects\PDFMerge1\PDFMerge1\output.pdf
+18	--	(missing)
+
+
+
+0	0	X X0.0 This is a Test X00.pdf
+1	0	X X1.0 This is a Test X10.pdf
+2	0	X X2.0 This is a Test X20.pdf
+		
+3	1	+00 Cover A
+3	1		A CS1.0-0 This is a Test CS10.pdf
+			
+4	2		+0.1 Test Sub Dir 1
+4	2			A CS1.1-0 This is a Test CS11.pdf
+			
+5	3			+0.1.1 Test Sub-Sub Dir 1.1
+5	3				A CS1.1-1 This is a Test CS11.1.pdf
+			
+6	2		+0.2 Test Sub Dir 2
+6	2			A CS2.1-0 This is a Test CS21.pdf
+			
+7	3			+0.2.1 Test Sub-Sub Dir 2.1
+7	3				A CS2.1-1 This is a Test CS21.1.pdf
+		
+8	1	+00 General A
+8	1		A T1.0-0 This is a Test T10.pdf
+9	1		A T2.0-0 This is a Test T20.pdf
+		
+10	1	+01 Civil A
+10	1		C1.0-0 This is a Test C10.pdf
+		
+11	2		+1.1 Test Sub Dir 1
+11	2			C1.1-0 This is a Test C11.pdf
+			
+12	1		C2.0-0 This is a Test C20.pdf
+		
+13	1	+07 Architectural
+13	1		A A1.0-0 This is a Test A10.pdf
+14	1		A A1.1-0 This is a Test A11.pdf
+15	1		A A2.0-0 This is a Test A20.pdf
+16	1		A A2.1-0 This is a Test A21.pdf
+		
+17	4	+Programming
+17	4		+VisualStudioProjects
+17	4			+PDFMerge1
+17	4				+PDFMerge1
+17	4					+output.pdf
+				
+				

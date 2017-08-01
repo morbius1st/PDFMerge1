@@ -37,7 +37,7 @@
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.Font = new System.Drawing.Font("DejaVu Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnOK.Location = new System.Drawing.Point(1101, 574);
+			this.btnOK.Location = new System.Drawing.Point(1330, 754);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(183, 55);
 			this.btnOK.TabIndex = 0;
@@ -49,7 +49,7 @@
 			// 
 			this.btnSelectFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnSelectFolder.Font = new System.Drawing.Font("DejaVu Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnSelectFolder.Location = new System.Drawing.Point(12, 574);
+			this.btnSelectFolder.Location = new System.Drawing.Point(12, 754);
 			this.btnSelectFolder.Name = "btnSelectFolder";
 			this.btnSelectFolder.Size = new System.Drawing.Size(183, 56);
 			this.btnSelectFolder.TabIndex = 1;
@@ -66,7 +66,7 @@
 			this.txInfo.Font = new System.Drawing.Font("DejaVu Sans Mono", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txInfo.Location = new System.Drawing.Point(12, 12);
 			this.txInfo.Name = "txInfo";
-			this.txInfo.Size = new System.Drawing.Size(1272, 556);
+			this.txInfo.Size = new System.Drawing.Size(1501, 736);
 			this.txInfo.TabIndex = 2;
 			this.txInfo.Text = "";
 			// 
@@ -74,7 +74,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1296, 641);
+			this.ClientSize = new System.Drawing.Size(1525, 821);
 			this.Controls.Add(this.txInfo);
 			this.Controls.Add(this.btnSelectFolder);
 			this.Controls.Add(this.btnOK);

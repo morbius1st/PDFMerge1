@@ -1,0 +1,79 @@
+
+original ************************************************************************************************************
+basic but has (1) corrupt pdf
+  root path| C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 with PDFs in root\Individual PDFs
+output path| C:\2099-999 Sample Project\Publish\Bulletins\output-pdf in root.pdf
+
+\X X0.0 This is a Test X00.pdf
+\X X1.0 This is a Test X10.pdf
+\X X2.0 This is a Test X20.pdf
+\X X3.0 Corrupted X30.pdf
+\00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+\00 Cover A\0.1 Test Sub Dir 1\A CS1.1-0 This is a Test CS11.pdf
+\00 Cover A\0.1 Test Sub Dir 1\0.1.1 Test Sub-Sub Dir 1.1\A CS1.1-1 This is a Test CS11.1.pdf
+\00 Cover A\0.2 Test Sub Dir 2\A CS2.1-0 This is a Test CS21.pdf
+\00 Cover A\0.2 Test Sub Dir 2\0.2.1 Test Sub-Sub Dir 2.1\A CS2.1-1 This is a Test CS21.1.pdf
+\00 General A\A T1.0-0 This is a Test T10.pdf
+\00 General A\A T2.0-0 This is a Test T20.pdf
+\01 Civil A\C1.0-0 This is a Test C10.pdf
+\01 Civil A\C2.0-0 This is a Test C20.pdf
+\07 Architectural\A A1.0-0 This is a Test A10.pdf
+\07 Architectural\A A1.1-0 This is a Test A11.pdf
+\07 Architectural\A A2.0-0 This is a Test A20.pdf
+\07 Architectural\A A2.1-0 This is a Test A21.pdf
+
+added
+B:\Programming\VisualStudioProjects\PDFMerge1\PDFMerge1\Study\Cover Page.pdf
+
+
+Adjusted 1 ************************************************************************************************************
+moved root level pdf's to another location
+  root path| C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 with PDFs in root\Individual PDFs
+output path| C:\2099-999 Sample Project\Publish\Bulletins\output-pdf in root.pdf
+
+\X X0.0 This is a Test X00.pdf
+\00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+\00 Cover A\0.1 Test Sub Dir 1\A CS1.1-0 This is a Test CS11.pdf
+\00 Cover A\0.1 Test Sub Dir 1\0.1.1 Test Sub-Sub Dir 1.1\A CS1.1-1 This is a Test CS11.1.pdf
+\00 Cover A\0.2 Test Sub Dir 2\A CS2.1-0 This is a Test CS21.pdf
+\00 Cover A\0.2 Test Sub Dir 2\0.2.1 Test Sub-Sub Dir 2.1\A CS2.1-1 This is a Test CS21.1.pdf
+\X X1.0 This is a Test X10.pdf
+\00 General A\A T1.0-0 This is a Test T10.pdf
+\00 General A\A T2.0-0 This is a Test T20.pdf
+\X X2.0 This is a Test X20.pdf
+\01 Civil A\C1.0-0 This is a Test C10.pdf
+\01 Civil A\C2.0-0 This is a Test C20.pdf
+\07 Architectural\A A1.0-0 This is a Test A10.pdf
+\07 Architectural\A A1.1-0 This is a Test A11.pdf
+\07 Architectural\A A2.0-0 This is a Test A20.pdf
+\07 Architectural\A A2.1-0 This is a Test A21.pdf
+
+added
+B:\Programming\VisualStudioProjects\PDFMerge1\PDFMerge1\Study\Cover Page.pdf
+
+
+Adjusted 2 ************************************************************************************************************
+moved a deep level pdf to another location
+  root path| C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 with PDFs in root\Individual PDFs
+output path| C:\2099-999 Sample Project\Publish\Bulletins\output-pdf in root.pdf
+
+\X X0.0 This is a Test X00.pdf
+\X X1.0 This is a Test X10.pdf
+\X X2.0 This is a Test X20.pdf
+\X X3.0 Corrupted X30.pdf
+\00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+\00 Cover A\0.1 Test Sub Dir 1\A CS1.1-0 This is a Test CS11.pdf
+\00 Cover A\0.2 Test Sub Dir 2\A CS2.1-0 This is a Test CS21.pdf
+\00 Cover A\0.2 Test Sub Dir 2\0.2.1 Test Sub-Sub Dir 2.1\A CS2.1-1 This is a Test CS21.1.pdf
+\00 Cover A\0.1 Test Sub Dir 1\0.1.1 Test Sub-Sub Dir 1.1\A CS1.1-1 This is a Test CS11.1.pdf
+\00 General A\A T1.0-0 This is a Test T10.pdf
+\00 General A\A T2.0-0 This is a Test T20.pdf
+\01 Civil A\C1.0-0 This is a Test C10.pdf
+\01 Civil A\C2.0-0 This is a Test C20.pdf
+\07 Architectural\A A1.0-0 This is a Test A10.pdf
+\07 Architectural\A A1.1-0 This is a Test A11.pdf
+\07 Architectural\A A2.0-0 This is a Test A20.pdf
+\07 Architectural\A A2.1-0 This is a Test A21.pdf
+
+added
+B:\Programming\VisualStudioProjects\PDFMerge1\PDFMerge1\Study\Cover Page.pdf

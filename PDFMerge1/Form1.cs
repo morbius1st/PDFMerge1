@@ -21,76 +21,89 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using EnvDTE;
-using EnvDTE80;
-using iText.Kernel;
-using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Navigation;
-using iText.Kernel.Utils;
 
+using static PDFMerge1.Utility;
+using static PDFMerge1.FileList;
+using static PDFMerge1.Samples;
 
 namespace PDFMerge1
 {
 	public partial class Form1 : Form
 	{
-		private int maxFileNameLen = 0;
+		private const string OUTPUTFILE = @"\output.pdf";
 
-		private string error;
+		private const bool OVERWITE_OUTPUT = true;
 
-
-		private string nl = Environment.NewLine;
-		private const string spacer = "                                  ";
-
-		private const string PDF_FOLDER = @"\Individual PDFs";
-
-		private const string START_FOLDER = @"C:\2099-999 Sample Project\Publish\Bulletins";
-		
-		private const string NORMAL_FOLDER =	@"\2017-07-01 normal";
-		private const string NO_PDF_FOLDER =	@"\2017-07-01 not in sub-folder and an empty sub-folders";
-		private const string NO_PDFS =			@"\2017-07-01 no PDFs";
-		private const string EMPTY_SUB_FOLDER = @"\2017-07-01 with an empty sub-folders";
-		private const string CORRUPT_PDF =		@"\2017-07-01 with corrupted PDF";
-		private const string NON_PDF =			@"\2017-07-01 with Non-PDF's";
-		private const string ROOT_PDFS =		@"\2017-07-01 with PDFs in root";
-		private const string PDF_FOLDER_SEL =	NORMAL_FOLDER + PDF_FOLDER;
 
 		public Form1()
 		{
 			InitializeComponent();
+
+			Utility.txInfo = txInfo;
+
+			//			Utility.output = 1;
+
+//						listSamples();
+			//			pathTests()
 		}
 
-		enum Test { SEL_PATH, NORMAL, NO_PDF_FOLDER, NO_PDFS,
-			EMPTY_SUB_FOLDER, CORRUPT_PDF , NON_PDF, ROOT_PDFS,
-			PDF_FOLDER_SELECTED }
-
-		private Test choice =
-//			Test.SEL_PATH;
-//			Test.NORMAL;
-//			Test.NO_PDF_FOLDER;
-//			Test.NO_PDFS;
-//			Test.EMPTY_SUB_FOLDER;
-//			Test.CORRUPT_PDF;
-//			Test.NON_PDF;
-			Test.ROOT_PDFS;
-//			Test.PDF_FOLDER_SELECTED;
-
-		class Bookmark
+		private void listSamples()
 		{
-			public string bookmarkPath { get; private set; }
-			public string bookmark { get; }
-			public int pages { get; set; }
+			logMsg(nl);
+			logMsgln("original file list");
+			listSample(Samples.orig, OUTPUT_ORIG);
 
-			public Bookmark(string bookmarkPath, string bookmark)
-			{
-				this.bookmarkPath = bookmarkPath;
-				this.bookmark = bookmark;
-			}
+			logMsg(nl);
+			logMsgln("alternate 1 file list");
+			listSample(Samples.alt1, OUTPUT_ALT1);
 
-			private void setBookmarkPath(string bookmarkPath)
-			{
-				this.bookmarkPath = bookmarkPath;
-			}
+			logMsg(nl);
+			logMsgln("alternate 2 file list");
+			listSample(Samples.alt2, OUTPUT_ALT2);
 		}
+
+//		private void pathTests()
+//		{
+//			string t1 = @"\1adf\2sdf\3sdf\4sddf\5sddf";
+//			string t2 = @"\1adf\2sdf\3sdf\";
+//			string t3 = @"\1adf";
+//			string t4 = @"\";
+//			string t5 = @"";
+//
+//			int depth = 1;
+//			
+//			testPaths(t1, depth);
+//			testPaths(t2, depth);
+//			testPaths(t3, depth);
+//			testPaths(t4, depth);
+//			testPaths(t5, depth);
+//		}
+
+//		void testPaths(string testPath, int depth)
+//		{
+//			FileItem fi = new FileItem(testPath, FileItem.FileItemType.FILE);
+//
+//			logMsgFmt("test depth| ", depth.ToString());
+//			logMsgln("  test path| ", testPath);
+//			logMsg(nl);
+//			logMsgFmtln("subdir via getsub| ", ">" + testPath.GetSubDirectory(depth) + "<");
+//
+//			if (testPath.Equals(""))
+//			{
+//				logMsgFmtln("subdir via fileitem| ", "illegal");
+//			}
+//			else 
+//			{
+//				logMsgFmtln("subdir via fileitem| ", ">" + fi.getDirectoryNameToDepth(depth) + "<");
+//			}
+//			logMsg(nl);
+//			logMsgFmtln("name via getsubname| ", ">" + testPath.GetSubDirectoryName(depth) + "<");
+//			logMsgFmtln("name via fileitem| ", ">" + fi.getDirectoryNameAtDepth(depth) + "<");
+//			logMsg(nl);
+//
+//		}
+
+
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
@@ -100,895 +113,109 @@ namespace PDFMerge1
 
 		private void btnSelectFolder_Click(object sender, EventArgs e)
 		{
+			string selectedFolder;
+			string outputFile;
+
+			FileList fileList;
+
+			logMsgln("selecting folder");
+
 			clearConsole();
 
-			bool result = false;
-			bool keepOldBookmarks = false;
-			bool keepOldTags = false;
+			//			selectedFolder = new SelectFolder().selectFolder();
+			//
+			//			if (selectedFolder == null) { return; }
+			//
+			//			outputFile = selectedFolder + OUTPUTFILE;
+			//
+			//			if (!verifyOutputFile(outputFile)) { return;  }
+			//
+			//			listOutput(selectedFolder, outputFile);
+			//
+			//			fileList = new FileList(selectedFolder);
 
-			string path = START_FOLDER;
+			//			fileList.Add();
 
-			string output_file;
+			outputFile = OUTPUT_ORIG;
 
-			switch (choice)
-			{
-				case Test.SEL_PATH:
-				{
-					logMsgln("Select Path");
-					selectPath();
-					break;
-				}
-				case Test.NORMAL:
-				{
-					logMsgln("NORMAL folder");
-					path += NORMAL_FOLDER;
-					break;
-				}
-				case Test.NO_PDF_FOLDER:
-				{
-					logMsgln("NO PDF sub-folder");
-					path += NO_PDF_FOLDER;
-						break;
-				}
-				case Test.NO_PDFS:
-				{
-					logMsgln("NO PDFS");
-					path += NO_PDFS;
-						break;
-				}
-				case Test.EMPTY_SUB_FOLDER:
-				{
-					logMsgln("EMPTY sub_folder");
-					path += EMPTY_SUB_FOLDER;
-						break;
-				}
-				case Test.CORRUPT_PDF:
-				{
-					logMsgln("CORRUPT pdf");
-					path += CORRUPT_PDF;
-						break;
-				}
-				case Test.NON_PDF:
-				{
-					logMsgln("has NON_PDF");
-					path += NON_PDF;
+			fileList = selectFiles(Samples.orig, ROOT_FOLDER);
 
-					break;
-				}
-				case Test.ROOT_PDFS:
-				{
-					logMsgln("as ROOT PDFs");
-					path += ROOT_PDFS;
-					break;
-				}
-				case Test.PDF_FOLDER_SELECTED:
-				{
-					logMsgln("PDF FOLDER selected");
-					path += PDF_FOLDER_SEL;
-					break;
-				}
-	
-				default:
-				{
-					selectPath();
-					break;
-				}
-			}
+//			Utility.output = 1;
 
-			if (choice > Test.SEL_PATH)
-			{
-				logMsgFmtln("proposed path| ", path);
+//			logMsgln(fileList.ToString());
+//			logMsgln(fileList.listFiles());
 
-				path = pathSet(path);
+			BookmarkTree bookmarkTree = new BookmarkTree(fileList.RootPath);
+			bookmarkTree.Add(fileList);
 
-				if (path != null)
-				{
-					output_file = Path.GetDirectoryName(path) + "\\output.pdf";
-					logMsgFmtln("output file| ", output_file);
+//			logMsg(nl);
+//			logMsgln(bookmarkTree.ToString());
 
-					logMsgFmtln("final path| ", path);
-					logMsg(nl);
+			PDFMergeFileList merger = new PDFMergeFileList();
 
+			merger.Merge(outputFile, bookmarkTree.getBookmarks);
 
-					if (File.Exists(output_file))
-					{
-						try
-						{
-							var f = File.OpenWrite(output_file);
-							f.Close();
-						}
-						catch (Exception ex)
-						{
-							logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere");
-							return;
-						}
-					}
-
-					Dictionary<string, Bookmark> bookmarkList = createBookmarkList2(path);
-
-					if (bookmarkList != null)
-					{
-
-						if (!mergePDF(bookmarkList, path, output_file,
-							keepOldTags, keepOldBookmarks))
-						{
-							logMsgln("PDF File Merge Failed - No File Created");
-							logMsgln(error);
-						}
-						else
-						{
-							result = true;
-						}
-					}
-					else
-					{
-						logMsgFmtln("bookmark list| ", "is null");
-					}
-					
-				}
-			}
-
-//			logMsgFmtln("result| ", result.ToString());
 		}
 
-		string pathSet(string path)
+		private FileList selectFiles(List<string> files, string rootFolder)
 		{
-			string[] pathNames = splitPath(path);
+			FileList fileList = new FileList(rootFolder);
 
-			// is the base folder a PDF folder?
-			if (!pathNames[pathNames.Length - 1].Equals(PDF_FOLDER.Substring(1)))
+			int loc = fileList.Add(@"B:\Programming\VisualStudioProjects\PDFMerge1\PDFMerge1\Study\Cover Page.pdf");
+
+			foreach (String file in files)
 			{
-				// create and test an adjusted path
-				path += PDF_FOLDER;
-
-				if (!Directory.Exists(path))
-				{
-					// a PDF folder does not exist - return null
-					path = null;
-				}
+				fileList.Add(ROOT_FOLDER + file);
 			}
 
-			return path;
+			// add a couple of extra test items
+			fileList.Add("this is junk");
+
+			fileList.Move(loc, 0);
+
+			return fileList;
 		}
 
-		void selectPath()
+		private bool verifyOutputFile(string outputFile)
 		{
-			FolderBrowserDialog f = new FolderBrowserDialog();
+			if (outputFile == null || outputFile.Length < 3) { return false; }
 
-			f.SelectedPath = START_FOLDER;
-			f.ShowNewFolderButton = false;
-			f.Description = "Select Root PDF Folder";
-
-			if (f.ShowDialog() == DialogResult.OK)
+			if (File.Exists(outputFile))
 			{
-				//				return f.SelectedPath;
-
-				if (f.SelectedPath != null)
-				{
-					txInfo.Text = f.SelectedPath + nl;
-
-					//				Console.WriteLine("enumerate directories");
-					//				Console.WriteLine("\ttop level directories only");
-					//				listDirectories(selectedPath, SearchOption.TopDirectoryOnly);
-					//
-					//				Console.WriteLine("\tall directories");
-					//				listDirectories(selectedPath, SearchOption.AllDirectories);
-					//
-					//				Console.WriteLine(nl);
-					//				Console.WriteLine("enumerate files");
-					//				Console.WriteLine("\tall files");
-					//				listFiles(selectedPath, SearchOption.AllDirectories);
-					//
-					//				Console.WriteLine(nl);
-					//				Console.WriteLine("enumerate files objs");
-					//				Console.WriteLine("\tall files");
-					//				listFileObjs1(selectedPath, SearchOption.AllDirectories);
-
-					Console.WriteLine(nl);
-					Console.WriteLine("enumerate files objs");
-					Console.WriteLine("\tall files");
-					listFileObjs2(f.SelectedPath, SearchOption.AllDirectories);
-
-				}
-				else
-				{
-					txInfo.Text = "Not Selected";
-				}
-			}
-		}
-
-		// enumerate all directories (+ sub-directories) in a directory
-
-
-		Dictionary<string, Bookmark> createBookmarkList1(string path)
-		{
-			int rootDirNameLength = path.Length + 1;
-			int len;
-
-			string key;
-			string bookmarkPath;
-			string bookmark;
-
-			Dictionary<string, Bookmark> bookmarkList = new Dictionary<string, Bookmark>(10);
-
-			try
-			{
-				DirectoryInfo diStart = new DirectoryInfo(path);
-
-				foreach (DirectoryInfo di in diStart.EnumerateDirectories("*"))
-				{
-					List<FileInfo> fileInfos = new List<FileInfo>(di.EnumerateFiles("*.pdf", SearchOption.AllDirectories));
-
-					foreach (FileInfo fi in fileInfos)
-					{
-						len = fi.FullName.Length - rootDirNameLength - 4;
-
-						key = fi.FullName.Substring(rootDirNameLength, len);
-						bookmarkPath = fi.DirectoryName.Substring(rootDirNameLength);
-						bookmark = fi.Name.Substring(0, fi.Name.Length - 4);
-
-						Bookmark bm = new Bookmark(bookmarkPath, bookmark);
-
-						bookmarkList.Add(key, bm);
-					}
-				}
-				if (bookmarkList.Count == 0)
-				{
-					bookmarkList = null;
-				}
-			}
-			catch (Exception e)
-			{
-				bookmarkList = null;
-			}
-
-			return bookmarkList;
-		}
-
-		Dictionary<string, Bookmark> createBookmarkList2(string path)
-		{
-			int rootDirNameLength = path.Length + 1;
-			int len;
-
-			string key;
-			string bookmarkPath = "";
-			string bookmark;
-
-			Dictionary<string, Bookmark> bookmarkList = new Dictionary<string, Bookmark>(10);
-
-			try
-			{
-				DirectoryInfo diStart = new DirectoryInfo(path);
-//
-//				foreach (DirectoryInfo di in diStart.EnumerateDirectories("*"))
-//				{
-				List<FileInfo> fileInfos = new List<FileInfo>(diStart.EnumerateFiles("*.pdf", SearchOption.AllDirectories));
-
-				foreach (FileInfo fi in fileInfos)
-				{
-					len = fi.FullName.Length - rootDirNameLength - 4;
-
-					key = fi.FullName.Substring(rootDirNameLength, len);
-
-					int dirNameLen = fi.DirectoryName.Length + 1;
-
-					if (rootDirNameLength < dirNameLen)
-					{
-						bookmarkPath = fi.DirectoryName.Substring(rootDirNameLength);
-					}
-
-					len = fi.Name.Length;
-
-					if (len > maxFileNameLen)
-					{
-						maxFileNameLen = len;
-					}
-
-					bookmark = fi.Name.Substring(0, len - 4);
-
-					Bookmark bm = new Bookmark(bookmarkPath, bookmark);
-
-					bookmarkList.Add(key, bm);
-				}
-//				}
-				if (bookmarkList.Count == 0)
-				{
-					bookmarkList = null;
-				}
-			}
-			catch (Exception e)
-			{
-				bookmarkList = null;
-			}
-
-			return bookmarkList;
-		}
-
-		bool mergePDF(Dictionary<string, Bookmark> bookmarkList, 
-			String rootPath, string outputName, bool keepOldTags, bool keepOldBookmarks)
-		{
-			const int maxBookmarkDepth = 32;
-
-			int tabLevel = 0;
-			int bookmarkSplitPathLength;
-			int pagesDoc;
-			int pagesTotal = 1;
-
-			string[] bookmarkSplitPath;
-			string priorBookmark = "";
-			string bookmarkKey = "";
-			string fileAndPath;
-
-			string pattern = "{0,-" + (maxFileNameLen + 5) + "}";
-
-			bool found;
-			bool newLevel = false;
-
-			PdfOutline tempOutline;
-
-			PdfOutline[] pdfOutlineList = new PdfOutline[maxBookmarkDepth];
-
-			PdfDocument pdfDoc = null;
-
-			error = "";
-
-			try
-			{
-				pdfDoc = new PdfDocument(new PdfWriter(outputName));
-			}
-			catch (Exception e)
-			{
-				error = e.Message;
-				return false;
-			}
-
-			PdfMerger merger = new PdfMerger(pdfDoc, keepOldTags, keepOldBookmarks);
-			merger.SetCloseSourceDocuments(false);
-
-			pdfOutlineList[tabLevel] = pdfDoc.GetOutlines(false);
-
-			foreach (KeyValuePair<string, Bookmark> kvp in bookmarkList)
-			{
-				bookmarkSplitPath = splitPath(kvp.Value.bookmarkPath);
-				bookmarkSplitPathLength = bookmarkSplitPath.Length;
-
-				if (!kvp.Value.bookmarkPath.Equals(priorBookmark))
-				{
-					// changing levels and bookmark depth
-					priorBookmark = kvp.Value.bookmarkPath;
-					tabLevel = bookmarkSplitPathLength;
-
-					if (tabLevel > maxBookmarkDepth)
-					{
-						tabLevel = maxBookmarkDepth;
-					}
-
-					// list current bookmark key
-					if (tabLevel >= 1)
-					{
-						bookmarkKey = bookmarkSplitPath[tabLevel - 1];
-
-						pdfOutlineList[tabLevel] =
-							pdfOutlineList[tabLevel - 1].AddOutline(bookmarkKey);
-
-						newLevel = true;
-					}
-					else
-					{
-						// this should never happen
-						tabLevel = 1;
-						bookmarkKey = "";
-					}
-				}
-
-				fileAndPath = rootPath + "\\";
-
-				if (kvp.Value.bookmarkPath.Length > 0)
-				{
-					fileAndPath += kvp.Value.bookmarkPath + "\\";
-				}
-
-				fileAndPath += kvp.Value.bookmark + ".pdf";
-
-				found = File.Exists(fileAndPath);
-
-				logMsgFmt("Merging |", fmtMsg(kvp.Value.bookmark + ".pdf", -40) + "| ");
-
-				if (found)
+				if (OVERWITE_OUTPUT)
 				{
 					try
 					{
-						PdfDocument src = new PdfDocument(new PdfReader(fileAndPath));
-						pagesDoc = src.GetNumberOfPages();
-						merger.Merge(src, 1, pagesDoc);
-						src.Close();
-
-						tempOutline = 
-							pdfOutlineList[tabLevel].AddOutline(kvp.Value.bookmark);
-
-						tempOutline.
-							AddDestination(PdfExplicitDestination.CreateFit(pdfDoc.GetPage(pagesTotal)));
-
-						if (newLevel)
-						{
-							pdfOutlineList[tabLevel].
-								AddDestination(PdfExplicitDestination.CreateFit(pdfDoc.GetPage(pagesTotal)));
-
-							newLevel = false;
-						}
-
-						pagesTotal += pagesDoc;
-
-						logMsg("Worked", Color.Green, null);
+						var f = File.OpenWrite(outputFile);
+						f.Close();
+						logMsgFmtln("output file| ", "exists: overwrite allowed\n");
+						return true;
 					}
-					catch (PdfException)
+					catch (Exception ex)
 					{
-						logMsg("Corrupted", Color.Red, null);
+						logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere\n");
+						return false;
 					}
 				}
 				else
 				{
-					logMsg("Failed", Color.Maroon, null);
+					logMsgFmtln("output file| ", "exists: overwrite disallowed\n");
+					return false;
 				}
-
-				logMsg(nl);
 			}
 
-			try
-			{
-				pdfDoc.Close();
-			}
-			catch (Exception e)
-			{
-				error = e.Message;
-				return false;
-			}
-
+			logMsgFmtln("output file| ", "does not exists\n");
 			return true;
 		}
 
-		void listDirectories(string path, SearchOption searchOption)
+		private void listOutput(string selectedFolder, string outputFile)
 		{
-			try
-			{
-				List<string> dirs = new List<string>(Directory.EnumerateDirectories(path, "*", searchOption));
-
-				Console.WriteLine("found: " + dirs.Count);
-
-				foreach (string dir in dirs)
-				{
-					Console.WriteLine(dir);
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-			}
+			logMsgFmtln("output path| ", selectedFolder);
+			logMsgFmtln("output file| ", outputFile);
+			logMsgln("");
 		}
 
-		void listFiles(string path, SearchOption searchOption)
-		{
-			try
-			{
-				List<string> files = new List<string>(Directory.EnumerateFiles(path, "*", searchOption));
-
-				Console.WriteLine("found: " + files.Count);
-
-				foreach (string file in files)
-				{
-					Console.WriteLine(file);
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-			}
-		}
-
-
-		void listBookmarkTree(Dictionary<string, Bookmark> bookmarkList, String rootPath)
-		{
-			int tabLevel = 0;
-			int bookmarkSplitPathLength;
-
-			string spacer = "  ";
-
-			string[] bookmarkSplitPath;
-			string priorBookmark = "";
-			string bookmarkKey;
-			string fileAndPath;
-			string fileNameSpacer = spacer;
-
-			bool found;
-
-
-			for (int i = 0; i < 9; i++)
-			{
-				fileNameSpacer += spacer;
-			}
-
-			foreach (KeyValuePair<string, Bookmark> kvp in bookmarkList)
-			{
-				bookmarkSplitPath = splitPath(kvp.Value.bookmarkPath);
-				bookmarkSplitPathLength = bookmarkSplitPath.Length;
-
-				if (!kvp.Value.bookmarkPath.Equals(priorBookmark))
-				{
-					// changing levels and bookmark depth
-					priorBookmark = kvp.Value.bookmarkPath;
-					tabLevel = bookmarkSplitPathLength - 1;
-
-					// list current bookmark key
-					if (tabLevel >= 0)
-					{
-						bookmarkKey = bookmarkSplitPath[tabLevel];
-						for (int i = 0; i < tabLevel; i++)
-						{
-							logMsg(spacer);
-						}
-					}
-					else
-					{
-						tabLevel = 0;
-						bookmarkKey = "";
-					}
-					logMsg("**>");
-					logMsgln(bookmarkKey);
-				}
-
-				logMsg(fileNameSpacer);
-				logMsg(kvp.Value.bookmark);
-				logMsg("  (");
-
-				fileAndPath = rootPath + "\\";
-
-				if (kvp.Value.bookmarkPath.Length > 0)
-				{
-					fileAndPath += kvp.Value.bookmarkPath + "\\";
-				}
-				fileAndPath += kvp.Value.bookmark + ".pdf";
-
-				logMsg(fileAndPath + " exists?| ");
-
-				found = File.Exists(fileAndPath);
-
-				if (found)
-				{
-					logMsg(found.ToString(), Color.Green, null);
-				}
-				else
-				{
-					logMsg(found.ToString(), Color.Red, null);
-				}
-				logMsg(nl);
-
-			}
-		}
-
-		void listBookmarks(Dictionary<string, Bookmark> bookmarkList)
-		{
-			foreach (KeyValuePair<string, Bookmark> kvp in bookmarkList)
-			{
-				listBookmark(kvp);
-				logMsg(nl);
-			}
-
-		}
-
-		void listBookmark(KeyValuePair<string, Bookmark> kvp)
-		{
-			Bookmark bm = kvp.Value;
-
-			string[] bookmarkPath = splitPath(bm.bookmarkPath);
-			int len = bookmarkPath.Length;
-			int idx = 1;
-
-			string title0 = "bookmark key| ";
-			string title1 = "bookmark path| ";
-			string title2 = "bookmark path split| ";
-			string title3 = "bookmark item| ";
-
-
-			logMsgFmtln(title0, kvp.Key);
-			logMsgFmtln(title1, bm.bookmarkPath);
-			logMsgFmt(title2, "");
-
-			foreach (string path in bookmarkPath)
-			{
-				logMsg(path);
-				if (idx++ != len)
-				{
-					logMsg(" <> ");
-				}
-			}
-
-			logMsg(nl);
-			logMsgFmtln(title3, bm.bookmark);
-		}
-
-		void listFileObjs2(string path, SearchOption searchOption)
-		{
-			Console.WriteLine("starting path");
-			Console.WriteLine(path);
-
-			int rootDirNameLength = path.Length + 1;
-			int len;
-
-			string key;
-			string bookmarkPath;
-			string bookmark;
-
-			Dictionary<string, Bookmark> bookmarkList = new Dictionary<string, Bookmark>(10);
-
-			try
-			{
-				DirectoryInfo diStart = new DirectoryInfo(path);
-
-				foreach (DirectoryInfo di in diStart.EnumerateDirectories("*"))
-				{
-					Console.Write(di.Name);
-					Console.Write(nl);
-
-					List<FileInfo> fileInfos = new List<FileInfo>(di.EnumerateFiles("*.pdf", searchOption));
-
-					Console.WriteLine("holds " + fileInfos.Count + " files");
-
-					foreach (FileInfo fi in fileInfos)
-					{
-
-						len = fi.FullName.Length - rootDirNameLength - 4;
-
-						key = fi.FullName.Substring(rootDirNameLength, len);
-						bookmarkPath = fi.DirectoryName.Substring(rootDirNameLength);
-						bookmark = fi.Name.Substring(0, fi.Name.Length - 4);
-
-						Bookmark bm = new Bookmark(bookmarkPath, bookmark);
-
-						bookmarkList.Add(key, bm);
-
-					}
-				}
-
-				// got the list of pdf files
-				listBookmarks(bookmarkList);
-
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-			}
-		}
-
-		void listFileObjs1(string path, SearchOption searchOption)
-		{
-			Console.WriteLine("starting path");
-			Console.WriteLine(path);
-
-			int rootDirNameLength = path.Length + 1;
-			int len;
-
-			List<string> pdfFiles = new List<string>(10);
-
-			try
-			{
-				DirectoryInfo diStart = new DirectoryInfo(path);
-
-				foreach (DirectoryInfo di in diStart.EnumerateDirectories("*"))
-				{
-					Console.Write(di.Name);
-					//					Console.Write(" :: ");
-					//					Console.Write(di.);
-					Console.Write(nl);
-
-
-					List<FileInfo> fileInfos = new List<FileInfo>(di.EnumerateFiles("*.pdf", searchOption));
-
-					Console.WriteLine("holds " + fileInfos.Count + " files");
-
-					foreach (FileInfo fi in fileInfos)
-					{
-						//						listFileObj3(fi, rootDirNameLength);
-						//						Console.Write(nl);
-
-						len = fi.FullName.Length - rootDirNameLength - 4;
-
-						pdfFiles.Add(fi.FullName.Substring(rootDirNameLength, len));
-
-					}
-
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-			}
-		}
-
-		void listFileObj3(FileInfo fi, int rootDirNameLength)
-		{
-			string subDirName = fi.DirectoryName.Substring(rootDirNameLength);
-			string fileName = fi.Name;
-			string fileAndSubDirName;
-
-			int len = fi.FullName.Length - rootDirNameLength - 4;
-
-			fileAndSubDirName = fi.FullName.Substring(rootDirNameLength, len);
-
-			// this is what would be entered into the sorted list
-			Console.Write("\tsort key: >");
-			Console.Write(fileAndSubDirName);
-			Console.Write("<" + nl);
-
-			Console.Write("\t\tsub dir name : ");
-			Console.Write(subDirName);
-			Console.Write(nl);
-
-			Console.Write("\t\t   file name : ");
-			Console.Write(fileName);
-			Console.Write(nl);
-
-		}
-
-		void listFileObj2(FileInfo fi, int rootDirNameLength)
-		{
-			string subDirName;
-			string fileAndSubDirName;
-
-			subDirName = fi.DirectoryName.Substring(rootDirNameLength);
-			fileAndSubDirName = fi.FullName.Substring(rootDirNameLength);
-
-			Console.Write("\tsub-directory path: ");
-			Console.Write(subDirName);
-			Console.Write(nl);
-			Console.Write("\tfile name: ");
-			Console.Write(fi.Name);
-			Console.Write(nl);
-			Console.Write("\tfile and sub dir name : ");
-			Console.Write(fileAndSubDirName);
-			Console.Write(nl);
-		}
-
-		void listFileObj1(FileInfo fi, int rootDirNameLength)
-		{
-			string subDirName;
-
-			subDirName = fi.DirectoryName.Substring(rootDirNameLength);
-
-			Console.Write("\tfile: ");
-			Console.Write(fi.Name);
-			Console.Write(nl);
-			Console.Write("\tsub-directory path: ");
-			Console.Write(subDirName);
-			Console.Write(nl);
-			Console.Write("\t\t******* dir name: ");
-			Console.Write(fi.Directory.Name);
-			Console.Write(nl);
-			Console.Write("\t\t******* dir root: ");
-			Console.Write(fi.Directory.Root);
-			Console.Write(nl);
-			Console.Write("\t\t******* dir parent: ");
-			Console.Write(fi.Directory.Parent);
-			Console.Write(nl);
-			Console.Write("\t\t******* split: ");
-			Console.Write(splitPath1(subDirName));
-			Console.Write(nl);
-		}
-
-
-		string validateFileName(string proposedFileName)
-		{
-			return proposedFileName;
-		}
-
-		string[] splitPath(string fileAndPath)
-		{
-			return fileAndPath.Split('\\');
-		}
-
-
-		string splitPath1(string path)
-		{
-			string[] directories = path.Split('\\');
-			StringBuilder sb = new StringBuilder();
-			int len = directories.Length;
-			int idx = 1;
-
-			Console.Write("\t\t******* split path length: ");
-			Console.Write(directories.Length);
-			Console.Write(" :>>: ");
-
-			foreach (string pathName in directories)
-			{
-				sb.Append(pathName);
-				if (idx != len)
-				{
-					sb.Append(" <> ");
-				}
-
-				idx++;
-			}
-
-			return sb.ToString();
-
-		}
-
-		private int defColumn = 30;
-
-		void logMsgFmtln(string msg1, string msg2, int column = -1)
-		{
-			logMsgFmt(msg1, msg2, column);
-			logMsg(nl);
-		}
-
-		void logMsgFmt(string msg1, string msg2, int column = -1)
-		{
-			logMsg(fmtMsg(msg1, msg2, column));
-		}
-
-		void logMsgFmt(string msg1, string msg2, Color color, Font font, int column = -1)
-		{
-			logMsg(fmtMsg(msg1, msg2, column), color, font);
-		}
-
-		string fmtMsg(string msg1, string msg2, int column = 0)
-		{
-			if (column == 0) { column = defColumn; }
-
-			return String.Format("{0," + column + "}{1}", msg1, msg2);
-		}
-
-		string fmtMsg(string msg1, int column = 0)
-		{
-			if (column == 0) { column = defColumn; }
-
-			return String.Format("{0," + column + "}", msg1);
-		}
-
-		void logMsgln(string msg)
-		{
-			logMsg(msg + nl);
-		}
-
-		void logMsg(string msg)
-		{
-			int output = 0;
-
-			if (output == 0)
-			{
-				txInfo.AppendText(msg);
-			}
-			else
-			{
-				Console.Write(msg);
-			}
-		}
-
-		void logMsg(string msg, Color color, Font font)
-		{
-			int output = 0;
-
-			if (output == 0)
-			{
-				txInfo.AppendText(msg, color, font);
-			}
-			else
-			{
-				Console.Write(msg);
-			}
-		}
-
-		void clearConsole()
-		{
-			DTE2 ide = (DTE2) System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE");
-
-			OutputWindow w = ide.ToolWindows.OutputWindow;
-
-			w.ActivePane.Activate();
-			w.ActivePane.Clear();
-			
-		}
-
-	}
+}
 
 
 }
