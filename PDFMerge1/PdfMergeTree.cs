@@ -118,7 +118,6 @@ namespace PDFMerge1
 			{
 				sb.Append(listMergeItem(mi, depth));
 
-
 				if (mi.mergeItems != null)
 				{
 					sb.Append(listMergeItems(mi.mergeItems, depth + 1));

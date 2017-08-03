@@ -72,21 +72,43 @@ namespace PDFMerge1
 				return null;
 			}
 
+//			listOutline(pdf, pdf.GetOutlines(false));
+
 			// process and adjust bookmarks
+			// eliminate all of the current bookmarks
+			PdfOutline destPdfOutlines;
+			destPdfOutlines = clearOutline(pdf);
+
+//			listOutline(pdf, destPdfOutlines);
+
+
+			// all complete
 			pdf.Close();
 
+			// return the final PDF document
 			return pdf;
+		}
+
+		PdfOutline clearOutline(PdfDocument pdf)
+		{
+			// clear the current outline tree
+			pdf.GetOutlines(false).GetContent().Clear();
+
+			// initalize a new outline tree
+			pdf.InitializeOutlines();
+
+			return pdf.GetOutlines(true);
 		}
 
 		private int merge(PdfMerger merger, List<MergeItem> bookmarks, int initialPageCount)
 		{
 			int pageCount = initialPageCount;
 			PdfDocument src = null;
-			bool doPageCount;
+//			bool doPageCount;
 
 			foreach (MergeItem bm in bookmarks)
 			{
-				doPageCount = true;
+//				doPageCount = true;
 
 				if (bm.fileItem.ItemType == FILE)
 				{
@@ -99,6 +121,12 @@ namespace PDFMerge1
 						logMsgln("merging| ", bm.fileItem.getFullPath);
 
 						merger.Merge(src, 1, src.GetNumberOfPages());
+
+						if (src != null && !src.IsClosed())
+						{
+							pageCount += src.GetNumberOfPages();
+							src.Close();
+						}
 					}
 					catch (Exception ex)
 					{
@@ -106,18 +134,18 @@ namespace PDFMerge1
 							+ "  (" + bm.fileItem.getFullPath + ")");
 						bm.fileItem.ItemType = MISSING;
 						bm.pageNumber = -1;
-						doPageCount = false;
+//						doPageCount = false;
 					}
 
-					if (src != null && !src.IsClosed())
-					{ 
-						if (doPageCount)
-						{
-							pageCount += src.GetNumberOfPages();
-						}
-
-						src.Close();
-					}
+//					if (src != null && !src.IsClosed())
+//					{ 
+//						if (doPageCount)
+//						{
+//							pageCount += src.GetNumberOfPages();
+//						}
+//
+//						src.Close();
+//					}
 				}
 
 				if (bm.mergeItems != null)
@@ -129,6 +157,35 @@ namespace PDFMerge1
 			return pageCount;
 		}
 
+		private static int depth = 0;
 
+		public void listOutline(PdfDocument pdfDoc, PdfOutline outline)
+		{
+			logMsg(formatBookmark(outline.GetTitle(), depth, outline.GetPageNumber(pdfDoc)));
+
+			logMsg(nl);
+
+			IList<PdfOutline> kids = outline.GetAllChildren();
+
+			if (kids.Count != 0)
+			{
+				depth++;
+
+				for (int i = 0; i < kids.Count; i++)
+				{
+					listOutline(pdfDoc, kids[i]);
+				}
+
+				depth--;
+
+			}
+
+		}
+
+		string formatBookmark(string title, int depth, int page)
+		{
+			return String.Format("bookmark|  depth| {1,3} | page| {0,3} | {2}{3}",
+				page, depth, " ".Repeat(depth * 2), title);
+		}
 	}
 }

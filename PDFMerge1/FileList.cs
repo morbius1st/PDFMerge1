@@ -113,42 +113,6 @@ namespace PDFMerge1
 				return Path.GetFileNameWithoutExtension(path);
 			}
 
-//			internal string getDirectoryNameToDepth(int requestedDepth)
-//			{
-//				if (ItemType == FileItemType.INVALID) { return ""; }
-//
-//				if (requestedDepth == 0) { return "\\"; }
-//
-//				string[] splitDir = getDirectory().Split('\\');
-//
-//				if (requestedDepth > Depth) { requestedDepth = Depth; }
-//
-//				if (requestedDepth > splitDir.Length)
-//				{
-//					requestedDepth = splitDir.Length;
-//				}
-//
-//				string finalPath = "";
-//
-//				for (int i = 1; i < requestedDepth + 1; i++)
-//				{
-//					finalPath += "\\" + splitDir[i];
-//				}
-//
-//				return finalPath;
-//
-//			}
-//
-//			internal string getDirectoryNameAtDepth(int depth)
-//			{
-//				if (ItemType == FileItemType.INVALID) { return ""; }
-//
-//				string[] splitDir = path.Split('\\');
-//
-//				return depth + 1 >= splitDir.Length ? "" : splitDir[depth + 1];
-//
-//			}
-
 			internal string getDirectory()
 			{
 				if (ItemType == MISSING) { return ""; }
@@ -210,7 +174,6 @@ namespace PDFMerge1
 
 		internal int GrossCount => FileItems.Count;
 		internal int NetCount => FileItems.Count - FileItem.notFound;
-
 		internal string RootPath => FileItem.RootPath;
 
 		internal int Add(string dirEntry)
@@ -232,7 +195,6 @@ namespace PDFMerge1
 			{
 				result = (Add(file) != -1) && result;
 			}
-
 			return result;
 		}
 
@@ -257,30 +219,6 @@ namespace PDFMerge1
 		}
 
 
-		//		// add files and directories
-		//		internal bool Add(string pattern, SearchOption searchOption)
-		//		{
-		//			if (pattern == null) { pattern = "*";  }
-		//
-		//			List<string> directoryItem = new List<string>(5);
-		//
-		//			foreach (string file in Directory.EnumerateFiles(RootPath, pattern, SearchOption.TopDirectoryOnly))
-		//			{
-		//				directoryItem.Add(file);
-		//			}
-		//
-		//			foreach (string directory in Directory.EnumerateDirectories(RootPath, "*", searchOption))
-		//			{
-		//				directoryItem.Add(directory);
-		//
-		//				foreach (string file in Directory.EnumerateFiles(directory, pattern))
-		//				{
-		//					directoryItem.Add(file);
-		//				}
-		//			}
-		//			return Add(directoryItem.ToArray());
-		//		}
-
 		// move only allowed within the same directory requestedDepth
 		internal bool Move(int from, int to)
 		{
@@ -296,12 +234,6 @@ namespace PDFMerge1
 
 			return true;
 		}
-
-//		private bool canMove(int from, int to)
-//		{
-//			return FileItems[from].getDirectory().Equals(FileItems[to].getDirectory());
-//		}
-
 
 		internal string listFiles()
 		{

@@ -148,11 +148,11 @@ namespace PDFMerge1
 			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
 			pdfMergeTree.Add(fileList);
 
-//			logMsg(nl);
-//			logMsgln(pdfMergeTree.ToString());
+			logMsg(nl);
+			logMsgln(pdfMergeTree.ToString());
 
 			PdfMergeFileList merger = new PdfMergeFileList();
-
+			
 			merger.Merge(outputFile, pdfMergeTree.GetMergeItems);
 
 //			logMsg(nl);
