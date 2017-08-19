@@ -1,92 +1,200 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Navigation;
 using iText.Kernel.Utils;
 
-using static PDFMerge1.Utility;
+//using static PDFMerge1.UtilityLocal;
 using static PDFMerge1.FileList.FileItemType;
 using static PDFMerge1.PdfMergeTree;
 using static PDFMerge1.PdfMergeTree.bookmarkType;
+
+using UtilityLibrary;
+using static UtilityLibrary.MessageUtilities;
+
 
 namespace PDFMerge1
 {
 	internal class PdfMergeFileList
 	{
-
-		internal bool OVERWITE_OUTPUT { get; set; } = true;
+		private const string WHO_AM_I = "@MrgFileLst";
+		// flags
 		internal bool MERGE_TAGS { get; set; } = false;
 		internal bool MERGE_BOOKMARKS { get; set; } = false;
 
-		private bool verifyOutputFile(string outputFile)
+		// auto overwite existing output file // done
+		internal static bool OVERWITE_EXISTING_FILE { get; set; } = true;
+		// set headings to their collaspsed state // done & tested
+		internal static bool COLLAPSE_FILE_BOOKMARKS { get; set; } = true;
+		// add a page number to every bookmark // done & tested
+		internal static bool ADD_PAGE_TO_ALL_BOOKMARKS { get; set; } = true;
+		// add a heading for each imported PDF file
+		internal static bool ADD_BOOKMARK_FOR_EACH_FILE { get; set; } = true;
+		// add the existing bookmarks from the imported files
+		// if ADD_BOOKMARK_FOR_EACH_FILE is true, the imported
+		// bookmarks are added as children to the file bookmark
+		internal static bool KEEP_IMPORT_BOOKMARKS { get; set; } = false;
+
+		// marker for each new file
+		private const string FILE_MARKER = "\u2401";
+		private const string FILE_EXT = ".pdf";
+
+		private PdfDocument destPdf;
+
+		// output pdf file
+		//		private PdfDocument destPdf;
+
+		// output outline tree
+		private PdfOutline destPdfOutlines;
+
+		private void listOptions()
+		{
+			logMsg("\n");
+			logMsgFmtln("current options| ");
+			logMsgFmtln("overwrite existing file| ", OVERWITE_EXISTING_FILE);
+			logMsgFmtln("collapse file bookmarks| ", COLLAPSE_FILE_BOOKMARKS);
+			logMsgFmtln("add page number to all bookmarks| ", ADD_PAGE_TO_ALL_BOOKMARKS);
+			logMsgFmtln("add bookmark for each file| ", ADD_BOOKMARK_FOR_EACH_FILE);
+			logMsgFmtln("keep imported bookmarks| ", KEEP_IMPORT_BOOKMARKS);
+			logMsg("\n");
+		}
+
+		internal static bool VerifyOutputFile(string outputFile)
 		{
 			if (outputFile == null || outputFile.Length < 3) { return false; }
 
 			if (File.Exists(outputFile))
 			{
-				if (OVERWITE_OUTPUT)
+				if (OVERWITE_EXISTING_FILE)
 				{
 					try
 					{
 						var f = File.OpenWrite(outputFile);
 						f.Close();
-						logMsgFmtln("output file| ", "exists: overwrite allowed\n");
+						File.Delete(outputFile);
+
+						logMsgFmtln("output file| ", "exists: overwrite allowed");
 						return true;
 					}
 					catch (Exception ex)
 					{
-						logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere\n");
+						logMsgFmtln("result| ", "fail - file is not accessible or is open elsewhere");
 						return false;
 					}
 				}
 				else
 				{
-					logMsgFmtln("output file| ", "exists: overwrite disallowed\n");
+					logMsgFmtln("output file| ", "exists: overwrite disallowed");
 					return false;
 				}
 			}
 
-			logMsgFmtln("output file| ", "does not exists\n");
+			logMsgFmtln("output file| ", "does not exists");
 			return true;
 		}
 
-		internal PdfDocument Merge(string outputFile, List<MergeItem> tree)
+		internal PdfDocument Merge(string outputFile, PdfMergeTree mergeTree)
 		{
-			if (!verifyOutputFile(outputFile))
+			listOptions();
+
+			if (!VerifyOutputFile(outputFile))
 			{
 				throw new IOException("Invalid Output File");
 			}
 
-			PdfDocument pdf = new PdfDocument(new PdfWriter(outputFile));
+			PdfWriter writer = new PdfWriter(outputFile);
 
-			// always merge tags and bookmarks and fix afterwards
-			PdfMerger merger = new PdfMerger(pdf, true, true);
+			destPdf = new PdfDocument(writer);
+
+			destPdfOutlines = destPdf.GetOutlines(false);
+
+			PdfMerger merger = new PdfMerger(destPdf, MERGE_TAGS, MERGE_BOOKMARKS);
 			merger.SetCloseSourceDocuments(false);
 
-			if (merge(merger, tree, 0) < 1)
+			if (merge(merger, mergeTree.GetMergeItems, 1) < 1)
 			{
-				pdf.Close();
+				destPdf.Close();
 				return null;
 			}
 
-//			listOutline(pdf, pdf.GetOutlines(false));
+			if (KEEP_IMPORT_BOOKMARKS && ADD_BOOKMARK_FOR_EACH_FILE)
+			{
+				// process and adjust bookmarks
+				MergeOutlines(destPdf.GetOutlines(true).GetAllChildren(), 
+					mergeTree.GetMergeItems);
+			}
 
-			// process and adjust bookmarks
-			// eliminate all of the current bookmarks
-			PdfOutline destPdfOutlines;
-			destPdfOutlines = clearOutline(pdf);
+			if (!(KEEP_IMPORT_BOOKMARKS && !ADD_BOOKMARK_FOR_EACH_FILE))
+			{
+				// eliminate all of the current bookmarks
+				destPdfOutlines = clearOutline(destPdf);
+			}
 
-//			listOutline(pdf, destPdfOutlines);
-
-
+			if (ADD_BOOKMARK_FOR_EACH_FILE)
+			{
+				// add the new bookmarks
+				addOutline(mergeTree.GetMergeItems, destPdfOutlines, 0);
+				
+			}
 			// all complete
-			pdf.Close();
+			// leave open for further processing
+			//			destPdf.Close();
 
 			// return the final PDF document
-			return pdf;
+
+			PdfCatalog destPdfCatalog = destPdf.GetCatalog();
+
+			destPdfCatalog.SetPageMode(PdfName.UseOutlines);
+			destPdfCatalog.SetPageLayout(PdfName.SinglePage);
+			destPdfCatalog.SetOpenAction(PdfExplicitDestination.CreateFit(1));
+			
+			return destPdf;
+		}
+
+		private int merge(PdfMerger merger, List<MergeItem> mergeTreeList, int initialPageCount)
+		{
+			int pageCount = initialPageCount;
+			PdfDocument src = null;
+
+			foreach (MergeItem mi in mergeTreeList)
+			{
+				if (mi.fileItem.ItemType == FILE)
+				{
+					mi.pageNumber = pageCount;
+
+					try
+					{
+						src = new PdfDocument(new PdfReader(mi.fileItem.getFullPath));
+
+						if (!(KEEP_IMPORT_BOOKMARKS && !ADD_BOOKMARK_FOR_EACH_FILE))
+						{
+							destPdfOutlines.AddOutline(FILE_MARKER + mi.fileItem.getName());
+						}
+
+						merger.Merge(src, 1, src.GetNumberOfPages());
+
+						if (src != null && !src.IsClosed())
+						{
+							pageCount += src.GetNumberOfPages();
+							src.Close();
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("exception");
+						mi.fileItem.ItemType = MISSING;
+						mi.pageNumber = -1;
+					}
+				}
+
+				if (mi.mergeItems != null)
+				{
+					pageCount = merge(merger, mi.mergeItems, pageCount);
+				}
+			}
+
+			return pageCount;
 		}
 
 		PdfOutline clearOutline(PdfDocument pdf)
@@ -100,70 +208,174 @@ namespace PDFMerge1
 			return pdf.GetOutlines(true);
 		}
 
-		private int merge(PdfMerger merger, List<MergeItem> bookmarks, int initialPageCount)
+		// copy existing outlines and add to the merge tree
+		private void MergeOutlines(IList<PdfOutline> destOutlines, 
+			List<MergeItem> mergeTreeList)
 		{
-			int pageCount = initialPageCount;
-			PdfDocument src = null;
-//			bool doPageCount;
+			if (destOutlines.Count == 0) return;
 
-			foreach (MergeItem bm in bookmarks)
+			int i = 0;
+
+			string currDestTitle;
+
+			foreach (MergeItem mi in mergeTreeList)
 			{
-//				doPageCount = true;
+				currDestTitle = destOutlines[i].GetTitle().Substring(1);
 
-				if (bm.fileItem.ItemType == FILE)
+				if (mi.bookmarkType == BRANCH && mi.mergeItems.Count > 0)
 				{
-					bm.pageNumber = pageCount;
+					i = mergeOutlines(destOutlines, mi.mergeItems, i);
 
-					try
-					{
-						src = new PdfDocument(new PdfReader(bm.fileItem.getFullPath));
-
-						logMsgln("merging| ", bm.fileItem.getFullPath);
-
-						merger.Merge(src, 1, src.GetNumberOfPages());
-
-						if (src != null && !src.IsClosed())
-						{
-							pageCount += src.GetNumberOfPages();
-							src.Close();
-						}
-					}
-					catch (Exception ex)
-					{
-						logMsgln("NOT merging| ", ex.Message 
-							+ "  (" + bm.fileItem.getFullPath + ")");
-						bm.fileItem.ItemType = MISSING;
-						bm.pageNumber = -1;
-//						doPageCount = false;
-					}
-
-//					if (src != null && !src.IsClosed())
-//					{ 
-//						if (doPageCount)
-//						{
-//							pageCount += src.GetNumberOfPages();
-//						}
-//
-//						src.Close();
-//					}
+					if (i < 0) return;
 				}
-
-				if (bm.mergeItems != null)
+				else if (mi.bookmarkType == LEAF)
 				{
-					pageCount = merge(merger, bm.mergeItems, pageCount);
+					if (mi.bookmarkTitle.Equals(currDestTitle))
+					{
+						addExistBookmarks(destOutlines, mi, i + 1);
+
+						i = findNextHeader(destOutlines, i);
+
+						if (i < 0) return;
+					}
+				}
+			}
+		}
+
+		private int findNextHeader(IList<PdfOutline> destOutlines, int currDestItem)
+		{
+			for (int i = currDestItem + 1; i < destOutlines.Count; i++)
+			{
+				if (destOutlines[i].GetTitle().Substring(0, 1).Equals(FILE_MARKER))
+				{
+					return i;
 				}
 			}
 
-			return pageCount;
+			return -1;
+		}
+
+		private int mergeOutlines(IList<PdfOutline> destOutlines,
+			List<MergeItem> mergeTreeList, int currDestItem)
+		{
+			int i = currDestItem;
+
+			string currDestTitle;
+
+			foreach (MergeItem mi in mergeTreeList)
+			{
+				currDestTitle = destOutlines[i].GetTitle().Substring(1);
+
+				if (mi.bookmarkType == BRANCH && mi.mergeItems.Count > 0)
+				{
+					i = mergeOutlines(destOutlines, mi.mergeItems, i);
+
+					if (i < 0) return i;
+				}
+				else if (mi.bookmarkType == LEAF)
+				{
+					if (mi.bookmarkTitle.Equals(currDestTitle))
+					{
+						addExistBookmarks(destOutlines, mi, i + 1);
+
+						i = findNextHeader(destOutlines, i);
+
+						if (i < 0) return i;
+					}
+				}
+			}
+			return i;
+		}
+
+		private void addExistBookmarks(IList<PdfOutline> destOutlines, 
+			MergeItem mi, int currDestItem)
+		{
+			int i = currDestItem;
+
+			while (!destOutlines[i].GetTitle().StartsWith(FILE_MARKER))
+			{
+				addExistBookmark2(destOutlines[i], mi.mergeItems, mi.depth + 1);
+
+				i++;
+
+				if (i >= destOutlines.Count) return;
+			}
+		}
+
+		private void addExistBookmark2(PdfOutline destOutline,
+			List<MergeItem> mergeTreeList, int depth)
+		{
+			int pageNumber = destOutline.GetPageNumber(destPdf);
+
+			List<MergeItem> newMergeTreeList = new List<MergeItem>(1);
+
+			mergeTreeList.Add(new MergeItem(destOutline.GetTitle(),
+					LEAF, newMergeTreeList, pageNumber, depth, new FileList.FileItem()));
+
+			IList<PdfOutline> children = destOutline.GetAllChildren();
+
+			if (children.Count > 0)
+			{
+				foreach (PdfOutline child in children)
+				{
+					addExistBookmark2(child, newMergeTreeList, depth + 1);
+				}
+				
+			}
+		}
+
+		private void addOutline(List<MergeItem> mergeTree, 
+			PdfOutline child, int currDepth)
+		{
+			int pageNumber;
+
+			foreach (MergeItem mi in mergeTree)
+			{
+				if (mi.fileItem.isMissing) continue;
+
+				pageNumber = findPageNumber(mi);
+
+				if (pageNumber == -2) continue;
+
+				PdfOutline grandChild =
+					child.AddOutline(mi.bookmarkTitle);
+
+				grandChild.SetOpen(!COLLAPSE_FILE_BOOKMARKS);
+
+
+				if (pageNumber >= 0)
+				{
+					grandChild.AddDestination(
+						PdfExplicitDestination.CreateFit(pageNumber));
+				}
+
+				if (mi.mergeItems != null)
+				{
+					addOutline(mi.mergeItems, grandChild, currDepth + 1);
+				}
+			}
+		}
+
+		int findPageNumber(MergeItem mi)
+		{
+			if (mi.fileItem.isMissing) return -2;
+
+			if (mi.pageNumber >= 0) return mi.pageNumber;
+
+			if (ADD_PAGE_TO_ALL_BOOKMARKS)
+			{
+				return !mi.hasChildren ? -1 : findPageNumber(mi.mergeItems[0]);
+			}
+
+			return -1;
 		}
 
 		private static int depth = 0;
 
 		public void listOutline(PdfDocument pdfDoc, PdfOutline outline)
 		{
-			logMsg(formatBookmark(outline.GetTitle(), depth, outline.GetPageNumber(pdfDoc)));
-
-			logMsg(nl);
+			logMsgFmtln("bookmark| depth| ", formatBookmark(outline.GetTitle(), 
+				depth, outline.GetPageNumber(pdfDoc)));
 
 			IList<PdfOutline> kids = outline.GetAllChildren();
 
@@ -175,16 +387,13 @@ namespace PDFMerge1
 				{
 					listOutline(pdfDoc, kids[i]);
 				}
-
 				depth--;
-
 			}
-
 		}
 
 		string formatBookmark(string title, int depth, int page)
 		{
-			return String.Format("bookmark|  depth| {1,3} | page| {0,3} | {2}{3}",
+			return String.Format("{1,3} | page| {0,3} | {2}{3}",
 				page, depth, " ".Repeat(depth * 2), title);
 		}
 	}

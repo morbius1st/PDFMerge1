@@ -40,11 +40,11 @@
     <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="itext.io, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+    <Reference Include="itext.io, Version=7.0.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\itext7.7.0.3\lib\net40\itext.io.dll</HintPath>
     </Reference>
-    <Reference Include="itext.kernel, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+    <Reference Include="itext.kernel, Version=7.0.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\itext7.7.0.3\lib\net40\itext.kernel.dll</HintPath>
     </Reference>
@@ -69,7 +69,7 @@
     <Compile Include="RichTextBoxExtensions.cs" />
     <Compile Include="Samples.cs" />
     <Compile Include="SelectFolder.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="UtilityLocal.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,7 +83,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -97,6 +96,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <Import Project="..\..\UtilityLibrary\UtilityLibrary\UtilityLibrary.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using static PDFMerge1.Utility;
+//using static PDFMerge1.UtilityLocal;
 using static PDFMerge1.FileList.FileItemType;
+
+using UtilityLibrary;
+using static UtilityLibrary.MessageUtilities;
 
 
 namespace PDFMerge1
@@ -78,28 +81,23 @@ namespace PDFMerge1
 				return MISSING;
 			}
 
-//			private string adjustForRootedPath(string testPath)
-//			{
-//				if (!Path.IsPathRooted(testPath))
-//				{
-//					return testPath;
-//				}
-//
-//				return testPath.Substring(Path.GetPathRoot(testPath).Length - 1);
-//			}
+			internal bool isMissing
+			{
+				get { return ItemType == MISSING; }
+			}
 
 			internal int Depth
 			{
 				get
 				{
-					if (ItemType == MISSING) { return -1; }
+					if (isMissing) { return -1; }
 					return path.CountSubstring("\\") - 1;
 				}
 			}
 
 			internal string getHeading()
 			{
-				if (ItemType == MISSING) { return ""; }
+				if (isMissing) { return ""; }
 
 				string[] directories = Path.GetDirectoryName(path).Split('\\');
 
@@ -108,23 +106,45 @@ namespace PDFMerge1
 
 			internal string getName()
 			{
-				if (ItemType == MISSING) { return ""; }
+				if (isMissing) { return ""; }
 
 				return Path.GetFileNameWithoutExtension(path);
 			}
 
 			internal string getDirectory()
 			{
-				if (ItemType == MISSING) { return ""; }
+				if (isMissing) { return ""; }
 
 				return Path.GetDirectoryName(path) ?? "\\";
+			}
+
+			internal string getHierarchy()
+			{
+				if (isMissing) return "";
+
+				string dir = Path.GetDirectoryName(path) ?? "";
+
+				
+
+				if (Path.IsPathRooted(dir))
+				{
+					dir = dir.Substring(dir.IndexOf(Path.DirectorySeparatorChar));
+				}
+
+				if (dir[0].Equals('\\'))
+				{
+					return dir.Substring(1);
+				}
+
+
+				return dir;
 			}
 
 			internal string getFullPath
 			{
 				get
 				{
-					if (ItemType == MISSING) { return ""; }
+					if (isMissing) { return ""; }
 
 					if (isFullPath) { return path; }
 
@@ -196,11 +216,6 @@ namespace PDFMerge1
 				result = (Add(file) != -1) && result;
 			}
 			return result;
-		}
-
-		internal bool Add()
-		{
-			return Add("*.pdf", SearchOption.AllDirectories);
 		}
 
 		// add files

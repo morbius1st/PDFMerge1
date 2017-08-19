@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static PDFMerge1.Utility;
+using static UtilityLibrary.MessageUtilities;
 using static PDFMerge1.Samples;
 
 namespace PDFMerge1
@@ -22,28 +22,26 @@ namespace PDFMerge1
 		
 		private const string PDF_FOLDER_SEL = NORMAL_FOLDER + PDF_FOLDER;
 
-		enum Test
+		internal enum Test
 		{
-			SEL_PATH, NORMAL, NO_PDF_FOLDER, NO_PDFS,
-			EMPTY_SUB_FOLDER, CORRUPT_PDF, NON_PDF, ROOT_PDFS,
-			PDF_FOLDER_SELECTED
+			SEL_PATH,
+			NORMAL,
+			PDF_IN_INDIV_PDF_FOLDER,
+			NO_PDFS,
+			EMPTY_SUB_FOLDER,
+			CORRUPT_PDF,		
+			NON_PDF,
+			ROOT_PDFS,
+			PDF_FOLDER_SELECTED,
+			NO_SUCH_FOLDER
 		}
 
-		private Test choice =
-			//			Test.SEL_PATH;
-						Test.NORMAL;
-			//			Test.NO_PDF_FOLDER;
-			//			Test.NO_PDFS;
-			//			Test.EMPTY_SUB_FOLDER;
-			//			Test.CORRUPT_PDF;
-			//			Test.NON_PDF;
-//			Test.ROOT_PDFS;
-		//			Test.PDF_FOLDER_SELECTED;
-
-		internal string selectFolder()
+		internal string selectFolder(Test choice)
 		{
 			bool result = false;
 			string path = BASE_FOLDER;
+			string message;
+			string folderName = "";
 
 			string output_file;
 
@@ -51,90 +49,115 @@ namespace PDFMerge1
 			{
 				case Test.SEL_PATH:
 				{
-					logMsgln("Select Path");
+					message = "Select Path| ";
+					folderName = null;
 					path = selectPath();
 					break;
 				}
 				case Test.NORMAL:
 				{
-					logMsgln("NORMAL folder");
-					path += NORMAL_FOLDER;
+					message = "NORMAL folder| ";
+					folderName = NORMAL_FOLDER;
 					break;
 				}
-				case Test.NO_PDF_FOLDER:
+				case Test.PDF_IN_INDIV_PDF_FOLDER:
 				{
-					logMsgln("NO PDF sub-folder");
-					path += NO_PDF_FOLDER;
+					message = "PDFs not in indiv pdf folder| ";
+					folderName = PDF_IN_INDIV_PDF_FOLDER;
 					break;
 				}
 				case Test.NO_PDFS:
 				{
-					logMsgln("NO PDFS");
-					path += NO_PDFS;
+					message = "NO PDFs folder| ";
+					folderName = NO_PDFS;
 					break;
 				}
 				case Test.EMPTY_SUB_FOLDER:
 				{
-					logMsgln("EMPTY sub_folder");
-					path += EMPTY_SUB_FOLDER;
+					message = "EMPTY sub_folder| ";
+					folderName = EMPTY_SUB_FOLDER;
 					break;
 				}
 				case Test.CORRUPT_PDF:
 				{
-					logMsgln("CORRUPT pdf");
-					path += CORRUPT_PDF;
+					message = "CORRUPT pdf folder| ";
+					folderName = CORRUPT_PDF;
 					break;
 				}
 				case Test.NON_PDF:
 				{
-					logMsgln("has NON_PDF");
-					path += NON_PDF;
-
+					message = "has NON_PDF folder| ";
+					folderName = NON_PDF;
 					break;
 				}
 				case Test.ROOT_PDFS:
 				{
-					logMsgln("as ROOT PDFs");
-					path += ROOT_PDFS;
+					message = "has ROOT PDFs folder| ";
+					folderName = ROOT_PDFS;
 					break;
 				}
 				case Test.PDF_FOLDER_SELECTED:
 				{
-					logMsgln("PDF FOLDER selected");
-					path += PDF_FOLDER_SEL;
+					message = "PDF folder selected| ";
+					folderName = PDF_FOLDER_SEL;
 					break;
 				}
-
+				case Test.NO_SUCH_FOLDER:
+				{
+					message = "no such selected| ";
+					folderName = NO_SUCH_FOLDER;
+					break;
+				}
 				default:
 				{
+					message = "default| ";
+					folderName = null;
 					path = selectPath();
 					break;
 				}
 			}
 
+			if (folderName == null)
+			{
+				folderName = choice.ToString();
+			}
+			else
+			{
+				path += folderName;
+			}
+
+			logMsgln(message, folderName);
+			logMsgFmtln("path| ",path);
+
 			return pathSet(path);
 
 		}
 
+		// validate path
 		string pathSet(string path)
 		{
-			if (path == null || path.Length < 3) { return null; }
+			// is path null or too short or does not exist
+			if (path == null 
+				|| path.Length < 3
+				|| !Directory.Exists(path)) { return null; }
 
+			// break apart path
 			string[] pathNames = splitPath(path);
 
-			// is the base folder a PDF folder?
-			if (!pathNames[pathNames.Length - 1].Equals(PDF_FOLDER.Substring(1)))
+			// is the path a PDF folder?
+			if (pathNames[pathNames.Length - 1].Equals(PDF_FOLDER.Substring(1)))
 			{
-				// create and test an adjusted path
-				path += PDF_FOLDER;
-
-				if (!Directory.Exists(path))
-				{
-					// a PDF folder does not exist - return null
-					path = null;
-				}
+				return path;
 			}
 
+			// can we find the "PDF folder"?
+			if (Directory.Exists(path + PDF_FOLDER))
+			{
+				return path + PDF_FOLDER;
+			}
+
+			// all else fails, folder does exist, just
+			// return the folder selected
 			return path;
 		}
 

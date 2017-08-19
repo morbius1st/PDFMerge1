@@ -5,10 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iText.Kernel.XMP.Impl;
-using static PDFMerge1.Utility;
+
+//using static PDFMerge1.UtilityLocal;
 using static PDFMerge1.FileList.FileItemType;
 using static PDFMerge1.FileList;
 using static PDFMerge1.PdfMergeTree.bookmarkType;
+
+using UtilityLibrary;
+using static UtilityLibrary.MessageUtilities;
 
 namespace PDFMerge1
 {
@@ -31,11 +35,16 @@ namespace PDFMerge1
 			{
 				this.bookmarkTitle = bookmarkTitle;
 				this.bookmarkType = bookmarkType;
-				this.mergeItems = mergeItems;
+				this.mergeItems = mergeItems ?? new List<MergeItem>();
 				this.pageNumber = pageNumber;
 				this.depth = depth;
 				this.fileItem = fileItem;
 			}
+
+			internal bool hasChildren => mergeItems.Count > 0;
+
+			internal int count => mergeItems.Count;
+
 		}
 
 		private List<MergeItem> mergeItems = new List<MergeItem>(5);
@@ -54,6 +63,7 @@ namespace PDFMerge1
 			this.rootPath = rootPath;
 
 		}
+
 		internal List<MergeItem> GetMergeItems => mergeItems;
 
 		internal MergeItem this[int index] => mergeItems[index];
@@ -62,7 +72,6 @@ namespace PDFMerge1
 
 		internal void Add(FileList fileList)
 		{
-			logMsgFmtln("gross count| ", fileList.GrossCount.ToString());
 			Add(fileList, 0, 0, "\\", 
 				mergeItems);
 		}
@@ -93,9 +102,10 @@ namespace PDFMerge1
 				{
 					List<MergeItem> childBookmarks = new List<MergeItem>(1);
 
-					mergeItems.Add(new MergeItem(fileList[i].getDirectory().GetSubDirectoryName(currDepth), bookmarkType.BRANCH, childBookmarks, -1, currDepth, new FileItem()));
+					mergeItems.Add(new MergeItem(fileList[i].getDirectory().GetSubDirectoryName(currDepth), 
+						bookmarkType.BRANCH, childBookmarks, -1, currDepth, new FileItem()));
 
-					i = Add(fileList, i, currDepth + 1, fileList[i].getDirectory(),childBookmarks) - 1;
+					i = Add(fileList, i, currDepth + 1, fileList[i].getDirectory(), childBookmarks) - 1;
 
 					continue;
 				}
@@ -153,16 +163,32 @@ namespace PDFMerge1
 			sb.Append(" bookmarkType| ").Append($"{mi.bookmarkType.ToString(),-8}");
 			sb.Append(" fileitemType| ").Append($"{mi.fileItem.ItemType.ToString(),-8}");
 			sb.Append(" page#| ").Append(fmt(mi.pageNumber));
-			sb.Append(" bookmark| ").Append(" ".Repeat(depth * 3)).Append(mi.bookmarkTitle);
+			sb.Append(" vs ").Append(fmt(findPageNumber(mi)));
+			sb.Append(" bookmark title| ").Append(" ".Repeat(depth * 3)).Append(mi.bookmarkTitle);
 			sb.Append(nl);
 
 			if (mi.fileItem.ItemType == FILE)
 			{
-				sb.Append(fmtMsg("   path| ", mi.fileItem.getFullPath));
+				sb.Append(fmtMsg("file name| ", mi.fileItem.getName())).Append(nl);
+				sb.Append(fmtMsg("path| ", mi.fileItem.getFullPath));
 				sb.Append(nl).Append(nl);
 			}
 
 			return sb;
+		}
+
+		int findPageNumber(MergeItem mergeItem)
+		{
+			if (mergeItem.fileItem.isMissing) return -2;
+
+			if (mergeItem.pageNumber >= 0) return mergeItem.pageNumber;
+
+			if (mergeItem.mergeItems != null)
+			{
+				return findPageNumber(mergeItem.mergeItems[0]);
+			}
+
+			return -1;
 		}
 	}
 }

@@ -11,7 +11,7 @@ using Org.BouncyCastle.Asn1.X509.Qualified;
 
 namespace PDFMerge1
 {
-	public class Utility
+	public class UtilityLocal
 	{
 		static public int defColumn = 35;
 

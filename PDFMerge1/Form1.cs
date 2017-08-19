@@ -21,27 +21,30 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using iText.Kernel.Pdf;
+using UtilityLibrary;
 
-using static PDFMerge1.Utility;
 using static PDFMerge1.FileList;
 using static PDFMerge1.Samples;
+using static PDFMerge1.SelectFolder;
+
+using static UtilityLibrary.MessageUtilities;
 
 namespace PDFMerge1
 {
 	public partial class Form1 : Form
 	{
-		private const string OUTPUTFILE = @"\output.pdf";
-
 		private const bool OVERWITE_OUTPUT = true;
+		private const string WHO_AM_I = "@Form1";
 
 
 		public Form1()
 		{
 			InitializeComponent();
 
-			Utility.txInfo = txInfo;
+			UtilityLocal.txInfo = txInfo;
 
-			//			Utility.output = 1;
+			//			UtilityLocal.output = 1;
 
 //						listSamples();
 			//			pathTests()
@@ -62,49 +65,6 @@ namespace PDFMerge1
 			listSample(Samples.alt2, OUTPUT_ALT2);
 		}
 
-//		private void pathTests()
-//		{
-//			string t1 = @"\1adf\2sdf\3sdf\4sddf\5sddf";
-//			string t2 = @"\1adf\2sdf\3sdf\";
-//			string t3 = @"\1adf";
-//			string t4 = @"\";
-//			string t5 = @"";
-//
-//			int depth = 1;
-//			
-//			testPaths(t1, depth);
-//			testPaths(t2, depth);
-//			testPaths(t3, depth);
-//			testPaths(t4, depth);
-//			testPaths(t5, depth);
-//		}
-
-//		void testPaths(string testPath, int depth)
-//		{
-//			FileItem fi = new FileItem(testPath, FileItem.FileItemType.FILE);
-//
-//			logMsgFmt("test depth| ", depth.ToString());
-//			logMsgln("  test path| ", testPath);
-//			logMsg(nl);
-//			logMsgFmtln("subdir via getsub| ", ">" + testPath.GetSubDirectory(depth) + "<");
-//
-//			if (testPath.Equals(""))
-//			{
-//				logMsgFmtln("subdir via fileitem| ", "illegal");
-//			}
-//			else 
-//			{
-//				logMsgFmtln("subdir via fileitem| ", ">" + fi.getDirectoryNameToDepth(depth) + "<");
-//			}
-//			logMsg(nl);
-//			logMsgFmtln("name via getsubname| ", ">" + testPath.GetSubDirectoryName(depth) + "<");
-//			logMsgFmtln("name via fileitem| ", ">" + fi.getDirectoryNameAtDepth(depth) + "<");
-//			logMsg(nl);
-//
-//		}
-
-
-
 		private void btnOK_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -118,46 +78,89 @@ namespace PDFMerge1
 
 			FileList fileList;
 
-			logMsgln("selecting folder");
+			MessageUtilities.rtb = txInfo;
 
 			clearConsole();
 
-			//			selectedFolder = new SelectFolder().selectFolder();
-			//
-			//			if (selectedFolder == null) { return; }
-			//
-			//			outputFile = selectedFolder + OUTPUTFILE;
-			//
-			//			if (!verifyOutputFile(outputFile)) { return;  }
-			//
-			//			listOutput(selectedFolder, outputFile);
-			//
-			//			fileList = new FileList(selectedFolder);
+			logMsgFmt(WHO_AM_I + "-0 selecting folder| ");
 
-			//			fileList.Add();
+//			selectedFolder = new SelectFolder().selectFolder(Test.SEL_PATH);				// passed
+//			selectedFolder = new SelectFolder().selectFolder(Test.NORMAL);					// passed
+//			selectedFolder = new SelectFolder().selectFolder(Test.PDF_IN_INDIV_PDF_FOLDER);	// passed
+			selectedFolder = new SelectFolder().selectFolder(Test.NO_PDFS);                 // passed
+//			selectedFolder = new SelectFolder().selectFolder(Test.EMPTY_SUB_FOLDER);	
+//			selectedFolder = new SelectFolder().selectFolder(Test.CORRUPT_PDF);
+//			selectedFolder = new SelectFolder().selectFolder(Test.NON_PDF);
+//			selectedFolder = new SelectFolder().selectFolder(Test.ROOT_PDFS);
+//			selectedFolder = new SelectFolder().selectFolder(Test.PDF_FOLDER_SELECTED);
+//			selectedFolder = new SelectFolder().selectFolder(Test.NO_SUCH_FOLDER);
+
 
 			outputFile = OUTPUT_ORIG;
 
-			fileList = selectFiles(Samples.orig, ROOT_FOLDER);
+			if (!PdfMergeFileList.VerifyOutputFile(outputFile))
+			{
+				return;
+			}
 
-//			Utility.output = 1;
+			if (selectedFolder == null)
+			{
+				logMsgFmtln("folder not found| ");
+				return;
+			}
+
+			listFolders(selectedFolder, outputFile);
+
+			fileList = new FileList(selectedFolder);
+
+			fileList.Add("*.pdf", SearchOption.AllDirectories);
+
+			if (fileList.NetCount == 0)
+			{
+				logMsgFmtln("no files found| ");
+				return;
+			}
+			
+
+//			logMsgFmtln(WHO_AM_I + "-1 selecting files| ", "from| " + ConstructRootFolder(ROOT_PDFS));
+//
+//			fileList = selectFiles(Samples.orig, ConstructRootFolder(ROOT_PDFS));
+
+//			UtilityLocal.output = 1;
 
 //			logMsgln(fileList.ToString());
 //			logMsgln(fileList.listFiles());
-
-			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
-			pdfMergeTree.Add(fileList);
-
-			logMsg(nl);
-			logMsgln(pdfMergeTree.ToString());
-
-			PdfMergeFileList merger = new PdfMergeFileList();
 			
-			merger.Merge(outputFile, pdfMergeTree.GetMergeItems);
+			logMsgFmtln(WHO_AM_I + "-3 gross count| ", fileList.GrossCount);
+
+			logMsgFmtln(WHO_AM_I + "-5 create merge tree| ");
+			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
+
+			logMsgFmtln("@form1-7 add files to merge tree| ");
+			pdfMergeTree.Add(fileList);
 
 //			logMsg(nl);
 //			logMsgln(pdfMergeTree.ToString());
+			
+			PdfMergeFileList fileListMerger = new PdfMergeFileList();
 
+			logMsgFmtln(WHO_AM_I + "-10 merge files| ");
+			PdfDocument pdf = fileListMerger.Merge(outputFile, pdfMergeTree);
+
+			if (pdf != null)
+			{
+//				fileListMerger.listOutline(pdf, pdf.GetOutlines(false));
+				logMsgFmtln("done and closed| ");
+
+				pdf.Close();
+			}
+
+		}
+
+		void testInsert(PdfMergeTree tree)
+		{
+			string toFind = "Cover Page";
+			string insert = "this is a test";
 		}
 
 		private FileList selectFiles(List<string> files, string rootFolder)
@@ -179,41 +182,41 @@ namespace PDFMerge1
 			return fileList;
 		}
 
-		private bool verifyOutputFile(string outputFile)
+//		private bool verifyOutputFile(string outputFile)
+//		{
+//			if (outputFile == null || outputFile.Length < 3) { return false; }
+//
+//			if (File.Exists(outputFile))
+//			{
+//				if (OVERWITE_OUTPUT)
+//				{
+//					try
+//					{
+//						var f = File.OpenWrite(outputFile);
+//						f.Close();
+//						logMsgFmtln("output file| ", "exists: overwrite allowed\n");
+//						return true;
+//					}
+//					catch (Exception ex)
+//					{
+//						logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere\n");
+//						return false;
+//					}
+//				}
+//				else
+//				{
+//					logMsgFmtln("output file| ", "exists: overwrite disallowed\n");
+//					return false;
+//				}
+//			}
+//
+//			logMsgFmtln("output file| ", "does not exists\n");
+//			return true;
+//		}
+//
+		private void listFolders(string selectedFolder, string outputFile)
 		{
-			if (outputFile == null || outputFile.Length < 3) { return false; }
-
-			if (File.Exists(outputFile))
-			{
-				if (OVERWITE_OUTPUT)
-				{
-					try
-					{
-						var f = File.OpenWrite(outputFile);
-						f.Close();
-						logMsgFmtln("output file| ", "exists: overwrite allowed\n");
-						return true;
-					}
-					catch (Exception ex)
-					{
-						logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere\n");
-						return false;
-					}
-				}
-				else
-				{
-					logMsgFmtln("output file| ", "exists: overwrite disallowed\n");
-					return false;
-				}
-			}
-
-			logMsgFmtln("output file| ", "does not exists\n");
-			return true;
-		}
-
-		private void listOutput(string selectedFolder, string outputFile)
-		{
-			logMsgFmtln("output path| ", selectedFolder);
+			logMsgFmtln("input folder| ", selectedFolder);
 			logMsgFmtln("output file| ", outputFile);
 			logMsgln("");
 		}
