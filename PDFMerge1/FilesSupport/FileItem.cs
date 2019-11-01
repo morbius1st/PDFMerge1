@@ -1,0 +1,186 @@
+﻿using System.IO;
+
+// Solution:     PDFMerge1
+// Project:       PDFMerge1
+// File:             FileItem.cs
+// Created:      -- ()
+
+
+namespace PDFMerge1
+{
+	public class FileItem
+	{
+		// static
+		private static string rootPath;
+		internal static int notFound { get; private set; }
+		internal static int RootPathLen { get; private set; }
+
+		// instance
+		// path is the actual sub-folder path 
+		// starting from the rootpath down to
+		// the actual folder
+		internal string path { get; set; } = null;
+
+		// this is the path of names that will define the 
+		// bookmark names.  for a merge based on
+		// using a folder structure, this will match
+		// the path value.  
+		// for using a created outline structure,
+		// this will need to be manufactured
+		internal string outlinePath { get; set; } = null;
+
+		internal bool isFullPath { get; set; } = false;
+		internal FileItemType ItemType { get; set; }
+
+		public FileItem()
+		{
+			ItemType = FileItemType.NULL;
+		}
+
+		public FileItem(string path)
+		{
+			ItemType = DetermineItemType(path);
+
+			if (ItemType != FileItemType.MISSING)
+			{
+				this.path = setPath(Path.GetFullPath(path));
+
+				// initial, make the outlinepath match the 
+				// file path
+				this.outlinePath = this.path;
+			}
+			else
+			{
+				// missing only - just save the path for later
+				// review 
+				this.path = path;
+				this.outlinePath = path;
+			}
+		}
+
+		private string setPath(string testPath)
+		{
+			if (testPath.Length > RootPathLen &&
+				testPath.Substring(0, RootPathLen).Equals(rootPath))
+			{
+				isFullPath = false;
+				return testPath.Substring(RootPathLen);
+			}
+
+			isFullPath = true;
+			return testPath;
+		}
+
+		private static FileItemType DetermineItemType(string testPath)
+		{
+			if (testPath != null)
+			{
+				if (File.Exists(testPath))
+				{
+					// found file
+					return FileItemType.FILE;
+				}
+
+				if (Directory.Exists(testPath))
+				{
+					return FileItemType.DIRECTORY;
+				}
+			}
+
+			notFound++;
+			return FileItemType.MISSING;
+		}
+
+		internal bool isMissing
+		{
+			get { return ItemType == FileItemType.MISSING; }
+		}
+
+		internal int Depth
+		{
+			get
+			{
+				if (isMissing) { return -1; }
+
+				return path.CountSubstring("\\") - 1;
+			}
+		}
+
+//		internal string getHeading()
+//		{
+//			if (isMissing) { return ""; }
+//
+//			string[] directories = Path.GetDirectoryName(path).Split('\\');
+//
+//			return directories[directories.Length - 1];
+//		}
+
+		internal string getName()
+		{
+			if (isMissing) { return ""; }
+
+			return Path.GetFileNameWithoutExtension(path);
+		}
+
+		internal string getDirectory()
+		{
+			if (isMissing) { return ""; }
+
+			return Path.GetDirectoryName(path) ?? "\\";
+		}
+
+		internal string getOutlineDirectory()
+		{
+			if (isMissing) { return ""; }
+
+			return Path.GetDirectoryName(outlinePath) ?? "\\";
+		}
+
+//		internal string getHierarchy()
+//		{
+//			if (isMissing) return "";
+//
+//			string dir = Path.GetDirectoryName(path) ?? "";
+//
+//
+//			if (Path.IsPathRooted(dir))
+//			{
+//				dir = dir.Substring(dir.IndexOf(Path.DirectorySeparatorChar));
+//			}
+//
+//			if (dir[0].Equals('\\'))
+//			{
+//				return dir.Substring(1);
+//			}
+//
+//			return dir;
+//		}
+
+		internal string getFullPath
+		{
+			get
+			{
+				if (isMissing) { return ""; }
+
+				if (isFullPath) { return path; }
+
+				return Path.GetFullPath(RootPath + "\\" + path);
+			}
+		}
+
+		public static string RootPath
+		{
+			get { return rootPath; }
+			set
+			{
+				if (value == null || value.Length <= 3)
+				{
+					rootPath = null;
+				}
+
+				rootPath = Path.GetFullPath(value);
+				RootPathLen = RootPath.Length;
+			}
+		}
+	}
+}

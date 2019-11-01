@@ -22,5 +22,37 @@ namespace PDFMerge1.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastBasePath {
+            get {
+                return ((string)(this["LastBasePath"]));
+            }
+            set {
+                this["LastBasePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string DefaultLastBasePath {
+            get {
+                return ((string)(this["DefaultLastBasePath"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentBasePaths {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentBasePaths"]));
+            }
+            set {
+                this["RecentBasePaths"] = value;
+            }
+        }
     }
 }

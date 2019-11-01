@@ -22,6 +22,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using iText.Kernel.Pdf;
+using PDFMerge1.Support;
 using UtilityLibrary;
 
 using static PDFMerge1.FileList;
@@ -37,6 +38,9 @@ namespace PDFMerge1
 		private const bool OVERWITE_OUTPUT = true;
 		private const string WHO_AM_I = "@Form1";
 
+		private static ProgressBar pb;
+		private static Label lb;
+
 
 		public Form1()
 		{
@@ -44,10 +48,10 @@ namespace PDFMerge1
 
 			UtilityLocal.txInfo = txInfo;
 
-			//			UtilityLocal.output = 1;
+			pb = progressBar1;
+			lb = label1;
 
-//						listSamples();
-			//			pathTests()
+
 		}
 
 		private void listSamples()
@@ -78,22 +82,28 @@ namespace PDFMerge1
 
 			FileList fileList;
 
-			MessageUtilities.rtb = txInfo;
+			MessageUtilities.OutLocation = OutputLocation.TEXT_BOX;
+			MessageUtilities.RichTxtBox = txInfo;
+			MessageUtilities.AltColumn = 40;
 
-			clearConsole();
+			pb.Value = 0;
 
-			logMsgFmt(WHO_AM_I + "-0 selecting folder| ");
+//			ClearConsole();
 
-//			selectedFolder = new SelectFolder().selectFolder(Test.SEL_PATH);				// passed
-//			selectedFolder = new SelectFolder().selectFolder(Test.NORMAL);					// passed
-//			selectedFolder = new SelectFolder().selectFolder(Test.PDF_IN_INDIV_PDF_FOLDER);	// passed
-			selectedFolder = new SelectFolder().selectFolder(Test.NO_PDFS);                 // passed
-//			selectedFolder = new SelectFolder().selectFolder(Test.EMPTY_SUB_FOLDER);	
-//			selectedFolder = new SelectFolder().selectFolder(Test.CORRUPT_PDF);
-//			selectedFolder = new SelectFolder().selectFolder(Test.NON_PDF);
-//			selectedFolder = new SelectFolder().selectFolder(Test.ROOT_PDFS);
-//			selectedFolder = new SelectFolder().selectFolder(Test.PDF_FOLDER_SELECTED);
-//			selectedFolder = new SelectFolder().selectFolder(Test.NO_SUCH_FOLDER);
+			logMsgFmtln(WHO_AM_I + "-0 selecting folder");
+
+			selectedFolder = new SelectFolder().selectFolder();	
+
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.SEL_PATH);				// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.NORMAL);					// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.PDF_IN_INDIV_PDF_FOLDER);	// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.NO_PDFS);                 // passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.EMPTY_SUB_FOLDER);		// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.CORRUPT_PDF);				// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.NON_PDF);					// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.ROOT_PDFS);				// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.PDF_FOLDER_SELECTED);		// passed
+//			selectedFolder = new SelectFolder().selectFolderTest(Test.NO_SUCH_FOLDER);			// passed
 
 
 			outputFile = OUTPUT_ORIG;
@@ -105,7 +115,7 @@ namespace PDFMerge1
 
 			if (selectedFolder == null)
 			{
-				logMsgFmtln("folder not found| ");
+				logMsgFmtln("folder not found");
 				return;
 			}
 
@@ -117,42 +127,51 @@ namespace PDFMerge1
 
 			if (fileList.NetCount == 0)
 			{
-				logMsgFmtln("no files found| ");
+				logMsgFmtln("no files found");
 				return;
 			}
-			
 
-//			logMsgFmtln(WHO_AM_I + "-1 selecting files| ", "from| " + ConstructRootFolder(ROOT_PDFS));
-//
-//			fileList = selectFiles(Samples.orig, ConstructRootFolder(ROOT_PDFS));
 
-//			UtilityLocal.output = 1;
+			logMsgFmtln(WHO_AM_I + " @3 gross count", fileList.GrossCount);
 
-//			logMsgln(fileList.ToString());
-//			logMsgln(fileList.listFiles());
-			
-			logMsgFmtln(WHO_AM_I + "-3 gross count| ", fileList.GrossCount);
-
-			logMsgFmtln(WHO_AM_I + "-5 create merge tree| ");
+			logMsgFmtln(WHO_AM_I + " @5 create merge tree");
 			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
 
-			logMsgFmtln("@form1-7 add files to merge tree| ");
+
+//			ListInfo.Instance.ListFiles(fileList);
+			DebugSupport.DebugSupport.Instance.ModifyFileList(fileList);
+
+
+			logMsgFmtln(WHO_AM_I + " @7 add files to merge tree");
 			pdfMergeTree.Add(fileList);
 
-//			logMsg(nl);
-//			logMsgln(pdfMergeTree.ToString());
-			
+
+			ListInfo.Instance.ListMergeTree(pdfMergeTree);
+
+			txInfo.Refresh();
+
+//			return;
+
 			PdfMergeFileList fileListMerger = new PdfMergeFileList();
 
-			logMsgFmtln(WHO_AM_I + "-10 merge files| ");
+			logMsgFmtln(WHO_AM_I + "-10 merge files");
+
 			PdfDocument pdf = fileListMerger.Merge(outputFile, pdfMergeTree);
 
 			if (pdf != null)
 			{
 //				fileListMerger.listOutline(pdf, pdf.GetOutlines(false));
-				logMsgFmtln("done and closed| ");
+				logMsgFmtln("done and closed");
 
 				pdf.Close();
+			}
+			else
+			{
+				logMsgFmtln("done and failed");
+				updateProgressBar(ProgressBarValue.isAmount, pb.Maximum, 0);
+
+				File.Delete(outputFile);
+
 			}
 
 		}
@@ -194,34 +213,80 @@ namespace PDFMerge1
 //					{
 //						var f = File.OpenWrite(outputFile);
 //						f.Close();
-//						logMsgFmtln("output file| ", "exists: overwrite allowed\n");
+//						logMsgFmtln("output file", "exists: overwrite allowed\n");
 //						return true;
 //					}
 //					catch (Exception ex)
 //					{
-//						logMsgFmtln("result| ", "fail - file is not accessable or is open elsewhere\n");
+//						logMsgFmtln("result", "fail - file is not accessable or is open elsewhere\n");
 //						return false;
 //					}
 //				}
 //				else
 //				{
-//					logMsgFmtln("output file| ", "exists: overwrite disallowed\n");
+//					logMsgFmtln("output file", "exists: overwrite disallowed\n");
 //					return false;
 //				}
 //			}
 //
-//			logMsgFmtln("output file| ", "does not exists\n");
+//			logMsgFmtln("output file", "does not exists\n");
 //			return true;
 //		}
 //
 		private void listFolders(string selectedFolder, string outputFile)
 		{
-			logMsgFmtln("input folder| ", selectedFolder);
-			logMsgFmtln("output file| ", outputFile);
+			logMsgFmtln("input folder", selectedFolder);
+			logMsgFmtln("output file", outputFile);
 			logMsgln("");
 		}
 
-}
+		internal static void configProgressBar(int fileCount)
+		{
+			if (fileCount > 0)
+			{
+				pb.Maximum = fileCount;
+				lb.Text = fileCount.ToString();
+				pb.Value = pb.Minimum;
+			}
+		}
 
+		internal enum ProgressBarValue { isIncrement, isAmount }
 
+		internal static void updateProgressBar(ProgressBarValue pbv, int value, int fileCount)
+		{
+			if (value >= 0)
+			{
+				if (pbv == Form1.ProgressBarValue.isIncrement)
+				{
+					if (pb.Value + value == pb.Maximum)
+					{
+						pb.Maximum += value + 1;
+						pb.Value += value + 1;
+						pb.Maximum = value;
+					}
+					else
+					{
+						pb.Value += value + 1;
+						pb.Value -= 1;
+					}
+				}
+				else
+				{
+					if (value == pb.Maximum)
+					{
+						pb.Maximum = value + 1;
+						pb.Value = value + 1;
+						pb.Maximum = value;
+					}
+					else
+					{
+						pb.Value = value + 1;
+					}
+					pb.Value = value;
+				}
+			}
+			configProgressBar(fileCount);
+
+		}
+	}
 }

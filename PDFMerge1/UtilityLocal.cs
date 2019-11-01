@@ -215,6 +215,25 @@ namespace PDFMerge1
 			return result.Substring(pos);
 		}
 
+		public static string GetFirstDirectoryName(this string path)
+		{
+			path = path.TrimEnd('\\');
+
+			int pos = path.IndexOf(':');
+
+			if (pos > -1)
+			{
+				path = path.Substring(pos + 1);
+			}
+
+			// ignore the first character which is a slash
+			pos = path.IndexOf('\\', 1);
+
+			if (pos < 0) return path;  // no sub-folders - path is first directory
+
+			return path.Substring(1, pos);
+		}
+
 	}
 
 	public static class OutlineExtension

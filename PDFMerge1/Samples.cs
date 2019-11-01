@@ -151,16 +151,16 @@ namespace PDFMerge1
 		static internal void listSample(List<string> sample, string output_file)
 		{
 
-			logMsgFmtln("root folder| ", ROOT_FOLDER);
-			logMsgFmtln("output file| ", output_file);
+			logMsgFmtln("root folder", ROOT_FOLDER);
+			logMsgFmtln("output file", output_file);
 			logMsg(nl);
 
 			foreach (string file in sample)
 			{
 				string fileName = ROOT_FOLDER + file;
 
-				logMsgFmt("found| ", $"{File.Exists(fileName).ToString(), -6}");
-				logMsgln("  file| ", file);
+				logMsgFmt("found", $"{File.Exists(fileName).ToString(), -6}");
+				logMsgln("  file", file);
 			}
 		}
 

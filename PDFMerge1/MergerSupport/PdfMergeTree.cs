@@ -7,46 +7,24 @@ using System.Threading.Tasks;
 using iText.Kernel.XMP.Impl;
 
 //using static PDFMerge1.UtilityLocal;
-using static PDFMerge1.FileList.FileItemType;
+using static PDFMerge1.FileItemType;
 using static PDFMerge1.FileList;
-using static PDFMerge1.PdfMergeTree.bookmarkType;
+using static PDFMerge1.bookmarkType;
 
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
 
 namespace PDFMerge1
 {
+	internal enum bookmarkType
+	{
+		INVALID,
+		BRANCH,
+		LEAF
+	}
+
 	class PdfMergeTree
 	{
-		internal enum bookmarkType { INVALID, BRANCH, LEAF }
-
-		internal class MergeItem
-		{
-			internal string bookmarkTitle;
-			internal bookmarkType bookmarkType;
-			internal int pageNumber;
-			internal int depth;
-			internal FileItem fileItem;
-			internal List<MergeItem> mergeItems;
-
-			internal MergeItem(string bookmarkTitle, 
-				bookmarkType bookmarkType, List<MergeItem> mergeItems, 
-				int pageNumber, int depth, FileItem fileItem)
-			{
-				this.bookmarkTitle = bookmarkTitle;
-				this.bookmarkType = bookmarkType;
-				this.mergeItems = mergeItems ?? new List<MergeItem>();
-				this.pageNumber = pageNumber;
-				this.depth = depth;
-				this.fileItem = fileItem;
-			}
-
-			internal bool hasChildren => mergeItems.Count > 0;
-
-			internal int count => mergeItems.Count;
-
-		}
-
 		private List<MergeItem> mergeItems = new List<MergeItem>(5);
 
 		private string rootPath { get; set; } = "";
@@ -70,6 +48,25 @@ namespace PDFMerge1
 
 		internal int Count => mergeItems.Count;
 
+		internal int count => cnt(mergeItems, 0);
+
+		internal int cnt(List<MergeItem> items, int currentCount)
+		{
+			foreach (MergeItem mergeItem in items)
+			{
+				if (mergeItem.hasChildren)
+				{
+					currentCount = cnt(mergeItem.mergeItems, currentCount);
+				}
+				else
+				{
+					currentCount++;
+				}
+			}
+
+			return currentCount;
+		}
+
 		internal void Add(FileList fileList)
 		{
 			Add(fileList, 0, 0, "\\", 
@@ -92,7 +89,7 @@ namespace PDFMerge1
 					continue;
 				}
 
-				if (!fileList[i].getDirectory().GetSubDirectory(currDepth - 1).
+				if (!fileList[i].getOutlineDirectory().GetSubDirectory(currDepth - 1).
 					Equals(priorFileItem.GetSubDirectory(currDepth - 1)))
 				{
 					return i;
@@ -102,10 +99,10 @@ namespace PDFMerge1
 				{
 					List<MergeItem> childBookmarks = new List<MergeItem>(1);
 
-					mergeItems.Add(new MergeItem(fileList[i].getDirectory().GetSubDirectoryName(currDepth), 
+					mergeItems.Add(new MergeItem(fileList[i].getOutlineDirectory().GetSubDirectoryName(currDepth), 
 						bookmarkType.BRANCH, childBookmarks, -1, currDepth, new FileItem()));
 
-					i = Add(fileList, i, currDepth + 1, fileList[i].getDirectory(), childBookmarks) - 1;
+					i = Add(fileList, i, currDepth + 1, fileList[i].getOutlineDirectory(), childBookmarks) - 1;
 
 					continue;
 				}
@@ -170,7 +167,8 @@ namespace PDFMerge1
 			if (mi.fileItem.ItemType == FILE)
 			{
 				sb.Append(fmtMsg("file name| ", mi.fileItem.getName())).Append(nl);
-				sb.Append(fmtMsg("path| ", mi.fileItem.getFullPath));
+				sb.Append(fmtMsg("path| ", mi.fileItem.getFullPath)).Append(nl);
+				sb.Append(fmtMsg("outline Path| ", mi.fileItem.outlinePath));
 				sb.Append(nl).Append(nl);
 			}
 
@@ -183,7 +181,7 @@ namespace PDFMerge1
 
 			if (mergeItem.pageNumber >= 0) return mergeItem.pageNumber;
 
-			if (mergeItem.mergeItems != null)
+			if (mergeItem.mergeItems != null && mergeItem.mergeItems.Count > 0)
 			{
 				return findPageNumber(mergeItem.mergeItems[0]);
 			}

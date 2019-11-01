@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Navigation;
 using iText.Kernel.Utils;
 
 //using static PDFMerge1.UtilityLocal;
-using static PDFMerge1.FileList.FileItemType;
+using static PDFMerge1.FileItemType;
 using static PDFMerge1.PdfMergeTree;
-using static PDFMerge1.PdfMergeTree.bookmarkType;
+using static PDFMerge1.bookmarkType;
 
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
@@ -35,10 +36,12 @@ namespace PDFMerge1
 		// if ADD_BOOKMARK_FOR_EACH_FILE is true, the imported
 		// bookmarks are added as children to the file bookmark
 		internal static bool KEEP_IMPORT_BOOKMARKS { get; set; } = false;
+		// what to do if a corrupted PDF file is discovered
+		internal static bool CONTINUE_ON_CORRUPT_PDF { get; set; } = true;
+
 
 		// marker for each new file
 		private const string FILE_MARKER = "\u2401";
-		private const string FILE_EXT = ".pdf";
 
 		private PdfDocument destPdf;
 
@@ -51,12 +54,13 @@ namespace PDFMerge1
 		private void listOptions()
 		{
 			logMsg("\n");
-			logMsgFmtln("current options| ");
-			logMsgFmtln("overwrite existing file| ", OVERWITE_EXISTING_FILE);
-			logMsgFmtln("collapse file bookmarks| ", COLLAPSE_FILE_BOOKMARKS);
-			logMsgFmtln("add page number to all bookmarks| ", ADD_PAGE_TO_ALL_BOOKMARKS);
-			logMsgFmtln("add bookmark for each file| ", ADD_BOOKMARK_FOR_EACH_FILE);
-			logMsgFmtln("keep imported bookmarks| ", KEEP_IMPORT_BOOKMARKS);
+			logMsgFmtln("current options");
+			logMsgFmtln("overwrite existing file", OVERWITE_EXISTING_FILE);
+			logMsgFmtln("collapse file bookmarks", COLLAPSE_FILE_BOOKMARKS);
+			logMsgFmtln("add page number to all bookmarks", ADD_PAGE_TO_ALL_BOOKMARKS);
+			logMsgFmtln("add bookmark for each file", ADD_BOOKMARK_FOR_EACH_FILE);
+			logMsgFmtln("keep imported bookmarks", KEEP_IMPORT_BOOKMARKS);
+			logMsgFmtln("continue on corrupted PDF", CONTINUE_ON_CORRUPT_PDF);
 			logMsg("\n");
 		}
 
@@ -74,28 +78,30 @@ namespace PDFMerge1
 						f.Close();
 						File.Delete(outputFile);
 
-						logMsgFmtln("output file| ", "exists: overwrite allowed");
+						logMsgFmtln("output file", "exists: overwrite allowed");
 						return true;
 					}
 					catch (Exception ex)
 					{
-						logMsgFmtln("result| ", "fail - file is not accessible or is open elsewhere");
+						logMsgFmtln("result", "fail - file is not accessible or is open elsewhere");
 						return false;
 					}
 				}
 				else
 				{
-					logMsgFmtln("output file| ", "exists: overwrite disallowed");
+					logMsgFmtln("output file", "exists: overwrite disallowed");
 					return false;
 				}
 			}
 
-			logMsgFmtln("output file| ", "does not exists");
+			logMsgFmtln("output file", "does not exists");
 			return true;
 		}
 
 		internal PdfDocument Merge(string outputFile, PdfMergeTree mergeTree)
 		{
+			Form1.configProgressBar(mergeTree.count);
+
 			listOptions();
 
 			if (!VerifyOutputFile(outputFile))
@@ -112,7 +118,13 @@ namespace PDFMerge1
 			PdfMerger merger = new PdfMerger(destPdf, MERGE_TAGS, MERGE_BOOKMARKS);
 			merger.SetCloseSourceDocuments(false);
 
-			if (merge(merger, mergeTree.GetMergeItems, 1) < 1)
+			logMsgDbLn2("");
+
+			int pageCount = merge(merger, mergeTree.GetMergeItems, 1) - 1;
+
+			logMsgFmtln("total page count", pageCount);
+
+			if ( pageCount < 1)
 			{
 				destPdf.Close();
 				return null;
@@ -154,6 +166,7 @@ namespace PDFMerge1
 
 		private int merge(PdfMerger merger, List<MergeItem> mergeTreeList, int initialPageCount)
 		{
+
 			int pageCount = initialPageCount;
 			PdfDocument src = null;
 
@@ -161,6 +174,8 @@ namespace PDFMerge1
 			{
 				if (mi.fileItem.ItemType == FILE)
 				{
+					Form1.updateProgressBar(Form1.ProgressBarValue.isIncrement, 1,0);
+
 					mi.pageNumber = pageCount;
 
 					try
@@ -176,13 +191,22 @@ namespace PDFMerge1
 
 						if (src != null && !src.IsClosed())
 						{
+							logMsgDbLn2("adding file", ("adding (" + src.GetNumberOfPages() + ") pages").PadRight(20) + ":: " + mi.fileItem.getName());
 							pageCount += src.GetNumberOfPages();
 							src.Close();
+
+						}
+						else
+						{
+							logMsgln(" added(-no-) pages");
 						}
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine("exception");
+						logMsgFmtln("corrupted PDF found");
+
+						if (!CONTINUE_ON_CORRUPT_PDF) { return -1; }
+
 						mi.fileItem.ItemType = MISSING;
 						mi.pageNumber = -1;
 					}
@@ -191,6 +215,8 @@ namespace PDFMerge1
 				if (mi.mergeItems != null)
 				{
 					pageCount = merge(merger, mi.mergeItems, pageCount);
+
+					if (pageCount < 1) break;
 				}
 			}
 
@@ -310,7 +336,7 @@ namespace PDFMerge1
 			List<MergeItem> newMergeTreeList = new List<MergeItem>(1);
 
 			mergeTreeList.Add(new MergeItem(destOutline.GetTitle(),
-					LEAF, newMergeTreeList, pageNumber, depth, new FileList.FileItem()));
+					LEAF, newMergeTreeList, pageNumber, depth, new FileItem()));
 
 			IList<PdfOutline> children = destOutline.GetAllChildren();
 
@@ -374,7 +400,7 @@ namespace PDFMerge1
 
 		public void listOutline(PdfDocument pdfDoc, PdfOutline outline)
 		{
-			logMsgFmtln("bookmark| depth| ", formatBookmark(outline.GetTitle(), 
+			logMsgFmtln("bookmark| depth", formatBookmark(outline.GetTitle(), 
 				depth, outline.GetPageNumber(pdfDoc)));
 
 			IList<PdfOutline> kids = outline.GetAllChildren();

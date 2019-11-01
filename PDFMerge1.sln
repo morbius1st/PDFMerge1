@@ -1,17 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMerge1", "PDFMerge1\PDFMerge1.csproj", "{D05189EA-A9D3-46C2-99EB-06D8B379F520}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UtilityLibrary", "..\UtilityLibrary\UtilityLibrary\UtilityLibrary.shproj", "{A6A0CD2C-B5FC-4E75-AF8A-C71764030D39}"
-EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\UtilityLibrary\UtilityLibrary\UtilityLibrary.projitems*{a6a0cd2c-b5fc-4e75-af8a-c71764030d39}*SharedItemsImports = 13
-		..\UtilityLibrary\UtilityLibrary\UtilityLibrary.projitems*{d05189ea-a9d3-46c2-99eb-06d8b379f520}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -24,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D26B3FDF-7C88-4C5D-920B-AF32B974C98E}
 	EndGlobalSection
 EndGlobal
