@@ -89,8 +89,8 @@ namespace PDFMerge1
 					continue;
 				}
 
-				if (!fileList[i].getOutlineDirectory().GetSubDirectory(currDepth - 1).
-					Equals(priorFileItem.GetSubDirectory(currDepth - 1)))
+				if (!fileList[i].getOutlineDirectory().GetSubDirectoryPath(currDepth - 1).
+					Equals(priorFileItem.GetSubDirectoryPath(currDepth - 1)))
 				{
 					return i;
 				}

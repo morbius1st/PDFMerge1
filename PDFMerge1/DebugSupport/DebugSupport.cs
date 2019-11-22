@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using PDFMerge1.Support;
 using static UtilityLibrary.MessageUtilities;
 
 #endregion
@@ -21,7 +22,7 @@ namespace PDFMerge1.DebugSupport
 {
 	public class DebugSupport
 	{
-		private static DebugSupport _instance;
+		private static DebugSupport _instance = null;
 
 		public static DebugSupport Instance
 		{
@@ -37,6 +38,8 @@ namespace PDFMerge1.DebugSupport
 		{
 			MatchList();
 
+
+
 		}
 
 
@@ -47,8 +50,12 @@ namespace PDFMerge1.DebugSupport
 			logMsgDbLn2("********", "*******");
 			logMsgDbLn2("modifyfile list");
 
-			foreach (FileItem fi in fl)
+
+
+			for (int i = 0; i < fl.GrossCount; i++)
 			{
+				FileItem fi = fl[i];
+
 				logMsgDbLn2("");
 				logMsgDbLn2("********", "*******");
 				logMsgDbLn2("name", fi.getName());
@@ -58,6 +65,8 @@ namespace PDFMerge1.DebugSupport
 
 				logMsgDbLn2("");
 
+				fi = AdjustOutlinePerFile(fi);
+
 				fi.outlinePath = AdjustOutlinePerFile(fi.outlinePath, fi.getName());
 				logMsgDbLn2("revised outline directory", fi.getOutlineDirectory());
 
@@ -66,37 +75,122 @@ namespace PDFMerge1.DebugSupport
 			return fl;
 		}
 
-		private string Arch   = @"^[A-Z] ?A";
-		private string Struct = @"^[A-Z] ?S";
-		private string Mech   = @"^[A-Z] ?M";
-		private string Plumb  = @"^[A-Z] ?P";
-		private string Title  = @"^[A-Z] ?T";
-		private string Cover  = @"^[A-Z] ?C";
-		private string Civil  = @"^C ?\d";
+		private MatchItem miArchGen = new MatchItem(
+			new Regex(@"^[A-Z] ?A", RegexOptions.Compiled), 
+			"070 Arch", 0);
 
-		internal struct MatchItem
+		private MatchItem miArchSite = new MatchItem(
+			new Regex(@"^[A-Z] ?A1", RegexOptions.Compiled), 
+			"070 Arch\\01 Site", 1);
+		private MatchItem miArchPlans = new MatchItem(
+			new Regex(@"^[A-Z] ?A2", RegexOptions.Compiled), 
+			"070 Arch\\02 Plans", 1);
+		private MatchItem miArchVert = new MatchItem(
+			new Regex(@"^[A-Z] ?A3", RegexOptions.Compiled), 
+			"070 Arch\\03 Vert Circ", 1);
+
+
+		private MatchItem miStruct = new MatchItem(
+			new Regex(@"^[A-Z] ?S", RegexOptions.Compiled), 
+			"110 Struct", 0);
+
+		private MatchItem miMech = new MatchItem(
+			new Regex(@"^[A-Z] ?M", RegexOptions.Compiled), 
+			"150 Mech", 0);
+
+		private MatchItem miPlumb = new MatchItem(
+			new Regex(@"^[A-Z] ?P", RegexOptions.Compiled), 
+			"130 Plumb", 0);
+
+		private MatchItem miTitle = new MatchItem(
+			new Regex(@"^[A-Z] ?T", RegexOptions.Compiled), 
+			"000 Title", 0);
+
+		private MatchItem miCover = new MatchItem(
+			new Regex(@"^[A-Z] ?C", RegexOptions.Compiled), 
+			"000 Cover", 0);
+
+		private MatchItem miCivil = new MatchItem(
+			new Regex(@"^C ?\d", RegexOptions.Compiled), 
+			"010 Civil", 0);
+
+		public struct MatchItem : IComparable<MatchItem>
 		{
 			public Regex Pattern { get; set; }
 			public string BookmarkTitle { get; set; }
+			public int DepthAdjust { get; set; }
 
-			public MatchItem(string pattern, string title)
+			public MatchItem(Regex pattern, string title, int depthAdjust)
 			{
-				Pattern = new Regex(pattern, RegexOptions.Compiled);
+				Pattern = pattern;
 				BookmarkTitle = title;
+				DepthAdjust = depthAdjust;
+			}
+
+			public int CompareTo(MatchItem other)
+			{
+				return other.DepthAdjust - DepthAdjust;
 			}
 		}
 
-		private List<MatchItem> BookmarkTitles = new List<MatchItem>();
+		public List<MatchItem> BookmarkTitles { get; } = new List<MatchItem>();
 
-		internal void MatchList()
+		public void MatchList()
 		{
-			BookmarkTitles.Add(new MatchItem(Arch, "070 Arch"));
-			BookmarkTitles.Add(new MatchItem(Struct, "110 Struct"));
-			BookmarkTitles.Add(new MatchItem(Cover, "000 Cover"));
-			BookmarkTitles.Add(new MatchItem(Title, "000 Title"));
-			BookmarkTitles.Add(new MatchItem(Civil, "010 Civil"));
-			BookmarkTitles.Add(new MatchItem(Plumb, "130 Plumb"));
-			BookmarkTitles.Add(new MatchItem(Mech, "150 Mech"));
+			BookmarkTitles.Add(miArchGen);
+
+			BookmarkTitles.Add(miArchSite);
+			BookmarkTitles.Add(miArchPlans);
+			BookmarkTitles.Add(miArchVert);
+
+
+			BookmarkTitles.Add(miStruct);
+			BookmarkTitles.Add(miCover);
+			BookmarkTitles.Add(miTitle);
+			BookmarkTitles.Add(miCivil);
+			BookmarkTitles.Add(miPlumb);
+			BookmarkTitles.Add(miMech);
+
+			BookmarkTitles.Sort();
+
+			
+		}
+
+		internal FileItem AdjustOutlinePerFile(FileItem fi)
+		{
+			logMsgDbLn2("");
+
+			string firstDir = fi.outlinePath.GetFirstDirectoryName();
+//			string firstDir2 = fi.outlinePath.GetSubDirectoryPath(0);
+//			string firstDir3 = fi.outlinePath.GetSubDirectoryName(0);
+			string remainDir = fi.outlinePath.Substring(firstDir.Length);
+
+			string newPath = fi.outlinePath;
+
+//			logMsgDbLn2("firstdir", firstDir);
+////			logMsgDbLn2("firstdir2", firstDir2);
+////			logMsgDbLn2("firstdir3", firstDir3);
+//			logMsgDbLn2("remaindir", remainDir);
+
+			for (int i = 0; i < BookmarkTitles.Count; i++)
+			{
+				logMsgDbLn2("test pattern", BookmarkTitles[i].Pattern);
+				if (BookmarkTitles[i].Pattern.IsMatch(fi.getName()))
+				{
+					newPath = "\\" + BookmarkTitles[i].BookmarkTitle
+						+ remainDir;
+					logMsgDbLn2("found| new path", newPath);
+
+					fi.outlinePath = newPath;
+
+					logMsgDbLn2("");
+
+					break;
+				}
+			}
+
+			return fi;
+
 		}
 
 
@@ -116,6 +210,8 @@ namespace PDFMerge1.DebugSupport
 				{
 					newPath = "\\" + BookmarkTitles[i].BookmarkTitle
 						+ remainDir;
+
+
 				}
 			}
 

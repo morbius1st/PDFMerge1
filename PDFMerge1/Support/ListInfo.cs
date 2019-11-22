@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using static UtilityLibrary.MessageUtilities;
+using static PDFMerge1.DebugSupport.DebugSupport;
+
 
 #endregion
 
@@ -20,7 +22,8 @@ namespace PDFMerge1.Support
 {
 	internal class ListInfo
 	{
-		private static ListInfo _instance;
+		private static ListInfo _instance = null;
+		private DebugSupport.DebugSupport dbs;
 
 		public static ListInfo Instance
 		{
@@ -31,7 +34,10 @@ namespace PDFMerge1.Support
 			}
 		}
 
-		private ListInfo() { }
+		private ListInfo()
+		{
+			dbs = DebugSupport.DebugSupport.Instance;
+		}
 
 
 		public void ListFiles(FileList fileList)
@@ -64,7 +70,9 @@ namespace PDFMerge1.Support
 		private void ListFileItem2(FileItem fi)
 		{
 			logMsgln("***********", "************");
-			logMsgDbLn2("fileitem| name", fi.getName());
+			logMsgDbLn2("fileitem| name", fi.getName().PadRight(30)
+				+ " :: depth| " + fi.Depth);
+				
 			logMsgDbLn2("fileitem| path",fi.path);
 			logMsgDbLn2("fileitem| outlinepath",fi.outlinePath);
 			logMsgln("");
@@ -79,6 +87,20 @@ namespace PDFMerge1.Support
 			logMsgDbLn2("PdfMergeTree");
 
 			logMsgDbLn2(pdfMergeTree.ToString());
+		}
+
+		public void ListBootmarkTitles(List<MatchItem> bookmarkTitles)
+		{
+			logMsgln("");
+			logMsgln("******************");
+			logMsgDbLn2("ListBootmarkTitles");
+
+			foreach (MatchItem bmt in bookmarkTitles)
+			{
+				logMsgDbLn2("depth adjust", bmt.DepthAdjust
+					+ " :: title| " + bmt.BookmarkTitle.PadRight(20)
+					+ " :: pattern >>" + bmt.Pattern + "<<");
+			}
 		}
 
 	}

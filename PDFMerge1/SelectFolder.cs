@@ -45,8 +45,7 @@ namespace PDFMerge1
 
 			Properties.Settings.Default.SaveBasePath = selectedPath;
 
-
-			System.Collections.Specialized.StringCollection Recents = Properties.Settings.Default.RecentBasePaths;
+			StringCollection Recents = Properties.Settings.Default.RecentBasePaths;
 
 			if (Recents != null)
 			{

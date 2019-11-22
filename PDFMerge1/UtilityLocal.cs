@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
 using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Filters;
-using Org.BouncyCastle.Asn1.X509.Qualified;
+using System.IO;
 
 
 namespace PDFMerge1
@@ -176,7 +175,10 @@ namespace PDFMerge1
 			return pos - substring.Length;
 		}
 
-		public static string GetSubDirectory(this string path, int requestedDepth)
+
+		// problem - will provide the filename
+		// includes the slash prefix
+		public static string GetSubDirectoryPath(this string path, int requestedDepth)
 		{
 			requestedDepth++;
 			if (requestedDepth == 0) { return "\\"; }
@@ -198,6 +200,7 @@ namespace PDFMerge1
 			return path.Substring(0, pos);
 		}
 
+		// problem - will provide the filename
 		public static string GetSubDirectoryName(this string path, int requestedDepth)
 		{
 			requestedDepth++;
@@ -206,7 +209,7 @@ namespace PDFMerge1
 
 			if (requestedDepth > path.CountSubstring("\\")) { return ""; }
 
-			string result = path.GetSubDirectory(requestedDepth - 1);
+			string result = path.GetSubDirectoryPath(requestedDepth - 1);
 
 			if (result.Length == 0) { return ""; }
 
@@ -215,8 +218,21 @@ namespace PDFMerge1
 			return result.Substring(pos);
 		}
 
+		// provide the name of the first directory in the path
+		// cases:
+		// c:/filename.ext => return ""
+		// c:/directory/filename.ext => return directory
+		// /filename.ext => return ""
+		// /directory/filename.ext => return directory
 		public static string GetFirstDirectoryName(this string path)
 		{
+			string name = Path.GetFileName(path);
+
+			if (name != String.Empty)
+			{
+				path = path.Substring(0, path.Length - name.Length);
+			}
+
 			path = path.TrimEnd('\\');
 
 			int pos = path.IndexOf(':');
@@ -225,6 +241,8 @@ namespace PDFMerge1
 			{
 				path = path.Substring(pos + 1);
 			}
+
+			if (path.Length == 0) return path;
 
 			// ignore the first character which is a slash
 			pos = path.IndexOf('\\', 1);

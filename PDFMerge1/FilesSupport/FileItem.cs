@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 // Solution:     PDFMerge1
 // Project:       PDFMerge1
@@ -8,7 +9,7 @@
 
 namespace PDFMerge1
 {
-	public class FileItem
+	public class FileItem : IComparable<FileItem>
 	{
 		// static
 		private static string rootPath;
@@ -102,8 +103,9 @@ namespace PDFMerge1
 			{
 				if (isMissing) { return -1; }
 
-				return path.CountSubstring("\\") - 1;
+				return outlinePath.CountSubstring("\\") - 1;
 			}
+
 		}
 
 //		internal string getHeading()
@@ -181,6 +183,11 @@ namespace PDFMerge1
 				rootPath = Path.GetFullPath(value);
 				RootPathLen = RootPath.Length;
 			}
+		}
+
+		public int CompareTo(FileItem other)
+		{
+			return outlinePath.CompareTo(other.outlinePath);
 		}
 	}
 }

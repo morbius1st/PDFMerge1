@@ -3,11 +3,12 @@
 // File:             MergeItem.cs
 // Created:      -- ()
 
+using System;
 using System.Collections.Generic;
 
 namespace PDFMerge1
 {
-	internal class MergeItem
+	internal class MergeItem 
 	{
 		internal string bookmarkTitle;
 		internal bookmarkType bookmarkType;
@@ -32,5 +33,7 @@ namespace PDFMerge1
 		internal bool hasChildren => mergeItems.Count > 0;
 
 		internal int count => mergeItems.Count;
+
+
 	}
 }

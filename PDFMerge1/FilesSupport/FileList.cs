@@ -104,6 +104,11 @@ namespace PDFMerge1
 			return true;
 		}
 
+		internal void Sort()
+		{
+			FileItems.Sort();
+		}
+
 		public override string ToString()
 		{
 			if (FileItems.Count == 0) return "empty" + nl;
@@ -143,7 +148,7 @@ namespace PDFMerge1
 
 				for (int i = 0; i < fi.Depth + 1; i++)
 				{
-					sb.Append("(").Append(i).Append(") >").Append(fi.getDirectory().GetSubDirectory(i)).Append("<");
+					sb.Append("(").Append(i).Append(") >").Append(fi.getDirectory().GetSubDirectoryPath(i)).Append("<");
 					if (i != fi.Depth)
 					{
 						sb.Append(" :: ");

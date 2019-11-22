@@ -41,6 +41,8 @@ namespace PDFMerge1
 		private static ProgressBar pb;
 		private static Label lb;
 
+		private DebugSupport.DebugSupport dbs = null;
+
 
 		public Form1()
 		{
@@ -51,7 +53,7 @@ namespace PDFMerge1
 			pb = progressBar1;
 			lb = label1;
 
-
+			dbs = DebugSupport.DebugSupport.Instance;
 		}
 
 		private void listSamples()
@@ -92,7 +94,10 @@ namespace PDFMerge1
 
 			logMsgFmtln(WHO_AM_I + "-0 selecting folder");
 
-			selectedFolder = new SelectFolder().selectFolder();	
+			SelectFolder selFolder = new SelectFolder();
+
+
+			selectedFolder = selFolder.selectFolder();	
 
 //			selectedFolder = new SelectFolder().selectFolderTest(Test.SEL_PATH);				// passed
 //			selectedFolder = new SelectFolder().selectFolderTest(Test.NORMAL);					// passed
@@ -138,8 +143,17 @@ namespace PDFMerge1
 			PdfMergeTree pdfMergeTree = new PdfMergeTree(fileList.RootPath);
 
 
+
+//			ListInfo.Instance.ListBootmarkTitles(dbs.BookmarkTitles);
+
+//			DebugSupport.DebugSupport.Instance.ModifyFileList(fileList);
+//
+//			fileList.Sort();
+
+//			return;
+
 //			ListInfo.Instance.ListFiles(fileList);
-			DebugSupport.DebugSupport.Instance.ModifyFileList(fileList);
+
 
 
 			logMsgFmtln(WHO_AM_I + " @7 add files to merge tree");
@@ -160,7 +174,7 @@ namespace PDFMerge1
 
 			if (pdf != null)
 			{
-//				fileListMerger.listOutline(pdf, pdf.GetOutlines(false));
+				fileListMerger.listOutline(pdf, pdf.GetOutlines(false));
 				logMsgFmtln("done and closed");
 
 				pdf.Close();
