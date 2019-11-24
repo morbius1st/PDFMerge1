@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Tests2.FileListManager;
+using Tests2.OutlineManager;
 
 
 namespace Tests2.Windows
@@ -27,6 +28,10 @@ namespace Tests2.Windows
 		public FileList filLst { get; private set; } 
 
 		public static FileList flx { get; private set; } = FileList.Instance;
+
+	#if DEBUG
+		public OutlineMgr olm { get; private set; } = new OutlineMgr();
+	#endif
 
 		public MainWindow()
 		{

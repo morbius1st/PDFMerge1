@@ -1,5 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using SettingManager;
+using Tests2.OutlineManager;
 
 namespace Tests2.Settings
 {
@@ -47,6 +49,20 @@ namespace Tests2.Settings
 		[DataMember(Order = 1)]
 		public bool AllowPropertyEditing { get; set; } = false;
 
+		[DataMember]
+		public List<OutlineItem> DefaultOutlineItems = new List<OutlineItem>()
+		{
+			new OutlineItem("00.0", "CS", "Cover Sheet", "Set Cover Sheet" ),
+			new OutlineItem("00.1", "T", "Title Sheets", "Title Sheets" ),
+			new OutlineItem("00.7", "LS", "Life / Safety", "Life Safety Sheets" ),
+			new OutlineItem("07.0", "A", "Architectural", "Architectural Sheets" ),
+			new OutlineItem("11.0", "S", "Structural", "Structural Sheets" ),
+			new OutlineItem("13.0", "M", "Mechanical", "Mechanical Sheets" ),
+			new OutlineItem("15.0", "P", "Plumbing", "Plumbing Sheets" ),
+			new OutlineItem("17.0", "E", "Electrical", "Electrical Sheets" ),
+		}
+			;
+
 //		[DataMember(Order = 2)]
 //		public bool AppB { get; set; } = false;
 //
@@ -69,13 +85,15 @@ namespace Tests2.Settings
 //		public double AppD22 { get; set; } = 0.0;
 	}
 	
+
+	// this is a management class
 	[DataContract(Name = "AppSettingInfo30")]
 	public class AppSettingInfo30 : AppSettingBase
 	{
 		[DataMember]
 		public AppSettingData30 Data = new AppSettingData30();
 
-		public override string ClassVersion => "3.0";
+		public override string ClassVersion => "0.0";
 
 		public override void UpgradeFromPrior(SettingBase prior)
 		{

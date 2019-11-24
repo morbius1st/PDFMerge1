@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -20,17 +21,27 @@ namespace Tests2.OutlineManager
 	[DataContract(Name = "OutlineItem")]
 	public class OutlineItem : INotifyPropertyChanged, IComparable<OutlineItem>
 	{
+
+	#region private fields - primary data
+
 		private string sequenceCode;
 		private string title;
 		private string description;
 		private string pattern;
 
-		public OutlineItem(string sequenceCode, string title, string description, string pattern)
+	#endregion
+
+		// has this item been changed / needs to be saved?
+		private bool modified;
+
+		public OutlineItem(string sequenceCode, string pattern, string title, 
+			string description, bool modified = false)
 		{
 			this.description = description;
 			this.sequenceCode = sequenceCode;
 			this.pattern = pattern;
 			this.title = title;
+			this.modified = modified;
 		}
 
 		[DataMember]
@@ -77,6 +88,19 @@ namespace Tests2.OutlineManager
 			}
 		}
 
+		public bool Modified
+		{
+			get => modified;
+			set
+			{
+				if (value != modified)
+				{
+					modified = value;
+					OnPropertyChange();
+				}
+			}
+		}
+
 		public int CompareTo(OutlineItem other)
 		{
 			return sequenceCode.CompareTo(other.SequenceCode);
@@ -92,6 +116,11 @@ namespace Tests2.OutlineManager
 		public override string ToString()
 		{
 			return sequenceCode;
+		}
+
+		public OutlineItem Clone()
+		{
+			return new OutlineItem(sequenceCode, pattern, title, description);
 		}
 	}
 }

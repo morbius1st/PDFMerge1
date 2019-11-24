@@ -64,14 +64,15 @@ namespace Tests2.Settings
 
 		[DataMember]
 		public List<OutlineItem> OutlineItems = new List<OutlineItem>()
-		{
-			new OutlineItem(  "072 Architectural - Plans",
-				"Architectural Plan Sheets", "A A2", "07002"),
-			new OutlineItem(  "070 Architectural",
-				"All Architectural Sheets", "A A", "070"),
-			new OutlineItem(  "072 Architectural - Floor Plans",
-				"Architectural Plan Sheets", "A A2.1", "0700201")
-		};
+//		{
+//			new OutlineItem(  "072 Architectural - Plans",
+//				"Architectural Plan Sheets", "A A2", "07002"),
+//			new OutlineItem(  "070 Architectural",
+//				"All Architectural Sheets", "A A", "070"),
+//			new OutlineItem(  "072 Architectural - Floor Plans",
+//				"Architectural Plan Sheets", "A A2.1", "0700201")
+//		}
+			;
 
 
 //		// added with version 2.1
@@ -126,13 +127,13 @@ namespace Tests2.Settings
 //		}
 //	}
 
-	[DataContract(Name = "UserSettingInfo22")]
+	[DataContract(Name = "UserSettingInfo30")]
 	public class UserSettingInfo30 : UserSettingBase
 	{
 		[DataMember]
 		public UserSettingData30 Data = new UserSettingData30();
 
-		public override string ClassVersion => "3.0";
+		public override string ClassVersion => "0.0";
 
 		public override void UpgradeFromPrior(SettingBase prior)
 		{

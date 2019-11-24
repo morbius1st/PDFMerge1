@@ -1,5 +1,7 @@
 ﻿#region + Using Directives
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,23 +19,33 @@ using System.Windows.Data;
 
 namespace Tests2.OutlineManager
 {
-	public class OutlineItems : INotifyPropertyChanged
+	public class OutlineItems : INotifyPropertyChanged, IEnumerable<OutlineItem>
 	{
 		private ObservableCollection<OutlineItem> outlineItems  { get; set; }
 
-		public ICollectionView Vue { get; set; }
+		public OutlineItems()
+		{
+			outlineItems = new ObservableCollection<OutlineItem>();
+		}
 
-		public OutlineItems() { }
+		public int Count => outlineItems.Count;
+
+		public ICollectionView Vue { get; set; }
 
 		public void Add(List<OutlineItem> items)
 		{
-			outlineItems = new ObservableCollection<OutlineItem>(items);
+			if (items == null || items.Count == 0) return;
+
+			foreach (OutlineItem item in items)
+			{
+				outlineItems.Add(item);
+			}
 		}
 
 		public void Sort()
 		{
 			Vue = CollectionViewSource.GetDefaultView(outlineItems);
-			Vue.SortDescriptions.Add(new SortDescription("SequenceCodeString", ListSortDirection.Ascending));
+			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Ascending));
 			
 			OnPropertyChange("Vue");
 		}
@@ -43,6 +55,16 @@ namespace Tests2.OutlineManager
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+		public IEnumerator<OutlineItem> GetEnumerator()
+		{
+			return outlineItems.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 	}
 }

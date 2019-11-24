@@ -2,6 +2,7 @@
 
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
+using Tests2.OutlineManager;
 using Tests2.Settings;
 
 using static UtilityLibrary.MessageUtilities;
@@ -22,6 +23,8 @@ namespace Tests2.Windows
 		public static MainWindow mainWin = null;
 
 		public FileListMgr flMgr = null;
+
+
 
 		public MainWinManager()
 		{
@@ -45,7 +48,7 @@ namespace Tests2.Windows
 
 		#if DEBUG
 			flMgr.CreateFileList();
-			DebugHelper.Prime.FolderMgrStatus(flMgr.IsInitialized, flMgr);
+//			DebugHelper.Prime.FolderMgrStatus(flMgr.IsInitialized, flMgr);
 			if (!flMgr.IsInitialized) return;
 		#else
 			if (!sFilMgr.SelectFiles(SettingsMgr.Instance.GetInitFolder())) return;
@@ -53,14 +56,27 @@ namespace Tests2.Windows
 
 			UserSettings.Data.PriorFolder = FileListMgr.BaseFolder.FullPath;
 
-			int a = FileList.Instance.Count;
-
 			ShowMainWin();
 		}
 
 		private void ShowMainWin()
 		{
 			mainWin.ShowDialog();
+		}
+
+		public static void MessageClear()
+		{
+			mainWin.tbkUL.Clear();
+		}
+
+		public static void MessageAppend(string message)
+		{
+			mainWin.tbkUL.AppendText(message);
+		}
+
+		public static void MessageAppendLine(string message)
+		{
+			MessageAppend(message + nl);
 		}
 	}
 }
