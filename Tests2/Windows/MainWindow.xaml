@@ -93,13 +93,10 @@
 			<Setter Property="Width" Value="400" />
 		</Style>
 
-
-
-
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="600" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="90" />
 		</Grid.ColumnDefinitions>
@@ -291,6 +288,11 @@
 											<StackPanel Style="{StaticResource stackHorizSetting}">
 												<Label Content="IsValid" Style="{StaticResource lblRouteTitle}" />
 												<Label Content="{Binding OutlinePath.IsValid}" Style="{StaticResource lblRouteSettingValue}" />
+											</StackPanel>
+
+											<StackPanel Style="{StaticResource stackHorizSetting}">
+												<Label Content="IsRooted" Style="{StaticResource lblRouteTitle}" />
+												<Label Content="{Binding OutlinePath.IsRooted}" Style="{StaticResource lblRouteSettingValue}" />
 											</StackPanel>
 
 											<StackPanel Style="{StaticResource stackHorizSetting}">

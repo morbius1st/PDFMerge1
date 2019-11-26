@@ -92,7 +92,7 @@
     <Compile Include="Samples.cs" />
     <Compile Include="SelectFolder.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Support\ListInfo.cs" />
+    <Compile Include="DebugSupport\ListInfo.cs" />
     <Compile Include="UtilityLocal.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -115,7 +115,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Support\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

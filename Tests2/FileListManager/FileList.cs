@@ -1,15 +1,11 @@
 ﻿#region + Using Directives
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
+using Tests2.FileListManager.DebugSupport;
 
 #endregion
 
@@ -32,6 +28,19 @@ namespace Tests2.FileListManager
 	// based on the user's settings
 	public class FileList : INotifyPropertyChanged, IEnumerable<FileItem>
 	{
+
+	#region data fields
+
+		private List<FileItem> fileItems;
+
+	#if DEBUG
+		public static List<FileItem> fileItems2 { get; private set; }
+	#endif
+
+	#endregion
+
+		private static FileListDebugSupport flds = new FileListDebugSupport();
+
 	#region ctor
 
 		private static readonly FileList instance = new FileList();
@@ -41,45 +50,21 @@ namespace Tests2.FileListManager
 		static FileList()
 		{
 		#if DEBUG
-			test();
+			flds.test(out List<FileItem> fileItems3);
+			fileItems2 = fileItems3;
 		#endif
 
 		}
-
-	#if DEBUG
-		private static void test()
-		{
-			fileItems2 = new List<FileItem>();
-
-
-			FileItem f;
-
-			FileItem.RootPath = new Route(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs");
-
-			f = new FileItem(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
-			fileItems2.Add(f);
-			f = new FileItem(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.0-0 This is a Test A20.pdf");
-			fileItems2.Add(f);
-			f = new FileItem(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.0-0 This is a Test A30.pdf");
-			fileItems2.Add(f);
-
-		}
-	#endif
-
-	#endregion
-
-	#region private fields
-
-		public List<FileItem> fileItems { get; private set; }
-		public static List<FileItem> fileItems2 { get; private set; }
 
 	#endregion
 
 	#region public properties
 
+	#if DEBUG
+		public List<FileItem> FileListItems => fileItems;
+	#endif
+
 		public ICollectionView Vue { get; private set; }
-//
-//		public Route RootPath { get; private set; }
 
 		public bool IsInitialized { get; private set; }
 
@@ -134,7 +119,7 @@ namespace Tests2.FileListManager
 		}
 
 
-	#region imported
+	#region system routines
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

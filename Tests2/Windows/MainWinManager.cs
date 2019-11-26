@@ -1,5 +1,7 @@
 ﻿#region + Using Directives
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
 using Tests2.OutlineManager;
@@ -18,12 +20,11 @@ using static UtilityLibrary.MessageUtilities;
 
 namespace Tests2.Windows
 {
-	public class MainWinManager
+	public class MainWinManager : INotifyPropertyChanged
 	{
 		public static MainWindow mainWin = null;
 
 		public FileListMgr flMgr = null;
-
 
 
 		public MainWinManager()
@@ -77,6 +78,13 @@ namespace Tests2.Windows
 		public static void MessageAppendLine(string message)
 		{
 			MessageAppend(message + nl);
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 	}
 }

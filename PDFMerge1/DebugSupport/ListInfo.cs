@@ -1,10 +1,6 @@
 ﻿#region + Using Directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using System.Collections.Generic;
 using static UtilityLibrary.MessageUtilities;
 using static PDFMerge1.DebugSupport.DebugSupport;
 
@@ -18,12 +14,12 @@ using static PDFMerge1.DebugSupport.DebugSupport;
 // created:  10/31/2019 7:53:49 PM
 
 
-namespace PDFMerge1.Support
+namespace PDFMerge1.DebugSupport
 {
 	internal class ListInfo
 	{
 		private static ListInfo _instance = null;
-		private DebugSupport.DebugSupport dbs;
+		private PDFMerge1.DebugSupport.DebugSupport dbs;
 
 		public static ListInfo Instance
 		{
@@ -36,7 +32,7 @@ namespace PDFMerge1.Support
 
 		private ListInfo()
 		{
-			dbs = DebugSupport.DebugSupport.Instance;
+			dbs = PDFMerge1.DebugSupport.DebugSupport.Instance;
 		}
 
 

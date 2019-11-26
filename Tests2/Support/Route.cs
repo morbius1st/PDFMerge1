@@ -1,5 +1,4 @@
 ﻿#region + Using Directives
-
 using System;
 using System.IO;
 
@@ -60,7 +59,7 @@ namespace Tests2.FileListManager
 				return false;
 			}
 		}
-		public bool IsRooted => !string.IsNullOrWhiteSpace(RootPath);
+		public bool IsRooted => !(RootPath.Equals(@"\"));
 		public bool HasFileName => !string.IsNullOrWhiteSpace(FileName);
 
 	#endregion
@@ -73,8 +72,16 @@ namespace Tests2.FileListManager
 		{
 			get
 			{
-				if (IsValid) 
+				if (IsValid)
 				{
+//					FileInfo fi = new FileInfo(FullPath);
+//					DirectoryInfo di = new DirectoryInfo(FullPath);
+//					string s1 = SysPath.GetFullPath(FullPath);
+//					string s2 = SysPath.GetPathRoot(FullPath);
+//					bool b1= SysPath.IsPathRooted(FullPath);
+//					
+//
+
 					return SysPath.GetPathRoot(FullPath);
 				}
 
@@ -205,8 +212,6 @@ namespace Tests2.FileListManager
 					file = 0;
 				}
 
-				
-
 				if (!IsUnc)
 				{
 					root -= 1;
@@ -250,6 +255,16 @@ namespace Tests2.FileListManager
 
 	#region public methods
 
+		public bool Prepend(string prependPath){
+			if (!IsValid || IsRooted)
+			{
+				return false;
+			}
+			   
+			FullPath = prependPath + FullPath;
+			return true;
+		}
+
 		public string Validate(string testRoute)
 		{
 			if (string.IsNullOrWhiteSpace(testRoute))
@@ -261,7 +276,7 @@ namespace Tests2.FileListManager
 
 			try
 			{
-				result = SysPath.GetFullPath(testRoute.Replace('/', '\\').Trim());
+				result = testRoute.Replace('/', '\\').Trim();
 			}
 			catch
 			{
@@ -333,7 +348,12 @@ namespace Tests2.FileListManager
 
 		}
 
-		// privide a Route that is below the root path
+		public Route Clone()
+		{
+			return new Route(FullPath);
+		}
+
+		// provide a Route that is below the root path
 		public Route SubPath(Route rootPath)
 		{
 			if (!IsValid || !rootPath.IsValid ||

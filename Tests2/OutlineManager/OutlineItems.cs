@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
+using Tests2.Settings;
+using Tests2.Windows;
 
 #endregion
 
@@ -38,16 +41,45 @@ namespace Tests2.OutlineManager
 
 			foreach (OutlineItem item in items)
 			{
-				outlineItems.Add(item);
+				string temp = ValidateOutlineItem(item);
+
+				// skip all failures
+				if (temp != null)
+				{
+					item.OutlinePath = temp;
+
+					outlineItems.Add(item);
+				}
 			}
 		}
 
 		public void Sort()
 		{
 			Vue = CollectionViewSource.GetDefaultView(outlineItems);
-			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Ascending));
+			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Descending));
 			
 			OnPropertyChange("Vue");
+		}
+
+		private string ValidateOutlineItem(OutlineItem oi)
+		{
+
+			Regex rx = new Regex(@"^\\w*");
+
+			if (rx.IsMatch(oi.OutlinePath)) return oi.OutlinePath;
+
+			rx = new Regex(@"^\w*");
+
+			if (rx.IsMatch(oi.OutlinePath)) return "\\" + oi.OutlinePath;
+
+			rx = new Regex(@"^\\\w*");
+
+			if (rx.IsMatch(oi.OutlinePath))
+			{
+				return oi.OutlinePath.Substring(1);
+			}
+
+			return null;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -66,5 +98,6 @@ namespace Tests2.OutlineManager
 		{
 			return GetEnumerator();
 		}
+
 	}
 }

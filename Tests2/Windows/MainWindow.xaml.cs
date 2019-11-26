@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tests2.DebugSupport;
 using Tests2.FileListManager;
 using Tests2.OutlineManager;
 
@@ -29,9 +30,7 @@ namespace Tests2.Windows
 
 		public static FileList flx { get; private set; } = FileList.Instance;
 
-	#if DEBUG
-		public OutlineMgr olm { get; private set; } = new OutlineMgr();
-	#endif
+		private DebugHelper dh = DebugHelper.Prime;
 
 		public MainWindow()
 		{
@@ -55,9 +54,31 @@ namespace Tests2.Windows
 
 		private void MainWin_Loaded(object sender, RoutedEventArgs e)
 		{
+//			Stopwatch stopwatch = new Stopwatch();
+//
+//			stopwatch.Start();
+
 			filLst = FileList.Instance;
 
+//			stopwatch.Stop();
+//
+//			ListElapsedTime(stopwatch.Elapsed);
+//
+//			stopwatch.Start();
+
 			OnPropertyChange("filLst");
+
+//			stopwatch.Stop();
+//
+//			ListElapsedTime(stopwatch.Elapsed);
+		}
+
+		private void ListElapsedTime(TimeSpan ts)
+		{
+			string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+				ts.Hours, ts.Minutes, ts.Seconds,
+				ts.Milliseconds / 10);
+			Console.WriteLine("RunTime " + elapsedTime);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

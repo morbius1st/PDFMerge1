@@ -1,7 +1,10 @@
 ﻿#region + Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tests2.OutlineManager;
@@ -20,7 +23,7 @@ using static UtilityLibrary.MessageUtilities;
 
 namespace Tests2.FileListManager
 {
-	public class FileListMgr
+	public class FileListMgr : INotifyPropertyChanged
 	{
 		private static readonly FileListMgr instance = new FileListMgr();
 
@@ -57,9 +60,30 @@ namespace Tests2.FileListManager
 
 			FileItem.RootPath= baseFolder;
 
+			sFil.GetFileList();
+
 			olm.Initalize();
 
-			return sFil.GetFileList();
+			int unMatched = olm.ApplyOutlineSettings();
+
+			if (unMatched > 0)
+			{
+				MainWinManager.MessageAppendLine("");
+
+				foreach (string s in olm.UnMatched)
+				{
+					MainWinManager.MessageAppendLine("unmatched| " + s);
+				}
+			}
+
+			return true;
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
 	}

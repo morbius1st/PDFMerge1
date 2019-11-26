@@ -76,9 +76,11 @@
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
+    <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
     <Compile Include="FileListManager\SelectFiles.cs" />
     <Compile Include="FileListManager\FileListMgr.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="OutlineManager\DebugSupport\OutlineDebugSupport.cs" />
     <Compile Include="OutlineManager\OutlineItem.cs" />
     <Compile Include="OutlineManager\OutlineItems.cs" />
     <Compile Include="OutlineManager\OutlineMgr.cs" />

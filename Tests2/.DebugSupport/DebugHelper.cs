@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Tests2.FileListManager;
 using Tests2.Windows;
 
@@ -39,6 +40,19 @@ namespace Tests2.DebugSupport
 			{
 				MainWinManager.mainWin.SendMessage("full route | failed / not initialized" + nl);
 			}
+		}
+
+		public void ListRoute(Route r)
+		{
+			MainWindow w = MainWinManager.mainWin;
+
+			Route x = r.SubPath(FileItem.RootPath);
+
+			w.SendMessage("\nRoute|");
+			w.SendMessage("Route|       FullPath| " + x.FullPath);
+			w.SendMessage("Route|       IsRouted| " + x.IsRooted);
+			w.SendMessage("Route|       RootPath| " + x.RootPath);
+
 		}
 
 	}

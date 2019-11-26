@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Xml;
+using Tests2.FileListManager;
+using Tests2.OutlineManager.DebugSupport;
 using Tests2.Settings;
 using Tests2.Windows;
 
@@ -21,36 +26,84 @@ namespace Tests2.OutlineManager
 {
 	public class OutlineMgr
 	{
-		private OutlineItems oi;
+		private OutlineItems ois;
 
-		public void Initalize()
+		private OutlineDebugSupport ods = new OutlineDebugSupport();
+
+		public List<string> UnMatched { get; private set; }
+
+		public bool Initalize()
 		{
-			oi = new OutlineItems();
+			ois = new OutlineItems();
 
 			Configure();
+
+			return true;
 		}
 
-		private void Configure()
+		private bool Configure()
 		{
 			MainWinManager.MessageClear();
 
-//			MainWinManager.MessageAppendLine("@outline mgr| initial list");
+		#if DEBUG
+			MainWinManager.MessageAppendLine("@outline mgr| initial list");
+			ods.ListAppOutlineItems();
+		#endif
 
-//			ListAppOutlineItems();
 			LoadOutlineItems();
-//			ListUserOutlineItems();
 
-			AddDebugData();
-//			SaveUserOutlineItems();
-//			ListUserOutlineItems();
-			ListOutlineItemsVue();
+		#if DEBUG
+			ods.ListUserOutlineItems();
+			ods.AddDebugData(ois);
+		#endif
+
+			SaveUserOutlineItems();
+
+		#if DEBUG
+			ods.ListUserOutlineItems();
+			ods.ListOutlineItemsVue(ois);
+		#endif
+
+			return true;
+		}
+
+		public int ApplyOutlineSettings()
+		{
+			UnMatched = new List<string>();
+
+			string found = null;
+
+			foreach (FileItem fi in FileList.Instance.FileListItems)
+			{
+				found = fi.OutlinePath.FileWithoutExtension;
+
+				if (fi.OutlinePath.HasFileName)
+				{
+					foreach (OutlineItem oi in ois.Vue)
+					{
+						if (fi.OutlinePath.FileWithoutExtension.StartsWith(oi.Pattern))
+						{
+							fi.OutlinePath.Prepend(oi.OutlinePath);
+							found = null;
+							break;
+						}
+					}
+				}
+
+				if (found != null)
+				{
+					UnMatched.Add(found);
+				}
+			}
+
+			return UnMatched.Count;
 		}
 
 		private void SaveUserOutlineItems()
 		{
 			UserSettings.Data.OutlineItems.Clear();
 
-			foreach (OutlineItem oli in oi)
+			foreach (OutlineItem oli in ois)
 			{
 				UserSettings.Data.OutlineItems.Add(oli.Clone());
 			}
@@ -62,11 +115,11 @@ namespace Tests2.OutlineManager
 		{
 			if (UserSettings.Data.OutlineItems.Count == 0) ReadAppOutlineItems();
 
-			oi = new OutlineItems();
+			ois = new OutlineItems();
 
-			oi.Add(UserSettings.Data.OutlineItems);
+			ois.Add(UserSettings.Data.OutlineItems);
 
-			oi.Sort();
+			ois.Sort();
 
 		}
 
@@ -80,77 +133,5 @@ namespace Tests2.OutlineManager
 		}
 
 
-		private void AddDebugData()
-		{
-			oi.Add(
-				new List<OutlineItem>()
-				{
-					new OutlineItem("07002", "A A2", "072 Architectural - Plans",
-						"Architectural Plan Sheets",  
-						true),
-					new OutlineItem("070", "A A", "070 Architectural",
-						"All Architectural Sheets",  
-						true),
-					new OutlineItem("0700201", "A A2.1", "072 Architectural - Floor Plans",
-						"Architectural Plan Sheets",  
-						true)
-				}
-				);
-
-			oi.Sort();
-		}
-
-
-		private void ListAppOutlineItems()
-		{
-			MainWinManager.MessageAppendLine("");
-
-			MainWinManager.MessageAppendLine("@outline mgr| app element count| " + AppSettings.Data.DefaultOutlineItems.Count);
-
-			foreach (OutlineItem otl in AppSettings.Data.DefaultOutlineItems)
-			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
-					+ otl.Title + " :: " +  otl.Description);
-			}
-		}
-
-		private void ListUserOutlineItems()
-		{
-			MainWinManager.MessageAppendLine("");
-
-			MainWinManager.MessageAppendLine("@outline mgr| user element count| " + UserSettings.Data.OutlineItems.Count);
-
-			foreach (OutlineItem otl in UserSettings.Data.OutlineItems)
-			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
-					+ otl.Title + " :: " +  otl.Description);
-			}
-		}
-
-		private void ListOutlineItems()
-		{
-			MainWinManager.MessageAppendLine("");
-
-			MainWinManager.MessageAppendLine("@outline mgr| outline count| " + oi.Count);
-
-			foreach (OutlineItem otl in oi)
-			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
-					+ otl.Title + " :: " +  otl.Description);
-			}
-		}
-
-		private void ListOutlineItemsVue()
-		{
-			MainWinManager.MessageAppendLine("");
-
-			MainWinManager.MessageAppendLine("@outline mgr| outline count| " + oi.Count);
-
-			foreach (OutlineItem otl in oi.Vue)
-			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
-					+ otl.Title + " :: " +  otl.Description);
-			}
-		}
 	}
 }

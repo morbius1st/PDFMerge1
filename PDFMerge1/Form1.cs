@@ -22,7 +22,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using iText.Kernel.Pdf;
-using PDFMerge1.Support;
+using PDFMerge1.DebugSupport;
 using UtilityLibrary;
 
 using static PDFMerge1.FileList;
@@ -170,7 +170,9 @@ namespace PDFMerge1
 
 			logMsgFmtln(WHO_AM_I + "-10 merge files");
 
-			PdfDocument pdf = fileListMerger.Merge(outputFile, pdfMergeTree);
+			PdfDocument pdf = null;
+
+//			pdf = fileListMerger.Merge(outputFile, pdfMergeTree);
 
 			if (pdf != null)
 			{

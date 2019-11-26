@@ -25,7 +25,7 @@ namespace Tests2.OutlineManager
 	#region private fields - primary data
 
 		private string sequenceCode;
-		private string title;
+		private string outlinePath;
 		private string description;
 		private string pattern;
 
@@ -34,13 +34,13 @@ namespace Tests2.OutlineManager
 		// has this item been changed / needs to be saved?
 		private bool modified;
 
-		public OutlineItem(string sequenceCode, string pattern, string title, 
+		public OutlineItem(string sequenceCode, string pattern, string outlinePath, 
 			string description, bool modified = false)
 		{
 			this.description = description;
 			this.sequenceCode = sequenceCode;
 			this.pattern = pattern;
-			this.title = title;
+			this.outlinePath = outlinePath;
 			this.modified = modified;
 		}
 
@@ -56,13 +56,13 @@ namespace Tests2.OutlineManager
 		}
 
 		[DataMember]
-		public string Title
+		public string OutlinePath
 		{
-			get => title;
+			get => outlinePath;
 			set
 			{
 				OnPropertyChange();
-				title = value;
+				outlinePath = value;
 			}
 		}
 
@@ -120,7 +120,7 @@ namespace Tests2.OutlineManager
 
 		public OutlineItem Clone()
 		{
-			return new OutlineItem(sequenceCode, pattern, title, description);
+			return new OutlineItem(sequenceCode, pattern, outlinePath, description);
 		}
 	}
 }

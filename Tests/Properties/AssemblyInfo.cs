@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tests")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Test Sequence Codes / Do Not Use for Now")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Tests")]

@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Tests2.DebugSupport;
 using UtilityLibrary;
 
 #endregion
@@ -71,16 +72,18 @@ namespace Tests2.FileListManager
 			{ 
 				// initial, make the outlinepath  
 				// be the relative file path
+
+//				DebugHelper.Prime.ListRoute(path);
 				
 				SubPath = path.SubPath(rootPath);
-				OutlinePath = SubPath;
+				OutlinePath = SubPath.Clone();
 			}
 			else
 			{
 				// all but FILE - just save the path for later
 				// review 
-				SubPath = path;
-				OutlinePath = path;
+				SubPath = path.Clone();
+				OutlinePath = path.Clone();
 			}
 
 			if (SubPath.RouteType != RouteType.FILE)
@@ -105,9 +108,8 @@ namespace Tests2.FileListManager
 		// this will need to be manufactured
 		public Route OutlinePath { get; set; } = null;
 
-
 		public bool IsFile => FilePath.RouteType == RouteType.FILE;
-
+		
 		public int OutlineDepth
 		{
 			get
@@ -118,14 +120,14 @@ namespace Tests2.FileListManager
 			}
 		}
 
-		public string getName()
+		public string FileNameWithoutExtension()
 		{
 			if (IsFile) { return ""; }
 
 			return SubPath.FileWithoutExtension;
 		}
 
-		public string getFullPath
+		public string FullPath
 		{
 			get
 			{
@@ -134,7 +136,6 @@ namespace Tests2.FileListManager
 				return rootPath.FullPath + "\\" + SubPath.FullPath;
 			}
 		}
-
 
 		public int CompareTo(FileItem other)
 		{
