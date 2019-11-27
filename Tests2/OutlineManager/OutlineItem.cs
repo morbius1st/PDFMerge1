@@ -19,7 +19,7 @@ using System.Runtime.Serialization;
 namespace Tests2.OutlineManager
 {
 	[DataContract(Name = "OutlineItem")]
-	public class OutlineItem : INotifyPropertyChanged, IComparable<OutlineItem>
+	public class OutlineItem : INotifyPropertyChanged, IComparable<OutlineItem>, IEquatable<OutlineItem>
 	{
 
 	#region private fields - primary data
@@ -99,6 +99,11 @@ namespace Tests2.OutlineManager
 					OnPropertyChange();
 				}
 			}
+		}
+
+		public bool Equals(OutlineItem other)
+		{
+			return sequenceCode.Equals(other.SequenceCode);
 		}
 
 		public int CompareTo(OutlineItem other)

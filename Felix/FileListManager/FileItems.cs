@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Data;
 using Felix.FileListManager.DebugSupport;
 
 #endregion
@@ -26,7 +25,7 @@ namespace Felix.FileListManager
 	// selected file and also processes
 	// each file item to adjust the bookmark
 	// based on the user's settings
-	public class FileList : INotifyPropertyChanged, IEnumerable<FileItem>
+	public class FileItems : INotifyPropertyChanged, IEnumerable<FileItem>
 	{
 
 	#region data fields
@@ -43,11 +42,11 @@ namespace Felix.FileListManager
 
 	#region ctor
 
-		private static readonly FileList instance = new FileList();
+		private static readonly FileItems instance = new FileItems();
 
-		public static FileList Instance => instance;
+		public static FileItems Instance => instance;
 
-		static FileList()
+		static FileItems()
 		{
 		#if DEBUG
 			flds.test(out List<FileItem> fileItems3);
@@ -60,11 +59,7 @@ namespace Felix.FileListManager
 
 	#region public properties
 
-	#if DEBUG
-		public List<FileItem> FileListItems => fileItems;
-	#endif
-
-		public ICollectionView Vue { get; private set; }
+//		public List<FileItem> FileListItems => fileItems;
 
 		public bool IsInitialized { get; private set; }
 
@@ -74,7 +69,6 @@ namespace Felix.FileListManager
 
 	#endregion
 
-
 	#region public methods
 
 		public void Initialize()
@@ -83,20 +77,6 @@ namespace Felix.FileListManager
 			IsInitialized = true;
 		}
 
-		public void VueSort()
-		{
-			SortDescription sd = new SortDescription("outlinePath", ListSortDirection.Ascending);
-
-			Vue.SortDescriptions.Add(sd);
-		}
-
-		public void VueSortClear()
-		{
-			Vue.SortDescriptions.Clear();
-		}
-
-	#endregion
-
 		public void Add(List<FileItem> fileItems)
 		{
 			foreach (FileItem fileItem in fileItems)
@@ -104,20 +84,20 @@ namespace Felix.FileListManager
 				this.fileItems.Add(fileItem);
 			}
 
-			Vue = CollectionViewSource.GetDefaultView(fileItems);
-
 			OnPropertyChange("fileItems");
-
-			OnPropertyChange("Vue");
 		}
 
 		public void Add(FileItem fileItem)
 		{
 			fileItems.Add(fileItem);
-
-			OnPropertyChange("Vue");
 		}
 
+		public void Sort()
+		{
+			fileItems.Sort();
+		}
+
+	#endregion
 
 	#region system routines
 

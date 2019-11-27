@@ -54,14 +54,14 @@ namespace Tests2.OutlineManager
 
 		#if DEBUG
 			ods.ListUserOutlineItems();
-			ods.AddDebugData(ois);
+//			ods.AddDebugData(ois);
 		#endif
 
 			SaveUserOutlineItems();
 
 		#if DEBUG
 			ods.ListUserOutlineItems();
-			ods.ListOutlineItemsVue(ois);
+			ods.ListVueOutlineItems(ois);
 		#endif
 
 			return true;
@@ -73,7 +73,7 @@ namespace Tests2.OutlineManager
 
 			string found = null;
 
-			foreach (FileItem fi in FileList.Instance.FileListItems)
+			foreach (FileItem fi in FileList.Instance)
 			{
 				found = fi.OutlinePath.FileWithoutExtension;
 
@@ -84,6 +84,7 @@ namespace Tests2.OutlineManager
 						if (fi.OutlinePath.FileWithoutExtension.StartsWith(oi.Pattern))
 						{
 							fi.OutlinePath.Prepend(oi.OutlinePath);
+							fi.SequenceCode = oi.SequenceCode;
 							found = null;
 							break;
 						}
@@ -113,6 +114,8 @@ namespace Tests2.OutlineManager
 
 		private void LoadOutlineItems()
 		{
+			UserSettings.Admin.Read();
+
 			if (UserSettings.Data.OutlineItems.Count == 0) ReadAppOutlineItems();
 
 			ois = new OutlineItems();
@@ -129,6 +132,7 @@ namespace Tests2.OutlineManager
 			{
 				UserSettings.Data.OutlineItems.Add(otl.Clone());
 			}
+
 			UserSettings.Admin.Save();
 		}
 

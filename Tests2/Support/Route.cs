@@ -225,6 +225,8 @@ namespace Tests2.FileListManager
 			}
 		}
 
+		public string[] FolderNames => FolderNameList(Folders);
+
 		public int Depth
 		{
 			get
@@ -333,11 +335,19 @@ namespace Tests2.FileListManager
 			return Root + answer;
 		}
 
+		public string[] FolderNameList(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path)) return null;
+
+			return path.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
+		}
+
 		public string[] DividePath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path)) return null;
 
-			string[] answer = path.Split(new char[]{'\\'}, StringSplitOptions.RemoveEmptyEntries);
+//			string[] answer = path.Split(new char[]{'\\'}, StringSplitOptions.RemoveEmptyEntries);
+			string[] answer = FolderNameList(path);
 
 			for (int i = 0; i < answer.Length; i++)
 			{

@@ -22,11 +22,11 @@ namespace Felix.FileListManager
 	/// </summary>
 	public class SelectFiles
 	{
-		private FileList filLst;
+		private FileItems filLst;
 
 		public SelectFiles()
 		{
-			filLst = FileList.Instance;
+			filLst = FileItems.Instance;
 
 			filLst.Initialize();
 		}

@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
-using Tests2.OutlineManager;
+
+using static UtilityLibrary.MessageUtilities;
 
 
 namespace Tests2.Windows
@@ -26,6 +16,8 @@ namespace Tests2.Windows
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+		public static string futureMsg { get; set; } = "Future message";
+
 		public FileList filLst { get; private set; } 
 
 		public static FileList flx { get; private set; } = FileList.Instance;
@@ -35,11 +27,24 @@ namespace Tests2.Windows
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			tbkUL.AppendText(nl);
+			tbkUL.AppendText(futureMsg);
+			OnPropertyChange("tbkUL");
 		}
 
 		public void SendMessage(string message)
 		{
 			tbkUL.AppendText(message);
+
+			OnPropertyChange("tbkUL");
+		}
+		
+		public void SendClearMessage()
+		{
+			tbkUL.Clear();
+
+			OnPropertyChange("tbkUL");
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -71,6 +76,8 @@ namespace Tests2.Windows
 //			stopwatch.Stop();
 //
 //			ListElapsedTime(stopwatch.Elapsed);
+
+
 		}
 
 		private void ListElapsedTime(TimeSpan ts)

@@ -102,7 +102,7 @@
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
     <Compile Include="FileListManager\FileItem.cs" />
-    <Compile Include="FileListManager\FileList.cs" />
+    <Compile Include="FileListManager\FileItems.cs" />
     <Compile Include="FileListManager\FileListMgr.cs" />
     <Compile Include="FileListManager\SelectFiles.cs" />
     <Compile Include="FileListManager\SelectFolder.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="OutlineManager\OutlineItem.cs" />
     <Compile Include="OutlineManager\OutlineItems.cs" />
     <Compile Include="OutlineManager\OutlineMgr.cs" />
-    <Compile Include="PDFMerge\PDFMergeTree\PdfMergeItem.cs" />
+    <Compile Include="PDFMerge\PDFMergeTree\PDFMergeItem.cs" />
     <Compile Include="PDFMerge\PDFMergeTree\PDFMergeTree.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />

@@ -60,11 +60,7 @@ namespace Tests2.FileListManager
 
 	#region public properties
 
-	#if DEBUG
-		public List<FileItem> FileListItems => fileItems;
-	#endif
-
-		public ICollectionView Vue { get; private set; }
+//		public List<FileItem> FileListItems => fileItems;
 
 		public bool IsInitialized { get; private set; }
 
@@ -74,7 +70,6 @@ namespace Tests2.FileListManager
 
 	#endregion
 
-
 	#region public methods
 
 		public void Initialize()
@@ -83,20 +78,6 @@ namespace Tests2.FileListManager
 			IsInitialized = true;
 		}
 
-		public void VueSort()
-		{
-			SortDescription sd = new SortDescription("outlinePath", ListSortDirection.Ascending);
-
-			Vue.SortDescriptions.Add(sd);
-		}
-
-		public void VueSortClear()
-		{
-			Vue.SortDescriptions.Clear();
-		}
-
-	#endregion
-
 		public void Add(List<FileItem> fileItems)
 		{
 			foreach (FileItem fileItem in fileItems)
@@ -104,20 +85,20 @@ namespace Tests2.FileListManager
 				this.fileItems.Add(fileItem);
 			}
 
-			Vue = CollectionViewSource.GetDefaultView(fileItems);
-
 			OnPropertyChange("fileItems");
-
-			OnPropertyChange("Vue");
 		}
 
 		public void Add(FileItem fileItem)
 		{
 			fileItems.Add(fileItem);
-
-			OnPropertyChange("Vue");
 		}
 
+		public void Sort()
+		{
+			fileItems.Sort();
+		}
+
+	#endregion
 
 	#region system routines
 

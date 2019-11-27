@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using Tests2.Windows;
 
 #endregion
 
@@ -21,24 +22,26 @@ namespace Tests2.FileListManager.DebugSupport
 	{
 		public void test(out List<FileItem> fileItems2)
 		{
+			string root = @"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs";
+			
+			
+
 			fileItems2 = new List<FileItem>();
+
+			FileListMgr.BaseFolder = new Route(root);
+
+			FileItem.RootPath =
+				new Route(root);
 
 			FileItem f;
 
-			FileItem.RootPath =
-				new Route(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs");
-
-			f = new FileItem(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\Sub-Folder\A A1.0-1 This is a Test A30.pdf");
+			f = new FileItem(root + @"\Sub-Folder\A A1.0-1 This is a Test A30.pdf");
 			fileItems2.Add(f);
-			f = new FileItem(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.1-0 This is a Test A10.pdf");
+			f = new FileItem(root + @"\A A1.1-0 This is a Test A10.pdf");
 			fileItems2.Add(f);
-			f = new FileItem(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.2-0 This is a Test A20.pdf");
+			f = new FileItem(root + @"\A A1.2-0 This is a Test A20.pdf");
 			fileItems2.Add(f);
-			f = new FileItem(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-00 flat\Individual PDFs\A A1.3-0 This is a Test A30.pdf");
+			f = new FileItem(root + @"\A A1.3-0 This is a Test A30.pdf");
 			fileItems2.Add(f);
 
 		}

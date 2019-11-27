@@ -26,7 +26,8 @@ namespace Felix.FileListManager
 
 	public class FileItem : IComparable<FileItem>, INotifyPropertyChanged
 	{ 
-// static
+		// static
+
 		// the root basis for all of the subpaths
 
 		private static Route rootPath = Route.Invalid;
@@ -48,7 +49,9 @@ namespace Felix.FileListManager
 
 		internal static int NonFileCount { get; private set; }
 
-// instance
+		// instance
+
+		private string sequenceCode;
 
 		// as provided
 
@@ -90,7 +93,6 @@ namespace Felix.FileListManager
 			}
 		}
 
-
 		public Route FilePath { get; set; } = Route.Invalid;
 
 		// path is the actual sub-folder path 
@@ -107,7 +109,19 @@ namespace Felix.FileListManager
 		public Route OutlinePath { get; set; } = null;
 
 		public bool IsFile => FilePath.RouteType == RouteType.FILE;
-		
+
+		public string SequenceCode
+		{
+			get => sequenceCode;
+			set
+			{
+				sequenceCode = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string SortCode => sequenceCode + " :: " + OutlinePath.FileWithoutExtension;
+
 		public int OutlineDepth
 		{
 			get
@@ -135,9 +149,12 @@ namespace Felix.FileListManager
 			}
 		}
 
+
 		public int CompareTo(FileItem other)
 		{
-			return OutlinePath.CompareTo(other.OutlinePath);
+			return SortCode.CompareTo(other.SortCode);
+
+//			return OutlinePath.CompareTo(other.OutlinePath);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

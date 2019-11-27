@@ -21,21 +21,49 @@ namespace Felix.OutlineManager
 	{
 		private OutlineItems ois;
 
-		private OutlineDebugSupport ods = new OutlineDebugSupport();
-
 		public List<string> UnMatched { get; private set; }
 
-		public bool Initalize()
+	#if DEBUG
+		private OutlineDebugSupport ods = new OutlineDebugSupport();
+	#endif
+
+	#region ctor
+
+		public static OutlineMgr Instance => new OutlineMgr();
+
+		static OutlineMgr() { }
+
+		private OutlineMgr()
 		{
-			ois = new OutlineItems();
+			Initialize();
+		}
+
+	#endregion
+
+		public bool Initialized { get; private set; } = false;
+
+		public bool Initialize()
+		{
+			if (Initialized) return true;
 
 			Configure();
+
+			Initialized = true;
 
 			return true;
 		}
 
+		public void Reset()
+		{
+			Initialized = false;
+
+			Initialize();
+		}
+
 		private bool Configure()
 		{
+			ois = new OutlineItems();
+
 			MainWinManager.MessageClear();
 
 		#if DEBUG
@@ -47,7 +75,7 @@ namespace Felix.OutlineManager
 
 		#if DEBUG
 			ods.ListUserOutlineItems();
-			ods.AddDebugData(ois);
+//			ods.AddDebugData(ois);
 		#endif
 
 			SaveUserOutlineItems();
@@ -66,7 +94,7 @@ namespace Felix.OutlineManager
 
 			string found = null;
 
-			foreach (FileItem fi in FileList.Instance.FileListItems)
+			foreach (FileItem fi in FileItems.Instance)
 			{
 				found = fi.OutlinePath.FileWithoutExtension;
 
@@ -77,6 +105,7 @@ namespace Felix.OutlineManager
 						if (fi.OutlinePath.FileWithoutExtension.StartsWith(oi.Pattern))
 						{
 							fi.OutlinePath.Prepend(oi.OutlinePath);
+							fi.SequenceCode = oi.SequenceCode;
 							found = null;
 							break;
 						}
@@ -106,6 +135,8 @@ namespace Felix.OutlineManager
 
 		private void LoadOutlineItems()
 		{
+			UserSettings.Admin.Read();
+
 			if (UserSettings.Data.OutlineItems.Count == 0) ReadAppOutlineItems();
 
 			ois = new OutlineItems();
@@ -122,6 +153,7 @@ namespace Felix.OutlineManager
 			{
 				UserSettings.Data.OutlineItems.Add(otl.Clone());
 			}
+
 			UserSettings.Admin.Save();
 		}
 

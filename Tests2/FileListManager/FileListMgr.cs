@@ -76,6 +76,8 @@ namespace Tests2.FileListManager
 				}
 			}
 
+			FileList.Instance.Sort();
+
 			return true;
 		}
 

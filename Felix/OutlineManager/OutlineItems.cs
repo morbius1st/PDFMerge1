@@ -50,17 +50,13 @@ namespace Felix.OutlineManager
 			}
 		}
 
-		public void Sort()
+		public void Add(OutlineItem item)
 		{
-			Vue = CollectionViewSource.GetDefaultView(outlineItems);
-			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Descending));
-			
-			OnPropertyChange("Vue");
+
 		}
 
 		private string ValidateOutlineItem(OutlineItem oi)
 		{
-
 			Regex rx = new Regex(@"^\\w*");
 
 			if (rx.IsMatch(oi.OutlinePath)) return oi.OutlinePath;
@@ -77,6 +73,14 @@ namespace Felix.OutlineManager
 			}
 
 			return null;
+		}
+
+		public void Sort()
+		{
+			Vue = CollectionViewSource.GetDefaultView(outlineItems);
+			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Descending));
+			
+			OnPropertyChange("Vue");
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

@@ -49,7 +49,8 @@ namespace Tests2.OutlineManager.DebugSupport
 
 			foreach (OutlineItem otl in AppSettings.Data.DefaultOutlineItems)
 			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
+				MainWinManager.MessageAppendLine("@outline mgr| "
+					+ otl.SequenceCode.PadRight(10) + " :: " + otl.Pattern + " :: " 
 					+ otl.OutlinePath + " :: " +  otl.Description);
 			}
 		}
@@ -62,7 +63,8 @@ namespace Tests2.OutlineManager.DebugSupport
 
 			foreach (OutlineItem otl in UserSettings.Data.OutlineItems)
 			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
+				MainWinManager.MessageAppendLine("@outline mgr| "
+					+ otl.SequenceCode.PadRight(10) + " :: " + otl.Pattern + " :: " 
 					+ otl.OutlinePath + " :: " +  otl.Description);
 			}
 		}
@@ -75,20 +77,22 @@ namespace Tests2.OutlineManager.DebugSupport
 
 			foreach (OutlineItem otl in oi)
 			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
+				MainWinManager.MessageAppendLine("@outline mgr| "
+					+ otl.SequenceCode.PadRight(10) + " :: " + otl.Pattern + " :: " 
 					+ otl.OutlinePath + " :: " +  otl.Description);
 			}
 		}
 
-		public void ListOutlineItemsVue(OutlineItems oi)
+		public void ListVueOutlineItems(OutlineItems oi)
 		{
 			MainWinManager.MessageAppendLine("");
 
-			MainWinManager.MessageAppendLine("@outline mgr| outline count| " + oi.Count);
+			MainWinManager.MessageAppendLine("@outline mgr| vue outline count| " + oi.Count);
 
 			foreach (OutlineItem otl in oi.Vue)
 			{
-				MainWinManager.MessageAppendLine("@outline mgr| " + otl.Pattern + " :: "
+				MainWinManager.MessageAppendLine("@outline mgr| "
+					+ otl.SequenceCode.PadRight(10) + " :: " + otl.Pattern + " :: " 
 					+ otl.OutlinePath + " :: " +  otl.Description);
 			}
 		}

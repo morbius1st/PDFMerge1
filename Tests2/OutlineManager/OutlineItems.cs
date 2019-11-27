@@ -53,17 +53,8 @@ namespace Tests2.OutlineManager
 			}
 		}
 
-		public void Sort()
-		{
-			Vue = CollectionViewSource.GetDefaultView(outlineItems);
-			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Descending));
-			
-			OnPropertyChange("Vue");
-		}
-
 		private string ValidateOutlineItem(OutlineItem oi)
 		{
-
 			Regex rx = new Regex(@"^\\w*");
 
 			if (rx.IsMatch(oi.OutlinePath)) return oi.OutlinePath;
@@ -80,6 +71,14 @@ namespace Tests2.OutlineManager
 			}
 
 			return null;
+		}
+
+		public void Sort()
+		{
+			Vue = CollectionViewSource.GetDefaultView(outlineItems);
+			Vue.SortDescriptions.Add(new SortDescription("SequenceCode", ListSortDirection.Descending));
+			
+			OnPropertyChange("Vue");
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

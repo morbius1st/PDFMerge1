@@ -160,7 +160,7 @@
 			VerticalAlignment="Stretch"
 			d:DataContext="{Binding Source={StaticResource flx}, Mode=OneWay, Path=fileItems2}"
 			Background="#444444"
-			DataContext="{Binding ElementName=mainWin, Mode=OneWay, Path=filLst.Vue}"
+			DataContext="{Binding ElementName=mainWin, Mode=OneWay, Path=filLst}"
 			Foreground="White"
 			ItemTemplate="{DynamicResource lv01DataTemplate}"
 			ItemsSource="{Binding}"
@@ -175,7 +175,6 @@
 								Style="{StaticResource lblTitle}" />
 
 							<StackPanel Margin="12,0,0,4" Orientation="Horizontal">
-
 								<StackPanel Style="{StaticResource stackSetting}">
 									<StackPanel Style="{StaticResource stackHorizSetting}">
 										<Label Content="IsFile" Style="{StaticResource lblRouteTitle}" />
@@ -185,7 +184,6 @@
 										<Label Content="outline depth" Style="{StaticResource lblRouteTitle}" />
 										<Label Content="{Binding OutlineDepth}" Style="{StaticResource lblRouteSettingValue}" />
 									</StackPanel>
-
 								</StackPanel>
 
 								<StackPanel Orientation="Vertical">
@@ -193,11 +191,12 @@
 										<Label Content="Root path" Style="{StaticResource lblRouteTitle}" />
 										<Label Content="{Binding RootPath.FullPath}" Style="{StaticResource lblRouteSettingValue}" />
 									</StackPanel>
-
+									<StackPanel Style="{StaticResource stackHorizSetting}">
+										<Label Content="Seq Code" Style="{StaticResource lblRouteTitle}" />
+										<Label Content="{Binding SequenceCode}" Style="{StaticResource lblRouteSettingValue}" />
+									</StackPanel>
 								</StackPanel>
 							</StackPanel>
-
-
 
 							<Border
 								Margin="4,0,2,4"
@@ -334,7 +333,6 @@
 								</StackPanel>
 							</Border>
 
-
 							<Border
 								Margin="4,0,4,4"
 								BorderBrush="DeepSkyBlue"
@@ -399,6 +397,65 @@
 									</StackPanel>
 								</StackPanel>
 							</Border>
+
+						</StackPanel>
+
+					</Border>
+				</DataTemplate>
+			</ListView.Resources>
+		</ListView>
+
+
+		<ListView
+			x:Name="lv02"
+			Grid.Row="1"
+			Grid.Column="1"
+			Margin="3,20,0,0"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			d:DataContext="{Binding Source={StaticResource flx}, Mode=OneWay, Path=fileItems2}"
+			Background="#444444"
+			DataContext="{Binding ElementName=mainWin, Mode=OneWay, Path=filLst}"
+			Foreground="White"
+			ItemTemplate="{DynamicResource lv01DataTemplate}"
+			ItemsSource="{Binding}"
+			ScrollViewer.CanContentScroll="False">
+			<ListView.Resources>
+				<DataTemplate x:Key="lv01DataTemplate" DataType="filelist:FileItem">
+					<Border BorderBrush="SpringGreen" BorderThickness="3">
+						<StackPanel Orientation="Vertical">
+
+							<StackPanel Orientation="Horizontal">
+								<Label Content="sort Code" Style="{StaticResource lblTitle}" />
+								<Label
+									Width="Auto"
+									Content="{Binding SortCode}"
+									Style="{StaticResource lblPathValue}" />
+							</StackPanel>
+
+							<StackPanel Orientation="Horizontal">
+								<Label Content="complete path" Style="{StaticResource lblTitle}" />
+								<Label
+									Width="Auto"
+									Content="{Binding FilePath.FullPath}"
+									Style="{StaticResource lblPathValue}" />
+							</StackPanel>
+
+							<StackPanel Orientation="Horizontal">
+								<Label Content="outline path" Style="{StaticResource lblTitle}" />
+								<Label
+									Width="Auto"
+									Content="{Binding OutlinePath.FullPath}"
+									Style="{StaticResource lblPathValue}" />
+							</StackPanel>
+
+							<StackPanel Orientation="Horizontal">
+								<Label Content="folders" Style="{StaticResource lblTitle}" />
+								<Label
+									Width="Auto"
+									Content="{Binding OutlineFolders}"
+									Style="{StaticResource lblPathValue}" />
+							</StackPanel>
 
 						</StackPanel>
 					</Border>

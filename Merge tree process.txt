@@ -1,0 +1,32 @@
+
+list of PDFMergeItems   -> node title
+                        -> node type
+                        -> node page number
+                        -> node depth
+                        -> fileitem
+                        -> list of PDFMergeItem
+
+
+dictionary of 
+    (node title & PDFMergeItems)
+                        -> node type
+                        -> node page number
+                        -> node depth
+                        -> fileitem
+                        -> dictionary of 
+                                (node title & PDFMergeItems)
+                                
+                                
+to add a node based on the outline path of a fileitem
+
+foreach fileitem in fileitems
+ 
+ {1}
+  v
+has outline path (depth = x)
+      +->  no -> add a file node
+      |
+      +-> does outline path[depth x] node exist?
+                    |   v
+                    |   yes -> depth +=1 -> go check next level (back to {1})
+                    +-> no - make new node -> depth +=1 -> co check next level (back to {1})

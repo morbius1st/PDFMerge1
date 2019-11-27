@@ -15,26 +15,30 @@ namespace Felix.PDFMerge.PDFMergeTree
 		LEAF
 	}
 
-	internal class PDFMergeItem 
+	public class PDFMergeItem 
 	{
 		internal string bookmarkTitle;
 		internal TreeNodeType TreeNodeType;
 		internal int pageNumber;
 		internal int depth;
 		internal FileItem fileItem;
-		internal List<PDFMergeItem> mergeItems;
+		internal Dictionary<string, PDFMergeItem> mergeItems;
 
-		internal PDFMergeItem(string bookmarkTitle,
-			TreeNodeType treeNodeType, List<PDFMergeItem> mergeItems,
-			int pageNumber, int depth, FileItem fileItem
+		internal PDFMergeItem(
+			string bookmarkTitle,
+			TreeNodeType treeNodeType, 
+			int pageNumber, 
+			int depth, 
+			FileItem fileItem,
+			Dictionary<string, PDFMergeItem> mergeItems
 			)
 		{
 			this.bookmarkTitle = bookmarkTitle;
 			this.TreeNodeType = treeNodeType;
-			this.mergeItems = mergeItems ?? new List<PDFMergeItem>();
 			this.pageNumber = pageNumber;
 			this.depth = depth;
 			this.fileItem = fileItem;
+			this.mergeItems = mergeItems ?? new Dictionary<string, PDFMergeItem>();
 		}
 
 		internal bool hasChildren => mergeItems.Count > 0;

@@ -17,7 +17,7 @@ using System.Runtime.Serialization;
 namespace Felix.OutlineManager
 {
 	[DataContract(Name = "OutlineItem")]
-	public class OutlineItem : INotifyPropertyChanged, IComparable<OutlineItem>
+	public class OutlineItem : INotifyPropertyChanged, IComparable<OutlineItem>, IEquatable<OutlineItem>
 	{
 
 	#region private fields - primary data
@@ -99,6 +99,11 @@ namespace Felix.OutlineManager
 			}
 		}
 
+		public bool Equals(OutlineItem other)
+		{
+			return sequenceCode.Equals(other.SequenceCode);
+		}
+
 		public int CompareTo(OutlineItem other)
 		{
 			return sequenceCode.CompareTo(other.SequenceCode);
@@ -113,7 +118,7 @@ namespace Felix.OutlineManager
 
 		public override string ToString()
 		{
-			return sequenceCode;
+			return sequenceCode + " :: " + outlinePath;
 		}
 
 		public OutlineItem Clone()

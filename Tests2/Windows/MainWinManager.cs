@@ -26,7 +26,6 @@ namespace Tests2.Windows
 
 		public FileListMgr flMgr = null;
 
-
 		public MainWinManager()
 		{
 			Initalize();
@@ -67,12 +66,12 @@ namespace Tests2.Windows
 
 		public static void MessageClear()
 		{
-			mainWin.tbkUL.Clear();
+			mainWin.SendClearMessage();
 		}
 
 		public static void MessageAppend(string message)
 		{
-			mainWin.tbkUL.AppendText(message);
+			mainWin.SendMessage(message);
 		}
 
 		public static void MessageAppendLine(string message)

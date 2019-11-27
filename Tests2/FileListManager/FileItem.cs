@@ -28,7 +28,8 @@ namespace Tests2.FileListManager
 
 	public class FileItem : IComparable<FileItem>, INotifyPropertyChanged
 	{ 
-// static
+		// static
+
 		// the root basis for all of the subpaths
 
 		private static Route rootPath = Route.Invalid;
@@ -50,7 +51,9 @@ namespace Tests2.FileListManager
 
 		internal static int NonFileCount { get; private set; }
 
-// instance
+		// instance
+
+		private string sequenceCode;
 
 		// as provided
 
@@ -92,7 +95,6 @@ namespace Tests2.FileListManager
 			}
 		}
 
-
 		public Route FilePath { get; set; } = Route.Invalid;
 
 		// path is the actual sub-folder path 
@@ -108,8 +110,37 @@ namespace Tests2.FileListManager
 		// this will need to be manufactured
 		public Route OutlinePath { get; set; } = null;
 
+		public string OutlineFolders
+		{
+			get
+			{
+				string p = null;
+				string[] names = OutlinePath.FolderNames;
+
+				for (int i = 0; i < names.Length; i++ )
+				{
+					p += " |  [" + i + "] " + names[i];
+				}
+
+				return p;
+
+			}
+		}
+
 		public bool IsFile => FilePath.RouteType == RouteType.FILE;
-		
+
+		public string SequenceCode
+		{
+			get => sequenceCode;
+			set
+			{
+				sequenceCode = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string SortCode => sequenceCode + " :: " + OutlinePath.FileWithoutExtension;
+
 		public int OutlineDepth
 		{
 			get
@@ -137,9 +168,12 @@ namespace Tests2.FileListManager
 			}
 		}
 
+
 		public int CompareTo(FileItem other)
 		{
-			return OutlinePath.CompareTo(other.OutlinePath);
+			return SortCode.CompareTo(other.SortCode);
+
+//			return OutlinePath.CompareTo(other.OutlinePath);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

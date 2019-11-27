@@ -27,7 +27,7 @@ namespace Felix.FileListManager
 
 		private SelectFolder sFld = new SelectFolder();
 		private SelectFiles sFil = new SelectFiles();
-		private OutlineMgr olm = new OutlineMgr();
+		private OutlineMgr olm = OutlineMgr.Instance;
 
 		private static Route baseFolder = Route.Invalid;
 
@@ -56,7 +56,7 @@ namespace Felix.FileListManager
 
 			sFil.GetFileList();
 
-			olm.Initalize();
+			olm.Initialize();
 
 			int unMatched = olm.ApplyOutlineSettings();
 
@@ -69,6 +69,8 @@ namespace Felix.FileListManager
 					MainWinManager.MessageAppendLine("unmatched| " + s);
 				}
 			}
+
+			FileItems.Instance.Sort();
 
 			return true;
 		}

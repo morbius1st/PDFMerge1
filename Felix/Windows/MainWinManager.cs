@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Felix.FileListManager;
+using Felix.OutlineManager;
 using Felix.Settings;
 using Felix.Support;
 using SettingManager;
@@ -44,7 +45,7 @@ namespace Felix.Windows
 
 		public void Start()
 		{
-			FileListMgr.BaseFolder = new Route(UserSettings.Data.PriorFolder);
+			if (!Configure()) return;
 
 			flMgr.CreateFileList();
 			if (!flMgr.IsInitialized) return;
@@ -58,6 +59,32 @@ namespace Felix.Windows
 		{
 			mainWin.ShowDialog();
 		}
+
+		private bool Configure()
+		{
+			UserSettings.Admin.Read();
+			FileListMgr.BaseFolder = new Route(UserSettings.Data.PriorFolder);
+
+			OutlineMgr.Instance.Initialize();
+
+			OutlineMgr o = OutlineMgr.Instance;
+
+			return true;
+		}
+
+	#region system methods
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+	#endregion
+
+
+	#region debug support
 
 		public static void MessageClear()
 		{
@@ -74,11 +101,7 @@ namespace Felix.Windows
 			MessageAppend(message + nl);
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+	#endregion
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-		}
 	}
 }
