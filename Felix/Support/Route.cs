@@ -1,5 +1,4 @@
 ﻿#region + Using Directives
-
 using System;
 using System.IO;
 using SysPath = System.IO.Path;
@@ -227,6 +226,16 @@ namespace Felix.Support
 		}
 
 		public string[] FolderNames => FolderNameList(Folders);
+
+		public int FolderCount
+		{
+			get
+			{
+				string[] names = FolderNames;
+				if (names == null) return -1;
+				return names.Length;
+			}
+		}
 
 		public int Depth
 		{
@@ -546,5 +555,3 @@ namespace Felix.Support
 // FolderNameList() & FolderNames
 // [0] = Documents  |  [1] = Files
 // [2] = 021 - Household  |  [3] = MicroStation
-
-

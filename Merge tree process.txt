@@ -30,3 +30,15 @@ has outline path (depth = x)
                     |   v
                     |   yes -> depth +=1 -> go check next level (back to {1})
                     +-> no - make new node -> depth +=1 -> co check next level (back to {1})
+                    
+                    
+                    
+Dictionary (string, PDFMergeItem)
+{file1, mergeitem[leaf](file1)}
+{file2, mergeitem[leaf](file2)}
+{branch1, mergeitem[branch]}
+                      +->{file3, mergeitem[leaf](file3)}
+                      +->{branch2, mergeitem[branch]}
+                                               +->{file4, mergeitem[leaf](file4)}
+{branch3, mergeitem[branch3]}
+                      +->{file5, mergeitem[leaf](file5)}

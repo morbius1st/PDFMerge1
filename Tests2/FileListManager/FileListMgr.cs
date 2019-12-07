@@ -25,11 +25,11 @@ namespace Tests2.FileListManager
 {
 	public class FileListMgr : INotifyPropertyChanged
 	{
-		private static readonly FileListMgr instance = new FileListMgr();
-
-		public static FileListMgr Instance => instance;
+		public static FileListMgr Instance { get; } = new FileListMgr();
 
 		static FileListMgr() { }
+
+		private FileListMgr() { }
 
 		private SelectFolder sFld = new SelectFolder();
 		private SelectFiles sFil = new SelectFiles();
@@ -76,7 +76,7 @@ namespace Tests2.FileListManager
 				}
 			}
 
-			FileList.Instance.Sort();
+			FileItems.Instance.Sort();
 
 			return true;
 		}

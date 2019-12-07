@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using Felix.FileListManager;
 
-namespace Felix.PDFMerge.PDFMergeTree
+namespace Felix.PDFMergeManager.PDFMergeTree
 {
 	internal enum TreeNodeType
 	{
@@ -29,8 +29,7 @@ namespace Felix.PDFMerge.PDFMergeTree
 			TreeNodeType treeNodeType, 
 			int pageNumber, 
 			int depth, 
-			FileItem fileItem,
-			Dictionary<string, PDFMergeItem> mergeItems
+			FileItem fileItem
 			)
 		{
 			this.bookmarkTitle = bookmarkTitle;
@@ -38,12 +37,17 @@ namespace Felix.PDFMerge.PDFMergeTree
 			this.pageNumber = pageNumber;
 			this.depth = depth;
 			this.fileItem = fileItem;
-			this.mergeItems = mergeItems ?? new Dictionary<string, PDFMergeItem>();
+			this.mergeItems = null;
 		}
 
 		internal bool hasChildren => mergeItems.Count > 0;
 
 		internal int count => mergeItems.Count;
+
+		public void AddMergeItems()
+		{
+			mergeItems = new Dictionary<string, PDFMergeItem>();
+		}
 
 
 	}

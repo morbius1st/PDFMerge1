@@ -1,7 +1,6 @@
 ﻿#region + Using Directives
 using System;
 using System.IO;
-
 using SysPath = System.IO.Path;
 #endregion
 
@@ -21,6 +20,7 @@ namespace Tests2.FileListManager
 
 		public class Route : IEquatable<Route>, IComparable<Route>
 	{
+
 	#region static properties
 
 		public static Route Invalid => new Route(null);
@@ -226,6 +226,16 @@ namespace Tests2.FileListManager
 		}
 
 		public string[] FolderNames => FolderNameList(Folders);
+
+		public int FolderCount
+		{
+			get
+			{
+				string[] names = FolderNames;
+				if (names == null) return -1;
+				return names.Length;
+			}
+		}
 
 		public int Depth
 		{
@@ -458,7 +468,6 @@ namespace Tests2.FileListManager
 	#endregion
 
 	}
-
 }
 
 
@@ -472,11 +481,6 @@ namespace Tests2.FileListManager
 		// [0]    v----------v   |   |
 		// [1]    |          |v--v   |
 		// [2]    |          ||  |v--v
-
-		//        0         1         2
-		//        01234567890123456789012345678
-		//        0        1         2         
-		//        12345678901234567890123456789
 // FullPath       \\cs-004\dir\dir\dir\file.ext
 		// [-1]   |      |   ||  |^--^ |  | | |
 		// [-2]   |      |   |^--^   | |  | | |
@@ -487,18 +491,27 @@ namespace Tests2.FileListManager
 // FileWithoutExtension                ^--^ | |
 // FileExtension                       |    ^-^
 // FileName                            ^------^
+// FullPath       ^---------------------------^
 
-//		full route| \\CS-004\Documents\Files\021 - Household\MicroStation\0047116612.PDF
-//		[+0]      | \\CS-004\Documents  (CS-004\Documents)
-//		[+1]      | \Files  (Files)
-//		[+2]      | \021 - Household  (021 - Household)
-//		[+3]      | \MicroStation  (MicroStation)
-//		[-1]      | \MicroStation  (MicroStation)
-//		[-2]      | \021 - Household  (021 - Household)
-//		[-3]      | \Files  (Files)
+// example
+// levels = 4
+//   full route| \\CS-004\Documents\Files\021 - Household\MicroStation\0047116612.PDF
+//   [+0]      | \\CS-004\Documents  (CS-004\Documents)
+//   [+1]      | \Files  (Files)
+//   [+2]      | \021 - Household  (021 - Household)
+//   [+3]      | \MicroStation  (MicroStation)
+//   [-1]      | \MicroStation  (MicroStation)
+//   [-2]      | \021 - Household  (021 - Household)
+//   [-3]      | \Files  (Files)
  
-// assemble path [+2] \\CS-004\Documents\Files\021 - Household
-// assemble path [-1] \\CS-004\Documents\Files
+// assemble path() [+2] \\CS-004\Documents\Files\021 - Household
+// assemble path() [-1] \\CS-004\Documents\Files
+
+// FolderNameList() & FolderNames[]
+// [0] = Documents  |  [1] = Files
+// [2] = 021 - Household  |  [3] = MicroStation
+
+
 
 //
 // Levels         4
@@ -511,7 +524,7 @@ namespace Tests2.FileListManager
 		// [1]    ||v--v   |   |
 		// [2]    |||  |v--v   |
 		// [3]    |||  ||  |v--v
-		//        c:\dir\dir\dir\file.ext
+// FullPath       c:\dir\dir\dir\file.ext
 		// [-1]   |||  ||  |^--^ |  | | |
 		// [-2]   |||  |^--^   | |  | | |
 		// [-3]   ||^--^       | |  | | |
@@ -519,22 +532,27 @@ namespace Tests2.FileListManager
 // RootPath       ^-^          | |  | | | 
 // Folders        | ^----------^ |  | | |
 // Path           ^------------^ |  | | |
-// FullPath       ^---------------------^
 // FileWithoutExtension          ^--^ | |
 // FileExtension                 |    ^-^
 // FileName                      ^------^
+// FullPath       ^---------------------^
 
-//		full route| C:\Documents\Files\021 - Household\MicroStation\0047116612.PDF
-//		[+0]      | C:\  (C:\)
-//		[+1]      | \Documents  (Documents)
-//		[+2]      | \Files  (Files)
-//		[+3]      | \021 - Household  (021 - Household)
-//		[+4]      | \MicroStation  (MicroStation)
-//		[-1]      | \MicroStation  (MicroStation)
-//		[-2]      | \021 - Household  (021 - Household)
-//		[-3]      | \Files  (Files)
-//		[-4]      | \Documents  (Documents)
+// example
+// levels 4
+//   full route| C:\Documents\Files\021 - Household\MicroStation\0047116612.PDF
+//   [+0]      | C:\  (C:\)
+//   [+1]      | \Documents  (Documents)
+//   [+2]      | \Files  (Files)
+//   [+3]      | \021 - Household  (021 - Household)
+//   [+4]      | \MicroStation  (MicroStation)
+//   [-1]      | \MicroStation  (MicroStation)
+//   [-2]      | \021 - Household  (021 - Household)
+//   [-3]      | \Files  (Files)
+//   [-4]      | \Documents  (Documents)
 
-// assemble path [+2] C:\Documents\Files
-// assemble path [-2] C:\Documents\Files\021 - Household
+// assemble path() [+2] C:\Documents\Files
+// assemble path() [-2] C:\Documents\Files\021 - Household
 
+// FolderNameList() & FolderNames
+// [0] = Documents  |  [1] = Files
+// [2] = 021 - Household  |  [3] = MicroStation

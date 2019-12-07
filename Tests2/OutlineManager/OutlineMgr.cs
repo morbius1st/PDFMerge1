@@ -73,7 +73,7 @@ namespace Tests2.OutlineManager
 
 			string found = null;
 
-			foreach (FileItem fi in FileList.Instance)
+			foreach (FileItem fi in FileItems.Instance)
 			{
 				found = fi.OutlinePath.FileWithoutExtension;
 

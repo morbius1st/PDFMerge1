@@ -25,7 +25,7 @@ namespace Tests2.DebugSupport
 	{
 		private static readonly DebugHelper instance = new DebugHelper();
 
-		public static DebugHelper Prime => instance;
+		public static DebugHelper Instance => instance;
 
 		static DebugHelper() { }
 

@@ -38,6 +38,7 @@
     <StartupObject>Tests2.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.3.3, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.3.3\lib\net452\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -79,11 +80,15 @@
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
     <Compile Include="FileListManager\SelectFiles.cs" />
     <Compile Include="FileListManager\FileListMgr.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="OutlineManager\DebugSupport\OutlineDebugSupport.cs" />
     <Compile Include="OutlineManager\OutlineItem.cs" />
     <Compile Include="OutlineManager\OutlineItems.cs" />
     <Compile Include="OutlineManager\OutlineMgr.cs" />
+    <Compile Include="PDFMergeManager\PDFMergeMgr.cs" />
+    <Compile Include="PDFMergeManager\PDFMergeItem.cs" />
+    <Compile Include="PDFMergeManager\PDFMergeTree.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Windows\MainWinManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
@@ -96,11 +101,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileListManager\FileItem.cs" />
-    <Compile Include="FileListManager\FileList.cs" />
+    <Compile Include="FileListManager\FileItems.cs" />
     <Compile Include="Support\Route.cs" />
     <Compile Include="FileListManager\SelectFolder.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWinSupport\TVIExtender.cs" />
+    <Compile Include="Windows\MainWinSupport\WinTreeDesigns.xaml.cs">
+      <DependentUpon>WinTreeDesigns.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +142,18 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWinSupport\ExpandCollapseToggleStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWinSupport\WinTreeDesigns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWinSupport\WinTreeStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

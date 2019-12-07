@@ -110,8 +110,8 @@
     <Compile Include="OutlineManager\OutlineItem.cs" />
     <Compile Include="OutlineManager\OutlineItems.cs" />
     <Compile Include="OutlineManager\OutlineMgr.cs" />
-    <Compile Include="PDFMerge\PDFMergeTree\PDFMergeItem.cs" />
-    <Compile Include="PDFMerge\PDFMergeTree\PDFMergeTree.cs" />
+    <Compile Include="PDFMergeManager\PDFMergeTree\PDFMergeItem.cs" />
+    <Compile Include="PDFMergeManager\PDFMergeTree\PDFMergeTree.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />

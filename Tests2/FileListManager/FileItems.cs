@@ -26,7 +26,7 @@ namespace Tests2.FileListManager
 	// selected file and also processes
 	// each file item to adjust the bookmark
 	// based on the user's settings
-	public class FileList : INotifyPropertyChanged, IEnumerable<FileItem>
+	public class FileItems : INotifyPropertyChanged, IEnumerable<FileItem>
 	{
 
 	#region data fields
@@ -43,11 +43,9 @@ namespace Tests2.FileListManager
 
 	#region ctor
 
-		private static readonly FileList instance = new FileList();
+		public static FileItems Instance { get ; } = new FileItems();
 
-		public static FileList Instance => instance;
-
-		static FileList()
+		static FileItems()
 		{
 		#if DEBUG
 			flds.test(out List<FileItem> fileItems3);
@@ -55,6 +53,8 @@ namespace Tests2.FileListManager
 		#endif
 
 		}
+
+		private FileItems() { }
 
 	#endregion
 

@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
-
+using Tests2.PDFMergeManager;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Xaml;
+using Tests2.Windows.MainWinSupport;
 using static UtilityLibrary.MessageUtilities;
-
 
 namespace Tests2.Windows
 {
@@ -16,20 +20,21 @@ namespace Tests2.Windows
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
-		public static string futureMsg { get; set; } = "Future message";
+		public FileItems FileList { get; private set; }
 
-		public FileList filLst { get; private set; } 
+		public PDFMergeTree MrgTree { get; private set; }
 
-		public static FileList flx { get; private set; } = FileList.Instance;
 
-		private DebugHelper dh = DebugHelper.Prime;
+		public static FileItems flx { get; private set; } = FileItems.Instance;
+
+		private DebugHelper dh = DebugHelper.Instance;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
 			tbkUL.AppendText(nl);
-			tbkUL.AppendText(futureMsg);
+
 			OnPropertyChange("tbkUL");
 		}
 
@@ -39,7 +44,7 @@ namespace Tests2.Windows
 
 			OnPropertyChange("tbkUL");
 		}
-		
+
 		public void SendClearMessage()
 		{
 			tbkUL.Clear();
@@ -54,30 +59,42 @@ namespace Tests2.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
+			WinTreeDesigns w;
+
 			Debug.WriteLine("@debug");
+
+			PDFMergeMgr.Instance.MTree.Add(new FileItem(new Route(@"c:\path\path\file.pdf")));
+		}
+
+		private void BtnAddAtBegin_OnClick(object sender, RoutedEventArgs e)
+		{
+			PDFMergeMgr.Instance.MTree.Add(
+				new FileItem(new Route(@"c:\Add At Begin\file.pdf")), 0);
+		}
+		
+		private void BtnAddAtTwo_OnClick(object sender, RoutedEventArgs e)
+		{
+			PDFMergeMgr.Instance.MTree.Add(
+				new FileItem(new Route(@"c:\Add At Begin\file.pdf")), 1);
+		}
+				
+		private void BtnAddAtEnd_OnClick(object sender, RoutedEventArgs e)
+		{
+			int idx = PDFMergeMgr.Instance.MTree.Count - 1;
+
+			PDFMergeMgr.Instance.MTree.Add(
+				new FileItem(new Route(@"c:\Add At Begin\file.pdf")), idx);
 		}
 
 		private void MainWin_Loaded(object sender, RoutedEventArgs e)
 		{
-//			Stopwatch stopwatch = new Stopwatch();
-//
-//			stopwatch.Start();
+			FileList = FileItems.Instance;
 
-			filLst = FileList.Instance;
+			OnPropertyChange("FileList");
 
-//			stopwatch.Stop();
-//
-//			ListElapsedTime(stopwatch.Elapsed);
-//
-//			stopwatch.Start();
+			MrgTree = PDFMergeTree.Instance;
 
-			OnPropertyChange("filLst");
-
-//			stopwatch.Stop();
-//
-//			ListElapsedTime(stopwatch.Elapsed);
-
-
+			OnPropertyChange("MrgTree");
 		}
 
 		private void ListElapsedTime(TimeSpan ts)
@@ -94,5 +111,21 @@ namespace Tests2.Windows
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+		class TreeViewLineConverter : IValueConverter
+		{
+			public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+			{
+				TreeViewItem item = (TreeViewItem)value;
+				ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
+				return ic.ItemContainerGenerator.IndexFromContainer(item) == ic.Items.Count - 1;
+			}
+
+			public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+			{
+				return false;
+			}
+		}
+
 	}
 }
