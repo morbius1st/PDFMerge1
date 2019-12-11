@@ -19,7 +19,7 @@ using Tests2.Windows;
 
 namespace Tests2
 {
-	static class Program
+	public class Program
 	{
 		public static MainWinManager MainWinMgr = null;
 
@@ -32,11 +32,6 @@ namespace Tests2
 			Start();
 		}
 
-		private static void Initalize()
-		{
-			MainWinMgr = new MainWinManager();
-		}
-
 		public static void Start()
 		{
 			Initalize();
@@ -44,6 +39,10 @@ namespace Tests2
 			MainWinMgr.Start();
 		}
 
+		private static void Initalize()
+		{
+			MainWinMgr = new MainWinManager();
+		}
 
 	}
 }

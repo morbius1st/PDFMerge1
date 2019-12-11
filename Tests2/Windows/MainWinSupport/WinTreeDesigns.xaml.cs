@@ -11,11 +11,11 @@ namespace Tests2.Windows.MainWinSupport
     class WinTreeDesigns
     {
 		// user settings
-		public static readonly double ToggleBtnSize = 14;
+		public static readonly double ToggleBtnSize = 11;
 
 		public static readonly double TvTreeMarginLeft = 6;
 		public static readonly double TvTreeMarginRight = 3;
-		private static readonly double TvToggBtnColWidthRightPerferred = 12;
+		private static readonly double TvToggBtnColWidthRightPerferred = 10;
 
 		public static readonly double TvVertConnThickness = 2;
 		public static readonly double TvHorizConnThickness = 1;

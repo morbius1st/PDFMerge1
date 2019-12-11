@@ -2,6 +2,8 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using Tests2.FileListManager;
 using Tests2.PDFMergeManager;
 using Tests2.Settings;
@@ -23,7 +25,7 @@ namespace Tests2.Windows
 	{
 		public static MainWindow mainWin = null;
 
-		public FileListMgr FileLstMgr = null;
+		public FileListMgr FlMgr = null;
 
 		public PDFMergeMgr MrgMgr = null;
 
@@ -36,33 +38,30 @@ namespace Tests2.Windows
 
 		private void Initalize()
 		{
-#pragma warning disable CS0219 // The variable 'result' is assigned but its value is never used
-			bool result = false;
-#pragma warning restore CS0219 // The variable 'result' is assigned but its value is never used
-
 			mainWin = new MainWindow();
 
-			FileLstMgr = FileListMgr.Instance;
-
-			MrgMgr = PDFMergeMgr.Instance;
+//			FlMgr = FileListMgr.Instance;
+//
+//			MrgMgr = PDFMergeMgr.Instance;
 		}
 
-		public void Start()
+		public async void Start()
 		{
-			FileListMgr.BaseFolder = new Route(UserSettings.Data.PriorFolder);
+//				FileListMgr.BaseFolder = new Route(UserSettings.Data.PriorFolder);
+//
+//				FlMgr.CreateFileList();
+//
+//				if (!FlMgr.IsInitialized) return;
+//
+//				UserSettings.Data.PriorFolder = FileListMgr.BaseFolder.FullPath;
+//
+//				MrgMgr.CreateMergeList();
+//
+//				MrgMgr.ListTree();
+//
+//				OnPropertyChange("MrgMgr");
 
-			FileLstMgr.CreateFileList();
-			if (!FileLstMgr.IsInitialized) return;
-
-			UserSettings.Data.PriorFolder = FileListMgr.BaseFolder.FullPath;
-
-			MrgMgr.CreateMergeList();
-
-			MrgMgr.ListTree();
-
-			OnPropertyChange("MrgMgr");
-
-			ShowMainWin();
+				ShowMainWin();
 		}
 
 		private void ShowMainWin()

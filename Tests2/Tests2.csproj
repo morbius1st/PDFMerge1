@@ -90,6 +90,8 @@
     <Compile Include="PDFMergeManager\PDFMergeItem.cs" />
     <Compile Include="PDFMergeManager\PDFMergeTree.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
+    <Compile Include="Support\DrawingRoute.cs" />
+    <Compile Include="Support\ObservableDictionary.cs" />
     <Compile Include="Windows\MainWinManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />

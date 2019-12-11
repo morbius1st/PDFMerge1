@@ -156,57 +156,7 @@
 				VerticalAlignment="Stretch"
 				Click="BtnDone_OnClick"
 				/>
-		<StackPanel Orientation="Vertical"
-					Grid.Column="2"
-					Grid.Row="1"
-					VerticalAlignment="Bottom"
-		>
 
-			<Button x:Name="btnAddAtBegin"
-					Content="Add at Begin"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnAddAtBegin_OnClick" />
-					
-			<Button x:Name="btnAddAtTwo"
-					Content="Add at Second"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnAddAtTwo_OnClick" />
-
-			<Button x:Name="btnAddAtEnd"
-					Content="Add at End"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnAddAtEnd_OnClick" />
-
-			<Button x:Name="btnDelFirst"
-					Content="Del First"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnDone_OnClick" />
-
-			<Button x:Name="btnDelTwo"
-					Content="Del Second"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnDone_OnClick" />
-
-			<Button x:Name="btnDelEnd"
-					Content="Del Second"
-					Margin="0,0,0,5"
-					Width="80"
-					Height="26"
-					Click="BtnDone_OnClick" />
-
-
-
-			</StackPanel>
 		<TextBox x:Name="tbkUL"
 				Grid.Column="0"
 				Grid.Row="0"
@@ -223,17 +173,6 @@
 		<Label x:Name="label" Content="Information"
 				Grid.Column="0"
 				Grid.Row="0"
-				Margin="3,3,0,0"
-				Width="90"
-				Padding="0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Foreground="White"
-				/>
-
-		<Label Content="{Binding MrgTree.MergeTree/Value.BookmarkTitle}"
-				Grid.Column="0"
-				Grid.Row="2"
 				Margin="3,3,0,0"
 				Width="90"
 				Padding="0"
@@ -291,7 +230,7 @@
 										<Label Content="outline depth"
 												Style="{StaticResource lblRouteTitle}"
 												/>
-										<Label Content="{Binding OutlineDepth}"
+										<Label Content="{Binding OutlinePathDepth}"
 												Style="{StaticResource lblRouteSettingValue}"
 												/>
 									</StackPanel>
@@ -634,7 +573,7 @@
 				VerticalAlignment="Bottom"
 				DataContext="{Binding ElementName=mainWin,
 															Mode=OneWay,
-															Path=MrgTree.MergeTree}"
+															Path=test}"
 				ScrollViewer.CanContentScroll="False"
 				Background="#444444"
 				Foreground="White"
@@ -711,7 +650,7 @@
 								<Label Content="levels"
 										Style="{StaticResource lblTitle}"
 										/>
-								<Label Content="{Binding OutlineDepth}"
+								<Label Content="{Binding OutlinePathDepth}"
 										Width="40"
 										Style="{StaticResource lblPathValue}"
 										/>
@@ -719,7 +658,7 @@
 										Width="40"
 										Style="{StaticResource lblPathValue}"
 										/>
-								<Label Content="{Binding OutlinePath.FolderCount}"
+								<Label Content="{Binding OutlinePath.FolderNamesCount}"
 										Width="40"
 										Style="{StaticResource lblPathValue}"
 										/>
@@ -729,7 +668,7 @@
 								<Label Content="folders"
 										Style="{StaticResource lblTitle}"
 										/>
-								<Label Content="{Binding OutlineFolders}"
+								<Label Content="{Binding OutlineFolders, FallbackValue=outlinefolders}"
 										Width="auto"
 										Style="{StaticResource lblPathValue}"
 										/>
@@ -752,7 +691,7 @@
 
 			</Grid.ColumnDefinitions>
 
-			<TreeView 
+			<TreeView Name="tv01"
 					Grid.Column="0"
 					Grid.Row="0"
 					Margin="10,10,10,0"
@@ -763,13 +702,13 @@
 																Mode=OneWay}"
 					Background="#333333"
 					Foreground="White"
-					ItemsSource="{Binding }"
+					ItemsSource="{Binding}"
 					>
 
 				<TreeView.Resources>
 
-					<sys:Double x:Key="BranchFontSize">18</sys:Double>
-					<sys:Double x:Key="LeafFontSize">12</sys:Double>
+					<sys:Double x:Key="BranchFontSize">13</sys:Double>
+					<sys:Double x:Key="LeafFontSize">11</sys:Double>
 
 					<Style
 							TargetType="{x:Type TreeViewItem}"
@@ -779,58 +718,83 @@
 					<DataTemplate x:Key="BRANCH_01"
 							DataType="pdf:PDFMergeItem"
 							>
-						<TextBox
-								Margin="0,3,0,3"
-								Width="Auto"
-								Padding="0"
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Left"
-								FontSize="{StaticResource BranchFontSize}"
-								SpellCheck.IsEnabled="True"
-								Text="{Binding BookmarkTitle,
-															 FallbackValue=bookmark}"
-								Background="Transparent"
-								Foreground="White"
-								BorderThickness="0"
-								CaretBrush="White"
-								/>
+						<StackPanel Orientation="Horizontal">
+							<CheckBox Name="cbxBranch"
+									Checked="cbxBranch_OnChecked"
+									IsChecked="False"
+									/>
+							<TextBox
+									Margin="0,3,0,3"
+									Width="Auto"
+									Padding="0"
+									HorizontalAlignment="Stretch"
+									HorizontalContentAlignment="Left"
+									FontSize="{StaticResource BranchFontSize}"
+									SpellCheck.IsEnabled="True"
+									Text="{Binding BookmarkTitle,
+																 FallbackValue=bookmark}"
+									Background="Transparent"
+									Foreground="White"
+									BorderThickness="0"
+									CaretBrush="White"
+									/>
+						</StackPanel>
 					</DataTemplate>
 
 					<DataTemplate x:Key="LEAF_01"
 							DataType="pdf:PDFMergeItem"
 							>
 						<StackPanel
-								Margin="0,10,0,10"
-								Orientation="Vertical"
+								VerticalAlignment="top"
+								Orientation="Horizontal"
 								>
-							<Label Content="{Binding BookmarkTitle, FallbackValue=bookmark}"
-									Margin="0"
-									Padding="0"
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Left"
-									FontSize="{StaticResource LeafFontSize}"
-									Foreground="White"
-									/>
+							<CheckBox Name="cbxLeaf"
 
-							<Label Content="{Binding FileItem.OutlinePath.FullPath, FallbackValue=path}"
-									Margin="0"
-									Padding="0"
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Left"
-									FontSize="{StaticResource LeafFontSize}"
-									Foreground="White"
-									/>
+									IsChecked="{Binding IsSelected}"
+												LostFocus="CbxLeaf_LostFocus" />
+
+							<StackPanel x:Name="spLeaf"
+									Margin="0,5,0,5"
+									Orientation="Vertical"
+									
+									>
+
+								<Label 
+										x:Name="bookMarkTitle"
+										Content="{Binding BookmarkTitle, FallbackValue=bookmark}"
+										Margin="0"
+										Padding="0"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Left"
+										FontSize="{StaticResource LeafFontSize}"
+										Foreground="White"
+										/>
+
+								<Label Content="{Binding FileItem.OutlinePath.FullPath, FallbackValue=path}"
+										Margin="0"
+										Padding="0"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Left"
+										FontSize="{StaticResource LeafFontSize}"
+										Foreground="White"
+										/>
+							</StackPanel>
 						</StackPanel>
+						<DataTemplate.Triggers>
+							<Trigger SourceName="cbxLeaf" Property="IsFocused" Value="True">
+								<Setter TargetName="cbxLeaf" Property="Background" Value="SpringGreen"/>
+							</Trigger>
+							<DataTrigger Binding="{Binding IsSelected}" Value="True" >
+										<Setter TargetName="spLeaf" Property="Background" Value="#004D4D" />
+									</DataTrigger>
+						</DataTemplate.Triggers>
 					</DataTemplate>
 
 				</TreeView.Resources>
 
 
 				<TreeView.ItemTemplate>
-					<HierarchicalDataTemplate
-
-							ItemsSource="{Binding Value.MergeItems}"
-							>
+					<HierarchicalDataTemplate ItemsSource="{Binding Value.MergeItems}">
 						<ContentControl x:Name="PART_ContentControl" Content="{Binding Value}"
 								Margin="0"
 								Padding="0"
@@ -939,7 +903,7 @@
 
 					<DataTemplate x:Key="BRANCH_02"
 							DataType="pdf:PDFMergeItem"
-					>
+							>
 						<StackPanel Name="tv02_sp02"
 								Margin="5"
 								Orientation="Vertical"
@@ -1008,113 +972,54 @@
 			</TreeView>
 
 
-			<!--    -->
-			<!--  <TreeView  -->
-			<!--  Grid.Column="1"  -->
-			<!--  Grid.Row="0"  -->
-			<!--  Margin="10,10,10,0"  -->
-			<!--  HorizontalAlignment="Stretch"  -->
-			<!--  VerticalAlignment="Stretch"  -->
-			<!--  DataContext="{Binding MrgTree.MergeTree,  -->
-			<!--  ElementName=mainWin,  -->
-			<!--  Mode=OneWay}"  -->
-			<!--  Background="#333333"  -->
-			<!--  Foreground="White"  -->
-			<!--  ItemsSource="{Binding Values}"  -->
-			<!--  >  -->
-			<!--    -->
-			<!-- 	<TreeView.Resources> -->
-			<!--    -->
-			<!--  <HierarchicalDataTemplate x:Key="LEAF2"  -->
-			<!--  DataType="pdf:PDFMergeItem">  -->
-			<!--  <Label Content="LEAF"  -->
-			<!--  Width="12"  -->
-			<!--  Foreground="White" />  -->
-			<!-- </HierarchicalDataTemplate>  -->
-			<!--    -->
-			<!--  <HierarchicalDataTemplate x:Key="BRANCH2"  -->
-			<!--  DataType="pdf:PDFMergeItem">  -->
-			<!--  <Label Content="BRANCH"  -->
-			<!--  Width="12"  -->
-			<!--  Foreground="White" />  -->
-			<!-- </HierarchicalDataTemplate>  -->
-
-			<!--  <DataTemplate x:Key="LEAF"  -->
-			<!--  DataType="pdf:PDFMergeItem">  -->
-			<!-- 			<StackPanel Orientation="Vertical"> -->
-			<!-- 				<StackPanel Orientation="Horizontal"> -->
-			<!--  <Label Content="LEAF"  -->
-			<!--  Width="12"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!--  <TextBox  -->
-			<!--  Width="24"  -->
-			<!--  Text="{Binding BookmarkTitle}"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!--  <Label Content="{Binding Depth}"  -->
-			<!--  Width="6"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!-- 				</StackPanel> -->
-			<!--  <Label Content="{Binding FileItem.FullPath}"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!-- 			</StackPanel> -->
-			<!-- 		</DataTemplate> -->
-			<!--    -->
-			<!--  <DataTemplate x:Key="BRANCH"  -->
-			<!--  DataType="pdf:PDFMergeItem"  -->
-			<!--    -->
-			<!--  >  -->
-			<!-- 			<StackPanel Orientation="Vertical"> -->
-			<!-- 				<StackPanel Orientation="Horizontal"> -->
-			<!--  <Label Content="BRANCH"  -->
-			<!--  Width="12"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!--  <TextBox  -->
-			<!--  Width="24"  -->
-			<!--  Text="{Binding BookmarkTitle}"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!--  <Label Content="{Binding Depth}"  -->
-			<!--  Width="6"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
-			<!--    -->
-			<!-- 				</StackPanel> -->
-			<!-- 				<Label Content="{Binding FileItem.FullPath}" /> -->
-			<!-- 			</StackPanel> -->
-			<!-- 		</DataTemplate> -->
-			<!--    -->
-			<!-- 	</TreeView.Resources> -->
-			<!--    -->
-			<!-- 	<TreeView.ItemTemplate> -->
-			<!--  <HierarchicalDataTemplate  -->
-			<!--  DataType="pdf:PDFMergeItem"  -->
-			<!--  ItemsSource="{Binding MergeItems.Values}"  -->
-			<!--  >  -->
-			<!-- <HierarchicalDataTemplate.ItemContainerStyle>  -->
-			<!-- 	<Style TargetType="TreeViewItem">  -->
-			<!-- 		<Setter Property="ItemTemplate" Value="{StaticResource LEAF2}" />  -->
-			<!-- 		<Style.Triggers>  -->
-			<!--  <DataTrigger  -->
-			<!--  Binding="{Binding TreeNodeType}"  -->
-			<!--  Value="BRANCH"  -->
-			<!--  >  -->
-			<!-- 				<Setter Property="ItemTemplate" Value="{StaticResource BRANCH2}" />  -->
-			<!-- 			</DataTrigger>  -->
-			<!-- 		</Style.Triggers>  -->
-			<!-- 	</Style>  -->
-			<!-- </HierarchicalDataTemplate.ItemContainerStyle>  -->
-			<!--    -->
-			<!-- 		</HierarchicalDataTemplate> -->
-			<!-- 	</TreeView.ItemTemplate> -->
-			<!--    -->
-			<!-- </TreeView> -->
-
 		</Grid>
 
+		<!--    -->
+		<!--  <Label Content="{Binding MrgTree.MergeTree/Value.BookmarkTitle}"  -->
+		<!--  Grid.Column="0"  -->
+		<!--  Grid.Row="2"  -->
+		<!--  Margin="3,3,0,0"  -->
+		<!--  Width="90"  -->
+		<!--  Padding="0"  -->
+		<!--  HorizontalAlignment="Left"  -->
+		<!--  VerticalAlignment="Top"  -->
+		<!--  Foreground="White" />  -->
+
+
+		<TextBlock Name="pbStatus"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0,0,0,0"
+				Height="20"
+				Padding="10,0,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Text="status"
+				Foreground="White"
+				/>
+
+		<TextBlock Name="pbMax"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0,0,0,0"
+				Height="20"
+				Padding="0,0,10,0"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Top"
+				Text="100"
+				Foreground="White"
+				/>
+
+		<ProgressBar Name="pb1"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="5"
+				Height="10"
+				VerticalAlignment="Bottom"
+				Maximum="100"
+				Minimum="0"
+				Value="0"
+				IsIndeterminate="False"
+				/>
 	</Grid>
 </Window>

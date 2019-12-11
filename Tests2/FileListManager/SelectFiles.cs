@@ -40,11 +40,6 @@ namespace Tests2.FileListManager
 		{
 			if (!MakeFileList()) return false;
 
-			return UpdateBookmarks();
-		}
-
-		private bool UpdateBookmarks()
-		{
 			return true;
 		}
 

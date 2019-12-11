@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
 using Tests2.PDFMergeManager;
+using Tests2.Windows;
 
 #endregion
 
@@ -21,7 +24,9 @@ namespace Tests2.PDFMergeManager
 {
 	public class PDFMergeMgr
 	{
-		public PDFMergeTree MTree { get; private set; }
+		Dispatcher d = Dispatcher.CurrentDispatcher;
+
+		public PDFMergeTree MTree { get; private set; } = PDFMergeTree.Instance;
 
 		public static PDFMergeMgr Instance { get; } = new PDFMergeMgr();
 
@@ -31,14 +36,32 @@ namespace Tests2.PDFMergeManager
 
 		public void CreateMergeList()
 		{
-			MTree = PDFMergeTree.Instance;
+			MainWinManager.mainWin.UpdateProgressStatus("Creating Merge List - Start");
+//			MTree = PDFMergeTree.Instance;
 
-			MTree.Add();
+			MTree.Initialize();
+
+//			MainWinManager.mainWin.UpdateProgressStatus("Creating Merge List - Complete");
 		}
 
 		public void ListTree()
 		{
 			MTree.ListMergeTree();
 		}
+
+//		public async void test(int i)
+//		{
+//
+//			MTree.test(i);
+//
+
+//			Thread.Sleep(100);
+//
+//			d.Invoke(() =>
+//			{
+//				MainWinManager.mainWin.pb1.Value = i;
+//				MainWinManager.mainWin.pbStatus.Text = i.ToString();
+//			});
+//		}
 	}
 }

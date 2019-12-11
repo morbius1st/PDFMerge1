@@ -27,7 +27,9 @@ namespace Tests2.FileListManager
 //	}
 
 	public class FileItem : IComparable<FileItem>, INotifyPropertyChanged
-	{ 
+	{
+		public const int MAX_DEPTH = 99;
+
 		// static
 
 		// the root basis for all of the subpaths
@@ -131,7 +133,15 @@ namespace Tests2.FileListManager
 
 		public string SequenceCode
 		{
-			get => sequenceCode;
+			get
+			{
+				if (string.IsNullOrWhiteSpace(sequenceCode))
+				{
+					return "Ζ";
+				}
+
+				return sequenceCode;
+			}
 			set
 			{
 				sequenceCode = value;
@@ -139,9 +149,15 @@ namespace Tests2.FileListManager
 			}
 		}
 
-		public string SortCode => sequenceCode + " :: " + OutlinePath.FileWithoutExtension;
+//		public string SortCode => SequenceCode + "Ζ :: " + OutlinePath.FileWithoutExtension;
+		public string SortCode {
+		get {
+			return SequenceCode + "-" + (MAX_DEPTH - OutlinePathDepth) +
+				" :: " + OutlinePath.FileWithoutExtension;
+		}
+	}
 
-		public int OutlineDepth
+		public int OutlinePathDepth
 		{
 			get
 			{
@@ -168,12 +184,19 @@ namespace Tests2.FileListManager
 			}
 		}
 
-
 		public int CompareTo(FileItem other)
 		{
-			return SortCode.CompareTo(other.SortCode);
+//			int b = "".CompareTo("a");
+//			int c = "Ζ".CompareTo("A");
+//			int d = "Ζ".CompareTo("z");
+//			int e = "Ζ".CompareTo("Z");
+//			int f = "Ζ".CompareTo("0");
+//			int g = "Ζ".CompareTo("9");
+//
+//
+			int a = SortCode.CompareTo(other.SortCode);
 
-//			return OutlinePath.CompareTo(other.OutlinePath);
+			return SortCode.CompareTo(other.SortCode);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -183,5 +206,9 @@ namespace Tests2.FileListManager
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
+		public override string ToString()
+		{
+			return SortCode + " <> " + OutlinePath.ToString();
+		}
 	}
 }

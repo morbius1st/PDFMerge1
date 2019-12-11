@@ -28,18 +28,21 @@ namespace Tests2.FileListManager
 	// based on the user's settings
 	public class FileItems : INotifyPropertyChanged, IEnumerable<FileItem>
 	{
-
 	#region data fields
 
-		private List<FileItem> fileItems;
+	#if DEBUG
+		public
+		#else
+			private
+		#endif
+			List<FileItem> fileItems;
 
 	#if DEBUG
 		public static List<FileItem> fileItems2 { get; private set; }
+		private static FileListDebugSupport flds = new FileListDebugSupport();
 	#endif
 
 	#endregion
-
-		private static FileListDebugSupport flds = new FileListDebugSupport();
 
 	#region ctor
 
@@ -51,7 +54,6 @@ namespace Tests2.FileListManager
 			flds.test(out List<FileItem> fileItems3);
 			fileItems2 = fileItems3;
 		#endif
-
 		}
 
 		private FileItems() { }
@@ -60,11 +62,25 @@ namespace Tests2.FileListManager
 
 	#region public properties
 
-//		public List<FileItem> FileListItems => fileItems;
-
 		public bool IsInitialized { get; private set; }
 
 		public int Count => fileItems.Count;
+
+		public int SubItemCount
+		{
+
+			get
+			{
+				int count = 0;
+
+				foreach (FileItem item in fileItems)
+				{
+					count += item.OutlinePath.FolderNamesCount + 1;
+				}
+
+				return count;
+			}
+		}
 
 		public FileItem this[int index] => fileItems[index];
 

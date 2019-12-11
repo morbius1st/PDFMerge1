@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 using System;
 using System.IO;
+using System.Text;
 using SysPath = System.IO.Path;
 #endregion
 
@@ -28,6 +29,12 @@ namespace Tests2.FileListManager
 	#endregion
 
 	#region ctor
+
+		public Route()
+		{
+			IsValid = true;
+			FullPath = null;
+		}
 
 		public Route(string initialRoute)
 		{
@@ -227,7 +234,7 @@ namespace Tests2.FileListManager
 
 		public string[] FolderNames => FolderNameList(Folders);
 
-		public int FolderCount
+		public int FolderNamesCount
 		{
 			get
 			{
@@ -259,7 +266,12 @@ namespace Tests2.FileListManager
 
 				if (Directory.Exists(FullPath)) return RouteType.DIRECTORY;
 
+			#if DEBUG
+				return RouteType.FILE;
+			#else
 				return RouteType.OTHER;
+			#endif
+
 			}
 		}
 
@@ -390,6 +402,25 @@ namespace Tests2.FileListManager
 			if (!compare) return Route.Invalid;
 
 			return new Route(FullPath.Substring(subtractorLength));
+		}
+
+		public string GetFoldersList()
+		{
+			StringBuilder sb = new StringBuilder();
+
+			string[] names = FolderNames;
+
+			if (names.Length > 0)
+			{
+				for (int i = 0; i < names.Length - 1; i++)
+				{
+					sb.Append(names[i]).Append("<>");
+				}
+
+				sb.Append(names[names.Length - 1]);
+			}
+
+			return sb.ToString();
 		}
 
 	#endregion

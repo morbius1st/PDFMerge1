@@ -26,7 +26,7 @@ namespace Tests2.OutlineManager
 {
 	public class OutlineMgr
 	{
-		private OutlineItems ois;
+		private static OutlineItems ois;
 
 		private OutlineDebugSupport ods = new OutlineDebugSupport();
 
@@ -75,21 +75,7 @@ namespace Tests2.OutlineManager
 
 			foreach (FileItem fi in FileItems.Instance)
 			{
-				found = fi.OutlinePath.FileWithoutExtension;
-
-				if (fi.OutlinePath.HasFileName)
-				{
-					foreach (OutlineItem oi in ois.Vue)
-					{
-						if (fi.OutlinePath.FileWithoutExtension.StartsWith(oi.Pattern))
-						{
-							fi.OutlinePath.Prepend(oi.OutlinePath);
-							fi.SequenceCode = oi.SequenceCode;
-							found = null;
-							break;
-						}
-					}
-				}
+				found = AdjustOutlinePath(fi);
 
 				if (found != null)
 				{
@@ -98,6 +84,27 @@ namespace Tests2.OutlineManager
 			}
 
 			return UnMatched.Count;
+		}
+
+		public static string AdjustOutlinePath(FileItem fi)
+		{
+			string found = fi.OutlinePath.FileWithoutExtension;
+
+			if (fi.OutlinePath.HasFileName)
+			{
+				foreach (OutlineItem oi in ois.Vue)
+				{
+					if (fi.OutlinePath.FileWithoutExtension.StartsWith(oi.Pattern))
+					{
+						fi.OutlinePath.Prepend(oi.OutlinePath);
+						fi.SequenceCode = oi.SequenceCode;
+						found = null;
+						break;
+					}
+				}
+			}
+
+			return found;
 		}
 
 		private void SaveUserOutlineItems()

@@ -20,10 +20,27 @@ namespace Tests2.PDFMergeManager
 
 	public class PDFMergeItem : INotifyPropertyChanged
 	{
+		private enum SelectedState
+		{
+			UNDEFINED = 100,
+			UNCHECK = 0,
+			CHECKED = 2,
+			PARTIAL = 10,
+			CHK_WAS_PARTIAL = 11,
+			CHK_WAS_UNCHECK = 1,
+			UNCHK_WAS_PARTIAL = -11,
+			UNCHK_WAS_SELECTED = -2
+		}
+
+
 		private string bookmarkTitle;
 		private TreeNodeType treeNodeType;
 		private int pageNumber;
 		private int depth;
+		private bool? isSelected;
+
+		private SelectedState currentState = SelectedState.UNDEFINED;
+
 		private FileItem fileItem;
 		private ObservableCollection<KeyValuePair<string, PDFMergeItem>> mergeItems;
 
@@ -67,6 +84,16 @@ namespace Tests2.PDFMergeManager
 			}
 		}
 
+		public bool? IsSelected
+		{
+			get => isSelected;
+			set
+			{
+				isSelected = value;
+				OnPropertyChange();
+			}
+		}
+
 		public FileItem FileItem
 		{
 			get => fileItem;
@@ -89,9 +116,9 @@ namespace Tests2.PDFMergeManager
 
 		public PDFMergeItem(
 			string bookmarkTitle,
-			TreeNodeType treeNodeType, 
-			int pageNumber, 
-			int depth, 
+			TreeNodeType treeNodeType,
+			int pageNumber,
+			int depth,
 			FileItem fileItem
 			)
 		{
@@ -111,6 +138,60 @@ namespace Tests2.PDFMergeManager
 		{
 			MergeItems = new ObservableCollection<KeyValuePair<string, PDFMergeItem>>();
 		}
+
+//
+//		private SelectedState SwitchSelectedState(int operation)
+//		{
+//			if (operation == 1)
+//			{
+//				switch (isSelected)
+//				{
+//				case true:
+//					currentState = SelectedState.CHECKED
+//					break;
+//				case false:
+//					currentState = SelectedState.CHK_WAS_UNCHECK;
+//					break;
+//				case null:
+//					currentState = SelectedState.CHK_WAS_PARTIAL;
+//					break;
+//				}
+//
+//				IsSelected = true;
+//
+//			}
+//			else if (operation == 2)
+//			{
+//				switch (current)
+//				{
+//				case SelectedState.CHK_WAS_PARTIAL:
+//					return SelectedState.UNCHK_WAS_PARTIAL;
+//				case SelectedState.CHECKED:
+//				case SelectedState.PARTIAL:
+//					return SelectedState.UNCHK_WAS_SELECTED;
+//				case SelectedState.CHK_WAS_UNCHECK:
+//					return SelectedState.UNCHECK;
+//				}
+//
+//				return current;
+//			}
+//			else
+//			{
+//				// operation 3
+//				switch (current)
+//				{
+//				case SelectedState.UNCHK_WAS_PARTIAL:
+//					return SelectedState.PARTIAL;
+//				case SelectedState.UNCHK_WAS_SELECTED:
+//					return SelectedState.UNCHECK;
+//				case SelectedState.UNCHECK:
+//					return SelectedState.UNCHECK;
+//				}
+//			}
+//
+//			return current;
+//		}
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

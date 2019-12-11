@@ -62,19 +62,24 @@ namespace Tests2.FileListManager
 
 			sFil.GetFileList();
 
+//			List<FileItem> fileItems = FileItems.Instance.fileItems;
+
 			olm.Initalize();
 
 			int unMatched = olm.ApplyOutlineSettings();
 
-			if (unMatched > 0)
-			{
-				MainWinManager.MessageAppendLine("");
+			MainWinManager.mainWin.SetProgressMax( 
+				FileItems.Instance.SubItemCount);
 
-				foreach (string s in olm.UnMatched)
-				{
-					MainWinManager.MessageAppendLine("unmatched| " + s);
-				}
-			}
+//			if (unMatched > 0)
+//			{
+//				MainWinManager.MessageAppendLine("");
+//
+//				foreach (string s in olm.UnMatched)
+//				{
+//					MainWinManager.MessageAppendLine("unmatched| " + s);
+//				}
+//			}
 
 			FileItems.Instance.Sort();
 
