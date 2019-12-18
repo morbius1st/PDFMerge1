@@ -137,13 +137,25 @@ namespace Tests2.PDFMergeManager
 				// do not add twice
 				if (ContainsKey(item.OutlinePath.FileWithoutExtension, mtree)) return;
 
+
+				PDFMergeItem pmi = new PDFMergeItem(
+					item.OutlinePath.FileWithoutExtension,
+					TreeNodeType.LEAF, 0, depth, item);
+
+				this.PropertyChanged += pmi.E;
+
 				// does not have sub-outlines
 				// add the leaf to the tree
 				mtree.Add(new KeyValuePair<string, PDFMergeItem>(
-					item.OutlinePath.FileWithoutExtension,
-					new PDFMergeItem(
-						item.OutlinePath.FileWithoutExtension,
-						TreeNodeType.LEAF,0, depth,item)));
+					item.OutlinePath.FileWithoutExtension, pmi));
+
+//				OnPropertyChange("E");
+				
+//				mtree.Add(new KeyValuePair<string, PDFMergeItem>(
+//					item.OutlinePath.FileWithoutExtension,
+//					new PDFMergeItem(
+//						item.OutlinePath.FileWithoutExtension,
+//						TreeNodeType.LEAF,0, depth,item)));
 			}
 		}
 
@@ -215,6 +227,13 @@ namespace Tests2.PDFMergeManager
 
 
 	#if DEBUG
+
+		public void testevent()
+		{
+			OnPropertyChange("E");
+			OnPropertyChange("Y");
+			OnPropertyChange("Z");
+		}
 
 		public void ListMergeTree()
 		{

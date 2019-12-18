@@ -94,6 +94,8 @@ namespace Tests2.Windows
 		{
 			WinTreeDesigns w;
 
+			MrgTree.testevent();
+
 			Debug.WriteLine("@debug");
 		}
 

@@ -1,7 +1,9 @@
 ﻿#region + Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ using Tests2.Windows;
 
 namespace Tests2.PDFMergeManager
 {
-	public class PDFMergeMgr
+	public class PDFMergeMgr : INotifyPropertyChanged
 	{
 		Dispatcher d = Dispatcher.CurrentDispatcher;
 
@@ -63,5 +65,12 @@ namespace Tests2.PDFMergeManager
 //				MainWinManager.mainWin.pbStatus.Text = i.ToString();
 //			});
 //		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
 	}
 }

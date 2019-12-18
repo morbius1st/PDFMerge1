@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Tests2.FileListManager;
 
@@ -137,6 +138,16 @@ namespace Tests2.PDFMergeManager
 		public void AddMergeItems()
 		{
 			MergeItems = new ObservableCollection<KeyValuePair<string, PDFMergeItem>>();
+		}
+
+//		public void AddPropChg(PropertyChangedEventHandler e)
+//		{
+//			e += E;
+//		}
+
+		public void E(object sender, PropertyChangedEventArgs e)
+		{
+			Debug.WriteLine("got event");
 		}
 
 //
