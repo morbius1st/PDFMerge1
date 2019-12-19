@@ -171,8 +171,8 @@ namespace Test3
 			MainWin.AppendMessageTbk2(nl);
 
 			DebugPrint(CheckedStateSymbol(et3.SelectState) + " " +
-				et3.NodeType.ToString().PadRight(7) + "| " + title, "check count| " + et3.CheckedCount
-				+ (et3.NodeType == NodeType.BRANCH ? " :: children| " + et3.childList?.Count ?? "none" : "")
+				et3.NodeType.ToString().PadRight(7) + "| " + title, "chk count| " + et3.CheckedCount +
+				(et3.NodeType == NodeType.BRANCH ? " :: children| " + et3.childList?.Count ?? "none" : "")
 				, 0, offset);
 			DebugPrint("", et3.SelectState + " :: orig| " 
 				+ et3.SelectStateOriginal, offset, 0);

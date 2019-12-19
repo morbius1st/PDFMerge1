@@ -9,8 +9,101 @@
 		Height="850"
 		mc:Ignorable="d"
 		Background="#444444"
+		FontFamily="MS Gothic"
 		>
 	<Window.Resources>
+	
+				<ContentControl x:Key="control1">
+					<ContentControl.Content>
+						<StackPanel
+								Margin="3,5,0,5"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Orientation="Horizontal"
+								Width="500"
+								>
+							<CheckBox
+									Foreground="White"
+									IsChecked="{Binding CheckedStatus}"
+									IsThreeState="false"
+									
+									/>
+							<StackPanel
+									Margin="10,0,0,0"
+									Orientation="Vertical"
+									Width="500"
+									>
+								<StackPanel
+										Margin="0,0,0,3"
+										Orientation="Horizontal"
+										>
+									<Label Content="{Binding NodeType, FallbackValue=BRANCH}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-7}|"
+											Foreground="White"
+											/>
+									<Label Content="{Binding Name, 
+									FallbackValue='Br# 0 :ParentBr# 0 :Depth 0 :Unique 0'}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-15} "
+											Foreground="White"
+											Width="256"
+											/>
+
+									<Label Content="| children |"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-10} "
+											Foreground="White"
+											/>
+									<Label Content="{Binding childList.Count, FallbackValue='3 '}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,2}| "
+											Foreground="White"
+											/>
+								</StackPanel>
+								<StackPanel
+										Margin="0,0,0,3"
+										Orientation="Horizontal"
+										>
+									<Label
+											Margin="0,0,5,0"
+											Padding="0"
+											Content=" "
+											ContentStringFormat="{}{0,-7}| "
+											Foreground="White"
+											/>
+									<Label Content="{Binding SelectState, FallbackValue='CHECKED'}"
+											Width="78"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-8}| "
+											Foreground="White" />
+
+									<Label Content="{Binding SelectStateOriginal, FallbackValue='UNSET'}"
+											Width="78"
+											Margin="0,0,5,0"
+											Padding="0"
+											Foreground="White"
+											ContentStringFormat="{}{0,-8}| " />
+									<Label Content="chk count"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-5}| "
+											Foreground="White" />
+									<Label Content="{Binding CheckedCount, FallbackValue='0'}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,2} | "
+											Foreground="White" />
+								</StackPanel>
+								</StackPanel>
+								</StackPanel>
+					</ContentControl.Content>
+				</ContentControl>
 
 	</Window.Resources>
 	<Grid>
@@ -48,7 +141,19 @@
 				VerticalScrollBarVisibility="Visible"
 				Background="Black"
 				Foreground="White"
+				Margin="0,0,0,60"
 				/>
+
+		<StackPanel Grid.Column="1"
+				Grid.Row="0"
+				Height="50"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Bottom"
+				Background="Black"
+				Margin="0,5"
+				>
+			<ContentControl Content="{StaticResource control1}"/>
+		</StackPanel>
 
 		<TreeView Name="tv1"
 				Grid.Column="0"
@@ -153,6 +258,196 @@
 
 					</ContentControl.Content>
 				</ContentControl>
+
+				<SolidColorBrush x:Key="ListBorder"
+						Color="#828790"
+						/>
+				<Style x:Key="TreeViewStyle1"
+						TargetType="{x:Type TreeView}"
+						>
+					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+					<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="Padding" Value="1" />
+					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+					<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+					<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+					<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+					<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+					<Setter Property="VerticalContentAlignment" Value="Center" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type TreeView}">
+								<Border x:Name="Bd"
+										SnapsToDevicePixels="true"
+										BorderThickness="{TemplateBinding BorderThickness}"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										>
+									<ScrollViewer x:Name="_tv_scrollviewer_"
+											Padding="{TemplateBinding Padding}"
+											CanContentScroll="false"
+											Focusable="false"
+											HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+											VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+											Background="{TemplateBinding Background}"
+											>
+										<StackPanel Orientation="Vertical">
+											<ContentControl Content="{StaticResource control1}" />
+											<ItemsPresenter />
+										</StackPanel>
+									</ScrollViewer>
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsEnabled" Value="false">
+										<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+									</Trigger>
+									<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+										<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="true" />
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+							<Setter Property="ItemsPanel">
+								<Setter.Value>
+									<ItemsPanelTemplate>
+										<VirtualizingStackPanel />
+									</ItemsPanelTemplate>
+								</Setter.Value>
+							</Setter>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+
+			</TreeView.Resources>
+			<TreeView.ItemTemplate>
+
+				<HierarchicalDataTemplate ItemsSource="{Binding childList}">
+
+					<ContentControl x:Name="PART_ContentControl" Content="{Binding}"
+							Margin="0"
+							Padding="0"
+							Foreground="White"
+							>
+
+						<ContentControl.ContentTemplate>
+							<DataTemplate>
+
+								<StackPanel
+										Margin="3,5,0,5"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										Orientation="Horizontal"
+										>
+
+									<CheckBox
+											Foreground="White"
+											IsChecked="{Binding CheckedStatus}"
+											IsThreeState="false"
+											/>
+									<StackPanel
+											Margin="10,0,0,0"
+											Orientation="Vertical"
+											>
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
+											<Label Content="{Binding NodeType}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-7}|"
+													Foreground="White"
+													/>
+											<Label Content="{Binding Name}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-15}| "
+													Foreground="White"
+													/>
+	
+											<Label Content="children"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,10}| "
+													Foreground="White"
+													/>
+											<Label Content="{Binding childList.Count}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,2}| "
+													Foreground="White"
+													/>
+										</StackPanel>
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
+											<Label Content=" "
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-7}| "
+													Foreground="White"
+													/>
+											<Label Content="{Binding SelectState}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-14}| "
+													Foreground="White"
+													/>
+
+											<Label Content="{Binding SelectStateOriginal}"
+													Margin="0,0,5,0"
+													Padding="0"
+													Foreground="White"
+													ContentStringFormat="{}{0,-15}| "
+													/>
+											<Label Content="chk count"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,5}| "
+													Foreground="White" />
+											<Label Content="{Binding CheckedCount}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,2}| "
+													Foreground="White" />
+										</StackPanel>
+									</StackPanel>
+								</StackPanel>
+							</DataTemplate>
+
+						</ContentControl.ContentTemplate>
+					</ContentControl>
+
+
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+
+
+		</TreeView>
+
+		<TreeView Name="tv2"
+				Grid.Column="1"
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				FontFamily="MS Gothic"
+				DataContext="{Binding ElementName=mainWin,
+															Path=evMgr.Root}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				Background="#000000"
+				Foreground="White"
+				ItemsSource="{Binding childList}"
+				Style="{DynamicResource TreeViewStyle1}"
+				>
+
+			<TreeView.Resources>
+
 
 				<SolidColorBrush x:Key="ListBorder"
 						Color="#828790"

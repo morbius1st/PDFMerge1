@@ -34,6 +34,8 @@ namespace Test3
 {
 	public class EventTest3 : INotifyPropertyChanged
 	{
+	#region fields
+
 		private string name;
 		private NodeType nodeType = NodeType.LEAF;
 		private SelectState selectState = SelectState.UNCHECKED;
@@ -50,7 +52,11 @@ namespace Test3
 
 		public ObservableCollection<EventTest3> childList { get; private set; } = new ObservableCollection<EventTest3>();
 
-		public EventTest3(     int depth, int parentBranchId, int branchId, int LeafId, int uniqueId,
+	#endregion
+
+	#region ctor
+
+		public EventTest3(int depth, int parentBranchId, int branchId, int LeafId, int uniqueId,
 			bool asBranch = false
 			)
 		{
@@ -65,9 +71,8 @@ namespace Test3
 			{
 				nodeType = NodeType.BRANCH;
 				childList = new ObservableCollection<EventTest3>();
-
-//				OnPropertyChange("childList");
 			}
+
 			this.name = MakeName();
 		}
 
@@ -81,6 +86,10 @@ namespace Test3
 			return $"BrId# {branchId,-2}:ParentBr# {parentBranchId,-2}:Depth {depth,-2}:Unique {uniqueId}";
 
 		}
+
+	#endregion
+
+	#region properties
 
 		public string Name {
 			get  => name;
@@ -175,21 +184,38 @@ namespace Test3
 
 				if (value == true)
 				{
-//					SelState = SelectState.CHECKED;
 					processStateChange(SelectState.CHECKED);
 				}
 				else if (value == false)
 				{
-//					SelState = SelectState.UNCHECKED;
 					processStateChange(SelectState.UNCHECKED);
 				}
 				else
 				{
-//					SelState = SelectState.MIXED;
 					processStateChange(SelectState.MIXED);
 				}
 			}
 
+		}
+
+	#endregion
+
+		public void Reset()
+		{
+			childCheckCount = 0;
+			selectState = SelectState.UNCHECKED;
+			selectTriStateSaved = SelectState.UNSET;
+
+			OnPropertyChange("CheckedCount");
+			OnPropertyChange("CheckedStatus");
+			OnPropertyChange("SelectState");
+			OnPropertyChange("SelectStateOriginal");
+
+		}
+
+		public void TriStateReset()
+		{
+			SelectStateOriginal = SelectState.UNSET;
 		}
 
 		private void processStateChange(SelectState newValue)
@@ -222,7 +248,6 @@ namespace Test3
 
 					// children are all being unchecked
 					// reset checked count to 0
-
 					if (selectState == SelectState.UNCHECKED)
 					{
 						CheckedCount = 0;
@@ -239,6 +264,7 @@ namespace Test3
 					selectTriStateSaved = selectState;
 
 					SelState = newValue;
+
 					StateChangeMessage(newValue);
 
 					NotifyChildrenOfStateChange(selectState, true);
@@ -293,79 +319,6 @@ namespace Test3
 //				}
 //			}
 		}
-
-		// checking process - from this items checkbox
-
-		// is leaf
-		//   +-> stateoriginal -> unset
-		//   +-> set new state
-		//   +-> onpropertychange
-		//   +-> notifyparent
-		//   +-> done
-
-
-		// is branch
-
-		// stateoriginal is not set
-		// current is checked or unchecked
-		//  +-> set new state
-		//  +-> onpropertychange
-		//  +-> notifyparent
-		//  +-> notifychildren
-		//  +-> done
-
-
-		// stateoriginal is not set  (starting tri-state)
-		// current is mixed
-		//  +-> stateoriginal = currentstate
-		//  +-> set new state
-		//  +-> onpropertychange
-		//  +-> notifyparent  (current state)
-		//  +-> notifychildren  (current state, true)
-		//  +-> done
-
-
-		// stateoriginal is set
-		// | | +-> current is mixed - use tristate
-		// | |     +-> current becomes checked
-		// | |     +-> onpropertychange
-		// | |     +-> notifyparent (current state)
-		// | |     +-> notifychildren (current state, true)
-		// | |     +-> done
-		// | +-> current is checked (using tristate [stateoriginal is set])
-		// |     +-> current becomes unchecked
-		// |     +-> orpropertychange
-		// |     +-> notifyparent (current state)
-		// |     +-> notifychildren (current state, true)
-		// |     +-> done
-		// +-> current is unchecked  (using tristate [stateoriginal is set])
-		//     +-> current becomes mixed
-		//     +-> orpropertychange
-		//     +-> notifyparent (current state)
-		//     +-> notifychildren (current state, true)
-		//     +-> done
-
-		// must notify that tri-state is finished
-		// focus lost -> TriStateReset()
-
-		public void TriStateReset()
-		{
-			SelectStateOriginal = SelectState.UNSET;
-		}
-
-		public void Reset()
-		{
-			childCheckCount = 0;
-			selectState = SelectState.UNCHECKED;
-			selectTriStateSaved = SelectState.UNSET;
-
-			OnPropertyChange("CheckedCount");
-			OnPropertyChange("CheckedStatus");
-			OnPropertyChange("SelectState");
-			OnPropertyChange("SelectStateOriginal");
-
-		}
-
 
 	#if DEBUG
 
