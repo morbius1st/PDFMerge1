@@ -22,6 +22,8 @@ namespace Test3
 
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+		public static bool ShowEventMesssage = false;
+
 		public static string nl = System.Environment.NewLine;
 
 		public enum SelectStatus
@@ -94,16 +96,16 @@ namespace Test3
 			evMgr.CheckOne();
 		}
 		
-		private void BtnCheckTwo_OnClick(object sender, RoutedEventArgs e)
+		private void BtnCheckOneOneTv2_OnClick(object sender, RoutedEventArgs e)
 		{
 			tbk2.AppendText("********  check [2] ********\n");
-			evMgr.CheckTwo();
+			evMgr.CheckOneOne();
 		}
 		
-		private void BtnUnCheckTwo_OnClick(object sender, RoutedEventArgs e)
+		private void BtnUnCheckOneOneTv2_OnClick(object sender, RoutedEventArgs e)
 		{
 			tbk2.AppendText("********  uncheck [2] ********\n");
-			evMgr.UnCheckTwo();
+			evMgr.UnCheckOneOne();
 		}
 
 		private void BtnResetTree_OnClick(object sender, RoutedEventArgs e)
@@ -216,6 +218,15 @@ namespace Test3
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+		private void CheckBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			CheckBox cbx = (CheckBox) sender;
+
+			EventTest4 et4 = (EventTest4) cbx.DataContext;
+
+			et4.TriStateReset();
 		}
 	}
 }

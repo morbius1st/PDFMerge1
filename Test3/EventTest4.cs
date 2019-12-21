@@ -9,27 +9,17 @@ using static Test3.MainWindow;
 
 
 // projname: Test3
-// itemname: EventTest2
+// itemname: EventTest4
 // username: jeffs
-// created:  12/11/2019 8:42:22 PM
-
-
-// need to deal with two event systems
-// event system for state changes
-// one is from this to child:   OnStateChangeNotifyChild(state, useTriState)
-// one is from this to parent:  OnStateChangeNotifyParent(state)
-// states: unchecked, checked, undetermined, complete (reset tristate)
-// this means that all events starts here
+// created:  12/18/2019 9:24:59 PM
 
 
 namespace Test3
 {
-	public class EventTest3 : Evt<EventTest3>, INotifyPropertyChanged
+	public class EventTest4 : Evt<EventTest4>, INotifyPropertyChanged
 	{
 	#region fields
 
-		
-		private NodeType nodeType = NodeType.LEAF;
 		private SelectState selectTriStateSaved = SelectState.UNSET;
 
 		private int depth = 0;
@@ -38,6 +28,7 @@ namespace Test3
 		private int leafId = 0;
 		private int uniqueId = 0;
 
+		private bool _isSelected;
 		private bool _isExpanded;
 
 		private bool? checkedStatus = false;
@@ -47,9 +38,9 @@ namespace Test3
 
 	#region ctor
 
-		public EventTest3() { }
+		public EventTest4() { }
 
-		public EventTest3(int depth, int parentBranchId, int branchId, int LeafId, int uniqueId,
+		public EventTest4(int depth, int parentBranchId, int branchId, int LeafId, int uniqueId,
 			bool asBranch = false
 			)
 		{
@@ -63,7 +54,7 @@ namespace Test3
 			if (asBranch)
 			{
 				nodeType = NodeType.BRANCH;
-				childList = new ObservableCollection<EventTest3>();
+				childList = new ObservableCollection<EventTest4>();
 			}
 
 			this.name = MakeName();
@@ -82,11 +73,17 @@ namespace Test3
 			if (asBranch)
 			{
 				nodeType = NodeType.BRANCH;
-				childList = new ObservableCollection<EventTest3>();
+				childList = new ObservableCollection<EventTest4>();
 			}
 
 			this.name = MakeName();
 		}
+
+//		public override void  AsBranch()
+//		{
+//			nodeType = NodeType.BRANCH;
+//			childList = new ObservableCollection<EventTest4>();
+//		}
 
 		private string MakeName()
 		{
@@ -96,20 +93,21 @@ namespace Test3
 			}
 
 			return $"BrId# {branchId,-2}:ParentBr# {parentBranchId,-2}:Depth {depth,-2}:Unique {uniqueId}";
-
 		}
 
 	#endregion
 
 	#region properties
 
-		public string Name {
+		public string Name
+		{
 			get  => name;
 
 			set => name = value;
 		}
 
-		public int CheckedCount {
+		public int CheckedCount
+		{
 			get => childCheckCount;
 			private set
 			{
@@ -162,7 +160,7 @@ namespace Test3
 			get => selectState;
 			set
 			{
-				processStateChange(value); 
+				processStateChange(value);
 				OnPropertyChange();
 			}
 		}
@@ -175,14 +173,13 @@ namespace Test3
 				if (selectState == SelectState.CHECKED)
 				{
 					checkedStatus = true;
-
-				} else if (selectState == SelectState.UNCHECKED)
+				}
+				else if (selectState == SelectState.UNCHECKED)
 				{
 					checkedStatus = false;
 				}
 				else
 				{
-
 					checkedStatus = null;
 				}
 
@@ -207,10 +204,11 @@ namespace Test3
 					processStateChange(SelectState.MIXED);
 				}
 			}
-
 		}
 
 	#endregion
+
+	#region public methods
 
 		public override void Reset()
 		{
@@ -222,7 +220,6 @@ namespace Test3
 			OnPropertyChange("CheckedStatus");
 			OnPropertyChange("SelectState");
 			OnPropertyChange("SelectStateOriginal");
-
 		}
 
 		public void TriStateReset()
@@ -230,108 +227,116 @@ namespace Test3
 			SelectStateOriginal = SelectState.UNSET;
 		}
 
+	#endregion
+
+	#region state change
+
+		private void processStateChangeLeaf(SelectState newValue, bool useTriState)
+		{
+			SelState = newValue;
+
+			NotifyParentOfStateChange(selectState, SelectState.UNSET, useTriState);
+		}
+
+		private void processStateChangeBranch(SelectState newValue, bool useTriState)
+		{
+			SelState = newValue;
+
+			NotifyChildrenOfStateChange(selectState, useTriState);
+			NotifyParentOfStateChange(selectState, SelectState.UNSET, useTriState);
+
+			// children are all being unchecked
+			// reset checked count to 0
+			if (selectState == SelectState.UNCHECKED)
+			{
+				CheckedCount = 0;
+			}
+			else
+			{
+				CheckedCount = childList.Count;
+			}
+		}
+
 		private void processStateChange(SelectState newValue)
 		{
 			// for leaf, just notify parent
 			if (nodeType == NodeType.LEAF)
 			{
-				SelState = newValue;
-
-				StateChangeMessage(newValue);
-
-				NotifyParentOfStateChange(selectState, SelectState.UNSET, false);
+				processStateChangeLeaf(newValue, false);
 
 				return;
 			}
 
 			// node type is branch
 
-//			if (selectTriStateSaved == SelectState.UNSET)
-//			{
-
-			if (selectState == SelectState.CHECKED ||
-				selectState == SelectState.UNCHECKED)
+			if (selectTriStateSaved == SelectState.UNSET)
 			{
-				SelState = newValue;
-				StateChangeMessage(newValue);
-
-				NotifyChildrenOfStateChange(selectState, false);
-				NotifyParentOfStateChange(selectState, SelectState.UNSET, false);
-
-				// children are all being unchecked
-				// reset checked count to 0
-				if (selectState == SelectState.UNCHECKED)
+				if (selectState == SelectState.CHECKED ||
+					selectState == SelectState.UNCHECKED)
 				{
-					CheckedCount = 0;
+					processStateChangeBranch(newValue, false);
 				}
+				// state is mixed // starting tri-state
 				else
 				{
-					CheckedCount = childList.Count;
+					selectTriStateSaved = selectState;
+
+					processStateChangeBranch(newValue, true);
 				}
-
-				return;
-			} // state is mixed // starting tri-state
-			else
-			{
-				selectTriStateSaved = selectState;
-
-				SelState = newValue;
-
-				StateChangeMessage(newValue);
-
-				NotifyChildrenOfStateChange(selectState, true);
-				NotifyParentOfStateChange(selectState, SelectState.UNSET, false);
-
-				if (selectState == SelectState.UNCHECKED)
-				{
-					CheckedCount = 0;
-				}
-				else
-				{
-					CheckedCount = childList.Count;
-				}
-
-				return;
 			}
-//			}
-//
-//			// selectStateOriginal is set
-//			// processing a tri-state change
-//
-//			switch (selectState)
-//			{
-//			case SelectState.MIXED:
-//				{
-//					SelState = newValue;
-//					StateChangeMessage(SelectState.CHECKED);
-//
-//					NotifyChildrenOfStateChange(selectState, true);
-//					NotifyParentOfStateChange(selectState);
-//
-//					return;
-//				}
-//
-//			case SelectState.CHECKED:
-//				{
-//					SelState = newValue;
-//					StateChangeMessage(SelectState.UNCHECKED);
-//
-//					NotifyChildrenOfStateChange(selectState, true);
-//					NotifyParentOfStateChange(selectState);
-//					return;
-//				}
-//
-//			case SelectState.UNCHECKED:
-//				{
-//					SelState = newValue;
-//					StateChangeMessage(SelectState.MIXED);
-//
-//					NotifyChildrenOfStateChange(selectState, true);
-//					NotifyParentOfStateChange(selectState);
-//					return;
-//				}
-//			}
+			else
+				// selectStateOriginal is set
+				// processing a tri-state change
+				// mixed to checked
+				// checked to unchecked
+				// unchecked to mixed
+
+				// current is mixed -> change to checked
+				// current is checked -> change to unchecked
+				// current is unchecked -> change to mixed
+			{
+				SelectState current = selectState;
+				SelectState proposed = newValue;
+
+				// selectstate is the current state before the newvalue
+				switch (selectState)
+				{
+				case SelectState.MIXED:
+					{
+						proposed = SelectState.UNCHECKED;
+						break;
+					}
+
+				case SelectState.CHECKED:
+					{
+						proposed = SelectState.MIXED;
+						break;
+					}
+
+				case SelectState.UNCHECKED:
+					{
+						proposed = SelectState.CHECKED;
+						break;
+					}
+				}
+
+				SelState = proposed;
+				NotifyParentOfStateChange(proposed, current, true);
+				NotifyChildrenOfStateChange(proposed, true);
+				StateChangeMessage(proposed);
+			}
 		}
+
+	#endregion
+
+	#region system overrides
+
+		public override string ToString()
+		{
+			return nodeType + "::" + name + "::" + selectState;
+		}
+
+	#endregion
 
 	#region event processing
 
@@ -347,6 +352,20 @@ namespace Test3
 		// pass the state change to children - no additional processing
 		public override void StateChangeFromParent(SelectState toThis, bool useTriState)
 		{
+			if (useTriState)
+			{
+				if (selectTriStateSaved == SelectState.UNSET)
+				{
+					selectTriStateSaved = selectState;
+				}
+
+				if (toThis == SelectState.MIXED) toThis = selectTriStateSaved;
+			}
+			else
+			{
+				selectTriStateSaved = SelectState.UNSET;
+			}
+
 			SelState = toThis;
 
 			if (nodeType == NodeType.BRANCH)
@@ -361,14 +380,13 @@ namespace Test3
 				}
 			}
 
-
 			// pass the state change to children
 			NotifyChildrenOfStateChange(toThis, useTriState);
 
 			StateChangeMessage("From Parent");
 		}
 
-		// statechangefrom child
+		// statechangefrom child to parent
 		// only goes to a branch
 		// need to keep count of number of checked versus unchecked
 		// children - but only children
@@ -395,9 +413,22 @@ namespace Test3
 		{
 			// evaluate the new state and pass along as needed
 			SelectState priorState = selectState;
+			SelectState finalState = SelectState.UNSET;
+
+			if (!useTriState)
+			{
+				selectTriStateSaved = SelectState.UNSET;
+			}
+			else if (selectTriStateSaved == SelectState.UNSET)
+			{
+				// usetristate must be true
+				// starting tristate process - save the current state
+				selectTriStateSaved = selectState;
+			}
 
 			switch (newState)
 			{
+			// newstate is checked - child is checked.
 			case SelectState.CHECKED:
 				{
 					if (fromState == SelectState.UNCHECKED || fromState == SelectState.UNSET)
@@ -407,21 +438,20 @@ namespace Test3
 
 					if (childCheckCount == childList.Count)
 					{
-						SelState = SelectState.CHECKED;
-						NotifyParentOfStateChange(SelectState.CHECKED, priorState, useTriState);
+						finalState = SelectState.CHECKED;
 					}
 					else
 					{
 						// only inform parent of mixed once
 						if (selectState != SelectState.MIXED)
 						{
-							SelState = SelectState.MIXED;
-							NotifyParentOfStateChange(SelectState.MIXED, priorState, useTriState);
+							finalState = SelectState.MIXED;
 						}
 					}
 
 					break;
 				}
+			// newstate is unchecked - child is unchecked
 			case SelectState.UNCHECKED:
 				{
 					if (fromState == SelectState.CHECKED || fromState == SelectState.MIXED
@@ -433,20 +463,19 @@ namespace Test3
 					if (childCheckCount <= 0)
 					{
 						childCheckCount = 0;
-						SelState = SelectState.UNCHECKED;
-						NotifyParentOfStateChange(SelectState.UNCHECKED, priorState, useTriState);
+						finalState = SelectState.UNCHECKED;
 					}
 					else
 					{
 						if (selectState == SelectState.CHECKED)
 						{
-							SelState = SelectState.MIXED;
-							NotifyParentOfStateChange(SelectState.MIXED, priorState, useTriState);
+							finalState = SelectState.MIXED;
 						}
 					}
 
 					break;
 				}
+			// newstate is mixed - child is mixed
 			case SelectState.MIXED:
 				{
 					// must evaluate whether coming from checked to mixed or
@@ -456,22 +485,26 @@ namespace Test3
 					// mixed.  inform parent.
 					if (selectState == SelectState.CHECKED)
 					{
-						SelState = SelectState.MIXED;
-						NotifyParentOfStateChange(SelectState.MIXED, priorState, useTriState);
+						finalState = SelectState.MIXED;
 					}
 					// since i am unchecked, flip from
 					// unchecked to mixed. add one to count
 					else if (selectState == SelectState.UNCHECKED)
 					{
 						CheckedCount++;
-						SelState = SelectState.MIXED;
-						NotifyParentOfStateChange(SelectState.MIXED, priorState, useTriState);
+						finalState = SelectState.MIXED;
 					}
 					// i am mixed, so parent must already be mixed
 					// do nothing
 
 					break;
 				}
+			}
+
+			if (finalState != SelectState.UNSET)
+			{
+				SelState = finalState;
+				NotifyParentOfStateChange(finalState, priorState, useTriState);
 			}
 
 			StateChangeMessage("From Child");
@@ -484,6 +517,8 @@ namespace Test3
 	#if DEBUG
 		private void StateChangeMessage(string dir)
 		{
+			if (!MainWindow.ShowEventMesssage) return;
+
 			AppendLine("i am " + name + ". Direction| " + dir
 				+ nl + "       status is| " + selectState
 				+ nl + "     orig status| " + selectTriStateSaved
@@ -505,6 +540,5 @@ namespace Test3
 	#endif
 
 	#endregion
-
 	}
 }

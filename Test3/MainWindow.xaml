@@ -7,103 +7,130 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		Width="1200"
 		Height="850"
+		FontFamily="MS Gothic"
 		mc:Ignorable="d"
 		Background="#444444"
-		FontFamily="MS Gothic"
 		>
 	<Window.Resources>
-	
-				<ContentControl x:Key="control1">
-					<ContentControl.Content>
+
+		<Style x:Key="lblStyle"
+				TargetType="Label"
+				>
+			<Setter Property="Margin" Value="0,0,5,0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Style.Triggers>
+				<DataTrigger
+						Binding="{Binding CheckedStatus}"
+						Value="True"
+						>
+					<Setter Property="Foreground" Value="White"/>
+				</DataTrigger>
+				<DataTrigger
+						Binding="{Binding CheckedStatus}"
+						Value="False"
+						>
+					<Setter Property="Foreground" Value="#aaaaaa"/>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+
+		<ContentControl x:Key="control1">
+			<ContentControl.Content>
+				<StackPanel
+						Margin="3,5,0,5"
+						Width="500"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Orientation="Horizontal"
+						>
+					<CheckBox Name="control1Cbx"
+							LostFocus="CheckBox_LostFocus"
+							Foreground="White"
+							IsChecked="{Binding CheckedStatus}"
+							IsThreeState="false"
+							>
+
+					</CheckBox>
+					<StackPanel
+							Margin="10,0,0,0"
+							Width="500"
+							Orientation="Vertical"
+							>
 						<StackPanel
-								Margin="3,5,0,5"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
+								Margin="0,0,0,3"
 								Orientation="Horizontal"
-								Width="500"
 								>
-							<CheckBox
+							<Label Content="{Binding NodeType, FallbackValue=BRANCH}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-7}|"
 									Foreground="White"
-									IsChecked="{Binding CheckedStatus}"
-									IsThreeState="false"
-									
 									/>
-							<StackPanel
-									Margin="10,0,0,0"
-									Orientation="Vertical"
-									Width="500"
-									>
-								<StackPanel
-										Margin="0,0,0,3"
-										Orientation="Horizontal"
-										>
-									<Label Content="{Binding NodeType, FallbackValue=BRANCH}"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,-7}|"
-											Foreground="White"
-											/>
-									<Label Content="{Binding Name, 
-									FallbackValue='Br# 0 :ParentBr# 0 :Depth 0 :Unique 0'}"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,-15} "
-											Foreground="White"
-											Width="256"
-											/>
+							<Label Content="{Binding Name, FallbackValue='Br# 0 :ParentBr# 0 :Depth 0 :Unique 0'}"
+									Margin="0,0,5,0"
+									Width="256"
+									Padding="0"
+									ContentStringFormat="{}{0,-15} "
+									Foreground="White"
+									/>
 
-									<Label Content="| children |"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,-10} "
-											Foreground="White"
-											/>
-									<Label Content="{Binding childList.Count, FallbackValue='3 '}"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,2}| "
-											Foreground="White"
-											/>
-								</StackPanel>
-								<StackPanel
-										Margin="0,0,0,3"
-										Orientation="Horizontal"
-										>
-									<Label
-											Margin="0,0,5,0"
-											Padding="0"
-											Content=" "
-											ContentStringFormat="{}{0,-7}| "
-											Foreground="White"
-											/>
-									<Label Content="{Binding SelectState, FallbackValue='CHECKED'}"
-											Width="78"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,-8}| "
-											Foreground="White" />
+							<Label Content="| children |"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-10} "
+									Foreground="White"
+									/>
+							<Label Content="{Binding childList.Count, FallbackValue='3 '}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,2}| "
+									Foreground="White"
+									/>
+						</StackPanel>
+						<StackPanel
+								Margin="0,0,0,3"
+								Orientation="Horizontal"
+								>
+							<Label Content=" "
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-7}| "
+									Foreground="White"
+									/>
+							<Label Content="{Binding SelectState, FallbackValue='CHECKED'}"
+									Margin="0,0,5,0"
+									Width="78"
+									Padding="0"
+									ContentStringFormat="{}{0,-8}| "
+									Foreground="White"
+									/>
 
-									<Label Content="{Binding SelectStateOriginal, FallbackValue='UNSET'}"
-											Width="78"
-											Margin="0,0,5,0"
-											Padding="0"
-											Foreground="White"
-											ContentStringFormat="{}{0,-8}| " />
-									<Label Content="chk count"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,-5}| "
-											Foreground="White" />
-									<Label Content="{Binding CheckedCount, FallbackValue='0'}"
-											Margin="0,0,5,0"
-											Padding="0"
-											ContentStringFormat="{}{0,2} | "
-											Foreground="White" />
-								</StackPanel>
-								</StackPanel>
-								</StackPanel>
-					</ContentControl.Content>
-				</ContentControl>
+							<Label Content="{Binding SelectStateOriginal, FallbackValue='UNSET'}"
+									Margin="0,0,5,0"
+									Width="78"
+									Padding="0"
+									ContentStringFormat="{}{0,-8}| "
+									Foreground="White"
+									/>
+							<Label Content="chk count"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-5}| "
+									Foreground="White"
+									/>
+							<Label Content="{Binding CheckedCount, FallbackValue='0'}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,2} | "
+									Foreground="White"
+									/>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</ContentControl.Content>
+		</ContentControl>
 
 	</Window.Resources>
 	<Grid>
@@ -133,6 +160,7 @@
 		<TextBox Name="tbk2"
 				Grid.Column="1"
 				Grid.Row="0"
+				Margin="0,0,0,60"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				FontFamily="MS Gothic"
@@ -141,18 +169,18 @@
 				VerticalScrollBarVisibility="Visible"
 				Background="Black"
 				Foreground="White"
-				Margin="0,0,0,60"
 				/>
 
-		<StackPanel Grid.Column="1"
+		<StackPanel
+				Grid.Column="1"
 				Grid.Row="0"
+				Margin="0,5"
 				Height="50"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Bottom"
 				Background="Black"
-				Margin="0,5"
 				>
-			<ContentControl Content="{StaticResource control1}"/>
+			<ContentControl Content="{StaticResource control1}" />
 		</StackPanel>
 
 		<TreeView Name="tv1"
@@ -224,10 +252,9 @@
 										Margin="0,0,0,3"
 										Orientation="Horizontal"
 										>
-									<Label
+									<Label Content=" "
 											Margin="0,0,5,0"
 											Padding="0"
-											Content=" "
 											ContentStringFormat="{}{0,-7}| "
 											Foreground="White"
 											/>
@@ -235,23 +262,27 @@
 											Margin="0,0,5,0"
 											Padding="0"
 											ContentStringFormat="{}{0,-14}| "
-											Foreground="White" />
+											Foreground="White"
+											/>
 
 									<Label Content="{Binding SelectStateOriginal}"
 											Margin="0,0,5,0"
 											Padding="0"
+											ContentStringFormat="{}{0,-15}| "
 											Foreground="White"
-											ContentStringFormat="{}{0,-15}| " />
+											/>
 									<Label Content="chk count"
 											Margin="0,0,5,0"
 											Padding="0"
 											ContentStringFormat="{}{0,-5}| "
-											Foreground="White" />
+											Foreground="White"
+											/>
 									<Label Content="{Binding CheckedCount}"
 											Margin="0,0,5,0"
 											Padding="0"
 											ContentStringFormat="{}{0,2}| "
-											Foreground="White" />
+											Foreground="White"
+											/>
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
@@ -357,30 +388,19 @@
 												Orientation="Horizontal"
 												>
 											<Label Content="{Binding NodeType}"
-													Margin="0,0,5,0"
-													Padding="0"
+													Style="{StaticResource lblStyle}"
 													ContentStringFormat="{}{0,-7}|"
-													Foreground="White"
 													/>
 											<Label Content="{Binding Name}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,-15}| "
-													Foreground="White"
-													/>
-	
+													Style="{StaticResource lblStyle}" />
+
 											<Label Content="children"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,10}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 											<Label Content="{Binding childList.Count}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,2}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 										</StackPanel>
 										<StackPanel
 												Margin="0,0,0,3"
@@ -402,19 +422,21 @@
 											<Label Content="{Binding SelectStateOriginal}"
 													Margin="0,0,5,0"
 													Padding="0"
-													Foreground="White"
 													ContentStringFormat="{}{0,-15}| "
+													Foreground="White"
 													/>
 											<Label Content="chk count"
 													Margin="0,0,5,0"
 													Padding="0"
 													ContentStringFormat="{}{0,5}| "
-													Foreground="White" />
+													Foreground="White"
+													/>
 											<Label Content="{Binding CheckedCount}"
 													Margin="0,0,5,0"
 													Padding="0"
 													ContentStringFormat="{}{0,2}| "
-													Foreground="White" />
+													Foreground="White"
+													/>
 										</StackPanel>
 									</StackPanel>
 								</StackPanel>
@@ -437,7 +459,7 @@
 				VerticalAlignment="Stretch"
 				FontFamily="MS Gothic"
 				DataContext="{Binding ElementName=mainWin,
-															Path=evMgr.Root}"
+															Path=evMgr.First}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				Background="#000000"
@@ -448,10 +470,10 @@
 
 			<TreeView.Resources>
 
-
 				<SolidColorBrush x:Key="ListBorder"
 						Color="#828790"
 						/>
+
 				<Style x:Key="TreeViewStyle1"
 						TargetType="{x:Type TreeView}"
 						>
@@ -489,8 +511,10 @@
 									</ScrollViewer>
 								</Border>
 								<ControlTemplate.Triggers>
+
 									<Trigger Property="IsEnabled" Value="false">
 										<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+
 									</Trigger>
 									<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 										<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="true" />
@@ -500,6 +524,7 @@
 						</Setter.Value>
 					</Setter>
 					<Style.Triggers>
+
 						<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 							<Setter Property="ItemsPanel">
 								<Setter.Value>
@@ -512,28 +537,34 @@
 					</Style.Triggers>
 				</Style>
 
+				<!--  change background highlight of selected, unfocused text  -->
+				<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+						Color="#424242"
+						/>
+				<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+						Color="#222222"
+						/>
+
 			</TreeView.Resources>
+
 			<TreeView.ItemTemplate>
-
 				<HierarchicalDataTemplate ItemsSource="{Binding childList}">
-
 					<ContentControl x:Name="PART_ContentControl" Content="{Binding}"
 							Margin="0"
 							Padding="0"
 							Foreground="White"
 							>
-
 						<ContentControl.ContentTemplate>
 							<DataTemplate>
-
-								<StackPanel
+								<StackPanel Name="Sp"
 										Margin="3,5,0,5"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										Orientation="Horizontal"
 										>
 
-									<CheckBox
+									<CheckBox Name="item_cbx"
+											LostFocus="CheckBox_LostFocus"
 											Foreground="White"
 											IsChecked="{Binding CheckedStatus}"
 											IsThreeState="false"
@@ -547,77 +578,49 @@
 												Orientation="Horizontal"
 												>
 											<Label Content="{Binding NodeType}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,-7}|"
-													Foreground="White"
+													Style="{StaticResource lblStyle}"
 													/>
 											<Label Content="{Binding Name}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,-15}| "
-													Foreground="White"
+													Style="{StaticResource lblStyle}"
 													/>
-	
+
 											<Label Content="children"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,10}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 											<Label Content="{Binding childList.Count}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,2}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 										</StackPanel>
 										<StackPanel
 												Margin="0,0,0,3"
 												Orientation="Horizontal"
 												>
 											<Label Content=" "
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,-7}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 											<Label Content="{Binding SelectState}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,-14}| "
-													Foreground="White"
-													/>
+													Style="{StaticResource lblStyle}" />
 
 											<Label Content="{Binding SelectStateOriginal}"
-													Margin="0,0,5,0"
-													Padding="0"
-													Foreground="White"
 													ContentStringFormat="{}{0,-15}| "
-													/>
+													Style="{StaticResource lblStyle}" />
 											<Label Content="chk count"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,5}| "
-													Foreground="White" />
+													Style="{StaticResource lblStyle}" />
 											<Label Content="{Binding CheckedCount}"
-													Margin="0,0,5,0"
-													Padding="0"
 													ContentStringFormat="{}{0,2}| "
-													Foreground="White" />
+													Style="{StaticResource lblStyle}" />
 										</StackPanel>
 									</StackPanel>
 								</StackPanel>
 							</DataTemplate>
-
 						</ContentControl.ContentTemplate>
 					</ContentControl>
-
-
 				</HierarchicalDataTemplate>
 			</TreeView.ItemTemplate>
-
-
 		</TreeView>
 
 
@@ -632,24 +635,24 @@
 					Orientation="Horizontal"
 					>
 
-				<Button Name="btnCheckTwo" Content="Check [2]"
+				<Button Name="btnCheckTwo" Content="Check [1][1] tv2"
 						Margin="5"
 						Width="80"
 						Height="30"
 						MaxHeight="60"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Bottom"
-						Click="BtnCheckTwo_OnClick"
+						Click="BtnCheckOneOneTv2_OnClick"
 						/>
 
-				<Button Name="btnUnCheckTwo" Content="UnCheck [2]"
+				<Button Name="btnUnCheckTwo" Content="UnCheck [1][1] tv2"
 						Margin="5"
 						Width="80"
 						Height="30"
 						MaxHeight="60"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Bottom"
-						Click="BtnUnCheckTwo_OnClick"
+						Click="BtnUnCheckOneOneTv2_OnClick"
 						/>
 
 				<Button Name="btnCheckOneOne" Content="Check [1][1]"
@@ -727,10 +730,6 @@
 					HorizontalAlignment="Right"
 					Orientation="Horizontal"
 					>
-
-
-
-
 				<Button Name="btnTest1" Content="Test1"
 						Margin="5"
 						Width="80"

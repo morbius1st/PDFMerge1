@@ -43,6 +43,7 @@ namespace Test3
 	public class EventTestMgr : INotifyPropertyChanged
 	{
 		public EventTest3 Root { get; private set; }
+		public EventTest4 First { get; private set; }
 
 //		public List<EventTest3> Ev2List { get; private set; } = null;
 
@@ -53,8 +54,16 @@ namespace Test3
 
 			MakeChildren(Root, 1, 0, Root.childList);
 
-			OnPropertyChange("Root");
-			OnPropertyChange("childList");
+
+//			OnPropertyChange("Root");
+//			OnPropertyChange("childList");
+
+			First = new EventTest4(0, 0, 0, 0, 0, true);
+			First.Name = "First  (" + First.Name + ")";
+
+			MakeChildren(First, 1, 0, First.childList);
+
+
 		}
 
 		public void CheckOne()
@@ -65,10 +74,20 @@ namespace Test3
 		
 		public void CheckOneOne()
 		{
-			Root.childList[1].childList[1].SelectState = SelectState.CHECKED;
+			First.childList[1].childList[1].SelectState = SelectState.CHECKED;
 		}
 		
 		public void UnCheckOneOne()
+		{
+			First.childList[1].childList[1].SelectState = SelectState.UNCHECKED;
+		}
+			
+		public void CheckOneOneTv2()
+		{
+			Root.childList[1].childList[1].SelectState = SelectState.CHECKED;
+		}
+		
+		public void UnCheckOneOneTv2()
 		{
 			Root.childList[1].childList[1].SelectState = SelectState.UNCHECKED;
 		}
@@ -88,8 +107,44 @@ namespace Test3
 		private int branch = 0;
 		private int MAX_DEPTH = 4;
 
-//		private void MakeChildren( EventTest3 Parent, int depth, int branch, List<EventTest3> Ev2l)
-		private void MakeChildren( EventTest3 Parent, int depth, int branch, ObservableCollection<EventTest3> Ev2l)
+//
+//		private void MakeChildren3( EventTest3 Parent, int depth, int branch, ObservableCollection<EventTest3> Ev2l)
+//		{
+//			if (depth >= MAX_DEPTH) return;
+//
+//			for (int j = 0; j < 1; j++)
+//			{
+//				
+//				for (int i = 0; i < MAX; i++)
+//				{
+//					index++;
+//
+//					EventTest3 et3;
+//
+//					if (i == 1 || i == 2)
+//					{
+//						this.branch++;
+//						// make a new branch
+//						// this branch is still associated with the parent branch
+//						// but its children are associated with the new branch
+//						et3 = new EventTest3(depth, branch, this.branch, (MAX * j + i), index, true);
+//
+//						MakeChildren3(et3, depth + 1, this.branch, et3.childList);
+//					}
+//					else
+//					{
+//						et3 = new EventTest3(depth, branch, 0, (MAX * j + i), index, false);
+//					}
+//
+//					Parent.OnStateChangeNotifyChildrenEvent += et3.StateChangeFromParent;
+//					et3.OnStateChangeNotifyParentEvent = Parent.StateChangeFromChild;
+//
+//					Ev2l.Add(et3);
+//				}
+//			}
+//		}
+
+		private void MakeChildren<T>( T Parent, int depth, int branch, ObservableCollection<T> Ev2l) where  T : Evt<T>, new()
 		{
 			if (depth >= MAX_DEPTH) return;
 
@@ -100,28 +155,30 @@ namespace Test3
 				{
 					index++;
 
-					EventTest3 et3;
+					T et3;
 
 					if (i == 1 || i == 2)
 					{
 						this.branch++;
-//						et3 = new EventTest3(branch + ":" + depth + ":" + (MAX * j + i) + " (" + index + ")"
-//							+ " B#" + this.branch, true);
 						// make a new branch
 						// this branch is still associated with the parent branch
 						// but its children are associated with the new branch
-						et3 = new EventTest3(depth, branch, this.branch, (MAX * j + i), index, true);
+//						et3 = new T(depth, branch, this.branch, (MAX * j + i), index, true);
+						et3 = new T();
+						et3.Configure(depth, branch, this.branch, (MAX * j + i), index, true);
 
 						MakeChildren(et3, depth + 1, this.branch, et3.childList);
 					}
 					else
 					{
-//						et3 = new EventTest3(branch + ":" + depth + ":" + (MAX * j + i) + " (" + index + ")", false);
-						et3 = new EventTest3(depth, branch, 0, (MAX * j + i), index, false);
+//						et3 = new T(depth, branch, 0, (MAX * j + i), index, false);
+						et3 = new T();
+						et3.Configure(depth, branch, this.branch, (MAX * j + i), index, false);
 					}
 
 					Parent.OnStateChangeNotifyChildrenEvent += et3.StateChangeFromParent;
-					et3.OnStateChangeNotifyParentEvent = Parent.StateChangeFromChild;
+					
+					et3.OnStateChangeNotifyParentEvent += Parent.StateChangeFromChild;
 
 					Ev2l.Add(et3);
 				}
@@ -131,6 +188,7 @@ namespace Test3
 		public void ResetTree()
 		{
 			resetTree(Root);
+			resetTree(First);
 		}
 
 		private int depth = 0;
@@ -192,11 +250,11 @@ namespace Test3
 			return CheckedStateSymbols[(int) state + 2];
 		}
 
-		private void resetTree(EventTest3 et3)
+		private void resetTree<T>(T et3) where T : Evt<T>
 		{
 			et3.Reset();
 
-			foreach (EventTest3 ev3 in et3.childList)
+			foreach (T ev3 in et3.childList)
 			{
 				ev3.Reset();
 
