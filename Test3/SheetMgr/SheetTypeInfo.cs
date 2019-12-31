@@ -9,12 +9,6 @@ namespace Test3 {
 
 	public class SheetTypeInfo
 	{
-
-//		public SheetTypeInfo(string description)
-//		{
-//			Description = description;
-//		}
-
 		public SheetTypeInfo(
 			string libraryId,
 			string description,

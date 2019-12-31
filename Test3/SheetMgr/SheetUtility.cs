@@ -1,17 +1,101 @@
-﻿// Solution:     PDFMerge1
-// Project:       Test3
-// File:             SheetsUtility.cs
-// Created:      -- ()
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Test3.SheetMgr;
-using static Test3.MainWindow;
+
+
+// Solution:     PDFMerge1
+// Project:      Test3
+// File:         SheetsUtility.cs
+// Created:      -- ()
 
 namespace Test3
 {
 	public class SheetUtility
 	{
-		public const string SHEET_PATTERN = @"^\s*(\d*|)([A-Z]*|) ([^ ]*) (.*)$";
+		public static void test()
+		{
+			SheetManager sheetManager = new SheetManager();
+
+			Config();
+
+			bool result = false;
+
+			foreach (string sheet in Samples.fullRange)
+			{
+				result = sheetManager.Add(sheet);
+
+				if (!result) break;
+			}
+
+			if (!result)
+				AppendLine("*** parse sheets failed ***");
+			else
+				listSheets(sheetManager);
+		}
+
+
+		public static void listSheets(SheetManager sheetManager)
+		{
+			List<SheetTypeInfo> sheetTypeInfo =
+				SheetSystemManager.SheetTypeManager.SheetTypes;
+
+			SheetPartsDescriptor sheetDescriptor;
+
+			SheetPartData sheetPartData;
+
+
+			TbxClear();
+
+			foreach (Sheet sheet in sheetManager.SheetList)
+			{
+				sheetDescriptor =
+					sheetTypeInfo[sheet.SheetTypeIdx].SheetPartsDescriptor;
+
+				AppendLine("\nSheetId     | " + sheet.SheetId);
+				AppendLine("is reference| " + sheet.IsForRefernce);
+				AppendLine("sheet type  | "
+					+ sheetTypeInfo[sheet.SheetTypeIdx].Description);
+
+				AppendLine("sheet num   | " + sheet.SheetNumber);
+				AppendLine("sheet name  | " + sheet.SheetName );
+
+				ListParts(sheet, sheet.SheetIdPartsSheetNumber);
+				ListParts(sheet, sheet.SheetIdPartsSheetName);
+
+			}
+		}
+
+		private static void ListParts(Sheet sheet, List<Sheet.SheetIdPart> parts)
+		{
+			foreach (Sheet.SheetIdPart part in parts)
+			{
+				string description = sheet.SheetPartDescription(part.SheetPartLibId);
+
+				string value = part.SheetidPartData;
+
+				AppendLine("part name   | "
+					+ description.PadRight(15)
+					+ "   part info| " + value);
+			}
+		}
+
+/*
+	adjusted to discount the .PDF extension
+			regex for building, no phase:
+				@"^(([A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+			regex for phase, no building:
+				@"^(([0-9]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+			regex for phase and building:
+				@"^(([0-9]+[A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+			regex for non phase-building:
+				@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+
+		discipline specific - must occur before above general sheet types
+			regex for civil sheets
+				@"^((C)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+			regex for landscape sheets
+				@"^((L)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
+*/
+
 
 		public static void Config()
 		{
@@ -124,94 +208,6 @@ namespace Test3
 					SP_BLDG_PHASE_SHEET_ID,
 					SP_BLDG_PHASE_SHEET_NAME
 				});
-		}
-
-
-
-/*
-	adjusted to discount the .PDF extension
-			regex for building, no phase:
-				@"^(([A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-			regex for phase, no building:
-				@"^(([0-9]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-			regex for phase and building:
-				@"^(([0-9]+[A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-			regex for non phase-building:
-				@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-
-		discipline specific - must occur before above general sheet types
-			regex for civil sheets
-				@"^((C)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-			regex for landscape sheets
-				@"^((L)\d+(\.\d+\-\w+|\.\d+| ))(.*)"
-*/
-
-
-		public static void test()
-		{
-			SheetManager sheetManager = new SheetManager();
-
-			Config();
-
-			bool result = false;
-
-			foreach (string sheet in Samples.fullRange)
-			{
-				result = sheetManager.Add(sheet);
-
-				if (!result) break;
-			}
-
-			if (!result) 
-				AppendLine("*** parse sheets failed ***");
-			else
-				listSheets(sheetManager);
-		}
-
-
-		public static void listSheets(SheetManager sheetManager)
-		{
-			List<SheetTypeInfo> sheetTypeInfo =
-				SheetSystemManager.SheetTypeManager.SheetTypes;
-
-			SheetPartsDescriptor sheetDescriptor;
-
-			SheetPartData sheetPartData;
-
-
-			TbxClear();
-
-			foreach (Sheet sheet in sheetManager.SheetList)
-			{
-				sheetDescriptor =
-					sheetTypeInfo[sheet.SheetTypeIdx].SheetPartsDescriptor;
-
-				AppendLine("\nSheetId     | " + sheet.SheetId);
-				AppendLine("is reference| " + sheet.IsForRefernce);
-				AppendLine("sheet type  | "
-					+ sheetTypeInfo[sheet.SheetTypeIdx].Description);
-
-				AppendLine("sheet num   | " + sheet.SheetNumber);
-				AppendLine("sheet name  | " + sheet.SheetName );
-
-				ListParts(sheet, sheet.SheetIdPartsSheetNumber);
-				ListParts(sheet, sheet.SheetIdPartsSheetName);
-
-			}
-		}
-
-		private static void ListParts(Sheet sheet, List<Sheet.SheetIdPart> parts)
-		{
-			foreach (Sheet.SheetIdPart part in parts)
-			{
-				string description = sheet.SheetPartDescription(part.SheetPartLibId);
-
-				string value = part.SheetidPartData;
-
-				AppendLine("part name   | "
-					+ description.PadRight(15)
-					+ "   part info| " + value);
-			}
 		}
 
 		private static void TbxClear()

@@ -33,6 +33,7 @@ namespace Test3.SheetMgr
 
 		public static int MaxSheetParts { get; set; }
 		public static int MinSheetParts { get; set; }
+		public static string SheetNumberNameSeperator { get; set; } = " - ";
 
 		public static SheetTypeManager SheetTypeManager { get; private set; } =
 			new SheetTypeManager();

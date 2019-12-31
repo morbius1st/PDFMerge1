@@ -96,8 +96,25 @@ namespace Test3
 		private const string FILE_1A31                 = ARCH_SUB3 + @"1A A3.1-0 This is a Test 1A31.pdf";
 
 
+		private const string FILE_xA10_01a		= BASE_ARCH + @"A A1.0-0 This is a Test A10.pdf";
+		private const string FILE_xA10_01b		= BASE_ARCH + @"A A1-0-0 This is a Test A10.pdf";
+
+		private const string FILE_xA10_02a		= BASE_ARCH + @"A1.0-0 This is a Test A10.pdf";
+		private const string FILE_xA10_02b		= BASE_ARCH + @"A1-0-0 This is a Test A10.pdf";
 
 
+		private const string FILE_xA10_03a		= BASE_ARCH + @"A A1.0-0-This is a Test A10.pdf";
+		private const string FILE_xA10_03b		= BASE_ARCH + @"A A1-0-0-This is a Test A10.pdf";
+
+		private const string FILE_xA10_04a		= BASE_ARCH + @"A1.0-0-This is a Test A10.pdf";
+		private const string FILE_xA10_04b		= BASE_ARCH + @"A1-0-0-This is a Test A10.pdf";
+
+
+		private const string FILE_xA10_05a		= BASE_ARCH + @"A A1.0-0 - This is a Test A10.pdf";
+		private const string FILE_xA10_05b		= BASE_ARCH + @"A A1-0-0 - This is a Test A10.pdf";
+
+		private const string FILE_xA10_06a		= BASE_ARCH + @"A1.0-0 - This is a Test A10.pdf";
+		private const string FILE_xA10_06b		= BASE_ARCH + @"A1-0-0 - This is a Test A10.pdf";
 
 
 		internal const string ROOT_FOLDER = BASE_FOLDER + ROOT_PDFS + PDF_FOLDER;
@@ -117,7 +134,6 @@ namespace Test3
 			FILE_120,
 			FILE_130,
 			FILE_131,
-
 			FILE_1A30,
 			FILE_1A31
 		};
@@ -237,3 +253,72 @@ namespace Test3
 		}
 	}
 }
+
+/*
+  more sheet id examples
+
+A A1.0-1 this is a sheet name.PDF
+A LT1.0-1 this is a sheet name.PDF
+A A1.0 this is a sheet name
+A A1 this is a sheet name.PDF
+AA A1.0-1a this is a sheet name
+
+A1.0-1a this is a sheet name
+A1.0-1a this is a sheet name.PDF
+A1 A1.0-1a this is a sheet name.pDf
+
+1A A1.0-1a this is a sheet name
+1A A1.0-1a this is a sheet name.PDF
+11A A1.0-1a this is a sheet name
+1AA A1.0-1a this is a sheet name.PDF
+
+1 A1.0-1 this is a sheet name
+11 A1.0-1a this is a sheet name.PDF
+111 A1.0-1a this is a sheet name
+
+A1.0 this is a sheet name.PDF
+A1 this is a sheet name.PDF
+A1.0-1 this is a sheet name.PDF
+A1.0-1a this is a sheet name.PDF
+
+CS1.0 this is a sheet name
+
+LT1.0 this is a sheet name
+LT1.0 this is a sheet name.pdF
+
+C1 this is a sheet name.PDF
+C1.0 this is a sheet name
+C1.0-0 This is a Test C10.Pdf
+C11 this is a sheet name.PdF
+C11.0 this is a sheet name.PDF
+
+L1 this is a sheet name.PDF
+L1.0 this is a sheet name
+L1.0-0 This is a Test C10.Pdf
+L11 this is a sheet name.PdF
+L11.0 this is a sheet name.PDF
+A A1.0-0 This is a Test A10.pdf
+A A1-0-0 This is a Test A10.pdf
+
+A1.0-0 This is a Test A10.pdf
+A1-0-0 This is a Test A10.pdf
+
+A A1.0-0-This is a Test A10.pdf
+A A1-0-0-This is a Test A10.pdf
+
+A1.0-0-This is a Test A10.pdf
+A1-0-0-This is a Test A10.pdf
+
+A A1.0-0 - This is a Test A10.pdf
+A A1-0-0 - This is a Test A10.pdf
+
+A1.0-0 - This is a Test A10.pdf
+A1-0-0 - This is a Test A10.pdf
+
+
+
+try 1:
+gets the sheet number separate from the sheet name
+^(.*\d\s+\-\s+|.*\d\s+|.*\d\-|.*\d\-)(.*)
+
+ */

@@ -42,6 +42,7 @@ namespace Test3
 			SheetIdPartsSheetName = new List<SheetIdPart>();
 		}
 
+
 	#endregion
 
 	#region public properties
@@ -109,6 +110,16 @@ namespace Test3
 
 			return sheetName;
 		}
+
+	#endregion
+
+	#region system overrieds
+
+		public override string ToString()
+		{
+			return sheetNumber() + SheetSystemManager.SheetNumberNameSeperator + sheetName();
+		}
+
 	#endregion
 	}
 }
