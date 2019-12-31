@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -56,6 +57,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SheetMgr\Sheet.cs" />
+    <Compile Include="SheetMgr\SheetPartData.cs" />
+    <Compile Include="SheetMgr\SheetPartsManager.cs" />
+    <Compile Include="SheetMgr\SheetSystemManager.cs" />
+    <Compile Include="SheetMgr\SheetTypeInfo.cs" />
+    <Compile Include="SheetMgr\SheetTypeManager.cs" />
+    <Compile Include="SheetMgr\SheetPartsDescriptor.cs" />
+    <Compile Include="SheetMgr\SheetManager.cs" />
+    <Compile Include="SheetMgr\SheetUtility.cs" />
+    <Compile Include="UtilityLocal.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,11 +75,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CsExtensions.cs" />
+    <Compile Include="ATreeNode.cs" />
+    <Compile Include="Branch.cs" />
+    <Compile Include="CheckedState.cs" />
+    <Compile Include=".reference\CsExtensions.cs" />
     <Compile Include="EventTest1.cs" />
     <Compile Include="EventTest2.cs" />
     <Compile Include="EventTest3.cs" />
     <Compile Include="EventTest4.cs" />
+    <Compile Include="ITreeNode.cs" />
+    <Compile Include="Leaf.cs" />
+    <Compile Include=".reference\MessageUtilities.cs" />
+    <Compile Include="SheetMgr\Samples.cs" />
+    <Compile Include="SequenceCode.cs" />
+    <Compile Include="SortCode.cs" />
+    <Compile Include="TreeNode5.cs" />
     <Compile Include="EventTestMgr.cs" />
     <Compile Include="AEvt.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -102,5 +123,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

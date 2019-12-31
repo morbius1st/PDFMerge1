@@ -27,11 +27,12 @@ namespace Test3
 
 	public enum SelectState
 	{
-		UNSET = -2,
-		MIXED = -1,
+		UNSET = -1,
 		UNCHECKED = 0,
-		CHECKED = 1
+		CHECKED = 1,
+		MIXED = 2
 	}
+
 
 	public enum SelectMode
 	{
@@ -44,6 +45,8 @@ namespace Test3
 	{
 		public EventTest3 Root { get; private set; }
 		public EventTest4 First { get; private set; }
+		public TreeNode5 Origin { get; private set; }
+		public Branch Trunk { get; private set; }
 
 //		public List<EventTest3> Ev2List { get; private set; } = null;
 
@@ -54,17 +57,76 @@ namespace Test3
 
 			MakeChildren(Root, 1, 0, Root.childList);
 
-
-//			OnPropertyChange("Root");
-//			OnPropertyChange("childList");
-
 			First = new EventTest4(0, 0, 0, 0, 0, true);
 			First.Name = "First  (" + First.Name + ")";
 
 			MakeChildren(First, 1, 0, First.childList);
 
+			Origin = new TreeNode5();
+			Origin.Configure(null, 0, 0, true, true);
+			Origin.Name = "Origin";
+
+			TreeNode5 Top = new TreeNode5();
+			Top.Configure(Origin, 1, 1, true, true);
+			Top.Name = "First Element";
+
+			Origin.AddChild(Top);
+
+			MakeChildren(Top, 1, Top.Children);
+
+			Trunk = new Branch();
+
+			Tests();
 
 		}
+
+		private void Tests()
+		{
+
+			SheetUtility.test();
+
+
+
+// sequence code tests
+
+//			SequenceCode.Initialize(2, SequenceCode.GENERALSORTCODEPREFIX,
+//				SequenceCode.BRANCHSORTFIRSTPREFIX);
+//
+//			SequenceCode sqA = new SequenceCode("A", null, true);   // branch =	'--A'
+//			SequenceCode sqAA = new SequenceCode("A", sqA, true);   // branch = '--A│--A'
+//			SequenceCode sqA1 = new SequenceCode("1", sqA);         // leaf	=	'--A│!-1'
+//			SequenceCode sqAAA = new SequenceCode("A", sqAA, true); // branch = '--A│--A│--A'
+//			SequenceCode sqAA1 = new SequenceCode("1", sqAA);       // leaf =	'--A│--A│!-1'
+//
+//			SequenceCode sqB = new SequenceCode("B"); // leaf =	'!-B'
+//
+//			sqAA.Rename("C");
+//
+//			SequenceCode sqAx2 = new SequenceCode("AA", null, true); // branch ='-AA'
+
+//			SequenceCode sqNull = new SequenceCode(null, null, true); // should fail - does fail
+
+//			SequenceCode sqAx3 = new SequenceCode("AAA", null, true); // should fail - does fail
+
+//			SequenceCode sqBB = new SequenceCode("B", sqB, true);	// should fail - does fail
+
+
+// sort code tests
+
+
+//			SortCode.BranchSortOrder = BranchSortOrder.SORTFIRST;
+//			
+//			SortCode scA = new SortCode("A");
+//			SortCode scB = new SortCode("B");
+//
+//			SortCode scA1 = scA.Append("1");
+//
+//			SortCode scA2 = scA.Append("2");
+//
+//			SortCode scA1A = scA1.Append("A");
+		}
+
+
 
 		public void CheckOne()
 		{
@@ -102,53 +164,51 @@ namespace Test3
 			Root.childList[2].SelectState = SelectState.UNCHECKED;
 		}
 
-		private int MAX = 3;
-		private int index = 0;
-		private int branch = 0;
-		private int MAX_DEPTH = 4;
+		private int MAX = 4;
+		private int MAX5 = 5;
 
-//
-//		private void MakeChildren3( EventTest3 Parent, int depth, int branch, ObservableCollection<EventTest3> Ev2l)
-//		{
-//			if (depth >= MAX_DEPTH) return;
-//
-//			for (int j = 0; j < 1; j++)
-//			{
-//				
-//				for (int i = 0; i < MAX; i++)
-//				{
-//					index++;
-//
-//					EventTest3 et3;
-//
-//					if (i == 1 || i == 2)
-//					{
-//						this.branch++;
-//						// make a new branch
-//						// this branch is still associated with the parent branch
-//						// but its children are associated with the new branch
-//						et3 = new EventTest3(depth, branch, this.branch, (MAX * j + i), index, true);
-//
-//						MakeChildren3(et3, depth + 1, this.branch, et3.childList);
-//					}
-//					else
-//					{
-//						et3 = new EventTest3(depth, branch, 0, (MAX * j + i), index, false);
-//					}
-//
-//					Parent.OnStateChangeNotifyChildrenEvent += et3.StateChangeFromParent;
-//					et3.OnStateChangeNotifyParentEvent = Parent.StateChangeFromChild;
-//
-//					Ev2l.Add(et3);
-//				}
-//			}
-//		}
+		private int index = 1000;
+		private int branch = 0;
+		private int MAX_DEPTH = 5;
+		private int MAX_DEPTH5 = 4;
+
+		private void MakeChildren(TreeNode5 parent, int depth, ObservableCollection<TreeNode5> children)
+		{
+			if (depth >= MAX_DEPTH) return;
+
+
+			for (int i = 0; i < MAX5; i++)
+			{
+				index++;
+
+				TreeNode5 Evt = new TreeNode5();
+
+				if (i == 1 || i == 2)
+				{
+					// make a new branch
+					// this branch is still associated with the parent branch
+					// but its children are associated with the new branch
+					Evt.Configure(parent, depth, index, true, false);
+					Evt.Name = Evt.MakeName();
+
+					MakeChildren(Evt, depth + 1, Evt.Children);
+				}
+				else
+				{
+					Evt.Configure(parent, depth, index, false, false);
+					Evt.Name = Evt.MakeName();
+				}
+
+				children.Add(Evt);
+			}
+
+		}
 
 		private void MakeChildren<T>( T Parent, int depth, int branch, ObservableCollection<T> Ev2l) where  T : Evt<T>, new()
 		{
 			if (depth >= MAX_DEPTH) return;
 
-			for (int j = 0; j < 1; j++)
+			for (int j = 0; j < 3; j++)
 			{
 				
 				for (int i = 0; i < MAX; i++)
@@ -189,6 +249,7 @@ namespace Test3
 		{
 			resetTree(Root);
 			resetTree(First);
+			resetTree(Origin);
 		}
 
 		private int depth = 0;
@@ -265,6 +326,22 @@ namespace Test3
 
 				}
 			}
+		}
+
+		private void resetTree(TreeNode5 evt)
+		{
+			evt.ResetTree();
+
+//			foreach (EventTest5 ev in evt.Children)
+//			{
+//				ev.Reset();
+//
+//				if (ev.NodeType == NodeType.BRANCH
+//					&& ev.ChildCount > 0)
+//				{
+//					resetTree(ev);
+//				}
+//			}
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

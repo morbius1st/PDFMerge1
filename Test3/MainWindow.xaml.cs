@@ -228,5 +228,14 @@ namespace Test3
 
 			et4.TriStateReset();
 		}
+
+		private void CheckBox_LostFocus5(object sender, RoutedEventArgs e)
+		{
+			CheckBox cbx = (CheckBox) sender;
+
+			TreeNode5 et = (TreeNode5) cbx.DataContext;
+
+			et.TriStateReset();
+		}
 	}
 }
