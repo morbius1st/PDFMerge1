@@ -20,90 +20,111 @@ namespace Test3
 			SheetSystemManager.MaxSheetParts = 4;
 			SheetSystemManager.MinSheetParts = 2;
 
-			shtSysConfigNoBldgPhase(ShtSysMgr);	// no phase / no building
-			shtSysConfigBldgNoPhase(ShtSysMgr);	// no phase / building
-			// phase / no building
-			// phase / building
-
-//			SheetPartData[] sheetParts = new []
-//			{
-//				new SheetPartData(PartIdType.SHEETNUMBER, 1,
-//					"Sheet Id", @"^(.*?) ", 1, 2, 20, "{0}"),
-//				new SheetPartData(PartIdType.SHEETNAME, 1,
-//					"Sheet Name", @"^.*? (.*(?=\.[Pp][Dd][Ff])|.*)", 1, 2, 100, "{0}")
-//			};
-//
-//			ShtSysMgr.StartSheetType("Non-building-phase Sheets");
-//
-//			ShtSysMgr.AddSheetPartData(sheetParts);
-//
-//			ShtSysMgr.CompleteSheetType(@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)", 2,
-//				false);
-
-//
-//			SheetPartData[] sheetParts = new []
-//			{
-//				new SheetPartData(PartIdType.SHEETNUMBER, 1, "Building Id",
-//					@"^\d*([A-Z]*)", 0, 1, 10, "{0}"),
-//				new SheetPartData(PartIdType.SHEETNUMBER, 2, "Sheet Id", @"^.*? (.*?) ",
-//					1, 2, 20, " {0}"),
-//				new SheetPartData(PartIdType.SHEETNAME, 1, "Sheet Name", @"^.*? .*? (.*(?=\.[Pp][Dd][Ff])|.*)",
-//					0, 2, 100, "{0}")
-//			};
-//
-//			ShtSysMgr.StartSheetType("Bldg, no-phase sheets");
-//
-//			ShtSysMgr.AddSheetPartData(sheetParts);
-//
-//			ShtSysMgr.CompleteSheetType(
-//				@"^(([A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*(?=\.[Pp][Dd][Ff])|.*)",
-//				3, false);
-
+			shtConfigSheetParts(ShtSysMgr);
+			shtSysConfigPhaseBldg(ShtSysMgr); // phase / building
+			shtSysConfigPhaseNoBldg(ShtSysMgr); // phase / no building
+			shtSysConfigNoPhaseBldg(ShtSysMgr); // no phase / building
+			shtSysConfigNoBldgPhase(ShtSysMgr); // no phase / no building
 		}
 
-		private static void shtSysConfigBldgNoPhase(SheetSystemManager ShtSysMgr)
+		private const string SP_BLDG_PHASE_PHASE_ID       = "sp-phase-bldg-PhaseId";
+		private const string SP_BLDG_PHASE_BLDG_ID        = "sp-phase-bldg-BuildingId";
+		private const string SP_BLDG_PHASE_SHEET_ID       = "sp-phase-bldg-ShtId";
+		private const string SP_BLDG_PHASE_SHEET_NAME     = "sp-phase-bldg-ShtName";
+
+		private const string SP_NON_BLDG_PHASE_SHEET_ID   = "sp-non-phase-non-bldg-ShtId";
+		private const string SP_NON_BLDG_PHASE_SHEET_NAME = "sp-non-phase-non-bldg-ShtName";
+
+		private const string ST_NON_PHASE_NON_BLDG        = "st-non-phase-non-bldg";
+		private const string ST_PHASE_NON_BLDG            = "st-phase-non-bldg";
+		private const string ST_NON_PHASE_BLDG            = "st-non-phase-bldg";
+		private const string ST_PHASE_BLDG                = "st-phase-bldg";
+
+		private static void shtConfigSheetParts(SheetSystemManager ShtSysMgr)
 		{
 			SheetPartData[] sheetParts = new []
 			{
-				new SheetPartData(PartIdType.SHEETNUMBER, 1, "Building Id",
-					@"^\d*([A-Z]*)", 0, 1, 10, "{0}"),
-				new SheetPartData(PartIdType.SHEETNUMBER, 2, "Sheet Id", @"^.*? (.*?) ",
-					1, 2, 20, " {0}"),
-				new SheetPartData(PartIdType.SHEETNAME, 1, "Sheet Name",
+				new SheetPartData(SP_BLDG_PHASE_PHASE_ID, PartIdType.SHEETNUMBER, 1,
+					"Phase Id",
+					@"^(\d*)", 0, 1, 10, "{0}"),
+				new SheetPartData(SP_BLDG_PHASE_BLDG_ID, PartIdType.SHEETNUMBER, 2,
+					"Building Id",
+					@"^\d*([A-Z]*)", 1, 1, 10, "{0}"),
+				new SheetPartData(SP_BLDG_PHASE_SHEET_ID, PartIdType.SHEETNUMBER, 3,
+					"Sheet Id",
+					@"^.*? (.*?) ", 1, 2, 20, " {0}"),
+				new SheetPartData(SP_BLDG_PHASE_SHEET_NAME, PartIdType.SHEETNAME, 1,
+					"Sheet Name",
 					@"^.*? .*? (.*(?=\.[Pp][Dd][Ff])|.*)",
-					0, 2, 100, "{0}")
+					1, 2, 0, "{0}"),
+				new SheetPartData(SP_NON_BLDG_PHASE_SHEET_ID, PartIdType.SHEETNUMBER, 1,
+					"Sheet Id", @"^(.*?) ", 1, 2, 20, "{0}"),
+				new SheetPartData(SP_NON_BLDG_PHASE_SHEET_NAME, PartIdType.SHEETNAME, 1,
+					"Sheet Name", @"^.*? (.*(?=\.[Pp][Dd][Ff])|.*)", 1, 2, 0, "{0}")
 			};
 
-			ShtSysMgr.StartSheetType("Bldg, no-phase sheets");
-
 			ShtSysMgr.AddSheetPartData(sheetParts);
-
-			ShtSysMgr.CompleteSheetType(
-				@"^(([A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*(?=\.[Pp][Dd][Ff])|.*)",
-				3, false);
 		}
+
 
 		private static void shtSysConfigNoBldgPhase(SheetSystemManager ShtSysMgr)
 		{
-			SheetPartData[] sheetParts = new []
-			{
-				new SheetPartData(PartIdType.SHEETNUMBER, 1,
-					"Sheet Id", @"^(.*?) ", 1, 2, 20, "{0}"),
-				new SheetPartData(PartIdType.SHEETNAME, 1,
-					"Sheet Name", @"^.*? (.*(?=\.[Pp][Dd][Ff])|.*)", 1, 2, 100, "{0}")
-			};
-
-			ShtSysMgr.StartSheetType("Non-building-phase Sheets");
-
-			ShtSysMgr.AddSheetPartData(sheetParts);
-
-			ShtSysMgr.CompleteSheetType(@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)", 2,
-				false);
+			ShtSysMgr.ConfigSheetType(
+				ST_NON_PHASE_NON_BLDG,
+				"Non-phase-building Sheets",
+				@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)", 2, false,
+				new []
+				{
+					SP_NON_BLDG_PHASE_SHEET_ID,
+					SP_NON_BLDG_PHASE_SHEET_NAME
+				});
 		}
 
+		private static void shtSysConfigPhaseBldg(SheetSystemManager ShtSysMgr)
+		{
+			ShtSysMgr.ConfigSheetType(
+				ST_PHASE_BLDG,
+				"Phase and bldg sheets",
+				@"^(([0-9]+[A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)",
+				3, false,
+				new []
+				{
+					SP_BLDG_PHASE_PHASE_ID,
+					SP_BLDG_PHASE_BLDG_ID,
+					SP_BLDG_PHASE_SHEET_ID,
+					SP_BLDG_PHASE_SHEET_NAME
+				});
+		}
 
+		private static void shtSysConfigNoPhaseBldg(SheetSystemManager ShtSysMgr)
+		{
+			ShtSysMgr.ConfigSheetType(
+				ST_NON_PHASE_BLDG,
+				"Bldg, no-phase sheets",
+				@"^(([A-Z]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)",
+				3, false,
+				new []
+				{
+					SP_BLDG_PHASE_BLDG_ID,
+					SP_BLDG_PHASE_SHEET_ID,
+					SP_BLDG_PHASE_SHEET_NAME
+				});
+		}
 
-
+		private static void shtSysConfigPhaseNoBldg(SheetSystemManager ShtSysMgr)
+		{
+			ShtSysMgr.ConfigSheetType(
+				ST_PHASE_NON_BLDG,
+				"Phase, no-bldg sheets",
+				@"^(([0-9]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)",
+				3, false,
+				new []
+				{
+					SP_BLDG_PHASE_PHASE_ID,
+					SP_BLDG_PHASE_SHEET_ID,
+					SP_BLDG_PHASE_SHEET_NAME
+				});
+		}
 
 
 
@@ -132,12 +153,19 @@ namespace Test3
 
 			Config();
 
-			foreach (string sheet in Samples.normal)
+			bool result = false;
+
+			foreach (string sheet in Samples.fullRange)
 			{
-				sheetManager.Add(sheet);
+				result = sheetManager.Add(sheet);
+
+				if (!result) break;
 			}
 
-			listSheets(sheetManager);
+			if (!result) 
+				AppendLine("*** parse sheets failed ***");
+			else
+				listSheets(sheetManager);
 		}
 
 
@@ -145,9 +173,6 @@ namespace Test3
 		{
 			List<SheetTypeInfo> sheetTypeInfo =
 				SheetSystemManager.SheetTypeManager.SheetTypes;
-
-			List<SheetPartData> sheetPartList =
-				SheetSystemManager.SheetPartsManager.SheetPartList;
 
 			SheetPartsDescriptor sheetDescriptor;
 
@@ -161,27 +186,31 @@ namespace Test3
 				sheetDescriptor =
 					sheetTypeInfo[sheet.SheetTypeIdx].SheetPartsDescriptor;
 
-				AppendLine("\nwhole sheet | " + sheet.WholeId);
+				AppendLine("\nSheetId     | " + sheet.SheetId);
 				AppendLine("is reference| " + sheet.IsForRefernce);
 				AppendLine("sheet type  | "
 					+ sheetTypeInfo[sheet.SheetTypeIdx].Description);
 
-				AppendLine("sheet name  | " + sheet.SheetName );
 				AppendLine("sheet num   | " + sheet.SheetNumber);
+				AppendLine("sheet name  | " + sheet.SheetName );
 
+				ListParts(sheet, sheet.SheetIdPartsSheetNumber);
+				ListParts(sheet, sheet.SheetIdPartsSheetName);
 
-				foreach (Sheet.SheetIdPart part in sheet.SheetIdPartsSheetNumber)
-				{
-					string description =
-						SheetSystemManager.SheetPartsManager.SheetPartList[part.SheetPartIndex]
-						.PartDescription;
+			}
+		}
 
-					string value = part.SheetidPartData;
+		private static void ListParts(Sheet sheet, List<Sheet.SheetIdPart> parts)
+		{
+			foreach (Sheet.SheetIdPart part in parts)
+			{
+				string description = sheet.SheetPartDescription(part.SheetPartLibId);
 
-					AppendLine("part name   | "
-						+ description.PadRight(15)
-						+ "   part info| " + value);
-				}
+				string value = part.SheetidPartData;
+
+				AppendLine("part name   | "
+					+ description.PadRight(15)
+					+ "   part info| " + value);
 			}
 		}
 

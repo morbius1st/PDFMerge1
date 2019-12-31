@@ -1,40 +1,40 @@
-﻿// Solution:     PDFMerge1
-// Project:       Test3
-// File:             Sheet.cs
+﻿using System.Collections.Generic;
+using Test3.SheetMgr; 
+ 
+// Solution:     PDFMerge1
+// Project:      Test3
+// File:         Sheet.cs
 // Created:      -- ()
-
-using System;
-using System.Collections.Generic;
-using Test3.SheetMgr;
 
 namespace Test3
 {
 	public class Sheet
 	{
+
+	#region preface
+
 		public class SheetIdPart
 		{
 			public string SheetidPartData { get; private set; }
-			public int SheetPartIndex { get; private set; }
+			public string SheetPartLibId { get; private set; }
 
-			public SheetIdPart(string sheetidPartData, int sheetPartIndex)
+			public SheetIdPart(string sheetidPartData, string sheetPartLibId)
 			{
 				SheetidPartData = sheetidPartData;
-				SheetPartIndex = sheetPartIndex;
+				SheetPartLibId = sheetPartLibId;
 			}
 
 			private SheetIdPart() { }
 		}
 
-		public string WholeId { get; private set; }
-		public int SheetTypeIdx { get; private set; }
-		public List<SheetIdPart> SheetIdPartsSheetNumber { get; private set; }
-		public List<SheetIdPart> SheetIdPartsSheetName{ get; private set; }
-		public bool IsForRefernce { get; set; }
+	#endregion
+
+	#region ctor
 
 		public Sheet(string sheet, int sheetTypeIdx,
 			bool isForReference)
 		{
-			WholeId = sheet;
+			SheetId = sheet;
 			SheetTypeIdx = sheetTypeIdx;
 			IsForRefernce = isForReference;
 
@@ -42,8 +42,27 @@ namespace Test3
 			SheetIdPartsSheetName = new List<SheetIdPart>();
 		}
 
+	#endregion
+
+	#region public properties
+
+		public string SheetId { get; private set; }
+		public int SheetTypeIdx { get; private set; }
+		public List<SheetIdPart> SheetIdPartsSheetNumber { get; private set; }
+		public List<SheetIdPart> SheetIdPartsSheetName { get; private set; }
+		public bool IsForRefernce { get; set; }
 		public string SheetName => sheetName();
 		public string SheetNumber => sheetNumber();
+
+	#endregion
+
+	#region public methods
+
+		public string SheetPartDescription(string libKey)
+		{
+			return SheetSystemManager.SheetPartsManager
+			.SheetPartDataList[libKey].PartDescription;
+		}
 
 		public void AddSheetNumberParts(List<SheetIdPart> sheetIdPartsSheetNumber)
 		{
@@ -55,6 +74,10 @@ namespace Test3
 			SheetIdPartsSheetName = sheetIdPartsSheetName;
 		}
 
+	#endregion
+
+	#region private methods
+
 		private string sheetNumber()
 		{
 			string sheetNumber = "";
@@ -63,7 +86,7 @@ namespace Test3
 			{
 				string format =
 					SheetSystemManager.SheetPartsManager.FormatString(
-						sheetIdPart.SheetPartIndex);
+						sheetIdPart.SheetPartLibId);
 
 				sheetNumber += string.Format(format, sheetIdPart.SheetidPartData);
 			}
@@ -79,12 +102,13 @@ namespace Test3
 			{
 				string format =
 					SheetSystemManager.SheetPartsManager.FormatString(
-						sheetIdPart.SheetPartIndex);
+						sheetIdPart.SheetPartLibId);
 
 				sheetName += string.Format(format, sheetIdPart.SheetidPartData);
 			}
 
 			return sheetName;
 		}
+	#endregion
 	}
 }

@@ -15,7 +15,6 @@ namespace Test3
 		public List<SheetTypeInfo> SheetTypes { get; set; } =
 			new List<SheetTypeInfo>();
 
-
 		public int SheetTypeIndex(string sheet)
 		{
 			int sheetTypeIdx = -1;

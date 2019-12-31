@@ -11,26 +11,45 @@ namespace Test3
 {
 	public class SheetPartsDescriptor
 	{
+
+	#region preface
+
 		public struct PartIndex : IComparable<PartIndex>
 		{
-			public int Order { get; private set; }
-			public int SheetPartDataIndex { get; private set; }
 
-			public PartIndex(int order, int sheetPartDataIndex)
+		#region ctor
+
+			public PartIndex(int order, 
+				string libraryId
+				)
 			{
 				Order = order;
-				SheetPartDataIndex = sheetPartDataIndex;
+
+				LibraryId = libraryId;
 			}
+
+		#endregion
+
+		#region public properties
+
+			public int Order { get; private set; }
+			public string LibraryId { get; private set; }
+
+		#endregion
+
+		#region public methods
 
 			public int CompareTo(PartIndex other)
 			{
 				return Order.CompareTo(other.Order);
 			}
+
+		#endregion
 		}
 
-		public string Description { get; private set; }
-		public List<PartIndex> SheetNumberPartIndicies { get; set; }
-		public List<PartIndex> SheetNamePartIndicies { get; private set; }
+	#endregion
+
+	#region ctor
 
 		public SheetPartsDescriptor(string description)
 		{
@@ -40,6 +59,18 @@ namespace Test3
 
 			SheetNamePartIndicies = new List<PartIndex>();
 		}
+
+	#endregion
+
+	#region public properties
+
+		public string Description { get; private set; }
+		public List<PartIndex> SheetNumberPartIndicies { get; set; }
+		public List<PartIndex> SheetNamePartIndicies { get; private set; }
+
+	#endregion
+
+	#region public properties
 
 		public void AddPartIndex(PartIndex idx, PartIdType partIdType)
 		{
@@ -58,6 +89,8 @@ namespace Test3
 			SheetNumberPartIndicies.Sort();
 			SheetNamePartIndicies.Sort();
 		}
+
+	#endregion
 
 	}
 }

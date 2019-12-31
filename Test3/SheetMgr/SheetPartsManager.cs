@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Threading;
 using static Test3.SheetManager;
@@ -18,40 +19,37 @@ namespace Test3.SheetMgr
 {
 	public class SheetPartsManager
 	{
-		// note - never sort, insert, or anything else that changes
-		// the order of the elements
-		public List<SheetPartData> SheetPartList { get; private set; }
+
+	#region ctor
 
 		public SheetPartsManager()
 		{
-			SheetPartList = new List<SheetPartData>(SheetSystemManager.MaxSheetParts);
-
-			for (int i = 0; i < SheetSystemManager.MinSheetParts; i++)
-			{
-				SheetPartList.Add(new SheetPartData());
-			}
+			SheetPartDataList = new Dictionary<string, SheetPartData>();
 		}
 
-		public int Add(SheetPartData sd)
+	#endregion
+
+	#region public properties
+
+		public Dictionary<string, SheetPartData> SheetPartDataList { get; private set; }
+		public int Count => SheetPartDataList.Count;
+		public bool Initialized => (SheetPartDataList?.Count ?? 0) > 0;
+
+	#endregion
+
+	#region public properties
+
+		public void Add(SheetPartData sd)
 		{
-			SheetPartList.Add(sd);
-
-			return Count - 1;
+			SheetPartDataList.Add(sd.LibraryId, sd);
 		}
 
-		public int Count => SheetPartList.Count;
-
-		public bool Initialized => (SheetPartList?.Count ?? 0) > 0;
-
-		public string FormatString(int idx)
+		public string FormatString(string libId)
 		{
-			return SheetPartList[idx].FormatString;
+			return SheetPartDataList[libId].FormatString;
 		}
 
-		public bool HasPart(int idx)
-		{
-			return SheetPartList[idx] != null;
-		}
+	#endregion
 
 	}
 }

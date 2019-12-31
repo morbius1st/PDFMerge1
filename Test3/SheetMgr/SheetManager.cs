@@ -1,5 +1,6 @@
 ﻿#region + Using Directives
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -31,174 +32,141 @@ using Test3.SheetMgr;
 
 namespace Test3
 {
-
-//	// regardless of any other parts,
-//	// this indicates the required
-//	// indices for these parts
-//	public enum SheetPartIndex
-//	{
-//		SHEETPHASE = 0,
-//		SHEETBLDG = 1,
-//		SHEETID = 2,
-//		SHEETNAME = 3,
-//		ANY
-//	}
-//
-//	public enum SheetIdPart
-//	{
-//		SHEETNUMBER,
-//		SHEETNAME
-//	}
-
 	// holds a list of sheets
 	public class SheetManager
 	{
 
-
-		public List<Sheet> SheetList { get; private set; }
+	#region ctor
 
 		public SheetManager()
 		{
 			SheetList  = new List<Sheet>();
 		}
 
-		public static List<SheetPartData> SheetPartsList => SheetSystemManager.SheetPartsManager.SheetPartList;
+	#endregion
 
-		public void Add(string sheetId)
+	#region public properties
+
+		public List<Sheet> SheetList { get; private set; }
+
+	#endregion
+
+	#region public methods
+
+		public bool Add(string sheetId)
 		{
-			AddToList(GetSheet(sheetId));
+			return addToList(getSheet(sheetId));
 		}
 
-		private Sheet GetSheet(string sheetId)
+	#endregion
+
+	#region private methods
+
+		private Sheet getSheet(string sheetId)
 		{
 			string si = sheetId.Trim();
 
-			int sheetTypeIndex = SheetSystemManager.SheetTypeManager.SheetTypeIndex(sheetId);
+			int sheetTypeIndex =
+				SheetSystemManager.SheetTypeManager.SheetTypeIndex(sheetId);
 
 			if (sheetTypeIndex < 0 ) return null;
 
-			return analize(sheetId, sheetTypeIndex);
+			return parseSheetId(sheetId, sheetTypeIndex);
 		}
 
-		private void AddToList(Sheet sheet)
+		private bool addToList(Sheet sheet)
 		{
-			if (sheet == null) throw new InvalidDataException();
+			if (sheet == null) return false;
 
 			SheetList.Add(sheet);
+
+			return true;
 		}
 
-		private Sheet analize(string sheetId, int typeIdx)
+		private Sheet parseSheetId(string sheetId, int typeIdx)
 		{
-			bool reference = SheetSystemManager.SheetTypeManager.SheetTypes[typeIdx].IsForRefernce;
+			bool reference = SheetSystemManager.SheetTypeManager.SheetTypes[typeIdx]
+			.IsForRefernce;
 
 			Sheet sheet = new Sheet(sheetId, typeIdx, reference);
 
-			AnalizeForSheetNumber(sheetId, typeIdx, sheet);
-			AnalizeForSheetName(sheetId, typeIdx, sheet);
+			SheetPartsDescriptor sd = SheetSystemManager.SheetTypeManager
+			.SheetTypes[typeIdx].SheetPartsDescriptor;
+
+			parseSheetIdForSheetNumber(sheetId, typeIdx, sheet, sd);
+			parseSheetIdForSheetName(sheetId, typeIdx, sheet, sd);
 
 			return sheet;
 		}
 
-		private void AnalizeForSheetNumber(string sheetId, int typeIdx, Sheet sheet)
+		private void parseSheetIdForSheetNumber(string sheetId, int typeIdx, Sheet sheet,
+			SheetPartsDescriptor sd)
 		{
-			SheetPartsDescriptor sd = SheetSystemManager.SheetTypeManager.SheetTypes[typeIdx].SheetPartsDescriptor;
-
 			List<SheetPartsDescriptor.PartIndex> partIndexList =
 				sd.SheetNumberPartIndicies;
 
-			sheet.AddSheetNumberParts(AnalizeForSheetParts(sheetId, partIndexList));
+			sheet.AddSheetNumberParts(parseSheetIdForSheetParts(sheetId, partIndexList));
 		}
 
-
-		private void AnalizeForSheetName (string sheetId, int typeIdx, Sheet sheet)
+		private void parseSheetIdForSheetName (string sheetId, int typeIdx, Sheet sheet,
+			SheetPartsDescriptor sd)
 		{
-			SheetPartsDescriptor sd = SheetSystemManager.SheetTypeManager.SheetTypes[typeIdx].SheetPartsDescriptor;
-
 			List<SheetPartsDescriptor.PartIndex> partIndexList = sd.SheetNamePartIndicies;
 
-			sheet.AddSheetNameParts(AnalizeForSheetParts(sheetId, partIndexList));
+			sheet.AddSheetNameParts(parseSheetIdForSheetParts(sheetId, partIndexList));
 		}
 
-
-		private List<Sheet.SheetIdPart> AnalizeForSheetParts(string sheet,
+		private List<Sheet.SheetIdPart> parseSheetIdForSheetParts(string sheetId,
 			List<SheetPartsDescriptor.PartIndex> partIndexList)
 		{
 			List<Sheet.SheetIdPart> SheetParts = new List<Sheet.SheetIdPart>();
 
 			foreach (SheetPartsDescriptor.PartIndex partIndex in partIndexList)
 			{
-				int sheetPartIndex = partIndex.SheetPartDataIndex;
+				string sheetPartLibId = partIndex.LibraryId;
 
 				SheetPartData spd =
-					SheetManager.SheetPartsList[sheetPartIndex];
+					SheetSystemManager.SheetPartsManager.SheetPartDataList[sheetPartLibId];
 
 				if (!spd.IsValid) continue;
 
 				int groupIdx = spd.PartPatternGroup;
 
-				Match match = Regex.Match(sheet, spd.PartPattern,
+				Match match = Regex.Match(sheetId, spd.PartPattern,
 					RegexOptions.Singleline);
 
-				if (match.Groups.Count <= 0) continue;
+				if (match.Groups.Count < groupIdx) continue;
 
 				string result = match.Groups[groupIdx].Value.Trim();
 
 				int len = result.Length;
 
-				if (len > spd.PartMaxLen ||
-					len < spd.PartMinLen) throw new InvalidDataException();
+				if (!validateSheetPart(result, spd)) continue;
 
 				Sheet.SheetIdPart idPart =
-					new  Sheet.SheetIdPart(result, sheetPartIndex);
+					new  Sheet.SheetIdPart(result, sheetPartLibId);
 
 				SheetParts.Add(idPart);
 			}
 
 			return SheetParts;
 		}
+
+		private bool validateSheetPart(string sheetPart, SheetPartData spd)
+		{
+			int len = sheetPart.Length;
+
+			if (len < spd.PartMinLen) return false;
+
+			if (spd.PartMaxLen > 0) // 0 == unlimited
+			{
+				if (len > spd.PartMaxLen) return false;
+			}
+
+			return true;
+		}
+
+	#endregion
 	}
 }
 
-
-// system breakdown
-/*
-                                SheetPart
-     +-> SheetId			 |> yes
-    ----------------		 |
-     +-> SheetNumber		 |> no
-	--------				 |
-	+-> PhaseId				 |> yes
-    |+-> BuildingId			 |> yes
-	||  +-> SheetId			 |> yes
-	||  |      +-> SheetName |> no
-	-- ------ -------
-	1A A1.0-1 ShtName 
-						-- length --				
-			desc		min		max					pattern
-	1		Phase		1		1					^(\d*)
-	A		Building	1		1					^\d*([A-Z]*)
-	ShtName	Sheet Name	2		100					[A A1.0...]: ^.*? .*? (.*)
-													[A1...]: ^.*? (.*)
-	A1.0-1	Sheet Id	2		20  (LT10.10-10.10)	[A A1.0...]: ^.*? (.*?) 
-													[A1...]: ^(.*?) 
-
-	NON - phase / building / phase-building sheet number pattern:
-	^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)
-	full match: the whole line worked
-	group 0: sheet number
-	group 1: discipline designator
-	group 2: n/a - does not matter
-	group 3: sheet name - does not matter
-
-	phase / building / phase-building sheet number pattern:
-	^(([A-Z1-9]+) ([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)
-	full match: the whole line worked
-	group 0: full sheet number (incl phase &/or building)
-	group 1: phase &/or building
-	group 2: discipline designator
-	group 3: n/a - does not matter
-	group 4: sheet name - does not matter
-
-
-
- */

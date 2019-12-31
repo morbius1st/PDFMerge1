@@ -9,31 +9,35 @@ namespace Test3 {
 
 	public class SheetTypeInfo
 	{
-		public string Description                        { get; set; }
-		public Regex SheetTypePattern                    { get; set; }
-		public int DisciplineDesignatorGroup             { get; set; }
-		public bool IsForRefernce                        { get; set; }
-		public SheetPartsDescriptor SheetPartsDescriptor { get; set; }
 
-		public SheetTypeInfo(string description)
-		{
-			Description = description;
-		}
+//		public SheetTypeInfo(string description)
+//		{
+//			Description = description;
+//		}
 
-		public SheetTypeInfo(string description,
+		public SheetTypeInfo(
+			string libraryId,
+			string description,
 			string sheetTypePattern,
 			int disciplineDesignatorGroup,
-			bool isForRefernce,
-			SheetPartsDescriptor sheetPartsDescriptor
+			bool isForRefernce
 			)
 		{
+			LibraryId = libraryId;
 			Description = description;
 			SheetTypePattern = new Regex(sheetTypePattern,
 				RegexOptions.Singleline | RegexOptions.Compiled);
 			DisciplineDesignatorGroup = disciplineDesignatorGroup;
-			SheetPartsDescriptor = sheetPartsDescriptor;
 			IsForRefernce = isForRefernce;
-
 		}
+
+		public string LibraryId                          { get; private set; }
+		public string Description                        { get; private set; }
+		public Regex SheetTypePattern                    { get; private set; }
+		public int DisciplineDesignatorGroup             { get; private set; }
+		public bool IsForRefernce                        { get; private set; }
+
+		public SheetPartsDescriptor SheetPartsDescriptor { get; set; }
+
 	}
 }
