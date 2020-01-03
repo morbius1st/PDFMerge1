@@ -257,10 +257,12 @@ namespace Test3
 /*
   more sheet id examples
 
-A A1.0-1 this is a sheet name.PDF
-A LT1.0-1 this is a sheet name.PDF
-A A1.0 this is a sheet name
-A A1 this is a sheet name.PDF
+A A1.0-1 this is a sheet name (this is a comment).PDF
+A1.0a this is a sheet name.PDF
+A1a this is a sheet name.PDF
+A LT1.0-1  - - this is a - sheet name.PDF
+A A1.0 this is a 10 sheet name
+A A1 this is a c10 sheet name.PDF
 AA A1.0-1a this is a sheet name
 
 A1.0-1a this is a sheet name
@@ -281,7 +283,7 @@ A1 this is a sheet name.PDF
 A1.0-1 this is a sheet name.PDF
 A1.0-1a this is a sheet name.PDF
 
-CS1.0 this is a sheet name
+CS1.0 this is a 10 sheet name
 
 LT1.0 this is a sheet name
 LT1.0 this is a sheet name.pdF
@@ -294,11 +296,11 @@ C11.0 this is a sheet name.PDF
 
 L1 this is a sheet name.PDF
 L1.0 this is a sheet name
-L1.0-0 This is a Test C10.Pdf
+L1.0-0 This is a 10 Test C10 .Pdf
 L11 this is a sheet name.PdF
 L11.0 this is a sheet name.PDF
-A A1.0-0 This is a Test A10.pdf
-A A1-0-0 This is a Test A10.pdf
+A A1.0-0 This is a Test A10 .pdf
+A A1-0-0 This is a Test A10 .pdf
 
 A1.0-0 This is a Test A10.pdf
 A1-0-0 This is a Test A10.pdf
@@ -315,10 +317,113 @@ A A1-0-0 - This is a Test A10.pdf
 A1.0-0 - This is a Test A10.pdf
 A1-0-0 - This is a Test A10.pdf
 
-
+A1-0-0a - This is a Test A10.pdf
+A1-0-0a This is a Test A10.pdf
 
 try 1:
 gets the sheet number separate from the sheet name
 ^(.*\d\s+\-\s+|.*\d\s+|.*\d\-|.*\d\-)(.*)
+
+
+try 2:
+subdivides - 
+group 1 is the sheet number
+group 2 is the whole file name
+group 4 is the comment
+
+^([A-Za-z0-9 \.-]+\d+(?! \()[ -]+)((.*(\(.*\)).*)|(.*))
+
+try 3:
+works
+group 1 is the sheet number
+group 2 is the whole file name
+when no comment, there is a group 7
+
+group 5 is the comment
+when there is a group 5:
+group 4 is the file name without the comment
+group 6 is the file extension
+^([A-Za-z0-9 \.-]+\d+(?! \()[ -]+)(((.*)(\(.*\))(.*))|(.*))
+
+try 4:
+works better - removed extra characters after the sheet number
+group 1 is the sheet number
+group 2 is the whole file name
+when no comment, there is a group 7
+
+group 5 is the comment
+when there is a group 5:
+group 4 is the file name without the comment
+group 6 is the file extension
+^([A-Za-z0-9 \.-]+\d+)(?! \()[ -]+(((.*)(\(.*\))(.*))|(.*))
+
+
+try 5:
+works same - except made extension separate group
+group 1 is the sheet number
+group 2 is the file name (no extension)
+group 8 is the file extension
+
+when there is a group 5:
+group 5 is the comment
+group 4 is the file name without the comment
+^([A-Za-z0-9 \.-]+\d+)(?! \()[ -]+(((.*)(\(.*\))(.*))|(.*))(\.[pP][dD][fF])
+
+try 6 -  no good
+works same - except made extension separate group
+group 1 is the sheet number
+group 4 is the file name (no extension)
+group 3 is the separation between the sheet number and the sheet name
+group 9 is the file name (no extension)
+group 10 is the file extension
+
+when there is a group 7:
+group 6 is the file name without the comment
+group 7 is the comment
+^([A-Za-z0-9 \.-]+(\d|\d[A-Za-z]))(?! \()([ -]+)(((.*)(\(.*\))(.*))|(.*))(\.[pP][dD][fF])
+
+try 7 - no good
+works same - except made extension works when no file extension
+group 1 is the sheet number
+group 3 is the separation between the sheet number and the sheet name
+group 4 is the file name (with extension)
+group 5 is the file name (no extension)
+group 10 is the file name (no extension)
+group 11 is the file extension
+
+when there is a group 8:
+group 7 is the file name without the comment
+group 8 is the comment
+
+when there is no group 11
+group 4 is the file name (no extension)
+
+^([A-Za-z0-9 \.-]+(\d|\d[A-Za-z]))(?! \()([ -]+)((((.*)(\(.*\))(.*))|(.*))(\.[pP][dD][fF])|.*)
+
+
+try 8 - no good
+simplify
+group 1 is the sheet number
+group 3 is the separator
+group 4 is the sheet name
+
+except, if there is a group 6:
+group 5 is the sheet name
+group 6 is the comment
+
+^([A-Za-z0-9 \.-]+(\d|\d[A-Za-z]))(?! \()([ -]+)((.*)(\(.*\))|.*\.|.*)
+
+try 9:
+works!?!
+group 1: sheet number
+group 2: when exists sheet number
+group 3: separator
+group 4: sheet name
+
+when there is a group 6:
+group 5: the sheet name
+group 6: the comment
+
+^(([A-Z0-9 ]+[A-Z]+[a-z\.0-9-]+)|[A-Z]+[a-z0-9\.-]+)([ -]+)((.*)(\(.*\))|.*\.|.*)
 
  */
