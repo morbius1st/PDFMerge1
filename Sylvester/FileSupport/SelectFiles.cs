@@ -18,15 +18,15 @@ using Sylvester.Settings;
 
 namespace Sylvester.FileSupport
 {
-	public class SelectFiles<T> : INotifyPropertyChanged where T : SheetIdTest, new()
+	public class SelectFiles<T> : INotifyPropertyChanged where T : SheetId, new()
 	{
 		public SheetFileNames<T> SheetFiles { get; private set;}
 
-		private SelectFolder sf;
+		private SelectFolder.SelectFolder sf;
 
 		public SelectFiles()
 		{
-			sf = new SelectFolder();
+			sf = new SelectFolder.SelectFolder();
 
 			SheetFiles = new SheetFileNames<T>();
 		}

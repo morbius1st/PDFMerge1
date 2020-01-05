@@ -7,6 +7,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using Sylvester.Process;
+using Sylvester.SelectFolder;
 using Sylvester.Settings;
 
 #endregion
@@ -25,7 +28,9 @@ namespace Sylvester.FileSupport
 		public SelectFiles<SheetIdBase> BaseFiles { get; private set; }
 		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
 
-		SelectFolder sf = new SelectFolder();
+		public ICollectionView cv { get; private set; }
+
+		SelectFolder.SelectFolder sf = new SelectFolder.SelectFolder();
 
 		private Route baseFolder;
 		private Route testFolder;
@@ -38,68 +43,74 @@ namespace Sylvester.FileSupport
 			TestFiles = new SelectFiles<SheetIdTest>();
 		}
 
-		public bool process()
+		public bool Process()
 		{
-			bool result;
+			if (!GetFiles()) return false;
 
-			if (!GetBaseFolder()) return false;
+			return (new ProcessFiles(BaseFiles, TestFiles)).Process();
+		}
 
-			if (!BaseFiles.GetFiles(baseFolder)) return false;
+		private bool GetFiles()
+		{
+//			if (!GetBaseFolder()) return false;
 
-			if (!GetTestFolder()) return false;
+			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
 
-			if (!TestFiles.GetFiles(testFolder)) return false;
+//			if (!GetTestFolder()) return false;
 
-			int count = BaseFiles.SheetFiles.Files.Count >
-				TestFiles.SheetFiles.Files.Count
-					? TestFiles.SheetFiles.Files.Count
-					: BaseFiles.SheetFiles.Files.Count;
+			if (!TestFiles.GetFiles(FolderManager.TestFolder)) return false;
 
-			for (int i = 0; i < count; i++)
-			{
-				BaseFiles.SheetFiles.Files[i].MatchedSheetNumber =
-					TestFiles.SheetFiles.Files[i].SheetNumber;
-				BaseFiles.SheetFiles.Files[i].MatchedSheetSeparation =
-					TestFiles.SheetFiles.Files[i].Separator;
-				BaseFiles.SheetFiles.Files[i].MatchedSheetName =
-					TestFiles.SheetFiles.Files[i].SheetName;
-			}
+//			int count = BaseFiles.SheetFiles.Files.Count >
+//				TestFiles.SheetFiles.Files.Count
+//					? TestFiles.SheetFiles.Files.Count
+//					: BaseFiles.SheetFiles.Files.Count;
+//
+//			for (int i = 0; i < count; i++)
+//			{
+//				BaseFiles.SheetFiles.Files[i].MatchedSheetNumber =
+//					TestFiles.SheetFiles.Files[i].SheetNumber;
+//				BaseFiles.SheetFiles.Files[i].MatchedSheetSeparation =
+//					TestFiles.SheetFiles.Files[i].Separator;
+//				BaseFiles.SheetFiles.Files[i].MatchedSheetName =
+//					TestFiles.SheetFiles.Files[i].SheetName;
+//			}
 
+			cv = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
 
 			return true;
 		}
-
-		private bool GetBaseFolder()
-		{
-			baseFolder = new Route(UserSettings.Data.PriorBaseFolder);
-
-			if (!ByPass)
-			{
-				baseFolder = sf.GetFolder(baseFolder);
-				if (!baseFolder.IsValid) return false;
-
-				UserSettings.Data.PriorBaseFolder = baseFolder.FullPath;
-				UserSettings.Admin.Save();
-			}
-
-			return true;
-		}
-
-		private bool GetTestFolder()
-		{
-			testFolder = new Route(UserSettings.Data.PriorTestFolder);
-
-			if (!ByPass)
-			{
-				testFolder = sf.GetFolder(testFolder);
-				if (!testFolder.IsValid) return false;
-
-				UserSettings.Data.PriorTestFolder = testFolder.FullPath;
-				UserSettings.Admin.Save();
-			}
-
-			return true;
-		}
+//
+//		private bool GetBaseFolder()
+//		{
+//			baseFolder = new Route(UserSettings.Data.PriorBaseFolder);
+//
+//			if (!ByPass)
+//			{
+//				baseFolder = sf.GetFolder(baseFolder);
+//				if (!baseFolder.IsValid) return false;
+//
+//				UserSettings.Data.PriorBaseFolder = baseFolder.FullPath;
+//				UserSettings.Admin.Save();
+//			}
+//
+//			return true;
+//		}
+//
+//		private bool GetTestFolder()
+//		{
+//			testFolder = new Route(UserSettings.Data.PriorTestFolder);
+//
+//			if (!ByPass)
+//			{
+//				testFolder = sf.GetFolder(testFolder);
+//				if (!testFolder.IsValid) return false;
+//
+//				UserSettings.Data.PriorTestFolder = testFolder.FullPath;
+//				UserSettings.Admin.Save();
+//			}
+//
+//			return true;
+//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

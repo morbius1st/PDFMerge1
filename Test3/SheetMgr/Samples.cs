@@ -426,4 +426,321 @@ group 6: the comment
 
 ^(([A-Z0-9 ]+[A-Z]+[a-z\.0-9-]+)|[A-Z]+[a-z0-9\.-]+)([ -]+)((.*)(\(.*\))|.*\.|.*)
 
+try 10: 
+same as 9 except that this allows for
+(2) additional wrong formats
+
+^(([A-Z0-9 ]+[A-Z]+[a-z\.0-9-]+)|[A-Z -]+[a-z0-9\.-]+)([ -]+)((.*)(\(.*\))|.*\.|.*)
+
+
+try 11:
+^(([0-9]*[A-Z]*)(?= |-)[ -]*([A-Z0-9\.-]*[a-z]*)|[A-Z]+[0-9\.-]+[a-z]*){1}([- ]+)(.*(\(.*\))(\.[Pp][dD][Ff])|.*)
+
+group 1: full sheet number
+group 2: phase &/or building
+group 3: sheet id
+group 4: separator
+group 5: sheet name
+
+if there is a group 6:
+group 6: sheet name
+group 7: comment
+
+
+try 12:
+^(([0-9]*[A-Z]*)(?= |-)[ -]*([A-Z0-9\.-]*[a-z]*)|[A-Z]+[0-9\.-]+[a-z]*){1}([- ]+)((.*)(\(.*\))(\.[Pp][dD][Ff])|(.*)(\.[Pp][dD][Ff])|(.*))
+
+--- group -----
+got	got	got	got                                                     bldg   sheet        sheet      
+ 3   5   7   9      match 1										    phase   id     sep  name   comment  ext                       
+ x   -   x   -      phase/building + comment has extension		      .      .      .     .       .      . 	                      
+                    group 1: full sheet number					  1   .      .      .     .       .      . 	                      
+                    group 2: phase &/or building				      2      .      .     .       .      . 	                      
+                    group 3: sheet id							      .      3      .     .       .      . 	                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+					group 5: sheet name w/ extension              5   .      .      .     .       .      . 	                      
+                    group 6: sheet name							      .      .      .     6       .      . 	                      
+                    group 7: comment							      .      .      .     .       7      . 	                      
+                    group 8: extension							      .      .      .     .       .      8                        
+got	got	got	got                    								      .      .      .     .       .      . 	                      
+ 3   5   7   9      match 7										      .      .      .     .       .      . 	                      
+ -   x   x   -      no phase or building + comment has extension      .      .      .     .       .      . 	                      
+                    group 1: sheet id     						      .      1      .     .       .      . 	                      
+					group 2                                     none										                      
+					group 3                                     none										                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+					group 5: sheet name w/ extension              5   .      .      .     .       .      . 	                      
+                    group 6: sheet name							      .      .      .     6       .      . 	                      
+                    group 7: comment							      .      .      .     .       7      . 	                      
+                    group 8: extension							      .      .      .     .       .      8 	                      
+																      .      .      .     .       .      . 	                      
+got	got	got	got													      .      .      .     .       .      . 	                      
+ 3   5   7   9      match 13									      .      .      .     .       .      . 	                      
+ -   -   -   x      no phase or building & no comment			      .      .      .     .       .      . 	                      
+                    group 1: sheet id							      .      1      .     .       .      . 	                      
+					group 2                                     none										                      
+					group 3                                     none										                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+                    group 9: sheet name							      .      .      .     9       .      . 	                      
+                    group 10: extension							      .      .      .     .       .      10                       
+                    											      .      .      .     .       .      . 	                      
+got	got	got	got													      .      .      .     .       .      . 	                      
+ 3   5   7   9      match 15										      .      .      .     .       .      . 	                      
+ x   x   -   x      phase/building & no comment has extension	      .      .      .     .       .      . 	                      
+                    group 1: full sheet number					  1   .      .      .     .       .      . 	                      
+                    group 2: phase &/or building				      2      .      .     .       .      . 	                      
+                    group 3: sheet id							      .      3      .     .       .      . 	                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+                    group 5: sheet name w/ extension			      .      .      .     .       .      . 	                      
+                    group 9: sheet name							      .      .      .     9       .      . 	                      
+                    group 10: extension							      .      .      .     .       .      10                       
+																      .      .      .     .       .      . 	                      
+got	got	got	got													      .      .      .     .       .      . 	                      
+ 3   5   7   9      match 18									      .      .      .     .       .      . 	                      
+ x   x   -   -      phase/building & no comment, no extension	      .      .      .     .       .      . 	                      
+                    group 1: full sheet number					   1  .      .      .     .       .      . 	                      
+                    group 2: phase &/or building				      2      .      .     .       .      . 	                      
+                    group 3: sheet id							      .      3      .     .       .      . 	                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+                    group 5: sheet name							      .      .      .     5       .      . 	                      
+                    group 11: sheet name						      .      .      .     .       .      . 	                      
+                    											      .      .      .     .       .      . 	                      
+got	got	got	got													      .      .      .     .       .      . 	                      
+ 3   5   7   9      match 21									      .      .      .     .       .      . 	                      
+ x   x   -   x      phase/building - no comment, has extension	      .      .      .     .       .      . 	                      
+                    group 1: full sheet number					   1  .      .      .     .       .      . 	                      
+                    group 2: phase &/or building				      2      .      .     .       .      . 	                      
+                    group 3: sheet id							      .      3      .     .       .      . 	                      
+                    group 4: separator							      .      .      4     .       .      . 	                      
+                    group 5: sheet name with extension			      .      .      .     .       .      . 	                      
+                    group 9: sheet name							      .      .      .     .       9      . 	                      
+                    group 10: extension							      .      .      .     .       .      10                       
+																                                    
+group 1: full sheet number
+group 1: sheet id (no 2 (and no 3))
+group 2: phase &/or building
+group 3: phase-bldg-sep
+group 4: sheet id	(unless blank then is 1)
+group 5: separator	(always)				
+group 6: sheet name with extension (when 11 or 9)
+group 6: sheet name (no 11 / no 9)
+group 7: sheet name (when 8)
+group 8: comment    (always)
+group 9: extension  (always when exists)
+group 10: sheet name (when 11)			
+group 11: extension	(when exists)
+
+
+// phase-bldg
+if (got 2) is phase-bldg
+
+// phase-bldg-sep
+if got 3 is phase-bldg-sEP
+
+// sheet id
+if (got 4) is sheet id, else == 1
+
+// separator
+== 5 is separator
+
+// sheet name
+if (when 8) == 7
+else (when 11) == 10
+else == 6
+
+// comment
+== (when 8) is comment
+
+try 13
+^(([0-9]*[A-Z]*)(?=[ -]+[A-Z])([ -]*)([A-Z0-9\.-]*[a-z]*)|([A-Z]+ *[0-9\.-]+[a-z]*){1})([- ]+)((.*)(\(.*\))(\.[Pp][dD][Ff])|(.*)(\.[Pp][dD][Ff])|(.*))
+
+
+--- group -----                                                           phase
+got	got	got	got                                                     phase bldg  sheet        sheet      
+ 2                  match 1										    bldg   sep   id     sep  name   comment  ext                       
+ x                  phase/building + comment has extension		      .     .     .      .     .        .     .
+                    group 1: full sheet number					  1   .     .     .      .     .        .     .
+                    group 2: phase &/or building				      2     .     .      .     .        .     .
+					group 3: phase bldg sep                           .     3     .      .     .        .     .
+                    group 4: sheet id							      .     .     4      .     .        .     .
+                    group 6: separator							      .     .     .      6     .        .     .
+					group 7: sheet name w/ extension              5   .     .     .      .     .        .     .
+                    group 8: sheet name							      .     .     .      .     8        .     .
+                    group 9: comment							      .     .     .      .     .        9     .
+                    group 10: extension							      .     .     .      .     .        .     10
+got	got	got	got                    								      .     .     .      .     .        .     .
+                    match 7										      .     .     .      .     .        .     .
+                    no phase or building + comment has extension      .     .     .      .     .        .     .
+                    group 1: sheet id     						      1     .     .      .     .        .     .
+					group 2                                     none  .     .     .      .     .        .     .
+					group 3                                     none  .     .     .      .     .        .     .
+                    group 5: sheet id     						      .     .     5      .     .        .     .
+                    group 6: separator							      .     .     .      6     .        .     .
+					group 7: sheet name w/ extension              5   .     .     .      .     .        .     .
+                    group 8: sheet name							      .     .     .      .     8        .     .
+                    group 9: comment							      .     .     .      .     .        9     .
+                    group 10: extension							      .     .     .      .     .        .     10
+																      .     .     .      .     .        .     .
+got	got	got	got													      .     .     .      .     .        .     .
+ 3   5   7   9      match 13									      .     .     .      .     .        .     .
+ -   -   -   x      no phase or building & no comment has extension   .     .     .      .     .        .     .
+                    group 1: sheet id							      1     .     .      .     .        .     .
+					group 2                                     none  .     .     .      .     .        .     .
+					group 3                                     none  .     .     .      .     .        .     .
+                    group 5: sheet id     						      .     .     5      .     .        .     .
+                    group 6: separator							      .     .     .      .     .        .     .
+                    group 11: sheet name                              .     .     .      .     .        .     .
+                    group 12: extension							      .     .     .      .     .        .     .
+                    											      .     .     .      .     .        .     .
+got	got	got	got													      .     .     .      .     .        .     .
+ 3   5   7   9      match 15										  .     .     .      .     .        .     .
+ x   x   -   x      phase/building & no comment has extension	      .     .     .      .     .        .     .
+                    group 1: full sheet number					  1   .     .     .      .     .        .     .
+                    group 2: phase &/or building				      2     .     .      .     .        .     .
+					group 3: phase bldg sep                           .     3     .      .     .        .     .
+                    group 4: sheet id							      .     .     .      .     .        .     .
+                    group 6: separator							      .     .     .      .     .        .     .
+                    group 7: sheet name w/ extension			      .     .     .      .     .        .     .
+                    group 11: sheet name                              .     .     .      .     .        .     .
+                    group 12: extension							      .     .     .      .     .        .     .
+																      .     .     .      .     .        .     .
+got	got	got	got													      .     .     .      .     .        .     .
+ 3   5   7   9      match 18									      .     .     .      .     .        .     .
+ x   x   -   -      phase/building & no comment, no extension	      .     .     .      .     .        .     .
+                    group 1: full sheet number					   1  .     .     .      .     .        .     .
+                    group 2: phase &/or building				      .     .     .      .     .        .     .
+					group 3: phase bldg sep                           .     3     .      .     .        .     .
+                    group 4: sheet id							      .     .     .      .     .        .     .
+                    group 6: separator							      .     .     .      .     .        .     .
+                    group 7: sheet name							      .     .     .      .     .        .     .
+                    group 13: sheet name						      .     .     .      .     .        .     .
+
+
+group 1: full sheet number         (in general)
+group 1: sheet id                  (no 4)
+group 2: phase &/or building       (when exists)
+group 3: phase-bldg-sep            (when 2 exists)
+group 4: sheet id	               (when exists else 1)
+group 6: separator	               (always)				
+group 7: sheet name with extension (when 10 or 12)
+group : sheet name                 ()
+group 8: sheet name                (when 10)
+group 9: comment                   (when exists)
+group 10: extension                (when exists)
+
+group 11: sheet name               (when 12)			
+group 12: extension	               (when exists)
+
+
+// phase-bldg
+if (got 2) is phase-bldg
+
+// phase-bldg-sep
+if (got 2) 3 is phase-bldg-sep
+
+// sheet id
+if (got 4) is sheet id
+if (got 5) is sheet id
+
+// separator
+6 is separator
+
+// sheet name
+if (when 10) == 8
+else (when 12) == 11
+else is 7
+
+// comment
+(got 9) is comment
+
+
+
+
+A  A1.0-0  -
+A  A1.0-0  -
+A 1.5-0 -   
+A A2-0-0 -  
+A A3.0-0-   
+A A4-0-0 -  
+A5.0-0 -    
+A6-0-0-     
+A7-0-0 -    
+A-A8-0-0-   
+A-A30.0-0 - 
+
+1A A1.0-1   
+A1.0a       
+A1a         
+A-LT1.0-1  -
+A A1.0 -    
+A A1        
+AA A1.0-1a  
+
+A1.0-1a     
+A1.0-1a     
+1A A1.0-1a  
+
+1A A1.0-1a  
+1A A1.0-1a  
+11A A1.0-1a 
+1AA A1.0-1a 
+
+1 A1.0-1    
+11 A1.0-1a  
+111 A1.0-1a 
+
+A1.0        
+A1          
+A1.0-1      
+A1.0-1a     
+
+CS1.0       
+
+LT1.0       
+LT1.0       
+
+C1          
+C1.0        
+C1.0-0      
+C11         
+C11.0       
+
+L1          
+L1.0        
+L1.0-0      
+L11         
+L11.0       
+A A1.0-0    
+A A1-0-0    
+
+A1.0-0      
+A1-0-0      
+
+A A1.0-0-   
+A A1-0-0-   
+
+A1.0-0-     
+A1-0-0-     
+
+A A1.0-0 -  
+A A1-0-0 -  
+
+A1.0-0 -    
+A1-0-0 -    
+
+A1-0-0a -   
+A1-0-0a     
+
+
+
+
+
+
+
+
+
+
+
+
+
  */

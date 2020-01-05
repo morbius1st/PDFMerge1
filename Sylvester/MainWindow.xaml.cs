@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Sylvester.FileSupport;
+using Sylvester.SelectFolder;
 using Sylvester.Settings;
 
 namespace Sylvester
@@ -13,6 +14,8 @@ namespace Sylvester
 	{
 		public FilesManager fm { get; private set; }
 
+		public FolderManager fldm { get; private set; }
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -20,10 +23,9 @@ namespace Sylvester
 			fm= new FilesManager();
 		}
 
-
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
-			fm.process();
+			if (!fm.Process()) return;
 
 			OnPropertyChange("fm");
 
@@ -39,6 +41,18 @@ namespace Sylvester
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
+		{
+
+			fm = new FilesManager();
+
+			fldm = new FolderManager();
+
+			fldm.GetFolders();
+
+
 		}
 	}
 }

@@ -13,7 +13,7 @@ using Sylvester.Settings;
 // created:  12/31/2019 3:01:00 PM
 
 
-namespace Sylvester.FileSupport
+namespace Sylvester.SelectFolder
 {
 	public class SelectFolder
 	{

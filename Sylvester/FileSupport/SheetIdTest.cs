@@ -1,115 +1,124 @@
-﻿// Solution:     PDFMerge1
-// Project:       Sylvester
-// File:             SheetIdBase.cs
-// Created:      -- ()
+﻿#region + Using Directives
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UtilityLibrary;
 
-namespace Sylvester.FileSupport {
+#endregion
 
-	public class SheetIdTest : INotifyPropertyChanged
+
+// projname: Sylvester.FileSupport
+// itemname: SheetIdTest
+// username: jeffs
+// created:  1/1/2020 8:03:25 AM
+
+
+namespace Sylvester.FileSupport
+{
+	public class SheetIdTest : SheetId
 	{
-		protected const string SEARCH_PATTERN = @"[.-]";
-		protected const string SUBST_PATTERN = @" ";
+		private const string SPACER = " ";
 
-		public static bool ForceUpperCaseName { get; set; } = true;
+		public int paddingShtNum = 0;
+		public int paddingSep = 0;
+		public int paddingShtName = 0;
 
-		protected Route fullFileName;
-		protected string sheetNumber;
-		protected string separator;
-		protected string sheetName;
-		protected string comment;
-		protected string adjustedSheetNumber;
+		private string matchedSheetNumber;
+		private string matchedSeparator;
+		private string matchedSheetName;
 
-		protected Regex regex = new Regex(SEARCH_PATTERN, RegexOptions.Compiled | RegexOptions.Singleline);
 
-		public SheetIdTest()
+		public bool HasDiferences => SheetNumberMatches || SeparationMatches || SheetNameMatches;
+		public bool MakeChanges { get; set; } = true;
+
+		public bool IsMissing => string.IsNullOrWhiteSpace(MatchedSheetNumber) &&
+			string.IsNullOrWhiteSpace(MatchedSeparator) &&
+			string.IsNullOrWhiteSpace(MatchedSheetName);
+
+		public string MatchedSheetNumber
 		{
-			FullFileName = Route.Invalid;
-			SheetNumber = "";
-			SheetName = "";
-			Comment = "";
-
-		}
-
-		public Route FullFileName
-		{
-			get => fullFileName;
+			get => SPACER.Repeat(paddingShtNum) + matchedSheetNumber;
 			set
 			{
-				fullFileName = value;
-				OnPropertyChange();
+				matchedSheetNumber = value;
+
+				paddingShtNum =
+					GetPadding(matchedSheetNumber, SheetNumber);
 			}
 		}
 
-		public string FilePath => fullFileName.Path;
-		public string FileName => fullFileName.FileName;
-
-		public string SheetNumber
+		public string MatchedSeparator
 		{
-			get => sheetNumber;
+			get => matchedSeparator  + SPACER.Repeat(paddingSep);
 			set
 			{
-				sheetNumber = value;
-				OnPropertyChange();
+				matchedSeparator = value;
 
-				AdjustedSheetNumber = AdjustSheetNumber(sheetNumber);
+				paddingSep =
+					GetPadding(matchedSeparator, separator);
 			}
 		}
 
-		public string AdjustedSheetNumber
+		public string MatchedSheetName
 		{
-			get => adjustedSheetNumber;
+			get => matchedSheetName + SPACER.Repeat(paddingShtName);
 			set
 			{
-				adjustedSheetNumber = value;
-				OnPropertyChange();
+				matchedSheetName = value;
+
+				paddingShtName =
+					GetPadding(matchedSheetName, sheetName);
 			}
 		}
 
-		public string Separator
-		{
-			get => separator;
-			set => separator = value;
-		}
+		public bool SheetNumberMatches => SheetNumber.Equals(MatchedSheetNumber);
 
-		public string SheetName
+		public bool SeparationMatches => separator.Equals(MatchedSeparator);
+
+		public bool SheetNameMatches => sheetName.Equals(MatchedSheetName);
+
+
+//		public new string SheetNumber
+//		{
+//			get => SPACER.Repeat(paddingShtNum) + base.SheetNumber;
+//			set => base.SheetNumber = value;
+//		}
+//
+//		public new string Separator => base.Separator + SPACER.Repeat(paddingSep);
+//
+//		public new string SheetName => base.SheetName + SPACER.Repeat(paddingShtName);
+
+		public override string SheetID
 		{
-			get => sheetName;
+			get => sheetID;
 			set
 			{
-				sheetName = value;
-				if (ForceUpperCaseName)
-				{
-					sheetName = sheetName.ToUpper();
-				}
-
+				sheetID = value;
 				OnPropertyChange();
+
+				SheetNumber = value;
+
+				AdjustedSheetID = AdjustSheetNumber(sheetID);
 			}
 		}
 
-		public string Comment
+		private int GetPadding(string basePart, string testPart)
 		{
-			get => comment;
-			set
-			{
-				comment = value;
-				OnPropertyChange();
-			}
+			if (basePart.Length == 0) return  testPart.Length;
+
+			if (basePart.Length > testPart.Length) return 0;
+
+			return testPart.Length - basePart.Length + 1;
 		}
 
-		protected string AdjustSheetNumber(string sheetId)
-		{
-			return regex.Replace(sheetId, SUBST_PATTERN) + "-test";
-		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-		}
+//
+//		public new string AdjustSheetNumber(string sheetId)
+//		{
+//			return regex.Replace(sheetId, SUBST_PATTERN_A).Trim();
+//		}
 	}
 }

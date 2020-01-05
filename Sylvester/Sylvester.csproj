@@ -75,8 +75,12 @@
     <Compile Include="FileSupport\FilesManager.cs" />
     <Compile Include="FileSupport\SheetFileNames.cs" />
     <Compile Include="FileSupport\SelectFiles.cs" />
-    <Compile Include="FileSupport\SheetIdTest.cs" />
+    <Compile Include="FileSupport\SheetId.cs" />
     <Compile Include="FileSupport\SheetIdBase.cs" />
+    <Compile Include="FileSupport\SheetIdTest.cs" />
+    <Compile Include="FileSupport\TestFilesCollection.cs" />
+    <Compile Include="Process\ProcessFiles.cs" />
+    <Compile Include="SelectFolder\FolderManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
@@ -90,7 +94,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileSupport\Route.cs" />
-    <Compile Include="FileSupport\SelectFolder.cs" />
+    <Compile Include="SelectFolder\SelectFolder.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

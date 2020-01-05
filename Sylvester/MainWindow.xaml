@@ -1,17 +1,17 @@
-﻿<Window Name="mainwin"
-				Title="MainWindow"
-				x:Class="Sylvester.MainWindow"
-				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
-				xmlns:local="clr-namespace:Sylvester"
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:sys="clr-namespace:System;assembly=mscorlib"
-				Width="1200"
-				Height="850"
-				mc:Ignorable="d"
-				Background="#333333">
+﻿<Window Name="mainwin" Title="MainWindow"
+		x:Class="Sylvester.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
+		xmlns:local="clr-namespace:Sylvester"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		Width="1200"
+		Height="850"
+		mc:Ignorable="d"
+		Background="#333333"
+				Loaded="Mainwin_Loaded">
 	<Window.Resources>
 
 		<GridLength x:Key="glChkBx">20</GridLength>
@@ -19,51 +19,42 @@
 		<GridLength x:Key="glSheetNumber">120</GridLength>
 		<GridLength x:Key="glSeparator">70</GridLength>
 		<GridLength x:Key="glSheetName">*</GridLength>
-		<GridLength x:Key="glSpare">3</GridLength>
+		<GridLength x:Key="glSpare">*</GridLength>
 
 		<GridLength x:Key="glRowHeight">18</GridLength>
 
 		<Style x:Key="bdrMatches"
-					 TargetType="Border">
-			<Setter Property="Margin"
-							Value="4,1,0,1" />
-			<Setter Property="BorderThickness"
-							Value="1" />
-			<Setter Property="BorderBrush"
-							Value="Transparent" />
+				TargetType="Border"
+				>
+			<Setter Property="Margin" Value="4,1,0,1" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="Transparent" />
 		</Style>
 
 		<Style x:Key="lblHeader"
-					 TargetType="Label">
-			<Setter Property="Padding"
-							Value="2,0,3,0" />
-			<Setter Property="Margin"
-							Value="2,0,0,0" />
-			<Setter Property="Foreground"
-							Value="White" />
-			<Setter Property="BorderThickness"
-							Value="1,0,0,0" />
-			<Setter Property="BorderBrush"
-							Value="DimGray" />
+				TargetType="Label"
+				>
+			<Setter Property="Padding" Value="2,0,3,0" />
+			<Setter Property="Margin" Value="2,0,0,0" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="BorderThickness" Value="1,0,0,0" />
+			<Setter Property="BorderBrush" Value="DimGray" />
 		</Style>
 
 		<Style x:Key="lblTitle"
-					 TargetType="Label"
-					 BasedOn="{StaticResource lblHeader}">
-			<Setter Property="BorderThickness"
-							Value="1,0,1,0" />
-			<Setter Property="MinWidth"
-							Value="90" />
+				TargetType="Label"
+				BasedOn="{StaticResource lblHeader}"
+				>
+			<Setter Property="BorderThickness" Value="1,0,1,0" />
+			<Setter Property="MinWidth" Value="90" />
 		</Style>
 
 		<Style x:Key="lblValue"
-					 TargetType="Label">
-			<Setter Property="Padding"
-							Value="2,0,3,0" />
-			<Setter Property="Margin"
-							Value="3,1,6,1" />
-			<Setter Property="Foreground"
-							Value="LightGray" />
+				TargetType="Label"
+				>
+			<Setter Property="Padding" Value="2,0,3,0" />
+			<Setter Property="Margin" Value="3,1,6,1" />
+			<Setter Property="Foreground" Value="LightGray" />
 			<!-- <Setter Property="BorderThickness" Value=".5" /> -->
 			<!-- <Setter Property="BorderBrush" Value="Gray" /> -->
 		</Style>
@@ -83,199 +74,670 @@
 		</Grid.RowDefinitions>
 
 		<ListView Name="lvBase"
-							Grid.Column="0"
-							Grid.Row="0"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							d:DataContext="{Binding ElementName=mainwin,
-																Path=fm.BaseFiles.SheetFiles.Files}"
-							DataContext="{Binding ElementName=mainwin,
+				Grid.Column="0"
+				Grid.Row="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				d:DataContext="{Binding ElementName=mainwin,
+																Path=fm.cv}"
+				DataContext="{Binding ElementName=mainwin,
 															Mode=OneWay,
-															Path=fm.BaseFiles.SheetFiles.Files}"
-							ScrollViewer.CanContentScroll="False"
-							Background="#444444"
-							Foreground="White"
-							HorizontalContentAlignment="Stretch"
-							ItemsSource="{Binding}"
-							ItemTemplate="{DynamicResource DataTemplateBase}">
+															Path=fm.cv}"
+				ScrollViewer.CanContentScroll="False"
+				Background="#444444"
+				Foreground="White"
+				ItemTemplate="{DynamicResource DataTemplateTest}"
+				ItemsSource="{Binding}"
+				>
+			<!--  d:DataContext="{Binding ElementName=mainwin,  -->
+			<!--  Path=fm.BaseFiles.SheetFiles.Files}"  -->
+			<!--  DataContext="{Binding ElementName=mainwin,  -->
+			<!--  Mode=OneWay,  -->
+			<!--  Path=fm.BaseFiles.SheetFiles.Files}"  -->
+
+
+
 			<ListView.Resources>
 
-				<DataTemplate x:Key="DataTemplateBase"
-											DataType="filesupport:SheetIdBase">
-					<Border BorderThickness="8,1,.5,5"
-									CornerRadius="6">
+				<DataTemplate x:Key="DataTemplateTest"
+						DataType="filesupport:SheetIdTest"
+						>
+					<Border
+							CornerRadius="10"
+							BorderThickness="8,1,.5,5"
+							>
 						<Border.BorderBrush>
-							<LinearGradientBrush EndPoint="0.5,1"
-																	 StartPoint="0.5,0">
-								<GradientStop Color="#FF1C2F32"
-															Offset="0.938" />
-								<GradientStop Color="#FFAAEAF3"
-															Offset="0.998" />
+							<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+								<GradientStop Offset="0.938" Color="#FF1C2F32" />
+								<GradientStop Offset="0.998" Color="#FFAAEAF3" />
 							</LinearGradientBrush>
 						</Border.BorderBrush>
-						<Border CornerRadius="6"
-										BorderThickness="8,1,0,0"
-										Padding="0,0,0,5"
-										Margin="-8,-1,-.5,-5"
-										BorderBrush="#FFAAEAF3">
-							<Grid HorizontalAlignment="Stretch"
-										Width="Auto"
-										Margin="4,0,0,0">
+						<Border
+								Margin="-8,-1,-.5,-5"
+								Padding="0,0,0,5"
+								CornerRadius="10"
+								BorderThickness="12,2.5,.5,0"
+								BorderBrush="#FFAAEAF3"
+								>
+							<Grid
+									Margin="4,0,0,0"
+									Width="Auto"
+									HorizontalAlignment="Stretch"
+									>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="{StaticResource glChkBx}" />
-									<ColumnDefinition Width="{StaticResource glFolder}" />
-									<ColumnDefinition Width="{StaticResource glSheetNumber}" />
-									<ColumnDefinition Width="{StaticResource glSeparator}" />
-									<ColumnDefinition Width="{StaticResource glSheetName}" />
+									<!-- <ColumnDefinition Width="{StaticResource glChkBx}" /> -->
+									<!-- <ColumnDefinition Width="{StaticResource glFolder}" /> -->
+									<!-- <ColumnDefinition Width="{StaticResource glSheetNumber}" /> -->
+									<!-- <ColumnDefinition Width="{StaticResource glSeparator}" /> -->
+									<!-- <ColumnDefinition Width="{StaticResource glSheetName}" /> -->
 									<ColumnDefinition Width="{StaticResource glSpare}" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
-									<RowDefinition Height="{StaticResource glRowHeight}" />
-									<RowDefinition Height="{StaticResource glRowHeight}" />
-									<RowDefinition Height="18" />
-									<RowDefinition Height="{StaticResource glRowHeight}" />
-									<RowDefinition Height="{StaticResource glRowHeight}" />
+									<!-- <RowDefinition Height="{StaticResource glRowHeight}" /> -->
+									<!-- <RowDefinition Height="{StaticResource glRowHeight}" /> -->
+									<!-- <RowDefinition Height="{StaticResource glRowHeight}" /> -->
+									<!-- <RowDefinition Height="{StaticResource glRowHeight}" /> -->
+									<!-- <RowDefinition Height="{StaticResource glRowHeight}" /> -->
+									<RowDefinition Height="Auto" />
+
 								</Grid.RowDefinitions>
+								<!-- -->
+								<!-- <Label Content="Folder" -->
+								<!-- 		Grid.Column="1" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="Sheet Number" -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="Separator" -->
+								<!-- 		Grid.Column="3" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="Sheet Name" -->
+								<!-- 		Grid.Column="4" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		HorizontalAlignment="Stretch" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- -->
+								<!-- <Label Content="Current" -->
+								<!-- 		Grid.Column="1" -->
+								<!-- 		Grid.Row="1" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- <Label Content="{Binding Path=SheetNumber}" -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="1" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- <Label Content="{Binding Separator}" -->
+								<!-- 		Grid.Column="3" -->
+								<!-- 		Grid.Row="1" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="{Binding SheetName}" -->
+								<!-- 		Grid.Column="4" -->
+								<!-- 		Grid.Row="1" -->
+								<!-- 		HorizontalAlignment="Stretch" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- -->
+								<!-- <Label Content="{Binding Path=AdjustedSheetID}" -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="2" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- -->
+								<!-- -->
+								<!-- <Label Content="Revision" -->
+								<!-- 		Grid.Column="1" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Border -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		Style="{DynamicResource x1}" -->
+								<!-- 		> -->
+								<!-- 	<Border.Resources> -->
+								<!-- 		<Style x:Key="x1" -->
+								<!-- 				TargetType="Border" -->
+								<!-- 				BasedOn="{StaticResource bdrMatches}" -->
+								<!-- 				> -->
+								<!-- 			<Style.Triggers> -->
+								<!-- 				<DataTrigger -->
+								<!-- 						Binding="{Binding Path=SheetNumberMatches}" -->
+								<!-- 						Value="false" -->
+								<!-- 						> -->
+								<!-- 					<Setter Property="BorderBrush" Value="Red" /> -->
+								<!-- 				</DataTrigger> -->
+								<!-- 			</Style.Triggers> -->
+								<!-- 		</Style> -->
+								<!-- 	</Border.Resources> -->
+								<!-- </Border> -->
+								<!-- <Label Content="{Binding MatchedSheetNumber}" -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Border -->
+								<!-- 		Grid.Column="3" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		Style="{DynamicResource x2}" -->
+								<!-- 		> -->
+								<!-- 	<Border.Resources> -->
+								<!-- 		<Style x:Key="x2" -->
+								<!-- 				TargetType="Border" -->
+								<!-- 				BasedOn="{StaticResource bdrMatches}" -->
+								<!-- 				> -->
+								<!-- 			<Style.Triggers> -->
+								<!-- 				<DataTrigger -->
+								<!-- 						Binding="{Binding Path=SeparationMatches}" -->
+								<!-- 						Value="false" -->
+								<!-- 						> -->
+								<!-- 					<Setter Property="BorderBrush" Value="Red" /> -->
+								<!-- 				</DataTrigger> -->
+								<!-- 			</Style.Triggers> -->
+								<!-- 		</Style> -->
+								<!-- 	</Border.Resources> -->
+								<!-- </Border> -->
+								<!-- <Label Content="{Binding MatchedSeparator}" -->
+								<!-- 		Grid.Column="3" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Border -->
+								<!-- 		Grid.Column="4" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		> -->
+								<!-- 	<Border.Style> -->
+								<!-- 		<Style -->
+								<!-- 				TargetType="Border" -->
+								<!-- 				BasedOn="{StaticResource bdrMatches}" -->
+								<!-- 				> -->
+								<!-- 			<Style.Triggers> -->
+								<!-- 				<DataTrigger -->
+								<!-- 						Binding="{Binding Path=SheetNameMatches}" -->
+								<!-- 						Value="false" -->
+								<!-- 						> -->
+								<!-- 					<Setter Property="BorderBrush" Value="Red" /> -->
+								<!-- 				</DataTrigger> -->
+								<!-- 			</Style.Triggers> -->
+								<!-- -->
+								<!-- 		</Style> -->
+								<!-- 	</Border.Style> -->
+								<!-- -->
+								<!-- </Border> -->
+								<!-- <Label Content="{Binding MatchedSheetName}" -->
+								<!-- 		Grid.Column="4" -->
+								<!-- 		Grid.Row="3" -->
+								<!-- 		HorizontalAlignment="Stretch" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- -->
+								<!-- -->
+								<!-- <CheckBox -->
+								<!-- 		Grid.Column="0" -->
+								<!-- 		Grid.Row="4" -->
+								<!-- 		HorizontalAlignment="Center" -->
+								<!-- 		VerticalAlignment="Center" -->
+								<!-- 		Background="#FFAAEAF3" -->
+								<!-- 		/> -->
+								<!-- <Label Content="Proposed" -->
+								<!-- 		Grid.Column="1" -->
+								<!-- 		Grid.Row="4" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="{Binding ProposedSheetNumber}" -->
+								<!-- 		Grid.Column="2" -->
+								<!-- 		Grid.Row="4" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="{Binding ProposedSheetNumber}" -->
+								<!-- 		Grid.Column="3" -->
+								<!-- 		Grid.Row="4" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
+								<!-- <Label Content="{Binding ProposedSheetName}" -->
+								<!-- 		Grid.Column="4" -->
+								<!-- 		Grid.Row="4" -->
+								<!-- 		HorizontalAlignment="Stretch" -->
+								<!-- 		Style="{StaticResource lblHeader}" -->
+								<!-- 		/> -->
 
-								<Label Content="Folder"
-											 Grid.Column="1"
-											 Grid.Row="0"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="Sheet Number"
-											 Grid.Column="2"
-											 Grid.Row="0"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="Separator"
-											 Grid.Column="3"
-											 Grid.Row="0"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="Sheet Name"
-											 Grid.Column="4"
-											 Grid.Row="0"
-											 HorizontalAlignment="Stretch"
-											 Style="{StaticResource lblHeader}" />
+								<StackPanel
+										Grid.Column="0"
+										Grid.Row="0"
+										Orientation="Horizontal"
+										Margin="0,4,6,0"
+										>
+										<!-- Grid.ColumnSpan="5" -->
 
+									<StackPanel
+											Margin="0"
+											Width="Auto"
+											Orientation="Vertical"
+											>
 
-								<Label Content="Current"
-											 Grid.Column="1"
-											 Grid.Row="1"
-											 Style="{StaticResource lblHeader}" />
+										<!--  titles  -->
+										<!--  base  -->
+										<Label Content="Update"
+												Margin="0"
+												Padding="3,0,8,0"
+												HorizontalContentAlignment="left"
+												Foreground="White"
+												BorderThickness="0,0,0,1"
+												BorderBrush="DimGray"
+												>
+										</Label>
 
-								<Label Content="{Binding Path=SheetNumber}"
-											 Grid.Column="2"
-											 Grid.Row="1"
-											 Style="{StaticResource lblHeader}" />
+										<!--  matched  -->
 
-								<Label Content="{Binding Separator}"
-											 Grid.Column="3"
-											 Grid.Row="1"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="{Binding SheetName}"
-											 Grid.Column="4"
-											 Grid.Row="1"
-											 HorizontalAlignment="Stretch"
-											 Style="{StaticResource lblHeader}" />
-
-
-								<Label Content="{Binding Path=AdjustedSheetNumber}"
-										Grid.Column="2"
-										Grid.Row="2"
-										Style="{StaticResource lblHeader}" />
-
-
-
-								<Label Content="Revision"
-											 Grid.Column="1"
-											 Grid.Row="3"
-											 Style="{StaticResource lblHeader}" />
-								<Border Grid.Column="2"
-												Grid.Row="3"
-												Style="{DynamicResource x1}">
-									<Border.Resources>
-										<Style x:Key="x1"
-													 TargetType="Border"
-													 BasedOn="{StaticResource bdrMatches}">
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding Path=SheetNumberMatches}"
-																		 Value="false">
-													<Setter Property="BorderBrush"
-																	Value="Red" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</Border.Resources>
-								</Border>
-								<Label Content="{Binding MatchedSheetNumber}"
-											 Grid.Column="2"
-											 Grid.Row="3"
-											 Style="{StaticResource lblHeader}" />
-								<Border Grid.Column="3"
-												Grid.Row="3"
-												Style="{DynamicResource x2}">
-									<Border.Resources>
-										<Style x:Key="x2"
-													 TargetType="Border"
-													 BasedOn="{StaticResource bdrMatches}">
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding Path=SeparationMatches}"
-																		 Value="false">
-													<Setter Property="BorderBrush"
-																	Value="Red" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</Border.Resources>
-								</Border>
-								<Label Content="{Binding MatchedSheetSeparation}"
-											 Grid.Column="3"
-											 Grid.Row="3"
-											 Style="{StaticResource lblHeader}" />
-								<Border Grid.Column="4"
-												Grid.Row="3">
-									<Border.Style>
-										<Style TargetType="Border"
-													 BasedOn="{StaticResource bdrMatches}">
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding Path=SheetNameMatches}"
-																		 Value="false">
-													<Setter Property="BorderBrush"
-																	Value="Red" />
-												</DataTrigger>
-											</Style.Triggers>
-
-										</Style>
-									</Border.Style>
-
-								</Border>
-								<Label Content="{Binding MatchedSheetName}"
-											 Grid.Column="4"
-											 Grid.Row="3"
-											 HorizontalAlignment="Stretch"
-											 Style="{StaticResource lblHeader}" />
-
-
-								<CheckBox Grid.Column="0"
-													Grid.Row="4"
+											<CheckBox Margin="0,2,0,0"
 													HorizontalAlignment="Center"
 													VerticalAlignment="Center"
-													Background="#FFAAEAF3" />
-								<Label Content="Proposed"
-											 Grid.Column="1"
-											 Grid.Row="4"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="{Binding ProposedSheetNumber}"
-											 Grid.Column="2"
-											 Grid.Row="4"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="{Binding ProposedSheetNumber}"
-											 Grid.Column="3"
-											 Grid.Row="4"
-											 Style="{StaticResource lblHeader}" />
-								<Label Content="{Binding ProposedSheetName}"
-											 Grid.Column="4"
-											 Grid.Row="4"
-											 HorizontalAlignment="Stretch"
-											 Style="{StaticResource lblHeader}" />
+													Background="#FFAAEAF3"
+													IsChecked="{Binding MakeChanges}"
+													BorderThickness="0,0,2,2"
+													BorderBrush="DimGray" />
+
+
+
+									</StackPanel>
+
+									<StackPanel
+											Margin="0"
+											Width="Auto"
+											Orientation="Vertical"
+											>
+
+										<!--  titles  -->
+										<!--  current  -->
+										<Label Content="Current"
+												Margin="0"
+												Padding="3,0,3,0"
+												HorizontalContentAlignment="left"
+												Foreground="White"
+												BorderThickness="0,0,1,1"
+												BorderBrush="DimGray"
+												>
+										</Label>
+
+										<!--  revision  -->
+										<Label Content="Revision"
+												Margin="0"
+												Padding="3,0,3,0"
+												HorizontalContentAlignment="Left"
+												Foreground="White"
+												BorderThickness="0,0,1,0"
+												BorderBrush="DimGray"
+												>
+
+										</Label>
+									</StackPanel>
+
+									<StackPanel Orientation="Vertical">
+									<StackPanel Orientation="Horizontal">
+											<Label 
+													Name="ShtNum"
+													Content="{Binding MatchedSheetNumber, FallbackValue=base value}"
+													Margin="1,0,1,0"
+													Padding="4,0,4,0"
+													HorizontalContentAlignment="Right"
+													Foreground="White"
+													BorderThickness="1"
+													BorderBrush="Transparent"
+													>
+											</Label>
+
+											<Label 
+													Name="Sep"
+													Content="{Binding MatchedSeparator, FallbackValue=sep}"
+													Margin="1,0,1,0"
+													Padding="4,0,4,0"
+													HorizontalContentAlignment="Center"
+													Foreground="White"
+													BorderThickness="1"
+													BorderBrush="Transparent"
+													>
+											</Label>
+
+											<Label 
+													Name="ShtName"
+													Content="{Binding MatchedSheetName, FallbackValue=sheet name}"
+													Margin="1,0,1,0"
+													Padding="4,0,4,0"
+													HorizontalContentAlignment="Left"
+													Foreground="White"
+													BorderThickness="1"
+													BorderBrush="Transparent"
+													>
+											</Label>
+
+											<Label Content="{Binding Comment, FallbackValue=comment}"
+													Margin="1,0,1,0"
+													Padding="4,0,0,0"
+													HorizontalContentAlignment="right"
+													Foreground="White"
+													BorderThickness="1"
+													BorderBrush="Transparent"
+													>
+											</Label>
+
+									</StackPanel>
+
+										<StackPanel Orientation="Horizontal">
+
+												<Label 
+														Name="testShtNum"
+														Content="{Binding SheetNumber, FallbackValue=value}"
+														Margin="1,0,1,0"
+														Padding="4,0,4,0"
+														HorizontalContentAlignment="Right"
+														Foreground="White"
+														BorderThickness="1"
+														Width="{Binding ElementName=ShtNum, Path=ActualWidth}"
+												>
+													<Label.Style>
+														<Style TargetType="Label">
+															<Setter Property="BorderBrush" Value="Transparent" />
+															<Style.Triggers>
+																<DataTrigger
+																		Binding="{Binding Path=SheetNumberMatches}"
+																		Value="false"
+																		>
+																	<Setter Property="BorderBrush" Value="Red" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Label.Style>
+												</Label>
+
+												<Label Content="{Binding Separator, FallbackValue=s}"
+														Margin="1,0,1,0"
+														Padding="4,0,4,0"
+														Width="{Binding ElementName=Sep, Path=ActualWidth}"
+														HorizontalContentAlignment="Center"
+														Foreground="White"
+														BorderThickness="1"
+														>
+													<Label.Style>
+														<Style TargetType="Label">
+															<Setter Property="BorderBrush" Value="Transparent" />
+															<Style.Triggers>
+
+																<DataTrigger
+																		Binding="{Binding Path=SeparationMatches}"
+																		Value="false"
+																		>
+																	<Setter Property="BorderBrush" Value="Red" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Label.Style>
+												</Label>
+
+												<Label Content="{Binding SheetName, FallbackValue=name}"
+														Margin="1,0,1,0"
+														Padding="4,0,4,0"
+														Width="{Binding ElementName=ShtName, Path=ActualWidth}"
+														HorizontalContentAlignment="Left"
+														Foreground="White"
+														BorderThickness="1"
+														>
+													<Label.Style>
+														<Style TargetType="Label">
+															<Setter Property="BorderBrush" Value="Transparent" />
+															<Style.Triggers>
+
+																<DataTrigger
+																		Binding="{Binding Path=SheetNameMatches}"
+																		Value="false"
+																		>
+																	<Setter Property="BorderBrush" Value="Red" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Label.Style>
+												</Label>
+
+												<!-- <Label -->
+												<!-- 		Margin="1,0,1,0" -->
+												<!-- 		Padding="4,0,4,0" -->
+												<!-- 		Width="{Binding ElementName=ShtName, Path=ActualWidth}" -->
+												<!-- 		HorizontalContentAlignment="Left" -->
+												<!-- 		Foreground="White" -->
+												<!-- 		BorderThickness="1" -->
+												<!-- 		> -->
+												<!-- 	<Label.Style> -->
+												<!-- 		<Style TargetType="Label"> -->
+												<!-- 			<Setter Property="BorderBrush" Value="Transparent" /> -->
+												<!-- 			<Setter Property="Visibility" Value="Collapsed"/> -->
+												<!-- 			<Style.Triggers> -->
+												<!-- 				<DataTrigger Binding="{Binding IsMissing}" -->
+												<!-- 						Value="true"> -->
+												<!-- 					<Setter Property="Visibility" -->
+												<!-- 							Value="Visible" /> -->
+												<!-- 					<Setter Property="Content" Value="Missing file"/> -->
+												<!-- 				</DataTrigger> -->
+												<!-- -->
+												<!-- 				<DataTrigger -->
+												<!-- 						Binding="{Binding Path=SheetNameMatches}" -->
+												<!-- 						Value="false" -->
+												<!-- 						> -->
+												<!-- 					<Setter Property="BorderBrush" Value="Red" /> -->
+												<!-- 				</DataTrigger> -->
+												<!-- 			</Style.Triggers> -->
+												<!-- 		</Style> -->
+												<!-- 	</Label.Style> -->
+												<!-- </Label> -->
+
+
+										</StackPanel>
+
+
+
+
+									</StackPanel>
+
+
+
+
+
+
+
+
+									</StackPanel>
+
+
+
+
+
+									<!-- -->
+									<!-- <StackPanel -->
+									<!-- 		Margin="0" -->
+									<!-- 		Width="Auto" -->
+									<!-- 		Orientation="Vertical" -->
+									<!-- 		> -->
+									<!-- -->
+									<!-- 	~1~  sheet number  @1@ -->
+									<!-- 	~1~  base  @1@ -->
+									<!-- 	<Label Content="{Binding SheetNumber, FallbackValue=base value}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Right" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			BorderBrush="Transparent" -->
+									<!-- 			> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- 	~1~  matched  @1@ -->
+									<!-- 	<Label Content="{Binding MatchedSheetNumber, FallbackValue=value}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Right" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			> -->
+									<!-- 		<Label.Style> -->
+									<!-- 			<Style TargetType="Label"> -->
+									<!-- 				<Setter Property="BorderBrush" Value="Transparent" /> -->
+									<!-- 				<Style.Triggers> -->
+									<!-- 					<DataTrigger -->
+									<!-- 							Binding="{Binding Path=SheetNumberMatches}" -->
+									<!-- 							Value="false" -->
+									<!-- 							> -->
+									<!-- 						<Setter Property="BorderBrush" Value="Red" /> -->
+									<!-- 					</DataTrigger> -->
+									<!-- 				</Style.Triggers> -->
+									<!-- 			</Style> -->
+									<!-- 		</Label.Style> -->
+									<!-- 	</Label> -->
+									<!-- </StackPanel> -->
+									<!-- -->
+									<!-- <StackPanel -->
+									<!-- 		Margin="0" -->
+									<!-- 		Width="Auto" -->
+									<!-- 		Orientation="Vertical" -->
+									<!-- 		> -->
+									<!-- -->
+									<!-- 	~1~  separator  @1@ -->
+									<!-- 	~1~  base  @1@ -->
+									<!-- 	<Label Content="{Binding Separator, FallbackValue=sep}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Center" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			BorderBrush="Transparent" -->
+									<!-- 			> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- 	~1~  matched  @1@ -->
+									<!-- 	<Label Content="{Binding MatchedSeparator, FallbackValue=s}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Center" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			> -->
+									<!-- 		<Label.Style> -->
+									<!-- 			<Style TargetType="Label"> -->
+									<!-- 				<Setter Property="BorderBrush" Value="Transparent" /> -->
+									<!-- 				<Style.Triggers> -->
+									<!-- 					<DataTrigger -->
+									<!-- 							Binding="{Binding Path=SeparationMatches}" -->
+									<!-- 							Value="false" -->
+									<!-- 							> -->
+									<!-- 						<Setter Property="BorderBrush" Value="Red" /> -->
+									<!-- 					</DataTrigger> -->
+									<!-- 				</Style.Triggers> -->
+									<!-- 			</Style> -->
+									<!-- 		</Label.Style> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- </StackPanel> -->
+									<!-- -->
+									<!-- <StackPanel -->
+									<!-- 		Margin="0" -->
+									<!-- 		Width="Auto" -->
+									<!-- 		Orientation="Vertical" -->
+									<!-- 		> -->
+									<!-- -->
+									<!-- 	~1~  sheet name  @1@ -->
+									<!-- 	~1~  base  @1@ -->
+									<!-- 	<Label Content="{Binding SheetName, FallbackValue=sheet name}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Left" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			BorderBrush="Transparent" -->
+									<!-- 			> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- 	~1~  matched  @1@ -->
+									<!-- 	<Label Content="{Binding MatchedSheetName, FallbackValue=name}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="Left" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			> -->
+									<!-- 		<Label.Style> -->
+									<!-- 			<Style TargetType="Label"> -->
+									<!-- 				<Setter Property="BorderBrush" Value="Transparent" /> -->
+									<!-- 				<Style.Triggers> -->
+									<!-- 					<DataTrigger -->
+									<!-- 							Binding="{Binding Path=SheetNameMatches}" -->
+									<!-- 							Value="false" -->
+									<!-- 							> -->
+									<!-- 						<Setter Property="BorderBrush" Value="Red" /> -->
+									<!-- 					</DataTrigger> -->
+									<!-- 				</Style.Triggers> -->
+									<!-- 			</Style> -->
+									<!-- 		</Label.Style> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- </StackPanel> -->
+									<!-- -->
+									<!-- <StackPanel -->
+									<!-- 		Margin="0" -->
+									<!-- 		Width="Auto" -->
+									<!-- 		Orientation="Vertical" -->
+									<!-- 		> -->
+									<!-- -->
+									<!-- 	~1~  sheet name  @1@ -->
+									<!-- 	~1~  base  @1@ -->
+									<!-- 	<Label Content="{Binding Comment, FallbackValue=sheet name}" -->
+									<!-- 			Margin="1,0,1,0" -->
+									<!-- 			Padding="4,0,4,0" -->
+									<!-- 			HorizontalContentAlignment="right" -->
+									<!-- 			Foreground="White" -->
+									<!-- 			BorderThickness="1" -->
+									<!-- 			BorderBrush="Transparent" -->
+									<!-- 			> -->
+									<!-- 	</Label> -->
+									<!-- -->
+									<!-- 	~1~ ~2~  matched  @2@ @1@ -->
+									<!-- 	~1~ <Label Content="{Binding MatchedSheetName, FallbackValue=name}" @1@ -->
+									<!-- 	~1~ 		Margin="1,0,1,0" @1@ -->
+									<!-- 	~1~ 		Padding="4,0,4,0" @1@ -->
+									<!-- 	~1~ 		HorizontalContentAlignment="Left" @1@ -->
+									<!-- 	~1~ 		Foreground="White" @1@ -->
+									<!-- 	~1~ 		BorderThickness="1" @1@ -->
+									<!-- 	~1~ 		> @1@ -->
+									<!-- 	~1~ 	<Label.Style> @1@ -->
+									<!-- 	~1~ 		<Style TargetType="Label"> @1@ -->
+									<!-- 	~1~ 			<Setter Property="BorderBrush" Value="Transparent" /> @1@ -->
+									<!-- 	~1~ 			<Style.Triggers> @1@ -->
+									<!-- 	~1~ 				<DataTrigger @1@ -->
+									<!-- 	~1~ 						Binding="{Binding Path=SheetNameMatches}" @1@ -->
+									<!-- 	~1~ 						Value="false" @1@ -->
+									<!-- 	~1~ 						> @1@ -->
+									<!-- 	~1~ 					<Setter Property="BorderBrush" Value="Red" /> @1@ -->
+									<!-- 	~1~ 				</DataTrigger> @1@ -->
+									<!-- 	~1~ 			</Style.Triggers> @1@ -->
+									<!-- 	~1~ 		</Style> @1@ -->
+									<!-- 	~1~ 	</Label.Style> @1@ -->
+									<!-- 	~1~ </Label> @1@ -->
+									<!-- -->
+									<!-- </StackPanel> -->
+									<!-- -->
+								<!-- </StackPanel> -->
+
+
 							</Grid>
 						</Border>
 					</Border>
@@ -289,62 +751,76 @@
 
 
 		<ListView Name="lbTest"
-							Grid.Column="1"
-							Grid.Row="0"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							d:DataContext="{Binding ElementName=mainwin,
+				Grid.Column="1"
+				Grid.Row="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				d:DataContext="{Binding ElementName=mainwin,
 																Mode=OneWay,
 																Path=fm.TestFiles.SheetFiles.Files}"
-							DataContext="{Binding ElementName=mainwin,
+				DataContext="{Binding ElementName=mainwin,
 															Mode=OneWay,
 															Path=fm.TestFiles.SheetFiles.Files}"
-							ScrollViewer.CanContentScroll="False"
-							Background="#444444"
-							Foreground="White"
-							ItemTemplate="{DynamicResource DataTemplateTest}"
-							ItemsSource="{Binding}">
+				ScrollViewer.CanContentScroll="False"
+				Background="#444444"
+				Foreground="White"
+				ItemTemplate="{DynamicResource DataTemplateTest}"
+				ItemsSource="{Binding}"
+				>
+
 			<ListView.Resources>
 
 				<DataTemplate x:Key="DataTemplateTest"
-											DataType="filesupport:SheetIdBase">
-					<StackPanel Margin="0"
-											Orientation="Vertical">
+						DataType="filesupport:SheetIdBase"
+						>
+					<StackPanel
+							Margin="0"
+							Orientation="Vertical"
+							>
 						<StackPanel Orientation="Horizontal">
 							<Label Content="File Name"
-										 Style="{StaticResource lblTitle}" />
+									Style="{StaticResource lblTitle}"
+									/>
 							<Label Content="{Binding Path=FullFileName.FileName, FallbackValue=\\asdf\\asdf\\asdf\\asdf}"
-										 Style="{StaticResource lblValue}" />
+									Style="{StaticResource lblValue}"
+									/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Label Content="Sheet Number"
-										 Style="{StaticResource lblTitle}" />
-							<Label Content="{Binding Path=SheetNumber, FallbackValue=A A1.0-1}"
-										 MinWidth="100"
-										 Style="{StaticResource lblValue}" />
-							<Label Content="Separator"
-										 Style="{StaticResource lblTitle}" />
-							<Label Content="{Binding Path=Separator, FallbackValue=-}"
-										 MinWidth="30"
-										 Style="{StaticResource lblValue}" />
-							<Label Content="Sheet Name"
-										 Style="{StaticResource lblTitle}" />
-							<Label Content="{Binding Path=SheetName, FallbackValue=Sheet Name}"
-										 Style="{StaticResource lblValue}" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<Label 
-									Content="Adj Sht Num"
 									Style="{StaticResource lblTitle}"
 									/>
-							<Label MinWidth="100"
-									Content="{Binding Path=AdjustedSheetNumber, FallbackValue=A1 0 1}"
+							<Label Content="{Binding Path=SheetID, FallbackValue=A A1.0-1}"
+									MinWidth="100"
+									Style="{StaticResource lblValue}"
+									/>
+							<Label Content="Separator"
+									Style="{StaticResource lblTitle}"
+									/>
+							<Label Content="{Binding Path=Separator, FallbackValue=-}"
+									MinWidth="30"
+									Style="{StaticResource lblValue}"
+									/>
+							<Label Content="Sheet Name"
+									Style="{StaticResource lblTitle}"
+									/>
+							<Label Content="{Binding Path=SheetName, FallbackValue=Sheet Name}"
+									Style="{StaticResource lblValue}"
+									/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<Label Content="Adj Sht Num"
+									Style="{StaticResource lblTitle}"
+									/>
+							<Label Content="{Binding Path=AdjustedSheetID, FallbackValue=A1 0 1}"
+									MinWidth="100"
 									Style="{StaticResource lblValue}"
 									/>
 							<Label Content="Comment"
-										 Style="{StaticResource lblTitle}" />
+									Style="{StaticResource lblTitle}"
+									/>
 							<Label Content="{Binding Path=Comment, FallbackValue=(no comment)}"
-										 Style="{StaticResource lblValue}" />
+									Style="{StaticResource lblValue}"
+									/>
 						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
@@ -352,25 +828,27 @@
 
 		</ListView>
 
-		<StackPanel Grid.Column="0"
-								Grid.Row="2"
-								Grid.ColumnSpan="3"
-								HorizontalAlignment="Right"
-								Orientation="Horizontal">
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="2"
+				Grid.ColumnSpan="3"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal"
+				>
 
-			<Button Name="btnGo"
-							Content="Go"
-							Margin="10"
-							Width="90"
-							Height="36"
-							Click="BtnGo_OnClick" />
+			<Button Name="btnGo" Content="Go"
+					Margin="10"
+					Width="90"
+					Height="36"
+					Click="BtnGo_OnClick"
+					/>
 
-			<Button Name="btnDone"
-							Content="Done"
-							Margin="10"
-							Width="90"
-							Height="36"
-							Click="BtnDone_OnClick" />
+			<Button Name="btnDone" Content="Done"
+					Margin="10"
+					Width="90"
+					Height="36"
+					Click="BtnDone_OnClick"
+					/>
 
 		</StackPanel>
 	</Grid>

@@ -1,71 +1,23 @@
-﻿#region + Using Directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Solution:     PDFMerge1
+// Project:       Sylvester
+// File:             SheetIdBase.cs
+// Created:      -- ()
 
-
-
-#endregion
-
-
-// projname: Sylvester.FileSupport
-// itemname: SheetIdTest
-// username: jeffs
-// created:  1/1/2020 8:03:25 AM
-
-
-namespace Sylvester.FileSupport
-{
-	public class SheetIdBase : SheetIdTest
+namespace Sylvester.FileSupport {
+	public class SheetIdBase : SheetId
 	{
-		private bool sheetNumberMatches = true;
-		private bool separationMatches = true;
-		private bool sheetNameMatches = true;
-
-		public bool HasDiferences { get; set; }
-		public bool MakeChanges { get; set; } = false;
-		public string MatchedSheetNumber { get; set; }
-		public string MatchedSheetSeparation { get; set; }
-		public string MatchedSheetName { get; set; }
-		public string ProposedSheetNumber { get; set; }
-		public string ProposedSheetSeparation { get; set; }
-		public string ProposedSheetName { get; set; }
-
-		public bool SheetNumberMatches
+		public override string SheetID
 		{
-			get => sheetNumberMatches;
-			set => sheetNumberMatches = value;
-		}
-
-		public bool SeparationMatches
-		{
-			get => separationMatches;
-			set => separationMatches = value;
-		}
-
-		public bool SheetNameMatches
-		{
-			get => sheetNameMatches;
-			set => sheetNameMatches = value;
-		}
-
-		public new string SheetNumber
-		{
-			get => sheetNumber;
+			get => sheetID;
 			set
 			{
-				sheetNumber = value;
+				sheetID = value;
 				OnPropertyChange();
 
-				AdjustedSheetNumber = AdjustSheetNumber(sheetNumber);
-			}
-		}
+				SheetNumber = value;
 
-		public new string AdjustSheetNumber(string sheetId)
-		{
-			return regex.Replace(sheetId, SUBST_PATTERN) + "-base";
+				AdjustedSheetID = AdjustSheetNumber(sheetID);
+			}
 		}
 	}
 }
