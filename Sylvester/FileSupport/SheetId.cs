@@ -6,11 +6,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
+using static Sylvester.Support.Support;
 
-namespace Sylvester.FileSupport {
-
+namespace Sylvester.FileSupport
+{
 	public abstract class SheetId : INotifyPropertyChanged
 	{
 		protected const string SEARCH_PATTERN_A = @"[.-]| +";
@@ -20,16 +20,16 @@ namespace Sylvester.FileSupport {
 		protected const string SUBST_PATTERN_B = @"";
 
 		protected KeyValuePair<Regex, string>[] ReplacePatterns =
-			{
-				new KeyValuePair<Regex, string>(
-					new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline),
-					SUBST_PATTERN_A
-					), 
-				new KeyValuePair<Regex, string>(
-					new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
-					SUBST_PATTERN_B
-					)
-			};
+		{
+			new KeyValuePair<Regex, string>(
+				new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline),
+				SUBST_PATTERN_A
+				),
+			new KeyValuePair<Regex, string>(
+				new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
+				SUBST_PATTERN_B
+				)
+		};
 
 		protected Regex regex = new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline);
 
@@ -57,7 +57,6 @@ namespace Sylvester.FileSupport {
 			sheetName = "";
 			comment = "";
 			adjustedSheetID = "";
-
 		}
 
 		public Route FullFileRoute
@@ -68,11 +67,23 @@ namespace Sylvester.FileSupport {
 				fullFileRoute = value;
 				OnPropertyChange();
 
-				Support.ParseFile(this);
+				Support.Support.ParseFile(this);
 			}
 		}
 
-		public abstract string SheetID { get; set; }
+		public string SheetID
+		{
+			get => sheetID;
+			set
+			{
+				sheetID = value;
+				OnPropertyChange();
+
+				SheetNumber = value;
+
+				AdjustedSheetID = AdjustSheetNumber(sheetID);
+			}
+		}
 
 		public string FilePath => fullFileRoute.Path;
 		public string FileName => fullFileRoute.FileName;
@@ -107,7 +118,6 @@ namespace Sylvester.FileSupport {
 			}
 		}
 
-
 		public string AdjustedSheetID
 		{
 			get => adjustedSheetID;
@@ -133,7 +143,7 @@ namespace Sylvester.FileSupport {
 				if (ForceUpperCaseName)
 				{
 					sheetName = sheetName.ToUpper();
-				} 
+				}
 				else if (ForceWordCapName)
 				{
 					sheetName = ToCapEachWord(sheetName);
@@ -153,29 +163,6 @@ namespace Sylvester.FileSupport {
 			}
 		}
 
-		protected string ToCapEachWord(string phrase)
-		{
-			int pos = 0;
-			StringBuilder sb = new StringBuilder(phrase.ToLower());
-
-			do
-			{
-				
-
-				if (sb[pos] >= 'a' && sb[pos] <= 'z')
-				{
-					sb[pos] = (char) (sb[pos] + 65 - 97);
-				}
-
-				pos = phrase.IndexOf(' ', pos) + 1;
-			}
-			while (pos > 0 && pos < sb.Length);
-
-			return sb.ToString();
-
-		}
-
-
 		protected string AdjustSheetNumber(string sheetId)
 		{
 			string result = sheetId;
@@ -185,6 +172,7 @@ namespace Sylvester.FileSupport {
 				result =
 					ReplacePatterns[i].Key.Replace(result, ReplacePatterns[i].Value).Trim();
 			}
+
 			return result;
 		}
 
@@ -197,21 +185,13 @@ namespace Sylvester.FileSupport {
 
 		public override string ToString()
 		{
-//			return 
-//				" phase-bldg|" + (phaseBldg ?? " none") +
-//				" id| " + (sheetID ?? "none")  + " (" + adjustedSheetID + ")" +
-//				" name| " + (sheetName ?? "none");
-
-			return phaseBldg.PadRight(3) 
+			return phaseBldg.PadRight(3)
 				+ " | " + phaseBldgSep.PadRight(4)
 				+ " | " + sheetID.PadRight(10)
 				+ (" (" + adjustedSheetID + ")").PadRight(10)
 				+ " | " + separator.PadRight(6)
-				+ " | " + sheetName 
+				+ " | " + sheetName
 				+ " ( " + comment + ")";
-
 		}
-
-
 	}
 }

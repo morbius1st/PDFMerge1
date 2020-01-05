@@ -79,31 +79,6 @@ namespace Sylvester.FileSupport
 
 		public bool SheetNameMatches => sheetName.Equals(MatchedSheetName);
 
-
-//		public new string SheetNumber
-//		{
-//			get => SPACER.Repeat(paddingShtNum) + base.SheetNumber;
-//			set => base.SheetNumber = value;
-//		}
-//
-//		public new string Separator => base.Separator + SPACER.Repeat(paddingSep);
-//
-//		public new string SheetName => base.SheetName + SPACER.Repeat(paddingShtName);
-
-		public override string SheetID
-		{
-			get => sheetID;
-			set
-			{
-				sheetID = value;
-				OnPropertyChange();
-
-				SheetNumber = value;
-
-				AdjustedSheetID = AdjustSheetNumber(sheetID);
-			}
-		}
-
 		private int GetPadding(string basePart, string testPart)
 		{
 			if (basePart.Length == 0) return  testPart.Length;

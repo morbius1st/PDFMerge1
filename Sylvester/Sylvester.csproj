@@ -79,7 +79,7 @@
     <Compile Include="FileSupport\SheetId.cs" />
     <Compile Include="FileSupport\SheetIdBase.cs" />
     <Compile Include="FileSupport\SheetIdTest.cs" />
-    <Compile Include="FileSupport\Support.cs" />
+    <Compile Include="Support\Support.cs" />
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\TestFilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />

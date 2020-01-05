@@ -65,66 +65,15 @@ namespace Sylvester.FileSupport
 			cv2 = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
 			OnPropertyChange("cv2");
 
-//			if (!GetBaseFolder()) return false;
-
 			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
 
-//			if (!GetTestFolder()) return false;
-
 			if (!TestFiles.GetFiles(FolderManager.TestFolder)) return false;
-
-//			int count = BaseFiles.SheetFiles.Files.Count >
-//				TestFiles.SheetFiles.Files.Count
-//					? TestFiles.SheetFiles.Files.Count
-//					: BaseFiles.SheetFiles.Files.Count;
-//
-//			for (int i = 0; i < count; i++)
-//			{
-//				BaseFiles.SheetFiles.Files[i].MatchedSheetNumber =
-//					TestFiles.SheetFiles.Files[i].SheetNumber;
-//				BaseFiles.SheetFiles.Files[i].MatchedSheetSeparation =
-//					TestFiles.SheetFiles.Files[i].Separator;
-//				BaseFiles.SheetFiles.Files[i].MatchedSheetName =
-//					TestFiles.SheetFiles.Files[i].SheetName;
-//			}
 
 			cv = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
 			OnPropertyChange("cv");
 
 			return true;
 		}
-//
-//		private bool GetBaseFolder()
-//		{
-//			baseFolder = new Route(UserSettings.Data.PriorBaseFolder);
-//
-//			if (!ByPass)
-//			{
-//				baseFolder = sf.GetFolder(baseFolder);
-//				if (!baseFolder.IsValid) return false;
-//
-//				UserSettings.Data.PriorBaseFolder = baseFolder.FullPath;
-//				UserSettings.Admin.Save();
-//			}
-//
-//			return true;
-//		}
-//
-//		private bool GetTestFolder()
-//		{
-//			testFolder = new Route(UserSettings.Data.PriorTestFolder);
-//
-//			if (!ByPass)
-//			{
-//				testFolder = sf.GetFolder(testFolder);
-//				if (!testFolder.IsValid) return false;
-//
-//				UserSettings.Data.PriorTestFolder = testFolder.FullPath;
-//				UserSettings.Admin.Save();
-//			}
-//
-//			return true;
-//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

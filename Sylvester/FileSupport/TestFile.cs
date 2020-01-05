@@ -34,9 +34,6 @@ namespace Sylvester.FileSupport
 		public TestFile(Route fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
-
-//			Support.ParseFile(this);
-
 		}
 
 		public bool HasDiferences => SheetNumberMatches || SeparationMatches || SheetNameMatches;
@@ -83,20 +80,6 @@ namespace Sylvester.FileSupport
 		public bool SeparationMatches => separator.Equals(baseFile?.Separator ?? separator);
 
 		public bool SheetNameMatches => sheetName.Equals(baseFile?.FileName ?? sheetName);
-
-		public override string SheetID
-		{
-			get => sheetID;
-			set
-			{
-				sheetID = value;
-				OnPropertyChange();
-
-				SheetNumber = value;
-
-				AdjustedSheetID = AdjustSheetNumber(sheetID);
-			}
-		}
 
 		private int GetPadding(string basePart, string testPart)
 		{

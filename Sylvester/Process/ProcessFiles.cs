@@ -66,8 +66,6 @@ namespace Sylvester.Process
 			// step 2 - run through each record in base to see if there
 			if (!MatchSheetsNumbers()) return false;
 
-
-
 			return true;
 		}
 

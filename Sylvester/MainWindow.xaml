@@ -433,7 +433,7 @@
 						DataType="filesupport:TestFile"
 						>
 					<Border
-							CornerRadius="10"
+							CornerRadius="6"
 							BorderThickness="8,1,.5,5"
 							>
 						<Border.BorderBrush>
@@ -445,7 +445,7 @@
 						<Border
 								Margin="-8,-1,-.5,-5"
 								Padding="0,0,0,5"
-								CornerRadius="10"
+								CornerRadius="6"
 								BorderThickness="12,2.5,.5,0"
 								BorderBrush="#FFAAEAF3"
 								>

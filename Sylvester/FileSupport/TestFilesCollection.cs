@@ -37,15 +37,15 @@ namespace Sylvester.FileSupport
 
 		public void Add(Route r)
 		{
-//			TestFile tf = Support.ParseFileName<TestFile>(r);
 			TestFile tf = new TestFile(r);
 
+		#if DEBUG
 			SheetIdBase baseFile = new SheetIdBase();
 			baseFile.FullFileRoute = new Route("NONE 1.0 - none.pdf");
 
 			tf.BaseFile = baseFile;
+		#endif
 			
-
 			Add(tf);
 		}
 	}

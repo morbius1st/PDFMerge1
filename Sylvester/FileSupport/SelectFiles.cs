@@ -18,7 +18,7 @@ using Sylvester.Settings;
 
 namespace Sylvester.FileSupport
 {
-	public class SelectFiles<T> : INotifyPropertyChanged where T : SheetId, new()
+	public class SelectFiles<T> where T : SheetId, new()
 	{
 		public SheetFileNames<T> SheetFiles { get; private set;}
 
@@ -41,13 +41,6 @@ namespace Sylvester.FileSupport
 			}
 
 			return true;
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 	}
 }

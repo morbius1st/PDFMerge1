@@ -1,12 +1,8 @@
 ﻿#region + Using Directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-
+using Sylvester.FileSupport;
 
 #endregion
 
@@ -17,10 +13,29 @@ using System.Threading.Tasks;
 // created:  1/4/2020 11:31:35 PM
 
 
-namespace Sylvester.FileSupport
+namespace Sylvester.Support
 {
 	public class Support
 	{
+		public static string ToCapEachWord(string phrase)
+		{
+			int pos = 0;
+			StringBuilder sb = new StringBuilder(phrase.ToLower());
+
+			do
+			{
+				if (sb[pos] >= 'a' && sb[pos] <= 'z')
+				{
+					sb[pos] = (char) (sb[pos] + 65 - 97);
+				}
+
+				pos = phrase.IndexOf(' ', pos) + 1;
+			}
+			while (pos > 0 && pos < sb.Length);
+
+			return sb.ToString();
+		}
+
 		private const string PATTERN =
 			@"^(([0-9]*[A-Z]*)(?=[ -]+[A-Z])([ -]*)([A-Z0-9\.-]*[a-z]*)|([A-Z]+ *[0-9\.-]+[a-z]*){1})([- ]+)((.*)(\(.*\))(\.[Pp][dD][Ff])|(.*)(\.[Pp][dD][Ff])|(.*))";
 
