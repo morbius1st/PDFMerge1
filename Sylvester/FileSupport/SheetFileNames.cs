@@ -55,47 +55,49 @@ namespace Sylvester.FileSupport
 
 		public void Add(Route fileName)
 		{
-			T shtId = new T {FullFileName = fileName };
+			T shtId = new T {FullFileRoute = fileName };
 
-			Match match = Pattern.Match(fileName.FileName);
+//			Match match = Pattern.Match(fileName.FileName);
+//
+//			GroupCollection m = match.Groups;
+//
+//			string test;
+//
+//			// phase-bldg
+//			test = m[PHASE_BLDG].Value;
+//			if (!string.IsNullOrEmpty(test))
+//			{
+//				shtId.PhaseBldg = test;
+//				shtId.PhaseBldgSep = m[PHASE_BLDG_SEP].Value;
+//			}
+//
+//			// separator
+//			shtId.Separator = m[SEPARATOR].Value;
+//
+//			// comment
+//			test = m[COMMENT].Value;
+//			if (!string.IsNullOrEmpty(test)) shtId.Comment = test;
+//
+//			// sheet ID
+//			test = m[SHEET_ID_GOT].Value;
+//			shtId.SheetID = !string.IsNullOrEmpty(test) ? test : m[SHEET_ID_NOT].Value;
+//
+//			// sheet name
+//			test = m[EXTENSION_COMMENT].Value;
+//			if (!string.IsNullOrEmpty(test))
+//			{
+//				shtId.SheetName = m[SHEET_NAME_COMMENT].Value;
+//			} 
+//			else if (!string.IsNullOrEmpty(m[EXTENSION_NO_COMMENT].Value))
+//			{
+//				shtId.SheetName = m[SHEET_NAME_NO_COMMENT].Value;
+//			}
+//			else
+//			{
+//				shtId.SheetName = m[SHEET_NAME].Value;
+//			}
 
-			GroupCollection m = match.Groups;
-
-			string test;
-
-			// phase-bldg
-			test = m[PHASE_BLDG].Value;
-			if (!string.IsNullOrEmpty(test))
-			{
-				shtId.PhaseBldg = test;
-				shtId.PhaseBldgSep = m[PHASE_BLDG_SEP].Value;
-			}
-
-			// separator
-			shtId.Separator = m[SEPARATOR].Value;
-
-			// comment
-			test = m[COMMENT].Value;
-			if (!string.IsNullOrEmpty(test)) shtId.Comment = test;
-
-			// sheet ID
-			test = m[SHEET_ID_GOT].Value;
-			shtId.SheetID = !string.IsNullOrEmpty(test) ? test : m[SHEET_ID_NOT].Value;
-
-			// sheet name
-			test = m[EXTENSION_COMMENT].Value;
-			if (!string.IsNullOrEmpty(test))
-			{
-				shtId.SheetName = m[SHEET_NAME_COMMENT].Value;
-			} 
-			else if (!string.IsNullOrEmpty(m[EXTENSION_NO_COMMENT].Value))
-			{
-				shtId.SheetName = m[SHEET_NAME_NO_COMMENT].Value;
-			}
-			else
-			{
-				shtId.SheetName = m[SHEET_NAME].Value;
-			}
+			
 
 			Files.Add(shtId);
 		}

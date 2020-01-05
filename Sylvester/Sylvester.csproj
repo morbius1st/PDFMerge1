@@ -73,11 +73,14 @@
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
     <Compile Include="FileSupport\FilesManager.cs" />
+    <Compile Include="FileSupport\ReadFiles.cs" />
     <Compile Include="FileSupport\SheetFileNames.cs" />
     <Compile Include="FileSupport\SelectFiles.cs" />
     <Compile Include="FileSupport\SheetId.cs" />
     <Compile Include="FileSupport\SheetIdBase.cs" />
     <Compile Include="FileSupport\SheetIdTest.cs" />
+    <Compile Include="FileSupport\Support.cs" />
+    <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\TestFilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />
     <Compile Include="SelectFolder\FolderManager.cs" />

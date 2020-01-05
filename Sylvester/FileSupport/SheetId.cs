@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Sylvester.FileSupport {
@@ -32,9 +33,10 @@ namespace Sylvester.FileSupport {
 
 		protected Regex regex = new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline);
 
-		public static bool ForceUpperCaseName { get; set; } = true;
+		public static bool ForceUpperCaseName { get; set; } = false;
+		public static bool ForceWordCapName { get; set; } = true;
 
-		protected Route fullFileName;
+		protected Route fullFileRoute;
 		protected string phaseBldg;
 		protected string phaseBldgSep;
 		protected string sheetID;
@@ -46,7 +48,7 @@ namespace Sylvester.FileSupport {
 
 		public SheetId()
 		{
-			FullFileName = Route.Invalid;
+			fullFileRoute = Route.Invalid;
 
 			phaseBldg = "";
 			phaseBldgSep = "";
@@ -58,20 +60,22 @@ namespace Sylvester.FileSupport {
 
 		}
 
-		public Route FullFileName
+		public Route FullFileRoute
 		{
-			get => fullFileName;
+			get => fullFileRoute;
 			set
 			{
-				fullFileName = value;
+				fullFileRoute = value;
 				OnPropertyChange();
+
+				Support.ParseFile(this);
 			}
 		}
 
 		public abstract string SheetID { get; set; }
 
-		public string FilePath => fullFileName.Path;
-		public string FileName => fullFileName.FileName;
+		public string FilePath => fullFileRoute.Path;
+		public string FileName => fullFileRoute.FileName;
 
 		public string PhaseBldg
 		{
@@ -129,6 +133,10 @@ namespace Sylvester.FileSupport {
 				if (ForceUpperCaseName)
 				{
 					sheetName = sheetName.ToUpper();
+				} 
+				else if (ForceWordCapName)
+				{
+					sheetName = ToCapEachWord(sheetName);
 				}
 
 				OnPropertyChange();
@@ -143,6 +151,28 @@ namespace Sylvester.FileSupport {
 				comment = value;
 				OnPropertyChange();
 			}
+		}
+
+		protected string ToCapEachWord(string phrase)
+		{
+			int pos = 0;
+			StringBuilder sb = new StringBuilder(phrase.ToLower());
+
+			do
+			{
+				
+
+				if (sb[pos] >= 'a' && sb[pos] <= 'z')
+				{
+					sb[pos] = (char) (sb[pos] + 65 - 97);
+				}
+
+				pos = phrase.IndexOf(' ', pos) + 1;
+			}
+			while (pos > 0 && pos < sb.Length);
+
+			return sb.ToString();
+
 		}
 
 

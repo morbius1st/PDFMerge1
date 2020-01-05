@@ -6,6 +6,7 @@
 namespace Sylvester.FileSupport {
 	public class SheetIdBase : SheetId
 	{
+
 		public override string SheetID
 		{
 			get => sheetID;

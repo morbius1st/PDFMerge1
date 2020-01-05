@@ -25,10 +25,15 @@ namespace Sylvester.FileSupport
 {
 	public class FilesManager : INotifyPropertyChanged
 	{
+		public TestFilesCollection TestFileColl { get; private set; }
+
+		public ReadFiles rf;
+
 		public SelectFiles<SheetIdBase> BaseFiles { get; private set; }
 		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
 
 		public ICollectionView cv { get; private set; }
+		public ICollectionView cv2 { get; private set; }
 
 		SelectFolder.SelectFolder sf = new SelectFolder.SelectFolder();
 
@@ -41,6 +46,10 @@ namespace Sylvester.FileSupport
 		{
 			BaseFiles = new SelectFiles<SheetIdBase>();
 			TestFiles = new SelectFiles<SheetIdTest>();
+
+			TestFileColl = new TestFilesCollection();
+
+			rf = new ReadFiles(TestFileColl);
 		}
 
 		public bool Process()
@@ -52,6 +61,10 @@ namespace Sylvester.FileSupport
 
 		private bool GetFiles()
 		{
+			rf.GetFiles(FolderManager.TestFolder);
+			cv2 = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+			OnPropertyChange("cv2");
+
 //			if (!GetBaseFolder()) return false;
 
 			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
@@ -76,6 +89,7 @@ namespace Sylvester.FileSupport
 //			}
 
 			cv = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
+			OnPropertyChange("cv");
 
 			return true;
 		}
