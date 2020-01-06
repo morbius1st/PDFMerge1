@@ -39,14 +39,27 @@ namespace Sylvester.FileSupport
 		{
 			TestFile tf = new TestFile(r);
 
-		#if DEBUG
-			SheetIdBase baseFile = new SheetIdBase();
-			baseFile.FullFileRoute = new Route("NONE 1.0 - none.pdf");
-
-			tf.BaseFile = baseFile;
-		#endif
-			
+//		#if DEBUG
+//			SheetIdBase baseFile = new SheetIdBase();
+//			baseFile.FullFileRoute = new Route("NONE 1.0 - none.pdf");
+//
+//			tf.BaseFile = baseFile;
+//		#endif
+//			
 			Add(tf);
+		}
+
+		public TestFile ContainsKey(string findKey)
+		{
+			foreach (TestFile tf in TestFiles)
+			{
+				if (tf.AdjustedSheetID == findKey)
+				{
+					return tf;
+				}
+			}
+
+			return null;
 		}
 	}
 }

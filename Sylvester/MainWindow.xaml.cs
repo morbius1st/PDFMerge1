@@ -23,12 +23,27 @@ namespace Sylvester
 			fm= new FilesManager();
 		}
 
+
+
+		private void BtnReset_OnClick(object sender, RoutedEventArgs e)
+		{
+			fm.Reset();
+
+			OnPropertyChange("fm");
+		}
+
+		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
+		{
+			fm.Read();
+
+			OnPropertyChange("fm");
+		}
+
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (!fm.Process()) return;
 
 			OnPropertyChange("fm");
-
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)

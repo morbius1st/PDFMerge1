@@ -44,19 +44,41 @@ namespace Sylvester.FileSupport
 
 		public FilesManager()
 		{
+			Reset();
+		}
+
+		public void Reset()
+		{
 			BaseFiles = new SelectFiles<SheetIdBase>();
 			TestFiles = new SelectFiles<SheetIdTest>();
 
 			TestFileColl = new TestFilesCollection();
 
 			rf = new ReadFiles(TestFileColl);
+
+			cv = null;
+			cv2 = null;
+
+		}
+
+		public bool Read()
+		{
+			rf.GetFiles(FolderManager.TestFolder);
+			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
+			return true;
 		}
 
 		public bool Process()
 		{
 			if (!GetFiles()) return false;
 
-			return (new ProcessFiles(BaseFiles, TestFiles)).Process();
+			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, TestFileColl);
+
+			pf.Process2();
+
+			cv2.SortDescriptions.Add(new SortDescription(nameof(TestFile.SheetNumber), ListSortDirection.Ascending));
+
+			return pf.Process();
 		}
 
 		private bool GetFiles()

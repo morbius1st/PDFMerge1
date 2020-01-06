@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,14 +49,37 @@ namespace Sylvester.Process
 		private SortedDictionary<string, SheetMatch>
 			sheets = new SortedDictionary<string, SheetMatch>();
 
+		private TestFilesCollection tfc;
 
 		public ProcessFiles(
 			SelectFiles<SheetIdBase> baseFiles,
-			SelectFiles<SheetIdTest> testFiles
+			SelectFiles<SheetIdTest> testFiles,
+			TestFilesCollection testFileCollection
 			)
 		{
 			BaseFiles = baseFiles;
 			TestFiles = testFiles;
+			tfc = testFileCollection;
+		}
+
+		public bool Process2()
+		{
+			return MatchSheetsNumbers2();
+		}
+
+		private bool MatchSheetsNumbers2()
+		{
+			TestFile tf;
+
+			foreach (SheetIdBase shtIdBase in BaseFiles.SheetFiles.Files)
+			{
+				if ((tf = tfc.ContainsKey(shtIdBase.AdjustedSheetID)) != null)
+				{
+					tf.BaseFile = shtIdBase;
+				}
+			}
+
+			return true;
 		}
 
 		public bool Process()

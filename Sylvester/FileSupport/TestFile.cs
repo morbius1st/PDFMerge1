@@ -18,6 +18,14 @@ using UtilityLibrary;
 
 namespace Sylvester.FileSupport
 {
+
+	public enum MatchStatus
+	{
+		DOES_NOT_MATCH,
+		DOES_MATCH,
+		NEW_FILE
+	}
+
 	public class TestFile : SheetId
 	{
 		private const string SPACER = " ";
@@ -26,22 +34,40 @@ namespace Sylvester.FileSupport
 		public int paddingSep = 0;
 		public int paddingShtName = 0;
 
-		private string matchedSheetNumber;
-		private string matchedSeparator;
-		private string matchedSheetName;
+		private bool apply = true;
+
+		private string matchedSheetNumber = "";
+		private string matchedSeparator = "";
+		private string matchedSheetName = "";
 		private SheetIdBase baseFile;
 
 		public TestFile(Route fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
+
+			SetPadding();
 		}
 
-		public bool HasDiferences => SheetNumberMatches || SeparationMatches || SheetNameMatches;
-		public bool MakeChanges { get; set; } = true;
+		public bool Apply
+		{
+			get
+			{
+				if (FileNew || FileMatches) return false;
 
-		public bool IsMissing => string.IsNullOrWhiteSpace(MatchedSheetNumber) &&
-			string.IsNullOrWhiteSpace(MatchedSeparator) &&
-			string.IsNullOrWhiteSpace(MatchedSheetName);
+				return apply;
+			}
+			set
+			{
+				apply = value;
+				OnPropertyChange();
+			}
+		}
+
+		public bool FileNew => SheetNameMatches == MatchStatus.NEW_FILE &&
+			SeparationMatches == MatchStatus.NEW_FILE && SheetNameMatches == MatchStatus.NEW_FILE;
+
+		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
+			SeparationMatches == MatchStatus.DOES_MATCH && SheetNameMatches == MatchStatus.DOES_MATCH;
 
 		public SheetIdBase BaseFile
 		{
@@ -52,34 +78,62 @@ namespace Sylvester.FileSupport
 				OnPropertyChange();
 
 				matchedSheetNumber = baseFile.SheetNumber;
-
-				paddingShtNum =
-					GetPadding(matchedSheetNumber, SheetNumber);
-
 				matchedSeparator = baseFile.Separator;
+				matchedSheetName = baseFile.SheetName;
 
-				paddingSep =
-					GetPadding(matchedSeparator, separator);
-
-				matchedSheetName = baseFile.FileName;
-
-				paddingShtName =
-					GetPadding(matchedSheetName, sheetName);
-
+				SetPadding();
 			}
 		}
 
-		public string MatchedSheetNumber=> SPACER.Repeat(paddingShtNum) + matchedSheetNumber;
+		public string MatchedSheetNumber => SPACER.Repeat(paddingShtNum) + matchedSheetNumber;
 
 		public string MatchedSeparator => matchedSeparator  + SPACER.Repeat(paddingSep);
 
 		public string MatchedSheetName => matchedSheetName + SPACER.Repeat(paddingShtName);
 
-		public bool SheetNumberMatches => SheetNumber.Equals(baseFile?.SheetNumber ?? SheetNumber);
+		public MatchStatus SheetNumberMatches
+		{
+			get
+			{
+				if (matchedSheetNumber.Length == 0) return MatchStatus.NEW_FILE;
 
-		public bool SeparationMatches => separator.Equals(baseFile?.Separator ?? separator);
+				if (SheetNumber.Equals(baseFile?.SheetNumber ?? SheetNumber))
+				{
+					return MatchStatus.DOES_MATCH;
+				}
 
-		public bool SheetNameMatches => sheetName.Equals(baseFile?.FileName ?? sheetName);
+				return MatchStatus.DOES_NOT_MATCH;
+			}
+		}
+
+		public MatchStatus SeparationMatches {
+
+		get {
+			if (matchedSeparator.Length == 0) return MatchStatus.NEW_FILE;
+
+			if (separator.Equals(baseFile?.Separator ?? separator))
+			{
+				return MatchStatus.DOES_MATCH;
+			}
+
+			return MatchStatus.DOES_NOT_MATCH;
+		}
+	}
+
+		public MatchStatus SheetNameMatches {
+
+			get
+			{
+				if (matchedSheetName.Length == 0) return MatchStatus.NEW_FILE;
+
+				if (sheetName.Equals(baseFile?.SheetName ?? sheetName))
+				{
+					return MatchStatus.DOES_MATCH;
+				}
+
+				return MatchStatus.DOES_NOT_MATCH;
+			}
+	}
 
 		private int GetPadding(string basePart, string testPart)
 		{
@@ -89,5 +143,18 @@ namespace Sylvester.FileSupport
 
 			return testPart.Length - basePart.Length + 1;
 		}
+
+		private void SetPadding()
+		{
+			paddingShtNum =
+				GetPadding(matchedSheetNumber, SheetNumber);
+
+			paddingSep =
+				GetPadding(matchedSeparator, separator);
+
+			paddingShtName =
+				GetPadding(matchedSheetName, sheetName);
+		}
 	}
+
 }
