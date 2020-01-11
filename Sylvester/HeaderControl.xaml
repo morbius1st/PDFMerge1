@@ -43,7 +43,7 @@
 	<StackPanel Orientation="Vertical">
 
 		<StackPanel
-				Margin="0"
+				Margin="0,0,0,0"
 				HorizontalAlignment="Stretch"
 				Orientation="Horizontal"
 				Background="#395482CD"

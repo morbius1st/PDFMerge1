@@ -27,17 +27,17 @@ namespace Sylvester.FileSupport
 	{
 //		public static FilesCollection<TestFile> tfc { get; private set; }
 
-		public FilesCollection<TestFile> FileColl { get; private set; }
+		public FilesCollection<TestFile> TestFileColl { get; private set; }
 		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
 
-		public SelectFiles<BaseFile> BaseFiles { get; private set; }
-		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
+//		public SelectFiles<BaseFile> BaseFiles { get; private set; }
+//		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
 
 		public ReadFiles BaseReadFiles { get; private set; }
 		public ReadFiles TestReadFiles { get; private set; }
 
-		public ICollectionView cv { get; private set; }
-		public ICollectionView cv2 { get; private set; }
+		public ICollectionView cvTest { get; private set; }
+		public ICollectionView cvBase { get; private set; }
 
 		SelectFolder.SelectFolder sf = new SelectFolder.SelectFolder();
 
@@ -54,63 +54,85 @@ namespace Sylvester.FileSupport
 
 		public void Reset()
 		{
-			BaseFiles = new SelectFiles<BaseFile>();
-			TestFiles = new SelectFiles<SheetIdTest>();
+//			BaseFiles = new SelectFiles<BaseFile>();
+//			TestFiles = new SelectFiles<SheetIdTest>();
 
-			FileColl = new FilesCollection<TestFile>();
+			TestFileColl = new FilesCollection<TestFile>();
+			TestFileColl.Name = "Test";
+
 			BaseFileColl = new FilesCollection<BaseFile>();
+			BaseFileColl.Name = "Test";
 
 			BaseReadFiles = new ReadFiles();
 			TestReadFiles = new ReadFiles();
 
-			cv = null;
-			cv2 = null;
+			cvTest = null;
+			cvBase = null;
 
 		}
 
 		public bool Read()
 		{
-			FileColl.Directory = FolderManager.TestFolder;
+			TestFileColl.Directory = FolderManager.TestFolder;
 
-			if (!TestReadFiles.GetFiles<TestFile>(FolderManager.TestFolder, FileColl)) return false;
+			if (!TestReadFiles.GetFiles<TestFile>(FolderManager.TestFolder, TestFileColl)) return false;
 
 			BaseFileColl.Directory = FolderManager.BaseFolder;
 
 			if (!BaseReadFiles.GetFiles<BaseFile>(FolderManager.BaseFolder, BaseFileColl)) return false;
 
+			CollectionViews();
+
 			return true;
+		}
+
+		public void CollectionViews()
+		{
+			cvTest = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+			OnPropertyChange("cvTest");
+
+			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
+			OnPropertyChange("cvBase");
 		}
 
 		public bool Process()
 		{
-			if (!GetFiles()) return false;
-
-			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, FileColl);
-
-			pf.Process2();
-
-			cv2.SortDescriptions.Add(new SortDescription(nameof(TestFile.SheetNumber), ListSortDirection.Ascending));
-
-			return pf.Process();
-		}
-
-		private bool GetFiles()
-		{
-			ReadFiles rf = new ReadFiles();
-
-			rf.GetFiles<TestFile>(FolderManager.TestFolder, FileColl);
-			cv2 = CollectionViewSource.GetDefaultView(FileColl.TestFiles);
-			OnPropertyChange("cv2");
-
-			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
-
-			if (!TestFiles.GetFiles(FolderManager.TestFolder)) return false;
-
-			cv = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
-			OnPropertyChange("cv");
+			ProcessFiles p = new ProcessFiles(BaseFileColl, TestFileColl);
 
 			return true;
 		}
+
+
+//		public bool Process()
+//		{
+//			if (!GetFiles()) return false;
+//
+//			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, TestFileColl);
+//
+//			pf.Process2();
+//
+//			cvBase.SortDescriptions.Add(new SortDescription(nameof(TestFile.SheetNumber), ListSortDirection.Ascending));
+//
+//			return pf.Process();
+//		}
+//
+//		private bool GetFiles()
+//		{
+//			ReadFiles rf = new ReadFiles();
+//
+//			rf.GetFiles<TestFile>(FolderManager.TestFolder, TestFileColl);
+//			cvBase = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+//			OnPropertyChange("cvBase");
+//
+//			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
+//
+//			if (!TestFiles.GetFiles(FolderManager.TestFolder)) return false;
+//
+//			cvTest = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
+//			OnPropertyChange("cvTest");
+//
+//			return true;
+//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

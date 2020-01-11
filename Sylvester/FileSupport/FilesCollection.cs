@@ -24,6 +24,7 @@ namespace Sylvester.FileSupport
 	{
 		public const string FILE_TYPE_EXT = ".pdf";
 
+		public  string Name { get; set; }
 
 		public Route Directory { get; set; } = Route.Invalid;
 
@@ -88,6 +89,11 @@ namespace Sylvester.FileSupport
 			}
 
 			return null;
+		}
+
+		public override string ToString()
+		{
+			return Name;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
