@@ -21,20 +21,16 @@ namespace Sylvester.FileSupport
 {
 	public class ReadFiles
 	{
-		private TestFilesCollection tfc;
-
-		public ReadFiles(TestFilesCollection tfc)
+		public bool GetFiles<T>(Route Folder, FilesCollection<T> fc) where T: SheetId, new()
 		{
-			this.tfc = tfc;
-		}
-
-		public bool GetFiles(Route Folder)
-		{
-			foreach (string file in
-				Directory.EnumerateFiles(Folder.FullPath, "*.pdf",
-					SearchOption.AllDirectories))
+//			foreach (string file in
+//				Directory.EnumerateFiles(Folder.FullPath, "*.pdf",
+//					SearchOption.AllDirectories))
+				foreach (string file in
+				Directory.EnumerateFiles(Folder.FullPath, "*.*",
+					SearchOption.TopDirectoryOnly))
 			{
-				tfc.Add(new Route(file));
+				fc.Add(new Route(file));
 			}
 
 			return true;

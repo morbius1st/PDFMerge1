@@ -11,6 +11,13 @@ using static Sylvester.Support.Support;
 
 namespace Sylvester.FileSupport
 {
+	public enum FileType
+	{
+		SHEET_PDF,
+		NON_SHEET_PDF,
+		OTHER
+	}
+
 	public abstract class SheetId : INotifyPropertyChanged
 	{
 		protected const string SEARCH_PATTERN_A = @"[.-]| +";
@@ -44,7 +51,10 @@ namespace Sylvester.FileSupport
 		protected string sheetName;
 		protected string comment;
 		protected string adjustedSheetID;
+		private bool isSelected;
+		private FileType fileType;
 
+		protected abstract bool PreSelect { get; set; }
 
 		public SheetId()
 		{
@@ -65,9 +75,13 @@ namespace Sylvester.FileSupport
 			set
 			{
 				fullFileRoute = value;
-				OnPropertyChange();
 
-				Support.Support.ParseFile(this);
+				if (PreSelect && fullFileRoute.FileExtension.ToUpper().Equals(".PDF"))
+				{
+					IsSelected = true;
+				}
+
+				OnPropertyChange();
 			}
 		}
 
@@ -86,7 +100,18 @@ namespace Sylvester.FileSupport
 		}
 
 		public string FilePath => fullFileRoute.Path;
+
 		public string FileName => fullFileRoute.FileName;
+
+		public FileType FileType
+		{
+			get => fileType;
+			set
+			{
+				fileType = value;
+				OnPropertyChange();
+			}
+		}
 
 		public string PhaseBldg
 		{
@@ -161,6 +186,21 @@ namespace Sylvester.FileSupport
 				comment = value;
 				OnPropertyChange();
 			}
+		}
+
+		public bool IsSelected
+		{
+			get => isSelected;
+			set
+			{
+				isSelected = value;
+				OnPropertyChange();
+			}
+		}
+
+		public bool ParseFile()
+		{
+			return Support.Support.ParseFile(this);
 		}
 
 		protected string AdjustSheetNumber(string sheetId)

@@ -39,28 +39,20 @@ namespace Sylvester.FileSupport
 		private string matchedSheetNumber = "";
 		private string matchedSeparator = "";
 		private string matchedSheetName = "";
-		private SheetIdBase baseFile;
+		private BaseFile baseFile;
+
+		protected override bool PreSelect { get; set; } = true;
+
+		public TestFile()
+		{
+		}
 
 		public TestFile(Route fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
 
 			SetPadding();
-		}
 
-		public bool Apply
-		{
-			get
-			{
-				if (FileNew || FileMatches) return false;
-
-				return apply;
-			}
-			set
-			{
-				apply = value;
-				OnPropertyChange();
-			}
 		}
 
 		public bool FileNew => SheetNameMatches == MatchStatus.NEW_FILE &&
@@ -69,7 +61,7 @@ namespace Sylvester.FileSupport
 		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
 			SeparationMatches == MatchStatus.DOES_MATCH && SheetNameMatches == MatchStatus.DOES_MATCH;
 
-		public SheetIdBase BaseFile
+		public BaseFile BaseFile
 		{
 			get => baseFile;
 			set

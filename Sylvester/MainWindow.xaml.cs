@@ -21,9 +21,8 @@ namespace Sylvester
 			InitializeComponent();
 
 			fm= new FilesManager();
+			OnPropertyChange("fm");
 		}
-
-
 
 		private void BtnReset_OnClick(object sender, RoutedEventArgs e)
 		{

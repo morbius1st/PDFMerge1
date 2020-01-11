@@ -30,6 +30,8 @@ namespace Sylvester.FileSupport
 		private string matchedSeparator;
 		private string matchedSheetName;
 
+		protected override bool PreSelect { get; set; } = true;
+
 		public bool HasDiferences => SheetNumberMatches || SeparationMatches || SheetNameMatches;
 		public bool MakeChanges { get; set; } = true;
 

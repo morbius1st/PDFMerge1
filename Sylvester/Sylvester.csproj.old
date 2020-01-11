@@ -72,7 +72,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
-    <Compile Include="Support\CustomProperties.cs" />
     <Compile Include="FileSupport\FilesManager.cs" />
     <Compile Include="FileSupport\ReadFiles.cs" />
     <Compile Include="FileSupport\SheetFileNames.cs" />
@@ -91,9 +90,6 @@
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
-    <Compile Include="HeaderControl.xaml.cs">
-      <DependentUpon>HeaderControl.xaml</DependentUpon>
-    </Compile>
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,10 +109,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="HeaderControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

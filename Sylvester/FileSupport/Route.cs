@@ -166,7 +166,7 @@ namespace Sylvester.FileSupport
 				if (IsValid)
 				{
 					if (SysPath.HasExtension(FullPath))
-						return SysPath.GetExtension(FullPath);
+						return SysPath.GetExtension(FullPath).ToLower();
 				}
 
 				return null;

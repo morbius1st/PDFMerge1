@@ -53,9 +53,12 @@ namespace Sylvester.Support
 		private const int EXTENSION_COMMENT     = 10;
 		private const int EXTENSION_NO_COMMENT  = 12;
 
-		public static void ParseFile(SheetId sheet)
+		public static bool ParseFile(SheetId sheet)
 		{
 			Match match = pattern.Match(sheet.FileName);
+
+			if (!match.Success) return false;
+
 			GroupCollection g = match.Groups;
 
 			string test;
@@ -93,6 +96,8 @@ namespace Sylvester.Support
 			{
 				sheet.SheetName = g[SHEET_NAME].Value;
 			}
+
+			return true;
 		}
 
 

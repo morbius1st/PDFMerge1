@@ -25,12 +25,16 @@ namespace Sylvester.FileSupport
 {
 	public class FilesManager : INotifyPropertyChanged
 	{
-		public TestFilesCollection TestFileColl { get; private set; }
+//		public static FilesCollection<TestFile> tfc { get; private set; }
 
-		public ReadFiles rf;
+		public FilesCollection<TestFile> FileColl { get; private set; }
+		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
 
-		public SelectFiles<SheetIdBase> BaseFiles { get; private set; }
+		public SelectFiles<BaseFile> BaseFiles { get; private set; }
 		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
+
+		public ReadFiles BaseReadFiles { get; private set; }
+		public ReadFiles TestReadFiles { get; private set; }
 
 		public ICollectionView cv { get; private set; }
 		public ICollectionView cv2 { get; private set; }
@@ -45,16 +49,19 @@ namespace Sylvester.FileSupport
 		public FilesManager()
 		{
 			Reset();
+
 		}
 
 		public void Reset()
 		{
-			BaseFiles = new SelectFiles<SheetIdBase>();
+			BaseFiles = new SelectFiles<BaseFile>();
 			TestFiles = new SelectFiles<SheetIdTest>();
 
-			TestFileColl = new TestFilesCollection();
+			FileColl = new FilesCollection<TestFile>();
+			BaseFileColl = new FilesCollection<BaseFile>();
 
-			rf = new ReadFiles(TestFileColl);
+			BaseReadFiles = new ReadFiles();
+			TestReadFiles = new ReadFiles();
 
 			cv = null;
 			cv2 = null;
@@ -63,8 +70,14 @@ namespace Sylvester.FileSupport
 
 		public bool Read()
 		{
-			rf.GetFiles(FolderManager.TestFolder);
-			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
+			FileColl.Directory = FolderManager.TestFolder;
+
+			if (!TestReadFiles.GetFiles<TestFile>(FolderManager.TestFolder, FileColl)) return false;
+
+			BaseFileColl.Directory = FolderManager.BaseFolder;
+
+			if (!BaseReadFiles.GetFiles<BaseFile>(FolderManager.BaseFolder, BaseFileColl)) return false;
+
 			return true;
 		}
 
@@ -72,7 +85,7 @@ namespace Sylvester.FileSupport
 		{
 			if (!GetFiles()) return false;
 
-			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, TestFileColl);
+			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, FileColl);
 
 			pf.Process2();
 
@@ -83,8 +96,10 @@ namespace Sylvester.FileSupport
 
 		private bool GetFiles()
 		{
-			rf.GetFiles(FolderManager.TestFolder);
-			cv2 = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+			ReadFiles rf = new ReadFiles();
+
+			rf.GetFiles<TestFile>(FolderManager.TestFolder, FileColl);
+			cv2 = CollectionViewSource.GetDefaultView(FileColl.TestFiles);
 			OnPropertyChange("cv2");
 
 			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;

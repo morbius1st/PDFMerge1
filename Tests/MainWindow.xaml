@@ -17,6 +17,7 @@
 	Loaded="MainWin_Loaded"
 	mc:Ignorable="d">
 	<Window.Resources>
+
 		<Style x:Key="tbx" TargetType="{x:Type TextBox}">
 			<Setter Property="Background" Value="#333333" />
 			<Setter Property="FontFamily" Value="Droid Sans Mono" />

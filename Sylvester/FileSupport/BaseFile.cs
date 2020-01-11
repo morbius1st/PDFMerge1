@@ -4,8 +4,10 @@
 // Created:      -- ()
 
 namespace Sylvester.FileSupport {
-	public class SheetIdBase : SheetId
+	public class BaseFile : SheetId
 	{
+		protected override bool PreSelect { get; set; } = false;
 
+		public BaseFile() { }
 	}
 }
