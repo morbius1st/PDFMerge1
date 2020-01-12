@@ -15,5 +15,7 @@ namespace Sylvester.FileSupport {
 		{
 			return this.Clone<BaseFile>();
 		}
+
+		public override void UpdateSelectStatus() { }
 	}
 }

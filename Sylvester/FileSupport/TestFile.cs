@@ -30,6 +30,12 @@ namespace Sylvester.FileSupport
 	{
 		private const string SPACER = " ";
 
+		private const string STATUS_STR_MATCHES = "OK As Is";
+		private const string STATUS_STR_NOT_MATCHES = "Rename";
+		private const string STATUS_STR_MISSING = "Ignore";
+
+
+
 		public int paddingShtNum = 0;
 		public int paddingSep = 0;
 		public int paddingShtName = 0;
@@ -51,12 +57,6 @@ namespace Sylvester.FileSupport
 
 		}
 
-		public bool FileNew => SheetNameMatches == MatchStatus.NEW_FILE &&
-			SeparationMatches == MatchStatus.NEW_FILE && SheetNameMatches == MatchStatus.NEW_FILE;
-
-		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
-			SeparationMatches == MatchStatus.DOES_MATCH && SheetNameMatches == MatchStatus.DOES_MATCH;
-
 		public BaseFile BaseFile
 		{
 			get => baseFile;
@@ -70,6 +70,24 @@ namespace Sylvester.FileSupport
 				matchedSheetName = baseFile.SheetName;
 
 				SetPadding();
+
+				UpdateSelectStatus();
+			}
+		}
+
+		public bool FileNew => SheetNameMatches == MatchStatus.NEW_FILE &&
+			SeparationMatches == MatchStatus.NEW_FILE && SheetNameMatches == MatchStatus.NEW_FILE;
+
+		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
+			SeparationMatches == MatchStatus.DOES_MATCH && SheetNameMatches == MatchStatus.DOES_MATCH;
+
+		public string Status
+		{
+			get
+			{
+				if (FileNew) return STATUS_STR_MISSING;
+				if (FileMatches) return STATUS_STR_MATCHES;
+				return STATUS_STR_NOT_MATCHES;
 			}
 		}
 
@@ -122,6 +140,11 @@ namespace Sylvester.FileSupport
 				return MatchStatus.DOES_NOT_MATCH;
 			}
 	}
+
+		public override void UpdateSelectStatus()
+		{
+			IsSelected = Status.Equals(STATUS_STR_NOT_MATCHES);
+		}
 
 		private int GetPadding(string basePart, string testPart)
 		{

@@ -79,6 +79,8 @@ namespace Sylvester.FileSupport
 
 		public bool SheetNameMatches => sheetName.Equals(MatchedSheetName);
 
+		public override void UpdateSelectStatus() { }
+
 		private int GetPadding(string basePart, string testPart)
 		{
 			if (basePart.Length == 0) return  testPart.Length;

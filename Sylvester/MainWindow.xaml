@@ -145,6 +145,7 @@
 
 		<ListView Name="lvComparison"
 				Grid.Column="1"
+				Grid.ColumnSpan="2"
 				Grid.Row="0"
 				Grid.RowSpan="2"
 				Margin="4"
@@ -175,7 +176,7 @@
 					<Setter Property="Foreground" Value="#d8d8d8" />
 					<Setter Property="Margin" Value="1,0,2,0" />
 					<Setter Property="Padding" Value="4,0,6,3" />
-					<Setter Property="VerticalAlignment" Value="Stretch"/>
+					<Setter Property="VerticalAlignment" Value="Stretch" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="Label">
@@ -247,8 +248,7 @@
 						TargetType="Label"
 						BasedOn="{StaticResource lblRoot}"
 						>
-					<Setter Property="VerticalAlignment"
-							Value="Top" />
+					<Setter Property="VerticalAlignment" Value="Top" />
 					<Setter Property="BorderBrush" Value="Transparent" />
 					<Setter Property="BorderThickness" Value=".5,0,.5,4" />
 					<Setter Property="Padding" Value="4,.5,4,0" />
@@ -292,7 +292,7 @@
 						TargetType="Label"
 						BasedOn="{StaticResource lblTestRoot}"
 						>
-					<Setter Property="HorizontalAlignment" Value="Center"/>
+					<Setter Property="HorizontalAlignment" Value="Center" />
 					<Style.Triggers>
 						<DataTrigger
 								Binding="{Binding FileNew}"
@@ -410,13 +410,19 @@
 									VerticalAlignment="Center"
 									>
 								<Grid.ColumnDefinitions>
+									<!--  0  checkbox  -->
+									<ColumnDefinition Width="30" />
+									<!--  1  current / revision titles  -->
+									<ColumnDefinition Width="65" />
+									<!--  2  sheet number  -->
+									<ColumnDefinition Width="Auto" />
+									<!--  3  separation  -->
+									<ColumnDefinition Width="Auto" />
+									<!--  4  sheet name  -->
+									<ColumnDefinition Width="*" />
+									<!--  5  status  -->
+									<ColumnDefinition Width="60" />
 
-									<ColumnDefinition Width="30" /> <!-- 0  checkbox -->
-									<ColumnDefinition Width="65" /> <!-- 1  current / revision titles -->
-									<ColumnDefinition Width="Auto" /> <!-- 2  sheet number -->
-									<ColumnDefinition Width="Auto" /> <!-- 3  separation -->
-									<ColumnDefinition Width="*" />  <!-- 4  sheet name -->
-									<ColumnDefinition Width="50" /> <!-- 5  status -->
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="20" />
@@ -432,8 +438,9 @@
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
 										Template="{DynamicResource CheckBoxControlTemplate1}"
+										IsChecked="{Binding IsSelected}"
 										>
-									<!-- IsChecked="{Binding Apply}" -->
+									<!--  IsChecked="{Binding Apply}"  -->
 									<CheckBox.Effect>
 										<DropShadowEffect />
 									</CheckBox.Effect>
@@ -457,7 +464,6 @@
 								<Label x:Name="current" Content="Current"
 										Grid.Column="1"
 										Grid.Row="0"
-
 										Width="{StaticResource lblTitleWidth}"
 										HorizontalContentAlignment="Right"
 										BorderThickness="0,0,1,0"
@@ -482,44 +488,54 @@
 										Y2="0.4"
 										/>
 
-									<Label Grid.Column="2"
-											Grid.Row="0"
-											Name="ShtNum" Content="{Binding MatchedSheetNumber, FallbackValue=A  1-0-0-0A}"
-											HorizontalContentAlignment="Right"
-											Style="{StaticResource lblMatched}"
-											/>
+								<Label Name="ShtNum" Content="{Binding MatchedSheetNumber, FallbackValue=A  1-0-0-0A}"
+										Grid.Column="2"
+										Grid.Row="0"
+										HorizontalContentAlignment="Right"
+										Style="{StaticResource lblMatched}"
+										/>
 
-									<Label Grid.Column="3"
-											Grid.Row="0"
-											Name="Sep" Content="{Binding MatchedSeparator, FallbackValue=sep}"
-											HorizontalContentAlignment="Center"
-											Style="{StaticResource lblMatched}"
-											/>
+								<Label Name="Sep" Content="{Binding MatchedSeparator, FallbackValue=sep}"
+										Grid.Column="3"
+										Grid.Row="0"
+										HorizontalContentAlignment="Center"
+										Style="{StaticResource lblMatched}"
+										/>
 
-									<Label Grid.Column="4"
-											Grid.Row="0"
-											Name="ShtName" Content="{Binding MatchedSheetName, FallbackValue=sheet name}"
-											HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Left"
-											Style="{StaticResource lblMatched}"
+								<Label Name="ShtName" Content="{Binding MatchedSheetName, FallbackValue=sheet name}"
+										Grid.Column="4"
+										Grid.Row="0"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Left"
+										Style="{StaticResource lblMatched}"
+										/>
 
-											/>
+								<Label Name="Status" Content="Status"
+										Grid.Column="5"
+										Grid.Row="0"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Visibility="Visible"
+										Style="{StaticResource lblMatched}"
+										/>
 
-									<Label Grid.Column="2"
-											Grid.Row="0"
-											Grid.ColumnSpan="4"
-											Content=" File does not exist in the list of current files "
-											HorizontalContentAlignment="Left"
-											BorderThickness=".5,4,.5,0"
-											BorderBrush="#CECE00"
-											Style="{StaticResource lblFileNew}"
-											/>
+								<Label Content=" File does not exist in the list of current files "
+										Grid.Column="2"
+										Grid.Row="0"
+										Grid.ColumnSpan="3"
+										HorizontalContentAlignment="Left"
+										BorderThickness=".5,4,.5,0"
+										BorderBrush="#CECE00"
+										Style="{StaticResource lblFileNew}"
+										/>
 
-								<Label 
-										Content="Revision"
+
+
+								<!--  revision / test  -->
+
+								<Label Content="Revision"
 										Grid.Column="1"
 										Grid.Row="2"
-
 										Width="{StaticResource lblTitleWidth}"
 										HorizontalContentAlignment="Right"
 										BorderThickness="0,0,1,0"
@@ -527,37 +543,45 @@
 										Style="{StaticResource lblTitle}"
 										/>
 
-									<Label Grid.Column="2"
-											Grid.Row="2"
-											Name="testShtNum" Content="{Binding SheetNumber, FallbackValue=test value}"
-											HorizontalContentAlignment="Right"
-											Style="{StaticResource lblTestShtNum}"
-											/>
+								<Label Name="testShtNum" Content="{Binding SheetNumber, FallbackValue=test value}"
+										Grid.Column="2"
+										Grid.Row="2"
+										HorizontalContentAlignment="Right"
+										Style="{StaticResource lblTestShtNum}"
+										/>
 
-									<Label Grid.Column="3"
-											Grid.Row="2"
-											Content="{Binding Separator, FallbackValue=s}"
-											HorizontalContentAlignment="Center"
-											Style="{StaticResource lblTestSep}"
-											/>
+								<Label Content="{Binding Separator, FallbackValue=s}"
+										Grid.Column="3"
+										Grid.Row="2"
+										HorizontalContentAlignment="Center"
+										Style="{StaticResource lblTestSep}"
+										/>
 
-									<Label 
-											Grid.Column="4"
-											Grid.Row="2"
-											HorizontalContentAlignment="Left"
-											HorizontalAlignment="Stretch"
-											Style="{StaticResource lblTestShtName}"
-											Content="{Binding SheetName, FallbackValue=name}"
-											/>
+								<Label Content="{Binding SheetName, FallbackValue=name}"
+										Grid.Column="4"
+										Grid.Row="2"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Left"
+										Style="{StaticResource lblTestShtName}"
+										/>
 
-									<Label Grid.Column="2"
-											Grid.Row="2"
-											Grid.ColumnSpan="3"
-											Content=" Revision file name matches "
-											HorizontalContentAlignment="left"
-											BorderBrush="LawnGreen"
-											Style="{StaticResource lblTestMatches}"
-											/>
+								<Label Content="{Binding Status, FallbackValue=name}"
+										Grid.Column="5"
+										Grid.Row="2"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Style="{StaticResource lblTestRoot}"
+										Visibility="Visible"
+										/>
+
+								<Label Content=" Revision file name matches "
+										Grid.Column="2"
+										Grid.Row="2"
+										Grid.ColumnSpan="3"
+										HorizontalContentAlignment="left"
+										BorderBrush="LawnGreen"
+										Style="{StaticResource lblTestMatches}"
+										/>
 
 								<!-- </StackPanel> -->
 
@@ -781,12 +805,12 @@
 				Orientation="Horizontal"
 				>
 
-			<Label Content="this is a label"
-					Foreground="White"
-					Style="{DynamicResource LabelStyle1}"
-					>
-
-			</Label>
+			<Button Name="btnDebug" Content="Reset"
+					Margin="10"
+					Width="90"
+					Height="36"
+					Click="BtnDebug_OnClick"
+					/>
 
 			<Button Name="btnReset" Content="Reset"
 					Margin="10"

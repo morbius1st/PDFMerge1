@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Sylvester.FileSupport;
@@ -24,6 +25,11 @@ namespace Sylvester
 			OnPropertyChange("fm");
 		}
 
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("@debug");
+		}
+		
 		private void BtnReset_OnClick(object sender, RoutedEventArgs e)
 		{
 			fm.Reset();

@@ -24,12 +24,51 @@ namespace Sylvester.FileSupport
 	{
 		public const string FILE_TYPE_EXT = ".pdf";
 
-		public  string Name { get; set; }
+		private string name;
+		private Route directory = Route.Invalid;
+		private int nonSheetPdfsFiles = 0;
+		private int otherFiles = 0;
 
-		public Route Directory { get; set; } = Route.Invalid;
+		public  string Name
+		{
+			get => name;
+			set
+			{
+				name = value;
+				OnPropertyChange();
+			}
+		}
 
-		public int NonSheetPdfsFiles { get; set; } = 0;
-		public int OtherFiles { get; set; } = 0;
+		public Route Directory
+		{
+			get => directory;
+			set
+			{
+				directory = value;
+				OnPropertyChange();
+			}
+		}
+
+		public int NonSheetPdfsFiles
+		{
+			get => nonSheetPdfsFiles;
+			set
+			{
+				nonSheetPdfsFiles = value;
+				OnPropertyChange();
+			}
+		}
+
+		public int OtherFiles
+		{
+			get => otherFiles;
+			set
+			{
+				otherFiles = value;
+				OnPropertyChange();
+			}
+		}
+
 		public int FilesFound => TestFiles.Count;
 
 		public int SheetPDFs
@@ -58,26 +97,18 @@ namespace Sylvester.FileSupport
 
 			tf.FullFileRoute = r;
 
-			if (tf.FullFileRoute.FileExtension.Equals(FILE_TYPE_EXT))
+			tf.Initalize();
+
+			switch (tf.FileType)
 			{
-				if (tf.ParseFile())
-				{
-					tf.FileType = FileType.SHEET_PDF;
-				}
-				else
-				{
+				case FileType.NON_SHEET_PDF:
 					NonSheetPdfsFiles++;
-					tf.FileType = FileType.NON_SHEET_PDF;
-				}
+					break;
+				case FileType.OTHER:
+					OtherFiles++;
+					break;
 			}
-			else
-			{
-				OtherFiles++;
-				tf.FileType = FileType.OTHER;
-			}
-
 			Add(tf);
-
 		}
 
 		public T ContainsKey(string findKey)
@@ -91,6 +122,19 @@ namespace Sylvester.FileSupport
 			}
 
 			return null;
+		}
+
+		public void Reset()
+		{
+			TestFiles.Clear();
+			Directory = Route.Invalid;
+			NonSheetPdfsFiles = 0;
+			OtherFiles = 0;
+
+			OnPropertyChange("TestFiles");
+			OnPropertyChange("SheetPDFs");
+			OnPropertyChange("FilesFound");
+
 		}
 
 		public override string ToString()

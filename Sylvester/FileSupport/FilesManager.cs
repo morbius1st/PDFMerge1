@@ -51,20 +51,25 @@ namespace Sylvester.FileSupport
 
 		public FilesManager()
 		{
+			BaseFileColl = new FilesCollection<BaseFile>();
+			TestFileColl = new FilesCollection<BaseFile>();
+			FinalFileColl = new FilesCollection<TestFile>();
+
 			Reset();
 
 		}
 
 		public void Reset()
 		{
-//			BaseFiles = new SelectFiles<BaseFile>();
-//			TestFiles = new SelectFiles<SheetIdTest>();
-
-			BaseFileColl = new FilesCollection<BaseFile>();
+			BaseFileColl.Reset();
 			BaseFileColl.Name = "Base";
 
-			TestFileColl = new FilesCollection<BaseFile>();
+			TestFileColl.Reset();
 			TestFileColl.Name = "Test";
+
+			FinalFileColl.Reset();
+			FinalFileColl.Name = "Final";
+			CollectionViewFinal();
 
 			BaseReadFiles = new ReadFiles();
 			TestReadFiles = new ReadFiles();
@@ -95,7 +100,7 @@ namespace Sylvester.FileSupport
 		{
 			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
 
-			cvBase.SortDescriptions.Add(new SortDescription(""));
+			cvBase.SortDescriptions.Add(new SortDescription("AdjustedSheetID", ListSortDirection.Ascending));
 
 			OnPropertyChange("cvBase");
 		}
@@ -103,7 +108,19 @@ namespace Sylvester.FileSupport
 		public void CollectionViewTest()
 		{
 			cvTest = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+
+			cvTest.SortDescriptions.Add(new SortDescription("AdjustedSheetID", ListSortDirection.Ascending));
+
 			OnPropertyChange("cvTest");
+		}
+
+		public void CollectionViewFinal()
+		{
+			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
+
+			cvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetID", ListSortDirection.Ascending));
+
+			OnPropertyChange("cvFinal");
 		}
 
 		public bool Process()
@@ -112,8 +129,13 @@ namespace Sylvester.FileSupport
 
 			if ((FinalFileColl = p.Process()) == null) return false;
 
-			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
-			OnPropertyChange("cvFinal");
+			CollectionViewFinal();
+//
+//			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
+//
+//			cvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetID", ListSortDirection.Ascending));
+//		
+//			OnPropertyChange("cvFinal");
 
 			return true;
 		}

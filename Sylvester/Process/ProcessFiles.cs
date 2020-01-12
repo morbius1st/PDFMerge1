@@ -80,13 +80,16 @@ namespace Sylvester.Process
 			{
 				if (!bfTest.IsSelected) continue;
 
+				ff = (TestFile) bfTest.Clone<TestFile>();
+
 				if ((bfBase = BaseFileColl.ContainsKey(bfTest.AdjustedSheetID)) != null)
 				{
-					ff = (TestFile) bfTest.Clone<TestFile>();
 					ff.BaseFile = bfBase;
-
-					FinalFileColl.Add(ff);
 				}
+
+				ff.UpdateSelectStatus();
+
+				FinalFileColl.Add(ff);
 			}
 
 			return true;

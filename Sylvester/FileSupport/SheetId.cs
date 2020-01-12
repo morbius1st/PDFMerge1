@@ -21,11 +21,16 @@ namespace Sylvester.FileSupport
 
 	public abstract class SheetId : INotifyPropertyChanged
 	{
+		public const string FILE_TYPE_EXT = ".pdf";
+
 		protected const string SEARCH_PATTERN_A = @"[.-]| +";
 		protected const string SUBST_PATTERN_A = @" ";
 
 		protected const string SEARCH_PATTERN_B = @"(?<=[A-Z])([ -]+)(?=[0-9])";
 		protected const string SUBST_PATTERN_B = @"";
+
+		protected const string SEARCH_PATTERN_C = @"^([A-Z]+)([0-9](?![0-9]))";
+		protected const string SUBST_PATTERN_C = @"${1}0$2";
 
 		protected KeyValuePair<Regex, string>[] ReplacePatterns =
 		{
@@ -36,6 +41,10 @@ namespace Sylvester.FileSupport
 			new KeyValuePair<Regex, string>(
 				new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
 				SUBST_PATTERN_B
+				),
+			new KeyValuePair<Regex, string>(
+				new Regex(SEARCH_PATTERN_C, RegexOptions.Compiled | RegexOptions.Singleline),
+				SUBST_PATTERN_C
 				)
 		};
 
@@ -52,7 +61,7 @@ namespace Sylvester.FileSupport
 		protected string sheetName;
 		protected string comment;
 		protected string adjustedSheetID;
-		private bool isSelected;
+		private bool isSelected = false;
 		private FileType fileType;
 
 		public bool PreSelect { get; set; } = false;
@@ -199,11 +208,34 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public bool ParseFile()
+		private bool ParseFile()
 		{
-//			return Support.Support.ParseFile(this);
 			return Support.Support.ParseFile2(this);
 		}
+
+		public void Initalize()
+		{
+			if (fullFileRoute.FileExtension.Equals(FILE_TYPE_EXT))
+			{
+				if (ParseFile())
+				{
+					FileType = FileType.SHEET_PDF;
+				}
+				else
+				{
+					FileType = FileType.NON_SHEET_PDF;
+					AdjustedSheetID = "Ⓩ";
+				}
+			}
+			else
+			{
+				FileType = FileType.OTHER;
+				AdjustedSheetID = "Ⓩ";
+			}
+		}
+
+		public abstract void UpdateSelectStatus();
+
 
 		protected string AdjustSheetNumber(string sheetId)
 		{
@@ -249,7 +281,6 @@ namespace Sylvester.FileSupport
 			t.separator       = this.separator;
 			t.sheetName       = this.sheetName;
 			t.comment         = this.comment;
-			t.isSelected      = this.isSelected;
 
 			return t;
 		}
