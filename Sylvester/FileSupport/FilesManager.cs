@@ -94,6 +94,9 @@ namespace Sylvester.FileSupport
 		public void CollectionViewBase()
 		{
 			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
+
+			cvBase.SortDescriptions.Add(new SortDescription(""));
+
 			OnPropertyChange("cvBase");
 		}
 
