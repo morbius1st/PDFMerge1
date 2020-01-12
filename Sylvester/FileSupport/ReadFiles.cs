@@ -24,9 +24,6 @@ namespace Sylvester.FileSupport
 		public bool GetFiles<T>(Route Folder, bool preselect,
 			FilesCollection<T> fc) where T: SheetId, new()
 		{
-//			foreach (string file in
-//				Directory.EnumerateFiles(Folder.FullPath, "*.pdf",
-//					SearchOption.AllDirectories))
 				foreach (string file in
 				Directory.EnumerateFiles(Folder.FullPath, "*.*",
 					SearchOption.TopDirectoryOnly))

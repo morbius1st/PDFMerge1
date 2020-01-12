@@ -20,7 +20,7 @@ using static UtilityLibrary.MessageUtilities;
 
 namespace Felix.Windows
 {
-	public class MainWinManager : INotifyPropertyChanged
+	public class MainWinManager
 	{
 		public static MainWindow mainWin = null;
 
@@ -71,18 +71,6 @@ namespace Felix.Windows
 
 			return true;
 		}
-
-	#region system methods
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-		}
-
-	#endregion
-
 
 	#region debug support
 

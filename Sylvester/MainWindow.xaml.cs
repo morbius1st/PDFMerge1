@@ -13,9 +13,22 @@ namespace Sylvester
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+		private bool compare = false;
+
 		public FilesManager fm { get; private set; }
 
 		public FolderManager fldm { get; private set; }
+
+
+		public bool Compare
+		{
+			get => compare;
+			private set
+			{
+				compare = value;
+				OnPropertyChange();
+			}
+		}
 
 		public MainWindow()
 		{
@@ -39,7 +52,7 @@ namespace Sylvester
 
 		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
 		{
-			fm.Read();
+			Compare = fm.Read();
 
 			OnPropertyChange("fm");
 		}

@@ -22,8 +22,6 @@ namespace Sylvester.FileSupport
 {
 	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetId, new()
 	{
-		public const string FILE_TYPE_EXT = ".pdf";
-
 		private string name;
 		private Route directory = Route.Invalid;
 		private int nonSheetPdfsFiles = 0;

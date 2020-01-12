@@ -15,16 +15,6 @@ namespace Sylvester.Support
 {
 	public class CustomProperties :  DependencyObject
 	{
-//		public static readonly DependencyProperty CheckBoxVisibilityProperty =
-//			DependencyProperty.Register("CheckBoxVisibility", typeof(Visibility),
-//				typeof(ListView),
-//				new PropertyMetadata(Visibility.Visible)
-//				);
-//
-//		public Visibility CheckBoxVisibility
-//		{
-//			get { return (Visibility) GetValue(CheckBoxVisibilityProperty); }
-//			set { SetValue(CheckBoxVisibilityProperty, value); }
-//		}
+
 	}
 }

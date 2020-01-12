@@ -75,11 +75,8 @@
     <Compile Include="Support\CustomProperties.cs" />
     <Compile Include="FileSupport\FilesManager.cs" />
     <Compile Include="FileSupport\ReadFiles.cs" />
-    <Compile Include="FileSupport\SheetFileNames.cs" />
-    <Compile Include="FileSupport\SelectFiles.cs" />
     <Compile Include="FileSupport\SheetId.cs" />
     <Compile Include="FileSupport\BaseFile.cs" />
-    <Compile Include="FileSupport\SheetIdTest.cs" />
     <Compile Include="lvTestControl.xaml.cs">
       <DependentUpon>lvTestControl.xaml</DependentUpon>
     </Compile>

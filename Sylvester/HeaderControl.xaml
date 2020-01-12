@@ -1,5 +1,4 @@
-﻿<UserControl
-		Name="headerControl"
+﻿<UserControl Name="headerControl"
 		x:Class="Sylvester.HeaderControl"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

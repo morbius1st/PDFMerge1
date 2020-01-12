@@ -25,14 +25,9 @@ namespace Sylvester.FileSupport
 {
 	public class FilesManager : INotifyPropertyChanged
 	{
-//		public static FilesCollection<TestFile> tfc { get; private set; }
-
 		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
 		public FilesCollection<BaseFile>  TestFileColl { get; private set; }
 		public FilesCollection<TestFile>  FinalFileColl { get; private set; }
-
-//		public SelectFiles<BaseFile> BaseFiles { get; private set; }
-//		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
 
 		public ReadFiles BaseReadFiles { get; private set; }
 		public ReadFiles TestReadFiles { get; private set; }
@@ -42,13 +37,6 @@ namespace Sylvester.FileSupport
 
 		public ICollectionView cvFinal { get; private set; }
 
-		SelectFolder.SelectFolder sf = new SelectFolder.SelectFolder();
-
-		private Route baseFolder;
-		private Route testFolder;
-
-		private bool ByPass = true;
-
 		public FilesManager()
 		{
 			BaseFileColl = new FilesCollection<BaseFile>();
@@ -56,7 +44,6 @@ namespace Sylvester.FileSupport
 			FinalFileColl = new FilesCollection<TestFile>();
 
 			Reset();
-
 		}
 
 		public void Reset()
@@ -130,47 +117,9 @@ namespace Sylvester.FileSupport
 			if ((FinalFileColl = p.Process()) == null) return false;
 
 			CollectionViewFinal();
-//
-//			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
-//
-//			cvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetID", ListSortDirection.Ascending));
-//		
-//			OnPropertyChange("cvFinal");
 
 			return true;
 		}
-
-
-//		public bool Process()
-//		{
-//			if (!GetFiles()) return false;
-//
-//			ProcessFiles pf = new ProcessFiles(BaseFiles, TestFiles, TestFileColl);
-//
-//			pf.Process2();
-//
-//			cvBase.SortDescriptions.Add(new SortDescription(nameof(TestFile.SheetNumber), ListSortDirection.Ascending));
-//
-//			return pf.Process();
-//		}
-//
-//		private bool GetFiles()
-//		{
-//			ReadFiles rf = new ReadFiles();
-//
-//			rf.GetFiles<TestFile>(FolderManager.TestFolder, TestFileColl);
-//			cvBase = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
-//			OnPropertyChange("cvBase");
-//
-//			if (!BaseFiles.GetFiles(FolderManager.BaseFolder)) return false;
-//
-//			if (!TestFiles.GetFiles(FolderManager.TestFolder)) return false;
-//
-//			cvTest = CollectionViewSource.GetDefaultView(TestFiles.SheetFiles.Files);
-//			OnPropertyChange("cvTest");
-//
-//			return true;
-//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

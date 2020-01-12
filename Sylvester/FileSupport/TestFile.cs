@@ -34,8 +34,6 @@ namespace Sylvester.FileSupport
 		private const string STATUS_STR_NOT_MATCHES = "Rename";
 		private const string STATUS_STR_MISSING = "Ignore";
 
-
-
 		public int paddingShtNum = 0;
 		public int paddingSep = 0;
 		public int paddingShtName = 0;

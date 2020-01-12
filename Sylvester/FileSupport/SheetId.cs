@@ -210,7 +210,7 @@ namespace Sylvester.FileSupport
 
 		private bool ParseFile()
 		{
-			return Support.Support.ParseFile2(this);
+			return Support.Support.ParseFileName(this);
 		}
 
 		public void Initalize()
@@ -235,7 +235,6 @@ namespace Sylvester.FileSupport
 		}
 
 		public abstract void UpdateSelectStatus();
-
 
 		protected string AdjustSheetNumber(string sheetId)
 		{

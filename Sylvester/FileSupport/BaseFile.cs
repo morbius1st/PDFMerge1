@@ -8,9 +8,7 @@ using System;
 namespace Sylvester.FileSupport {
 	public class BaseFile : SheetId, ICloneable
 	{
-		public BaseFile() { }
-
-
+		
 		public object Clone()
 		{
 			return this.Clone<BaseFile>();
