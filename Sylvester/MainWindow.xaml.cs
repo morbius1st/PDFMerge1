@@ -14,11 +14,19 @@ namespace Sylvester
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 		private bool compare = false;
+		private bool go = false;
 
 		public FilesManager fm { get; private set; }
 
 		public FolderManager fldm { get; private set; }
 
+		public MainWindow()
+		{
+			InitializeComponent();
+
+			fm= new FilesManager();
+			OnPropertyChange("fm");
+		}
 
 		public bool Compare
 		{
@@ -30,12 +38,14 @@ namespace Sylvester
 			}
 		}
 
-		public MainWindow()
+		public bool Go
 		{
-			InitializeComponent();
-
-			fm= new FilesManager();
-			OnPropertyChange("fm");
+			get => go;
+			private set
+			{
+				go = value;
+				OnPropertyChange();
+			}
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
@@ -57,11 +67,16 @@ namespace Sylvester
 			OnPropertyChange("fm");
 		}
 
-		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
+		private void BtnCompare_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (!fm.Process()) return;
+			Go = fm.Process();
 
 			OnPropertyChange("fm");
+		}
+		
+		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("@go");
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)

@@ -74,7 +74,6 @@
 						/>
 			</StackPanel>
 
-
 			<StackPanel Orientation="Vertical">
 
 				<Label Content="{Binding Path=Directory, FallbackValue=c:\\directory\\directory}"

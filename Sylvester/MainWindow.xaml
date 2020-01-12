@@ -198,7 +198,8 @@
 					</Style.Triggers>
 				</Style>
 
-
+				<!--  test styles  -->
+				<!--  root  -->
 				<Style x:Key="lblTestRoot"
 						TargetType="Label"
 						BasedOn="{StaticResource lblRoot}"
@@ -296,21 +297,20 @@
 					</Style.Triggers>
 				</Style>
 
-
 				<Style x:Key="lblTestMatches"
 						TargetType="Label"
-						BasedOn="{StaticResource lblTestRoot}"
-						>
-					<Setter Property="Visibility" Value="Collapsed" />
+						BasedOn="{StaticResource lblTestRoot}">
+					<Setter Property="Visibility"
+							Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding FileMatches}"
-								Value="true"
-								>
-							<Setter Property="Visibility" Value="Visible" />
+						<DataTrigger Binding="{Binding FileMatches}"
+								Value="true">
+							<Setter Property="Visibility"
+									Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
+
 
 				<DataTemplate x:Key="DataTemplateTest2"
 						DataType="filesupport:TestFile"
@@ -370,7 +370,6 @@
 										IsChecked="{Binding IsSelected}"
 										Template="{DynamicResource CheckBoxControlTemplate1}"
 										>
-									<!--  IsChecked="{Binding Apply}"  -->
 									<CheckBox.Effect>
 										<DropShadowEffect />
 									</CheckBox.Effect>
@@ -385,10 +384,8 @@
 													<Setter Property="BorderBrush" Value="Red" />
 												</Trigger>
 											</Style.Triggers>
-
 										</Style>
 									</CheckBox.Style>
-
 								</CheckBox>
 
 								<Label x:Name="current" Content="Current"
@@ -418,7 +415,7 @@
 										Y2="0.4"
 										/>
 
-								<Label Name="ShtNum" Content="{Binding MatchedSheetNumber, FallbackValue=A  1-0-0-0A}"
+								<Label Name="ShtNum" Content="{Binding MatchedSheetNumber, FallbackValue='A  1-0-0-0A'}"
 										Grid.Column="2"
 										Grid.Row="0"
 										HorizontalContentAlignment="Right"
@@ -739,12 +736,21 @@
 					Click="BtnRead_OnClick"
 					/>
 
-
-			<Button Name="btnGo" Content="Compare"
+			<Button Name="btnCompare" Content="Compare"
 					Margin="10"
 					Width="90"
 					Height="36"
-					IsEnabled="{Binding ElementName=mainwin, Path=Compare}"
+					IsEnabled="{Binding ElementName=mainwin,
+															Path=Compare}"
+					Click="BtnCompare_OnClick"
+					/>
+					
+			<Button Name="btnGo" Content="Go"
+					Margin="10"
+					Width="90"
+					Height="36"
+					IsEnabled="{Binding ElementName=mainwin,
+															Path=Go}"
 					Click="BtnGo_OnClick"
 					/>
 
