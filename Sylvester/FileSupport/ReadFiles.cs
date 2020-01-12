@@ -21,7 +21,8 @@ namespace Sylvester.FileSupport
 {
 	public class ReadFiles
 	{
-		public bool GetFiles<T>(Route Folder, FilesCollection<T> fc) where T: SheetId, new()
+		public bool GetFiles<T>(Route Folder, bool preselect,
+			FilesCollection<T> fc) where T: SheetId, new()
 		{
 //			foreach (string file in
 //				Directory.EnumerateFiles(Folder.FullPath, "*.pdf",
@@ -30,7 +31,7 @@ namespace Sylvester.FileSupport
 				Directory.EnumerateFiles(Folder.FullPath, "*.*",
 					SearchOption.TopDirectoryOnly))
 			{
-				fc.Add(new Route(file));
+				fc.Add(new Route(file), preselect);
 			}
 
 			return true;

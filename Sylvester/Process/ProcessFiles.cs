@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using Sylvester.FileSupport;
 using UtilityLibrary;
 
@@ -23,60 +24,68 @@ namespace Sylvester.Process
 {
 	public class ProcessFiles
 	{
-		private class SheetMatch
-		{
-			public SheetIdTest ShtIdTest { get; set; }
-			public BaseFile ShtIdBase { get; set; }
+//		private class SheetMatch
+//		{
+//			public SheetIdTest ShtIdTest { get; set; }
+//			public BaseFile ShtIdBase { get; set; }
+//
+//			public SheetMatch(SheetIdTest test)
+//			{
+//				ShtIdTest = test;
+//				ShtIdBase = new BaseFile();
+//				ShtIdBase.SheetID = "";
+//			}
+//
+//			public override string ToString()
+//			{
+//				return "*** test| " + ShtIdTest.ToString() +
+//					"  *** base| " + ShtIdBase.ToString();
+//			}
+//		}
 
-			public SheetMatch(SheetIdTest test)
-			{
-				ShtIdTest = test;
-				ShtIdBase = new BaseFile();
-				ShtIdBase.SheetID = "";
-			}
+//		private SortedDictionary<string, SheetMatch>
+//			sheets = new SortedDictionary<string, SheetMatch>();
 
-			public override string ToString()
-			{
-				return "*** test| " + ShtIdTest.ToString() +
-					"  *** base| " + ShtIdBase.ToString();
-			}
-		}
-
-		private SortedDictionary<string, SheetMatch>
-			sheets = new SortedDictionary<string, SheetMatch>();
-
-		public readonly FilesCollection<TestFile> TestFileColl = null;
 		public readonly FilesCollection<BaseFile> BaseFileColl = null;
+		public readonly FilesCollection<BaseFile> TestFileColl = null;
+
+		public FilesCollection<TestFile> FinalFileColl = null;
 
 
 		public ProcessFiles(FilesCollection<BaseFile> baseFileColl,
-			FilesCollection<TestFile> testFileColl)
+			FilesCollection<BaseFile> testFileColl)
 		{
-			this.TestFileColl = testFileColl;
-			this.BaseFileColl = baseFileColl;
+			TestFileColl  = testFileColl;
+			BaseFileColl  = baseFileColl;
 		}
 
-		public bool Process()
+		public FilesCollection<TestFile> Process()
 		{
-			if (TestFileColl == null || BaseFileColl == null) return false;
+			if (TestFileColl == null || BaseFileColl == null) return null;
+
+			FinalFileColl = new FilesCollection<TestFile>();
 
 			// step one - Match adjusted sheet numbers
+			if (!MatchSheetsNumbers()) return null;
 
-			if (!MatchSheetsNumbers()) return false;
-
-
-			return true;
+			return FinalFileColl;
 		}
 
 		private bool MatchSheetsNumbers()
 		{
-			BaseFile bf;
+			BaseFile bfBase;
+			TestFile ff;
 
-			foreach (TestFile tf in TestFileColl.TestFiles)
+			foreach (BaseFile bfTest in TestFileColl.TestFiles)
 			{
-				if ((bf = BaseFileColl.ContainsKey(tf.AdjustedSheetID)) != null)
+				if (!bfTest.IsSelected) continue;
+
+				if ((bfBase = BaseFileColl.ContainsKey(bfTest.AdjustedSheetID)) != null)
 				{
-					tf.BaseFile = bf;
+					ff = (TestFile) bfTest.Clone<TestFile>();
+					ff.BaseFile = bfBase;
+
+					FinalFileColl.Add(ff);
 				}
 			}
 

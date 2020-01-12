@@ -27,8 +27,9 @@ namespace Sylvester.FileSupport
 	{
 //		public static FilesCollection<TestFile> tfc { get; private set; }
 
-		public FilesCollection<TestFile> TestFileColl { get; private set; }
 		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
+		public FilesCollection<BaseFile>  TestFileColl { get; private set; }
+		public FilesCollection<TestFile>  FinalFileColl { get; private set; }
 
 //		public SelectFiles<BaseFile> BaseFiles { get; private set; }
 //		public SelectFiles<SheetIdTest> TestFiles { get; private set; }
@@ -36,8 +37,10 @@ namespace Sylvester.FileSupport
 		public ReadFiles BaseReadFiles { get; private set; }
 		public ReadFiles TestReadFiles { get; private set; }
 
-		public ICollectionView cvTest { get; private set; }
 		public ICollectionView cvBase { get; private set; }
+		public ICollectionView cvTest { get; private set; }
+
+		public ICollectionView cvFinal { get; private set; }
 
 		SelectFolder.SelectFolder sf = new SelectFolder.SelectFolder();
 
@@ -57,47 +60,57 @@ namespace Sylvester.FileSupport
 //			BaseFiles = new SelectFiles<BaseFile>();
 //			TestFiles = new SelectFiles<SheetIdTest>();
 
-			TestFileColl = new FilesCollection<TestFile>();
-			TestFileColl.Name = "Test";
-
 			BaseFileColl = new FilesCollection<BaseFile>();
-			BaseFileColl.Name = "Test";
+			BaseFileColl.Name = "Base";
+
+			TestFileColl = new FilesCollection<BaseFile>();
+			TestFileColl.Name = "Test";
 
 			BaseReadFiles = new ReadFiles();
 			TestReadFiles = new ReadFiles();
 
-			cvTest = null;
 			cvBase = null;
+			cvTest = null;
 
 		}
 
 		public bool Read()
 		{
-			TestFileColl.Directory = FolderManager.TestFolder;
-
-			if (!TestReadFiles.GetFiles<TestFile>(FolderManager.TestFolder, TestFileColl)) return false;
-
 			BaseFileColl.Directory = FolderManager.BaseFolder;
 
-			if (!BaseReadFiles.GetFiles<BaseFile>(FolderManager.BaseFolder, BaseFileColl)) return false;
+			if (!BaseReadFiles.GetFiles<BaseFile>(FolderManager.BaseFolder, false, BaseFileColl)) return false;
 
-			CollectionViews();
+			CollectionViewBase();
+
+			TestFileColl.Directory = FolderManager.TestFolder;
+
+			if (!TestReadFiles.GetFiles<BaseFile>(FolderManager.TestFolder, true, TestFileColl)) return false;
+
+			CollectionViewTest();
 
 			return true;
 		}
 
-		public void CollectionViews()
+		public void CollectionViewBase()
+		{
+			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
+			OnPropertyChange("cvBase");
+		}
+
+		public void CollectionViewTest()
 		{
 			cvTest = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
 			OnPropertyChange("cvTest");
-
-			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
-			OnPropertyChange("cvBase");
 		}
 
 		public bool Process()
 		{
 			ProcessFiles p = new ProcessFiles(BaseFileColl, TestFileColl);
+
+			if ((FinalFileColl = p.Process()) == null) return false;
+
+			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
+			OnPropertyChange("cvFinal");
 
 			return true;
 		}

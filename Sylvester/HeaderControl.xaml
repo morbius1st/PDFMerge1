@@ -19,7 +19,7 @@
 			<Setter Property="Margin" Value="3,2,0,0" />
 			<Setter Property="Padding" Value="0,0,0,2" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
-			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
 
 		</Style>

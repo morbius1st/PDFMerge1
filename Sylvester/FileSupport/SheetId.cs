@@ -3,6 +3,7 @@
 // File:             SheetIdBase.cs
 // Created:      -- ()
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -54,7 +55,7 @@ namespace Sylvester.FileSupport
 		private bool isSelected;
 		private FileType fileType;
 
-		protected abstract bool PreSelect { get; set; }
+		public bool PreSelect { get; set; } = false;
 
 		public SheetId()
 		{
@@ -200,7 +201,8 @@ namespace Sylvester.FileSupport
 
 		public bool ParseFile()
 		{
-			return Support.Support.ParseFile(this);
+//			return Support.Support.ParseFile(this);
+			return Support.Support.ParseFile2(this);
 		}
 
 		protected string AdjustSheetNumber(string sheetId)
@@ -232,6 +234,24 @@ namespace Sylvester.FileSupport
 				+ " | " + separator.PadRight(6)
 				+ " | " + sheetName
 				+ " ( " + comment + ")";
+		}
+
+		public object Clone<T>() where T : SheetId, new()
+		{
+			T t = new T();
+
+			t.fullFileRoute   = this.fullFileRoute;
+			t.sheetID         = this.sheetID;
+			t.fileType        = this.fileType;
+			t.phaseBldg       = this.phaseBldg;
+			t.phaseBldgSep    = this.phaseBldgSep;
+			t.adjustedSheetID = this.adjustedSheetID;
+			t.separator       = this.separator;
+			t.sheetName       = this.sheetName;
+			t.comment         = this.comment;
+			t.isSelected      = this.isSelected;
+
+			return t;
 		}
 	}
 }

@@ -41,11 +41,7 @@ namespace Sylvester.FileSupport
 		private string matchedSheetName = "";
 		private BaseFile baseFile;
 
-		protected override bool PreSelect { get; set; } = true;
-
-		public TestFile()
-		{
-		}
+		public TestFile() { }
 
 		public TestFile(Route fullFileRoute)
 		{

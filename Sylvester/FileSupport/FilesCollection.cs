@@ -50,9 +50,11 @@ namespace Sylvester.FileSupport
 			TestFiles.Add(tf);
 		}
 
-		public void Add(Route r)
+		public void Add(Route r, bool preselect)
 		{
 			T tf = new T();
+
+			tf.PreSelect = preselect;
 
 			tf.FullFileRoute = r;
 
