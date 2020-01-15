@@ -99,7 +99,7 @@
 			</Style>
 
 			<DataTemplate x:Key="DataTemplateTest2" x:Name="itemTemplate"
-					DataType="fileSupport:TestFile"
+					DataType="fileSupport:FinalFile"
 					>
 				<Border x:Name="Border"
 						Margin="0"
@@ -122,12 +122,12 @@
 								VerticalAlignment="Center"
 								Visibility="{Binding Path=CheckBoxVisibility,
 																		 ElementName=ListView01}"
-								IsChecked="{Binding IsSelected,
+								IsChecked="{Binding Selected,
 																		FallbackValue=false}"
 								>
 						</CheckBox>
 
-						<Label x:Name="testShtNum" Content="{Binding FileName, FallbackValue=c:\\name\\name\\name\\value}"
+						<Label x:Name="testShtNum" Content="{Binding SheetName, FallbackValue=c:\\name\\name\\name\\value}"
 								Grid.Column="1"
 								Margin="0,-1,0,2"
 								HorizontalContentAlignment="Left"
@@ -171,7 +171,7 @@
 			<Style x:Key="ListViewItemStyle2" x:Name="lvStyle"
 					TargetType="{x:Type ListViewItem}"
 					>
-				<Setter Property="IsSelected" Value="{Binding IsSelected}" />
+				<Setter Property="IsSelected" Value="{Binding Selected}" />
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="BorderBrush" Value="Transparent" />
 				<Setter Property="BorderThickness" Value="1" />

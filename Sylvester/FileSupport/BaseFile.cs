@@ -1,18 +1,56 @@
-﻿// Solution:     PDFMerge1
+﻿using System;
+using Sylvester.Process;
+using Sylvester.Settings;
+using static Sylvester.Support.Support;
+
+
+
+// Solution:     PDFMerge1
 // Project:       Sylvester
 // File:             SheetIdBase.cs
 // Created:      -- ()
 
-using System;
+
 
 namespace Sylvester.FileSupport {
-	public class BaseFile : SheetId, ICloneable
+	public class BaseFile : SheetNameInfo, ICloneable
 	{
 		
 		public object Clone()
 		{
 			return this.Clone<BaseFile>();
 		}
+
+		public override string SheetTitle
+		{
+			get => sheetTitle ?? "n/a";
+
+			set
+			{
+				switch (UserSettings.Data.SheetTitleCase)
+				{
+					case SheetTitleCase.TO_CAP_EA_WORD:
+						sheetTitle = ToCapEachWord(originalSheetTitle);
+						break;
+					case SheetTitleCase.TO_UPPER_CASE:
+						sheetTitle = originalSheetTitle.ToUpper();
+						break;
+					default:
+						sheetTitle = originalSheetTitle;
+						break;
+				}
+
+				OnPropertyChange();
+			}
+		}
+
+		public void UpdateSheetTitleCase()
+		{
+			SheetTitle = sheetTitle;
+
+			OnPropertyChange("SheetName");
+		}
+
 
 		public override void UpdateSelectStatus() { }
 	}

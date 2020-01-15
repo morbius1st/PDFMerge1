@@ -56,7 +56,7 @@ namespace Sylvester.Support
 		private const string EXTENSION_1_STR    = "ext2";
 		private const string EXTENSION_2_STR    = "ext3";
 
-		public static bool ParseFileName(SheetId sheet)
+		public static bool ParseFileName(SheetNameInfo sheet)
 		{
 			Match match = pattern2.Match(sheet.FileName);
 
@@ -88,21 +88,21 @@ namespace Sylvester.Support
 				if (!string.IsNullOrEmpty(test))
 				{
 					sheet.Comment = test;
-					sheet.SheetName = g[SHEET_NAME_2_STR].Value;
+					sheet.OriginalSheetTitle = g[SHEET_NAME_2_STR].Value;
 				} 
 				else if (!string.IsNullOrEmpty(g[SHEET_NAME_3_STR].Value))
 				{
-					sheet.SheetName = g[SHEET_NAME_3_STR].Value;
+					sheet.OriginalSheetTitle = g[SHEET_NAME_3_STR].Value;
 				} 
 				else if (!string.IsNullOrEmpty(g[SHEET_NAME_4_STR].Value))
 				{
-					sheet.SheetName = g[SHEET_NAME_4_STR].Value;
+					sheet.OriginalSheetTitle = g[SHEET_NAME_4_STR].Value;
 				}
 
 			}
 			else
 			{ 
-				sheet.SheetName = "";
+				sheet.OriginalSheetTitle = "";
 				sheet.Comment = test;
 			}
 

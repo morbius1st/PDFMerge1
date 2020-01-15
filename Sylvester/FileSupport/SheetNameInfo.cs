@@ -6,8 +6,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Sylvester.Process;
+using Sylvester.Settings;
 using static Sylvester.Support.Support;
 
 namespace Sylvester.FileSupport
@@ -19,16 +22,20 @@ namespace Sylvester.FileSupport
 		OTHER
 	}
 
-	public abstract class SheetId : INotifyPropertyChanged
+	public abstract class SheetNameInfo : INotifyPropertyChanged
 	{
+		// ([ \.\-]+)
+
 		public const string FILE_TYPE_EXT = ".pdf";
 
-		protected const string SEARCH_PATTERN_A = @"[.-]| +";
+//		protected const string SEARCH_PATTERN_A = @"[.-]| +";
+		protected const string SEARCH_PATTERN_A = @"([ \.\-]+)";
 		protected const string SUBST_PATTERN_A = @" ";
 
 		protected const string SEARCH_PATTERN_B = @"(?<=[A-Z])([ -]+)(?=[0-9])";
 		protected const string SUBST_PATTERN_B = @"";
 
+		// turns single digit sheet numbers into two digit sheet numbers
 		protected const string SEARCH_PATTERN_C = @"^([A-Z]+)([0-9](?![0-9]))";
 		protected const string SUBST_PATTERN_C = @"${1}0$2";
 
@@ -38,10 +45,10 @@ namespace Sylvester.FileSupport
 				new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline),
 				SUBST_PATTERN_A
 				),
-			new KeyValuePair<Regex, string>(
-				new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
-				SUBST_PATTERN_B
-				),
+//			new KeyValuePair<Regex, string>(
+//				new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
+//				SUBST_PATTERN_B
+//				),
 			new KeyValuePair<Regex, string>(
 				new Regex(SEARCH_PATTERN_C, RegexOptions.Compiled | RegexOptions.Singleline),
 				SUBST_PATTERN_C
@@ -50,23 +57,21 @@ namespace Sylvester.FileSupport
 
 		protected Regex regex = new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline);
 
-		public static bool ForceUpperCaseName { get; set; } = false;
-		public static bool ForceWordCapName { get; set; } = true;
-
 		protected Route fullFileRoute;
 		protected string phaseBldg;
 		protected string phaseBldgSep;
 		protected string sheetID;
 		protected string separator;
-		protected string sheetName;
+		protected string originalSheetTitle;
+		protected string sheetTitle;
 		protected string comment;
 		protected string adjustedSheetID;
-		private bool isSelected = false;
+		private bool selected = false;
 		private FileType fileType;
 
 		public bool PreSelect { get; set; } = false;
 
-		public SheetId()
+		public SheetNameInfo()
 		{
 			fullFileRoute = Route.Invalid;
 
@@ -74,7 +79,7 @@ namespace Sylvester.FileSupport
 			phaseBldgSep = "";
 			sheetID = "";
 			separator = "";
-			sheetName = "";
+			sheetTitle = "";
 			comment = "";
 			adjustedSheetID = "";
 		}
@@ -88,7 +93,7 @@ namespace Sylvester.FileSupport
 
 				if (PreSelect && fullFileRoute.FileExtension.ToUpper().Equals(".PDF"))
 				{
-					IsSelected = true;
+					Selected = true;
 				}
 
 				OnPropertyChange();
@@ -105,7 +110,7 @@ namespace Sylvester.FileSupport
 
 				SheetNumber = value;
 
-				AdjustedSheetID = AdjustSheetNumber(sheetID);
+				AdjustedSheetId = AdjustSheetNumber(sheetID);
 			}
 		}
 
@@ -153,7 +158,7 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public string AdjustedSheetID
+		public string AdjustedSheetId
 		{
 			get => adjustedSheetID;
 			set
@@ -169,24 +174,32 @@ namespace Sylvester.FileSupport
 			set => separator = value;
 		}
 
-		public string SheetName
+		public string OriginalSheetTitle
 		{
-			get => sheetName ?? "n/a";
+			get => originalSheetTitle;
 			set
 			{
-				sheetName = value;
-				if (ForceUpperCaseName)
-				{
-					sheetName = sheetName.ToUpper();
-				}
-				else if (ForceWordCapName)
-				{
-					sheetName = ToCapEachWord(sheetName);
-				}
-
-				OnPropertyChange();
+				originalSheetTitle = value;
+				SheetTitle = value;
 			}
 		}
+
+		public abstract string SheetTitle { get; set; }
+
+		public string SheetName 
+		{ 
+			get
+			{
+				string result =  SheetNumber + Separator + SheetTitle;
+
+				if (fileType != FileType.SHEET_PDF)
+				{
+					result = FileName;
+				}
+
+				return result;
+			}
+	}
 
 		public string Comment
 		{
@@ -198,12 +211,12 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public bool IsSelected
+		public bool Selected
 		{
-			get => isSelected;
+			get => selected;
 			set
 			{
-				isSelected = value;
+				selected = value;
 				OnPropertyChange();
 			}
 		}
@@ -224,13 +237,13 @@ namespace Sylvester.FileSupport
 				else
 				{
 					FileType = FileType.NON_SHEET_PDF;
-					AdjustedSheetID = "Ⓩ";
+					AdjustedSheetId = "Ⓩ";
 				}
 			}
 			else
 			{
 				FileType = FileType.OTHER;
-				AdjustedSheetID = "Ⓩ";
+				AdjustedSheetId = "Ⓩ";
 			}
 		}
 
@@ -263,11 +276,11 @@ namespace Sylvester.FileSupport
 				+ " | " + sheetID.PadRight(10)
 				+ (" (" + adjustedSheetID + ")").PadRight(10)
 				+ " | " + separator.PadRight(6)
-				+ " | " + sheetName
+				+ " | " + sheetTitle
 				+ " ( " + comment + ")";
 		}
 
-		public object Clone<T>() where T : SheetId, new()
+		public object Clone<T>() where T : SheetNameInfo, new()
 		{
 			T t = new T();
 
@@ -278,7 +291,7 @@ namespace Sylvester.FileSupport
 			t.phaseBldgSep    = this.phaseBldgSep;
 			t.adjustedSheetID = this.adjustedSheetID;
 			t.separator       = this.separator;
-			t.sheetName       = this.sheetName;
+			t.sheetTitle       = this.sheetTitle;
 			t.comment         = this.comment;
 
 			return t;

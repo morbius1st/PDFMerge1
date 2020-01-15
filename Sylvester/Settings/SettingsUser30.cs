@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
 using SettingManager;
+using Sylvester.Process;
 
 // projname: SettingsManagerV30
 // itemname: UserSettingInfo22
@@ -44,15 +45,6 @@ namespace Sylvester.Settings
 	[DataContract(Name = "UserSettingData30")]
 	public class UserSettingData30
 	{
-//		public Route GetInitFolder()
-//		{
-//			return new Route(PriorBaseFolder);
-//		}
-//		public void SetInitFolder(Route priorFolder)
-//		{
-//			PriorBaseFolder = priorFolder.FullRoute;
-//		}
-
 		[DataMember]
 		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
 
@@ -60,7 +52,7 @@ namespace Sylvester.Settings
 		public string PriorTestFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
 
 		[DataMember]
-		public bool AllowOverwriteOutputFile = true;
+		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
 
 //		// added with version 2.1

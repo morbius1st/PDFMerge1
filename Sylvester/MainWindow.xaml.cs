@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Sylvester.FileSupport;
+using Sylvester.Process;
 using Sylvester.SelectFolder;
 using Sylvester.Settings;
 
@@ -16,7 +17,7 @@ namespace Sylvester
 		private bool compare = false;
 		private bool go = false;
 
-		public FilesManager fm { get; private set; }
+		public ProcessManager pm { get; private set; }
 
 		public FolderManager fldm { get; private set; }
 
@@ -24,8 +25,15 @@ namespace Sylvester
 		{
 			InitializeComponent();
 
-			fm= new FilesManager();
-			OnPropertyChange("fm");
+			UserSettings.Admin.Read();
+
+			pm= new ProcessManager();
+			OnPropertyChange("pm");
+		}
+
+		public bool SetFocus
+		{
+			set { SetFocusComparison(); }
 		}
 
 		public bool Compare
@@ -48,6 +56,11 @@ namespace Sylvester
 			}
 		}
 
+		public void SetFocusComparison()
+		{
+			lvComparison.Focus();
+		}
+
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@debug");
@@ -55,33 +68,41 @@ namespace Sylvester
 		
 		private void BtnReset_OnClick(object sender, RoutedEventArgs e)
 		{
-			fm.Reset();
+			pm.Reset();
 
-			OnPropertyChange("fm");
+			OnPropertyChange("pm");
 		}
 
 		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = fm.Read();
+			Compare = pm.Read();
 
-			OnPropertyChange("fm");
+			OnPropertyChange("pm");
 		}
 
 		private void BtnCompare_OnClick(object sender, RoutedEventArgs e)
 		{
-			Go = fm.Process();
+			Go = pm.Process();
 
-			OnPropertyChange("fm");
+			SetFocusComparison();
+
+			OnPropertyChange("pm");
 		}
 		
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@go");
+			pm.RenameFiles();
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			this.Close();
+		}
+
+		private void rbtn_OnClick(object sender, RoutedEventArgs e)
+		{
+			SetFocusComparison();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -94,13 +115,15 @@ namespace Sylvester
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
 
-			fm = new FilesManager();
+			pm = new ProcessManager();
 
 			fldm = new FolderManager();
 
 			fldm.GetFolders();
 
+			
 
 		}
+
 	}
 }

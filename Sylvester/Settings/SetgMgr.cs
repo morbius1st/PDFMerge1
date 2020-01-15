@@ -1,5 +1,9 @@
 ﻿#region + Using Directives
 
+using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Runtime.CompilerServices;
+using System.Security;
 using Sylvester.FileSupport;
 
 #endregion
@@ -38,7 +42,6 @@ namespace Sylvester.Settings
 
 				UserSettings.Admin.Save();
 			}
-
 		}
 
 		public Route TestFolder
@@ -52,5 +55,7 @@ namespace Sylvester.Settings
 				UserSettings.Admin.Save();
 			}
 		}
+
+
 	}
 }

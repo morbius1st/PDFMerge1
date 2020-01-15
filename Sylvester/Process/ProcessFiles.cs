@@ -25,23 +25,23 @@ namespace Sylvester.Process
 	public class ProcessFiles
 	{
 		public readonly FilesCollection<BaseFile> BaseFileColl = null;
-		public readonly FilesCollection<BaseFile> TestFileColl = null;
+		public readonly FilesCollection<TestFile> TestFileColl = null;
 
-		public FilesCollection<TestFile> FinalFileColl = null;
+		public FilesCollection<FinalFile> FinalFileColl = null;
 
 
 		public ProcessFiles(FilesCollection<BaseFile> baseFileColl,
-			FilesCollection<BaseFile> testFileColl)
+			FilesCollection<TestFile> testFileColl)
 		{
 			TestFileColl  = testFileColl;
 			BaseFileColl  = baseFileColl;
 		}
 
-		public FilesCollection<TestFile> Process()
+		public FilesCollection<FinalFile> Process()
 		{
 			if (TestFileColl == null || BaseFileColl == null) return null;
 
-			FinalFileColl = new FilesCollection<TestFile>();
+			FinalFileColl = new FilesCollection<FinalFile>();
 
 			// step one - Match adjusted sheet numbers
 			if (!MatchSheetsNumbers()) return null;
@@ -52,15 +52,16 @@ namespace Sylvester.Process
 		private bool MatchSheetsNumbers()
 		{
 			BaseFile bfBase;
-			TestFile ff;
+			FinalFile ff;
 
-			foreach (BaseFile bfTest in TestFileColl.TestFiles)
+			foreach (TestFile bfTest in TestFileColl.TestFiles)
 			{
-				if (!bfTest.IsSelected) continue;
+				if (!bfTest.Selected) continue;
+				if (bfTest.FileType != FileType.SHEET_PDF) continue;
 
-				ff = (TestFile) bfTest.Clone<TestFile>();
+				ff = (FinalFile) bfTest.Clone<FinalFile>();
 
-				if ((bfBase = BaseFileColl.ContainsKey(bfTest.AdjustedSheetID)) != null)
+				if ((bfBase = BaseFileColl.ContainsKey(bfTest.AdjustedSheetId)) != null)
 				{
 					ff.BaseFile = bfBase;
 				}

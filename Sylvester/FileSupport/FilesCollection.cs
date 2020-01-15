@@ -20,7 +20,7 @@ using System.Windows.Data;
 
 namespace Sylvester.FileSupport
 {
-	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetId, new()
+	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetNameInfo, new()
 	{
 		private string name;
 		private Route directory = Route.Invalid;
@@ -36,6 +36,8 @@ namespace Sylvester.FileSupport
 				OnPropertyChange();
 			}
 		}
+
+		public bool HideDirectory { get; set; } = false;
 
 		public Route Directory
 		{
@@ -113,7 +115,7 @@ namespace Sylvester.FileSupport
 		{
 			foreach (T tf in TestFiles)
 			{
-				if (tf.AdjustedSheetID == findKey)
+				if (tf.AdjustedSheetId == findKey)
 				{
 					return tf;
 				}

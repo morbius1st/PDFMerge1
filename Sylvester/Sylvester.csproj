@@ -72,16 +72,18 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
+    <Compile Include="FileSupport\TestFile.cs" />
+    <Compile Include="FileSupport\FileRenameManager.cs" />
     <Compile Include="Support\CustomProperties.cs" />
-    <Compile Include="FileSupport\FilesManager.cs" />
+    <Compile Include="Process\ProcessManager.cs" />
     <Compile Include="FileSupport\ReadFiles.cs" />
-    <Compile Include="FileSupport\SheetId.cs" />
+    <Compile Include="FileSupport\SheetNameInfo.cs" />
     <Compile Include="FileSupport\BaseFile.cs" />
     <Compile Include="lvTestControl.xaml.cs">
       <DependentUpon>lvTestControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Support\Support.cs" />
-    <Compile Include="FileSupport\TestFile.cs" />
+    <Compile Include="FileSupport\FinalFile.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />
     <Compile Include="SelectFolder\FolderManager.cs" />
