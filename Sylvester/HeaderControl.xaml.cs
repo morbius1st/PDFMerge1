@@ -26,5 +26,41 @@ namespace Sylvester
 			set { SetValue(TitleProperty, value); }
 		}
 
+		// non-sheet pdf count visibility
+		public static readonly DependencyProperty NonSheetPdfCountVisibilityProperty =
+			DependencyProperty.Register("NonSheetPdfCountVisibility", typeof(Visibility),
+				typeof(HeaderControl), new PropertyMetadata(Visibility.Visible));
+
+		public Visibility NonSheetPdfCountVisibility
+		{
+			get { return (Visibility) GetValue(NonSheetPdfCountVisibilityProperty); }
+			set { SetValue(NonSheetPdfCountVisibilityProperty, value); }
+		}
+
+		// other-file count visibility
+		public static readonly DependencyProperty OtherFileCountVisibilityProperty =
+			DependencyProperty.Register("OtherFileCountVisibility", typeof(Visibility),
+				typeof(HeaderControl), new PropertyMetadata(Visibility.Visible));
+
+		public Visibility OtherFileCountVisibility
+		{
+			get { return (Visibility) GetValue(OtherFileCountVisibilityProperty); }
+			set { SetValue(OtherFileCountVisibilityProperty, value); }
+		}
+
+		// title bar left margin
+		public static readonly DependencyProperty TitleBarLeftMarginProperty =
+			DependencyProperty.Register("TitleBarLeftMargin", typeof(double),
+				typeof(HeaderControl), new PropertyMetadata(default(double)));
+
+		public static readonly DependencyProperty TitleBarMarginProperty = DependencyProperty.Register(
+			"TitleBarMargin", typeof(Thickness), typeof(HeaderControl), new PropertyMetadata(default(Thickness)));
+
+		public Thickness TitleBarMargin
+		{
+			get { return (Thickness) GetValue(TitleBarMarginProperty); }
+			set { SetValue(TitleBarMarginProperty, value); }
+		}
+
 	}
 }

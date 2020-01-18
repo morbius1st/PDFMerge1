@@ -10,7 +10,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Name="mainwin"
 		Title="MainWindow"
-		Width="1200"
+		Width="1300"
 		Height="850"
 		DataContext="{Binding ElementName=mainwin,
 													Path=pm}"
@@ -53,18 +53,17 @@
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="110" />
+			<ColumnDefinition Width="575*" />
+			<ColumnDefinition Width="718*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="*" />
+			<RowDefinition />
+			<RowDefinition />
 			<RowDefinition Height="72" />
-			<RowDefinition Height="60" />
 		</Grid.RowDefinitions>
 
 
+		<!--#region > settings panel-->
 		<StackPanel
 				Grid.Column="0"
 				Grid.Row="2"
@@ -78,12 +77,12 @@
 						TargetType="ContentControl"
 						>
 					<Setter Property="Foreground" Value="White" />
+					<Setter Property="HorizontalAlignment" Value="Left" />
+					<Setter Property="HorizontalContentAlignment" Value="Left" />
 					<Setter Property="Margin" Value="0" />
 					<Setter Property="Padding" Value="0" />
-					<Setter Property="HorizontalAlignment" Value="Left" />
 					<Setter Property="VerticalAlignment" Value="Center" />
 					<Setter Property="VerticalContentAlignment" Value="Center" />
-					<Setter Property="HorizontalContentAlignment" Value="Left" />
 				</Style>
 
 				<Style
@@ -92,8 +91,6 @@
 						BasedOn="{StaticResource control}"
 						>
 					<Setter Property="Margin" Value="18,0,3,1" />
-
-
 				</Style>
 
 			</StackPanel.Resources>
@@ -155,10 +152,8 @@
 					</StackPanel>
 				</Border>
 			</Grid>
-
-
 		</StackPanel>
-
+		<!--#endregion-->
 
 
 		<Grid
@@ -167,9 +162,12 @@
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="60" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="20" />
+				<RowDefinition Height="20" />
 				<RowDefinition Height="72" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
@@ -177,23 +175,87 @@
 			<local:HeaderControl
 					Title="Current"
 					Grid.Column="0"
-					Grid.Row="0"
-					Margin="0,0,4,0"
+					Grid.Row="2"
+					Grid.ColumnSpan="2"
+					Margin="60,0,4,0"
 					DataContext="{Binding pm.BaseFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"
+					TitleBarMargin="-60,0,0,0"
 					/>
 
 			<local:lvTestControl
 					x:Name="lvBase"
-					Grid.Row="1"
-					Margin="4,0,4,4"
+					Grid.Column="0"
+					Grid.Row="3"
+					Grid.ColumnSpan="2"
+					Margin="0,0,4,4"
 					CanSelect="False"
 					CheckBoxVisibility="Hidden"
 					DataContext="{Binding pm.cvBase,
 																ElementName=mainwin,
 																Mode=OneWay}"
 					/>
+
+			<StackPanel
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="0,28,0,0"
+					VerticalAlignment="Center"
+					Orientation="Vertical"
+					>
+				<Button
+						Name="btnReadBase"
+						Content="Scan"
+						Width="48"
+						Height="26"
+						VerticalAlignment="Bottom"
+						Click="BtnRead_OnClick"
+						/>
+
+			</StackPanel>
+
+
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="0"
+					Grid.ColumnSpan="2"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					>
+
+				<!--    -->
+				<!-- <local:SkewedButton Text="this is a path 9" DockPanel.Dock="right"/> -->
+				<!-- <local:SkewedButton Text="this is a path 8" DockPanel.Dock="right"/> -->
+				<!-- <local:SkewedButton Text="this is a path 7" DockPanel.Dock="right"/> -->
+				<!-- <local:SkewedButton Text="this is a path 6" DockPanel.Dock="right"/> -->
+				<!-- <local:SkewedButton Text="this is a path 5" DockPanel.Dock="right"/> -->
+				<!-- <local:SkewedButton Text="this is a path 4" DockPanel.Dock="right"/> -->
+				<local:SkewedButton
+						DockPanel.Dock="right"
+						Text="this is a path 3"
+						/>
+				<local:SkewedButton
+						DockPanel.Dock="right"
+						Text="this is a path 2"
+						/>
+				<local:SkewedButton
+						DockPanel.Dock="right"
+						Text="this is a path 1"
+						/>
+
+			</DockPanel>
+
+			<local:FolderPath
+					x:Name="Fp1"
+					Grid.Column="0"
+					Grid.Row="1"
+					Grid.ColumnSpan="2"
+					VerticalAlignment="Bottom"
+			>
+					<!-- Button.Click="ButtonBase_OnClick" -->
+			</local:FolderPath>
+
 		</Grid>
 
 		<Grid
@@ -201,6 +263,7 @@
 				Grid.Row="1"
 				>
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="60" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
@@ -212,27 +275,52 @@
 					Title="Revision"
 					Grid.Column="0"
 					Grid.Row="0"
-					Margin="0,0,4,0"
+					Grid.ColumnSpan="2"
+					Margin="60,0,4,0"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"
+					TitleBarMargin="-60,0,0,0"
 					/>
 
 			<local:lvTestControl
 					x:Name="lvTest"
 					Grid.Column="0"
 					Grid.Row="1"
-					Margin="4,0,4,4"
+					Grid.ColumnSpan="2"
+					Margin="0,0,4,4"
 					DataContext="{Binding pm.cvTest,
 																ElementName=mainwin,
 																Mode=OneWay}"
 					/>
+
+			<StackPanel
+					Grid.Column="0"
+					Grid.Row="0"
+					Margin="0,28,0,0"
+					VerticalAlignment="Center"
+					Orientation="Vertical"
+					>
+
+				<Button
+						Name="btnReadTest"
+						Content="Scan"
+						Width="48"
+						Height="26"
+						VerticalAlignment="Bottom"
+						Click="BtnRead_OnClick"
+						/>
+
+			</StackPanel>
+
 		</Grid>
 
-		<Grid Grid.Column="1"
+		<Grid
+				Grid.Column="1"
 				Grid.Row="0"
 				Grid.RowSpan="2"
-				Margin="0">
+				Margin="0"
+				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
@@ -241,731 +329,737 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<local:HeaderControl Title="Comparison"
+			<local:HeaderControl
+					Title="Comparison"
 					Grid.Column="0"
 					Grid.Row="0"
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
 					DataContext="{Binding pm.FinalFileColl,
 																ElementName=mainwin,
-																Mode=OneWay}" />
+																Mode=OneWay}"
+					/>
 
-		<ListView
-				Name="lvComparison"
-				Grid.Column="0"
-				Grid.Row="1"
-
-				Margin="4"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				d:DataContext="{Binding ElementName=mainwin,
+			<ListView
+					Name="lvComparison"
+					Grid.Column="0"
+					Grid.Row="1"
+					Margin="4,0,4,4"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					d:DataContext="{Binding ElementName=mainwin,
+																	Path=pm.cvFinal}"
+					DataContext="{Binding ElementName=mainwin,
+																Mode=OneWay,
 																Path=pm.cvFinal}"
-				DataContext="{Binding ElementName=mainwin,
-															Mode=OneWay,
-															Path=pm.cvFinal}"
-				ScrollViewer.CanContentScroll="False"
-				Background="#444444"
-				Foreground="White"
-				IsSynchronizedWithCurrentItem="True"
-				ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
-				ItemTemplate="{DynamicResource DataTemplateTest2}"
-				ItemsSource="{Binding}"
-				>
+					ScrollViewer.CanContentScroll="False"
+					Background="#444444"
+					Foreground="White"
+					IsSynchronizedWithCurrentItem="True"
+					ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
+					ItemTemplate="{DynamicResource DataTemplateTest2}"
+					ItemsSource="{Binding}"
+					>
 
-			<ListView.Resources>
+				<ListView.Resources>
 
-				<Style
-						x:Key="lblRoot"
-						TargetType="Label"
-						>
-					<Setter Property="Foreground" Value="#d8d8d8" />
-					<Setter Property="Margin" Value="1,0,2,0" />
-					<Setter Property="Padding" Value="4,0,6,3" />
-					<Setter Property="VerticalAlignment" Value="Stretch" />
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="Label">
-								<Border
-										Padding="{TemplateBinding Padding}"
-										CornerRadius="3"
-										SnapsToDevicePixels="true"
-										Background="{TemplateBinding Background}"
-										BorderThickness="{TemplateBinding BorderThickness}"
-										BorderBrush="{TemplateBinding BorderBrush}"
-										>
-									<ContentPresenter
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											RecognizesAccessKey="True"
-											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-											/>
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsEnabled" Value="false">
-										<Setter Property="Foreground" Value="#AAAAAA" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-
-				<Style
-						x:Key="lblMatched"
-						TargetType="Label"
-						BasedOn="{StaticResource lblRoot}"
-						>
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding FileNew}"
-								Value="true"
-								>
-							<Setter Property="Visibility" Value="Collapsed" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<Style
-						x:Key="lblTitle"
-						TargetType="Label"
-						BasedOn="{StaticResource lblRoot}"
-						>
-					<Setter Property="Foreground" Value="PaleTurquoise">
-					</Setter>
-
-				</Style>
-
-				<Style
-						x:Key="lblFileNew"
-						TargetType="Label"
-						BasedOn="{StaticResource lblRoot}"
-						>
-					<Setter Property="Visibility" Value="Collapsed" />
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding FileNew}"
-								Value="true"
-								>
-							<Setter Property="Visibility" Value="Visible" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<!--  test styles  -->
-				<!--  root  -->
-				<Style
-						x:Key="lblTestRoot"
-						TargetType="Label"
-						BasedOn="{StaticResource lblRoot}"
-						>
-					<Setter Property="VerticalAlignment" Value="Top" />
-					<Setter Property="BorderBrush" Value="Transparent" />
-					<Setter Property="BorderThickness" Value=".5,0,.5,4" />
-					<Setter Property="Padding" Value="4,.5,4,0" />
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding FileMatches}"
-								Value="true"
-								>
-							<Setter Property="Visibility" Value="Collapsed" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<Style
-						x:Key="lblTestShtNum"
-						TargetType="Label"
-						BasedOn="{StaticResource lblTestRoot}"
-						>
-					<Style.Triggers>
-						<!--  <DataTrigger  -->
-						<!--  Binding="{Binding FileNew}"  -->
-						<!--  Value="false"  -->
-						<!--  >  -->
-						<!-- 	<Setter Property="Width" Value="{Binding ElementName=ShtNum, Path=ActualWidth}" /> -->
-						<!-- </DataTrigger> -->
-						<DataTrigger
-								Binding="{Binding SheetNumberMatches}"
-								Value="{StaticResource notmatch}"
-								>
-							<Setter Property="BorderBrush" Value="Red" />
-						</DataTrigger>
-						<DataTrigger
-								Binding="{Binding SheetNumberMatches}"
-								Value="{StaticResource match}"
-								>
-							<Setter Property="BorderBrush" Value="LawnGreen" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<Style
-						x:Key="lblTestSep"
-						TargetType="Label"
-						BasedOn="{StaticResource lblTestRoot}"
-						>
-					<Setter Property="HorizontalAlignment" Value="Center" />
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding SeparationMatches}"
-								Value="{StaticResource notmatch}"
-								>
-							<Setter Property="BorderBrush" Value="Red" />
-						</DataTrigger>
-						<DataTrigger
-								Binding="{Binding SeparationMatches}"
-								Value="{StaticResource match}"
-								>
-							<Setter Property="BorderBrush" Value="LawnGreen" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<Style
-						x:Key="lblTestShtName"
-						TargetType="Label"
-						BasedOn="{StaticResource lblTestRoot}"
-						>
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding SheetTitleMatches}"
-								Value="{StaticResource notmatch}"
-								>
-							<Setter Property="BorderBrush" Value="Red" />
-						</DataTrigger>
-						<DataTrigger
-								Binding="{Binding SheetTitleMatches}"
-								Value="{StaticResource match}"
-								>
-							<Setter Property="BorderBrush" Value="LawnGreen" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<Style
-						x:Key="lblTestMatches"
-						TargetType="Label"
-						BasedOn="{StaticResource lblTestRoot}"
-						>
-					<Setter Property="Visibility" Value="Collapsed" />
-					<Style.Triggers>
-						<DataTrigger
-								Binding="{Binding FileMatches}"
-								Value="true"
-								>
-							<Setter Property="Visibility" Value="Visible" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-
-				<ControlTemplate
-						x:Key="CheckBoxControlTemplate1"
-						TargetType="{x:Type CheckBox}"
-						>
-					<Grid
-							x:Name="templateRoot"
-							SnapsToDevicePixels="True"
-							Background="Transparent"
+					<Style
+							x:Key="lblRoot"
+							TargetType="Label"
 							>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Border
-								x:Name="checkBoxBorder"
-								Margin="1"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								Background="{TemplateBinding Background}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								>
-							<Grid x:Name="markGrid">
-								<Path
-										x:Name="optionMark"
-										Margin="1"
-										Data="F1M9.97498,1.22334L4.6983,9.09834 4.52164,9.09834 0,5.19331 1.27664,3.52165 4.255,6.08833 8.33331,1.52588E-05 9.97498,1.22334z"
-										Fill="#FF212121"
-										Opacity="0"
-										Stretch="None"
-										/>
-								<Rectangle
-										x:Name="indeterminateMark"
-										Margin="2"
-										Fill="#FF212121"
-										Opacity="0"
-										/>
-							</Grid>
-						</Border>
-						<ContentPresenter
-								x:Name="contentPresenter"
-								Content="{TemplateBinding Content}"
-								Grid.Column="1"
-								Margin="{TemplateBinding Padding}"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								ContentStringFormat="{TemplateBinding ContentStringFormat}"
-								Focusable="False"
-								RecognizesAccessKey="True"
-								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-								ContentTemplate="{TemplateBinding ContentTemplate}"
-								/>
-					</Grid>
-					<ControlTemplate.Triggers>
-						<Trigger Property="HasContent" Value="True">
-							<Setter Property="FocusVisualStyle">
-								<Setter.Value>
-									<Style>
-										<Setter Property="Control.Template">
-											<Setter.Value>
-												<ControlTemplate>
-													<Rectangle
-															Margin="14,0,0,0"
-															SnapsToDevicePixels="True"
-															Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-															StrokeDashArray="1 2"
-															StrokeThickness="1"
-															/>
-												</ControlTemplate>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Setter.Value>
-							</Setter>
-							<Setter Property="Padding" Value="4,-1,0,0" />
-						</Trigger>
-						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFF3F9FF" />
-							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF5593FF" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
-							<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
-						</Trigger>
-						<Trigger Property="IsEnabled" Value="False">
-							<Setter TargetName="checkBoxBorder" Property="Background" Value="#FF70A3B5" />
-							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#3C6A7B" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF707070" />
-							<Setter TargetName="optionMark" Property="Fill" Value="#FF707070" />
-						</Trigger>
-						<Trigger Property="IsPressed" Value="True">
-							<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFD9ECFF" />
-							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF3C77DD" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
-							<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
-						</Trigger>
-						<Trigger Property="IsChecked" Value="True">
-							<Setter TargetName="indeterminateMark" Property="Opacity" Value="0" />
-							<Setter TargetName="optionMark" Property="Opacity" Value="1" />
-						</Trigger>
-						<Trigger Property="IsChecked" Value="{x:Null}">
-							<Setter TargetName="indeterminateMark" Property="Opacity" Value="1" />
-							<Setter TargetName="optionMark" Property="Opacity" Value="0" />
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-
-
-
-				<DataTemplate
-						x:Key="DataTemplateTest2"
-						DataType="filesupport:FinalFile"
-						>
-
-					<Border
-							CornerRadius="5"
-							BorderThickness="5,1,.5,6"
-							>
-						<Border.BorderBrush>
-							<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
-								<GradientStop Offset="0.03" Color="#FF111132" />
-								<GradientStop Offset="0.10" Color="#FFAAEAF3" />
-							</LinearGradientBrush>
-						</Border.BorderBrush>
-						<Border
-								Margin="-5,-1,-.5,-.5"
-								Padding="0,0,0,2"
-								CornerRadius="4"
-								BorderThickness="12,2.5,.5,.5"
-								BorderBrush="#FFAAEAF3"
-								>
-							<Grid
-									Margin="0,1,0,0"
-									Width="Auto"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									>
-								<Grid.ColumnDefinitions>
-									<!--  0  checkbox  -->
-									<ColumnDefinition Width="30" />
-									<!--  1  current / revision titles  -->
-									<ColumnDefinition Width="65" />
-									<!--  2  sheet number  -->
-									<ColumnDefinition Width="Auto" />
-									<!--  3  separation  -->
-									<ColumnDefinition Width="Auto" />
-									<!--  4  sheet name  -->
-									<ColumnDefinition Width="*" />
-									<!--  5  status  -->
-									<ColumnDefinition Width="65" />
-
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="20" />
-									<RowDefinition Height=".5" />
-									<RowDefinition Height="20" />
-								</Grid.RowDefinitions>
-
-								<CheckBox
-										Grid.Column="0"
-										Grid.Row="0"
-										Grid.RowSpan="3"
-										Margin="1,0,0,0"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										IsChecked="{Binding Selected}"
-										Template="{DynamicResource CheckBoxControlTemplate1}"
-										>
-									<CheckBox.Effect>
-										<DropShadowEffect />
-									</CheckBox.Effect>
-									<CheckBox.Style>
-										<Style TargetType="CheckBox">
-											<Setter Property="Background" Value="#FFCAEAF3" />
-											<Setter Property="BorderBrush" Value="DarkTurquoise" />
-											<Style.Triggers>
-												<Trigger Property="IsEnabled" Value="false">
-													<Setter Property="Background" Value="#FF70A3B5" />
-													<Setter Property="Background" Value="Red" />
-													<Setter Property="BorderBrush" Value="Red" />
-												</Trigger>
-											</Style.Triggers>
-										</Style>
-									</CheckBox.Style>
-								</CheckBox>
-
-								<Label
-										x:Name="current"
-										Content="Current"
-										Grid.Column="1"
-										Grid.Row="0"
-										Width="{StaticResource lblTitleWidth}"
-										HorizontalContentAlignment="Right"
-										BorderThickness="0,0,1,0"
-										BorderBrush="#999999"
-										Style="{StaticResource lblTitle}"
-										/>
-
-								<Line
-										Grid.Column="1"
-										Grid.Row="1"
-										Margin="2,0,0,0"
-										Height="0.8"
-										VerticalAlignment="Center"
-										Panel.ZIndex="1"
-										Fill="#FF999999"
-										Stroke="#FF999999"
-										StrokeThickness=".6"
-										X1="0"
-										X2="{Binding Width,
-																 ElementName=current}"
-										Y1="0.4"
-										Y2="0.4"
-										/>
-
-								<Label
-										Name="ShtNum"
-										Content="{Binding MatchedSheetNumber,
-																			FallbackValue='A  1-0-0-0A'}"
-										Grid.Column="2"
-										Grid.Row="0"
-										HorizontalContentAlignment="Right"
-										Style="{StaticResource lblMatched}"
-										/>
-
-								<Label
-										Name="Sep"
-										Content="{Binding MatchedSeparator,
-																			FallbackValue=sep}"
-										Grid.Column="3"
-										Grid.Row="0"
-										HorizontalContentAlignment="Center"
-										Style="{StaticResource lblMatched}"
-										/>
-
-								<Label
-										x:Name="ShtTitle"
-										Content="{Binding MatchedSheetTitle,
-																			FallbackValue=sheet title}"
-										Grid.Column="4"
-										Grid.Row="0"
-										HorizontalAlignment="Stretch"
-										HorizontalContentAlignment="Left"
-										Style="{StaticResource lblMatched}"
-										/>
-
-								<Label
-										Name="Status"
-										Content="Status"
-										Grid.Column="5"
-										Grid.Row="0"
-										HorizontalAlignment="Stretch"
-										HorizontalContentAlignment="Center"
-										Visibility="Visible"
-										Style="{StaticResource lblMatched}"
-										/>
-
-								<Label
-										Content=" File does not exist in the list of current files "
-										Grid.Column="2"
-										Grid.Row="0"
-										Grid.ColumnSpan="3"
-										HorizontalContentAlignment="Left"
-										BorderThickness=".5,4,.5,0"
-										BorderBrush="#CECE00"
-										Style="{StaticResource lblFileNew}"
-										/>
-
-								<!--  revision / test  -->
-
-								<Label
-										Content="Revision"
-										Grid.Column="1"
-										Grid.Row="2"
-										Width="{StaticResource lblTitleWidth}"
-										HorizontalContentAlignment="Right"
-										BorderThickness="0,0,1,0"
-										BorderBrush="#999999"
-										Style="{StaticResource lblTitle}"
-										/>
-
-								<Label
-										Name="testShtNum"
-										Content="{Binding SheetNumber,
-																			FallbackValue=test value}"
-										Grid.Column="2"
-										Grid.Row="2"
-										HorizontalContentAlignment="Right"
-										Style="{StaticResource lblTestShtNum}"
-										/>
-
-								<Label
-										Content="{Binding Separator,
-																			FallbackValue=s}"
-										Grid.Column="3"
-										Grid.Row="2"
-										HorizontalContentAlignment="Center"
-										Style="{StaticResource lblTestSep}"
-										/>
-
-								<Label
-										Content="{Binding SheetTitle,
-																			FallbackValue=name}"
-										Grid.Column="4"
-										Grid.Row="2"
-										HorizontalAlignment="Stretch"
-										HorizontalContentAlignment="Left"
-										Style="{StaticResource lblTestShtName}"
-										/>
-
-								<Label
-										Content="{Binding StatusMessage,
-																			FallbackValue=name}"
-										Grid.Column="5"
-										Grid.Row="2"
-										HorizontalAlignment="Stretch"
-										HorizontalContentAlignment="Center"
-										Visibility="Visible"
-										Style="{StaticResource lblTestRoot}"
-										/>
-
-								<Label
-										Content=" Revision file name matches "
-										Grid.Column="2"
-										Grid.Row="2"
-										Grid.ColumnSpan="3"
-										HorizontalContentAlignment="left"
-										BorderBrush="LawnGreen"
-										Style="{StaticResource lblTestMatches}"
-										/>
-
-								<!-- </StackPanel> -->
-
-							</Grid>
-						</Border>
-					</Border>
-
-				</DataTemplate>
-
-				<SolidColorBrush
-						x:Key="Item.MouseOver.Background"
-						Color="#3800C3FF"
-						/>
-				<SolidColorBrush
-						x:Key="Item.MouseOver.Border"
-						Color="#86EEFF"
-						/>
-				<SolidColorBrush
-						x:Key="Item.SelectedInactive.Background"
-						Color="#3DDADADA"
-						/>
-				<SolidColorBrush
-						x:Key="Item.SelectedInactive.Border"
-						Color="#FFDADADA"
-						/>
-				<SolidColorBrush
-						x:Key="Item.SelectedActive.Background"
-						Color="#3D26A0DA"
-						/>
-				<SolidColorBrush
-						x:Key="Item.SelectedActive.Border"
-						Color="#FF26A0DA"
-						/>
-				<SolidColorBrush
-						x:Key="Item.NotEnabled.Foreground"
-						Color="#FFDADADA"
-						/>
-
-				<Style
-						x:Key="ListViewItemStyle2"
-						TargetType="{x:Type ListViewItem}"
-						>
-					<Setter Property="IsSelected" Value="{Binding Selected}" />
-					<Setter Property="Background" Value="Transparent" />
-					<Setter Property="BorderBrush" Value="Transparent" />
-					<Setter Property="BorderThickness" Value="1" />
-					<Setter Property="Padding" Value="4,1" />
-					<Setter Property="SnapsToDevicePixels" Value="True" />
-					<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-					<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="{x:Type ListViewItem}">
-								<Border
-										x:Name="Bd"
-										Padding="{TemplateBinding Padding}"
-										SnapsToDevicePixels="true"
-										Background="{TemplateBinding Background}"
-										BorderThickness="{TemplateBinding BorderThickness}"
-										BorderBrush="{TemplateBinding BorderBrush}"
-										>
-									<ContentPresenter
-											x:Name="Presenter"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-											/>
-								</Border>
-								<ControlTemplate.Triggers>
-									<MultiTrigger>
-										<MultiTrigger.Conditions>
-											<Condition Property="IsMouseOver" Value="True" />
-										</MultiTrigger.Conditions>
-										<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.MouseOver.Background}" />
-										<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border}" />
-									</MultiTrigger>
-									<MultiTrigger>
-										<MultiTrigger.Conditions>
-											<Condition Property="Selector.IsSelectionActive" Value="False" />
-											<Condition Property="IsSelected" Value="True" />
-										</MultiTrigger.Conditions>
-										<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedInactive.Background}" />
-										<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedInactive.Border}" />
-									</MultiTrigger>
-									<MultiTrigger>
-										<MultiTrigger.Conditions>
-											<Condition Property="Selector.IsSelectionActive" Value="True" />
-											<Condition Property="IsSelected" Value="True" />
-										</MultiTrigger.Conditions>
-										<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedActive.Background}" />
-										<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" />
-									</MultiTrigger>
-									<Trigger Property="IsEnabled" Value="False">
-										<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Item.NotEnabled.Foreground}" />
-									</Trigger>
-									<DataTrigger
-											Binding="{Binding FileNew}"
-											Value="True"
+						<Setter Property="Foreground" Value="#d8d8d8" />
+						<Setter Property="Margin" Value="1,0,2,0" />
+						<Setter Property="Padding" Value="4,0,6,3" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="Label">
+									<Border
+											Padding="{TemplateBinding Padding}"
+											CornerRadius="3"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
 											>
-										<Setter Property="IsEnabled" Value="False" />
-										<Setter Property="IsSelected" Value="False" />
-										<Setter TargetName="Bd" Property="Background" Value="Transparent" />
-										<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
-									</DataTrigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
+										<ContentPresenter
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												RecognizesAccessKey="True"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
+									</Border>
+									<ControlTemplate.Triggers>
+										<Trigger Property="IsEnabled" Value="false">
+											<Setter Property="Foreground" Value="#AAAAAA" />
+										</Trigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Setter Property="VerticalAlignment" Value="Stretch" />
+					</Style>
 
-				</Style>
+					<Style
+							x:Key="lblMatched"
+							TargetType="Label"
+							BasedOn="{StaticResource lblRoot}"
+							>
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding FileNew}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Collapsed" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
 
-			</ListView.Resources>
-		</ListView>
+					<Style
+							x:Key="lblTitle"
+							TargetType="Label"
+							BasedOn="{StaticResource lblRoot}"
+							>
+						<Setter Property="Foreground" Value="PaleTurquoise" />
+
+					</Style>
+
+					<Style
+							x:Key="lblFileNew"
+							TargetType="Label"
+							BasedOn="{StaticResource lblRoot}"
+							>
+						<Setter Property="Visibility" Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding FileNew}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<!--  test styles  -->
+					<!--  root  -->
+					<Style
+							x:Key="lblTestRoot"
+							TargetType="Label"
+							BasedOn="{StaticResource lblRoot}"
+							>
+						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="BorderThickness" Value=".5,0,.5,4" />
+						<Setter Property="Padding" Value="4,.5,4,0" />
+						<Setter Property="VerticalAlignment" Value="Top" />
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding FileMatches}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Collapsed" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<Style
+							x:Key="lblTestShtNum"
+							TargetType="Label"
+							BasedOn="{StaticResource lblTestRoot}"
+							>
+						<Style.Triggers>
+							<!--  <DataTrigger  -->
+							<!--  Binding="{Binding FileNew}"  -->
+							<!--  Value="false"  -->
+							<!--  >  -->
+							<!-- 	<Setter Property="Width" Value="{Binding ElementName=ShtNum, Path=ActualWidth}" /> -->
+							<!-- </DataTrigger> -->
+							<DataTrigger
+									Binding="{Binding SheetNumberMatches}"
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
+							</DataTrigger>
+							<DataTrigger
+									Binding="{Binding SheetNumberMatches}"
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<Style
+							x:Key="lblTestSep"
+							TargetType="Label"
+							BasedOn="{StaticResource lblTestRoot}"
+							>
+						<Setter Property="HorizontalAlignment" Value="Center" />
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding SeparationMatches}"
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
+							</DataTrigger>
+							<DataTrigger
+									Binding="{Binding SeparationMatches}"
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<Style
+							x:Key="lblTestShtName"
+							TargetType="Label"
+							BasedOn="{StaticResource lblTestRoot}"
+							>
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding SheetTitleMatches}"
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
+							</DataTrigger>
+							<DataTrigger
+									Binding="{Binding SheetTitleMatches}"
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<Style
+							x:Key="lblTestMatches"
+							TargetType="Label"
+							BasedOn="{StaticResource lblTestRoot}"
+							>
+						<Setter Property="Visibility" Value="Collapsed" />
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding FileMatches}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+
+					<ControlTemplate
+							x:Key="CheckBoxControlTemplate1"
+							TargetType="{x:Type CheckBox}"
+							>
+						<Grid
+								x:Name="templateRoot"
+								SnapsToDevicePixels="True"
+								Background="Transparent"
+								>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Border
+									x:Name="checkBoxBorder"
+									Margin="1"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									>
+								<Grid x:Name="markGrid">
+									<Path
+											x:Name="optionMark"
+											Margin="1"
+											Data="F1M9.97498,1.22334L4.6983,9.09834 4.52164,9.09834 0,5.19331 1.27664,3.52165 4.255,6.08833 8.33331,1.52588E-05 9.97498,1.22334z"
+											Fill="#FF212121"
+											Opacity="0"
+											Stretch="None"
+											/>
+									<Rectangle
+											x:Name="indeterminateMark"
+											Margin="2"
+											Fill="#FF212121"
+											Opacity="0"
+											/>
+								</Grid>
+							</Border>
+							<ContentPresenter
+									x:Name="contentPresenter"
+									Content="{TemplateBinding Content}"
+									Grid.Column="1"
+									Margin="{TemplateBinding Padding}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									ContentStringFormat="{TemplateBinding ContentStringFormat}"
+									Focusable="False"
+									RecognizesAccessKey="True"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									/>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="HasContent" Value="True">
+								<Setter Property="FocusVisualStyle">
+									<Setter.Value>
+										<Style>
+											<Setter Property="Control.Template">
+												<Setter.Value>
+													<ControlTemplate>
+														<Rectangle
+																Margin="14,0,0,0"
+																SnapsToDevicePixels="True"
+																Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+																StrokeDashArray="1 2"
+																StrokeThickness="1"
+																/>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Padding" Value="4,-1,0,0" />
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFF3F9FF" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF5593FF" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FF70A3B5" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#3C6A7B" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF707070" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF707070" />
+							</Trigger>
+							<Trigger Property="IsPressed" Value="True">
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFD9ECFF" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF3C77DD" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
+							</Trigger>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter TargetName="indeterminateMark" Property="Opacity" Value="0" />
+								<Setter TargetName="optionMark" Property="Opacity" Value="1" />
+							</Trigger>
+							<Trigger Property="IsChecked" Value="{x:Null}">
+								<Setter TargetName="indeterminateMark" Property="Opacity" Value="1" />
+								<Setter TargetName="optionMark" Property="Opacity" Value="0" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+
+
+
+					<DataTemplate
+							x:Key="DataTemplateTest2"
+							DataType="filesupport:FinalFile"
+							>
+
+						<Border
+								CornerRadius="5"
+								BorderThickness="5,1,.5,6"
+								>
+							<Border.BorderBrush>
+								<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+									<GradientStop Offset="0.03" Color="#FF111132" />
+									<GradientStop Offset="0.10" Color="#FFAAEAF3" />
+								</LinearGradientBrush>
+							</Border.BorderBrush>
+							<Border
+									Margin="-5,-1,-.5,-.5"
+									Padding="0,0,0,2"
+									CornerRadius="4"
+									BorderThickness="12,2.5,.5,.5"
+									BorderBrush="#FFAAEAF3"
+									>
+								<Grid
+										Margin="0,1,0,0"
+										Width="Auto"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										>
+									<Grid.ColumnDefinitions>
+										<!--  0  checkbox  -->
+										<ColumnDefinition Width="30" />
+										<!--  1  current / revision titles  -->
+										<ColumnDefinition Width="65" />
+										<!--  2  sheet number  -->
+										<ColumnDefinition Width="Auto" />
+										<!--  3  separation  -->
+										<ColumnDefinition Width="Auto" />
+										<!--  4  sheet name  -->
+										<ColumnDefinition Width="*" />
+										<!--  5  status  -->
+										<ColumnDefinition Width="65" />
+
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="20" />
+										<RowDefinition Height=".5" />
+										<RowDefinition Height="20" />
+									</Grid.RowDefinitions>
+
+									<CheckBox
+											Grid.Column="0"
+											Grid.Row="0"
+											Grid.RowSpan="3"
+											Margin="1,0,0,0"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											IsChecked="{Binding Selected}"
+											Template="{DynamicResource CheckBoxControlTemplate1}"
+											>
+										<CheckBox.Effect>
+											<DropShadowEffect />
+										</CheckBox.Effect>
+										<CheckBox.Style>
+											<Style TargetType="CheckBox">
+												<Setter Property="Background" Value="#FFCAEAF3" />
+												<Setter Property="BorderBrush" Value="DarkTurquoise" />
+												<Style.Triggers>
+													<Trigger Property="IsEnabled" Value="false">
+														<Setter Property="Background" Value="#FF70A3B5" />
+														<Setter Property="Background" Value="Red" />
+														<Setter Property="BorderBrush" Value="Red" />
+													</Trigger>
+												</Style.Triggers>
+											</Style>
+										</CheckBox.Style>
+									</CheckBox>
+
+									<Label
+											x:Name="current"
+											Content="Current"
+											Grid.Column="1"
+											Grid.Row="0"
+											Width="{StaticResource lblTitleWidth}"
+											HorizontalContentAlignment="Right"
+											BorderThickness="0,0,1,0"
+											BorderBrush="#999999"
+											Style="{StaticResource lblTitle}"
+											/>
+
+									<Line
+											Grid.Column="1"
+											Grid.Row="1"
+											Margin="2,0,0,0"
+											Height="0.8"
+											VerticalAlignment="Center"
+											Panel.ZIndex="1"
+											Fill="#FF999999"
+											Stroke="#FF999999"
+											StrokeThickness=".6"
+											X1="0"
+											X2="{Binding Width,
+																	 ElementName=current}"
+											Y1="0.4"
+											Y2="0.4"
+											/>
+
+									<Label
+											Name="ShtNum"
+											Content="{Binding MatchedSheetNumber,
+																				FallbackValue='A  1-0-0-0A'}"
+											Grid.Column="2"
+											Grid.Row="0"
+											HorizontalContentAlignment="Right"
+											Style="{StaticResource lblMatched}"
+											/>
+
+									<Label
+											Name="Sep"
+											Content="{Binding MatchedSeparator,
+																				FallbackValue=sep}"
+											Grid.Column="3"
+											Grid.Row="0"
+											HorizontalContentAlignment="Center"
+											Style="{StaticResource lblMatched}"
+											/>
+
+									<Label
+											x:Name="ShtTitle"
+											Content="{Binding MatchedSheetTitle,
+																				FallbackValue=sheet title}"
+											Grid.Column="4"
+											Grid.Row="0"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Left"
+											Style="{StaticResource lblMatched}"
+											/>
+
+									<Label
+											Name="Status"
+											Content="Status"
+											Grid.Column="5"
+											Grid.Row="0"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Visibility="Visible"
+											Style="{StaticResource lblMatched}"
+											/>
+
+									<Label
+											Content=" File does not exist in the list of current files "
+											Grid.Column="2"
+											Grid.Row="0"
+											Grid.ColumnSpan="3"
+											HorizontalContentAlignment="Left"
+											BorderThickness=".5,4,.5,0"
+											BorderBrush="#CECE00"
+											Style="{StaticResource lblFileNew}"
+											/>
+
+									<!--  revision / test  -->
+
+									<Label
+											Content="Revision"
+											Grid.Column="1"
+											Grid.Row="2"
+											Width="{StaticResource lblTitleWidth}"
+											HorizontalContentAlignment="Right"
+											BorderThickness="0,0,1,0"
+											BorderBrush="#999999"
+											Style="{StaticResource lblTitle}"
+											/>
+
+									<Label
+											Name="testShtNum"
+											Content="{Binding SheetNumber,
+																				FallbackValue=test value}"
+											Grid.Column="2"
+											Grid.Row="2"
+											HorizontalContentAlignment="Right"
+											Style="{StaticResource lblTestShtNum}"
+											/>
+
+									<Label
+											Content="{Binding Separator,
+																				FallbackValue=s}"
+											Grid.Column="3"
+											Grid.Row="2"
+											HorizontalContentAlignment="Center"
+											Style="{StaticResource lblTestSep}"
+											/>
+
+									<Label
+											Content="{Binding SheetTitle,
+																				FallbackValue=name}"
+											Grid.Column="4"
+											Grid.Row="2"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Left"
+											Style="{StaticResource lblTestShtName}"
+											/>
+
+									<Label
+											Content="{Binding StatusMessage,
+																				FallbackValue=name}"
+											Grid.Column="5"
+											Grid.Row="2"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Visibility="Visible"
+											Style="{StaticResource lblTestRoot}"
+											/>
+
+									<Label
+											Content=" Revision file name matches "
+											Grid.Column="2"
+											Grid.Row="2"
+											Grid.ColumnSpan="3"
+											HorizontalContentAlignment="left"
+											BorderBrush="LawnGreen"
+											Style="{StaticResource lblTestMatches}"
+											/>
+
+									<!-- </StackPanel> -->
+
+								</Grid>
+							</Border>
+						</Border>
+
+					</DataTemplate>
+
+					<SolidColorBrush
+							x:Key="Item.MouseOver.Background"
+							Color="#3800C3FF"
+							/>
+					<SolidColorBrush
+							x:Key="Item.MouseOver.Border"
+							Color="#86EEFF"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedInactive.Background"
+							Color="#3DDADADA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedInactive.Border"
+							Color="#FFDADADA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedActive.Background"
+							Color="#3D26A0DA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedActive.Border"
+							Color="#FF26A0DA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.NotEnabled.Foreground"
+							Color="#FFDADADA"
+							/>
+
+					<Style
+							x:Key="ListViewItemStyle2"
+							TargetType="{x:Type ListViewItem}"
+							>
+						<Setter Property="Background" Value="Transparent" />
+						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="BorderThickness" Value="1" />
+						<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+						<Setter Property="IsSelected" Value="{Binding Selected}" />
+						<Setter Property="Padding" Value="4,1" />
+						<Setter Property="SnapsToDevicePixels" Value="True" />
+
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type ListViewItem}">
+									<Border
+											x:Name="Bd"
+											Padding="{TemplateBinding Padding}"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
+											>
+										<ContentPresenter
+												x:Name="Presenter"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
+									</Border>
+									<ControlTemplate.Triggers>
+										<MultiTrigger>
+											<MultiTrigger.Conditions>
+												<Condition Property="IsMouseOver" Value="True" />
+											</MultiTrigger.Conditions>
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.MouseOver.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border}" />
+										</MultiTrigger>
+										<MultiTrigger>
+											<MultiTrigger.Conditions>
+												<Condition Property="Selector.IsSelectionActive" Value="False" />
+												<Condition Property="IsSelected" Value="True" />
+											</MultiTrigger.Conditions>
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedInactive.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedInactive.Border}" />
+										</MultiTrigger>
+										<MultiTrigger>
+											<MultiTrigger.Conditions>
+												<Condition Property="Selector.IsSelectionActive" Value="True" />
+												<Condition Property="IsSelected" Value="True" />
+											</MultiTrigger.Conditions>
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedActive.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" />
+										</MultiTrigger>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Item.NotEnabled.Foreground}" />
+										</Trigger>
+										<DataTrigger
+												Binding="{Binding FileNew}"
+												Value="True"
+												>
+											<Setter Property="IsEnabled" Value="False" />
+											<Setter Property="IsSelected" Value="False" />
+											<Setter TargetName="Bd" Property="Background" Value="Transparent" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
+										</DataTrigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+
+					</Style>
+
+				</ListView.Resources>
+			</ListView>
 		</Grid>
 		<StackPanel
 				Grid.Column="0"
-				Grid.Row="3"
+				Grid.Row="2"
 				Grid.ColumnSpan="3"
 				HorizontalAlignment="Right"
 				Orientation="Horizontal"
 				>
+			<StackPanel.Resources>
+				<Style
+						x:Key="btn"
+						TargetType="Button"
+						>
+					<Setter Property="Width" Value="75" />
+					<Setter Property="Height" Value="26" />
+					<Setter Property="VerticalAlignment" Value="Bottom" />
+					<Setter Property="Margin" Value="7,7,7,12" />
+				</Style>
+			</StackPanel.Resources>
+
+			<Button
+					Name="btnTest1"
+					Content="Test1"
+					Click="BtnTest1_OnClick"
+					Style="{StaticResource btn}"
+					/>
 
 			<Button
 					Name="btnDebug"
 					Content="Debug"
-					Margin="10"
-					Width="90"
-					Height="36"
 					Click="BtnDebug_OnClick"
+					Style="{StaticResource btn}"
 					/>
 
 			<Button
 					Name="btnReset"
 					Content="Reset"
-					Margin="10"
-					Width="90"
-					Height="36"
 					Click="BtnReset_OnClick"
+					Style="{StaticResource btn}"
 					/>
 
 			<Button
 					Name="btnRead"
-					Content="Read Files"
-					Margin="10"
-					Width="90"
-					Height="36"
+					Content="Scan Folders"
 					Click="BtnRead_OnClick"
+					Style="{StaticResource btn}"
 					/>
 
 			<Button
 					Name="btnCompare"
 					Content="Compare"
-					Margin="10"
-					Width="90"
-					Height="36"
 					IsEnabled="{Binding ElementName=mainwin,
 															Path=Compare}"
 					Click="BtnCompare_OnClick"
+					Style="{StaticResource btn}"
 					/>
 
 			<Button
 					Name="btnGo"
 					Content="Go"
-					Margin="10"
-					Width="90"
-					Height="36"
 					IsEnabled="{Binding ElementName=mainwin,
 															Path=Go}"
 					Click="BtnGo_OnClick"
+					Style="{StaticResource btn}"
 					/>
 
 			<Button
 					Name="btnDone"
 					Content="Done"
-					Margin="10"
-					Width="90"
-					Height="36"
 					Click="BtnDone_OnClick"
+					Style="{StaticResource btn}"
 					/>
 		</StackPanel>
 

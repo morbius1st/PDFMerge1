@@ -141,12 +141,25 @@ namespace Sylvester.Process
 
 		public bool Read()
 		{
+			if (!ReadBase()) return false;
+			if (!ReadTest()) return false;
+
+			return true;
+		}
+
+		public bool ReadBase()
+		{
 			BaseFileColl.Directory = FolderManager.BaseFolder;
 
 			if (!BaseReadFiles.GetFiles<BaseFile>(FolderManager.BaseFolder, false, BaseFileColl)) return false;
 
 			CollectionViewBase();
 
+			return true;
+		}
+
+		public bool ReadTest()
+		{
 			TestFileColl.Directory = FolderManager.TestFolder;
 
 			if (!TestReadFiles.GetFiles<TestFile>(FolderManager.TestFolder, true, TestFileColl)) return false;

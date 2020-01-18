@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using Sylvester.FileSupport;
 using Sylvester.Settings;
 
@@ -27,6 +29,30 @@ namespace Sylvester.SelectFolder
 		private bool ByPass = true;
 
 		private SelectFolder sf = new SelectFolder();
+
+		private FolderPath Fp1;
+
+//		public FolderManager()
+//		{
+//			string[] favnames = new string[UserSettings.Data.Favorites.Count];
+//			UserSettings.Data.Favorites.Keys.CopyTo(favnames, 0);
+//
+//			AddFav("new fav", new Route(@"C:\2099-999 Sample Project"));
+//		}
+//
+//		public void AddFav(string name, Route path)
+//		{
+//			FavFolder fav = new FavFolder(name, path.FullPath);
+//			
+//			UserSettings.Data.Favorites.Add(FavKey(0, name), fav);
+//
+//			UserSettings.Admin.Save();
+//		}
+
+		private string FavKey(int useCount, string name)
+		{
+			return $"{useCount:D5} {name}";
+		}
 
 		public void GetFolders()
 		{
@@ -66,6 +92,29 @@ namespace Sylvester.SelectFolder
 			UserSettings.Admin.Save();
 
 			return true;
+		}
+
+		public void Register(FolderPath fp1)
+		{
+			Fp1 = fp1;
+
+			Fp1.SkewedButton1.InnerButton.Click += ButtonBase_OnClick;
+		}
+
+		public void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Button b = e.OriginalSource as Button;
+			SkewedButton sb = b.Tag as SkewedButton;
+
+			int i = (int) sb.Tag;
+			string s = sb.InnerSp.Tag as string;
+
+			string[] p = FolderManager.BaseFolder.FullPathNames;
+
+			if (i == -1)
+			{
+				Fp1.AddPath(FolderManager.BaseFolder.FullPathNames);
+			}
 		}
 	}
 }

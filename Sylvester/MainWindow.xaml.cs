@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SelectFolder;
@@ -19,7 +20,7 @@ namespace Sylvester
 
 		public ProcessManager pm { get; private set; }
 
-		public FolderManager fldm { get; private set; }
+		public FolderManager fm { get; private set; }
 
 		public MainWindow()
 		{
@@ -27,8 +28,11 @@ namespace Sylvester
 
 			UserSettings.Admin.Read();
 
-			pm= new ProcessManager();
+			pm = new ProcessManager();
 			OnPropertyChange("pm");
+
+			
+
 		}
 
 		public bool SetFocus
@@ -61,11 +65,19 @@ namespace Sylvester
 			lvComparison.Focus();
 		}
 
+		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("@debug");
+
+			Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
+
+		}
+		
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@debug");
 		}
-		
+
 		private void BtnReset_OnClick(object sender, RoutedEventArgs e)
 		{
 			pm.Reset();
@@ -79,6 +91,13 @@ namespace Sylvester
 
 			OnPropertyChange("pm");
 		}
+		
+		private void BtnReadBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Compare = pm.ReadBase();
+
+			OnPropertyChange("pm");
+		}
 
 		private void BtnCompare_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -88,7 +107,7 @@ namespace Sylvester
 
 			OnPropertyChange("pm");
 		}
-		
+
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@go");
@@ -114,16 +133,26 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-
 			pm = new ProcessManager();
 
-			fldm = new FolderManager();
+			fm = new FolderManager();
+			fm.Register(Fp1);
 
-			fldm.GetFolders();
-
-			
-
+			fm.GetFolders();
 		}
 
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Button b = e.OriginalSource as Button;
+			SkewedButton sb = b.Tag as SkewedButton;
+
+			int i = (int) sb.Tag;
+			string s = sb.InnerSp.Tag as string;
+
+			if (i == -1)
+			{
+				Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
+			}
+		}
 	}
 }

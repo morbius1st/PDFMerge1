@@ -227,6 +227,24 @@ namespace Sylvester.FileSupport
 			}
 		}
 
+		public string[] FullPathNames {
+			get
+			{
+				string[] folderNames = FolderNames;
+
+				string[] fullPathNames = new string[folderNames.Length + 1];
+
+				fullPathNames[0] = VolumeName;
+
+				for (int i = 0; i < folderNames.Length; i++)
+				{
+					fullPathNames[i + 1] = folderNames[i];
+				}
+
+				return fullPathNames;
+			}
+	}
+
 		public string[] FolderNames => FolderNameList(Folders);
 
 		public int FolderCount
@@ -366,7 +384,6 @@ namespace Sylvester.FileSupport
 			}
 
 			return answer;
-
 		}
 
 		public Route Clone()

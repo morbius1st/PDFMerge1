@@ -74,6 +74,9 @@
     </Compile>
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
+    <Compile Include="SkewedButton.xaml.cs">
+      <DependentUpon>SkewedButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Support\CustomProperties.cs" />
     <Compile Include="Process\ProcessManager.cs" />
     <Compile Include="FileSupport\ReadFiles.cs" />
@@ -92,6 +95,9 @@
     <Compile Include="Settings\SettingsUser30.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderPath.xaml.cs">
+      <DependentUpon>FolderPath.xaml</DependentUpon>
     </Compile>
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
@@ -113,6 +119,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="HeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SkewedButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderPath.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

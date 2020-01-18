@@ -1,6 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 using SettingManager;
+using Sylvester.FileSupport;
 using Sylvester.Process;
 
 // projname: SettingsManagerV30
@@ -46,6 +48,9 @@ namespace Sylvester.Settings
 	public class UserSettingData30
 	{
 		[DataMember]
+		public string DefaultVolume = @"C:";
+
+		[DataMember]
 		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
 
 		[DataMember]
@@ -53,6 +58,16 @@ namespace Sylvester.Settings
 
 		[DataMember]
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
+
+//		[DataMember]
+//		public Dictionary<string, FavFolder> Favorites = 
+//			new Dictionary<string, FavFolder>()
+//			{
+//				{
+//					"0001 TestPath", new FavFolder("Test Path",
+//						@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base")
+//				}
+//			};
 
 
 //		// added with version 2.1
@@ -78,6 +93,27 @@ namespace Sylvester.Settings
 //				{"three", new TestStruct(1, 2, 3)}
 //			};
 	}
+
+	public class FavFolder
+	{
+		[DataMember]
+		public int UsageCount = 0;
+
+		[DataMember]
+		public string FavName = "Default";
+
+		[DataMember]
+		public string BasePath = UserSettings.Data.DefaultVolume + @"\";
+
+		public FavFolder(string name, string path)
+		{
+			FavName = name; 
+			BasePath = path;
+		}
+
+		public Route FavPath => new Route(BasePath);
+	}
+
 
 //	// sample sub-class of dictionary to provide names to elements
 //	[CollectionDataContract(Name = "CustomDict", KeyName = "key", ValueName = "data", ItemName = "row")]

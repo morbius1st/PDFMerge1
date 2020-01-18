@@ -12,16 +12,13 @@
 		>
 	<UserControl.Resources>
 
-		<Style
-				x:Key="label"
-				TargetType="Label"
-				>
+		<Style x:Key="label" TargetType="Label">
 			<Setter Property="Foreground" Value="White" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="HorizontalContentAlignment" Value="Left" />
 			<Setter Property="Margin" Value="3,2,0,0" />
 			<Setter Property="Padding" Value="0,0,0,2" />
-			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="VerticalAlignment" Value="Bottom" />
-			<Setter Property="HorizontalContentAlignment" Value="Left" />
 		</Style>
 
 		<Style
@@ -37,16 +34,18 @@
 				TargetType="Label"
 				BasedOn="{StaticResource label}"
 				>
-			<Setter Property="Margin" Value="6,0,0,0" />
 			<Setter Property="ContentStringFormat" Value="D5" />
+			<Setter Property="Margin" Value="6,0,0,0" />
 		</Style>
 
-		<Style x:Key="lblDirectory" BasedOn="{StaticResource label}" TargetType="Label">
+		<Style
+				x:Key="lblDirectory"
+				TargetType="Label"
+				BasedOn="{StaticResource label}"
+				>
 			<Style.Triggers>
-				<DataTrigger Binding="{Binding Path=HideDirectory}"
-						Value="true">
-					<Setter Property="Visibility"
-							Value="Hidden" />
+				<DataTrigger Binding="{Binding Path=HideDirectory}" Value="true">
+					<Setter Property="Visibility" Value="Hidden" />
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
@@ -55,38 +54,28 @@
 	<StackPanel Orientation="Vertical">
 
 		<StackPanel
-				Margin="0,0,0,0"
+				Margin="{Binding TitleBarMargin, ElementName=headerControl}"
 				HorizontalAlignment="Stretch"
 				Orientation="Horizontal"
 				Background="#395482CD"
 				>
 
 			<Label
-					Content="{Binding Title,
-														ElementName=headerControl,
-														FallbackValue=Current}"
+					Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}"
 					Margin="3,-3,0,-1"
 					FontSize="22"
 					Style="{StaticResource label}"
 					/>
 		</StackPanel>
 
-		<StackPanel
-				Margin="0,2,0,0"
-				Orientation="Horizontal"
-				>
+		<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
 
-			<StackPanel
-					Margin="0,0,0,0"
-					Orientation="Vertical"
-					>
+			<StackPanel Margin="0,0,0,0" Orientation="Vertical">
 				<Label
 						Content="Directory"
 						Width="87"
 						Style="{StaticResource lblDirectory}"
-						>
-
-				</Label>
+						/>
 				<Label
 						Content="File Summary"
 						Width="80"
@@ -96,56 +85,28 @@
 
 			<StackPanel Orientation="Vertical">
 
-				<Label
-						Content="{Binding Path=Directory,
-															FallbackValue=c:\\directory\\directory}"
-						Style="{StaticResource lblDirectory}"
-						/>
+				<Label Content="{Binding Path=Directory, FallbackValue=c:\\directory\\directory}" Style="{StaticResource lblDirectory}" />
 
 				<StackPanel Orientation="Horizontal">
 
-					<StackPanel
-							Width="80"
-							Orientation="Horizontal"
-							>
-						<Label
-								Content="Total"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=FilesFound,
-																	FallbackValue=0}"
-								Style="{StaticResource lblCount}"
-								/>
+					<StackPanel Width="80" Orientation="Horizontal">
+						<Label Content="Total" Style="{StaticResource lblStats}" />
+						<Label Content="{Binding Path=FilesFound, FallbackValue=0}" Style="{StaticResource lblCount}" />
 					</StackPanel>
 
-					<StackPanel
-							Width="120"
-							Orientation="Horizontal"
-							>
-						<Label
-								Content="Sheets PDF's"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=SheetPDFs,
-																	FallbackValue=0}"
-								Style="{StaticResource lblCount}"
-								/>
+					<StackPanel Width="120" Orientation="Horizontal">
+						<Label Content="Sheets PDF's" Style="{StaticResource lblStats}" />
+						<Label Content="{Binding Path=SheetPDFs, FallbackValue=0}" Style="{StaticResource lblCount}" />
 					</StackPanel>
 
-					<StackPanel
-							Width="120"
-							Orientation="Horizontal"
-							>
+					<StackPanel Width="120" Orientation="Horizontal">
 						<Label
 								Content="Other PDF's"
 								Foreground="LightGray"
 								Style="{StaticResource lblStats}"
 								/>
 						<Label
-								Content="{Binding Path=NonSheetPdfsFiles,
-																	FallbackValue=0}"
+								Content="{Binding Path=NonSheetPdfsFiles, FallbackValue=0}"
 								Foreground="LightGray"
 								Style="{StaticResource lblCount}"
 								/>
@@ -157,8 +118,7 @@
 							Style="{StaticResource lblStats}"
 							/>
 					<Label
-							Content="{Binding Path=OtherFiles,
-																FallbackValue=0}"
+							Content="{Binding Path=OtherFiles, FallbackValue=0}"
 							Foreground="#bababa"
 							Style="{StaticResource lblCount}"
 							/>
