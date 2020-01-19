@@ -1,9 +1,11 @@
 ﻿#region + Using Directives
 
 using System;
+using System.Data;
 using System.IO;
 using System.Text;
 using SysPath = System.IO.Path;
+using JetBrains.Annotations;
 #endregion
 
 // itemname: Route
@@ -25,22 +27,44 @@ namespace Sylvester.FileSupport
 
 	#region static properties
 
-		public static Route Invalid => new Route(null);
+		public static Route Invalid => new Route();
 
 	#endregion
 
 	#region ctor
 
-		public Route(string initialRoute)
+		public Route(string initialPath)
+		{
+			ConfigureRoute(initialPath);
+		}
+
+		public Route()
+		{
+			ConfigureRoute(null);
+		}
+
+		public Route(string[] path)
+		{
+			StringBuilder sb = new StringBuilder(path[0]);
+
+			for (int i = 1; i < path.Length; i++)
+			{
+				sb.Append(path[i]);
+			}
+
+			ConfigureRoute(sb.ToString());
+		}
+
+		private void ConfigureRoute(string initialPath)
 		{
 			IsValid = false;
 
-			FullPath = Validate(initialRoute);
+			FullPath = Validate(initialPath);
 
 			if (FullPath != null)
 			{
 				IsValid = true;
-				FullPath = initialRoute;
+				FullPath = initialPath;
 			}
 		}
 
@@ -49,6 +73,7 @@ namespace Sylvester.FileSupport
 	#region  public status properties
 
 		public bool IsValid { get; private set; }
+
 		public bool IsUnc
 		{
 			get

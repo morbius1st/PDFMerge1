@@ -45,30 +45,33 @@ namespace Sylvester.Settings
 	// this is unique for each program
 	
 	[DataContract(Name = "UserSettingData30")]
-	public class UserSettingData30
+	public partial class UserSettingData30
 	{
 		[DataMember]
 		public string DefaultVolume = @"C:";
 
-		[DataMember]
-		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+		public bool HasPriorBaseFolder => PriorBaseFolder != null;
 
 		[DataMember]
+		public string PriorBaseFolder = null;
+//		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+
+		public bool HasPriorTestFolder => PriorTestFolder != null;
+
+		[DataMember]
+//		public string PriorTestFolder = null;
 		public string PriorTestFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
 
 		[DataMember]
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
-//		[DataMember]
-//		public Dictionary<string, FavFolder> Favorites = 
-//			new Dictionary<string, FavFolder>()
-//			{
-//				{
-//					"0001 TestPath", new FavFolder("Test Path",
-//						@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base")
-//				}
-//			};
+		[DataMember]
+		public Dictionary<string, FavFolder> Favorites = new Dictionary<string, FavFolder>();
 
+		private void test()
+		{
+			PriorBaseFolder = null;
+		}
 
 //		// added with version 2.1
 //		[DataMember]
@@ -94,23 +97,26 @@ namespace Sylvester.Settings
 //			};
 	}
 
-	public class FavFolder
+	
+	public struct FavFolder
 	{
 		[DataMember]
-		public int UsageCount = 0;
+		public int UsageCount;
 
 		[DataMember]
-		public string FavName = "Default";
+		public string FavName;
 
 		[DataMember]
-		public string BasePath = UserSettings.Data.DefaultVolume + @"\";
+		public string BasePath;
 
 		public FavFolder(string name, string path)
 		{
+			UsageCount = 0;
 			FavName = name; 
 			BasePath = path;
 		}
 
+		[IgnoreDataMember]
 		public Route FavPath => new Route(BasePath);
 	}
 

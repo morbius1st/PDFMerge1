@@ -17,12 +17,12 @@
 			VerticalAlignment="Center"
 			>
 
-		<local:SkewedButton
-				x:Name="SkewedButton1"
-				DockPanel.Dock="Right"
-				Index="-1"
-				Text="Select Path"
-				/>
+		<!-- <local:SkewedButton -->
+		<!-- 		x:Name="SkewedButton1" -->
+		<!-- 		DockPanel.Dock="Right" -->
+		<!-- 		Index="-1" -->
+		<!-- 		Text="Select Path" -->
+		<!-- 		/> -->
 
 		<!-- <local:SkewedButton -->
 		<!-- 		x:Name="SkewedButton2" -->

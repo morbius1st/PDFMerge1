@@ -20,18 +20,13 @@ namespace Sylvester
 
 		public ProcessManager pm { get; private set; }
 
-		public FolderManager fm { get; private set; }
+//		public FolderManager fm { get; private set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
-
-			pm = new ProcessManager();
-			OnPropertyChange("pm");
-
-			
 
 		}
 
@@ -67,9 +62,7 @@ namespace Sylvester
 
 		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
 		{
-			Debug.WriteLine("@debug");
-
-			Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
+			Debug.WriteLine("@test1");
 
 		}
 		
@@ -133,26 +126,26 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-			pm = new ProcessManager();
+			pm = new ProcessManager(Fp1);
+			OnPropertyChange("pm");
 
-			fm = new FolderManager();
-			fm.Register(Fp1);
-
-			fm.GetFolders();
+//			fm = new FolderManager();
+//
+//			fm.GetFolders();
 		}
 
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-		{
-			Button b = e.OriginalSource as Button;
-			SkewedButton sb = b.Tag as SkewedButton;
-
-			int i = (int) sb.Tag;
-			string s = sb.InnerSp.Tag as string;
-
-			if (i == -1)
-			{
-				Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
-			}
-		}
+		//		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		//		{
+		//			Button b = e.OriginalSource as Button;
+		//			SkewedButton sb = b.Tag as SkewedButton;
+		//
+		//			int i = (int) sb.Tag;
+		//			string s = sb.InnerSp.Tag as string;
+		//
+		//			if (i == -1)
+		//			{
+		//				Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
+		//			}
+		//		}
 	}
 }

@@ -85,7 +85,7 @@
 
 			<StackPanel Orientation="Vertical">
 
-				<Label Content="{Binding Path=Directory, FallbackValue=c:\\directory\\directory}" Style="{StaticResource lblDirectory}" />
+				<Label Content="{Binding Path=Folder, FallbackValue=No Folder Selected}" Style="{StaticResource lblDirectory}" />
 
 				<StackPanel Orientation="Horizontal">
 

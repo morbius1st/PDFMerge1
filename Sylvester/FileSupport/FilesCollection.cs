@@ -23,9 +23,10 @@ namespace Sylvester.FileSupport
 	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetNameInfo, new()
 	{
 		private string name;
-		private Route directory = Route.Invalid;
+		private Route folder = Route.Invalid;
 		private int nonSheetPdfsFiles = 0;
 		private int otherFiles = 0;
+		private bool hasFolder = false;
 
 		public  string Name
 		{
@@ -39,12 +40,24 @@ namespace Sylvester.FileSupport
 
 		public bool HideDirectory { get; set; } = false;
 
-		public Route Directory
+		public Route Folder
 		{
-			get => directory;
+			get => folder;
 			set
 			{
-				directory = value;
+				folder = value;
+				OnPropertyChange();
+
+				HasFolder = folder != null;
+			}
+		}
+
+		public bool HasFolder
+		{
+			get => hasFolder;
+			set
+			{
+				hasFolder = value;
 				OnPropertyChange();
 			}
 		}
@@ -127,7 +140,7 @@ namespace Sylvester.FileSupport
 		public void Reset()
 		{
 			TestFiles.Clear();
-			Directory = Route.Invalid;
+			Folder = Route.Invalid;
 			NonSheetPdfsFiles = 0;
 			OtherFiles = 0;
 

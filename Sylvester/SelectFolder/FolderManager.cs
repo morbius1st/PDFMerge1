@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,12 +22,18 @@ using Sylvester.Settings;
 // created:  1/4/2020 9:30:29 PM
 
 
+
+// general folder manager - works with either collection
 namespace Sylvester.SelectFolder
 {
-	public class FolderManager
+	public class FolderManager : INotifyPropertyChanged
 	{
-		public static Route BaseFolder { get; set; }
-		public static Route TestFolder { get; set; }
+		private bool hasBaseFolder;
+		private bool hasTestFolder;
+
+		public Route BaseFolder { get; set; }
+
+		public Route TestFolder { get; set; }
 
 		private bool ByPass = true;
 
@@ -32,26 +41,25 @@ namespace Sylvester.SelectFolder
 
 		private FolderPath Fp1;
 
-//		public FolderManager()
-//		{
+		private UserSettingData30 usd;
+
+
+
+		public FolderManager(FolderPath fp1)
+		{
 //			string[] favnames = new string[UserSettings.Data.Favorites.Count];
 //			UserSettings.Data.Favorites.Keys.CopyTo(favnames, 0);
-//
-//			AddFav("new fav", new Route(@"C:\2099-999 Sample Project"));
-//		}
-//
-//		public void AddFav(string name, Route path)
-//		{
-//			FavFolder fav = new FavFolder(name, path.FullPath);
-//			
-//			UserSettings.Data.Favorites.Add(FavKey(0, name), fav);
-//
-//			UserSettings.Admin.Save();
-//		}
 
-		private string FavKey(int useCount, string name)
-		{
-			return $"{useCount:D5} {name}";
+//			AddFav("new fav", new Route(@"C:\2099-999 Sample Project"));
+
+			Fp1 = fp1;
+
+			Fp1.PathChange += OnPathChangeFp1;
+			Fp1.SelectFolder += OnSelectFolderFp1;
+
+			usd = UserSettings.Data;
+
+			GetFolders();
 		}
 
 		public void GetFolders()
@@ -60,31 +68,33 @@ namespace Sylvester.SelectFolder
 			GetTestFolder();
 		}
 
-		public bool GetBaseFolder()
+		public void GetBaseFolder()
 		{
-			BaseFolder = new Route(UserSettings.Data.PriorBaseFolder);
+			BaseFolder = new Route(usd.PriorBaseFolder);
 
-		#if DEBUG
-			if (ByPass) return true;
-		#endif
+			Fp1.Path = BaseFolder;
+		}
 
+		private bool SelectBaseFolder()
+		{
 			BaseFolder = sf.GetFolder(BaseFolder);
 			if (!BaseFolder.IsValid) return false;
 
-			UserSettings.Data.PriorBaseFolder = BaseFolder.FullPath;
+			usd.PriorBaseFolder = BaseFolder.FullPath;
 			UserSettings.Admin.Save();
 
 			return true;
 		}
 
-		public bool GetTestFolder()
+		public void GetTestFolder()
 		{
-			TestFolder = new Route(UserSettings.Data.PriorTestFolder);
+			if (!usd.HasPriorTestFolder) return;
 
-		#if DEBUG
-			if (ByPass) return true;
-		#endif
+			TestFolder = new Route(usd.PriorTestFolder);
+		}
 
+		private bool SelectTestFolder()
+		{
 			TestFolder = sf.GetFolder(TestFolder);
 			if (!TestFolder.IsValid) return false;
 
@@ -94,27 +104,58 @@ namespace Sylvester.SelectFolder
 			return true;
 		}
 
-		public void Register(FolderPath fp1)
+		public void OnPathChangeFp1(object sender, PathChangeArgs e)
 		{
-			Fp1 = fp1;
+			Debug.WriteLine("folderManager, path changed");
+			Debug.WriteLine("folderManager| index     | " + e.Index);
+			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
 
-			Fp1.SkewedButton1.InnerButton.Click += ButtonBase_OnClick;
+			Fp1.Path = e.SelectedPath;
 		}
 
-		public void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		private void OnSelectFolderFp1(object sender)
 		{
-			Button b = e.OriginalSource as Button;
-			SkewedButton sb = b.Tag as SkewedButton;
+			Debug.WriteLine("folderManager, Select Folder");
 
-			int i = (int) sb.Tag;
-			string s = sb.InnerSp.Tag as string;
+			usd.PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
 
-			string[] p = FolderManager.BaseFolder.FullPathNames;
+			GetBaseFolder();
 
-			if (i == -1)
-			{
-				Fp1.AddPath(FolderManager.BaseFolder.FullPathNames);
-			}
+			Fp1.Path = BaseFolder;
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
 	}
+
+
+//		public void Register(FolderPath fp1)
+//		{
+//			Fp1 = fp1;
+//
+//			Fp1.SkewedButton1.InnerButton.Click += ButtonBase_OnClick;
+//		}
+//
+//		public void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+//		{
+//			Button b = e.OriginalSource as Button;
+//			SkewedButton sb = b.Tag as SkewedButton;
+//
+//			int i = (int) sb.Tag;
+//			string s = sb.InnerSp.Tag as string;
+//
+//			string[] p = FolderManager.BaseFolder.FullPathNames;
+//
+//			if (i == -1)
+//			{
+//				Fp1.AddPath(FolderManager.BaseFolder.FullPathNames);
+//			}
+//		}
+
 }

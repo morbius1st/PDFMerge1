@@ -211,7 +211,23 @@
 						Height="26"
 						VerticalAlignment="Bottom"
 						Click="BtnRead_OnClick"
-						/>
+						>
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="IsEnabled" Value="false">
+							</Setter>
+							<Style.Triggers>
+								<DataTrigger
+										Binding="{Binding ElementName=mainwin,
+																			Path=pm.BaseFileColl.HasFolder}"
+										Value="true"
+										>
+									<Setter Property="IsEnabled" Value="true" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
 
 			</StackPanel>
 
@@ -231,18 +247,18 @@
 				<!-- <local:SkewedButton Text="this is a path 6" DockPanel.Dock="right"/> -->
 				<!-- <local:SkewedButton Text="this is a path 5" DockPanel.Dock="right"/> -->
 				<!-- <local:SkewedButton Text="this is a path 4" DockPanel.Dock="right"/> -->
-				<local:SkewedButton
-						DockPanel.Dock="right"
-						Text="this is a path 3"
-						/>
-				<local:SkewedButton
-						DockPanel.Dock="right"
-						Text="this is a path 2"
-						/>
-				<local:SkewedButton
-						DockPanel.Dock="right"
-						Text="this is a path 1"
-						/>
+				<!--  <local:SkewedButton  -->
+				<!--  DockPanel.Dock="right"  -->
+				<!--  Text="this is a path 3"  -->
+				<!--  />  -->
+				<!--  <local:SkewedButton  -->
+				<!--  DockPanel.Dock="right"  -->
+				<!--  Text="this is a path 2"  -->
+				<!--  />  -->
+				<!--  <local:SkewedButton  -->
+				<!--  DockPanel.Dock="right"  -->
+				<!--  Text="this is a path 1"  -->
+				<!--  />  -->
 
 			</DockPanel>
 
@@ -252,8 +268,8 @@
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					VerticalAlignment="Bottom"
-			>
-					<!-- Button.Click="ButtonBase_OnClick" -->
+					>
+				<!--  Button.Click="ButtonBase_OnClick"  -->
 			</local:FolderPath>
 
 		</Grid>
@@ -309,7 +325,23 @@
 						Height="26"
 						VerticalAlignment="Bottom"
 						Click="BtnRead_OnClick"
-						/>
+						>
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="IsEnabled" Value="False" />
+							<Style.Triggers>
+								<DataTrigger
+										Binding="{Binding ElementName=mainwin,
+																			Path=pm.TestFileColl.HasFolder}"
+										Value="true"
+										>
+									<Setter Property="IsEnabled" Value="true" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+
+				</Button>
 
 			</StackPanel>
 
