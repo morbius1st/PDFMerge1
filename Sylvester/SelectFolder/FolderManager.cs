@@ -28,101 +28,91 @@ namespace Sylvester.SelectFolder
 {
 	public class FolderManager : INotifyPropertyChanged
 	{
-		private bool hasBaseFolder;
-		private bool hasTestFolder;
-
-		public Route BaseFolder { get; set; }
-
-		public Route TestFolder { get; set; }
+		public Route Folder { get; set; }
 
 		private bool ByPass = true;
 
 		private SelectFolder sf = new SelectFolder();
 
-		private FolderPath Fp1;
+		private FolderPath folderPath;
 
 		private UserSettingData30 usd;
 
+		private int index;
 
-
-		public FolderManager(FolderPath fp1)
+		public FolderManager(int index, FolderPath folderPath)
 		{
 //			string[] favnames = new string[UserSettings.Data.Favorites.Count];
 //			UserSettings.Data.Favorites.Keys.CopyTo(favnames, 0);
 
 //			AddFav("new fav", new Route(@"C:\2099-999 Sample Project"));
 
-			Fp1 = fp1;
+			this.index = index;
 
-			Fp1.PathChange += OnPathChangeFp1;
-			Fp1.SelectFolder += OnSelectFolderFp1;
+			this.folderPath = folderPath;
+
+			folderPath.PathChange += OnPathChangeFolderPath;
+			folderPath.SelectFolder += onSelectFolderFolderPath;
 
 			usd = UserSettings.Data;
 
-			GetFolders();
+			GetFolder();
 		}
 
-		public void GetFolders()
+		public void GetFolder()
 		{
-			GetBaseFolder();
-			GetTestFolder();
+			SetFolder(usd.PriorFolders[index]);
 		}
 
-		public void GetBaseFolder()
+		private void SetFolder(string path)
 		{
-			BaseFolder = new Route(usd.PriorBaseFolder);
+			Folder = new Route(path);
 
-			Fp1.Path = BaseFolder;
+			folderPath.Path = Folder;
 		}
 
-		private bool SelectBaseFolder()
+		private bool SelectFolder()
 		{
-			BaseFolder = sf.GetFolder(BaseFolder);
-			if (!BaseFolder.IsValid) return false;
 
-			usd.PriorBaseFolder = BaseFolder.FullPath;
+			if (index == 0)
+			{
+				usd.PriorFolders[index] = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+			}
+			else
+			{
+				usd.PriorFolders[index] = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
+			}
+
+			GetFolder();
+
+			return true;
+
+			Folder = sf.GetFolder(Folder);
+			if (!Folder.IsValid) return false;
+
+			usd.PriorFolders[index] = Folder.FullPath;
 			UserSettings.Admin.Save();
+
+			folderPath.Path = Folder;
 
 			return true;
 		}
 
-		public void GetTestFolder()
-		{
-			if (!usd.HasPriorTestFolder) return;
-
-			TestFolder = new Route(usd.PriorTestFolder);
-		}
-
-		private bool SelectTestFolder()
-		{
-			TestFolder = sf.GetFolder(TestFolder);
-			if (!TestFolder.IsValid) return false;
-
-			UserSettings.Data.PriorTestFolder = TestFolder.FullPath;
-			UserSettings.Admin.Save();
-
-			return true;
-		}
-
-		public void OnPathChangeFp1(object sender, PathChangeArgs e)
+		public void OnPathChangeFolderPath(object sender, PathChangeArgs e)
 		{
 			Debug.WriteLine("folderManager, path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
 			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
 
-			Fp1.Path = e.SelectedPath;
+			folderPath.Path = e.SelectedPath;
 		}
 
-		private void OnSelectFolderFp1(object sender)
+		private void onSelectFolderFolderPath(object sender)
 		{
 			Debug.WriteLine("folderManager, Select Folder");
 
-			usd.PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
-
-			GetBaseFolder();
-
-			Fp1.Path = BaseFolder;
+			SelectFolder();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -135,9 +125,9 @@ namespace Sylvester.SelectFolder
 	}
 
 
-//		public void Register(FolderPath fp1)
+//		public void Register(FolderPath folderPath)
 //		{
-//			Fp1 = fp1;
+//			Fp1 = folderPath;
 //
 //			Fp1.SkewedButton1.InnerButton.Click += ButtonBase_OnClick;
 //		}
@@ -150,11 +140,11 @@ namespace Sylvester.SelectFolder
 //			int i = (int) sb.Tag;
 //			string s = sb.InnerSp.Tag as string;
 //
-//			string[] p = FolderManager.BaseFolder.FullPathNames;
+//			string[] p = FolderManager.Folder.FullPathNames;
 //
 //			if (i == -1)
 //			{
-//				Fp1.AddPath(FolderManager.BaseFolder.FullPathNames);
+//				Fp1.AddPath(FolderManager.Folder.FullPathNames);
 //			}
 //		}
 

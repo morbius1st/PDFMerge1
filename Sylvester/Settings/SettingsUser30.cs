@@ -50,28 +50,22 @@ namespace Sylvester.Settings
 		[DataMember]
 		public string DefaultVolume = @"C:";
 
-		public bool HasPriorBaseFolder => PriorBaseFolder != null;
-
 		[DataMember]
-		public string PriorBaseFolder = null;
-//		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+		public string[] PriorFolders = new string[2];
 
-		public bool HasPriorTestFolder => PriorTestFolder != null;
-
-		[DataMember]
-//		public string PriorTestFolder = null;
-		public string PriorTestFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
+//		[DataMember]
+//		public string PriorBaseFolder = null;
+////		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+//
+//		[DataMember]
+////		public string PriorTestFolder = null;
+//		public string PriorTestFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
 
 		[DataMember]
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
 		[DataMember]
 		public Dictionary<string, FavFolder> Favorites = new Dictionary<string, FavFolder>();
-
-		private void test()
-		{
-			PriorBaseFolder = null;
-		}
 
 //		// added with version 2.1
 //		[DataMember]

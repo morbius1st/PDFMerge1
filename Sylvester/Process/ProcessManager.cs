@@ -28,10 +28,12 @@ namespace Sylvester.Process
 	public class ProcessManager : INotifyPropertyChanged
 	{
 		public FolderManager fmBase { get; private set; }
+		public FolderManager fmTest { get; private set; }
 
-		public ProcessManager(FolderPath fp1)
+		public ProcessManager(FolderPath fpBase, FolderPath fpTest)
 		{
-			fmBase = new FolderManager(fp1);
+			fmBase = new FolderManager(0, fpBase);
+			fmTest = new FolderManager(1, fpTest);
 
 			BaseFileColl = new FilesCollection<BaseFile>();
 			TestFileColl = new FilesCollection<TestFile>();
@@ -118,7 +120,7 @@ namespace Sylvester.Process
 			BaseFileColl.Reset();
 			BaseFileColl.Name = "Base";
 			BaseReadFiles = new ReadFiles();
-			BaseFileColl.Folder = fmBase.BaseFolder;
+			BaseFileColl.Folder = fmBase.Folder;
 			cvBase = null;
 		}
 
@@ -127,7 +129,7 @@ namespace Sylvester.Process
 			TestFileColl.Reset();
 			TestFileColl.Name = "Test";
 			TestReadFiles = new ReadFiles();
-			TestFileColl.Folder = fmBase.TestFolder;
+			TestFileColl.Folder = fmTest.Folder;
 			cvTest = null;
 		}
 
@@ -156,7 +158,7 @@ namespace Sylvester.Process
 		{
 			
 
-			if (!BaseReadFiles.GetFiles(fmBase.BaseFolder, false, BaseFileColl)) return false;
+			if (!BaseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl)) return false;
 
 			CollectionViewBase();
 
@@ -166,8 +168,7 @@ namespace Sylvester.Process
 		public bool ReadTest()
 		{
 			
-
-			if (!TestReadFiles.GetFiles(fmBase.TestFolder, true, TestFileColl)) return false;
+			if (!TestReadFiles.GetFiles(fmTest.Folder, true, TestFileColl)) return false;
 
 			CollectionViewTest();
 

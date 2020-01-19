@@ -167,15 +167,14 @@
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="20" />
-				<RowDefinition Height="20" />
 				<RowDefinition Height="72" />
-				<RowDefinition Height="*" />
+				<RowDefinition />
 			</Grid.RowDefinitions>
 
 			<local:HeaderControl
 					Title="Current"
 					Grid.Column="0"
-					Grid.Row="2"
+					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					DataContext="{Binding pm.BaseFileColl,
@@ -187,7 +186,7 @@
 			<local:lvTestControl
 					x:Name="lvBase"
 					Grid.Column="0"
-					Grid.Row="3"
+					Grid.Row="2"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
 					CanSelect="False"
@@ -199,7 +198,7 @@
 
 			<StackPanel
 					Grid.Column="0"
-					Grid.Row="2"
+					Grid.Row="1"
 					Margin="0,28,0,0"
 					VerticalAlignment="Center"
 					Orientation="Vertical"
@@ -231,45 +230,13 @@
 
 			</StackPanel>
 
-
-			<DockPanel
+			<local:FolderPath
+					x:Name="FpBase"
 					Grid.Column="0"
 					Grid.Row="0"
 					Grid.ColumnSpan="2"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Top"
-					>
-
-				<!--    -->
-				<!-- <local:SkewedButton Text="this is a path 9" DockPanel.Dock="right"/> -->
-				<!-- <local:SkewedButton Text="this is a path 8" DockPanel.Dock="right"/> -->
-				<!-- <local:SkewedButton Text="this is a path 7" DockPanel.Dock="right"/> -->
-				<!-- <local:SkewedButton Text="this is a path 6" DockPanel.Dock="right"/> -->
-				<!-- <local:SkewedButton Text="this is a path 5" DockPanel.Dock="right"/> -->
-				<!-- <local:SkewedButton Text="this is a path 4" DockPanel.Dock="right"/> -->
-				<!--  <local:SkewedButton  -->
-				<!--  DockPanel.Dock="right"  -->
-				<!--  Text="this is a path 3"  -->
-				<!--  />  -->
-				<!--  <local:SkewedButton  -->
-				<!--  DockPanel.Dock="right"  -->
-				<!--  Text="this is a path 2"  -->
-				<!--  />  -->
-				<!--  <local:SkewedButton  -->
-				<!--  DockPanel.Dock="right"  -->
-				<!--  Text="this is a path 1"  -->
-				<!--  />  -->
-
-			</DockPanel>
-
-			<local:FolderPath
-					x:Name="Fp1"
-					Grid.Column="0"
-					Grid.Row="1"
-					Grid.ColumnSpan="2"
 					VerticalAlignment="Bottom"
 					>
-				<!--  Button.Click="ButtonBase_OnClick"  -->
 			</local:FolderPath>
 
 		</Grid>
@@ -283,6 +250,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="20" />
 				<RowDefinition Height="72" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
@@ -290,7 +258,7 @@
 			<local:HeaderControl
 					Title="Revision"
 					Grid.Column="0"
-					Grid.Row="0"
+					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					DataContext="{Binding pm.TestFileColl,
@@ -302,7 +270,7 @@
 			<local:lvTestControl
 					x:Name="lvTest"
 					Grid.Column="0"
-					Grid.Row="1"
+					Grid.Row="2"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
 					DataContext="{Binding pm.cvTest,
@@ -312,7 +280,7 @@
 
 			<StackPanel
 					Grid.Column="0"
-					Grid.Row="0"
+					Grid.Row="1"
 					Margin="0,28,0,0"
 					VerticalAlignment="Center"
 					Orientation="Vertical"
@@ -340,10 +308,15 @@
 							</Style.Triggers>
 						</Style>
 					</Button.Style>
-
 				</Button>
-
 			</StackPanel>
+
+				<local:FolderPath x:Name="FpTest"
+						Grid.Column="0"
+						Grid.Row="0"
+						Grid.ColumnSpan="2"
+						VerticalAlignment="Bottom">
+				</local:FolderPath>
 
 		</Grid>
 

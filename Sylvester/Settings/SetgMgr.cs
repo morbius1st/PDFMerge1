@@ -25,36 +25,36 @@ namespace Sylvester.Settings
 
 		public static SetgMgr Instance => instance;
 
-		public void SetInitFolder(string folder)
-		{
-			UserSettings.Data.PriorBaseFolder = folder;
-
-			UserSettings.Admin.Save();
-		}
-
-		public Route BaseFolder
-		{
-			get => new Route(UserSettings.Data.PriorBaseFolder);
-
-			set
-			{
-				UserSettings.Data.PriorBaseFolder = value.FullPath;
-
-				UserSettings.Admin.Save();
-			}
-		}
-
-		public Route TestFolder
-		{
-			get => new Route(UserSettings.Data.PriorTestFolder);
-
-			set
-			{
-				UserSettings.Data.PriorTestFolder = value.FullPath;
-
-				UserSettings.Admin.Save();
-			}
-		}
+//		public void SetInitFolder(string folder)
+//		{
+//			UserSettings.Data.PriorBaseFolder = folder;
+//
+//			UserSettings.Admin.Save();
+//		}
+//
+//		public Route BaseFolder
+//		{
+//			get => new Route(UserSettings.Data.PriorBaseFolder);
+//
+//			set
+//			{
+//				UserSettings.Data.PriorBaseFolder = value.FullPath;
+//
+//				UserSettings.Admin.Save();
+//			}
+//		}
+//
+//		public Route TestFolder
+//		{
+//			get => new Route(UserSettings.Data.PriorTestFolder);
+//
+//			set
+//			{
+//				UserSettings.Data.PriorTestFolder = value.FullPath;
+//
+//				UserSettings.Admin.Save();
+//			}
+//		}
 
 
 	}

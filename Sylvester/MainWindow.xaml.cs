@@ -126,7 +126,7 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-			pm = new ProcessManager(Fp1);
+			pm = new ProcessManager(FpBase, FpTest);
 			OnPropertyChange("pm");
 
 //			fm = new FolderManager();
@@ -144,7 +144,7 @@ namespace Sylvester
 		//
 		//			if (i == -1)
 		//			{
-		//				Fp1.AddPath(FolderManager.BaseFolder.FolderNames);
+		//				FpBase.AddPath(FolderManager.BaseFolder.FolderNames);
 		//			}
 		//		}
 	}
