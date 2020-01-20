@@ -64,13 +64,13 @@ namespace Sylvester
 		}
 
 
-		public static readonly DependencyProperty ShowPathTypeProperty = DependencyProperty.Register(
-			"ShowPathType", typeof(int), typeof(HeaderControl), new PropertyMetadata(7));
+		public static readonly DependencyProperty FolderPathTypeProperty = DependencyProperty.Register(
+			"FolderPathType", typeof(int), typeof(HeaderControl), new PropertyMetadata(7));
 
-		public int ShowPathType
+		public int FolderPathType
 		{
-			get { return (int) GetValue(ShowPathTypeProperty); }
-			set { SetValue(ShowPathTypeProperty, value); }
+			get { return (int) GetValue(FolderPathTypeProperty); }
+			set { SetValue(FolderPathTypeProperty, value); }
 		}
 
 	}

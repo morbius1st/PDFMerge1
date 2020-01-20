@@ -96,5 +96,14 @@ namespace Sylvester
 			get { return (int) GetValue(SkewedButtonTypeProperty); }
 			set { SetValue(SkewedButtonTypeProperty, value); }
 		}
+
+		public static readonly DependencyProperty DisablePathProperty = DependencyProperty.Register(
+			"DisablePath", typeof(bool), typeof(SkewedButton), new PropertyMetadata(false));
+
+		public bool DisablePath
+		{
+			get { return (bool) GetValue(DisablePathProperty); }
+			set { SetValue(DisablePathProperty, value); }
+		}
 	}
 }

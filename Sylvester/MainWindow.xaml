@@ -341,11 +341,13 @@
 			</Grid.RowDefinitions>
 
 			<local:HeaderControl
+					x:Name="HdrComparison"
 					Title="Comparison"
 					Grid.Column="0"
 					Grid.Row="0"
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
+					FolderPathType="8"
 					DataContext="{Binding pm.FinalFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"

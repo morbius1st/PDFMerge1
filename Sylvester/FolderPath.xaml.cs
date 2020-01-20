@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -213,11 +214,24 @@ namespace Sylvester
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			int proposedPathType = (int) values[0];
-			int definedPathType = (int) values[1];
+			int SkewedButtonType = (int) values[1];
 
-			if (proposedPathType == 0 || definedPathType == 0) return Visibility.Visible;
+			if (proposedPathType == 0 || SkewedButtonType == 0) return Visibility.Visible;
 
-			Visibility v = (proposedPathType & definedPathType) == 0 ? Visibility.Collapsed : Visibility.Visible;
+			if (proposedPathType > 7)
+			{
+				if (SkewedButtonType == 4)
+				{
+					return Visibility.Visible;
+				}
+
+				return	Visibility.Collapsed;
+			} 
+
+
+			int x = (proposedPathType & SkewedButtonType);
+
+			Visibility v =  x == 0 ? Visibility.Collapsed : Visibility.Visible;
 
 			return v;
 		}

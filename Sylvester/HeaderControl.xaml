@@ -113,68 +113,10 @@
 						FontSize="10"
 						FontColor="#CCCCCC"
 						VerticalAlignment="Center"
-						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=7}"
+						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
 				>
-					<!-- <local:FolderPath.Style> -->
-					<!-- 	<Style TargetType="local:FolderPath"> -->
-					<!-- 		<Setter Property="Visibility" Value="Collapsed"></Setter> -->
-					<!-- 		<Style.Triggers> -->
-					<!-- 			<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="3"> -->
-					<!-- 				<Setter Property="Visibility" Value="Visible"></Setter> -->
-					<!-- 			</DataTrigger> -->
-					<!-- 		</Style.Triggers> -->
-					<!-- 	</Style> -->
-					<!-- </local:FolderPath.Style> -->
+
 				</local:FolderPath>
-
-				<!-- -->
-				<!-- <local:FolderPath -->
-				<!-- 		x:Name="FpSelectFolder" -->
-				<!-- 		Grid.Row="0" -->
-				<!-- 		FontSize="10" -->
-				<!-- 		FontColor="#CCCCCC" -->
-				<!-- 		VerticalAlignment="Center" -->
-				<!-- 		ShowPathType="2" -->
-				<!-- > -->
-				<!-- 	<local:FolderPath.Style> -->
-				<!-- 		<Style TargetType="local:FolderPath"> -->
-				<!-- 			<Setter Property="Visibility" Value="Collapsed"></Setter> -->
-				<!-- 			<Style.Triggers> -->
-				<!-- 				<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="2"> -->
-				<!-- 					<Setter Property="Visibility" Value="Visible"></Setter> -->
-				<!-- 				</DataTrigger> -->
-				<!-- 			</Style.Triggers> -->
-				<!-- 		</Style> -->
-				<!-- 	</local:FolderPath.Style> -->
-				<!-- </local:FolderPath> -->
-				<!-- -->
-				<!-- <local:FolderPath -->
-				<!-- 		x:Name="FpFavorite" -->
-				<!-- 		Grid.Row="0" -->
-				<!-- 		FontSize="10" -->
-				<!-- 		FontColor="#CCCCCC" -->
-				<!-- 		VerticalAlignment="Center" -->
-				<!-- 		ShowPathType="1" -->
-				<!-- > -->
-				<!-- 	<local:FolderPath.Style> -->
-				<!-- 		<Style TargetType="local:FolderPath"> -->
-				<!-- 			<Setter Property="Visibility" Value="Collapsed"></Setter> -->
-				<!-- 			<Style.Triggers> -->
-				<!-- 				<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="1"> -->
-				<!-- 					<Setter Property="Visibility" Value="Visible"></Setter> -->
-				<!-- 				</DataTrigger> -->
-				<!-- 			</Style.Triggers> -->
-				<!-- 		</Style> -->
-				<!-- 	</local:FolderPath.Style> -->
-				<!-- </local:FolderPath> -->
-
-
-
-
-
-
-
-
 
 				<StackPanel
 						Grid.Row="1"

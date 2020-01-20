@@ -46,7 +46,7 @@ namespace Sylvester.SelectFolder
 
 			fpPath = hcPath.FpPath;
 
-			hcPath.ShowPathType = 7;
+			hcPath.FolderPathType = 7;
 
 			fpPath.PathChange += OnPathChangeFolderPath;
 			fpPath.SelectFolder += onSelectFolderFolderPath;

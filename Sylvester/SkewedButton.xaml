@@ -7,40 +7,20 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		x:Name="skewedButton"
 		Margin="-5,0,0,0"
+		Width="Auto"
 		Height="12.5"
-		
 		Padding="0,0,0,0"
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch"
 		HorizontalContentAlignment="Stretch"
 		VerticalContentAlignment="Stretch"
+		d:DesignWidth="200"
 		Tag="{Binding ElementName=skewedButton,
 									Path=Index,
 									FallbackValue=Path Dog Name}"
-
 		mc:Ignorable="d"
 		>
-	<!-- <UserControl.Style> -->
-	<!-- 	<Style TargetType="UserControl"> -->
-	<!-- 		<Setter Property="Margin" Value="-5,0,0,0" /> -->
-	<!-- 		<Style.Triggers> -->
-	<!-- 			<DataTrigger -->
-	<!-- 					Binding="{Binding ElementName=skewedButton, -->
-	<!-- 														Path=Index}" -->
-	<!-- 					Value="0" -->
-	<!-- 					> -->
-	<!-- 				<Setter Property="Margin" Value="0,0,0,0" /> -->
-	<!-- 			</DataTrigger> -->
-	<!-- 			<DataTrigger -->
-	<!-- 					Binding="{Binding ElementName=skewedButton, -->
-	<!-- 														Path=Index}" -->
-	<!-- 					Value="-1" -->
-	<!-- 					> -->
-	<!-- 				<Setter Property="Margin" Value="0,0,0,0" /> -->
-	<!-- 			</DataTrigger> -->
-	<!-- 		</Style.Triggers> -->
-	<!-- 	</Style> -->
-	<!-- </UserControl.Style> -->
+
 	<UserControl.Resources>
 		<Style x:Key="FocusVisual">
 			<Setter Property="Control.Template">
@@ -80,15 +60,6 @@
 				Color="#FF707070"
 				/>
 
-		<!--  <SolidColorBrush x:Key="Button.MouseOver.Background"  -->
-		<!--  Color="#FFBEE6FD" />  -->
-		<!--  <SolidColorBrush x:Key="Button.MouseOver.Border"  -->
-		<!--  Color="#22343E" />  -->
-
-		<!--  <SolidColorBrush  -->
-		<!--  x:Key="Button.MouseOver.Background"  -->
-		<!--  Color="#316683"  -->
-		<!--  />  -->
 		<SolidColorBrush
 				x:Key="Button.MouseOver.Background"
 				Color="#FF3A779B"
@@ -160,30 +131,59 @@
 									/>
 						</Border>
 						<ControlTemplate.Triggers>
-							<DataTrigger
-									Binding="{Binding ElementName=skewedButton,
-																		Path=ShowBorder}"
-									Value="False"
-									>
+							<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowBorder}" Value="False">
 								<Setter Property="BorderThickness" Value="0" />
 							</DataTrigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsMouseOver, ElementName=InnerButton, Mode=OneWay}" Value="True" />
+									<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" />
+								</MultiDataTrigger.Conditions>
+								<MultiDataTrigger.Setters>
+									<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" />
+									<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+									<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+								</MultiDataTrigger.Setters>
+							</MultiDataTrigger>
+
+
+							<!-- <DataTrigger Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="true"> -->
+							<!-- 	<Setter Property="Foreground" Value="{Binding ElementName=skewedButton, Path=FontColor}" /> -->
+							<!-- 	<Setter TargetName="border" Property="Background" Value="Transparent" /> -->
+							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Label.PathArrow}" /> -->
+							<!-- </DataTrigger> -->
+
 							<Trigger Property="IsDefaulted" Value="true">
 								<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" />
-								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
-								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
-								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
-							</Trigger>
+							<!-- <Trigger Property="IsMouseOver" Value="true"> -->
+							<!-- 	<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" /> -->
+							<!-- 	<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" /> -->
+							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" /> -->
+							<!-- </Trigger> -->
+
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsPressed, ElementName=InnerButton, Mode=OneWay}" Value="True" />
+									<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" />
+								</MultiDataTrigger.Conditions>
+								<MultiDataTrigger.Setters>
+									<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
+									<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+								</MultiDataTrigger.Setters>
+							</MultiDataTrigger>
+
+							<!-- <Trigger Property="IsPressed" Value="true"> -->
+							<!-- 	<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" /> -->
+							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" /> -->
+							<!-- </Trigger> -->
+
 							<Trigger Property="IsEnabled" Value="false">
 								<Setter TargetName="CP1" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
 								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
 								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
 							</Trigger>
+
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 				</Setter.Value>
@@ -194,7 +194,6 @@
 	<StackPanel
 			x:Name="InnerSp"
 			Margin="0,0,0,0.5"
-
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Orientation="Horizontal"
@@ -223,7 +222,6 @@
 			<Button.ContentTemplate>
 				<DataTemplate>
 					<Grid
-
 							Margin="0"
 							Background="Transparent"
 							>
@@ -233,13 +231,12 @@
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="12"/>
+							<RowDefinition Height="12" />
 						</Grid.RowDefinitions>
 						<Grid.LayoutTransform>
 							<TransformGroup>
 								<ScaleTransform />
-								<SkewTransform AngleX="-20"
-										AngleY="0" />
+								<SkewTransform AngleX="-20" AngleY="0" />
 								<RotateTransform />
 								<TranslateTransform />
 							</TransformGroup>
@@ -253,24 +250,25 @@
 								VerticalAlignment="Center"
 								FontFamily="Segoe UI Semilight"
 								FontSize="8"
-								Background="Transparent"
-								Foreground="{Binding ElementName=InnerButton,
-																		 Path=Foreground}"
 								Text="{Binding ElementName=skewedButton,
 															 Path=Text,
 															 FallbackValue=Path Dog Name}"
-								
+								Background="Transparent"
+								Foreground="{Binding ElementName=InnerButton,
+																		 Path=Foreground}"
 								>
-								<!-- FontSize="{Binding ElementName=skewedButton, -->
-								<!-- 									 Path=FontSize, -->
-								<!-- 									 FallbackValue=7}" -->
-							<!-- Path Dog Name -->
+							<!--  FontSize="{Binding ElementName=skewedButton,  -->
+							<!--  Path=FontSize,  -->
+							<!--  FallbackValue=7}"  -->
+							<!--  Path Dog Name  -->
 							<TextBlock.Style>
 								<Style TargetType="TextBlock">
-									<Setter Property="Margin" Value="0,-2.5,0,0"></Setter>
+									<Setter Property="Margin" Value="0,-2.5,0,0">
+									</Setter>
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowArrow}" Value="true">
-											<Setter Property="Margin" Value="0,-2.5,0,0"></Setter>
+											<Setter Property="Margin" Value="0,-2.5,0,0">
+											</Setter>
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
@@ -281,7 +279,6 @@
 								x:Name="star"
 								Grid.Column="0"
 								Grid.Row="0"
-
 								Margin="0,1,0,0.5"
 								Width="Auto"
 								HorizontalAlignment="Stretch"
@@ -292,13 +289,13 @@
 															 FallbackValue=White}"
 								Opacity="1"
 								Stretch="UniformToFill"
-
-						>
+								>
 							<Path.Style>
 								<Style TargetType="Path">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowFavorite}" Value="false">
-											<Setter Property="Visibility" Value="Collapsed"></Setter>
+											<Setter Property="Visibility" Value="Collapsed">
+											</Setter>
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
@@ -311,45 +308,49 @@
 								Grid.Column="2"
 								Grid.Row="0"
 								Margin="-3,0,3,0"
-
 								Width="Auto"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								Data="F1M0,.75 5.5,6.25 0,12.25 0,1z"
 								Opacity="1"
-
 								Stretch="Uniform"
 								>
-							<!-- Data="F1M0,.75 5.5,6.25 0,12.25 0,1z" -->
-							<!-- Data="F1M-7,.75 -1.5,6.25 -7,12.25 -7,1z" -->
+							<!--  Data="F1M0,.75 5.5,6.25 0,12.25 0,1z"  -->
+							<!--  Data="F1M-7,.75 -1.5,6.25 -7,12.25 -7,1z"  -->
 							<Path.Style>
 								<Style TargetType="Path">
 									<Setter Property="Fill" Value="{StaticResource Label.PathArrow}" />
 									<Style.Triggers>
-										<DataTrigger
-												Binding="{Binding ElementName=skewedButton,
-																					Path=ShowArrow}"
-												Value="false"
-												>
-											<Setter Property="Visibility" Value="Collapsed" />
 
+										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="true">
+											<Setter Property="Fill" Value="{StaticResource Label.PathArrow}" />
 										</DataTrigger>
-										<DataTrigger
-												Binding="{Binding ElementName=InnerButton,
-																					Path=IsMouseOver}"
-												Value="True"
-												>
-											<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}">
-											</Setter>
+
+										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowArrow}" Value="false">
+											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
+
+										<MultiDataTrigger>
+											<MultiDataTrigger.Conditions>
+												<Condition Binding="{Binding IsMouseOver, ElementName=InnerButton, Mode=OneWay}" Value="True" />
+												<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" />
+											</MultiDataTrigger.Conditions>
+											<MultiDataTrigger.Setters>
+											<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}"/>
+											</MultiDataTrigger.Setters>
+										</MultiDataTrigger>
+
+										<!-- <DataTrigger Binding="{Binding ElementName=InnerButton, Path=IsMouseOver}" Value="True"> -->
+										<!-- 	<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}"/> -->
+										<!-- </DataTrigger> -->
+
 									</Style.Triggers>
 								</Style>
 							</Path.Style>
 							<Path.LayoutTransform>
 								<TransformGroup>
 									<ScaleTransform />
-									<SkewTransform AngleX="20"
-											AngleY="0" />
+									<SkewTransform AngleX="20" AngleY="0" />
 									<RotateTransform />
 									<TranslateTransform />
 								</TransformGroup>
