@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 
 namespace Sylvester
@@ -60,6 +61,16 @@ namespace Sylvester
 		{
 			get { return (Thickness) GetValue(TitleBarMarginProperty); }
 			set { SetValue(TitleBarMarginProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty ShowPathTypeProperty = DependencyProperty.Register(
+			"ShowPathType", typeof(int), typeof(HeaderControl), new PropertyMetadata(7));
+
+		public int ShowPathType
+		{
+			get { return (int) GetValue(ShowPathTypeProperty); }
+			set { SetValue(ShowPathTypeProperty, value); }
 		}
 
 	}

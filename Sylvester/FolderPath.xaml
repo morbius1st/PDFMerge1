@@ -7,29 +7,97 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		x:Name="folderPath"
 		Margin="6,0,0,0"
+		MinHeight="13"
 		Padding="0,0,0,0"
-		d:DesignHeight="15"
+		d:DesignHeight="30"
+		d:DesignWidth="250"
 		mc:Ignorable="d"
 		>
+	<UserControl.Resources>
+		<local:PathTypeVisibilityConverter x:Key="PathTypeVisibilityConverter" />
+
+		<Style x:Key="SkewedButtonStyle" TargetType="local:SkewedButton">
+			<!-- <Setter Property="Visibility" > -->
+			<!-- 	<Setter.Value> -->
+			<!-- 		<MultiBinding Converter="{StaticResource PathTypeVisibilityConverter}"> -->
+			<!-- 			<Binding ElementName="folderPath" -->
+			<!-- 					Path="ProposedSkewedButtonType" FallbackValue="7" /> -->
+			<!-- 			<Binding RelativeSource="{RelativeSource Self}" -->
+			<!-- 					Path="SkewedButtonType" /> -->
+			<!-- 		</MultiBinding> -->
+			<!-- 	</Setter.Value> -->
+			<!-- </Setter> -->
+		</Style>
+
+
+	</UserControl.Resources>
 	<DockPanel
 			x:Name="PathDockPanel"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			>
 
-		<!-- <local:SkewedButton -->
-		<!-- 		x:Name="SkewedButton1" -->
-		<!-- 		DockPanel.Dock="Right" -->
-		<!-- 		Index="-1" -->
-		<!-- 		Text="Select Path" -->
-		<!-- 		/> -->
 
-		<!-- <local:SkewedButton -->
-		<!-- 		x:Name="SkewedButton2" -->
-		<!-- 		DockPanel.Dock="Right" -->
-		<!-- 		Index="0" -->
-		<!-- 		Text="Select Path 2" -->
-		<!-- 		/> -->
+			<local:SkewedButton
+					x:Name="SkewedButton4"
+					DockPanel.Dock="Right"
+					FontColor="#CCCCCC"
+					FontSize="{Binding ElementName=folderPath,
+														 Path=FontSize,
+														 FallbackValue=7}"
+
+					Index="-1"
+					Text="C:\path"
+					SkewedButtonType="4"
+					Style="{StaticResource SkewedButtonStyle}"
+					/>
+
+
+
+
+			<local:SkewedButton
+					x:Name="SkewedButton2"
+					DockPanel.Dock="Right"
+					FontColor="#CCCCCC"
+					FontSize="{Binding ElementName=folderPath,
+														 Path=FontSize,
+														 FallbackValue=7}"
+
+					Index="-1"
+					ShowArrow="False"
+					Text="Select Path"
+					FavoritesBrush="Blue"
+					SkewedButtonType="2"
+					Style="{StaticResource SkewedButtonStyle}"
+					/>
+
+
+		<local:SkewedButton
+					x:Name="SkewedButton1"
+					DockPanel.Dock="Right"
+					FontColor="#CCCCCC"
+					FontSize="{Binding ElementName=folderPath,
+														 Path=FontSize,
+														 FallbackValue=7}"
+					Index="-1"
+					ShowArrow="False"
+					ShowFavorite="True"
+					Text=""
+					FavoritesBrush="OrangeRed"
+					SkewedButtonType="1"
+					Style="{StaticResource SkewedButtonStyle}"
+
+					>
+		</local:SkewedButton>
+
+
+
+		<!--  <local:SkewedButton  -->
+		<!--  x:Name="SkewedButton2"  -->
+		<!--  DockPanel.Dock="Right"  -->
+		<!--  Index="0"  -->
+		<!--  Text="Select Path 2"  -->
+		<!--  />  -->
 
 
 	</DockPanel>

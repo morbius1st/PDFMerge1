@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Sylvester.FileSupport;
 
+
 namespace Sylvester
 {
 	/// <summary>
@@ -24,6 +26,8 @@ namespace Sylvester
 	{
 		private string[] path;
 		private int nextIndex;
+
+		private Color pathFontColor = Color.FromArgb(0xFF, 0xCC, 0xCC, 0xCC);
 
 		public FolderPath()
 		{
@@ -42,6 +46,8 @@ namespace Sylvester
 
 		public void SetPath(Route newPath)
 		{
+			return;
+
 			SelectedFolder = null;
 
 			ClearSkewedButtons();
@@ -53,7 +59,7 @@ namespace Sylvester
 				SelectedFolder = null;
 				path = null;
 
-				AddSelectFolderButton();
+//				AddSelectFolderButton();
 			}
 			else
 			{
@@ -65,7 +71,7 @@ namespace Sylvester
 
 		private void AddPath()
 		{
-			ClearSkewedButtons();
+//			ClearSkewedButtons();
 			nextIndex = 0;
 
 			foreach (string s in path)
@@ -79,6 +85,7 @@ namespace Sylvester
 			SkewedButton sk = new SkewedButton();
 			sk.Text = text;
 			sk.Index = index;
+			sk.FontColor = new SolidColorBrush(pathFontColor);
 			sk.InnerButton.Click += InnerButton_Click;
 
 			PathDockPanel.Children.Add(sk);
@@ -88,7 +95,7 @@ namespace Sylvester
 		{
 			if (PathDockPanel.Children.Count <= 0) return;
 
-			for (int i = PathDockPanel.Children.Count - 1; i >= 0 ; i--)
+			for (int i = PathDockPanel.Children.Count - 1; i >= 2 ; i--)
 			{
 				((SkewedButton) PathDockPanel.Children[i]).InnerButton.Click -= InnerButton_Click;
 			}
@@ -96,15 +103,29 @@ namespace Sylvester
 			PathDockPanel.Children.Clear();
 		}
 
-		private void AddSelectFolderButton()
-		{
-			SkewedButton sk = new SkewedButton();
-			sk.Text = "Select Folder";
-			sk.Index = -1;
-			sk.InnerButton.Click += InnerButton_SelectFolder;
-
-			PathDockPanel.Children.Add(sk);
-		}
+//		private void AddSelectFolderButton()
+//		{
+//			SkewedButton sk = new SkewedButton();
+//			sk.Text = "Select Folder";
+//			sk.Index = -1;
+//			sk.ShowArrow = false;
+//			sk.FontColor = Brushes.White;
+//			sk.InnerButton.Click += InnerButton_SelectFolder;
+//
+//			PathDockPanel.Children.Add(sk);
+//		}
+//
+//		private void AddFavoritesButton()
+//		{
+//			SkewedButton sk = new SkewedButton();
+//			sk.Text = "Select Folder";
+//			sk.Index = -2;
+//			sk.ShowArrow = false;
+//			sk.FontColor = Brushes.White;
+//			sk.InnerButton.Click += InnerButton_SelectFolder;
+//
+//			PathDockPanel.Children.Add(sk);
+//		}
 
 		private void InnerButton_SelectFolder(object sender, RoutedEventArgs e)
 		{
@@ -164,7 +185,49 @@ namespace Sylvester
 		}
 
 	#endregion
+
+
+		public static readonly DependencyProperty FontColorProperty = DependencyProperty.Register(
+			"FontColor", typeof(SolidColorBrush), typeof(FolderPath), new PropertyMetadata(Brushes.White));
+
+		public SolidColorBrush FontColor
+		{
+			get { return (SolidColorBrush) GetValue(FontColorProperty); }
+			set { SetValue(FontColorProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty ProposedSkewedButtonTypeProperty = DependencyProperty.Register(
+			"ProposedSkewedButtonType", typeof(int), typeof(FolderPath), new PropertyMetadata(7));
+
+		public int ProposedSkewedButtonType
+		{
+			get { return (int) GetValue(ProposedSkewedButtonTypeProperty); }
+			set { SetValue(ProposedSkewedButtonTypeProperty, value); }
+		}
+
 	}
+
+	public class PathTypeVisibilityConverter : IMultiValueConverter
+	{
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			int proposedPathType = (int) values[0];
+			int definedPathType = (int) values[1];
+
+			if (proposedPathType == 0 || definedPathType == 0) return Visibility.Visible;
+
+			Visibility v = (proposedPathType & definedPathType) == 0 ? Visibility.Collapsed : Visibility.Visible;
+
+			return v;
+		}
+
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
 
 	public class PathChangeArgs
 	{
@@ -179,4 +242,6 @@ namespace Sylvester
 			SelectedPath = new Route(selectedPath);
 		}
 	}
+
+
 }

@@ -5,6 +5,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Name="headerControl"
 		d:DesignHeight="72"
 		d:DesignWidth="600"
@@ -12,7 +13,10 @@
 		>
 	<UserControl.Resources>
 
-		<Style x:Key="label" TargetType="Label">
+		<Style
+				x:Key="label"
+				TargetType="Label"
+				>
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -44,7 +48,10 @@
 				BasedOn="{StaticResource label}"
 				>
 			<Style.Triggers>
-				<DataTrigger Binding="{Binding Path=HideDirectory}" Value="true">
+				<DataTrigger
+						Binding="{Binding Path=HideDirectory}"
+						Value="true"
+						>
 					<Setter Property="Visibility" Value="Hidden" />
 				</DataTrigger>
 			</Style.Triggers>
@@ -54,23 +61,32 @@
 	<StackPanel Orientation="Vertical">
 
 		<StackPanel
-				Margin="{Binding TitleBarMargin, ElementName=headerControl}"
+				Margin="{Binding TitleBarMargin,
+												 ElementName=headerControl}"
 				HorizontalAlignment="Stretch"
 				Orientation="Horizontal"
 				Background="#395482CD"
 				>
 
 			<Label
-					Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}"
+					Content="{Binding Title,
+														ElementName=headerControl,
+														FallbackValue=Current}"
 					Margin="3,-3,0,-1"
 					FontSize="22"
 					Style="{StaticResource label}"
 					/>
 		</StackPanel>
 
-		<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+		<StackPanel
+				Margin="0,2,0,0"
+				Orientation="Horizontal"
+				>
 
-			<StackPanel Margin="0,0,0,0" Orientation="Vertical">
+			<StackPanel
+					Margin="0,0,0,0"
+					Orientation="Vertical"
+					>
 				<Label
 						Content="Folder"
 						Width="87"
@@ -83,30 +99,130 @@
 						/>
 			</StackPanel>
 
-			<StackPanel Orientation="Vertical">
+			<Grid VerticalAlignment="Stretch">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
 
-				<Label Content="{Binding Path=Folder, FallbackValue=No Folder Selected}" Style="{StaticResource lblDirectory}" />
+				<!-- <Label Content="{Binding Path=Folder, FallbackValue=No Folder Selected}" Style="{StaticResource lblDirectory}" /> -->
 
-				<StackPanel Orientation="Horizontal">
+				<local:FolderPath
+						x:Name="FpPath"
+						Grid.Row="0"
+						FontSize="10"
+						FontColor="#CCCCCC"
+						VerticalAlignment="Center"
+						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=7}"
+				>
+					<!-- <local:FolderPath.Style> -->
+					<!-- 	<Style TargetType="local:FolderPath"> -->
+					<!-- 		<Setter Property="Visibility" Value="Collapsed"></Setter> -->
+					<!-- 		<Style.Triggers> -->
+					<!-- 			<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="3"> -->
+					<!-- 				<Setter Property="Visibility" Value="Visible"></Setter> -->
+					<!-- 			</DataTrigger> -->
+					<!-- 		</Style.Triggers> -->
+					<!-- 	</Style> -->
+					<!-- </local:FolderPath.Style> -->
+				</local:FolderPath>
 
-					<StackPanel Width="80" Orientation="Horizontal">
-						<Label Content="Total" Style="{StaticResource lblStats}" />
-						<Label Content="{Binding Path=FilesFound, FallbackValue=0}" Style="{StaticResource lblCount}" />
+				<!-- -->
+				<!-- <local:FolderPath -->
+				<!-- 		x:Name="FpSelectFolder" -->
+				<!-- 		Grid.Row="0" -->
+				<!-- 		FontSize="10" -->
+				<!-- 		FontColor="#CCCCCC" -->
+				<!-- 		VerticalAlignment="Center" -->
+				<!-- 		ShowPathType="2" -->
+				<!-- > -->
+				<!-- 	<local:FolderPath.Style> -->
+				<!-- 		<Style TargetType="local:FolderPath"> -->
+				<!-- 			<Setter Property="Visibility" Value="Collapsed"></Setter> -->
+				<!-- 			<Style.Triggers> -->
+				<!-- 				<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="2"> -->
+				<!-- 					<Setter Property="Visibility" Value="Visible"></Setter> -->
+				<!-- 				</DataTrigger> -->
+				<!-- 			</Style.Triggers> -->
+				<!-- 		</Style> -->
+				<!-- 	</local:FolderPath.Style> -->
+				<!-- </local:FolderPath> -->
+				<!-- -->
+				<!-- <local:FolderPath -->
+				<!-- 		x:Name="FpFavorite" -->
+				<!-- 		Grid.Row="0" -->
+				<!-- 		FontSize="10" -->
+				<!-- 		FontColor="#CCCCCC" -->
+				<!-- 		VerticalAlignment="Center" -->
+				<!-- 		ShowPathType="1" -->
+				<!-- > -->
+				<!-- 	<local:FolderPath.Style> -->
+				<!-- 		<Style TargetType="local:FolderPath"> -->
+				<!-- 			<Setter Property="Visibility" Value="Collapsed"></Setter> -->
+				<!-- 			<Style.Triggers> -->
+				<!-- 				<DataTrigger Binding="{Binding ElementName=headerControl, Path=ShowPathType, FallbackValue=3}" Value="1"> -->
+				<!-- 					<Setter Property="Visibility" Value="Visible"></Setter> -->
+				<!-- 				</DataTrigger> -->
+				<!-- 			</Style.Triggers> -->
+				<!-- 		</Style> -->
+				<!-- 	</local:FolderPath.Style> -->
+				<!-- </local:FolderPath> -->
+
+
+
+
+
+
+
+
+
+				<StackPanel
+						Grid.Row="1"
+						Orientation="Horizontal"
+						>
+
+					<StackPanel
+							Width="80"
+							Orientation="Horizontal"
+							>
+						<Label
+								Content="Total"
+								Style="{StaticResource lblStats}"
+								/>
+						<Label
+								Content="{Binding Path=FilesFound,
+																	FallbackValue=0}"
+								Style="{StaticResource lblCount}"
+								/>
 					</StackPanel>
 
-					<StackPanel Width="120" Orientation="Horizontal">
-						<Label Content="Sheets PDF's" Style="{StaticResource lblStats}" />
-						<Label Content="{Binding Path=SheetPDFs, FallbackValue=0}" Style="{StaticResource lblCount}" />
+					<StackPanel
+							Width="120"
+							Orientation="Horizontal"
+							>
+						<Label
+								Content="Sheets PDF's"
+								Style="{StaticResource lblStats}"
+								/>
+						<Label
+								Content="{Binding Path=SheetPDFs,
+																	FallbackValue=0}"
+								Style="{StaticResource lblCount}"
+								/>
 					</StackPanel>
 
-					<StackPanel Width="120" Orientation="Horizontal">
+					<StackPanel
+							Width="120"
+							Orientation="Horizontal"
+							>
 						<Label
 								Content="Other PDF's"
 								Foreground="LightGray"
 								Style="{StaticResource lblStats}"
 								/>
 						<Label
-								Content="{Binding Path=NonSheetPdfsFiles, FallbackValue=0}"
+								Content="{Binding Path=NonSheetPdfsFiles,
+																	FallbackValue=0}"
 								Foreground="LightGray"
 								Style="{StaticResource lblCount}"
 								/>
@@ -118,13 +234,14 @@
 							Style="{StaticResource lblStats}"
 							/>
 					<Label
-							Content="{Binding Path=OtherFiles, FallbackValue=0}"
+							Content="{Binding Path=OtherFiles,
+																FallbackValue=0}"
 							Foreground="#bababa"
 							Style="{StaticResource lblCount}"
 							/>
 
 				</StackPanel>
-			</StackPanel>
+			</Grid>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

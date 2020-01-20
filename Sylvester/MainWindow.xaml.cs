@@ -126,8 +126,11 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-			pm = new ProcessManager(FpBase, FpTest);
+			pm = new ProcessManager(HdrBase, HdrTest);
 			OnPropertyChange("pm");
+
+			
+
 
 //			fm = new FolderManager();
 //

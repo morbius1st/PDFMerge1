@@ -34,25 +34,23 @@ namespace Sylvester.SelectFolder
 
 		private SelectFolder sf = new SelectFolder();
 
-		private FolderPath folderPath;
+		private FolderPath fpPath;
 
 		private UserSettingData30 usd;
 
 		private int index;
 
-		public FolderManager(int index, FolderPath folderPath)
+		public FolderManager(int index, HeaderControl hcPath)
 		{
-//			string[] favnames = new string[UserSettings.Data.Favorites.Count];
-//			UserSettings.Data.Favorites.Keys.CopyTo(favnames, 0);
-
-//			AddFav("new fav", new Route(@"C:\2099-999 Sample Project"));
-
 			this.index = index;
 
-			this.folderPath = folderPath;
+			fpPath = hcPath.FpPath;
 
-			folderPath.PathChange += OnPathChangeFolderPath;
-			folderPath.SelectFolder += onSelectFolderFolderPath;
+			hcPath.ShowPathType = 7;
+
+			fpPath.PathChange += OnPathChangeFolderPath;
+			fpPath.SelectFolder += onSelectFolderFolderPath;
+
 
 			usd = UserSettings.Data;
 
@@ -68,7 +66,7 @@ namespace Sylvester.SelectFolder
 		{
 			Folder = new Route(path);
 
-			folderPath.Path = Folder;
+			fpPath.Path = Folder;
 		}
 
 		private bool SelectFolder()
@@ -93,7 +91,7 @@ namespace Sylvester.SelectFolder
 			usd.PriorFolders[index] = Folder.FullPath;
 			UserSettings.Admin.Save();
 
-			folderPath.Path = Folder;
+			fpPath.Path = Folder;
 
 			return true;
 		}
@@ -105,7 +103,7 @@ namespace Sylvester.SelectFolder
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
 			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
 
-			folderPath.Path = e.SelectedPath;
+			fpPath.Path = e.SelectedPath;
 		}
 
 		private void onSelectFolderFolderPath(object sender)
@@ -125,9 +123,9 @@ namespace Sylvester.SelectFolder
 	}
 
 
-//		public void Register(FolderPath folderPath)
+//		public void Register(FolderPath fpPath)
 //		{
-//			Fp1 = folderPath;
+//			Fp1 = fpPath;
 //
 //			Fp1.SkewedButton1.InnerButton.Click += ButtonBase_OnClick;
 //		}

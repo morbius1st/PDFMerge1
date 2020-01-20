@@ -30,10 +30,10 @@ namespace Sylvester.Process
 		public FolderManager fmBase { get; private set; }
 		public FolderManager fmTest { get; private set; }
 
-		public ProcessManager(FolderPath fpBase, FolderPath fpTest)
-		{
-			fmBase = new FolderManager(0, fpBase);
-			fmTest = new FolderManager(1, fpTest);
+		public ProcessManager(HeaderControl hcBase, HeaderControl hcTest)
+		{ 
+			fmBase = new FolderManager(0, hcBase);
+			fmTest = new FolderManager(1, hcTest);
 
 			BaseFileColl = new FilesCollection<BaseFile>();
 			TestFileColl = new FilesCollection<TestFile>();

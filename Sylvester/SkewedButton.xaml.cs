@@ -43,6 +43,58 @@ namespace Sylvester
 			set { SetValue(IndexProperty, value); }
 		}
 
-		private void InnerButton_OnClick(object sender, RoutedEventArgs e) { }
+		public static readonly DependencyProperty ShowBorderProperty = DependencyProperty.Register(
+			"ShowBorder", typeof(bool), typeof(SkewedButton), new PropertyMetadata(true));
+
+		public bool ShowBorder
+		{
+			get { return (bool) GetValue(ShowBorderProperty); }
+			set { SetValue(ShowBorderProperty, value); }
+		}
+
+		public static readonly DependencyProperty ShowArrowProperty = DependencyProperty.Register(
+			"ShowArrow", typeof(bool), typeof(SkewedButton), new PropertyMetadata(true));
+
+		public bool ShowArrow
+		{
+			get { return (bool) GetValue(ShowArrowProperty); }
+			set { SetValue(ShowArrowProperty, value); }
+		}
+
+		public static readonly DependencyProperty ShowFavoriteProperty = DependencyProperty.Register(
+			"ShowFavorite", typeof(bool), typeof(SkewedButton), new PropertyMetadata(false));
+
+		public bool ShowFavorite
+		{
+			get { return (bool) GetValue(ShowFavoriteProperty); }
+			set { SetValue(ShowFavoriteProperty, value); }
+		}
+
+		public static readonly DependencyProperty FontColorProperty = DependencyProperty.Register(
+			"FontColor", typeof(SolidColorBrush), typeof(SkewedButton), new PropertyMetadata(Brushes.White));
+
+		public SolidColorBrush FontColor
+		{
+			get { return (SolidColorBrush) GetValue(FontColorProperty); }
+			set { SetValue(FontColorProperty, value); }
+		}
+
+		public static readonly DependencyProperty FavoritesBrushProperty = DependencyProperty.Register(
+			"FavoritesBrush", typeof(SolidColorBrush), typeof(SkewedButton), new PropertyMetadata(default(SolidColorBrush)));
+
+		public SolidColorBrush FavoritesBrush
+		{
+			get { return (SolidColorBrush) GetValue(FavoritesBrushProperty); }
+			set { SetValue(FavoritesBrushProperty, value); }
+		}
+
+		public static readonly DependencyProperty SkewedButtonTypeProperty = DependencyProperty.Register(
+			"SkewedButtonType", typeof(int), typeof(SkewedButton), new PropertyMetadata(0));
+
+		public int SkewedButtonType
+		{
+			get { return (int) GetValue(SkewedButtonTypeProperty); }
+			set { SetValue(SkewedButtonTypeProperty, value); }
+		}
 	}
 }
