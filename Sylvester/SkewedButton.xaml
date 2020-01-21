@@ -134,49 +134,43 @@
 							<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowBorder}" Value="False">
 								<Setter Property="BorderThickness" Value="0" />
 							</DataTrigger>
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding IsMouseOver, ElementName=InnerButton, Mode=OneWay}" Value="True" />
-									<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" />
-								</MultiDataTrigger.Conditions>
-								<MultiDataTrigger.Setters>
-									<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" />
-									<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
-									<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
-								</MultiDataTrigger.Setters>
-							</MultiDataTrigger>
 
-
-							<!-- <DataTrigger Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="true"> -->
-							<!-- 	<Setter Property="Foreground" Value="{Binding ElementName=skewedButton, Path=FontColor}" /> -->
-							<!-- 	<Setter TargetName="border" Property="Background" Value="Transparent" /> -->
-							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Label.PathArrow}" /> -->
-							<!-- </DataTrigger> -->
+							<!-- <MultiDataTrigger> -->
+							<!-- 	<MultiDataTrigger.Conditions> -->
+							<!-- 		<Condition Binding="{Binding IsMouseOver, ElementName=InnerButton, Mode=OneWay}" Value="True" /> -->
+							<!-- 		<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" /> -->
+							<!-- 	</MultiDataTrigger.Conditions> -->
+							<!-- 	<MultiDataTrigger.Setters> -->
+							<!-- 		<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" /> -->
+							<!-- 		<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" /> -->
+							<!-- 		<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" /> -->
+							<!-- 	</MultiDataTrigger.Setters> -->
+							<!-- </MultiDataTrigger> -->
 
 							<Trigger Property="IsDefaulted" Value="true">
 								<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 							</Trigger>
-							<!-- <Trigger Property="IsMouseOver" Value="true"> -->
-							<!-- 	<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" /> -->
-							<!-- 	<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" /> -->
-							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" /> -->
-							<!-- </Trigger> -->
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Foreground" Value="{StaticResource Button.MouseOver.Foreground}" />
+								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+							</Trigger>
+							<!-- -->
+							<!-- <MultiDataTrigger> -->
+							<!-- 	<MultiDataTrigger.Conditions> -->
+							<!-- 		<Condition Binding="{Binding IsPressed, ElementName=InnerButton, Mode=OneWay}" Value="True" /> -->
+							<!-- 		<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" /> -->
+							<!-- 	</MultiDataTrigger.Conditions> -->
+							<!-- 	<MultiDataTrigger.Setters> -->
+							<!-- 		<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" /> -->
+							<!-- 		<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" /> -->
+							<!-- 	</MultiDataTrigger.Setters> -->
+							<!-- </MultiDataTrigger> -->
 
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding IsPressed, ElementName=InnerButton, Mode=OneWay}" Value="True" />
-									<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" />
-								</MultiDataTrigger.Conditions>
-								<MultiDataTrigger.Setters>
-									<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
-									<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
-								</MultiDataTrigger.Setters>
-							</MultiDataTrigger>
-
-							<!-- <Trigger Property="IsPressed" Value="true"> -->
-							<!-- 	<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" /> -->
-							<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" /> -->
-							<!-- </Trigger> -->
+							<Trigger Property="IsPressed" Value="true">
+								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
+								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+							</Trigger>
 
 							<Trigger Property="IsEnabled" Value="false">
 								<Setter TargetName="CP1" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
@@ -249,7 +243,7 @@
 								Padding="2,0.5,0,0"
 								VerticalAlignment="Center"
 								FontFamily="Segoe UI Semilight"
-								FontSize="8"
+								FontSize="9"
 								Text="{Binding ElementName=skewedButton,
 															 Path=Text,
 															 FallbackValue=Path Dog Name}"

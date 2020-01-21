@@ -347,7 +347,8 @@
 					Grid.Row="0"
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
-					FolderPathType="8"
+					FolderPathType="0"
+					HideDirectory ="true"
 					DataContext="{Binding pm.FinalFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"

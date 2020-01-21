@@ -73,5 +73,15 @@ namespace Sylvester
 			set { SetValue(FolderPathTypeProperty, value); }
 		}
 
+
+		public static readonly DependencyProperty HideDirectoryProperty = DependencyProperty.Register(
+			"HideDirectory", typeof(bool), typeof(HeaderControl), new PropertyMetadata(default(bool)));
+
+		public bool HideDirectory
+		{
+			get { return (bool) GetValue(HideDirectoryProperty); }
+			set { SetValue(HideDirectoryProperty, value); }
+		}
+
 	}
 }

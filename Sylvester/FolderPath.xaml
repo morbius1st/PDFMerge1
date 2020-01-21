@@ -6,35 +6,55 @@
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		x:Name="folderPath"
-		Margin="6,0,0,0"
+		Margin="0,0,0,0"
 		MinHeight="13"
 		Padding="0,0,0,0"
-		d:DesignHeight="30"
+		d:DesignHeight="20"
 		d:DesignWidth="250"
 		mc:Ignorable="d"
 		>
 	<UserControl.Resources>
-		<local:PathTypeVisibilityConverter x:Key="PathTypeVisibilityConverter"/>
+		<local:PathTypeVisibilityConverter x:Key="PathTypeVisibilityConverter" />
+		<!-- <local:PathTypeBoolConverter x:Key="PathTypeBoolConverter" /> -->
 
-		<Style x:Key="SkewedButtonStyle" TargetType="local:SkewedButton">
-			<Setter Property="Visibility" >
+		<Style
+				x:Key="SkewedButtonStyle"
+				TargetType="local:SkewedButton"
+				>
+			<Setter Property="Visibility">
 				<Setter.Value>
-					<MultiBinding Converter="{StaticResource PathTypeVisibilityConverter}" Mode="OneWay" FallbackValue="Visible"  >
-						<Binding ElementName="folderPath" 
-								Path="ProposedSkewedButtonType" />
-						<Binding RelativeSource="{RelativeSource Self}"
-								Path="SkewedButtonType" />
+					<MultiBinding
+							Converter="{StaticResource PathTypeVisibilityConverter}"
+							FallbackValue="Visible"
+							Mode="OneWay"
+							>
+						<Binding
+								ElementName="folderPath"
+								Path="ProposedSkewedButtonType"
+								> 
+						</Binding>
+						<Binding
+								FallbackValue="4"
+								Path="SkewedButtonType"
+								RelativeSource="{RelativeSource Self}"
+								>
+						</Binding>
+						<Binding/>
 					</MultiBinding>
 				</Setter.Value>
 			</Setter>
 		</Style>
 
-		<Style x:Key="SkewedButtonPathStyle" BasedOn="{StaticResource SkewedButtonStyle}" TargetType="local:SkewedButton">
-			<Style.Triggers>
-				<DataTrigger Binding="{Binding ElementName=folderPath, Path=ProposedSkewedButtonType}" Value="8">
-					<Setter Property="DisablePath" Value="True"/>
-				</DataTrigger>
-			</Style.Triggers>
+		<Style
+				x:Key="SkewedButtonPathStyle"
+				TargetType="local:SkewedButton"
+				BasedOn="{StaticResource SkewedButtonStyle}"
+				>
+			<!-- <Style.Triggers> -->
+			<!-- 	<DataTrigger Binding="{Binding ElementName=folderPath, Path=ProposedSkewedButtonType}" Value="8"> -->
+			<!-- 		<Setter Property="DisablePath" Value="True" /> -->
+			<!-- 	</DataTrigger> -->
+			<!-- </Style.Triggers> -->
 		</Style>
 
 
@@ -46,40 +66,40 @@
 			>
 
 
-			<local:SkewedButton
-					x:Name="SkewedButton4"
-					DockPanel.Dock="Right"
-					FontColor="#CCCCCC"
-					Index="-1"
-					Text="C:\path"
-					SkewedButtonType="4"
-					Style="{StaticResource SkewedButtonPathStyle}"
-					/>
+		<local:SkewedButton
+				x:Name="SkewedButton4"
+				FontColor="#CCCCCC"
+				DockPanel.Dock="Right"
+				Index="-1"
+				SkewedButtonType="4"
+				Text="C:\path"
+				Style="{StaticResource SkewedButtonPathStyle}"
+				/>
 
-			<local:SkewedButton
-					x:Name="SkewedButton2"
-					DockPanel.Dock="Right"
-					FontColor="#CCCCCC"
-					Index="-1"
-					ShowArrow="False"
-					Text="Select Path"
-					SkewedButtonType="2"
-					Style="{StaticResource SkewedButtonStyle}"
-					/>
+		<local:SkewedButton
+				x:Name="SkewedButton2"
+				FontColor="#CCCCCC"
+				DockPanel.Dock="Right"
+				Index="-1"
+				ShowArrow="False"
+				SkewedButtonType="2"
+				Text="Select Folder"
+				Style="{StaticResource SkewedButtonStyle}"
+				/>
 
 
 		<local:SkewedButton
-					x:Name="SkewedButton1"
-					DockPanel.Dock="Right"
-					FontColor="#CCCCCC"
-					Index="-1"
-					ShowArrow="False"
-					ShowFavorite="True"
-					Text=""
-					FavoritesBrush="OrangeRed"
-					SkewedButtonType="1"
-					Style="{StaticResource SkewedButtonStyle}"
-		>
+				x:Name="SkewedButton1"
+				FontColor="#CCCCCC"
+				DockPanel.Dock="Right"
+				Index="-1"
+				ShowArrow="False"
+				ShowFavorite="True"
+				SkewedButtonType="1"
+				Text=""
+				FavoritesBrush="OrangeRed"
+				Style="{StaticResource SkewedButtonStyle}"
+				>
 		</local:SkewedButton>
 
 

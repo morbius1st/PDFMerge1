@@ -206,7 +206,6 @@ namespace Sylvester
 			get { return (int) GetValue(ProposedSkewedButtonTypeProperty); }
 			set { SetValue(ProposedSkewedButtonTypeProperty, value); }
 		}
-
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter
@@ -214,22 +213,24 @@ namespace Sylvester
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			int proposedPathType = (int) values[0];
-			int SkewedButtonType = (int) values[1];
+			if (values[1] == DependencyProperty.UnsetValue) return true;
 
-			if (proposedPathType == 0 || SkewedButtonType == 0) return Visibility.Visible;
+			int skewedButtonType = (int) values[1];
 
-			if (proposedPathType > 7)
-			{
-				if (SkewedButtonType == 4)
-				{
-					return Visibility.Visible;
-				}
+			if (proposedPathType == 0 || skewedButtonType == 0) return Visibility.Visible;
 
-				return	Visibility.Collapsed;
-			} 
+//			if (proposedPathType > 7)
+//			{
+//				if (skewedButtonType == 4)
+//				{
+//					return Visibility.Visible;
+//				}
+//
+//				return	Visibility.Collapsed;
+//			} 
 
 
-			int x = (proposedPathType & SkewedButtonType);
+			int x = (proposedPathType & skewedButtonType);
 
 			Visibility v =  x == 0 ? Visibility.Collapsed : Visibility.Visible;
 
@@ -241,6 +242,37 @@ namespace Sylvester
 			throw new NotImplementedException();
 		}
 	}
+//
+//	public class PathTypeBoolConverter : IMultiValueConverter
+//	{
+//		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+//		{
+//			int proposedPathType = (int) values[0];
+//			int skewedButtonType = (int) values[1];
+//
+//			if (proposedPathType == 0 || skewedButtonType == 0) return true;
+//			if (proposedPathType > 7)
+//			{
+//				if (skewedButtonType == 4)
+//				{
+//					return true;
+//				}
+//
+//				return	false;
+//			}
+//
+//			bool answer = (proposedPathType & skewedButtonType) != 0;
+//
+//			return answer;
+//
+////			return true;
+//		}
+//
+//		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+//		{
+//			throw new NotImplementedException();
+//		}
+//	}
 
 
 	public class PathChangeArgs

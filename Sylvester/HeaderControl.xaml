@@ -20,7 +20,7 @@
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
-			<Setter Property="Margin" Value="3,2,0,0" />
+			<Setter Property="Margin" Value="3,0,0,0" />
 			<Setter Property="Padding" Value="0,0,0,2" />
 			<Setter Property="VerticalAlignment" Value="Bottom" />
 		</Style>
@@ -87,19 +87,33 @@
 					Margin="0,0,0,0"
 					Orientation="Vertical"
 					>
-				<Label
-						Content="Folder"
-						Width="87"
-						Style="{StaticResource lblDirectory}"
-						/>
-				<Label
-						Content="File Summary"
-						Width="80"
-						Style="{StaticResource label}"
-						/>
-			</StackPanel>
+				<local:FolderPath
+						x:Name="FpPath"
+						Margin="8,4,0,-2"
+						FontSize="10"
+						FontColor="#CCCCCC"
+						VerticalAlignment="Bottom"
+						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
+				>
+					<local:FolderPath.Style>
+						<Style TargetType="local:FolderPath">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Path=HideDirectory}" Value="true">
+									<Setter Property="Visibility" Value="Hidden"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</local:FolderPath.Style>
 
-			<Grid VerticalAlignment="Stretch">
+				</local:FolderPath>
+
+
+
+
+
+			<Grid VerticalAlignment="Stretch"
+					Margin="0,3,0,0"
+					>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
@@ -107,22 +121,18 @@
 
 				<!-- <Label Content="{Binding Path=Folder, FallbackValue=No Folder Selected}" Style="{StaticResource lblDirectory}" /> -->
 
-				<local:FolderPath
-						x:Name="FpPath"
-						Grid.Row="0"
-						FontSize="10"
-						FontColor="#CCCCCC"
-						VerticalAlignment="Center"
-						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
-				>
 
-				</local:FolderPath>
 
 				<StackPanel
 						Grid.Row="1"
 						Orientation="Horizontal"
 						>
 
+					<Label
+						Content="File Summary"
+						Width="80"
+						Style="{StaticResource label}"
+						/>
 					<StackPanel
 							Width="80"
 							Orientation="Horizontal"
@@ -181,9 +191,9 @@
 							Foreground="#bababa"
 							Style="{StaticResource lblCount}"
 							/>
-
 				</StackPanel>
 			</Grid>
+				</StackPanel>
 		</StackPanel>
 	</StackPanel>
 </UserControl>
