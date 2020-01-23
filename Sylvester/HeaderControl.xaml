@@ -89,16 +89,16 @@
 					>
 				<local:FolderPath
 						x:Name="FpPath"
-						Margin="8,4,0,-2"
+						Margin="4,4,0,-2"
 						FontSize="10"
-						FontColor="#CCCCCC"
+						FontColor="White"
 						VerticalAlignment="Bottom"
 						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
 				>
 					<local:FolderPath.Style>
 						<Style TargetType="local:FolderPath">
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding Path=HideDirectory}" Value="true">
+								<DataTrigger Binding="{Binding ElementName=headerControl,  Path=HideDirectory}" Value="true">
 									<Setter Property="Visibility" Value="Hidden"/>
 								</DataTrigger>
 							</Style.Triggers>

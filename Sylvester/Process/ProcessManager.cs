@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using Sylvester.FileSupport;
-using Sylvester.SelectFolder;
+using Sylvester.FolderSupport;
 using Sylvester.Settings;
 
 #endregion
@@ -40,6 +40,7 @@ namespace Sylvester.Process
 			FinalFileColl = new FilesCollection<FinalFile>();
 
 			Reset();
+
 		}
 
 		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
@@ -56,14 +57,13 @@ namespace Sylvester.Process
 
 		public bool UseExistingCaseShtTitle
 		{
-			get => UserSettings.Data.SheetTitleCase == SheetTitleCase.OK_AS_IS;
+			get => SetgMgr.SheetTitleCase == SheetTitleCase.OK_AS_IS;
 			set
 			{
 				if (value)
 				{
-					UserSettings.Data.SheetTitleCase =
+					SetgMgr.SheetTitleCase =
 						SheetTitleCase.OK_AS_IS;
-					UserSettings.Admin.Save();
 
 					OnPropertyChange();
 
@@ -74,14 +74,13 @@ namespace Sylvester.Process
 
 		public bool ForceUpperCaseShtTitle
 		{
-			get => UserSettings.Data.SheetTitleCase == SheetTitleCase.TO_UPPER_CASE;
+			get => SetgMgr.SheetTitleCase == SheetTitleCase.TO_UPPER_CASE;
 			set
 			{
 				if (value)
 				{
-					UserSettings.Data.SheetTitleCase =
+					SetgMgr.SheetTitleCase =
 						SheetTitleCase.TO_UPPER_CASE;
-					UserSettings.Admin.Save();
 
 					OnPropertyChange();
 
@@ -92,14 +91,13 @@ namespace Sylvester.Process
 
 		public bool ForceWordCapShtTitle
 		{
-			get => UserSettings.Data.SheetTitleCase == SheetTitleCase.TO_CAP_EA_WORD;
+			get => SetgMgr.SheetTitleCase == SheetTitleCase.TO_CAP_EA_WORD;
 			set
 			{
 				if (value)
 				{
-					UserSettings.Data.SheetTitleCase =
+					SetgMgr.SheetTitleCase =
 						SheetTitleCase.TO_CAP_EA_WORD;
-					UserSettings.Admin.Save();
 
 					OnPropertyChange();
 
@@ -122,6 +120,8 @@ namespace Sylvester.Process
 			BaseReadFiles = new ReadFiles();
 			BaseFileColl.Folder = fmBase.Folder;
 			cvBase = null;
+
+			OnPropertyChange("BaseFileColl");
 		}
 
 		private void ResetTest()
@@ -131,6 +131,8 @@ namespace Sylvester.Process
 			TestReadFiles = new ReadFiles();
 			TestFileColl.Folder = fmTest.Folder;
 			cvTest = null;
+
+			OnPropertyChange("BaseFileColl");
 		}
 
 		private void ResetFinal()
@@ -138,12 +140,14 @@ namespace Sylvester.Process
 			FinalFileColl.Reset();
 			ConfigFinal();
 			CollectionViewFinal();
+
+			OnPropertyChange("FinalFileColl");
 		}
 
 		private void ConfigFinal()
 		{
 			FinalFileColl.Name = "Final";
-			FinalFileColl.HideDirectory = true;
+//			FinalFileColl.HideDirectory = true;
 		}
 
 		public bool Read()

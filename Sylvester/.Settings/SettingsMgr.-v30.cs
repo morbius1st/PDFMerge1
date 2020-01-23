@@ -160,7 +160,7 @@ namespace SettingManager
 					catch (System.Runtime.Serialization.SerializationException)
 					{
 						Create();
-						Save();
+						Write();
 					}
 					// catch any other errors
 					catch (Exception e)
@@ -180,7 +180,7 @@ namespace SettingManager
 			else
 			{
 				Create();
-				Save();
+				Write();
 			}
 		}
 
@@ -223,9 +223,9 @@ namespace SettingManager
 
 		#endregion
 
-		#region + Save
+		#region + Write
 
-		public void Save()
+		public void Write()
 		{
 			XmlWriterSettings xmlSettings = new XmlWriterSettings() {Indent = true};
 
@@ -277,7 +277,7 @@ namespace SettingManager
 				{
 					UpgradeList(settings);
 
-					Save();
+					Write();
 				}
 			}
 

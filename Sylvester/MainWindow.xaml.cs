@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Sylvester.FileSupport;
 using Sylvester.Process;
-using Sylvester.SelectFolder;
 using Sylvester.Settings;
 
 namespace Sylvester

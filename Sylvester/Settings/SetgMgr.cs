@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using System.Security;
 using Sylvester.FileSupport;
+using Sylvester.Process;
 
 #endregion
 
@@ -25,11 +26,30 @@ namespace Sylvester.Settings
 
 		public static SetgMgr Instance => instance;
 
+	#region configuration settings
+
+		public static SheetTitleCase SheetTitleCase {
+			get
+			{
+				return UserSettings.Data.SheetTitleCase;
+			}
+
+			set
+			{
+				UserSettings.Data.SheetTitleCase = value;
+				UserSettings.Admin.Write();
+			}
+	}
+
+
+
+	#endregion
+
 //		public void SetInitFolder(string folder)
 //		{
 //			UserSettings.Data.PriorBaseFolder = folder;
 //
-//			UserSettings.Admin.Save();
+//			UserSettings.Admin.Write();
 //		}
 //
 //		public Route BaseFolder
@@ -40,7 +60,7 @@ namespace Sylvester.Settings
 //			{
 //				UserSettings.Data.PriorBaseFolder = value.FullPath;
 //
-//				UserSettings.Admin.Save();
+//				UserSettings.Admin.Write();
 //			}
 //		}
 //
@@ -52,7 +72,7 @@ namespace Sylvester.Settings
 //			{
 //				UserSettings.Data.PriorTestFolder = value.FullPath;
 //
-//				UserSettings.Admin.Save();
+//				UserSettings.Admin.Write();
 //			}
 //		}
 

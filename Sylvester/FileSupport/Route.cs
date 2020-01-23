@@ -49,7 +49,7 @@ namespace Sylvester.FileSupport
 
 			for (int i = 1; i < path.Length; i++)
 			{
-				sb.Append(path[i]);
+				sb.Append(@"\").Append(path[i]);
 			}
 
 			ConfigureRoute(sb.ToString());

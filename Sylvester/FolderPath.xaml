@@ -31,7 +31,7 @@
 						<Binding
 								ElementName="folderPath"
 								Path="ProposedSkewedButtonType"
-								> 
+								>
 						</Binding>
 						<Binding
 								FallbackValue="4"
@@ -39,7 +39,7 @@
 								RelativeSource="{RelativeSource Self}"
 								>
 						</Binding>
-						<Binding/>
+						<Binding />
 					</MultiBinding>
 				</Setter.Value>
 			</Setter>
@@ -60,25 +60,32 @@
 
 	</UserControl.Resources>
 	<DockPanel
+			Margin="4,0,0,0"
 			x:Name="PathDockPanel"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			>
 
-
-		<local:SkewedButton
-				x:Name="SkewedButton4"
-				FontColor="#CCCCCC"
+		<StackPanel
+				x:Name="SpPath"
 				DockPanel.Dock="Right"
-				Index="-1"
-				SkewedButtonType="4"
-				Text="C:\path"
-				Style="{StaticResource SkewedButtonPathStyle}"
-				/>
+				Orientation="Horizontal"
+				>
+			<local:SkewedButton
+					x:Name="SkewedButton4"
+					FontColor="{Binding ElementName=folderPath, Path=FontColor}"
+					Button.Click="InnerButton_Click"
+					Index="-1"
+					SkewedButtonType="4"
+					Text="C:\path"
+					Style="{StaticResource SkewedButtonPathStyle}"
+					/>
+		</StackPanel>
 
 		<local:SkewedButton
 				x:Name="SkewedButton2"
-				FontColor="#CCCCCC"
+				FontColor="{Binding ElementName=folderPath, Path=FontColor}"
+				Button.Click="InnerButton_SelectFolder"
 				DockPanel.Dock="Right"
 				Index="-1"
 				ShowArrow="False"
@@ -90,7 +97,8 @@
 
 		<local:SkewedButton
 				x:Name="SkewedButton1"
-				FontColor="#CCCCCC"
+				FontColor="{Binding ElementName=folderPath, Path=FontColor}"
+				Button.Click="InnerButton_Favorites"
 				DockPanel.Dock="Right"
 				Index="-1"
 				ShowArrow="False"

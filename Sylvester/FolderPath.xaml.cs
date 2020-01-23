@@ -25,7 +25,12 @@ namespace Sylvester
 	/// </summary>
 	public partial class FolderPath : UserControl
 	{
-		private string[] path;
+		private string[] path = new []
+		{
+			@"C:\path",
+			@"C:\path"
+		};
+
 		private int nextIndex;
 
 		private Color pathFontColor = Color.FromArgb(0xFF, 0xCC, 0xCC, 0xCC);
@@ -42,16 +47,17 @@ namespace Sylvester
 		public Route Path
 		{
 			get => new Route(path);
-			set { SetPath(value); }
+			set
+			{
+				SetPath(value);
+			}
 		}
 
 		public void SetPath(Route newPath)
 		{
-			return;
+			clearSkewedButtons();
 
 			SelectedFolder = null;
-
-			ClearSkewedButtons();
 
 			if (newPath == null || !newPath.IsValid)
 			{
@@ -59,23 +65,19 @@ namespace Sylvester
 				SelectedPath = null;
 				SelectedFolder = null;
 				path = null;
-
-//				AddSelectFolderButton();
 			}
 			else
 			{
-				path = newPath.FullPathNames;
-
-				AddPath();
+				AddPath(newPath.FullPathNames);
 			}
 		}
 
-		private void AddPath()
+		private void AddPath(string[] path)
 		{
-//			ClearSkewedButtons();
+			this.path = path;
 			nextIndex = 0;
 
-			foreach (string s in path)
+			foreach (string s in this.path)
 			{
 				Add(s, nextIndex++);
 			}
@@ -89,19 +91,27 @@ namespace Sylvester
 			sk.FontColor = new SolidColorBrush(pathFontColor);
 			sk.InnerButton.Click += InnerButton_Click;
 
-			PathDockPanel.Children.Add(sk);
+			SpPath.Children.Add(sk);
 		}
 
-		private void ClearSkewedButtons()
+		private void clearSkewedButtons()
 		{
-			if (PathDockPanel.Children.Count <= 0) return;
-
-			for (int i = PathDockPanel.Children.Count - 1; i >= 2 ; i--)
+			foreach (SkewedButton spPathChild in SpPath.Children)
 			{
-				((SkewedButton) PathDockPanel.Children[i]).InnerButton.Click -= InnerButton_Click;
+				spPathChild.InnerButton.Click -= InnerButton_Click;
 			}
 
-			PathDockPanel.Children.Clear();
+			SpPath.Children.Clear();
+
+
+//			if (PathDockPanel.Children.Count <= 0) return;
+//
+//			for (int i = PathDockPanel.Children.Count - 1; i >= 2 ; i--)
+//			{
+//				((SkewedButton) PathDockPanel.Children[i]).InnerButton.Click -= InnerButton_Click;
+//			}
+//
+//			PathDockPanel.Children.Clear();
 		}
 
 //		private void AddSelectFolderButton()
@@ -128,6 +138,11 @@ namespace Sylvester
 //			PathDockPanel.Children.Add(sk);
 //		}
 
+		private void InnerButton_Favorites(object sender, RoutedEventArgs e)
+		{
+			RaiseFavoritesEvent();
+		}
+
 		private void InnerButton_SelectFolder(object sender, RoutedEventArgs e)
 		{
 			RaiseSelectFolderEvent();
@@ -135,7 +150,8 @@ namespace Sylvester
 
 		private void InnerButton_Click(object sender, RoutedEventArgs e)
 		{
-			Button b = sender as Button;
+			Button b = (Button) sender;
+
 			SkewedButton skb = b.Tag as SkewedButton;
 
 			SelectedIndex = (int) skb.Tag;
@@ -143,18 +159,17 @@ namespace Sylvester
 			SelectedPath = path[0] + @"\";
 
 			if (SelectedIndex > 0)
-			{ 
+			{
 				StringBuilder sb = new StringBuilder(path[0]);
 
 				for (int i = 1; i < SelectedIndex + 1; i++)
 				{
 					sb.Append(@"\").Append(path[i]);
-
 				}
+
 				SelectedPath = sb.ToString();
 
-			RaisePathChangeEvent();
-
+				RaisePathChangeEvent();
 			}
 			else
 			{
@@ -164,6 +179,16 @@ namespace Sylvester
 
 
 	#region event handeling
+
+		// event 2, a folder was selected
+		public delegate void FavoritesEventHandler(object sender);
+
+		public event FavoritesEventHandler Favorites;
+
+		protected virtual void RaiseFavoritesEvent()
+		{
+			Favorites?.Invoke(this);
+		}
 
 		// event 2, a folder was selected
 		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
@@ -288,6 +313,4 @@ namespace Sylvester
 			SelectedPath = new Route(selectedPath);
 		}
 	}
-
-
 }

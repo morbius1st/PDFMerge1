@@ -27,7 +27,7 @@ namespace Sylvester.FileSupport {
 
 			set
 			{
-				switch (UserSettings.Data.SheetTitleCase)
+				switch (SetgMgr.SheetTitleCase)
 				{
 					case SheetTitleCase.TO_CAP_EA_WORD:
 						sheetTitle = ToCapEachWord(originalSheetTitle);

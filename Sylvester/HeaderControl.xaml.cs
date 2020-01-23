@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Sylvester.FileSupport;
+using Sylvester.FolderSupport;
 
 
 namespace Sylvester
@@ -13,6 +16,27 @@ namespace Sylvester
 		public HeaderControl()
 		{
 			InitializeComponent();
+		}
+
+		public void SetPathChangeEventHandler(FolderPath.PathChangedEventHandler f)
+		{
+			FpPath.PathChange += f;
+		}
+		
+		public void SetSelectFolderEventHandler(FolderPath.SelectFolderEventHandler f)
+		{
+			FpPath.SelectFolder += f;
+		}
+		
+		public void SetFavoritesEventHandler(FolderPath.FavoritesEventHandler f)
+		{
+			FpPath.Favorites += f;
+		}
+
+		public Route Path
+		{
+			get => FpPath.Path;
+			set => FpPath.Path = value;
 		}
 
 		public static readonly DependencyProperty TitleProperty =

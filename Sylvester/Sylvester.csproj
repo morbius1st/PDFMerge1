@@ -77,7 +77,8 @@
     </Compile>
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
-    <Compile Include="SelectFolder\UserSettingData30.cs" />
+    <Compile Include="FolderSupport\FavoritesManager.cs" />
+    <Compile Include="FolderSupport\UserSettingData30.cs" />
     <Compile Include="SkewedButton.xaml.cs">
       <DependentUpon>SkewedButton.xaml</DependentUpon>
     </Compile>
@@ -93,7 +94,7 @@
     <Compile Include="FileSupport\FinalFile.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />
-    <Compile Include="SelectFolder\FolderManager.cs" />
+    <Compile Include="FolderSupport\FolderManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
@@ -117,7 +118,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileSupport\Route.cs" />
-    <Compile Include="SelectFolder\SelectFolder.cs" />
+    <Compile Include="FolderSupport\SelectFolder.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

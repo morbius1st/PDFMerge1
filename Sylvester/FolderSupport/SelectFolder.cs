@@ -13,7 +13,7 @@ using Sylvester.Settings;
 // created:  12/31/2019 3:01:00 PM
 
 
-namespace Sylvester.SelectFolder
+namespace Sylvester.FolderSupport
 {
 	public class SelectFolder
 	{
@@ -36,7 +36,7 @@ namespace Sylvester.SelectFolder
 			cfd.AllowNonFileSystemItems = false;
 
 			cfd.AllowPropertyEditing = AppSettings.Data.AllowPropertyEditing;
-			AppSettings.Admin.Save();
+			AppSettings.Admin.Write();
 
 			CommonFileDialogResult result = cfd.ShowDialog();
 
