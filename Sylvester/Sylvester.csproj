@@ -77,8 +77,11 @@
     </Compile>
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
-    <Compile Include="FolderSupport\FavoritesManager.cs" />
-    <Compile Include="FolderSupport\UserSettingData30.cs" />
+    <Compile Include="SavedFolders\SavedFldrManager.cs" />
+    <Compile Include="SavedFolders\UserSettingData30.cs" />
+    <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
+      <DependentUpon>SavedFoldersWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SkewedButton.xaml.cs">
       <DependentUpon>SkewedButton.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,7 @@
     <Compile Include="lvTestControl.xaml.cs">
       <DependentUpon>lvTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Support\SavedFoldersDebugSupport.cs" />
     <Compile Include="Support\Support.cs" />
     <Compile Include="FileSupport\FinalFile.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
@@ -127,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SavedFolders\SavedFoldersWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SkewedButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +162,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

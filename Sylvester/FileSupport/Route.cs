@@ -3,9 +3,11 @@
 using System;
 using System.Data;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using SysPath = System.IO.Path;
 using JetBrains.Annotations;
+
 #endregion
 
 // itemname: Route
@@ -22,8 +24,14 @@ namespace Sylvester.FileSupport
 		DIRECTORY
 	}
 
-		public class Route : IEquatable<Route>, IComparable<Route>
+	[DataContract]
+	public class Route : IEquatable<Route>, IComparable<Route>
 	{
+	#region private fields
+
+		private string fullPath;
+
+	#endregion
 
 	#region static properties
 
@@ -59,12 +67,12 @@ namespace Sylvester.FileSupport
 		{
 			IsValid = false;
 
-			FullPath = Validate(initialPath);
+			fullPath = Validate(initialPath);
 
-			if (FullPath != null)
+			if (fullPath != null)
 			{
 				IsValid = true;
-				FullPath = initialPath;
+				fullPath = initialPath;
 			}
 		}
 
@@ -86,6 +94,7 @@ namespace Sylvester.FileSupport
 				return false;
 			}
 		}
+
 		public bool IsRooted => !(RootPath.Equals(@"\"));
 		public bool HasFileName => !string.IsNullOrWhiteSpace(FileName);
 
@@ -93,7 +102,12 @@ namespace Sylvester.FileSupport
 
 	#region public properties
 
-		public string FullPath { get; private set; }
+		[DataMember]
+		public string FullPath
+		{
+			get => fullPath;
+			set => ConfigureRoute(value);
+		}
 
 		public string RootPath
 		{
@@ -121,7 +135,7 @@ namespace Sylvester.FileSupport
 			get
 			{
 				if (!IsValid
-					|| !IsRooted 
+					|| !IsRooted
 					|| RootPath == null) return null;
 
 				if (!IsUnc && RootPath.EndsWith(@"\"))
@@ -180,6 +194,7 @@ namespace Sylvester.FileSupport
 					if (SysPath.HasExtension(FullPath))
 						return SysPath.GetFileNameWithoutExtension(FullPath);
 				}
+
 				return null;
 			}
 		}
@@ -252,7 +267,9 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public string[] FullPathNames {
+		[IgnoreDataMember]
+		public string[] FullPathNames
+		{
 			get
 			{
 				string[] folderNames = FolderNames;
@@ -268,8 +285,9 @@ namespace Sylvester.FileSupport
 
 				return fullPathNames;
 			}
-	}
+		}
 
+		[IgnoreDataMember]
 		public string[] FolderNames => FolderNameList(Folders);
 
 		public int FolderCount
@@ -312,12 +330,13 @@ namespace Sylvester.FileSupport
 
 	#region public methods
 
-		public bool Prepend(string prependPath){
+		public bool Prepend(string prependPath)
+		{
 			if (!IsValid || IsRooted)
 			{
 				return false;
 			}
-			   
+
 			FullPath = prependPath + FullPath;
 			return true;
 		}
@@ -484,9 +503,9 @@ namespace Sylvester.FileSupport
 			// start with folders
 			string[] f = DividePath(Folders);
 
-			if (f == null || f.Length-1 < index) return null;
+			if (f == null || f.Length - 1 < index) return null;
 
-			return f[f.Length-1 - index];
+			return f[f.Length - 1 - index];
 		}
 
 	#endregion
@@ -509,7 +528,6 @@ namespace Sylvester.FileSupport
 		}
 
 	#endregion
-
 	}
 }
 
@@ -520,12 +538,12 @@ namespace Sylvester.FileSupport
 // Paths(2)       v------------------v
 // Paths(1)       v--------------v   |
 // Paths(0)       v----------v   |   |
-		// [0]    v----------v   |   |
-		// [1]    |          |v--v   |
-		// [2]    |          ||  |v--v
+// [0]            v----------v   |   |
+// [1]            |          |v--v   |
+// [2]            |          ||  |v--v
 // FullPath       \\cs-004\dir\dir\dir\file.ext
-		// [-1]   |      |   ||  |^--^ |  | | |
-		// [-2]   |      |   |^--^   | |  | | |
+// [-1]           |      |   ||  |^--^ |  | | |
+// [-2]           |      |   |^--^   | |  | | |
 // VolumeName     ^------^   ||      | |  | | |
 // RootPath       ^----------^|      | |  | | | 
 // Folders        |           ^------^ |  | | |
@@ -545,14 +563,13 @@ namespace Sylvester.FileSupport
 //   [-1]      | \MicroStation  (MicroStation)
 //   [-2]      | \021 - Household  (021 - Household)
 //   [-3]      | \Files  (Files)
- 
+
 // assemble path() [+2] \\CS-004\Documents\Files\021 - Household
 // assemble path() [-1] \\CS-004\Documents\Files
 
 // FolderNameList() & FolderNames[]
 // [0] = Documents  |  [1] = Files
 // [2] = 021 - Household  |  [3] = MicroStation
-
 
 
 //
@@ -562,14 +579,14 @@ namespace Sylvester.FileSupport
 // Paths(2)       v---------v  |
 // Paths(1)       v----v   |   |
 // Paths(0)       vv   |   |   |
-		// [0]    vv   |   |   |
-		// [1]    ||v--v   |   |
-		// [2]    |||  |v--v   |
-		// [3]    |||  ||  |v--v
+// [0]            vv   |   |   |
+// [1]            ||v--v   |   |
+// [2]            |||  |v--v   |
+// [3]            |||  ||  |v--v
 // FullPath       c:\dir\dir\dir\file.ext
-		// [-1]   |||  ||  |^--^ |  | | |
-		// [-2]   |||  |^--^   | |  | | |
-		// [-3]   ||^--^       | |  | | |
+// [-1]           |||  ||  |^--^ |  | | |
+// [-2]           |||  |^--^   | |  | | |
+// [-3]           ||^--^       | |  | | |
 // VolumeName     ^^|          | |  | | |
 // RootPath       ^-^          | |  | | | 
 // Folders        | ^----------^ |  | | |

@@ -31,7 +31,7 @@ namespace Sylvester.Process
 		public FolderManager fmTest { get; private set; }
 
 		public ProcessManager(HeaderControl hcBase, HeaderControl hcTest)
-		{ 
+		{
 			fmBase = new FolderManager(0, hcBase);
 			fmTest = new FolderManager(1, hcTest);
 
@@ -43,9 +43,9 @@ namespace Sylvester.Process
 
 		}
 
-		public FilesCollection<BaseFile>  BaseFileColl { get; private set; }
-		public FilesCollection<TestFile>  TestFileColl { get; private set; }
-		public FilesCollection<FinalFile>  FinalFileColl { get; private set; }
+		public FilesCollection<BaseFile> BaseFileColl { get; private set; }
+		public FilesCollection<TestFile> TestFileColl { get; private set; }
+		public FilesCollection<FinalFile> FinalFileColl { get; private set; }
 
 		public ReadFiles BaseReadFiles { get; private set; }
 		public ReadFiles TestReadFiles { get; private set; }
@@ -147,7 +147,7 @@ namespace Sylvester.Process
 		private void ConfigFinal()
 		{
 			FinalFileColl.Name = "Final";
-//			FinalFileColl.HideDirectory = true;
+			//			FinalFileColl.HideDirectory = true;
 		}
 
 		public bool Read()
@@ -160,7 +160,7 @@ namespace Sylvester.Process
 
 		public bool ReadBase()
 		{
-			
+
 
 			if (!BaseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl)) return false;
 
@@ -171,7 +171,7 @@ namespace Sylvester.Process
 
 		public bool ReadTest()
 		{
-			
+
 			if (!TestReadFiles.GetFiles(fmTest.Folder, true, TestFileColl)) return false;
 
 			CollectionViewTest();
@@ -247,7 +247,7 @@ namespace Sylvester.Process
 
 			OnPropertyChange("pm");
 
-			
+
 
 		}
 

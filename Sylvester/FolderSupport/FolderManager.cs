@@ -4,7 +4,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Sylvester.FileSupport;
+using Sylvester.SavedFolders;
 using Sylvester.Settings;
+using Sylvester.Support;
+using UtilityLibrary;
+
+using static Sylvester.SavedFolders.SavedFolderType;
 
 #endregion
 
@@ -13,7 +18,6 @@ using Sylvester.Settings;
 // itemname: FolderManager
 // username: jeffs
 // created:  1/4/2020 9:30:29 PM
-
 
 
 // general folder manager - works with either collection
@@ -25,15 +29,13 @@ namespace Sylvester.FolderSupport
 
 		private SelectFolder sf = new SelectFolder();
 
-//		private FolderPath fpPath;
+		public SavedFolderManager[] sfMgr = new SavedFolderManager[COUNT.Value()];
 
 		private Route folderPath;
 
 		private int index;
 
 		private HeaderControl hcPath;
-
-		private FavoritesManager favMgr;
 
 		public FolderManager(int index, HeaderControl hcPath)
 		{
@@ -45,7 +47,12 @@ namespace Sylvester.FolderSupport
 			hcPath.SetSelectFolderEventHandler(onFolderPathSelectFolderEvent);
 			hcPath.SetFavoritesEventHandler(onFolderPathFavoriteEvent);
 
-			favMgr = new FavoritesManager(index);
+			sfMgr[CURRENT.Value()] = new SavedFolderManager(CURRENT);
+			sfMgr[REVISION.Value()] = new SavedFolderManager(REVISION);
+
+			SavedFoldersDebugSupport.Instance.
+				ConfigSavedFoldersDebugSupport(sfMgr[CURRENT.Value()], sfMgr[REVISION.Value()]);
+
 
 			getPriorFolder();
 
@@ -53,6 +60,18 @@ namespace Sylvester.FolderSupport
 		}
 
 		public Route Folder { get; set; }
+
+		/*
+			1 = ★ favorite alone
+			2 = select folder alone
+			4 = path alone
+			type  -1-  -4-
+			 2     no   no  -> show select folder only = 2 + 0 + 0
+			 3    yes   no  -> show ★ & select folder = 2 + 1 + 0
+			 4     no  yes  -> show path = 0 + 0 + 4
+			 5    yes  yes  -> show ★ & path = 0+ 1 + 4
+		 */
+
 
 		public bool HasPriorFolder => Folder.IsValid;
 
@@ -65,7 +84,7 @@ namespace Sylvester.FolderSupport
 				folderPathType = 4;
 			}
 
-			folderPathType += favMgr.HasFavorites ? 1 : 0;
+			folderPathType += sfMgr[0].HasSavedFolders ? 1 : 0;
 
 			hcPath.FolderPathType = folderPathType;
 		}
@@ -85,14 +104,15 @@ namespace Sylvester.FolderSupport
 		{
 			if (index == 0)
 			{
-				UserSettings.Data.PriorFolders[index] = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
+				SetgMgr.SetPriorFolder(index,
+					@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 			}
 			else
 			{
-				UserSettings.Data.PriorFolders[index] = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
+				SetgMgr.SetPriorFolder(index,
+					@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
 			}
 		}
-
 
 		private void getPriorFolder()
 		{
@@ -105,17 +125,10 @@ namespace Sylvester.FolderSupport
 
 		private void SelectFolder()
 		{
-
-//			getPriorFolder();
-//
-//			return true;
-
 			Folder = sf.GetFolder(Folder);
 			if (!Folder.IsValid) return;
 
-//			UserSettings.Data.PriorFolders[index] = Folder.FullPath;
-			UserSettings.Data.PriorFolders[index] = Folder.FullPath;
-			UserSettings.Admin.Write();
+			SetgMgr.SetPriorFolder(index, Folder);
 
 			hcPath.Path = Folder;
 
@@ -139,10 +152,10 @@ namespace Sylvester.FolderSupport
 
 			SelectFolder();
 		}
-		
+
 		private void onFolderPathFavoriteEvent(object sender)
 		{
-//			Debug.WriteLine("folderManager, Favorites");
+			//			Debug.WriteLine("folderManager, Favorites");
 
 			SelectFolder();
 		}
@@ -153,7 +166,5 @@ namespace Sylvester.FolderSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
 	}
-
 }

@@ -34,6 +34,7 @@ using static UtilityLibrary.MessageUtilities2;
 //	ver 2.6		incorporate [OnDeserializing] and proper default values
 //	ver 3.0		updated to incorporate checking for setting file being
 //				a different version and to upgrade to the current version
+//	ver 3.1		added call to SyncData() at the end of a normal read();
 
 // standard settings manager
 
@@ -63,9 +64,9 @@ namespace SettingManager
 
 		[DataMember(Order = 1)] public string SaveDateTime         = DateTime.Now.ToString("yyyy-MM-dd - HH:mm zzz");
 		[DataMember(Order = 2)] public string AssemblyVersion      = CsUtilities.AssemblyVersion;
-		[DataMember(Order = 3)] public string SystemVersion = "3.0";
+		[DataMember(Order = 3)] public string SystemVersion = "3.1";
 		[DataMember(Order = 4)] public string ClassVersion;
-		[DataMember(Order = 5)] public string Notes = "created by v3.0";
+		[DataMember(Order = 5)] public string Notes = "created by v3.1";
 	}
 
 	#endregion
@@ -151,9 +152,10 @@ namespace SettingManager
 						using (FileStream fs = new FileStream(Info.SettingPathAndFile, FileMode.Open))
 						{
 							Info = (T) ds.ReadObject(fs);
-							SyncData();
-						}
 
+							// removed in v3.1 (moved to end)
+//							SyncData();
+						}
 						Status = READ;
 					}
 					// catch malformed XML data file and replace with default
@@ -182,6 +184,9 @@ namespace SettingManager
 				Create();
 				Write();
 			}
+
+			// added in v3.1
+			SyncData();
 		}
 
 		public dynamic Read(Type type)
@@ -236,13 +241,15 @@ namespace SettingManager
 				ds.WriteObject(w, Info);
 			}
 
+			
+
 			// since file and memory match
 			Status = SAVED;
 		}
 
 		#endregion
 
-		#region +Upgrade
+		#region + Upgrade
 
 		// upgrade from a prior class version to the current class version
 		// this method is less restricted to allow the user to perform
@@ -289,7 +296,7 @@ namespace SettingManager
 
 		#endregion
 
-		#region +Reset
+		#region + Reset
 
 		private readonly RstData _resetData;
 

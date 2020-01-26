@@ -47,6 +47,11 @@ namespace Sylvester.Settings
 	[DataContract(Name = "UserSettingData30")]
 	public partial class UserSettingData30
 	{
+		public UserSettingData30()
+		{
+			SavedFolderCtor();
+		}
+
 		[DataMember]
 		public string DefaultVolume = @"C:";
 
@@ -54,10 +59,10 @@ namespace Sylvester.Settings
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
 		[DataMember]
-		public Dictionary<string, FavFolder> Favorites = new Dictionary<string, FavFolder>();
+		public string[] PriorFolders = new string[2];
 
 		[DataMember]
-		public string[] PriorFolders;
+		public Route priorPath;
 
 //			= 
 //		{
@@ -99,28 +104,7 @@ namespace Sylvester.Settings
 //			};
 	}
 
-	
-	public struct FavFolder
-	{
-		[DataMember]
-		public int UsageCount;
 
-		[DataMember]
-		public string FavName;
-
-		[DataMember]
-		public string BasePath;
-
-		public FavFolder(string name, string path)
-		{
-			UsageCount = 0;
-			FavName = name; 
-			BasePath = path;
-		}
-
-		[IgnoreDataMember]
-		public Route FavPath => new Route(BasePath);
-	}
 
 
 //	// sample sub-class of dictionary to provide names to elements

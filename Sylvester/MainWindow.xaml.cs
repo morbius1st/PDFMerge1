@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Sylvester.FileSupport;
 using Sylvester.Process;
+using Sylvester.SavedFolders;
 using Sylvester.Settings;
 
 namespace Sylvester
@@ -19,14 +20,11 @@ namespace Sylvester
 
 		public ProcessManager pm { get; private set; }
 
-//		public FolderManager fm { get; private set; }
-
 		public MainWindow()
 		{
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
-
 		}
 
 		public bool SetFocus
@@ -128,12 +126,8 @@ namespace Sylvester
 			pm = new ProcessManager(HdrBase, HdrTest);
 			OnPropertyChange("pm");
 
-			
+			pm.fmBase.sfMgr[0].test();
 
-
-//			fm = new FolderManager();
-//
-//			fm.GetFolders();
 		}
 
 		//		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

@@ -1,11 +1,17 @@
 ﻿#region + Using Directives
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using System.Security;
+using SettingManager;
 using Sylvester.FileSupport;
 using Sylvester.Process;
+using Sylvester.SavedFolders;
+using UtilityLibrary;
+
+using static Sylvester.SavedFolders.SavedFolderType;
 
 #endregion
 
@@ -24,57 +30,91 @@ namespace Sylvester.Settings
 
 		static SetgMgr() { }
 
+		public SetgMgr() { }
+
 		public static SetgMgr Instance => instance;
 
 	#region configuration settings
 
-		public static SheetTitleCase SheetTitleCase {
-			get
-			{
-				return UserSettings.Data.SheetTitleCase;
-			}
-
+		public static SheetTitleCase SheetTitleCase
+		{
+			get { return UserSettings.Data.SheetTitleCase; }
 			set
 			{
 				UserSettings.Data.SheetTitleCase = value;
 				UserSettings.Admin.Write();
 			}
-	}
-
-
+		}
 
 	#endregion
 
-//		public void SetInitFolder(string folder)
-//		{
-//			UserSettings.Data.PriorBaseFolder = folder;
-//
-//			UserSettings.Admin.Write();
-//		}
-//
-//		public Route BaseFolder
-//		{
-//			get => new Route(UserSettings.Data.PriorBaseFolder);
-//
-//			set
-//			{
-//				UserSettings.Data.PriorBaseFolder = value.FullPath;
-//
-//				UserSettings.Admin.Write();
-//			}
-//		}
-//
-//		public Route TestFolder
-//		{
-//			get => new Route(UserSettings.Data.PriorTestFolder);
-//
-//			set
-//			{
-//				UserSettings.Data.PriorTestFolder = value.FullPath;
-//
-//				UserSettings.Admin.Write();
-//			}
-//		}
+	#region configuration data - prior folders
+
+		public static string[] test = new string[3];
+
+		public static void SetPriorFolder(int index, Route folder)
+		{
+			UserSettings.Data.PriorFolders[index] = folder.FullPath;
+			UserSettings.Admin.Write();
+		}
+
+		public static void SetPriorFolder(int index, string folder)
+		{
+
+			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
+
+			UserSettingData30 a = UserSettings.Data;
+			
+
+
+			UserSettings.Data.PriorFolders[index] = folder;
+			UserSettings.Admin.Write();
+		}
+
+		public static Route GetPriorFolder(int index)
+		{
+			return new Route(UserSettings.Data.PriorFolders[index]);
+		}
+
+	#endregion
+
+		public List<Dictionary<string, SavedFolder>> SavedFolders => UserSettings.Data.SavedFolders;
+
+		public bool AddSavedFolder(SavedFolder sf, SavedFolderType index)
+		{
+			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
+
+			UserSettings.Data.SavedFolders[index.Value()].Add(sf.Key, sf);
+
+			return true;
+		}
+
+		public bool HasSavedFolders(SavedFolderType index)
+		{
+			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
+
+		}
+
+		public SavedFolder FindSavedFolder(string testkey, SavedFolderType index)
+		{
+			foreach (KeyValuePair<string, SavedFolder> kvp in UserSettings.Data.SavedFolders[index.Value()])
+			{
+				if (kvp.Value.Identifier.RootFolder.Equals(testkey)) return kvp.Value;
+			}
+
+			return null;
+		}
+
+		public CurrentRevisionFolderPair 
+			FindCurrentRevisionFolderPair(SavedFolder sf, string testKey)
+		{
+			foreach (KeyValuePair<string, CurrentRevisionFolderPair> kvp in sf.FolderPairs)
+			{
+				if (kvp.Key.Equals(testKey)) return kvp.Value;
+			}
+
+			return null;
+		}
 
 
 	}
