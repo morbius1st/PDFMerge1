@@ -1,7 +1,6 @@
 ﻿#region + Using Directives
 
 using System;
-using System.Data;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -416,6 +415,20 @@ namespace Sylvester.FileSupport
 			return path.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
 		}
 
+		public string FolderName(int index)
+		{
+			string[] names = FolderNames;
+
+			if (index < 0)
+			{
+				index = names.Length + index;
+			}
+
+			if (index < 0 || index >= names.Length) return null;
+
+			return FolderNames[index];
+		}
+
 		public string[] DividePath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path)) return null;
@@ -599,19 +612,23 @@ namespace Sylvester.FileSupport
 // example
 // levels 4
 //   full route| C:\Documents\Files\021 - Household\MicroStation\0047116612.PDF
-//   [+0]      | C:\  (C:\)
-//   [+1]      | \Documents  (Documents)
-//   [+2]      | \Files  (Files)
-//   [+3]      | \021 - Household  (021 - Household)
-//   [+4]      | \MicroStation  (MicroStation)
-//   [-1]      | \MicroStation  (MicroStation)
-//   [-2]      | \021 - Household  (021 - Household)
-//   [-3]      | \Files  (Files)
-//   [-4]      | \Documents  (Documents)
+//   [+0] [-5?]| C:\  (C:\)
+//   [+1] [-4] | \Documents  (Documents)
+//   [+2] [-3] | \Files  (Files)
+//   [+3] [-2] | \021 - Household  (021 - Household)
+//   [+4] [-1] | \MicroStation  (MicroStation)
 
 // assemble path() [+2] C:\Documents\Files
 // assemble path() [-2] C:\Documents\Files\021 - Household
 
 // FolderNameList() & FolderNames
-// [0] = Documents  |  [1] = Files
-// [2] = 021 - Household  |  [3] = MicroStation
+//   [0]   | Documents
+//   [1]   | Files
+//   [2]   | 021 - Household
+//   [3]   | MicroStation
+//
+// FolderName()
+//   (-4)  | Documents
+//   (-3)  | Files
+//   (-2)  | 021 - Household
+//   (-1)  | MicroStation

@@ -7,7 +7,11 @@
 // itemname: SavedFolderManager
 // username: jeffs
 // created:  1/20/2020 8:55:27 PM
-	using Sylvester.FileSupport;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Data;
+using Sylvester.FileSupport;
 using Sylvester.Settings;
 
 	using static Sylvester.SavedFolders.SavedFolderType;
@@ -16,12 +20,12 @@ namespace Sylvester.SavedFolders
 {
 	public enum SavedFolderType
 	{
-		CURRENT = 0,
-		REVISION = 1,
+		SAVED = 0,
+		FAVORITES = 1,
 		COUNT = 2
 	}
 
-	public class SavedFolderManager
+	public class SavedFolderManager : INotifyPropertyChanged
 	{
 		// will be two versions 
 		// one for history
@@ -29,22 +33,53 @@ namespace Sylvester.SavedFolders
 
 		private static SavedFoldersWin savedWinInstance;
 
+		private Dictionary<string, SavedProject> savedFolders;
+		private ICollectionView savedFolderVue;
+
+		private SetgMgr sm;
+
 		public SavedFolderManager() { }
 
-		public SavedFolderManager(SavedFolderType index)
+		public SavedFolderManager(SavedFolderType index
+			)
 		{
 			savedWinInstance = new SavedFoldersWin();
+
+			this.savedFolders = savedFolders;
+
+			sm = SetgMgr.Instance;
 
 			Index = index;
 		}
 
+		public Dictionary<string, SavedProject> SavedFolders
+		{
+			get => savedFolders;
+			set
+			{
+				savedFolders = value;
+				OnPropertyChange();
+
+				Vue = CollectionViewSource.GetDefaultView(savedFolders);
+			}
+		}
+
+		public ICollectionView Vue
+		{
+			get => savedFolderVue;
+			set
+			{
+				savedFolderVue = value;
+				OnPropertyChange();
+			}
+		}
+
+
 		public SavedFolderType Index { get; set; }
 
-		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(Index);
+		public bool HasSavedFolders => sm.HasSavedFolders(Index);
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
-
-
 
 		public void test()
 		{
@@ -59,12 +94,12 @@ namespace Sylvester.SavedFolders
 		{
 			UserSettings.Data.priorPath = current;
 
-			SavedFolder sf = SetgMgr.Instance.FindSavedFolder(current.FolderNames[0], Index);
-			CurrentRevisionFolderPair cfp = new CurrentRevisionFolderPair(current, revision);
+			SavedProject sf = SetgMgr.Instance.FindSavedFolder(current.FolderNames[0], Index);
+			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
-				sf = new SavedFolder(current.VolumeName, current.FolderNames[0]);
+				sf = new SavedProject(current.VolumeName, current.FolderNames[0]);
 				SetgMgr.Instance.AddSavedFolder(sf, Index);
 			}
 			else
@@ -72,13 +107,26 @@ namespace Sylvester.SavedFolders
 				if (SetgMgr.Instance.FindCurrentRevisionFolderPair(sf, cfp.Key) != null) return false;
 			}
 
-			sf.FolderPairs.Add(cfp.Key, cfp);
+			sf.SavedFolderPairs.Add(cfp.Key, cfp);
 
 			UserSettings.Admin.Write();
+
+			OnPropertyChange("SavedFolders");
+
+			savedWinInstance.CollectionUpdated();
+
+//			savedWinInstance
 
 			return true;
 		}
 
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
 
 	}
 }

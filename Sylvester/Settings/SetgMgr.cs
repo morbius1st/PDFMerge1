@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using System.Security;
 using SettingManager;
@@ -78,9 +77,9 @@ namespace Sylvester.Settings
 
 	#endregion
 
-		public List<Dictionary<string, SavedFolder>> SavedFolders => UserSettings.Data.SavedFolders;
+		public Dictionary<string, SavedProject> SavedProjectFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
 
-		public bool AddSavedFolder(SavedFolder sf, SavedFolderType index)
+		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
 		{
 			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
 
@@ -95,9 +94,9 @@ namespace Sylvester.Settings
 
 		}
 
-		public SavedFolder FindSavedFolder(string testkey, SavedFolderType index)
+		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
 		{
-			foreach (KeyValuePair<string, SavedFolder> kvp in UserSettings.Data.SavedFolders[index.Value()])
+			foreach (KeyValuePair<string, SavedProject> kvp in UserSettings.Data.SavedFolders[index.Value()])
 			{
 				if (kvp.Value.Identifier.RootFolder.Equals(testkey)) return kvp.Value;
 			}
@@ -105,10 +104,10 @@ namespace Sylvester.Settings
 			return null;
 		}
 
-		public CurrentRevisionFolderPair 
-			FindCurrentRevisionFolderPair(SavedFolder sf, string testKey)
+		public SavedFolderPair 
+			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)
 		{
-			foreach (KeyValuePair<string, CurrentRevisionFolderPair> kvp in sf.FolderPairs)
+			foreach (KeyValuePair<string, SavedFolderPair> kvp in sf.SavedFolderPairs)
 			{
 				if (kvp.Key.Equals(testKey)) return kvp.Value;
 			}

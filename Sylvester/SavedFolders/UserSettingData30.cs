@@ -10,6 +10,7 @@
 
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Sylvester.FileSupport;
 
@@ -20,50 +21,55 @@ namespace Sylvester.Settings
 	{
 		private void SavedFolderCtor()
 		{
-			SavedFolders = new List<Dictionary<string, SavedFolder>>(2);
+			SavedFolders = new List<Dictionary<string, SavedProject>>(2);
 
-			SavedFolders.Add(new Dictionary<string, SavedFolder>());
+			SavedFolders.Add(new Dictionary<string, SavedProject>());
 
-			SavedFolders.Add(new Dictionary<string, SavedFolder>());
-
+			SavedFolders.Add(new Dictionary<string, SavedProject>());
 		}
 
 		[DataMember]
-		public List<Dictionary<string, SavedFolder>> SavedFolders;
+		public List<Dictionary<string, SavedProject>> SavedFolders;
+
+		[DataMember]
+		public List<ObservableCollection<SavedProject>> SavedFolders2;
 	}
 
 	[DataContract]
-	public class SavedFolder
+	public class SavedProject
 	{
 		// this will be the root folder name
 		public struct FolderRoot
 		{
 			[DataMember]
-			public string Volume;
+			public string Volume { get; set; }
 
 			[DataMember]
-			public string RootFolder;
+			public string RootFolder { get; set; }
 		}
 
 		[DataMember]
-		public FolderRoot Identifier;
+		public FolderRoot Identifier { get; set; }
 
 		[DataMember]
-		public string Key;
+		public string Key { get; set; }
 
 		[DataMember]
-		public string Name;
+		public string Name { get; set; }
+		
+		[DataMember]
+		public string Icon { get; set; }
 
 		[DataMember]
-		public int UseCount;
+		public int UseCount { get; set; }
 
 		[DataMember]
-		public Dictionary<string, CurrentRevisionFolderPair> FolderPairs =
-			new Dictionary<string, CurrentRevisionFolderPair>();
+		public Dictionary<string, SavedFolderPair> SavedFolderPairs { get; set; } =
+			new Dictionary<string, SavedFolderPair>() ;
 
-		public SavedFolder() { }
+		public SavedProject() { }
 
-		public SavedFolder(string volume, string rootFolder, string name = "")
+		public SavedProject(string volume, string rootFolder, string name = "")
 		{
 			Identifier = new FolderRoot()
 			{
@@ -75,6 +81,8 @@ namespace Sylvester.Settings
 			Name = string.IsNullOrWhiteSpace(name) ? Identifier.RootFolder : name;
 
 			Key = MakeSavedFolderKey(UseCount, Name);
+
+			Icon = null;
 		}
 
 		public static string MakeSavedFolderKey(int useCount, string name)
@@ -84,26 +92,30 @@ namespace Sylvester.Settings
 	}
 
 	[DataContract]
-	public class CurrentRevisionFolderPair
+	public class SavedFolderPair
 	{
 		[DataMember]
-		public string Key;
+		public string Key { get; set; }
 
 		[DataMember]
-		public Route Current;
+		public string Icon { get; set; }
 
 		[DataMember]
-		public Route Revision;
+		public Route Current { get; set; }
 
-		public CurrentRevisionFolderPair() { }
+		[DataMember]
+		public Route Revision { get; set; }
 
-		public CurrentRevisionFolderPair(Route current,
+		public SavedFolderPair() { }
+
+		public SavedFolderPair(Route current,
 			Route revision, string name = "")
 		{
+			Icon = null;
 			Current = current;
 			Revision = revision;
 
-			Key = MakeCurrRevFolderPairkey(current.FolderNames[0], revision.FolderNames[0], name);
+			Key = MakeCurrRevFolderPairkey(current.FolderName(-1), revision.FolderName(-1), name);
 		}
 
 		public static string MakeCurrRevFolderPairkey(string currentRootFolder, string revisionRootFolder, string name = "")

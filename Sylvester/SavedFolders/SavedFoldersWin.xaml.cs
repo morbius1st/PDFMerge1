@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,7 +27,7 @@ namespace Sylvester.SavedFolders
 	/// <summary>
 	/// Interaction logic for SavedFoldersWin.xaml
 	/// </summary>
-	public partial class SavedFoldersWin : Window
+	public partial class SavedFoldersWin : Window, INotifyPropertyChanged
 	{
 		// functions needed
 		// add project
@@ -36,15 +37,130 @@ namespace Sylvester.SavedFolders
 		// show / edit / select current folder
 		// show / edit / select revision folder
 
+		public Dictionary<string, SavedProject> savedFolders;
+		private SavedProject selectedSavedProject;
+		private Dictionary<string, SavedFolderPair> folderPairs;
+
+		private SavedFolderPair selectedFolderPair;
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
+
+		private string currentPath;
+		private string revisionPath;
+
+		private SavedFolderManager sfMgr;
 
 		public SavedFoldersWin()
 		{
 			InitializeComponent();
+
+			SavedFolders = SetgMgr.Instance.SavedProjectFolders;
+
 		}
 
-		public List<Dictionary<string, SavedFolder>> SavedFolders => SetgMgr.Instance.SavedFolders;
+	#region public properties
 
+//		public Dictionary<string, SavedProject> SavedFolders => SetgMgr.Instance.SavedProjectFolders;
+		public Dictionary<string, SavedProject> SavedFolders
+		{
+			get => savedFolders;
+			set
+			{
+				savedFolders = value;
+				OnPropertyChange();
+			}
+		}
+
+		public SavedProject SelectedSavedProject
+		{
+			private get { return selectedSavedProject; }
+			set
+			{
+				Append(nl);
+				AppendLineFmt("selected", value.Name);
+
+				selectedSavedProject = value;
+
+				OnPropertyChange();
+
+				FolderPairs = value.SavedFolderPairs;
+
+			}
+		}
+
+		public Dictionary<string, SavedFolderPair> FolderPairs
+		{
+			get { return folderPairs; }
+			set
+			{
+				folderPairs = value;
+				OnPropertyChange();
+			}
+		}
+
+		public SavedFolderPair SelectedFolderPair
+		{
+			get => selectedFolderPair;
+			set
+			{
+				selectedFolderPair = value;
+				OnPropertyChange();
+
+				CurrentPath = selectedFolderPair.Current.FullPath;
+				RevisionPath = selectedFolderPair.Revision.FullPath;
+			}
+		}
+
+
+	#region saved project public properties
+
+		public string Volume { get; set; }
+
+
+
+
+
+
+	#endregion
+
+
+	#region saved folder pair properties
+
+		public string CurrentPath
+		{
+			get => currentPath;
+
+			set
+			{
+				currentPath = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string RevisionPath
+		{
+			get => revisionPath;
+
+			set
+			{
+				revisionPath = value;
+				OnPropertyChange();
+			}
+		}
+
+	#endregion
+
+
+
+
+
+	#endregion
+
+
+
+		public void CollectionUpdated()
+		{
+			lvProjects.Items.Refresh();
+		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -61,12 +177,34 @@ namespace Sylvester.SavedFolders
 		{
 			Debug.WriteLine("@savedfolderWin| test");
 
-			tbxMain.Clear();
-
-			sfds.Test_02(CURRENT);
-
+			Test01();
 		}
 
+		private void Test01()
+		{
+			// add complete project test
+			tbxMain.Clear();
+
+			sfds.Test_02(SAVED);
+
+			CollectionUpdated();
+		}
+
+
+	#region event processing
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+	#endregion
+
+	#region debug routines
+
+	#if DEBUG
 		public void Append(string msg)
 		{
 			tbxMain.AppendText(msg);
@@ -81,5 +219,9 @@ namespace Sylvester.SavedFolders
 		{
 			AppendLine(logMsgDbS(msg1, msg2));
 		}
+	#endif
+
+	#endregion
+
 	}
 }

@@ -155,7 +155,7 @@
 								<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
 								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
 							</Trigger>
-							<!-- -->
+							<!--    -->
 							<!-- <MultiDataTrigger> -->
 							<!-- 	<MultiDataTrigger.Conditions> -->
 							<!-- 		<Condition Binding="{Binding IsPressed, ElementName=InnerButton, Mode=OneWay}" Value="True" /> -->
@@ -294,8 +294,40 @@
 									</Style.Triggers>
 								</Style>
 							</Path.Style>
-
 						</Path>
+
+						<Viewbox
+								x:Name="plus"
+								Grid.Column="0"
+								Grid.Row="0"
+								Width="9"
+								Height="9"
+								Stretch="Uniform"
+								Visibility="Collapsed"
+								>
+							<Canvas
+									Name="svg44"
+									Width="11"
+									Height="11"
+									>
+								<Rectangle
+										Name="rect40"
+										Canvas.Left="4"
+										Width="3"
+										Height="11"
+										Canvas.Top="0"
+										Fill="#00FF00"
+										/>
+								<Rectangle
+										Name="rect42"
+										Canvas.Left="0"
+										Width="11"
+										Height="3"
+										Canvas.Top="4"
+										Fill="#00FF00"
+										/>
+							</Canvas>
+						</Viewbox>
 
 						<Path
 								x:Name="arrow"
@@ -316,26 +348,12 @@
 									<Setter Property="Fill" Value="{StaticResource Label.PathArrow}" />
 									<Style.Triggers>
 
-										<!-- <DataTrigger Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="true"> -->
-										<!-- 	<Setter Property="Fill" Value="{StaticResource Label.PathArrow}" /> -->
-										<!-- </DataTrigger> -->
-
 										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowArrow}" Value="false">
 											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
-										<!-- -->
-										<!-- <MultiDataTrigger> -->
-										<!-- 	<MultiDataTrigger.Conditions> -->
-										<!-- 		<Condition Binding="{Binding IsMouseOver, ElementName=InnerButton, Mode=OneWay}" Value="True" /> -->
-										<!-- 		<Condition Binding="{Binding ElementName=skewedButton, Path=DisablePath}" Value="False" /> -->
-										<!-- 	</MultiDataTrigger.Conditions> -->
-										<!-- 	<MultiDataTrigger.Setters> -->
-										<!-- 	<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}"/> -->
-										<!-- 	</MultiDataTrigger.Setters> -->
-										<!-- </MultiDataTrigger> -->
 
 										<DataTrigger Binding="{Binding ElementName=InnerButton, Path=IsMouseOver}" Value="True">
-											<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}"/>
+											<Setter Property="Fill" Value="{StaticResource Button.MouseOver.Border}" />
 										</DataTrigger>
 
 									</Style.Triggers>

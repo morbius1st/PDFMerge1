@@ -1,15 +1,12 @@
 ﻿#region + Using Directives
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Sylvester.FileSupport;
-using Sylvester.SavedFolders;
 using Sylvester.Settings;
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
-using static Sylvester.SavedFolders.SavedFolderType;
 
 #endregion
 
@@ -20,9 +17,9 @@ using static Sylvester.SavedFolders.SavedFolderType;
 // created:  1/24/2020 5:52:02 PM
 
 
-namespace Sylvester.Support
+namespace Sylvester.SavedFolders
 {
-	public class SavedFoldersDebugSupport
+	public class SavedFoldersDebugSupport :INotifyPropertyChanged
 	{
 		private SavedFoldersWin savedWin;
 
@@ -67,7 +64,7 @@ namespace Sylvester.Support
 
 			savedWin.AppendLineFmt("make project", (result ? ";worked" : "failed"));
 
-			Test_03(index);
+//			Test_03(index);
 		}
 
 		public void Test_03(SavedFolderType index)
@@ -118,18 +115,18 @@ namespace Sylvester.Support
 		private void ListSavedFoldersInfo(SavedFolderType index)
 		{
 			UserSettingData30 d =  UserSettings.Data;
-			Dictionary<string, SavedFolder> sf = d.SavedFolders[index.Value()];
+			Dictionary<string, SavedProject> sf = d.SavedFolders[index.Value()];
 
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("project count", sf.Count.ToString());
 			
-			foreach (KeyValuePair<string, SavedFolder> kvp in sf)
+			foreach (KeyValuePair<string, SavedProject> kvp in sf)
 			{
 				listSavedFolderInfo(kvp);
 			}
 		}
 
-		private void listSavedFolderInfo(KeyValuePair<string, SavedFolder> kvp)
+		private void listSavedFolderInfo(KeyValuePair<string, SavedProject> kvp)
 		{
 			int i = 0;
 
@@ -142,7 +139,7 @@ namespace Sylvester.Support
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("current/rev fldf pair");
 			
-			foreach (KeyValuePair<string, CurrentRevisionFolderPair> kvpair in kvp.Value.FolderPairs)
+			foreach (KeyValuePair<string, SavedFolderPair> kvpair in kvp.Value.SavedFolderPairs)
 			{
 				savedWin.Append(nl);
 				savedWin.AppendLineFmt("item number", i++.ToString());
@@ -151,6 +148,13 @@ namespace Sylvester.Support
 				savedWin.AppendLineFmt("current-full path", kvpair.Value.Current?.FullPath ?? "null current route");
 				savedWin.AppendLineFmt("revision-full path", kvpair.Value.Revision?.FullPath ?? "null revision route");
 			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
 	}

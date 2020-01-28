@@ -47,11 +47,11 @@ namespace Sylvester.FolderSupport
 			hcPath.SetSelectFolderEventHandler(onFolderPathSelectFolderEvent);
 			hcPath.SetFavoritesEventHandler(onFolderPathFavoriteEvent);
 
-			sfMgr[CURRENT.Value()] = new SavedFolderManager(CURRENT);
-			sfMgr[REVISION.Value()] = new SavedFolderManager(REVISION);
+			sfMgr[SAVED.Value()] = new SavedFolderManager(SAVED);
+			sfMgr[FAVORITES.Value()] = new SavedFolderManager(FAVORITES);
 
 			SavedFoldersDebugSupport.Instance.
-				ConfigSavedFoldersDebugSupport(sfMgr[CURRENT.Value()], sfMgr[REVISION.Value()]);
+				ConfigSavedFoldersDebugSupport(sfMgr[SAVED.Value()], sfMgr[FAVORITES.Value()]);
 
 
 			getPriorFolder();
