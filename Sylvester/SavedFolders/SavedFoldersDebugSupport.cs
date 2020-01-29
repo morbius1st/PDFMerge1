@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Sylvester.FileSupport;
@@ -115,38 +116,36 @@ namespace Sylvester.SavedFolders
 		private void ListSavedFoldersInfo(SavedFolderType index)
 		{
 			UserSettingData30 d =  UserSettings.Data;
-			Dictionary<string, SavedProject> sf = d.SavedFolders[index.Value()];
+			ObservableCollection<SavedProject> sf = d.SavedFolders[index.Value()];
 
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("project count", sf.Count.ToString());
 			
-			foreach (KeyValuePair<string, SavedProject> kvp in sf)
+			foreach (SavedProject kvp in sf)
 			{
 				listSavedFolderInfo(kvp);
 			}
 		}
 
-		private void listSavedFolderInfo(KeyValuePair<string, SavedProject> kvp)
+		private void listSavedFolderInfo(SavedProject kvp)
 		{
 			int i = 0;
 
-			savedWin.AppendLineFmt("dict key", kvp.Key);
-			savedWin.AppendLineFmt("saved key", kvp.Value.Key);
-			savedWin.AppendLineFmt("name", kvp.Value.Name);
-			savedWin.AppendLineFmt("Id/Vol", kvp.Value.Identifier.Volume ?? "null volume");
-			savedWin.AppendLineFmt("Id/Root Folder", kvp.Value.Identifier.RootFolder ?? "null root folder");
-			savedWin.AppendLineFmt("UseCount", kvp.Value.UseCount.ToString());
+			savedWin.AppendLineFmt("saved key", kvp.Key);
+			savedWin.AppendLineFmt("name", kvp.Name);
+			savedWin.AppendLineFmt("Id/Vol", kvp.Identifier.Volume ?? "null volume");
+			savedWin.AppendLineFmt("Id/Root Folder", kvp.Identifier.RootFolder ?? "null root folder");
+			savedWin.AppendLineFmt("UseCount", kvp.UseCount.ToString());
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("current/rev fldf pair");
-			
-			foreach (KeyValuePair<string, SavedFolderPair> kvpair in kvp.Value.SavedFolderPairs)
+
+			foreach (SavedFolderPair kvpair in kvp.SavedFolderPairs)
 			{
 				savedWin.Append(nl);
 				savedWin.AppendLineFmt("item number", i++.ToString());
-				savedWin.AppendLineFmt("dict key", kvpair.Key);
-				savedWin.AppendLineFmt("saved key", kvpair.Value.Key);
-				savedWin.AppendLineFmt("current-full path", kvpair.Value.Current?.FullPath ?? "null current route");
-				savedWin.AppendLineFmt("revision-full path", kvpair.Value.Revision?.FullPath ?? "null revision route");
+				savedWin.AppendLineFmt("saved key", kvpair.Key);
+				savedWin.AppendLineFmt("current-full path", kvpair.Current?.FullPath ?? "null current route");
+				savedWin.AppendLineFmt("revision-full path", kvpair.Revision?.FullPath ?? "null revision route");
 			}
 		}
 

@@ -48,7 +48,12 @@ namespace Sylvester.FolderSupport
 			hcPath.SetFavoritesEventHandler(onFolderPathFavoriteEvent);
 
 			sfMgr[SAVED.Value()] = new SavedFolderManager(SAVED);
+
+			sfMgr[SAVED.Value()].Initialize(SetgMgr.Instance.ProjectSavedFolders);
+
+
 			sfMgr[FAVORITES.Value()] = new SavedFolderManager(FAVORITES);
+			sfMgr[FAVORITES.Value()].Initialize(SetgMgr.Instance.FavoritesSavedFolders);
 
 			SavedFoldersDebugSupport.Instance.
 				ConfigSavedFoldersDebugSupport(sfMgr[SAVED.Value()], sfMgr[FAVORITES.Value()]);

@@ -8,6 +8,7 @@
 // username: jeffs
 // created:  1/20/2020 8:55:27 PM
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
@@ -45,24 +46,16 @@ namespace Sylvester.SavedFolders
 		{
 			savedWinInstance = new SavedFoldersWin();
 
-			this.savedFolders = savedFolders;
-
 			sm = SetgMgr.Instance;
 
 			Index = index;
 		}
 
-		public Dictionary<string, SavedProject> SavedFolders
+		public void Initialize(ObservableCollection<SavedProject> savedFolders)
 		{
-			get => savedFolders;
-			set
-			{
-				savedFolders = value;
-				OnPropertyChange();
-
-				Vue = CollectionViewSource.GetDefaultView(savedFolders);
-			}
+			Vue = CollectionViewSource.GetDefaultView(savedFolders);
 		}
+
 
 		public ICollectionView Vue
 		{
@@ -94,20 +87,20 @@ namespace Sylvester.SavedFolders
 		{
 			UserSettings.Data.priorPath = current;
 
-			SavedProject sf = SetgMgr.Instance.FindSavedFolder(current.FolderNames[0], Index);
+			SavedProject sf = sm.FindSavedFolder(current.FolderNames[0], Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
 				sf = new SavedProject(current.VolumeName, current.FolderNames[0]);
-				SetgMgr.Instance.AddSavedFolder(sf, Index);
+				sm.AddSavedFolder(sf, Index);
 			}
 			else
 			{
-				if (SetgMgr.Instance.FindCurrentRevisionFolderPair(sf, cfp.Key) != null) return false;
+				if (sm.FindCurrentRevisionFolderPair(sf, cfp.Key) != null) return false;
 			}
 
-			sf.SavedFolderPairs.Add(cfp.Key, cfp);
+			sf.SavedFolderPairs.Add(cfp);
 
 			UserSettings.Admin.Write();
 

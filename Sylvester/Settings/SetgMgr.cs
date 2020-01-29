@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Security;
@@ -77,16 +78,9 @@ namespace Sylvester.Settings
 
 	#endregion
 
-		public Dictionary<string, SavedProject> SavedProjectFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
+		public ObservableCollection<SavedProject> ProjectSavedFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
+		public ObservableCollection<SavedProject> FavoritesSavedFolders => UserSettings.Data.SavedFolders[FAVORITES.Value()];
 
-		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
-		{
-			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
-
-			UserSettings.Data.SavedFolders[index.Value()].Add(sf.Key, sf);
-
-			return true;
-		}
 
 		public bool HasSavedFolders(SavedFolderType index)
 		{
@@ -94,22 +88,68 @@ namespace Sylvester.Settings
 
 		}
 
+//		public Dictionary<string, SavedProject> SavedProjectFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
+
+//		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
+//		{
+//			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
+//
+//			UserSettings.Data.SavedFolders[index.Value()].Add(sf.Key, sf);
+//
+//			return true;
+//		}
+
+		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
+		{
+			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
+
+			UserSettings.Data.SavedFolders[index.Value()].Add(sf);
+
+			return true;
+		}
+
+
+
+
+
+//		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
+//		{
+//			foreach (KeyValuePair<string, SavedProject> kvp in UserSettings.Data.SavedFolders[index.Value()])
+//			{
+//				if (kvp.Value.Identifier.RootFolder.Equals(testkey)) return kvp.Value;
+//			}
+//
+//			return null;
+//		}
+		
 		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
 		{
-			foreach (KeyValuePair<string, SavedProject> kvp in UserSettings.Data.SavedFolders[index.Value()])
+			foreach (SavedProject sp in UserSettings.Data.SavedFolders[index.Value()])
 			{
-				if (kvp.Value.Identifier.RootFolder.Equals(testkey)) return kvp.Value;
+				if (sp.Key.Equals(testkey)) return sp;
 			}
 
 			return null;
 		}
 
+//		public SavedFolderPair 
+//			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)
+//		{
+//			foreach (KeyValuePair<string, SavedFolderPair> kvp in sf.SavedFolderPairs)
+//			{
+//				if (kvp.Key.Equals(testKey)) return kvp.Value;
+//			}
+//
+//			return null;
+//		}
+
 		public SavedFolderPair 
 			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)
 		{
-			foreach (KeyValuePair<string, SavedFolderPair> kvp in sf.SavedFolderPairs)
+
+			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)
 			{
-				if (kvp.Key.Equals(testKey)) return kvp.Value;
+				if (sfp.Key.Equals(testKey)) return sfp;
 			}
 
 			return null;

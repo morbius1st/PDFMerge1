@@ -21,18 +21,22 @@ namespace Sylvester.Settings
 	{
 		private void SavedFolderCtor()
 		{
-			SavedFolders = new List<Dictionary<string, SavedProject>>(2);
+//			SavedFolders1 = new List<Dictionary<string, SavedProject>>(2);
+//
+//			SavedFolders1.Add(new Dictionary<string, SavedProject>());
+//
+//			SavedFolders1.Add(new Dictionary<string, SavedProject>());
 
-			SavedFolders.Add(new Dictionary<string, SavedProject>());
-
-			SavedFolders.Add(new Dictionary<string, SavedProject>());
+			SavedFolders = new List<ObservableCollection<SavedProject>>(2);
+			SavedFolders.Add(new ObservableCollection<SavedProject>());
+			SavedFolders.Add(new ObservableCollection<SavedProject>());
 		}
 
-		[DataMember]
-		public List<Dictionary<string, SavedProject>> SavedFolders;
+//		[DataMember]
+//		public List<Dictionary<string, SavedProject>> SavedFolders1;
 
 		[DataMember]
-		public List<ObservableCollection<SavedProject>> SavedFolders2;
+		public List<ObservableCollection<SavedProject>> SavedFolders;
 	}
 
 	[DataContract]
@@ -63,9 +67,13 @@ namespace Sylvester.Settings
 		[DataMember]
 		public int UseCount { get; set; }
 
+//		[DataMember]
+//		public Dictionary<string, SavedFolderPair> SavedFolderPairs1 { get; set; } =
+//			new Dictionary<string, SavedFolderPair>() ;
+
 		[DataMember]
-		public Dictionary<string, SavedFolderPair> SavedFolderPairs { get; set; } =
-			new Dictionary<string, SavedFolderPair>() ;
+		public ObservableCollection<SavedFolderPair> SavedFolderPairs { get; set; }
+			= new ObservableCollection<SavedFolderPair>();
 
 		public SavedProject() { }
 

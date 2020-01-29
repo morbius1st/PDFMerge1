@@ -199,7 +199,7 @@
 				SelectionMode="Single"
 				Background="#333333"
 				ItemTemplate="{DynamicResource DataTemplate1}"
-				ItemsSource="{Binding Values}"
+				ItemsSource="{Binding}"
 				>
 			<!--  ItemsSource="{Binding SavedFolders}"  -->
 			<ListView.Resources>
@@ -229,7 +229,7 @@
 				SelectionMode="Single"
 				Background="#333333"
 				ItemTemplate="{DynamicResource DataTemplate2}"
-				ItemsSource="{Binding Values}"
+				ItemsSource="{Binding}"
 				>
 			<!--  ItemsSource="{Binding SavedFolders}"  -->
 			<ListView.Resources>

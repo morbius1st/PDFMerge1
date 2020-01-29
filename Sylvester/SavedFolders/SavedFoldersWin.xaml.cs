@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -37,9 +38,9 @@ namespace Sylvester.SavedFolders
 		// show / edit / select current folder
 		// show / edit / select revision folder
 
-		public Dictionary<string, SavedProject> savedFolders;
+		public ObservableCollection<SavedProject> savedFolders;
 		private SavedProject selectedSavedProject;
-		private Dictionary<string, SavedFolderPair> folderPairs;
+		private ObservableCollection<SavedFolderPair> folderPairs;
 
 		private SavedFolderPair selectedFolderPair;
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
@@ -53,14 +54,14 @@ namespace Sylvester.SavedFolders
 		{
 			InitializeComponent();
 
-			SavedFolders = SetgMgr.Instance.SavedProjectFolders;
+			SavedFolders = SetgMgr.Instance.ProjectSavedFolders;
 
 		}
 
 	#region public properties
 
 //		public Dictionary<string, SavedProject> SavedFolders => SetgMgr.Instance.SavedProjectFolders;
-		public Dictionary<string, SavedProject> SavedFolders
+		public ObservableCollection<SavedProject> SavedFolders
 		{
 			get => savedFolders;
 			set
@@ -87,7 +88,7 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-		public Dictionary<string, SavedFolderPair> FolderPairs
+		public ObservableCollection<SavedFolderPair> FolderPairs
 		{
 			get { return folderPairs; }
 			set
