@@ -43,18 +43,21 @@ namespace Sylvester.SavedFolders
 		private ObservableCollection<SavedFolderPair> folderPairs;
 
 		private SavedFolderPair selectedFolderPair;
+
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
 
 		private string currentPath;
 		private string revisionPath;
 
-		private SavedFolderManager sfMgr;
+		public SavedFolderManager sfMgr { get; private set; }
 
-		public SavedFoldersWin()
+		public SavedFoldersWin(SavedFolderManager sfMgr)
 		{
 			InitializeComponent();
 
-			SavedFolders = SetgMgr.Instance.ProjectSavedFolders;
+			this.sfMgr = sfMgr;
+
+			SavedFolders = sfMgr.SavedFolders;
 
 		}
 

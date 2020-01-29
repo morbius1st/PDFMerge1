@@ -25,6 +25,7 @@ namespace Sylvester
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
+//			UserSettings.Data.Initialize();
 		}
 
 		public bool SetFocus

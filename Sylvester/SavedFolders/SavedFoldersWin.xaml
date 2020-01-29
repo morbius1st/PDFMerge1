@@ -205,7 +205,7 @@
 			<ListView.Resources>
 				<DataTemplate
 						x:Key="DataTemplate1"
-						DataType="{x:Type settings:SavedProject}"
+						DataType="{x:Type local:SavedProject}"
 						>
 					<StackPanel Orientation="Horizontal">
 						<Label
@@ -235,7 +235,7 @@
 			<ListView.Resources>
 				<DataTemplate
 						x:Key="DataTemplate2"
-						DataType="{x:Type settings:SavedFolderPair}"
+						DataType="{x:Type local:SavedFolderPair}"
 						>
 					<StackPanel Orientation="Horizontal">
 						<Label

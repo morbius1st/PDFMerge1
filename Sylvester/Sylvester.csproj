@@ -74,6 +74,7 @@
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
+    <Compile Include="SavedFolders\SavedFolder.cs" />
     <Compile Include="SavedFolders\UserSettingData30.cs" />
     <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
       <DependentUpon>SavedFoldersWin.xaml</DependentUpon>

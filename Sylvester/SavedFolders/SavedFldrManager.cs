@@ -14,8 +14,8 @@ using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.Settings;
-
-	using static Sylvester.SavedFolders.SavedFolderType;
+using UtilityLibrary;
+using static Sylvester.SavedFolders.SavedFolderType;
 
 namespace Sylvester.SavedFolders
 {
@@ -34,39 +34,48 @@ namespace Sylvester.SavedFolders
 
 		private static SavedFoldersWin savedWinInstance;
 
-		private Dictionary<string, SavedProject> savedFolders;
-		private ICollectionView savedFolderVue;
+//		private ObservableCollection<SavedProject> savedFolders;
+
+//		private Dictionary<string, SavedProject> savedFolders;
+//		private ICollectionView savedFolderVue;
 
 		private SetgMgr sm;
 
 		public SavedFolderManager() { }
 
 		public SavedFolderManager(SavedFolderType index
+//			,
+//			ObservableCollection<SavedProject> savedFolders
 			)
 		{
-			savedWinInstance = new SavedFoldersWin();
-
+			// before make savedfolderwin
 			sm = SetgMgr.Instance;
 
+			savedWinInstance = new SavedFoldersWin(this);
+
 			Index = index;
+
+//			this.savedFolders = savedFolders;
 		}
 
-		public void Initialize(ObservableCollection<SavedProject> savedFolders)
-		{
-			Vue = CollectionViewSource.GetDefaultView(savedFolders);
-		}
+//		public void Initialize()
+//		{
+//			Vue = CollectionViewSource.GetDefaultView(savedFolders);
+//		}
+//
 
+//		public ICollectionView Vue
+//		{
+//			get => savedFolderVue;
+//			set
+//			{
+//				savedFolderVue = value;
+//				OnPropertyChange();
+//			}
+//		}
 
-		public ICollectionView Vue
-		{
-			get => savedFolderVue;
-			set
-			{
-				savedFolderVue = value;
-				OnPropertyChange();
-			}
-		}
-
+//		public ObservableCollection<SavedProject> SavedFolders => savedFolders;
+		public ObservableCollection<SavedProject> SavedFolders => sm.SavedFolders[Index.Value()];
 
 		public SavedFolderType Index { get; set; }
 
@@ -79,12 +88,12 @@ namespace Sylvester.SavedFolders
 			bool? result = savedWinInstance.ShowDialog();
 		}
 
-
 		public bool AddProject(
 			Route current,
 			Route revision
 			)
 		{
+
 			UserSettings.Data.priorPath = current;
 
 			SavedProject sf = sm.FindSavedFolder(current.FolderNames[0], Index);
@@ -120,6 +129,5 @@ namespace Sylvester.SavedFolders
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
 	}
 }

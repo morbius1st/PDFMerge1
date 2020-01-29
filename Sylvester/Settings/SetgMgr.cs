@@ -30,7 +30,9 @@ namespace Sylvester.Settings
 
 		static SetgMgr() { }
 
-		public SetgMgr() { }
+		public SetgMgr()
+		{
+		}
 
 		public static SetgMgr Instance => instance;
 
@@ -64,8 +66,6 @@ namespace Sylvester.Settings
 			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
 
 			UserSettingData30 a = UserSettings.Data;
-			
-
 
 			UserSettings.Data.PriorFolders[index] = folder;
 			UserSettings.Admin.Write();
@@ -77,27 +77,20 @@ namespace Sylvester.Settings
 		}
 
 	#endregion
+//
+//		public ObservableCollection<SavedProject> ProjectSavedFolders { get; private set; }  
+//			= UserSettings.Data.SavedFolders[SAVED.Value()];
+//
+//		public ObservableCollection<SavedProject> FavoritesSavedFolders { get; private set; } 
+//			= UserSettings.Data.SavedFolders[FAVORITES.Value()];
 
-		public ObservableCollection<SavedProject> ProjectSavedFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
-		public ObservableCollection<SavedProject> FavoritesSavedFolders => UserSettings.Data.SavedFolders[FAVORITES.Value()];
-
+		public List<ObservableCollection<SavedProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
 		public bool HasSavedFolders(SavedFolderType index)
 		{
 			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
 
 		}
-
-//		public Dictionary<string, SavedProject> SavedProjectFolders => UserSettings.Data.SavedFolders[SAVED.Value()];
-
-//		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
-//		{
-//			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
-//
-//			UserSettings.Data.SavedFolders[index.Value()].Add(sf.Key, sf);
-//
-//			return true;
-//		}
 
 		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
 		{
@@ -108,20 +101,6 @@ namespace Sylvester.Settings
 			return true;
 		}
 
-
-
-
-
-//		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
-//		{
-//			foreach (KeyValuePair<string, SavedProject> kvp in UserSettings.Data.SavedFolders[index.Value()])
-//			{
-//				if (kvp.Value.Identifier.RootFolder.Equals(testkey)) return kvp.Value;
-//			}
-//
-//			return null;
-//		}
-		
 		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
 		{
 			foreach (SavedProject sp in UserSettings.Data.SavedFolders[index.Value()])
@@ -131,17 +110,6 @@ namespace Sylvester.Settings
 
 			return null;
 		}
-
-//		public SavedFolderPair 
-//			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)
-//		{
-//			foreach (KeyValuePair<string, SavedFolderPair> kvp in sf.SavedFolderPairs)
-//			{
-//				if (kvp.Key.Equals(testKey)) return kvp.Value;
-//			}
-//
-//			return null;
-//		}
 
 		public SavedFolderPair 
 			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)

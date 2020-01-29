@@ -49,7 +49,8 @@ namespace Sylvester.Settings
 	{
 		public UserSettingData30()
 		{
-			SavedFolderCtor();
+
+			initialize();
 		}
 
 		[DataMember]
