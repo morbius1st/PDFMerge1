@@ -6,6 +6,7 @@
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
 		d:DesignHeight="72"
 		d:DesignWidth="600"
@@ -91,7 +92,7 @@
 						x:Name="FpPath"
 						Margin="4,4,0,-2"
 						FontSize="10"
-						FontColor="White"
+						FontColor="#cccccc"
 						VerticalAlignment="Bottom"
 						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
 				>
@@ -106,6 +107,28 @@
 					</local:FolderPath.Style>
 
 				</local:FolderPath>
+
+				<user:FolderRoute
+						x:Name="FldrRoute"
+						Margin="4,4,0,-2"
+						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
+						FontBrush="#cccccc"
+						FontSize="{Binding ElementName=headerControl, Path=FontSize}"
+						VerticalAlignment="Bottom"
+						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight}"
+						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
+				>
+					<user:FolderRoute.Style>
+						<Style TargetType="user:FolderRoute">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=headerControl,  Path=HideDirectory}" Value="true">
+									<Setter Property="Visibility" Value="Hidden"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</user:FolderRoute.Style>
+
+				</user:FolderRoute>
 
 
 

@@ -6,7 +6,7 @@
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		x:Name="skewedButton"
-		Margin="-5,0,0,0"
+		Margin="0,0,0,0"
 		Width="Auto"
 		Height="12.5"
 		Padding="0,0,0,0"
@@ -18,6 +18,7 @@
 		Tag="{Binding ElementName=skewedButton,
 									Path=Index,
 									FallbackValue=Path Dog Name}"
+
 		mc:Ignorable="d"
 		>
 
@@ -210,12 +211,14 @@
 				Padding="0"
 				Tag="{Binding ElementName=skewedButton}"
 				Style="{DynamicResource InnerButtonStyle}"
+				
 				>
 			<!--  Click="InnerButton_OnClick"  -->
 
 			<Button.ContentTemplate>
 				<DataTemplate>
 					<Grid
+							x:Name="InnerGrid"
 							Margin="0"
 							Background="Transparent"
 							>
@@ -244,13 +247,16 @@
 								VerticalAlignment="Center"
 								FontFamily="Segoe UI Semilight"
 								FontSize="9"
-								Text="{Binding ElementName=skewedButton,
-															 Path=Text,
-															 FallbackValue=Path Dog Name}"
 								Background="Transparent"
 								Foreground="{Binding ElementName=InnerButton,
 																		 Path=Foreground}"
+								
+
+							Text="{Binding ElementName=skewedButton,
+															 Path=Text,
+															 FallbackValue=Path Dog Name}"
 								>
+
 							<!--  FontSize="{Binding ElementName=skewedButton,  -->
 							<!--  Path=FontSize,  -->
 							<!--  FallbackValue=7}"  -->
@@ -287,7 +293,7 @@
 							<Path.Style>
 								<Style TargetType="Path">
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowFavorite}" Value="false">
+										<DataTrigger Binding="{Binding ElementName=skewedButton, Path=ShowFavorite, FallbackValue=false}" Value="false">
 											<Setter Property="Visibility" Value="Collapsed">
 											</Setter>
 										</DataTrigger>
@@ -303,7 +309,7 @@
 								Width="9"
 								Height="9"
 								Stretch="Uniform"
-								Visibility="Collapsed"
+								Visibility="Visible"
 								>
 							<Canvas
 									Name="svg44"

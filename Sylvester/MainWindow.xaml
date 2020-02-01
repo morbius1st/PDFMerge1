@@ -8,6 +8,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:settings="clr-namespace:Sylvester.Settings"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="mainwin"
 		Title="MainWindow"
 		Width="1300"
@@ -173,11 +174,14 @@
 
 			<local:HeaderControl
 					x:Name="HdrBase"
+					FolderRouteHeight="13"
 					Title="Current"
 					Grid.Column="0"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
+					TextMargin="0,-1,0,2"
+					FontSize="9.5"
 					DataContext="{Binding pm.BaseFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"
@@ -259,11 +263,13 @@
 
 			<local:HeaderControl
 					x:Name="HdrTest"
+					FolderRouteHeight="13"
 					Title="Revision"
 					Grid.Column="0"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
+					TextMargin="4"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"
@@ -342,6 +348,8 @@
 
 			<local:HeaderControl
 					x:Name="HdrComparison"
+					FolderRouteHeight="13.0"
+					FontSize="12"
 					Title="Comparison"
 					Grid.Column="0"
 					Grid.Row="0"

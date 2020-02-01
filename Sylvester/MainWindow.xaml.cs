@@ -127,7 +127,7 @@ namespace Sylvester
 			pm = new ProcessManager(HdrBase, HdrTest);
 			OnPropertyChange("pm");
 
-			pm.fmBase.sfMgr[0].test();
+//			pm.fmBase.sfMgr[0].test();
 
 		}
 

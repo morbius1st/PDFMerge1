@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
+    <Compile Include="UserControls\PathChangeArgs.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
     <Compile Include="SavedFolders\SavedFolder.cs" />
     <Compile Include="SavedFolders\UserSettingData30.cs" />
@@ -104,6 +105,12 @@
     </Compile>
     <Compile Include="FolderPath.xaml.cs">
       <DependentUpon>FolderPath.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FolderRoute.xaml.cs">
+      <DependentUpon>FolderRoute.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ObliqueButton.xaml.cs">
+      <DependentUpon>ObliqueButton.xaml</DependentUpon>
     </Compile>
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
@@ -137,6 +144,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FolderPath.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FolderRoute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ObliqueButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,5 +213,6 @@
     <None Include="Resources\SVG\s_newfolder_18.svg" />
     <None Include="Resources\SVG\window-close.svg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

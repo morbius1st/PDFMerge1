@@ -1,5 +1,6 @@
 ﻿#region + Using Directives
 
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,7 @@ using Sylvester.FileSupport;
 using Sylvester.SavedFolders;
 using Sylvester.Settings;
 using Sylvester.Support;
+using Sylvester.UserControls;
 using UtilityLibrary;
 
 using static Sylvester.SavedFolders.SavedFolderType;
@@ -23,8 +25,9 @@ using static Sylvester.SavedFolders.SavedFolderType;
 // general folder manager - works with either collection
 namespace Sylvester.FolderSupport
 {
-	public class FolderManager : INotifyPropertyChanged
+	public class FolderManager : INotifyPropertyChanged //, IDisposable
 	{
+
 		private bool ByPass = true;
 
 		private SelectFolder sf = new SelectFolder();
@@ -60,6 +63,12 @@ namespace Sylvester.FolderSupport
 			configHeader();
 		}
 
+		// finalizer
+//		~FolderManager()
+//		{
+//			Dispose();
+//		}
+
 		public Route Folder { get; set; }
 
 		/*
@@ -70,7 +79,7 @@ namespace Sylvester.FolderSupport
 			 2     no   no  -> show select folder only = 2 + 0 + 0
 			 3    yes   no  -> show ★ & select folder = 2 + 1 + 0
 			 4     no  yes  -> show path = 0 + 0 + 4
-			 5    yes  yes  -> show ★ & path = 0+ 1 + 4
+			 5    yes  yes  -> show ★ & path = 0 + 1 + 4
 		 */
 
 
@@ -78,11 +87,12 @@ namespace Sylvester.FolderSupport
 
 		private void configHeader()
 		{
+			// always show select folder
 			int folderPathType = 2;
 
 			if (HasPriorFolder)
 			{
-				folderPathType = 4;
+				folderPathType += 4;
 			}
 
 			folderPathType += sfMgr[0].HasSavedFolders ? 1 : 0;
@@ -147,14 +157,14 @@ namespace Sylvester.FolderSupport
 			Folder = hcPath.Path;
 		}
 
-		private void onFolderPathSelectFolderEvent(object sender)
+		private void onFolderPathSelectFolderEvent(object sender, EventArgs e)
 		{
 			Debug.WriteLine("folderManager, Select Folder");
 
 			SelectFolder();
 		}
 
-		private void onFolderPathFavoriteEvent(object sender)
+		private void onFolderPathFavoriteEvent(object sender, EventArgs e)
 		{
 			//			Debug.WriteLine("folderManager, Favorites");
 
@@ -167,5 +177,6 @@ namespace Sylvester.FolderSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
 	}
 }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,15 +14,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Sylvester.FileSupport;
-using Sylvester.UserControls;
 
-
-namespace Sylvester
+namespace Sylvester.UserControls
 {
 	/// <summary>
-	/// Interaction logic for FolderPath.xaml
+	/// Interaction logic for FolderRoute.xaml
 	/// </summary>
-	public partial class FolderPath : UserControl
+	public partial class FolderRoute : UserControl
 	{
 		private string[] path = new []
 		{
@@ -37,7 +32,7 @@ namespace Sylvester
 
 		private Color pathFontColor = Color.FromArgb(0xFF, 0xCC, 0xCC, 0xCC);
 
-		public FolderPath()
+		public FolderRoute()
 		{
 			InitializeComponent();
 		}
@@ -49,15 +44,23 @@ namespace Sylvester
 		public Route Path
 		{
 			get => new Route(path);
-			set
-			{
-				SetPath(value);
-			}
+			set { SetPath(value); }
 		}
+
+		private void clearObliqueButtons()
+		{
+			foreach (ObliqueButton spPathChild in SpPath.Children)
+			{
+				spPathChild.InnerButton.Click -= InnerButton_Click;
+			}
+
+			SpPath.Children.Clear();
+		}
+
 
 		public void SetPath(Route newPath)
 		{
-			clearSkewedButtons();
+			clearObliqueButtons();
 
 			SelectedFolder = null;
 
@@ -87,24 +90,15 @@ namespace Sylvester
 
 		private void Add(string text, int index)
 		{
-			SkewedButton sk = new SkewedButton();
-			sk.Text = text;
-			sk.Index = index;
-			sk.FontColor = new SolidColorBrush(pathFontColor);
-			sk.InnerButton.Click += InnerButton_Click;
+			ObliqueButton ob = new ObliqueButton();
+			ob.Text = text;
+			ob.Index = index;
+			ob.FontBrush = new SolidColorBrush(pathFontColor);
+			ob.InnerButton.Click += InnerButton_Click;
 
-			SpPath.Children.Add(sk);
+			SpPath.Children.Add(ob);
 		}
 
-		private void clearSkewedButtons()
-		{
-			foreach (SkewedButton spPathChild in SpPath.Children)
-			{
-				spPathChild.InnerButton.Click -= InnerButton_Click;
-			}
-
-			SpPath.Children.Clear();
-		}
 
 		private void InnerButton_Favorites(object sender, RoutedEventArgs e)
 		{
@@ -118,16 +112,13 @@ namespace Sylvester
 
 		private void InnerButton_Click(object sender, RoutedEventArgs e)
 		{
-			Button b = (Button) sender;
-//			SkewedButton sbx = ((Button) sender).Parent;
+			ObliqueButton ob = (ObliqueButton) sender;
 
-			SkewedButton skb = b.Tag as SkewedButton;
+//			ObliqueButton ob = b.Tag as ObliqueButton;
 
-			SelectedIndex = (int) skb.Tag;
-			SelectedFolder = skb.Text;
-//			SelectedFolder = skb.InnerSp.Tag as string;
+			SelectedIndex = (int) ob.Tag;
+			SelectedFolder = ob.Text;
 			SelectedPath = path[0] + @"\";
-
 
 			if (SelectedIndex > 0)
 			{
@@ -148,13 +139,12 @@ namespace Sylvester
 			}
 		}
 
-
 	#region event handeling
 
 		// event 2, a folder was selected
 		public delegate void FavoritesEventHandler(object sender, EventArgs e);
 
-		public event FavoritesEventHandler Favorites;
+		public event FolderRoute.FavoritesEventHandler Favorites;
 
 		protected virtual void RaiseFavoritesEvent()
 		{
@@ -164,7 +154,7 @@ namespace Sylvester
 		// event 2, a folder was selected
 		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
 
-		public event PathChangedEventHandler PathChange;
+		public event FolderRoute.PathChangedEventHandler PathChange;
 
 		protected virtual void RaisePathChangeEvent()
 		{
@@ -174,7 +164,7 @@ namespace Sylvester
 		// event 1, the select folder button was pressed
 		public delegate void SelectFolderEventHandler(object sender, EventArgs e);
 
-		public event SelectFolderEventHandler SelectFolder;
+		public event FolderRoute.SelectFolderEventHandler SelectFolder;
 
 		protected virtual void RaiseSelectFolderEvent()
 		{
@@ -184,23 +174,35 @@ namespace Sylvester
 	#endregion
 
 
-		public static readonly DependencyProperty FontColorProperty = DependencyProperty.Register(
-			"FontColor", typeof(SolidColorBrush), typeof(FolderPath), new PropertyMetadata(Brushes.White));
 
-		public SolidColorBrush FontColor
+
+		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
+			"FontBrush", typeof(SolidColorBrush), typeof(FolderRoute), new PropertyMetadata(Brushes.White));
+
+		public SolidColorBrush FontBrush
 		{
-			get { return (SolidColorBrush) GetValue(FontColorProperty); }
-			set { SetValue(FontColorProperty, value); }
+			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
+			set { SetValue(FontBrushProperty, value); }
 		}
 
 
-		public static readonly DependencyProperty ProposedSkewedButtonTypeProperty = DependencyProperty.Register(
-			"ProposedSkewedButtonType", typeof(int), typeof(FolderPath), new PropertyMetadata(7));
+		public static readonly DependencyProperty ProposedObliqueButtonTypeProperty = DependencyProperty.Register(
+			"ProposedObliqueButtonType", typeof(int), typeof(FolderRoute), new PropertyMetadata(7));
 
-		public int ProposedSkewedButtonType
+		public int ProposedObliqueButtonType
 		{
-			get { return (int) GetValue(ProposedSkewedButtonTypeProperty); }
-			set { SetValue(ProposedSkewedButtonTypeProperty, value); }
+			get { return (int) GetValue(ProposedObliqueButtonTypeProperty); }
+			set { SetValue(ProposedObliqueButtonTypeProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
+			"TextMargin", typeof(Thickness), typeof(FolderRoute), new PropertyMetadata(new Thickness(0, -2, 0, 2)));
+
+		public Thickness TextMargin
+		{
+			get { return (Thickness) GetValue(TextMarginProperty); }
+			set { SetValue(TextMarginProperty, value); }
 		}
 	}
 
@@ -211,11 +213,11 @@ namespace Sylvester
 			int proposedPathType = (int) values[0];
 			if (values[1] == DependencyProperty.UnsetValue) return true;
 
-			int skewedButtonType = (int) values[1];
+			int buttonType = (int) values[1];
 
-			if (proposedPathType == 0 || skewedButtonType == 0) return Visibility.Visible;
+			if (proposedPathType == 0 || buttonType == 0) return Visibility.Visible;
 
-			int x = (proposedPathType & skewedButtonType);
+			int x = (proposedPathType & buttonType);
 
 			Visibility v =  x == 0 ? Visibility.Collapsed : Visibility.Visible;
 
@@ -227,5 +229,6 @@ namespace Sylvester
 			throw new NotImplementedException();
 		}
 	}
+
 
 }

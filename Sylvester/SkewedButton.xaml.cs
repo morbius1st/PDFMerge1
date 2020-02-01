@@ -34,6 +34,15 @@ namespace Sylvester
 			set { SetValue(TextProperty, value); }
 		}
 
+		public static readonly DependencyProperty SelectedFolderProperty = DependencyProperty.Register(
+			"SelectedFolder", typeof(string), typeof(SkewedButton), new PropertyMetadata(default(string)));
+
+		public string SelectedFolder
+		{
+			get { return (string) GetValue(SelectedFolderProperty); }
+			set { SetValue(SelectedFolderProperty, value); }
+		}
+
 		public static readonly DependencyProperty IndexProperty = DependencyProperty.Register(
 			"Index", typeof(int), typeof(SkewedButton), new PropertyMetadata(-1));
 
@@ -96,14 +105,7 @@ namespace Sylvester
 			get { return (int) GetValue(SkewedButtonTypeProperty); }
 			set { SetValue(SkewedButtonTypeProperty, value); }
 		}
-//
-//		public static readonly DependencyProperty DisablePathProperty = DependencyProperty.Register(
-//			"DisablePath", typeof(bool), typeof(SkewedButton), new PropertyMetadata(false));
-//
-//		public bool DisablePath
-//		{
-//			get { return (bool) GetValue(DisablePathProperty); }
-//			set { SetValue(DisablePathProperty, value); }
-//		}
+
 	}
+
 }

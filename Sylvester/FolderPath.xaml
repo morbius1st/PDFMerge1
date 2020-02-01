@@ -79,6 +79,7 @@
 					SkewedButtonType="4"
 					Text="C:\path"
 					Style="{StaticResource SkewedButtonPathStyle}"
+					Width="Auto"
 					/>
 		</StackPanel>
 
@@ -92,12 +93,12 @@
 				SkewedButtonType="2"
 				Text="Select Folder"
 				Style="{StaticResource SkewedButtonStyle}"
+				Width="Auto"
 				/>
 
 
 		<local:SkewedButton
 				x:Name="SkewedButton1"
-				FontColor="{Binding ElementName=folderPath, Path=FontColor}"
 				Button.Click="InnerButton_Favorites"
 				DockPanel.Dock="Right"
 				Index="-1"
@@ -107,7 +108,9 @@
 				Text=""
 				FavoritesBrush="OrangeRed"
 				Style="{StaticResource SkewedButtonStyle}"
+				Width="Auto"
 				>
+				<!-- FontColor="{Binding ElementName=folderPath, Path=FontColor}" -->
 		</local:SkewedButton>
 
 

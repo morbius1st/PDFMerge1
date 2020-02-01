@@ -107,5 +107,24 @@ namespace Sylvester
 			set { SetValue(HideDirectoryProperty, value); }
 		}
 
+		public static readonly DependencyProperty FolderRouteHeightProperty = DependencyProperty.Register(
+			"FolderRouteHeight", typeof(double), typeof(HeaderControl), new PropertyMetadata(18.0));
+
+		public double FolderRouteHeight
+		{
+			get { return (double) GetValue(FolderRouteHeightProperty); }
+			set { SetValue(FolderRouteHeightProperty, value); }
+		}
+
+		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
+			"TextMargin", typeof(Thickness), typeof(HeaderControl), new PropertyMetadata(new Thickness(0,-2,0,2)));
+
+		public Thickness TextMargin
+		{
+			get { return (Thickness) GetValue(TextMarginProperty); }
+			set { SetValue(TextMarginProperty, value); }
+		}
+
+
 	}
 }
