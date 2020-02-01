@@ -160,8 +160,6 @@ namespace Sylvester.Process
 
 		public bool ReadBase()
 		{
-
-
 			if (!BaseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl)) return false;
 
 			CollectionViewBase();

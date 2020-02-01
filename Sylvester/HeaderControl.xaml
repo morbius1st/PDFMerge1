@@ -88,25 +88,24 @@
 					Margin="0,0,0,0"
 					Orientation="Vertical"
 					>
-				<local:FolderPath
-						x:Name="FpPath"
-						Margin="4,4,0,-2"
-						FontSize="10"
-						FontColor="#cccccc"
-						VerticalAlignment="Bottom"
-						ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
-				>
-					<local:FolderPath.Style>
-						<Style TargetType="local:FolderPath">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding ElementName=headerControl,  Path=HideDirectory}" Value="true">
-									<Setter Property="Visibility" Value="Hidden"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</local:FolderPath.Style>
-
-				</local:FolderPath>
+				<!-- <local:FolderPath -->
+				<!-- 		x:Name="FpPath" -->
+				<!-- 		Margin="4,4,0,-2" -->
+				<!-- 		FontSize="10" -->
+				<!-- 		FontColor="#cccccc" -->
+				<!-- 		VerticalAlignment="Bottom" -->
+				<!-- 		ProposedSkewedButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}" -->
+				<!-- > -->
+				<!-- 	<local:FolderPath.Style> -->
+				<!-- 		<Style TargetType="local:FolderPath"> -->
+				<!-- 			<Style.Triggers> -->
+				<!-- 				<DataTrigger Binding="{Binding ElementName=headerControl,  Path=HideDirectory}" Value="true"> -->
+				<!-- 					<Setter Property="Visibility" Value="Hidden"/> -->
+				<!-- 				</DataTrigger> -->
+				<!-- 			</Style.Triggers> -->
+				<!-- 		</Style> -->
+				<!-- 	</local:FolderPath.Style> -->
+				<!-- </local:FolderPath> -->
 
 				<user:FolderRoute
 						x:Name="FldrRoute"

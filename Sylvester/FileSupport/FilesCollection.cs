@@ -28,6 +28,16 @@ namespace Sylvester.FileSupport
 		private int otherFiles = 0;
 		private bool hasFolder = false;
 
+		public FilesCollection()
+		{
+			TestFiles = new ObservableCollection<T>();
+		}
+
+
+		public ObservableCollection<T>
+			TestFiles { get; private set; }
+
+
 		public  string Name
 		{
 			get => name;
@@ -87,14 +97,6 @@ namespace Sylvester.FileSupport
 		public int SheetPDFs
 		{
 			get => FilesFound - NonSheetPdfsFiles - OtherFiles; 
-		}
-
-		public ObservableCollection<T>
-			TestFiles { get; private set; }
-
-		public FilesCollection()
-		{
-			TestFiles = new ObservableCollection<T>();
 		}
 
 		public void Add(T tf)

@@ -5,10 +5,10 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester.UserControls"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		d:DesignHeight="20"
+		d:DesignHeight="13"
 		d:DesignWidth="250"
 		mc:Ignorable="d"
-		x:Name="FldrRoute"
+		x:Name="folderRoute"
 		>
 
 	<UserControl.Resources>
@@ -27,7 +27,7 @@
 							Mode="OneWay"
 							>
 						<Binding
-								ElementName="FldrRoute"
+								ElementName="folderRoute"
 								Path="ProposedObliqueButtonType"
 								>
 						</Binding>
@@ -42,6 +42,19 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
+		<Style x:Key="ObText" TargetType="local:ObliqueButton" BasedOn="{StaticResource ObliqueButtonStyle}">
+			<Setter Property="FontBrush" Value="{Binding ElementName=folderRoute, Path=FontBrush, FallbackValue=white}"/>
+			<Setter Property="TextMargin" Value="{Binding ElementName=folderRoute, Path=TextMargin, FallbackValue='0,0,0,0'}"/>
+			<Setter Property="FontSize" Value="{Binding ElementName=folderRoute, Path=FontSize, FallbackValue=8}"/>
+			<Setter Property="ObliqueButtonType" Value="4"/>
+			<Setter Property="ShowArrow" Value="True"/>
+			<Setter Property="ShowText" Value="True"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+			<Setter Property="DockPanel.Dock" Value="Left"/>
+		</Style>
+
+			<!-- <Setter Property="Height" Value="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=13}"/> -->
 
 	</UserControl.Resources>
 
@@ -60,11 +73,11 @@
 				ObliqueButtonType="1"
 				ShowText="False"
 				ShowFavorite="True"
-				Height="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=18}"
 				FavoritesBrush="OrangeRed"
 				BorderBrush="Gray"
 				Button.Click="InnerButton_Favorites"
 				/>
+				<!-- Height="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=13}" -->
 				<!-- Style="{StaticResource ObliqueButtonStyle}" -->
 
 		  <!-- the Select folder button   -->
@@ -74,32 +87,25 @@
 		 		Index="-1" 
 		 		ObliqueButtonType="2" 
 		 		ShowPlus="True" 
+				ShowText="False"
 		 		PlusBrush="Lime"
-				Height="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=18}"
 				BorderBrush="Gray"
 		 		Style="{StaticResource ObliqueButtonStyle}" 
+
 		 		Button.Click="InnerButton_SelectFolder" 
 		 		/> 
+				<!-- Height="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=13}" -->
 
 
 		<!--  the folder path names  -->
-		<StackPanel Name="SpPath">
+		<StackPanel Name="SpPath" Orientation="Horizontal">
 
 			<local:ObliqueButton
 					x:Name="BtnText"
-					FontBrush="{Binding ElementName=FldrRoute, Path=FontBrush, FallbackValue=white}"
 					Button.Click="InnerButton_Click"
-					DockPanel.Dock="Left"
-					Index="-1"
-					FontSize="{Binding ElementName=FldrRoute, Path=FontSize}"
-					ObliqueButtonType="4"
-					ShowArrow="True"
-					ShowText="True"
 					Text="Text"
-					TextMargin="{Binding ElementName=FldrRoute, Path=TextMargin}"
-					Height="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=18}"
-					BorderBrush="Gray"
-					Style="{StaticResource ObliqueButtonStyle}"
+					Index="-1"
+					Style="{StaticResource ObText}"
 					/>
 
 		</StackPanel>

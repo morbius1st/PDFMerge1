@@ -90,10 +90,13 @@ namespace Sylvester.UserControls
 
 		private void Add(string text, int index)
 		{
+
 			ObliqueButton ob = new ObliqueButton();
+			ob.Name = $"obx_{index:D3}";
 			ob.Text = text;
 			ob.Index = index;
-			ob.FontBrush = new SolidColorBrush(pathFontColor);
+			ob.Style = (Style) folderRoute.FindResource("ObText");
+
 			ob.InnerButton.Click += InnerButton_Click;
 
 			SpPath.Children.Add(ob);
@@ -112,9 +115,9 @@ namespace Sylvester.UserControls
 
 		private void InnerButton_Click(object sender, RoutedEventArgs e)
 		{
-			ObliqueButton ob = (ObliqueButton) sender;
+			Button b = (Button) sender;
 
-//			ObliqueButton ob = b.Tag as ObliqueButton;
+			ObliqueButton ob = b.Tag as ObliqueButton;
 
 			SelectedIndex = (int) ob.Tag;
 			SelectedFolder = ob.Text;
@@ -197,7 +200,7 @@ namespace Sylvester.UserControls
 
 
 		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
-			"TextMargin", typeof(Thickness), typeof(FolderRoute), new PropertyMetadata(new Thickness(0, -2, 0, 2)));
+			"TextMargin", typeof(Thickness), typeof(FolderRoute), new PropertyMetadata(new Thickness(0)));
 
 		public Thickness TextMargin
 		{

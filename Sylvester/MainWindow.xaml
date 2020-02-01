@@ -269,7 +269,8 @@
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
-					TextMargin="4"
+					TextMargin="0,-1,0,2"
+					FontSize="9.5"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"

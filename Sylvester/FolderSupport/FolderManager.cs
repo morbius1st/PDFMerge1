@@ -161,14 +161,14 @@ namespace Sylvester.FolderSupport
 		{
 			Debug.WriteLine("folderManager, Select Folder");
 
-			SelectFolder();
+//			SelectFolder();
 		}
 
 		private void onFolderPathFavoriteEvent(object sender, EventArgs e)
 		{
-			//			Debug.WriteLine("folderManager, Favorites");
+			Debug.WriteLine("folderManager, Favorites");
 
-			SelectFolder();
+//			SelectFolder();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

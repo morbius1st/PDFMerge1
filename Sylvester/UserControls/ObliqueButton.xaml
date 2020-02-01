@@ -7,20 +7,19 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		x:Name="obliqueButton"
 		Margin="0,0,-5.5,0"
-		Height="{Binding RelativeSource={RelativeSource TemplatedParent},
-										 Path=Height,
-										 FallbackValue=15}"
 		Padding="0"
 		d:DesignWidth="200"
+		d:DesignHeight="15"
 		Tag="{Binding ElementName=obliqueButton,
 									Path=Index,
 									FallbackValue=-1}"
 		mc:Ignorable="d"
 		>
-
+		<!-- Height="{Binding RelativeSource={RelativeSource TemplatedParent}, -->
+		<!-- 								 Path=Height, -->
+		<!-- 								 FallbackValue=15}" -->
+		
 	<UserControl.Resources>
-
-		<Thickness x:Key="DefaultTextMargin" >0,-2,0,2</Thickness>
 
 		<Style x:Key="FocusVisual">
 			<Setter Property="Control.Template">
@@ -197,10 +196,11 @@
 					<StackPanel
 							x:Name="Beginning"
 							Orientation="Horizontal"
+
 							>
 						<StackPanel.Style>
 							<Style TargetType="StackPanel">
-								<Setter Property="Margin" Value="1.5,1.5,2.5,1.5" />
+								<Setter Property="Margin" Value="1.0,2.5, 2.5, 2.0" />
 								<Setter Property="LayoutTransform">
 									<Setter.Value>
 										<SkewTransform AngleX="0" />
@@ -222,7 +222,7 @@
 
 						<Path
 								x:Name="Star"
-								Margin="0,0,-.5,0"
+								Margin="0,0,0,0"
 								Data="F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=FavoritesBrush,
@@ -236,7 +236,7 @@
 									</Setter>
 									<Style.Triggers>
 										<!--  false  -->
-										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowFavorite, FallbackValue=false}" Value="true">
+										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowFavorite, FallbackValue=true}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -248,7 +248,7 @@
 								<!-- Data="F1M -1,0 1,0 1,2.5 3.5,2.5 3.5,4.5 1,4.5 1,7 -1,7 -1,4.5 -3.5,4.5 -3.5,2.5 -1,2.5 -1,0 z" -->
 						<Path
 								x:Name="Plus"
-								Margin="0,0,0,.0"
+								Margin="0"
 								Data="F1M .15,0 .15,.4, .55,.4 .55,.7 .15,.7 .15,1.1 -.15,1.1 -.15,.7 -.55,.7 -.55,.4 -.15,.4 -.15,0 .15,0 z"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=PlusBrush,
@@ -280,6 +280,7 @@
 					<StackPanel
 							x:Name="Middle"
 							Orientation="Horizontal"
+
 							>
 						<StackPanel.Style>
 							<Style TargetType="StackPanel">
@@ -304,14 +305,14 @@
 							</Style>
 						</StackPanel.Style>
 
+								<!-- Height="{Binding ElementName=obliqueButton, -->
+								<!-- 								 Path=Height}" -->
 						<Label
 								Content="{Binding ElementName=obliqueButton,
 																	Path=Text,
 																	FallbackValue=Live Laugh Love}"
-								Height="{Binding ElementName=obliqueButton,
-																 Path=Height}"
 								Padding="0"
-								Margin="{Binding ElementName=obliqueButton, Path=TextMargin, FallbackValue={StaticResource DefaultTextMargin}}"
+								Margin="{Binding ElementName=obliqueButton, Path=TextMargin, FallbackValue='0'}"
 								VerticalContentAlignment="Center"
 								FontFamily="Segoe UI Semilight"
 								FontSize="{Binding ElementName=obliqueButton, Path=FontSize, FallbackValue=9.5}"
@@ -345,7 +346,7 @@
 					<StackPanel
 							x:Name="End"
 							Orientation="Horizontal"
-							
+
 					>
 						<StackPanel.Style>
 							<Style TargetType="StackPanel">
@@ -363,7 +364,7 @@
 												<SkewTransform AngleX="20" />
 											</Setter.Value>
 										</Setter>
-										<Setter Property="Margin" Value="1,2,-1.5,1">
+										<Setter Property="Margin" Value="1,2.5,-1.5,2">
 										</Setter>
 									</DataTrigger>
 								</Style.Triggers>
@@ -375,7 +376,7 @@
 								Margin="0"
 								
 								VerticalAlignment="Stretch"
-								Data="F1M0,0 6.0,4.75 0,10 0,1z"
+								Data="F1M0,0 5.5,4.75 0,10 0,1z"
 								Opacity="1"
 								Stretch="Fill"
 								Width="auto"

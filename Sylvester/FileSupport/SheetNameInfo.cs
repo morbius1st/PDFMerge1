@@ -24,11 +24,8 @@ namespace Sylvester.FileSupport
 
 	public abstract class SheetNameInfo : INotifyPropertyChanged
 	{
-		// ([ \.\-]+)
-
 		public const string FILE_TYPE_EXT = ".pdf";
 
-//		protected const string SEARCH_PATTERN_A = @"[.-]| +";
 		protected const string SEARCH_PATTERN_A = @"([ \.\-]+)";
 		protected const string SUBST_PATTERN_A = @" ";
 
@@ -45,10 +42,6 @@ namespace Sylvester.FileSupport
 				new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline),
 				SUBST_PATTERN_A
 				),
-//			new KeyValuePair<Regex, string>(
-//				new Regex(SEARCH_PATTERN_B, RegexOptions.Compiled | RegexOptions.Singleline),
-//				SUBST_PATTERN_B
-//				),
 			new KeyValuePair<Regex, string>(
 				new Regex(SEARCH_PATTERN_C, RegexOptions.Compiled | RegexOptions.Singleline),
 				SUBST_PATTERN_C
@@ -69,7 +62,6 @@ namespace Sylvester.FileSupport
 		private bool selected = false;
 		private FileType fileType;
 
-		public bool PreSelect { get; set; } = false;
 
 		public SheetNameInfo()
 		{
@@ -83,6 +75,8 @@ namespace Sylvester.FileSupport
 			comment = "";
 			adjustedSheetID = "";
 		}
+
+		public bool PreSelect { get; set; } = false;
 
 		public Route FullFileRoute
 		{

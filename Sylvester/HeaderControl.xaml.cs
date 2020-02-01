@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
+using Sylvester.UserControls;
 
 
 namespace Sylvester
@@ -18,25 +19,25 @@ namespace Sylvester
 			InitializeComponent();
 		}
 
-		public void SetPathChangeEventHandler(FolderPath.PathChangedEventHandler f)
+		public void SetPathChangeEventHandler(FolderRoute.PathChangedEventHandler f)
 		{
-			FpPath.PathChange += f;
+			FldrRoute.PathChange += f;
 		}
 		
-		public void SetSelectFolderEventHandler(FolderPath.SelectFolderEventHandler f)
+		public void SetSelectFolderEventHandler(FolderRoute.SelectFolderEventHandler f)
 		{
-			FpPath.SelectFolder += f;
+			FldrRoute.SelectFolder += f;
 		}
 		
-		public void SetFavoritesEventHandler(FolderPath.FavoritesEventHandler f)
+		public void SetFavoritesEventHandler(FolderRoute.FavoritesEventHandler f)
 		{
-			FpPath.Favorites += f;
+			FldrRoute.Favorites += f;
 		}
 
 		public Route Path
 		{
-			get => FpPath.Path;
-			set => FpPath.Path = value;
+			get => FldrRoute.Path;
+			set => FldrRoute.Path = value;
 		}
 
 		public static readonly DependencyProperty TitleProperty =
@@ -117,7 +118,7 @@ namespace Sylvester
 		}
 
 		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
-			"TextMargin", typeof(Thickness), typeof(HeaderControl), new PropertyMetadata(new Thickness(0,-2,0,2)));
+			"TextMargin", typeof(Thickness), typeof(HeaderControl), new PropertyMetadata(new Thickness(0)));
 
 		public Thickness TextMargin
 		{

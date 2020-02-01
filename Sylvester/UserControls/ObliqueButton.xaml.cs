@@ -57,7 +57,7 @@ namespace Sylvester.UserControls
 		}
 
 		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
-			"TextMargin", typeof(Thickness), typeof(ObliqueButton), new PropertyMetadata(new Thickness(0,-2,0,2)));
+			"TextMargin", typeof(Thickness), typeof(ObliqueButton), new PropertyMetadata(new Thickness(0)));
 
 		public Thickness TextMargin
 		{
