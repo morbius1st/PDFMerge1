@@ -33,6 +33,12 @@ namespace Sylvester
 		{
 			FldrRoute.Favorites += f;
 		}
+		
+		
+		public void SetHistoryEventHandler(FolderRoute.HistoryEventHandler f)
+		{
+			FldrRoute.History += f;
+		}
 
 		public Route Path
 		{
@@ -124,6 +130,15 @@ namespace Sylvester
 		{
 			get { return (Thickness) GetValue(TextMarginProperty); }
 			set { SetValue(TextMarginProperty, value); }
+		}
+
+		public static readonly DependencyProperty TextFontSizeProperty = DependencyProperty.Register(
+			"TextFontSize", typeof(double), typeof(HeaderControl), new PropertyMetadata(default(double)));
+
+		public double TextFontSize
+		{
+			get { return (double) GetValue(TextFontSizeProperty); }
+			set { SetValue(TextFontSizeProperty, value); }
 		}
 
 

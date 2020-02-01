@@ -77,19 +77,12 @@ namespace Sylvester.Settings
 		}
 
 	#endregion
-//
-//		public ObservableCollection<SavedProject> ProjectSavedFolders { get; private set; }  
-//			= UserSettings.Data.SavedFolders[SAVED.Value()];
-//
-//		public ObservableCollection<SavedProject> FavoritesSavedFolders { get; private set; } 
-//			= UserSettings.Data.SavedFolders[FAVORITES.Value()];
 
 		public List<ObservableCollection<SavedProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
 		public bool HasSavedFolders(SavedFolderType index)
 		{
 			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
-
 		}
 
 		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)

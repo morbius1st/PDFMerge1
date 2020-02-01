@@ -17,6 +17,15 @@ using Sylvester.FileSupport;
 
 namespace Sylvester.UserControls
 {
+	public enum ObliqueButtonType
+	{
+		TEXT         = 1,
+		SELECTFOLDER = 2,
+		FAVORITES    = 4,
+		HISTORY      = 8
+	} 
+
+
 	/// <summary>
 	/// Interaction logic for FolderRoute.xaml
 	/// </summary>
@@ -44,7 +53,10 @@ namespace Sylvester.UserControls
 		public Route Path
 		{
 			get => new Route(path);
-			set { SetPath(value); }
+			set
+			{
+				SetPath(value);
+			}
 		}
 
 		private void clearObliqueButtons()
@@ -107,6 +119,11 @@ namespace Sylvester.UserControls
 		{
 			RaiseFavoritesEvent();
 		}
+		
+		private void InnerButton_History(object sender, RoutedEventArgs e)
+		{
+			RaiseHistoryEvent();
+		}
 
 		private void InnerButton_SelectFolder(object sender, RoutedEventArgs e)
 		{
@@ -144,17 +161,7 @@ namespace Sylvester.UserControls
 
 	#region event handeling
 
-		// event 2, a folder was selected
-		public delegate void FavoritesEventHandler(object sender, EventArgs e);
-
-		public event FolderRoute.FavoritesEventHandler Favorites;
-
-		protected virtual void RaiseFavoritesEvent()
-		{
-			Favorites?.Invoke(this, new EventArgs());
-		}
-
-		// event 2, a folder was selected
+		// event 1, a folder was selected
 		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
 
 		public event FolderRoute.PathChangedEventHandler PathChange;
@@ -164,7 +171,7 @@ namespace Sylvester.UserControls
 			PathChange?.Invoke(this, new PathChangeArgs(SelectedIndex, SelectedFolder, SelectedPath));
 		}
 
-		// event 1, the select folder button was pressed
+		// event 2, the select folder button was pressed
 		public delegate void SelectFolderEventHandler(object sender, EventArgs e);
 
 		public event FolderRoute.SelectFolderEventHandler SelectFolder;
@@ -174,9 +181,27 @@ namespace Sylvester.UserControls
 			SelectFolder?.Invoke(this, new EventArgs());
 		}
 
+		// event 3, favorites was selected
+		public delegate void FavoritesEventHandler(object sender, EventArgs e);
+
+		public event FolderRoute.FavoritesEventHandler Favorites;
+
+		protected virtual void RaiseFavoritesEvent()
+		{
+			Favorites?.Invoke(this, new EventArgs());
+		}
+
+		// event 4, history was selected
+		public delegate void HistoryEventHandler(object sender, EventArgs e);
+
+		public event FolderRoute.HistoryEventHandler History;
+
+		protected virtual void RaiseHistoryEvent()
+		{
+			History?.Invoke(this, new EventArgs());
+		}
+
 	#endregion
-
-
 
 
 		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
@@ -207,6 +232,16 @@ namespace Sylvester.UserControls
 			get { return (Thickness) GetValue(TextMarginProperty); }
 			set { SetValue(TextMarginProperty, value); }
 		}
+
+		public static readonly DependencyProperty TextFontSizeProperty = DependencyProperty.Register(
+			"TextFontSize", typeof(double), typeof(FolderRoute), new PropertyMetadata(default(double)));
+
+		public double TextFontSize
+		{
+			get { return (double) GetValue(TextFontSizeProperty); }
+			set { SetValue(TextFontSizeProperty, value); }
+		}
+
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter
@@ -216,6 +251,7 @@ namespace Sylvester.UserControls
 			int proposedPathType = (int) values[0];
 			if (values[1] == DependencyProperty.UnsetValue) return true;
 
+//			int buttonType = (int) values[1];
 			int buttonType = (int) values[1];
 
 			if (proposedPathType == 0 || buttonType == 0) return Visibility.Visible;

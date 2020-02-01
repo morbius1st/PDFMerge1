@@ -189,7 +189,7 @@ namespace Sylvester.SavedFolders
 			// add complete project test
 			tbxMain.Clear();
 
-			sfds.Test_02(SAVED);
+			sfds.Test_02(HISTORY);
 
 			CollectionUpdated();
 		}

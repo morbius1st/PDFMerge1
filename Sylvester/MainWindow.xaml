@@ -181,7 +181,8 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					TextMargin="0,-1,0,2"
-					FontSize="9.5"
+					TextFontSize="9.5"
+					FontSize="12"
 					DataContext="{Binding pm.BaseFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"
@@ -270,7 +271,8 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					TextMargin="0,-1,0,2"
-					FontSize="9.5"
+					TextFontSize="9.5"
+					FontSize="12"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
 																Mode=OneWay}"

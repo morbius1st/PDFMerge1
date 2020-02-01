@@ -73,15 +73,15 @@
     </Compile>
     <Compile Include="FileSupport\TestFile.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
+    <AdditionalFiles Include="UserControls\Icons.xaml.cs">
+      <DependentUpon>Icons.xaml</DependentUpon>
+    </AdditionalFiles>
     <Compile Include="UserControls\PathChangeArgs.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
     <Compile Include="SavedFolders\SavedFolder.cs" />
     <Compile Include="SavedFolders\UserSettingData30.cs" />
     <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
       <DependentUpon>SavedFoldersWin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SkewedButton.xaml.cs">
-      <DependentUpon>SkewedButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Support\CustomProperties.cs" />
     <Compile Include="Process\ProcessManager.cs" />
@@ -102,9 +102,6 @@
     <Compile Include="Settings\SettingsUser30.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FolderPath.xaml.cs">
-      <DependentUpon>FolderPath.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FolderRoute.xaml.cs">
       <DependentUpon>FolderRoute.xaml</DependentUpon>
@@ -139,18 +136,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SkewedButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FolderPath.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\FolderRoute.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <AdditionalFiles Include="UserControls\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </AdditionalFiles>
     <Page Include="UserControls\ObliqueButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

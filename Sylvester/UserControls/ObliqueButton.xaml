@@ -53,6 +53,10 @@
 				Color="Lime"
 				/>
 
+		<SolidColorBrush
+				x:Key="Path.History.Fill"
+				Color="#00efff"
+				/>
 
 
 		<SolidColorBrush
@@ -236,7 +240,7 @@
 									</Setter>
 									<Style.Triggers>
 										<!--  false  -->
-										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowFavorite, FallbackValue=true}" Value="true">
+										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowFavorite, FallbackValue=false}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -244,17 +248,15 @@
 							</Path.Style>
 						</Path>
 
-								
-								<!-- Data="F1M -1,0 1,0 1,2.5 3.5,2.5 3.5,4.5 1,4.5 1,7 -1,7 -1,4.5 -3.5,4.5 -3.5,2.5 -1,2.5 -1,0 z" -->
 						<Path
 								x:Name="Plus"
 								Margin="0"
-								Data="F1M .15,0 .15,.4, .55,.4 .55,.7 .15,.7 .15,1.1 -.15,1.1 -.15,.7 -.55,.7 -.55,.4 -.15,.4 -.15,0 .15,0 z"
+								Data="F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=PlusBrush,
 															 FallbackValue={StaticResource Path.Plus.Fill}}"
 								Opacity="1"
-								Stretch="UniformTofill"
+								Stretch="Uniform"
 								>
 							<Path.Style>
 								<Style TargetType="Path">
@@ -262,13 +264,45 @@
 									</Setter>
 									<Style.Triggers>
 										<!--  false  -->
-										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowPlus, FallbackValue=true}" Value="true">
+										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowPlus, FallbackValue=false}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Path.Style>
 						</Path>
+
+						<Path
+								x:Name="History"
+								Margin="0"
+								Fill="{Binding ElementName=obliqueButton,
+															 Path=HistoryBrush,
+															 FallbackValue={StaticResource Path.History.Fill}}"
+								Opacity="1"
+								Stretch="Uniform"
+								>
+							<Path.Data>
+								<PathGeometry FillRule="NonZero"
+										Figures="  
+						M234.667,138.667 234.667,245.333 325.973,299.52 341.333,273.6 266.667,229.333 266.667,138.667z
+						M255.893 32C149.76 32 64 117.973 64 224H0l83.093 83.093l1.493 3.093L170.667 224h-64 c0-82.453 66.88-149.333 149.333-149.333S405.333 141.547 405.333 224S338.453 373.333 256 373.333     c-41.28 0-78.507-16.853-105.493-43.84L120.32 359.68C154.987 394.453 202.88 416 255.893 416C362.027 416 448 330.027 448 224     S362.027 32 255.893 32z" />
+							</Path.Data>
+							<Path.Style>
+								<Style TargetType="Path">
+									<Setter Property="Visibility" Value="Collapsed">
+									</Setter>
+									<Style.Triggers>
+										<!--  false  -->
+										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowHistory, FallbackValue=false}" Value="true">
+											<Setter Property="Visibility" Value="Visible" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Path.Style>
+						</Path>
+
+
+
 
 					</StackPanel>
 
@@ -327,8 +361,8 @@
 									<Setter Property="Visibility" Value="Collapsed">
 									</Setter>
 									<Style.Triggers>
-										<!--  true  -->
-										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowText, FallbackValue=true}" Value="true">
+										<!--  false  -->
+										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowText, FallbackValue=false}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -387,7 +421,7 @@
 									<Setter Property="Visibility" Value="Collapsed">
 									</Setter>
 									<Style.Triggers>
-										<!--  true  -->
+										<!--  false  -->
 										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowArrow, FallbackValue=true}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>

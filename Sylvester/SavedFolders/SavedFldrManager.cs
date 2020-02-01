@@ -21,7 +21,7 @@ namespace Sylvester.SavedFolders
 {
 	public enum SavedFolderType
 	{
-		SAVED = 0,
+		HISTORY = 0,
 		FAVORITES = 1,
 		COUNT = 2
 	}

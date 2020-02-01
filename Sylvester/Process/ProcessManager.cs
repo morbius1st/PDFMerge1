@@ -117,9 +117,9 @@ namespace Sylvester.Process
 		{
 			BaseFileColl.Reset();
 			BaseFileColl.Name = "Base";
-			BaseReadFiles = new ReadFiles();
 			BaseFileColl.Folder = fmBase.Folder;
 			cvBase = null;
+			BaseReadFiles = new ReadFiles();
 
 			OnPropertyChange("BaseFileColl");
 		}
@@ -128,9 +128,9 @@ namespace Sylvester.Process
 		{
 			TestFileColl.Reset();
 			TestFileColl.Name = "Test";
-			TestReadFiles = new ReadFiles();
 			TestFileColl.Folder = fmTest.Folder;
 			cvTest = null;
+			TestReadFiles = new ReadFiles();
 
 			OnPropertyChange("BaseFileColl");
 		}

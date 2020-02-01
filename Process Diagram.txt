@@ -1,0 +1,40 @@
+v
+mainWindow
+v
+read settings
+v
+onLoad
+v
+new ProcessManager
+        v
+        new objects
+        v
+        fmBase & fmTest = new FolderManager()
+                                v
+                                config / set events
+                                v
+                                getPriorFolder()
+                                        v
+                                        tempGetPriorFolder (provide temporary folder values)
+                                        v
+                                        Folder = (get the prior folder) / (path for header control)
+                                +-------+
+                                v
+                                configHeader()
+                                        v
+                                        assign folder path type
+                                +-------+
+        +-----------------------+
+        v
+        reset (x3)
+                v (follow first only)
+                (configure collection - set to empty)
+                (set collection view to null)
+                v
+                BaseReadFiles = new ReadFiles
+        +-------+
++-------+
+v
+(show window / wait for selection)
+                
+                

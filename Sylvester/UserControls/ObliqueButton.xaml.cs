@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using static Sylvester.UserControls.ObliqueButtonType;
 
 namespace Sylvester.UserControls
 {
@@ -65,6 +56,8 @@ namespace Sylvester.UserControls
 			set { SetValue(TextMarginProperty, value); }
 		}
 
+
+
 		// show the text?
 		public static readonly DependencyProperty ShowTextProperty = DependencyProperty.Register(
 			"ShowText", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(false));
@@ -73,16 +66,6 @@ namespace Sylvester.UserControls
 		{
 			get { return (bool) GetValue(ShowTextProperty); }
 			set { SetValue(ShowTextProperty, value); }
-		}
-		
-		// show the border?
-		public static readonly DependencyProperty ShowBorderProperty = DependencyProperty.Register(
-			"ShowBorder", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(true));
-
-		public bool ShowBorder
-		{
-			get { return (bool) GetValue(ShowBorderProperty); }
-			set { SetValue(ShowBorderProperty, value); }
 		}
 
 		// show the arrow?
@@ -105,16 +88,6 @@ namespace Sylvester.UserControls
 			set { SetValue(ShowFavoriteProperty, value); }
 		}
 
-		// color for the favorites symbol
-		public static readonly DependencyProperty FavoritesBrushProperty = DependencyProperty.Register(
-			"FavoritesBrush", typeof(SolidColorBrush), typeof(ObliqueButton), new PropertyMetadata(Brushes.OrangeRed));
-
-		public SolidColorBrush FavoritesBrush
-		{
-			get { return (SolidColorBrush) GetValue(FavoritesBrushProperty); }
-			set { SetValue(FavoritesBrushProperty, value); }
-		}
-
 		// show the plus symbol
 		public static readonly DependencyProperty ShowPlusProperty = DependencyProperty.Register(
 			"ShowPlus", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(false));
@@ -123,6 +96,47 @@ namespace Sylvester.UserControls
 		{
 			get { return (bool) GetValue(ShowPlusProperty); }
 			set { SetValue(ShowPlusProperty, value); }
+		}
+
+		public static readonly DependencyProperty ShowHistoryProperty = DependencyProperty.Register(
+			"ShowHistory", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(false));
+
+		public bool ShowHistory
+		{
+			get { return (bool) GetValue(ShowHistoryProperty); }
+			set { SetValue(ShowHistoryProperty, value); }
+		}
+
+		// show the border?
+		public static readonly DependencyProperty ShowBorderProperty = DependencyProperty.Register(
+			"ShowBorder", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(true));
+
+		public bool ShowBorder
+		{
+			get { return (bool) GetValue(ShowBorderProperty); }
+			set { SetValue(ShowBorderProperty, value); }
+		}
+
+
+
+		// color for the font
+		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
+			"FontBrush", typeof(SolidColorBrush), typeof(ObliqueButton), new PropertyMetadata(Brushes.White));
+
+		public SolidColorBrush FontBrush
+		{
+			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
+			set { SetValue(FontBrushProperty, value); }
+		}
+
+		// color for the favorites symbol
+		public static readonly DependencyProperty FavoritesBrushProperty = DependencyProperty.Register(
+			"FavoritesBrush", typeof(SolidColorBrush), typeof(ObliqueButton), new PropertyMetadata(Brushes.OrangeRed));
+
+		public SolidColorBrush FavoritesBrush
+		{
+			get { return (SolidColorBrush) GetValue(FavoritesBrushProperty); }
+			set { SetValue(FavoritesBrushProperty, value); }
 		}
 
 		// color for the favorites symbol
@@ -136,26 +150,39 @@ namespace Sylvester.UserControls
 			set { SetValue(PlusBrushProperty, value); }
 		}
 
+		// color for the history symbol
+		public static readonly DependencyProperty HistoryBrushProperty = DependencyProperty.Register(
+			"HistoryBrush", typeof(SolidColorBrush), typeof(ObliqueButton), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0x00, 0xef, 0xff))));
 
-		// color for the font
-		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
-			"FontBrush", typeof(SolidColorBrush), typeof(ObliqueButton), new PropertyMetadata(Brushes.White));
-
-		public SolidColorBrush FontBrush
+		public SolidColorBrush HistoryBrush
 		{
-			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
-			set { SetValue(FontBrushProperty, value); }
+			get { return (SolidColorBrush) GetValue(HistoryBrushProperty); }
+			set { SetValue(HistoryBrushProperty, value); }
 		}
 
-		// type of oblique button
-		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
-			"ObliqueButtonType", typeof(int), typeof(ObliqueButton), new PropertyMetadata(0));
 
-		public int ObliqueButtonType
+
+//		// type of oblique button
+//		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
+//			"ObliqueButtonType", typeof(int), typeof(ObliqueButton), new PropertyMetadata(0));
+//
+//		public int ObliqueButtonType
+//		{
+//			get { return (int) GetValue(ObliqueButtonTypeProperty); }
+//			set { SetValue(ObliqueButtonTypeProperty, value); }
+//		}
+
+
+		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
+			"ObliqueButtonType", typeof(ObliqueButtonType), typeof(ObliqueButton), new PropertyMetadata(TEXT));
+
+		public ObliqueButtonType ObliqueButtonType
 		{
-			get { return (int) GetValue(ObliqueButtonTypeProperty); }
+			get { return (ObliqueButtonType) GetValue(ObliqueButtonTypeProperty); }
 			set { SetValue(ObliqueButtonTypeProperty, value); }
 		}
+
+
 
 		// skew the first part of the contents
 		public static readonly DependencyProperty SkewBeginningProperty = DependencyProperty.Register(

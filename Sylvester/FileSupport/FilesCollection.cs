@@ -58,7 +58,7 @@ namespace Sylvester.FileSupport
 				folder = value;
 				OnPropertyChange();
 
-				HasFolder = folder != null;
+				HasFolder = folder != null && folder.IsValid;
 			}
 		}
 

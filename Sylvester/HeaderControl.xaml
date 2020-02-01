@@ -111,6 +111,7 @@
 						x:Name="FldrRoute"
 						Margin="4,4,0,-2"
 						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
+						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize}"
 						FontBrush="#cccccc"
 						FontSize="{Binding ElementName=headerControl, Path=FontSize}"
 						VerticalAlignment="Bottom"
