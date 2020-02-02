@@ -15,7 +15,7 @@ namespace Sylvester
 		private bool compare = false;
 		private bool go = false;
 
-		public ProcessManager pm { get; private set; }
+		public ProcessManager pm { get; private set; } = new ProcessManager();
 
 		public MainWindow()
 		{
@@ -84,21 +84,21 @@ namespace Sylvester
 
 		private void BtnReadCurrent_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.Read();
+			Compare = pm.ReadBase();
 
 			OnPropertyChange("pm");
 		}
 		
 		private void BtnReadRevision_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.Read();
+			Compare = pm.ReadTest();
 
 			OnPropertyChange("pm");
 		}
 		
-		private void BtnReadBase_OnClick(object sender, RoutedEventArgs e)
+		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.ReadBase();
+			Compare = pm.Read();
 
 			OnPropertyChange("pm");
 		}

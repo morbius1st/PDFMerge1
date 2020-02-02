@@ -30,8 +30,11 @@ namespace Sylvester.SavedFolders
 
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
 
+
 		private string currentPath;
 		private string revisionPath;
+		private string volume;
+		private string rootFolder;
 
 		public SavedFolderManager sfMgr { get; private set; }
 
@@ -70,6 +73,8 @@ namespace Sylvester.SavedFolders
 				OnPropertyChange();
 
 				FolderPairs = value.SavedFolderPairs;
+				Volume = value.Identifier.Volume;
+				RootFolder = value.Identifier.RootFolder;
 			}
 		}
 
@@ -99,8 +104,26 @@ namespace Sylvester.SavedFolders
 
 	#region saved project public properties
 
-		public string Volume { get; set; }
 
+		public string Volume
+		{
+			get => volume;
+			set
+			{
+				volume = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string RootFolder
+		{
+			get => rootFolder;
+			set
+			{
+				rootFolder = value;
+				OnPropertyChange();
+			}
+		}
 
 	#endregion
 

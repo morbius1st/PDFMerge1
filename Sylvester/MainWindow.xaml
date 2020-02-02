@@ -113,21 +113,24 @@
 
 						<RadioButton
 								Content="Keep Existing"
-								IsChecked="{Binding Path=UseExistingCaseShtTitle}"
+								IsChecked="{Binding Path=UseExistingCaseShtTitle,
+																		FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
 
 						<RadioButton
 								Content="Make Uppercase"
-								IsChecked="{Binding Path=ForceUpperCaseShtTitle}"
+								IsChecked="{Binding Path=ForceUpperCaseShtTitle,
+																		FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
 
 						<RadioButton
 								Content="Make Caps Each Word"
-								IsChecked="{Binding Path=ForceWordCapShtTitle}"
+								IsChecked="{Binding Path=ForceWordCapShtTitle,
+																		FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
@@ -156,20 +159,20 @@
 
 			<local:HeaderControl
 					x:Name="HdrBase"
-					FolderRouteHeight="13"
 					Title="Current"
 					Grid.Column="0"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
-					TextMargin="0,-1,0,2"
-					TextFontSize="9.5"
 					FontSize="12"
 					DataContext="{Binding pm.BaseFileColl,
 																ElementName=mainwin,
-																Mode=OneWay, FallbackValue={x:Null}}"
+																Mode=OneWay,
+																FallbackValue={x:Null}}"
+					FolderRouteHeight="13"
+					TextFontSize="9.5"
+					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
-					
 					/>
 
 			<local:lvTestControl
@@ -178,11 +181,14 @@
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
 					CanSelect="False"
 					CheckBoxVisibility="Hidden"
 					DataContext="{Binding pm.cvBase,
 																ElementName=mainwin,
-																Mode=OneWay, FallbackValue={x:Null}}"
+																Mode=OneWay,
+																FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
@@ -205,11 +211,7 @@
 							<Setter Property="IsEnabled" Value="false">
 							</Setter>
 							<Style.Triggers>
-								<DataTrigger
-										Binding="{Binding ElementName=mainwin,
-																			Path=pm.BaseFileColl.HasFolder, FallbackValue=false}"
-										Value="true"
-										>
+								<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.BaseFileColl.HasFolder, FallbackValue=false}" Value="true">
 									<Setter Property="IsEnabled" Value="true" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -235,20 +237,20 @@
 
 			<local:HeaderControl
 					x:Name="HdrTest"
-					FolderRouteHeight="13"
 					Title="Revision"
 					Grid.Column="0"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
-					TextMargin="0,-1,0,2"
-					TextFontSize="9.5"
 					FontSize="12"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
-																Mode=OneWay, FallbackValue={x:Null}}"
+																Mode=OneWay,
+																FallbackValue={x:Null}}"
+					FolderRouteHeight="13"
+					TextFontSize="9.5"
+					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
-					
 					/>
 
 			<local:lvTestControl
@@ -257,9 +259,12 @@
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
 					DataContext="{Binding pm.cvTest,
 																ElementName=mainwin,
-																Mode=OneWay, FallbackValue={x:Null}}"
+																Mode=OneWay,
+																FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
@@ -282,11 +287,7 @@
 						<Style TargetType="Button">
 							<Setter Property="IsEnabled" Value="False" />
 							<Style.Triggers>
-								<DataTrigger
-										Binding="{Binding ElementName=mainwin,
-																			Path=pm.TestFileColl.HasFolder, FallbackValue=false}"
-										Value="true"
-										>
+								<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.TestFileColl.HasFolder, FallbackValue=false}" Value="true">
 									<Setter Property="IsEnabled" Value="true" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -312,18 +313,20 @@
 
 			<local:HeaderControl
 					x:Name="HdrComparison"
-					FolderRouteHeight="13.0"
-					FontSize="12"
 					Title="Comparison"
 					Grid.Column="0"
 					Grid.Row="0"
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
-					FolderPathType="0"
-					HideDirectory ="true"
+					FontSize="12"
 					DataContext="{Binding pm.FinalFileColl,
 																ElementName=mainwin,
-																Mode=OneWay, FallbackValue={x:Null}}"
+																Mode=OneWay,
+																FallbackValue={x:Null}}"
+					FolderPathType="0"
+					FolderRouteHeight="13.0"
+					HideDirectory="true"
+					TextFontSize="9.5"
 					/>
 
 			<ListView
@@ -338,7 +341,8 @@
 																	Path=pm.cvFinal}"
 					DataContext="{Binding ElementName=mainwin,
 																Mode=OneWay,
-																Path=pm.cvFinal, FallbackValue={x:Null}}"
+																Path=pm.cvFinal,
+																FallbackValue={x:Null}}"
 					ScrollViewer.CanContentScroll="False"
 					Background="#444444"
 					Foreground="White"
@@ -352,6 +356,7 @@
 
 					<Style
 							x:Key="lblRoot"
+							x:Name="lblRoot"
 							TargetType="Label"
 							>
 						<Setter Property="Foreground" Value="#d8d8d8" />
@@ -392,10 +397,7 @@
 							BasedOn="{StaticResource lblRoot}"
 							>
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding FileNew}"
-									Value="true"
-									>
+							<DataTrigger Binding="{Binding FileNew}" Value="true">
 								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -416,10 +418,7 @@
 							>
 						<Setter Property="Visibility" Value="Collapsed" />
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding FileNew}"
-									Value="true"
-									>
+							<DataTrigger Binding="{Binding FileNew}" Value="true">
 								<Setter Property="Visibility" Value="Visible" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -437,10 +436,7 @@
 						<Setter Property="Padding" Value="4,.5,4,0" />
 						<Setter Property="VerticalAlignment" Value="Top" />
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding FileMatches, FallbackValue=false}"
-									Value="true"
-									>
+							<DataTrigger Binding="{Binding FileMatches, FallbackValue=false}" Value="true">
 								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -452,16 +448,10 @@
 							BasedOn="{StaticResource lblTestRoot}"
 							>
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding SheetNumberMatches, FallbackValue=false}"
-									Value="{StaticResource notmatch}"
-									>
+							<DataTrigger Binding="{Binding SheetNumberMatches, FallbackValue=false}" Value="{StaticResource notmatch}">
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger
-									Binding="{Binding SheetNumberMatches, FallbackValue=false}"
-									Value="{StaticResource match}"
-									>
+							<DataTrigger Binding="{Binding SheetNumberMatches, FallbackValue=false}" Value="{StaticResource match}">
 								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -474,16 +464,10 @@
 							>
 						<Setter Property="HorizontalAlignment" Value="Center" />
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding SeparationMatches, FallbackValue=false}"
-									Value="{StaticResource notmatch}"
-									>
+							<DataTrigger Binding="{Binding SeparationMatches, FallbackValue=false}" Value="{StaticResource notmatch}">
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger
-									Binding="{Binding SeparationMatches, FallbackValue=false}"
-									Value="{StaticResource match}"
-									>
+							<DataTrigger Binding="{Binding SeparationMatches, FallbackValue=false}" Value="{StaticResource match}">
 								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -495,16 +479,10 @@
 							BasedOn="{StaticResource lblTestRoot}"
 							>
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding SheetTitleMatches, FallbackValue=false}"
-									Value="{StaticResource notmatch}"
-									>
+							<DataTrigger Binding="{Binding SheetTitleMatches, FallbackValue=false}" Value="{StaticResource notmatch}">
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger
-									Binding="{Binding SheetTitleMatches, FallbackValue=false}"
-									Value="{StaticResource match}"
-									>
+							<DataTrigger Binding="{Binding SheetTitleMatches, FallbackValue=false}" Value="{StaticResource match}">
 								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -517,10 +495,7 @@
 							>
 						<Setter Property="Visibility" Value="Collapsed" />
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding FileMatches, FallbackValue=false}"
-									Value="true"
-									>
+							<DataTrigger Binding="{Binding FileMatches, FallbackValue=false}" Value="true">
 								<Setter Property="Visibility" Value="Visible" />
 							</DataTrigger>
 						</Style.Triggers>
@@ -635,6 +610,7 @@
 
 					<DataTemplate
 							x:Key="DataTemplateTest2"
+							x:Name="DataTemplateTest2"
 							DataType="filesupport:FinalFile"
 							>
 						<Border
@@ -893,6 +869,7 @@
 
 					<Style
 							x:Key="ListViewItemStyle2"
+							x:Name="lvComparison_ListViewItemStyle2"
 							TargetType="{x:Type ListViewItem}"
 							>
 						<Setter Property="Background" Value="Transparent" />
@@ -948,10 +925,7 @@
 										<Trigger Property="IsEnabled" Value="False">
 											<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Item.NotEnabled.Foreground}" />
 										</Trigger>
-										<DataTrigger
-												Binding="{Binding FileNew}"
-												Value="True"
-												>
+										<DataTrigger Binding="{Binding FileNew}" Value="True">
 											<Setter Property="IsEnabled" Value="False" />
 											<Setter Property="IsSelected" Value="False" />
 											<Setter TargetName="Bd" Property="Background" Value="Transparent" />

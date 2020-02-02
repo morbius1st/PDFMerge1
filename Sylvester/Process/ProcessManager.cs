@@ -39,6 +39,8 @@ namespace Sylvester.Process
 		public FolderManager fmBase { get; private set; }
 		public FolderManager fmTest { get; private set; }
 
+		public ProcessManager() { }
+
 		public ProcessManager(HeaderControl hcBase, HeaderControl hcTest)
 		{
 			fmBase = new FolderManager(FolderType.CURRENT.Value(), hcBase);
@@ -55,9 +57,9 @@ namespace Sylvester.Process
 
 		}
 
-		public FilesCollection<BaseFile> BaseFileColl { get; private set; }
-		public FilesCollection<TestFile> TestFileColl { get; private set; }
-		public FilesCollection<FinalFile> FinalFileColl { get; private set; }
+		public FilesCollection<BaseFile> BaseFileColl { get; private set; } = new FilesCollection<BaseFile>();
+		public FilesCollection<TestFile> TestFileColl { get; private set; } = new FilesCollection<TestFile>();
+		public FilesCollection<FinalFile> FinalFileColl { get; private set; } = new FilesCollection<FinalFile>();
 
 		public ReadFiles BaseReadFiles { get; private set; }
 		public ReadFiles TestReadFiles { get; private set; }

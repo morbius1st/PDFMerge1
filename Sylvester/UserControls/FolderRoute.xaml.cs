@@ -226,7 +226,7 @@ namespace Sylvester.UserControls
 		}
 
 		public static readonly DependencyProperty TextFontSizeProperty = DependencyProperty.Register(
-			"TextFontSize", typeof(double), typeof(FolderRoute), new PropertyMetadata(default(double)));
+			"TextFontSize", typeof(double), typeof(FolderRoute), new PropertyMetadata(8.0));
 
 		public double TextFontSize
 		{

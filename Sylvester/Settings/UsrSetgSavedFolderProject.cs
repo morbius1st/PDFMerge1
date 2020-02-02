@@ -5,6 +5,7 @@
 
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 
 namespace Sylvester.SavedFolders
 {
@@ -23,7 +24,7 @@ namespace Sylvester.SavedFolders
 		}
 
 		[DataMember]
-		public FolderRoot Identifier { get; set; }
+		public FolderRoot Identifier { get; set; } = new FolderRoot() {Volume = null, RootFolder = null};
 
 		[DataMember]
 		public string Key { get; set; }

@@ -14,6 +14,7 @@
 		Height="450"
 		mc:Ignorable="d"
 		Background="#333333"
+		DataContext="{Binding ElementName=SavedFolderWin, Path=SavedFolders}"
 		>
 	<Window.Resources>
 
@@ -111,19 +112,20 @@
 						Style="{StaticResource label}"
 						/>
 				<Label
-						Content="{Binding SavedFolders.Values/Identifier.Volume,
-															ElementName=SavedFolderWin}"
+						x:Name="lblVolume"
+						Width="30"
+						Content="{Binding ElementName=SavedFolderWin, Path=Volume, FallbackValue='C:'}"
+						DockPanel.Dock="Left"
+						Style="{StaticResource label}"
+						/>
+
+				<Label x:Name="lblRootFolder"
+						Content="{Binding ElementName=SavedFolderWin, Path=RootFolder, FallbackValue='\\'}"
 						Width="30"
 						DockPanel.Dock="Left"
 						Style="{StaticResource label}"
 						/>
-				<Label
-						Content="{Binding SavedFolders.Values/Identifier.RootFolder,
-															ElementName=SavedFolderWin}"
-						Width="30"
-						DockPanel.Dock="Left"
-						Style="{StaticResource label}"
-						/>
+
 
 
 			</DockPanel>
@@ -143,7 +145,7 @@
 						Text="{Binding ElementName=SavedFolderWin,
 													 Path=CurrentPath,
 													 Mode=TwoWay,
-													 FallbackValue=current path}"
+													 FallbackValue='current path'}"
 						Background="#222222"
 						Foreground="White"
 						/>
@@ -162,7 +164,7 @@
 						Text="{Binding ElementName=SavedFolderWin,
 													 Path=RevisionPath,
 													 Mode=TwoWay,
-													 FallbackValue=revision path}"
+													 FallbackValue='revision path'}"
 						Background="#222222"
 						Foreground="White"
 						/>

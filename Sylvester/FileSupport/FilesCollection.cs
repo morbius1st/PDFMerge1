@@ -87,7 +87,7 @@ namespace Sylvester.FileSupport
 
 		public int FilesFound => TestFiles.Count;
 
-		public int SheetPdFs
+		public int SheetPdfs
 		{
 			get => FilesFound - NonSheetPdfsFiles - OtherFiles; 
 		}

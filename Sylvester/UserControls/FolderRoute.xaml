@@ -9,6 +9,7 @@
 		d:DesignWidth="250"
 		mc:Ignorable="d"
 		x:Name="folderRoute"
+		
 		>
 	<UserControl.Resources>
 
@@ -45,7 +46,7 @@
 		<Style x:Key="ObText" TargetType="local:ObliqueButton" BasedOn="{StaticResource ObliqueButtonStyle}">
 			<Setter Property="FontBrush" Value="{Binding ElementName=folderRoute, Path=FontBrush, FallbackValue=white}"/>
 			<Setter Property="TextMargin" Value="{Binding ElementName=folderRoute, Path=TextMargin, FallbackValue='0,0,0,0'}"/>
-			<Setter Property="FontSize" Value="{Binding ElementName=folderRoute, Path=TextFontSize, FallbackValue=8}"/>
+			<Setter Property="FontSize" Value="{Binding ElementName=folderRoute, Path=TextFontSize, FallbackValue=8.0}"/>
 			<Setter Property="ObliqueButtonType" Value="TEXT"/> 
 			<Setter Property="ShowArrow" Value="True"/>
 			<Setter Property="ShowText" Value="True"/>

@@ -82,13 +82,11 @@
 														 FallbackValue=15}"
 						VerticalAlignment="Bottom"
 						FontBrush="#cccccc"
-						FontSize="{Binding ElementName=headerControl,
-															 Path=FontSize}"
 						ProposedObliqueButtonType="{Binding ElementName=headerControl,
 																								Path=FolderPathType,
 																								FallbackValue=7}"
 						TextFontSize="{Binding ElementName=headerControl,
-																	 Path=TextFontSize}"
+																	 Path=TextFontSize, FallbackValue=8}"
 						TextMargin="{Binding ElementName=headerControl,
 																 Path=TextMargin}"
 						>
@@ -148,7 +146,7 @@
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
-									Content="{Binding Path=SheetPDFs,
+									Content="{Binding Path=SheetPdfs,
 																		FallbackValue=0}"
 									Style="{StaticResource lblCount}"
 									/>
