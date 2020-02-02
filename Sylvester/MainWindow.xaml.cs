@@ -15,6 +15,8 @@ namespace Sylvester
 		private bool compare = false;
 		private bool go = false;
 
+		public static Window MainWin;
+
 		public ProcessManager pm { get; private set; } = new ProcessManager();
 
 		public MainWindow()
@@ -22,6 +24,8 @@ namespace Sylvester
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
+
+			MainWin = this;
 		}
 
 	#region public properties
@@ -67,9 +71,8 @@ namespace Sylvester
 		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@test1");
-
 		}
-		
+
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@debug");
@@ -84,21 +87,21 @@ namespace Sylvester
 
 		private void BtnReadCurrent_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.ReadBase();
+			if (!pm.ReadBase()) return;
 
 			OnPropertyChange("pm");
 		}
-		
+
 		private void BtnReadRevision_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.ReadTest();
+			if (!pm.ReadTest()) return;
 
 			OnPropertyChange("pm");
 		}
-		
+
 		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
 		{
-			Compare = pm.Read();
+			pm.Read();
 
 			OnPropertyChange("pm");
 		}
@@ -147,6 +150,5 @@ namespace Sylvester
 		}
 
 	#endregion
-
 	}
 }
