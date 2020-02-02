@@ -195,7 +195,7 @@
 				DataContext="{Binding ElementName=SavedFolderWin,
 															Path=SavedFolders}"
 				SelectedValue="{Binding ElementName=SavedFolderWin,
-																Path=SelectedSavedProject}"
+																Path=SelectedSavedFolderProject}"
 				SelectionMode="Single"
 				Background="#333333"
 				ItemTemplate="{DynamicResource DataTemplate1}"
@@ -205,7 +205,7 @@
 			<ListView.Resources>
 				<DataTemplate
 						x:Key="DataTemplate1"
-						DataType="{x:Type local:SavedProject}"
+						DataType="{x:Type local:SavedFolderProject}"
 						>
 					<StackPanel Orientation="Horizontal">
 						<Label

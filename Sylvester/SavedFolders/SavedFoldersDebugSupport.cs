@@ -1,6 +1,5 @@
 ﻿#region + Using Directives
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -116,18 +115,18 @@ namespace Sylvester.SavedFolders
 		private void ListSavedFoldersInfo(SavedFolderType index)
 		{
 			UserSettingData30 d =  UserSettings.Data;
-			ObservableCollection<SavedProject> sf = d.SavedFolders[index.Value()];
+			ObservableCollection<SavedFolderProject> sf = d.SavedFolders[index.Value()];
 
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("project count", sf.Count.ToString());
 			
-			foreach (SavedProject kvp in sf)
+			foreach (SavedFolderProject kvp in sf)
 			{
 				listSavedFolderInfo(kvp);
 			}
 		}
 
-		private void listSavedFolderInfo(SavedProject kvp)
+		private void listSavedFolderInfo(SavedFolderProject kvp)
 		{
 			int i = 0;
 

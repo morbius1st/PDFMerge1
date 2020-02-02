@@ -1,8 +1,4 @@
 ﻿using System;
-using Sylvester.Process;
-using Sylvester.Settings;
-using static Sylvester.Support.Support;
-
 
 
 // Solution:     PDFMerge1

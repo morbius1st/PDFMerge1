@@ -1,14 +1,7 @@
 ﻿#region + Using Directives
-
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 
 #endregion
 
@@ -24,9 +17,9 @@ namespace Sylvester.FileSupport
 	{
 		private string name;
 		private Route folder = Route.Invalid;
-		private int nonSheetPdfsFiles = 0;
-		private int otherFiles = 0;
-		private bool hasFolder = false;
+		private int nonSheetPdfsFiles;
+		private int otherFiles;
+		private bool hasFolder;
 
 		public FilesCollection()
 		{
@@ -94,7 +87,7 @@ namespace Sylvester.FileSupport
 
 		public int FilesFound => TestFiles.Count;
 
-		public int SheetPDFs
+		public int SheetPdFs
 		{
 			get => FilesFound - NonSheetPdfsFiles - OtherFiles; 
 		}
@@ -146,8 +139,11 @@ namespace Sylvester.FileSupport
 			NonSheetPdfsFiles = 0;
 			OtherFiles = 0;
 
+			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("TestFiles");
+			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("SheetPDFs");
+			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("FilesFound");
 
 		}
@@ -159,6 +155,7 @@ namespace Sylvester.FileSupport
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		// ReSharper disable once InconsistentNaming
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));

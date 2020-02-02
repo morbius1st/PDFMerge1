@@ -1,9 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Sylvester.FileSupport;
-using Sylvester.FolderSupport;
 using Sylvester.UserControls;
 
 
@@ -34,7 +31,6 @@ namespace Sylvester
 			FldrRoute.Favorites += f;
 		}
 		
-		
 		public void SetHistoryEventHandler(FolderRoute.HistoryEventHandler f)
 		{
 			FldrRoute.History += f;
@@ -45,6 +41,8 @@ namespace Sylvester
 			get => FldrRoute.Path;
 			set => FldrRoute.Path = value;
 		}
+
+	#region public control properties
 
 		public static readonly DependencyProperty TitleProperty =
 			DependencyProperty.Register("Title", typeof(string),
@@ -140,7 +138,9 @@ namespace Sylvester
 			get { return (double) GetValue(TextFontSizeProperty); }
 			set { SetValue(TextFontSizeProperty, value); }
 		}
+		
 
+	#endregion
 
 	}
 }

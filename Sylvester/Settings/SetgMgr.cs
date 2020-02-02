@@ -2,16 +2,11 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Security;
 using SettingManager;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
 using UtilityLibrary;
-
-using static Sylvester.SavedFolders.SavedFolderType;
 
 #endregion
 
@@ -78,14 +73,14 @@ namespace Sylvester.Settings
 
 	#endregion
 
-		public List<ObservableCollection<SavedProject>> SavedFolders => UserSettings.Data.SavedFolders;
+		public List<ObservableCollection<SavedFolderProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
 		public bool HasSavedFolders(SavedFolderType index)
 		{
 			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
 		}
 
-		public bool AddSavedFolder(SavedProject sf, SavedFolderType index)
+		public bool AddSavedFolder(SavedFolderProject sf, SavedFolderType index)
 		{
 			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
 
@@ -94,9 +89,9 @@ namespace Sylvester.Settings
 			return true;
 		}
 
-		public SavedProject FindSavedFolder(string testkey, SavedFolderType index)
+		public SavedFolderProject FindSavedFolder(string testkey, SavedFolderType index)
 		{
-			foreach (SavedProject sp in UserSettings.Data.SavedFolders[index.Value()])
+			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[index.Value()])
 			{
 				if (sp.Key.Equals(testkey)) return sp;
 			}
@@ -105,7 +100,7 @@ namespace Sylvester.Settings
 		}
 
 		public SavedFolderPair 
-			FindCurrentRevisionFolderPair(SavedProject sf, string testKey)
+			FindCurrentRevisionFolderPair(SavedFolderProject sf, string testKey)
 		{
 
 			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)

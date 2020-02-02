@@ -1,6 +1,5 @@
 ﻿#region + Using Directives
 
-using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Sylvester.FileSupport;
 using Sylvester.Settings;
@@ -12,7 +11,6 @@ using Sylvester.Settings;
 // itemname: SelectFolder
 // username: jeffs
 // created:  12/31/2019 3:01:00 PM
-
 
 namespace Sylvester.FolderSupport
 {

@@ -7,15 +7,12 @@
 // itemname: SavedFolderManager
 // username: jeffs
 // created:  1/20/2020 8:55:27 PM
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.Settings;
 using UtilityLibrary;
-using static Sylvester.SavedFolders.SavedFolderType;
 
 namespace Sylvester.SavedFolders
 {
@@ -34,9 +31,9 @@ namespace Sylvester.SavedFolders
 
 		private static SavedFoldersWin savedWinInstance;
 
-//		private ObservableCollection<SavedProject> savedFolders;
+//		private ObservableCollection<SavedFolderProject> savedFolders;
 
-//		private Dictionary<string, SavedProject> savedFolders;
+//		private Dictionary<string, SavedFolderProject> savedFolders;
 //		private ICollectionView savedFolderVue;
 
 		private SetgMgr sm;
@@ -45,7 +42,7 @@ namespace Sylvester.SavedFolders
 
 		public SavedFolderManager(SavedFolderType index
 //			,
-//			ObservableCollection<SavedProject> savedFolders
+//			ObservableCollection<SavedFolderProject> savedFolders
 			)
 		{
 			// before make savedfolderwin
@@ -74,8 +71,8 @@ namespace Sylvester.SavedFolders
 //			}
 //		}
 
-//		public ObservableCollection<SavedProject> SavedFolders => savedFolders;
-		public ObservableCollection<SavedProject> SavedFolders => sm.SavedFolders[Index.Value()];
+//		public ObservableCollection<SavedFolderProject> SavedFolders => savedFolders;
+		public ObservableCollection<SavedFolderProject> SavedFolders => sm.SavedFolders[Index.Value()];
 
 		public SavedFolderType Index { get; set; }
 
@@ -96,12 +93,12 @@ namespace Sylvester.SavedFolders
 
 			UserSettings.Data.priorPath = current;
 
-			SavedProject sf = sm.FindSavedFolder(current.FolderNames[0], Index);
+			SavedFolderProject sf = sm.FindSavedFolder(current.FolderNames[0], Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
-				sf = new SavedProject(current.VolumeName, current.FolderNames[0]);
+				sf = new SavedFolderProject(current.VolumeName, current.FolderNames[0]);
 				sm.AddSavedFolder(sf, Index);
 			}
 			else

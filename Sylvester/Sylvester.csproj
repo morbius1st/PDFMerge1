@@ -76,10 +76,15 @@
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
     </AdditionalFiles>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="lvTestControl.xaml.cs">
+      <DependentUpon>lvTestControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="UserControls\PathChangeArgs.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
-    <Compile Include="SavedFolders\SavedFolder.cs" />
-    <Compile Include="SavedFolders\UserSettingData30.cs" />
+    <Compile Include="Settings\UsrSetgSavedFolderProject.cs" />
+    <Compile Include="Settings\UsrSetgData30.cs" />
     <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
       <DependentUpon>SavedFoldersWin.xaml</DependentUpon>
     </Compile>
@@ -88,9 +93,6 @@
     <Compile Include="FileSupport\ReadFiles.cs" />
     <Compile Include="FileSupport\SheetNameInfo.cs" />
     <Compile Include="FileSupport\BaseFile.cs" />
-    <Compile Include="lvTestControl.xaml.cs">
-      <DependentUpon>lvTestControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SavedFolders\SavedFoldersDebugSupport.cs" />
     <Compile Include="Support\Support.cs" />
     <Compile Include="FileSupport\FinalFile.cs" />
@@ -111,7 +113,7 @@
     </Compile>
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -167,7 +169,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using static Sylvester.Support.CustomProperties;
 
 namespace Sylvester
 {
@@ -12,14 +11,10 @@ namespace Sylvester
 		public lvTestControl()
 		{
 			InitializeComponent();
-
 		}
 
-		public static readonly DependencyProperty CheckBoxVisibilityProperty =
-			DependencyProperty.Register("CheckBoxVisibility", typeof(Visibility),
-				typeof(lvTestControl),
-				new PropertyMetadata(Visibility.Visible)
-				);
+		public static readonly DependencyProperty CheckBoxVisibilityProperty = DependencyProperty.Register(
+			"CheckBoxVisibility", typeof(Visibility), typeof(lvTestControl), new PropertyMetadata(Visibility.Visible));
 
 		public Visibility CheckBoxVisibility
 		{
@@ -27,17 +22,13 @@ namespace Sylvester
 			set { SetValue(CheckBoxVisibilityProperty, value); }
 		}
 
-		public static readonly DependencyProperty CanSelectProperty =
-			DependencyProperty.Register("CanSelect", typeof(bool),
-				typeof(lvTestControl),
-				new PropertyMetadata(true)
-				);
+		public static readonly DependencyProperty CanSelectProperty = DependencyProperty.Register(
+			"CanSelect", typeof(bool), typeof(lvTestControl), new PropertyMetadata(true) );
 
 		public bool CanSelect
 		{
 			get { return (bool) GetValue(CanSelectProperty); }
 			set { SetValue(CanSelectProperty, value); }
 		}
-
 	}
 }

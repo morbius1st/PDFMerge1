@@ -1,13 +1,6 @@
 ﻿#region + Using Directives
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
 
 #endregion
 
@@ -20,8 +13,6 @@ using System.Threading.Tasks;
 
 namespace Sylvester.FileSupport
 {
-
-
 	public class FileRenameManager
 	{
 		private string nl = System.Environment.NewLine;
@@ -41,18 +32,10 @@ namespace Sylvester.FileSupport
 				newPath = tf.FullFileRoute.Path + "\\"
 					+ tf.NewFileName;
 
-//				Debug.WriteLine("rename this file| "
-//					+ tf.FullFileRoute.FullPath);
-//				Debug.WriteLine("    to this file| "
-//					+ newPath + nl);
-
 				fi.MoveTo(newPath);
-
 			}
 
 			return true;
 		}
-
-
 	}
 }

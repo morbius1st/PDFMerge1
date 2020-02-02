@@ -23,13 +23,13 @@ namespace Sylvester.Settings
 		{
 			if (SavedFolders == null)
 			{
-				SavedFolders = new List<ObservableCollection<SavedProject>>(2);
-				SavedFolders.Add(new ObservableCollection<SavedProject>());
-				SavedFolders.Add(new ObservableCollection<SavedProject>());
+				SavedFolders = new List<ObservableCollection<SavedFolderProject>>(2);
+				SavedFolders.Add(new ObservableCollection<SavedFolderProject>());
+				SavedFolders.Add(new ObservableCollection<SavedFolderProject>());
 			}
 		}
 
 		[DataMember]
-		public List<ObservableCollection<SavedProject>> SavedFolders;
+		public List<ObservableCollection<SavedFolderProject>> SavedFolders;
 	}
 }

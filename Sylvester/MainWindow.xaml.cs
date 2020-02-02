@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
-using Sylvester.FileSupport;
 using Sylvester.Process;
-using Sylvester.SavedFolders;
 using Sylvester.Settings;
 
 namespace Sylvester
@@ -25,8 +22,9 @@ namespace Sylvester
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
-//			UserSettings.Data.Initialize();
 		}
+
+	#region public properties
 
 		public bool SetFocus
 		{
@@ -53,10 +51,18 @@ namespace Sylvester
 			}
 		}
 
+	#endregion
+
+	#region public methods
+
 		public void SetFocusComparison()
 		{
 			lvComparison.Focus();
 		}
+
+	#endregion
+
+	#region window events
 
 		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -76,7 +82,14 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
-		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
+		private void BtnReadCurrent_OnClick(object sender, RoutedEventArgs e)
+		{
+			Compare = pm.Read();
+
+			OnPropertyChange("pm");
+		}
+		
+		private void BtnReadRevision_OnClick(object sender, RoutedEventArgs e)
 		{
 			Compare = pm.Read();
 
@@ -115,6 +128,17 @@ namespace Sylvester
 			SetFocusComparison();
 		}
 
+		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
+		{
+			pm = new ProcessManager(HdrBase, HdrTest);
+
+			OnPropertyChange("pm");
+		}
+
+	#endregion
+
+	#region events
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
@@ -122,27 +146,7 @@ namespace Sylvester
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
-		{
-			pm = new ProcessManager(HdrBase, HdrTest);
-			OnPropertyChange("pm");
+	#endregion
 
-//			pm.fmBase.sfMgr[0].test();
-
-		}
-
-		//		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-		//		{
-		//			Button b = e.OriginalSource as Button;
-		//			SkewedButton sb = b.Tag as SkewedButton;
-		//
-		//			int i = (int) sb.Tag;
-		//			string s = sb.InnerSp.Tag as string;
-		//
-		//			if (i == -1)
-		//			{
-		//				FpBase.AddPath(FolderManager.BaseFolder.FolderNames);
-		//			}
-		//		}
 	}
 }

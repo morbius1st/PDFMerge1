@@ -1,13 +1,5 @@
 ﻿#region + Using Directives
 
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilityLibrary;
-
 #endregion
 
 
@@ -15,7 +7,6 @@ using UtilityLibrary;
 // itemname: FinalFile
 // username: jeffs
 // created:  1/4/2020 10:35:42 PM
-
 
 namespace Sylvester.FileSupport
 {
@@ -32,17 +23,9 @@ namespace Sylvester.FileSupport
 
 	public class FinalFile : SheetNameInfo
 	{
-		private const string SPACER = " ";
-
-		public static string STATUS_MSG_MATCHES { get; } = "OK As Is";
-		public static string STATUS_MSG_NOT_MATCHES { get; } = "Rename";
-		public static string STATUS_MSG_MISSING { get; } = "Ignore";
-
-		public int paddingShtNum = 0;
-		public int paddingSep = 0;
-		public int paddingShtTitle = 0;
-
-		private bool apply = true;
+		public static string StatusMsgMatches { get; } = "OK As Is";
+		public static string StatusMsgNotMatches { get; } = "Rename";
+		public static string StatusMsgMissing { get; } = "Ignore";
 
 		private string matchedSheetNumber = "";
 		private string matchedSeparator = "";
@@ -54,8 +37,6 @@ namespace Sylvester.FileSupport
 		public FinalFile(Route fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
-
-//			SetPadding();
 		}
 
 		public override string SheetTitle
@@ -76,8 +57,6 @@ namespace Sylvester.FileSupport
 				matchedSeparator = baseFile.Separator;
 				matchedSheetTitle = baseFile.SheetTitle;
 
-//				SetPadding();
-
 				UpdateSelectStatus();
 			}
 		}
@@ -92,9 +71,9 @@ namespace Sylvester.FileSupport
 		{
 			get
 			{
-				if (FileNew) return STATUS_MSG_MISSING;
-				if (FileMatches) return STATUS_MSG_MATCHES;
-				return STATUS_MSG_NOT_MATCHES;
+				if (FileNew) return StatusMsgMissing;
+				if (FileMatches) return StatusMsgMatches;
+				return StatusMsgNotMatches;
 			}
 		}
 
@@ -108,8 +87,8 @@ namespace Sylvester.FileSupport
 
 		public string MatchedSeparator => matchedSeparator;
 
-		public string MatchedSheetTitle {
-//			get => baseFile.SheetTitle + SPACER.Repeat(paddingShtTitle);
+		public string MatchedSheetTitle
+		{
 			get => baseFile?.SheetTitle ?? "no sheet title";
 
 			set
@@ -117,7 +96,7 @@ namespace Sylvester.FileSupport
 				matchedSheetTitle = value;
 				OnPropertyChange();
 			}
-	}
+		}
 
 		public MatchStatus SheetNumberMatches
 		{
@@ -166,28 +145,7 @@ namespace Sylvester.FileSupport
 
 		public override void UpdateSelectStatus()
 		{
-			Selected = StatusMessage.Equals(STATUS_MSG_NOT_MATCHES);
+			Selected = StatusMessage.Equals(StatusMsgNotMatches);
 		}
-
-//		private int GetPadding(string basePart, string testPart)
-//		{
-//			if (basePart.Length == 0) return  testPart.Length;
-//
-//			if (basePart.Length > testPart.Length) return 0;
-//
-//			return testPart.Length - basePart.Length + 1;
-//		}
-//
-//		private void SetPadding()
-//		{
-//			paddingShtNum =
-//				GetPadding(matchedSheetNumber, SheetNumber);
-//
-//			paddingSep =
-//				GetPadding(matchedSeparator, separator);
-//
-//			paddingShtTitle =
-//				GetPadding(matchedSheetTitle, sheetTitle);
-//		}
 	}
 }

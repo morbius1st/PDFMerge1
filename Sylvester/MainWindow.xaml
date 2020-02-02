@@ -6,9 +6,7 @@
 		xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:settings="clr-namespace:Sylvester.Settings"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="mainwin"
 		Title="MainWindow"
 		Width="1300"
@@ -34,22 +32,6 @@
 		<filesupport:MatchStatus x:Key="FileNew">
 			NEW_FILE
 		</filesupport:MatchStatus>
-
-		<!--  <x:Static  -->
-		<!--  x:Key="Matches"  -->
-		<!--  Member="filesupport:FinalFile.STATUS_MSG_MATCHES"  -->
-		<!--  >  -->
-		<!-- </x:Static> -->
-		<!--  <x:Static  -->
-		<!--  x:Key="NotMatches"  -->
-		<!--  Member="filesupport:FinalFile.STATUS_MSG_NOT_MATCHES"  -->
-		<!--  >  -->
-		<!-- </x:Static> -->
-		<!--  <x:Static  -->
-		<!--  x:Key="Missing"  -->
-		<!--  Member="filesupport:FinalFile.STATUS_MSG_MISSING"  -->
-		<!--  >  -->
-		<!-- </x:Static> -->
 
 	</Window.Resources>
 	<Grid>
@@ -185,7 +167,7 @@
 					FontSize="12"
 					DataContext="{Binding pm.BaseFileColl,
 																ElementName=mainwin,
-																Mode=OneWay}"
+																Mode=OneWay, FallbackValue={x:Null}}"
 					TitleBarMargin="-60,0,0,0"
 					
 					/>
@@ -200,7 +182,7 @@
 					CheckBoxVisibility="Hidden"
 					DataContext="{Binding pm.cvBase,
 																ElementName=mainwin,
-																Mode=OneWay}"
+																Mode=OneWay, FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
@@ -216,7 +198,7 @@
 						Width="48"
 						Height="26"
 						VerticalAlignment="Bottom"
-						Click="BtnRead_OnClick"
+						Click="BtnReadCurrent_OnClick"
 						>
 					<Button.Style>
 						<Style TargetType="Button">
@@ -225,7 +207,7 @@
 							<Style.Triggers>
 								<DataTrigger
 										Binding="{Binding ElementName=mainwin,
-																			Path=pm.BaseFileColl.HasFolder}"
+																			Path=pm.BaseFileColl.HasFolder, FallbackValue=false}"
 										Value="true"
 										>
 									<Setter Property="IsEnabled" Value="true" />
@@ -234,18 +216,7 @@
 						</Style>
 					</Button.Style>
 				</Button>
-
 			</StackPanel>
-
-			<!-- <local:FolderPath -->
-			<!-- 		x:Name="FpBase" -->
-			<!-- 		Grid.Column="0" -->
-			<!-- 		Grid.Row="0" -->
-			<!-- 		Grid.ColumnSpan="2" -->
-			<!-- 		VerticalAlignment="Bottom" -->
-			<!-- 		> -->
-			<!-- </local:FolderPath> -->
-
 		</Grid>
 
 		<Grid
@@ -275,7 +246,7 @@
 					FontSize="12"
 					DataContext="{Binding pm.TestFileColl,
 																ElementName=mainwin,
-																Mode=OneWay}"
+																Mode=OneWay, FallbackValue={x:Null}}"
 					TitleBarMargin="-60,0,0,0"
 					
 					/>
@@ -288,7 +259,7 @@
 					Margin="0,0,4,4"
 					DataContext="{Binding pm.cvTest,
 																ElementName=mainwin,
-																Mode=OneWay}"
+																Mode=OneWay, FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
@@ -305,7 +276,7 @@
 						Width="48"
 						Height="26"
 						VerticalAlignment="Bottom"
-						Click="BtnRead_OnClick"
+						Click="BtnReadRevision_OnClick"
 						>
 					<Button.Style>
 						<Style TargetType="Button">
@@ -313,7 +284,7 @@
 							<Style.Triggers>
 								<DataTrigger
 										Binding="{Binding ElementName=mainwin,
-																			Path=pm.TestFileColl.HasFolder}"
+																			Path=pm.TestFileColl.HasFolder, FallbackValue=false}"
 										Value="true"
 										>
 									<Setter Property="IsEnabled" Value="true" />
@@ -323,16 +294,6 @@
 					</Button.Style>
 				</Button>
 			</StackPanel>
-
-			<!-- <local:FolderPath -->
-			<!-- 		x:Name="FpTest" -->
-			<!-- 		Grid.Column="0" -->
-			<!-- 		Grid.Row="0" -->
-			<!-- 		Grid.ColumnSpan="2" -->
-			<!-- 		VerticalAlignment="Bottom" -->
-			<!-- 		> -->
-			<!-- </local:FolderPath> -->
-
 		</Grid>
 
 		<Grid
@@ -362,7 +323,7 @@
 					HideDirectory ="true"
 					DataContext="{Binding pm.FinalFileColl,
 																ElementName=mainwin,
-																Mode=OneWay}"
+																Mode=OneWay, FallbackValue={x:Null}}"
 					/>
 
 			<ListView
@@ -377,7 +338,7 @@
 																	Path=pm.cvFinal}"
 					DataContext="{Binding ElementName=mainwin,
 																Mode=OneWay,
-																Path=pm.cvFinal}"
+																Path=pm.cvFinal, FallbackValue={x:Null}}"
 					ScrollViewer.CanContentScroll="False"
 					Background="#444444"
 					Foreground="White"
@@ -446,7 +407,6 @@
 							BasedOn="{StaticResource lblRoot}"
 							>
 						<Setter Property="Foreground" Value="PaleTurquoise" />
-
 					</Style>
 
 					<Style
@@ -478,7 +438,7 @@
 						<Setter Property="VerticalAlignment" Value="Top" />
 						<Style.Triggers>
 							<DataTrigger
-									Binding="{Binding FileMatches}"
+									Binding="{Binding FileMatches, FallbackValue=false}"
 									Value="true"
 									>
 								<Setter Property="Visibility" Value="Collapsed" />
@@ -492,20 +452,14 @@
 							BasedOn="{StaticResource lblTestRoot}"
 							>
 						<Style.Triggers>
-							<!--  <DataTrigger  -->
-							<!--  Binding="{Binding FileNew}"  -->
-							<!--  Value="false"  -->
-							<!--  >  -->
-							<!-- 	<Setter Property="Width" Value="{Binding ElementName=ShtNum, Path=ActualWidth}" /> -->
-							<!-- </DataTrigger> -->
 							<DataTrigger
-									Binding="{Binding SheetNumberMatches}"
+									Binding="{Binding SheetNumberMatches, FallbackValue=false}"
 									Value="{StaticResource notmatch}"
 									>
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
 							<DataTrigger
-									Binding="{Binding SheetNumberMatches}"
+									Binding="{Binding SheetNumberMatches, FallbackValue=false}"
 									Value="{StaticResource match}"
 									>
 								<Setter Property="BorderBrush" Value="LawnGreen" />
@@ -521,13 +475,13 @@
 						<Setter Property="HorizontalAlignment" Value="Center" />
 						<Style.Triggers>
 							<DataTrigger
-									Binding="{Binding SeparationMatches}"
+									Binding="{Binding SeparationMatches, FallbackValue=false}"
 									Value="{StaticResource notmatch}"
 									>
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
 							<DataTrigger
-									Binding="{Binding SeparationMatches}"
+									Binding="{Binding SeparationMatches, FallbackValue=false}"
 									Value="{StaticResource match}"
 									>
 								<Setter Property="BorderBrush" Value="LawnGreen" />
@@ -542,13 +496,13 @@
 							>
 						<Style.Triggers>
 							<DataTrigger
-									Binding="{Binding SheetTitleMatches}"
+									Binding="{Binding SheetTitleMatches, FallbackValue=false}"
 									Value="{StaticResource notmatch}"
 									>
 								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
 							<DataTrigger
-									Binding="{Binding SheetTitleMatches}"
+									Binding="{Binding SheetTitleMatches, FallbackValue=false}"
 									Value="{StaticResource match}"
 									>
 								<Setter Property="BorderBrush" Value="LawnGreen" />
@@ -564,7 +518,7 @@
 						<Setter Property="Visibility" Value="Collapsed" />
 						<Style.Triggers>
 							<DataTrigger
-									Binding="{Binding FileMatches}"
+									Binding="{Binding FileMatches, FallbackValue=false}"
 									Value="true"
 									>
 								<Setter Property="Visibility" Value="Visible" />
@@ -683,7 +637,6 @@
 							x:Key="DataTemplateTest2"
 							DataType="filesupport:FinalFile"
 							>
-
 						<Border
 								CornerRadius="5"
 								BorderThickness="5,1,.5,6"
@@ -946,7 +899,7 @@
 						<Setter Property="BorderBrush" Value="Transparent" />
 						<Setter Property="BorderThickness" Value="1" />
 						<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-						<Setter Property="IsSelected" Value="{Binding Selected}" />
+						<Setter Property="IsSelected" Value="{Binding Selected, FallbackValue=false}" />
 						<Setter Property="Padding" Value="4,1" />
 						<Setter Property="SnapsToDevicePixels" Value="True" />
 

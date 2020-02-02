@@ -1,6 +1,5 @@
 ﻿#region + Using Directives
 using System.Windows;
-using System.Windows.Controls;
 
 #endregion
 

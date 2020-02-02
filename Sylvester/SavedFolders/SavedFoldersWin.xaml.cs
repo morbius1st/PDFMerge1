@@ -1,24 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Sylvester.FileSupport;
-using Sylvester.Settings;
-using Sylvester.Support;
-using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
 
 using static Sylvester.SavedFolders.SavedFolderType;
@@ -38,8 +22,8 @@ namespace Sylvester.SavedFolders
 		// show / edit / select current folder
 		// show / edit / select revision folder
 
-		public ObservableCollection<SavedProject> savedFolders;
-		private SavedProject selectedSavedProject;
+		public ObservableCollection<SavedFolderProject> savedFolders;
+		private SavedFolderProject selectedSavedFolderProject;
 		private ObservableCollection<SavedFolderPair> folderPairs;
 
 		private SavedFolderPair selectedFolderPair;
@@ -63,8 +47,7 @@ namespace Sylvester.SavedFolders
 
 	#region public properties
 
-//		public Dictionary<string, SavedProject> SavedFolders => SetgMgr.Instance.SavedProjectFolders;
-		public ObservableCollection<SavedProject> SavedFolders
+		public ObservableCollection<SavedFolderProject> SavedFolders
 		{
 			get => savedFolders;
 			set
@@ -74,20 +57,19 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-		public SavedProject SelectedSavedProject
+		public SavedFolderProject SelectedSavedFolderProject
 		{
-			private get { return selectedSavedProject; }
+			private get { return selectedSavedFolderProject; }
 			set
 			{
 				Append(nl);
 				AppendLineFmt("selected", value.Name);
 
-				selectedSavedProject = value;
+				selectedSavedFolderProject = value;
 
 				OnPropertyChange();
 
 				FolderPairs = value.SavedFolderPairs;
-
 			}
 		}
 
@@ -120,10 +102,6 @@ namespace Sylvester.SavedFolders
 		public string Volume { get; set; }
 
 
-
-
-
-
 	#endregion
 
 
@@ -153,13 +131,7 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 
-
-
-
-
 	#endregion
-
-
 
 		public void CollectionUpdated()
 		{

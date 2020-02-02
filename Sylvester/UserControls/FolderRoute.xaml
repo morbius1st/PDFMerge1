@@ -5,7 +5,6 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester.UserControls"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:obtype="clr-namespace:Sylvester.UserControls"
 		d:DesignHeight="13"
 		d:DesignWidth="250"
 		mc:Ignorable="d"
@@ -53,9 +52,6 @@
 			<Setter Property="BorderBrush" Value="Gray"/>
 			<Setter Property="DockPanel.Dock" Value="Left"/>
 		</Style>
-			<!-- <Setter Property="ObliqueButtonType" Value="1"/> -->
-
-			<!-- <Setter Property="Height" Value="{Binding ElementName=FldrRoute, Path=Height, FallbackValue=13}"/> -->
 
 	</UserControl.Resources>
 

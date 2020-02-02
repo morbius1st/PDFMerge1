@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Sylvester.FileSupport;
 
 namespace Sylvester.UserControls
@@ -38,8 +30,6 @@ namespace Sylvester.UserControls
 		};
 
 		private int nextIndex;
-
-		private Color pathFontColor = Color.FromArgb(0xFF, 0xCC, 0xCC, 0xCC);
 
 		public FolderRoute()
 		{
@@ -204,6 +194,8 @@ namespace Sylvester.UserControls
 	#endregion
 
 
+	#region control properties
+
 		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
 			"FontBrush", typeof(SolidColorBrush), typeof(FolderRoute), new PropertyMetadata(Brushes.White));
 
@@ -242,6 +234,8 @@ namespace Sylvester.UserControls
 			set { SetValue(TextFontSizeProperty, value); }
 		}
 
+	#endregion
+
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter
@@ -251,7 +245,6 @@ namespace Sylvester.UserControls
 			int proposedPathType = (int) values[0];
 			if (values[1] == DependencyProperty.UnsetValue) return true;
 
-//			int buttonType = (int) values[1];
 			int buttonType = (int) values[1];
 
 			if (proposedPathType == 0 || buttonType == 0) return Visibility.Visible;

@@ -1,11 +1,14 @@
 ﻿#region + Using Directives
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
+using Sylvester.SavedFolders;
 using Sylvester.Settings;
+using UtilityLibrary;
 
 #endregion
 
@@ -25,6 +28,12 @@ namespace Sylvester.Process
 		OK_AS_IS
 	}
 
+	public enum FolderType
+	{
+		CURRENT  = 0,
+		REVISION = 1
+	}
+
 	public class ProcessManager : INotifyPropertyChanged
 	{
 		public FolderManager fmBase { get; private set; }
@@ -32,8 +41,11 @@ namespace Sylvester.Process
 
 		public ProcessManager(HeaderControl hcBase, HeaderControl hcTest)
 		{
-			fmBase = new FolderManager(0, hcBase);
-			fmTest = new FolderManager(1, hcTest);
+			fmBase = new FolderManager(FolderType.CURRENT.Value(), hcBase);
+			fmBase.FolderChange += OnBaseFolderChange;
+
+			fmTest = new FolderManager(FolderType.REVISION.Value(), hcTest);
+			fmTest.FolderChange += OnTestFolderChange;
 
 			BaseFileColl = new FilesCollection<BaseFile>();
 			TestFileColl = new FilesCollection<TestFile>();
@@ -245,8 +257,19 @@ namespace Sylvester.Process
 
 			OnPropertyChange("pm");
 
+		}
 
 
+	#region event handling
+
+		public void OnBaseFolderChange(object sender, EventArgs e)
+		{
+			BaseFileColl.Folder = fmBase.Folder;
+		}
+		
+		public void OnTestFolderChange(object sender, EventArgs e)
+		{
+			TestFileColl.Folder = fmTest.Folder;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -255,5 +278,7 @@ namespace Sylvester.Process
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+	#endregion
 	}
 }

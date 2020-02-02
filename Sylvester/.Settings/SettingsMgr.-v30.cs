@@ -8,7 +8,7 @@ using System.Xml;
 using static SettingManager.SettingMgrStatus;
 
 using UtilityLibrary;
-using static UtilityLibrary.MessageUtilities2;
+
 // ReSharper disable IdentifierTypo
 
 #endregion

@@ -15,7 +15,6 @@ using static Sylvester.Support.Support;
 namespace Sylvester.FileSupport {
 	public class BaseFile : SheetNameInfo, ICloneable
 	{
-		
 		public object Clone()
 		{
 			return this.Clone<BaseFile>();
@@ -50,7 +49,6 @@ namespace Sylvester.FileSupport {
 
 			OnPropertyChange("SheetName");
 		}
-
 
 		public override void UpdateSelectStatus() { }
 	}

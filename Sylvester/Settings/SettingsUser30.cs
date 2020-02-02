@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 using SettingManager;
 using Sylvester.FileSupport;
@@ -65,21 +64,6 @@ namespace Sylvester.Settings
 		[DataMember]
 		public Route priorPath;
 
-//			= 
-//		{
-//			@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base",
-//			@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test"
-//		};
-
-//		[DataMember]
-//		public string PriorBaseFolder = null;
-////		public string PriorBaseFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base";
-//
-//		[DataMember]
-////		public string PriorTestFolder = null;
-//		public string PriorTestFolder = @"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test";
-
-
 
 //		// added with version 2.1
 //		[DataMember]
@@ -104,8 +88,6 @@ namespace Sylvester.Settings
 //				{"three", new TestStruct(1, 2, 3)}
 //			};
 	}
-
-
 
 
 //	// sample sub-class of dictionary to provide names to elements

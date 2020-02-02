@@ -98,7 +98,8 @@
 				</Setter>
 			</Style>
 
-			<DataTemplate x:Key="DataTemplateTest2" x:Name="itemTemplate"
+			<DataTemplate x:Key="DataTemplateTest2" 
+					x:Name="itemTemplate"
 					DataType="fileSupport:FinalFile"
 					>
 				<Border x:Name="Border"

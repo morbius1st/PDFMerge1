@@ -26,8 +26,6 @@ namespace Sylvester.FolderSupport
 {
 	public class FolderManager : INotifyPropertyChanged //, IDisposable
 	{
-		private bool ByPass = true;
-
 		private SelectFolder sf = new SelectFolder();
 
 		public SavedFolderManager[] svfMgr = new SavedFolderManager[COUNT.Value()];
@@ -71,7 +69,8 @@ namespace Sylvester.FolderSupport
 				folder = value;
 
 				SetgMgr.SetPriorFolder(index, folder);
-				
+
+				RaiseFolderChangeEvent();
 			}
 		}
 
@@ -111,14 +110,10 @@ namespace Sylvester.FolderSupport
 			if (index == 0)
 			{
 				tempPriorBaseFolder();
-//				SetgMgr.SetPriorFolder(index,
-//					@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 			}
 			else
 			{
 				tempPriorTestFolder();
-//				SetgMgr.SetPriorFolder(index,
-//					@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
 			}
 		}
 
@@ -137,9 +132,6 @@ namespace Sylvester.FolderSupport
 
 		private void getPriorFolder()
 		{
-//			tempGetPriorFolder();
-
-//			Folder = new Route(UserSettings.Data.PriorFolders[index]);
 			Folder = SetgMgr.GetPriorFolder(index);
 
 			hcPath.Path = Folder;
@@ -151,7 +143,7 @@ namespace Sylvester.FolderSupport
 //			if (!Folder.IsValid) return;
 
 			tempGetPriorFolder();
-//			Folder = new Route(UserSettings.Data.PriorFolders[index]);
+
 			Folder = SetgMgr.GetPriorFolder(index);
 
 			SetgMgr.SetPriorFolder(index, Folder);
@@ -161,6 +153,17 @@ namespace Sylvester.FolderSupport
 			configHeader();
 
 			return;
+		}
+
+	#region event handling
+
+		public delegate void FolderChangeEventHandler(object sender, EventArgs e);
+
+		public event FolderManager.FolderChangeEventHandler FolderChange;
+
+		protected virtual void RaiseFolderChangeEvent()
+		{
+			FolderChange?.Invoke(this, new EventArgs());
 		}
 
 		private void onFolderPathPathChangeEvent(object sender, PathChangeArgs e)
@@ -201,6 +204,8 @@ namespace Sylvester.FolderSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+	#endregion
 
 	}
 }
