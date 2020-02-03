@@ -16,17 +16,18 @@ namespace Sylvester.FileSupport
 	public class ReadFiles
 	{
 		public bool GetFiles<T>(Route Folder, bool preselect,
-			FilesCollection<T> fc) where T: SheetNameInfo, new()
+			FilesCollection<T> fc) where T : SheetNameInfo, new()
 		{
-				foreach (string file in
+			fc.Reset();
+
+			foreach (string file in
 				Directory.EnumerateFiles(Folder.FullPath, "*.*",
 					SearchOption.TopDirectoryOnly))
 			{
 				fc.Add(new Route(file), preselect);
 			}
-
-			return true;
+			
+			return fc.SheetPdfs > 0;
 		}
-
 	}
 }

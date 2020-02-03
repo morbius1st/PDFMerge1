@@ -2,7 +2,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
@@ -36,8 +38,10 @@ namespace Sylvester.Process
 
 	public class ProcessManager : INotifyPropertyChanged
 	{
-		public FolderManager fmBase { get; private set; }
-		public FolderManager fmTest { get; private set; }
+		private readonly FolderManager fmBase;
+		private readonly FolderManager fmTest;
+		private ReadFiles baseReadFiles;
+		private ReadFiles testReadFiles;
 
 		public ProcessManager() { }
 
@@ -61,12 +65,9 @@ namespace Sylvester.Process
 		public FilesCollection<TestFile> TestFileColl { get; private set; } = new FilesCollection<TestFile>();
 		public FilesCollection<FinalFile> FinalFileColl { get; private set; } = new FilesCollection<FinalFile>();
 
-		public ReadFiles BaseReadFiles { get; private set; }
-		public ReadFiles TestReadFiles { get; private set; }
 
 		public ICollectionView cvBase { get; private set; }
 		public ICollectionView cvTest { get; private set; }
-
 		public ICollectionView cvFinal { get; private set; }
 
 		public bool UseExistingCaseShtTitle
@@ -120,6 +121,11 @@ namespace Sylvester.Process
 			}
 		}
 
+		public bool HasBaseitems => !cvBase?.IsEmpty ?? false;
+
+		public bool HasTestItems => !cvTest?.IsEmpty ?? false;
+
+
 		public void Reset()
 		{
 			ResetBase();
@@ -133,7 +139,7 @@ namespace Sylvester.Process
 			BaseFileColl.Name = "Base";
 			BaseFileColl.Folder = fmBase.Folder;
 			cvBase = null;
-			BaseReadFiles = new ReadFiles();
+			baseReadFiles = new ReadFiles();
 
 			OnPropertyChange("BaseFileColl");
 		}
@@ -144,7 +150,7 @@ namespace Sylvester.Process
 			TestFileColl.Name = "Test";
 			TestFileColl.Folder = fmTest.Folder;
 			cvTest = null;
-			TestReadFiles = new ReadFiles();
+			testReadFiles = new ReadFiles();
 
 			OnPropertyChange("BaseFileColl");
 		}
@@ -174,19 +180,30 @@ namespace Sylvester.Process
 
 		public bool ReadBase()
 		{
-			if (!BaseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl)) return false;
+			bool result = baseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl);
 
 			CollectionViewBase();
+
+			if (!result)
+			{
+				FileReadFail();
+				return false;
+			}
 
 			return true;
 		}
 
 		public bool ReadTest()
 		{
-
-			if (!TestReadFiles.GetFiles(fmTest.Folder, true, TestFileColl)) return false;
+			bool result = testReadFiles.GetFiles(fmTest.Folder, true, TestFileColl);
 
 			CollectionViewTest();
+
+			if (!result)
+			{
+				FileReadFail();
+				return false;
+			}
 
 			return true;
 		}
@@ -261,6 +278,13 @@ namespace Sylvester.Process
 
 		}
 
+		private void FileReadFail()
+		{
+			CsMessageBox.CsMessageBox b = new CsMessageBox.CsMessageBox("No PDF's have been selected");
+
+			MessageBoxResult r = b.Show();
+
+		}
 
 	#region event handling
 

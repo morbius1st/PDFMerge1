@@ -41,8 +41,6 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public bool HideDirectory { get; set; } = false;
-
 		public Route Folder
 		{
 			get => folder;
@@ -95,6 +93,10 @@ namespace Sylvester.FileSupport
 		public void Add(T tf)
 		{
 			TestFiles.Add(tf);
+
+			OnPropertyChange("FilesFound");
+			OnPropertyChange("SheetPdfs");
+
 		}
 
 		public void Add(Route r, bool preselect)

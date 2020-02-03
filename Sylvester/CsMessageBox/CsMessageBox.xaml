@@ -1,0 +1,70 @@
+﻿<Window
+		x:Name="messageBox"
+		x:Class="Sylvester.CsMessageBox.CsMessageBox"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:Sylvester.CsMessageBox"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		Title="MessageBox"
+		Width="250"
+		Height="180"
+		Background="{StaticResource Background}"
+		mc:Ignorable="d"
+				WindowStyle="ToolWindow">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="3*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="42"/>
+		</Grid.RowDefinitions>
+
+		<DockPanel
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+
+				VerticalAlignment="Stretch"
+				HorizontalAlignment="Stretch"
+				
+				Background="#555555"
+							 LastChildFill="False">
+			<Button x:Name="BtnOK"
+					DockPanel.Dock="right"
+					Height="{StaticResource ButtonHeight}"
+					Width="{StaticResource ButtonWidth}"
+					Margin="{StaticResource ButtonMargin}"
+					VerticalAlignment="Bottom"
+					HorizontalAlignment="Right"
+					Content="OK"
+					Click="BtnOK_OnClick" />
+
+		</DockPanel>
+
+		<Image
+				x:Name="icon"
+				Grid.Column="0"
+				Grid.Row="0"
+				Height="auto"
+				Width="auto"
+				Stretch="Uniform"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="top"
+				Margin="15,15,15,00"
+					 Source="/Sylvester;component/Resources/Image/warning.png" />
+
+		<TextBlock
+				Grid.Column="1"
+				Grid.Row="0"
+				Background="Transparent"
+				Foreground="White"
+				FontSize="12"
+				Text="{Binding ElementName=messageBox, Path=Message, FallbackValue=Warning}"
+				Margin="0,15,20,20"
+				/>
+
+	</Grid>
+</Window>

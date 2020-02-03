@@ -80,6 +80,9 @@
     <Compile Include="lvTestControl.xaml.cs">
       <DependentUpon>lvTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CsMessageBox\CsMessageBox.xaml.cs">
+      <DependentUpon>CsMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="UserControls\PathChangeArgs.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
@@ -134,6 +137,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CsMessageBox\CsMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SavedFolders\SavedFoldersWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -179,7 +186,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Image\" />
+    <Resource Include="Resources\Image\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Resources\SVG\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
