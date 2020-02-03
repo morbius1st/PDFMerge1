@@ -23,12 +23,12 @@ namespace Sylvester.FileSupport
 
 		public FilesCollection()
 		{
-			TestFiles = new ObservableCollection<T>();
+			Files = new ObservableCollection<T>();
 		}
 
 
 		public ObservableCollection<T>
-			TestFiles { get; private set; }
+			Files { get; private set; }
 
 
 		public  string Name
@@ -83,7 +83,7 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public int FilesFound => TestFiles.Count;
+		public int FilesFound => Files.Count;
 
 		public int SheetPdfs
 		{
@@ -92,7 +92,7 @@ namespace Sylvester.FileSupport
 
 		public void Add(T tf)
 		{
-			TestFiles.Add(tf);
+			Files.Add(tf);
 
 			OnPropertyChange("FilesFound");
 			OnPropertyChange("SheetPdfs");
@@ -123,7 +123,7 @@ namespace Sylvester.FileSupport
 
 		public T ContainsKey(string findKey)
 		{
-			foreach (T tf in TestFiles)
+			foreach (T tf in Files)
 			{
 				if (tf.AdjustedSheetId == findKey)
 				{
@@ -136,13 +136,13 @@ namespace Sylvester.FileSupport
 
 		public void Reset()
 		{
-			TestFiles.Clear();
+			Files.Clear();
 			Folder = Route.Invalid;
 			NonSheetPdfsFiles = 0;
 			OtherFiles = 0;
 
 			// ReSharper disable once ExplicitCallerInfoArgument
-			OnPropertyChange("TestFiles");
+			OnPropertyChange("Files");
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("SheetPDFs");
 			// ReSharper disable once ExplicitCallerInfoArgument

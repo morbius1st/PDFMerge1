@@ -4,7 +4,7 @@
 
 
 // projname: Sylvester.FileSupport
-// itemname: FinalFile
+// itemname: FileFinal
 // username: jeffs
 // created:  1/4/2020 10:35:42 PM
 
@@ -21,7 +21,7 @@ namespace Sylvester.FileSupport
 	// got match status
 
 
-	public class FinalFile : SheetNameInfo
+	public class FileFinal : SheetNameInfo
 	{
 		public static string StatusMsgMatches { get; } = "OK As Is";
 		public static string StatusMsgNotMatches { get; } = "Rename";
@@ -30,11 +30,11 @@ namespace Sylvester.FileSupport
 		private string matchedSheetNumber = "";
 		private string matchedSeparator = "";
 		private string matchedSheetTitle = "";
-		private BaseFile baseFile;
+		private FileCurrent fileCurrent;
 
-		public FinalFile() { }
+		public FileFinal() { }
 
-		public FinalFile(Route fullFileRoute)
+		public FileFinal(Route fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
 		}
@@ -45,17 +45,17 @@ namespace Sylvester.FileSupport
 			set => sheetTitle = value;
 		}
 
-		public BaseFile BaseFile
+		public FileCurrent FileCurrent
 		{
-			get => baseFile;
+			get => fileCurrent;
 			set
 			{
-				baseFile = value;
+				fileCurrent = value;
 				OnPropertyChange();
 
-				matchedSheetNumber = baseFile.SheetNumber;
-				matchedSeparator = baseFile.Separator;
-				matchedSheetTitle = baseFile.SheetTitle;
+				matchedSheetNumber = fileCurrent.SheetNumber;
+				matchedSeparator = fileCurrent.Separator;
+				matchedSheetTitle = fileCurrent.SheetTitle;
 
 				UpdateSelectStatus();
 			}
@@ -89,7 +89,7 @@ namespace Sylvester.FileSupport
 
 		public string MatchedSheetTitle
 		{
-			get => baseFile?.SheetTitle ?? "no sheet title";
+			get => fileCurrent?.SheetTitle ?? "no sheet title";
 
 			set
 			{
@@ -104,7 +104,7 @@ namespace Sylvester.FileSupport
 			{
 				if (matchedSheetNumber.Length == 0) return MatchStatus.NEW_FILE;
 
-				if (SheetNumber.Equals(baseFile?.SheetNumber ?? SheetNumber))
+				if (SheetNumber.Equals(fileCurrent?.SheetNumber ?? SheetNumber))
 				{
 					return MatchStatus.DOES_MATCH;
 				}
@@ -119,7 +119,7 @@ namespace Sylvester.FileSupport
 			{
 				if (matchedSeparator.Length == 0) return MatchStatus.NEW_FILE;
 
-				if (separator.Equals(baseFile?.Separator ?? separator))
+				if (separator.Equals(fileCurrent?.Separator ?? separator))
 				{
 					return MatchStatus.DOES_MATCH;
 				}
@@ -134,7 +134,7 @@ namespace Sylvester.FileSupport
 			{
 				if (matchedSheetTitle.Length == 0) return MatchStatus.NEW_FILE;
 
-				if (sheetTitle.Equals(baseFile?.SheetTitle ?? sheetTitle))
+				if (sheetTitle.Equals(fileCurrent?.SheetTitle ?? sheetTitle))
 				{
 					return MatchStatus.DOES_MATCH;
 				}

@@ -3,18 +3,18 @@
 
 // Solution:     PDFMerge1
 // Project:       Sylvester
-// File:             SheetIdBase.cs
+// File:             FileRevision.cs
 // Created:      -- ()
 
 
 
 namespace Sylvester.FileSupport {
-	public class TestFile : SheetNameInfo, ICloneable
+	public class FileRevision : SheetNameInfo, ICloneable
 	{
 		
 		public object Clone()
 		{
-			return this.Clone<BaseFile>();
+			return this.Clone<FileCurrent>();
 		}
 
 		public override string SheetTitle

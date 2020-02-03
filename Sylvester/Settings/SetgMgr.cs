@@ -11,7 +11,7 @@ using UtilityLibrary;
 #endregion
 
 
-// projname: Tests2.Settings
+// projname: Sylvester.Settings
 // itemname: SettingsManager
 // username: jeffs
 // created:  11/16/2019 6:02:58 AM

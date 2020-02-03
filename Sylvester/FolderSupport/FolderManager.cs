@@ -109,21 +109,21 @@ namespace Sylvester.FolderSupport
 		{
 			if (index == 0)
 			{
-				tempPriorBaseFolder();
+				tempPriorCurrentFolder();
 			}
 			else
 			{
-				tempPriorTestFolder();
+				tempPriorRevisionFolder();
 			}
 		}
 
-		private void tempPriorBaseFolder()
+		private void tempPriorCurrentFolder()
 		{
 			SetgMgr.SetPriorFolder(0,
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 		}
 
-		private void tempPriorTestFolder()
+		private void tempPriorRevisionFolder()
 		{
 			SetgMgr.SetPriorFolder(1,
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");

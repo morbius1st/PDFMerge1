@@ -7,17 +7,17 @@ using static Sylvester.Support.Support;
 
 // Solution:     PDFMerge1
 // Project:       Sylvester
-// File:             SheetIdBase.cs
+// File:             FileCurrent.cs
 // Created:      -- ()
 
 
 
 namespace Sylvester.FileSupport {
-	public class BaseFile : SheetNameInfo, ICloneable
+	public class FileCurrent : SheetNameInfo, ICloneable
 	{
 		public object Clone()
 		{
-			return this.Clone<BaseFile>();
+			return this.Clone<FileCurrent>();
 		}
 
 		public override string SheetTitle

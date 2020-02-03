@@ -104,7 +104,7 @@
 			<DataTemplate
 					x:Key="DataTemplateTest2"
 					x:Name="itemTemplate"
-					DataType="fileSupport:FinalFile"
+					DataType="fileSupport:FileFinal"
 					>
 				<Border
 						x:Name="Border"

@@ -62,7 +62,7 @@ namespace Sylvester
 
 		public void SetFocusComparison()
 		{
-			lvComparison.Focus();
+			LvFinal.Focus();
 		}
 
 	#endregion
@@ -88,14 +88,14 @@ namespace Sylvester
 
 		private void BtnReadCurrent_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (!pm.ReadBase()) return;
+			if (!pm.ReadCurrent()) return;
 
 			OnPropertyChange("pm");
 		}
 
 		private void BtnReadRevision_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (!pm.ReadTest()) return;
+			if (!pm.ReadRevision()) return;
 
 			OnPropertyChange("pm");
 		}
@@ -113,8 +113,6 @@ namespace Sylvester
 		{
 			Debug.WriteLine("@go");
 			pm.RenameFiles();
-
-			
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -129,7 +127,7 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-			pm = new ProcessManager(HdrBase, HdrTest);
+			pm = new ProcessManager(HdrCurrent, HdrRevision);
 
 			OnPropertyChange("pm");
 		}

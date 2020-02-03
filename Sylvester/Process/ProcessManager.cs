@@ -2,13 +2,11 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
-using Sylvester.SavedFolders;
 using Sylvester.Settings;
 using UtilityLibrary;
 
@@ -40,26 +38,26 @@ namespace Sylvester.Process
 	{
 	#region private fields
 
-		private readonly FolderManager fmBase;
-		private readonly FolderManager fmTest;
-		private ReadFiles baseReadFiles;
-		private ReadFiles testReadFiles;
+		private readonly FolderManager _fmCurrent;
+		private readonly FolderManager _fmRevision;
+		private ReadFiles readFilesCurrent;
+		private ReadFiles readFilesRevision;
 
 	#endregion
 
 		public ProcessManager() { }
 
-		public ProcessManager(HeaderControl hcBase, HeaderControl hcTest)
+		public ProcessManager(HeaderControl hcCurrent, HeaderControl hcRevision)
 		{
-			fmBase = new FolderManager(FolderType.CURRENT.Value(), hcBase);
-			fmBase.FolderChange += OnBaseFolderChange;
+			_fmCurrent = new FolderManager(FolderType.CURRENT.Value(), hcCurrent);
+			_fmCurrent.FolderChange += OnCurrentFolderChange;
 
-			fmTest = new FolderManager(FolderType.REVISION.Value(), hcTest);
-			fmTest.FolderChange += OnTestFolderChange;
+			_fmRevision = new FolderManager(FolderType.REVISION.Value(), hcRevision);
+			_fmRevision.FolderChange += OnRevisionFolderChange;
 
-			BaseFileColl = new FilesCollection<BaseFile>();
-			TestFileColl = new FilesCollection<TestFile>();
-			FinalFileColl = new FilesCollection<FinalFile>();
+			FileCollectionCurrent = new FilesCollection<FileCurrent>();
+			FileCollectionRevision = new FilesCollection<FileRevision>();
+			FileCollectionFinal = new FilesCollection<FileFinal>();
 
 			Reset();
 
@@ -67,14 +65,14 @@ namespace Sylvester.Process
 
 	#region public properties
 
-		public FilesCollection<BaseFile> BaseFileColl { get; private set; } = new FilesCollection<BaseFile>();
-		public FilesCollection<TestFile> TestFileColl { get; private set; } = new FilesCollection<TestFile>();
-		public FilesCollection<FinalFile> FinalFileColl { get; private set; } = new FilesCollection<FinalFile>();
+		public FilesCollection<FileCurrent> FileCollectionCurrent { get; private set; } = new FilesCollection<FileCurrent>();
+		public FilesCollection<FileRevision> FileCollectionRevision { get; private set; } = new FilesCollection<FileRevision>();
+		public FilesCollection<FileFinal> FileCollectionFinal { get; private set; } = new FilesCollection<FileFinal>();
 
 
-		public ICollectionView cvBase { get; private set; }
-		public ICollectionView cvTest { get; private set; }
-		public ICollectionView cvFinal { get; private set; }
+		public ICollectionView CvCurrent { get; private set; }
+		public ICollectionView CvRevision { get; private set; }
+		public ICollectionView CvFinal { get; private set; }
 
 		public bool UseExistingCaseShtTitle
 		{
@@ -88,7 +86,7 @@ namespace Sylvester.Process
 
 					OnPropertyChange();
 
-					CaseChange();
+					caseChange();
 				}
 			}
 		}
@@ -105,7 +103,7 @@ namespace Sylvester.Process
 
 					OnPropertyChange();
 
-					CaseChange();
+					caseChange();
 				}
 			}
 		}
@@ -122,14 +120,14 @@ namespace Sylvester.Process
 
 					OnPropertyChange();
 
-					CaseChange();
+					caseChange();
 				}
 			}
 		}
 
-		public bool HasBaseitems => !cvBase?.IsEmpty ?? false;
+		public bool HasCurrentItems => !CvCurrent?.IsEmpty ?? false;
 
-		public bool HasTestItems => !cvTest?.IsEmpty ?? false;
+		public bool HasRevisionItems => !CvRevision?.IsEmpty ?? false;
 
 	#endregion
 
@@ -137,13 +135,13 @@ namespace Sylvester.Process
 
 		public bool Compare()
 		{
-			ProcessFiles p = new ProcessFiles(BaseFileColl, TestFileColl);
+			ProcessFiles p = new ProcessFiles(FileCollectionCurrent, FileCollectionRevision);
 
-			if ((FinalFileColl = p.Process()) == null) return false;
+			if ((FileCollectionFinal = p.Process()) == null) return false;
 
-			ConfigFinal();
+			configFinal();
 
-			CollectionViewFinal();
+			collectionViewFinal();
 
 			return true;
 		}
@@ -152,7 +150,7 @@ namespace Sylvester.Process
 		{
 			FileRenameManager frm = new FileRenameManager();
 
-			if (!frm.RenameFiles(FinalFileColl)) return false;
+			if (!frm.RenameFiles(FileCollectionFinal)) return false;
 
 			Reset();
 
@@ -163,53 +161,52 @@ namespace Sylvester.Process
 			return true;
 		}
 
-		public void HistorySave()
-		{
-			fmBase.svfMgr
-
-
-		}
-
+//		public void HistorySave()
+//		{
+//			fmCurrent.svfMgr
+//
+//
+//		}
 
 		public void Reset()
 		{
-			ResetBase();
-			ResetTest();
-			ResetFinal();
+			resetCurrent();
+			resetRevision();
+			resetFinal();
 		}
 
 		public bool Read()
 		{
-			if (!ReadBase()) return false;
-			if (!ReadTest()) return false;
+			if (!ReadCurrent()) return false;
+			if (!ReadRevision()) return false;
 
 			return true;
 		}
 
-		public bool ReadBase()
+		public bool ReadCurrent()
 		{
-			bool result = baseReadFiles.GetFiles(fmBase.Folder, false, BaseFileColl);
+			bool result = readFilesCurrent.GetFiles(_fmCurrent.Folder, false, FileCollectionCurrent);
 
-			CollectionViewBase();
+			collectionViewCurrent();
 
 			if (!result)
 			{
-				FileReadFail();
+				fileReadFail();
 				return false;
 			}
 
 			return true;
 		}
 
-		public bool ReadTest()
+		public bool ReadRevision()
 		{
-			bool result = testReadFiles.GetFiles(fmTest.Folder, true, TestFileColl);
+			bool result = readFilesRevision.GetFiles(_fmRevision.Folder, true, FileCollectionRevision);
 
-			CollectionViewTest();
+			collectionViewRevision();
 
 			if (!result)
 			{
-				FileReadFail();
+				fileReadFail();
 				return false;
 			}
 
@@ -220,92 +217,100 @@ namespace Sylvester.Process
 
 	#region private methods
 
-		private void ResetBase()
+		private void resetCurrent()
 		{
-			BaseFileColl.Reset();
-			BaseFileColl.Name = "Base";
-			BaseFileColl.Folder = fmBase.Folder;
-			cvBase = null;
-			baseReadFiles = new ReadFiles();
+			FileCollectionCurrent.Reset();
+			FileCollectionCurrent.Name = "Current";
+			FileCollectionCurrent.Folder = _fmCurrent.Folder;
+			CvCurrent = null;
+			readFilesCurrent = new ReadFiles();
 
-			OnPropertyChange("BaseFileColl");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("FileCollectionCurrent");
 		}
 
-		private void ResetTest()
+		private void resetRevision()
 		{
-			TestFileColl.Reset();
-			TestFileColl.Name = "Test";
-			TestFileColl.Folder = fmTest.Folder;
-			cvTest = null;
-			testReadFiles = new ReadFiles();
+			FileCollectionRevision.Reset();
+			FileCollectionRevision.Name = "Revision";
+			FileCollectionRevision.Folder = _fmRevision.Folder;
+			CvRevision = null;
+			readFilesRevision = new ReadFiles();
 
-			OnPropertyChange("BaseFileColl");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("FileCollectionCurrent");
 		}
 
-		private void ResetFinal()
+		private void resetFinal()
 		{
-			FinalFileColl.Reset();
-			ConfigFinal();
-			CollectionViewFinal();
+			FileCollectionFinal.Reset();
+			configFinal();
+			collectionViewFinal();
 
-			OnPropertyChange("FinalFileColl");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("FileCollectionFinal");
 		}
 
-		private void ConfigFinal()
+		private void configFinal()
 		{
-			FinalFileColl.Name = "Final";
-			//			FinalFileColl.HideDirectory = true;
+			FileCollectionFinal.Name = "Final";
+			//			FileCollectionFinal.HideDirectory = true;
 		}
 
-		private void CollectionViewBase()
+		private void collectionViewCurrent()
 		{
-			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
+			CvCurrent = CollectionViewSource.GetDefaultView(FileCollectionCurrent.Files);
 
-			cvBase.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
+			CvCurrent.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
 
-			OnPropertyChange("cvBase");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("CvCurrent");
 		}
 
-		private void CollectionViewTest()
+		private void collectionViewRevision()
 		{
-			cvTest = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
+			CvRevision = CollectionViewSource.GetDefaultView(FileCollectionRevision.Files);
 
-			cvTest.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
+			CvRevision.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
 
-			OnPropertyChange("cvTest");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("CvRevision");
 		}
 
-		private void CollectionViewFinal()
+		private void collectionViewFinal()
 		{
-			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
+			CvFinal = CollectionViewSource.GetDefaultView(FileCollectionFinal.Files);
 
-			cvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
+			CvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
 
-			OnPropertyChange("cvFinal");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("CvFinal");
 		}
 
 
-		private void CaseChange()
+		private void caseChange()
 		{
 			// step 1: change the case of base
 			// step 2: if comparison done, redo
-			foreach (BaseFile bf in BaseFileColl.TestFiles)
+			foreach (FileCurrent bf in FileCollectionCurrent.Files)
 			{
 				if (bf.FileType != FileType.SHEET_PDF) continue;
 
 				bf.UpdateSheetTitleCase();
 			}
 
-			CollectionViewFinal();
+			collectionViewFinal();
 
+			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("pm");
 
 		}
 
-		private void FileReadFail()
+		private void fileReadFail()
 		{
 			CsMessageBox.CsMessageBox b = new CsMessageBox.CsMessageBox("No PDF's have been selected");
 
+			// ReSharper disable once UnusedVariable
 			MessageBoxResult r = b.Show();
 
 		}
@@ -314,18 +319,20 @@ namespace Sylvester.Process
 
 	#region event handling
 
-		public void OnBaseFolderChange(object sender, EventArgs e)
+		public void OnCurrentFolderChange(object sender, EventArgs e)
 		{
-			BaseFileColl.Folder = fmBase.Folder;
+			FileCollectionCurrent.Folder = _fmCurrent.Folder;
 		}
 		
-		public void OnTestFolderChange(object sender, EventArgs e)
+		public void OnRevisionFolderChange(object sender, EventArgs e)
 		{
-			TestFileColl.Folder = fmTest.Folder;
+			FileCollectionRevision.Folder = _fmRevision.Folder;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+
+		// ReSharper disable once InconsistentNaming
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));

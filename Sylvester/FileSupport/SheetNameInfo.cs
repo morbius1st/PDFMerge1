@@ -1,6 +1,6 @@
 ﻿// Solution:     PDFMerge1
 // Project:       Sylvester
-// File:             SheetIdBase.cs
+// File:             SheetNameInfo.cs
 // Created:      -- ()
 
 using System.Collections.Generic;

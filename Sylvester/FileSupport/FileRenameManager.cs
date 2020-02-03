@@ -17,13 +17,13 @@ namespace Sylvester.FileSupport
 	{
 		private string nl = System.Environment.NewLine;
 
-		public bool RenameFiles(FilesCollection<FinalFile>  final)
+		public bool RenameFiles(FilesCollection<FileFinal>  final)
 		{
 			FileInfo fi;
 
 			string newPath;
 
-			foreach (FinalFile tf in final.TestFiles)
+			foreach (FileFinal tf in final.Files)
 			{
 				if (!tf.Selected) continue;
 

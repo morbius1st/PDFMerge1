@@ -71,7 +71,7 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
-    <Compile Include="FileSupport\TestFile.cs" />
+    <Compile Include="FileSupport\FileRevision.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
@@ -95,10 +95,10 @@
     <Compile Include="Process\ProcessManager.cs" />
     <Compile Include="FileSupport\ReadFiles.cs" />
     <Compile Include="FileSupport\SheetNameInfo.cs" />
-    <Compile Include="FileSupport\BaseFile.cs" />
+    <Compile Include="FileSupport\FileCurrent.cs" />
     <Compile Include="SavedFolders\SavedFoldersDebugSupport.cs" />
     <Compile Include="Support\Support.cs" />
-    <Compile Include="FileSupport\FinalFile.cs" />
+    <Compile Include="FileSupport\FileFinal.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />
     <Compile Include="FolderSupport\FolderManager.cs" />

@@ -15,24 +15,24 @@ namespace Sylvester.Process
 {
 	public class ProcessFiles
 	{
-		public readonly FilesCollection<BaseFile> BaseFileColl = null;
-		public readonly FilesCollection<TestFile> TestFileColl = null;
+		public readonly FilesCollection<FileCurrent> FileCollectionCurrent = null;
+		public readonly FilesCollection<FileRevision> FileCollectionRevision = null;
 
-		public FilesCollection<FinalFile> FinalFileColl = null;
+		public FilesCollection<FileFinal> FinalFileColl = null;
 
 
-		public ProcessFiles(FilesCollection<BaseFile> baseFileColl,
-			FilesCollection<TestFile> testFileColl)
+		public ProcessFiles(FilesCollection<FileCurrent> fileCollectionCurrent,
+			FilesCollection<FileRevision> fileCollectionRevision)
 		{
-			TestFileColl  = testFileColl;
-			BaseFileColl  = baseFileColl;
+			FileCollectionRevision  = fileCollectionRevision;
+			FileCollectionCurrent  = fileCollectionCurrent;
 		}
 
-		public FilesCollection<FinalFile> Process()
+		public FilesCollection<FileFinal> Process()
 		{
-			if (TestFileColl == null || BaseFileColl == null) return null;
+			if (FileCollectionRevision == null || FileCollectionCurrent == null) return null;
 
-			FinalFileColl = new FilesCollection<FinalFile>();
+			FinalFileColl = new FilesCollection<FileFinal>();
 
 			// step one - Match adjusted sheet numbers
 			if (!MatchSheetsNumbers()) return null;
@@ -42,19 +42,19 @@ namespace Sylvester.Process
 
 		private bool MatchSheetsNumbers()
 		{
-			BaseFile bfBase;
-			FinalFile ff;
+			FileCurrent fc;
+			FileFinal ff;
 
-			foreach (TestFile bfTest in TestFileColl.TestFiles)
+			foreach (FileRevision fr in FileCollectionRevision.Files)
 			{
-				if (!bfTest.Selected) continue;
-				if (bfTest.FileType != FileType.SHEET_PDF) continue;
+				if (!fr.Selected) continue;
+				if (fr.FileType != FileType.SHEET_PDF) continue;
 
-				ff = (FinalFile) bfTest.Clone<FinalFile>();
+				ff = (FileFinal) fr.Clone<FileFinal>();
 
-				if ((bfBase = BaseFileColl.ContainsKey(bfTest.AdjustedSheetId)) != null)
+				if ((fc = FileCollectionCurrent.ContainsKey(fr.AdjustedSheetId)) != null)
 				{
-					ff.BaseFile = bfBase;
+					ff.FileCurrent = fc;
 				}
 
 				ff.UpdateSelectStatus();
@@ -68,8 +68,8 @@ namespace Sylvester.Process
 
 		public override string ToString()
 		{
-			return "test| " + TestFileColl.ToString() +
-				"base| " + BaseFileColl.ToString();
+			return "Revision| " + FileCollectionRevision.ToString() +
+				   " Current| " + FileCollectionCurrent.ToString();
 		}
 	}
 }
