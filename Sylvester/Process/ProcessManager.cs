@@ -38,10 +38,14 @@ namespace Sylvester.Process
 
 	public class ProcessManager : INotifyPropertyChanged
 	{
+	#region private fields
+
 		private readonly FolderManager fmBase;
 		private readonly FolderManager fmTest;
 		private ReadFiles baseReadFiles;
 		private ReadFiles testReadFiles;
+
+	#endregion
 
 		public ProcessManager() { }
 
@@ -60,6 +64,8 @@ namespace Sylvester.Process
 			Reset();
 
 		}
+
+	#region public properties
 
 		public FilesCollection<BaseFile> BaseFileColl { get; private set; } = new FilesCollection<BaseFile>();
 		public FilesCollection<TestFile> TestFileColl { get; private set; } = new FilesCollection<TestFile>();
@@ -125,49 +131,51 @@ namespace Sylvester.Process
 
 		public bool HasTestItems => !cvTest?.IsEmpty ?? false;
 
+	#endregion
+
+	#region public methods
+
+		public bool Compare()
+		{
+			ProcessFiles p = new ProcessFiles(BaseFileColl, TestFileColl);
+
+			if ((FinalFileColl = p.Process()) == null) return false;
+
+			ConfigFinal();
+
+			CollectionViewFinal();
+
+			return true;
+		}
+
+		public bool RenameFiles()
+		{
+			FileRenameManager frm = new FileRenameManager();
+
+			if (!frm.RenameFiles(FinalFileColl)) return false;
+
+			Reset();
+
+			Read();
+
+			Compare();
+
+			return true;
+		}
+
+		public void HistorySave()
+		{
+			fmBase.svfMgr
+
+
+		}
+
 
 		public void Reset()
 		{
 			ResetBase();
 			ResetTest();
 			ResetFinal();
-		}
-
-		private void ResetBase()
-		{
-			BaseFileColl.Reset();
-			BaseFileColl.Name = "Base";
-			BaseFileColl.Folder = fmBase.Folder;
-			cvBase = null;
-			baseReadFiles = new ReadFiles();
-
-			OnPropertyChange("BaseFileColl");
-		}
-
-		private void ResetTest()
-		{
-			TestFileColl.Reset();
-			TestFileColl.Name = "Test";
-			TestFileColl.Folder = fmTest.Folder;
-			cvTest = null;
-			testReadFiles = new ReadFiles();
-
-			OnPropertyChange("BaseFileColl");
-		}
-
-		private void ResetFinal()
-		{
-			FinalFileColl.Reset();
-			ConfigFinal();
-			CollectionViewFinal();
-
-			OnPropertyChange("FinalFileColl");
-		}
-
-		private void ConfigFinal()
-		{
-			FinalFileColl.Name = "Final";
-			//			FinalFileColl.HideDirectory = true;
 		}
 
 		public bool Read()
@@ -208,7 +216,48 @@ namespace Sylvester.Process
 			return true;
 		}
 
-		public void CollectionViewBase()
+	#endregion
+
+	#region private methods
+
+		private void ResetBase()
+		{
+			BaseFileColl.Reset();
+			BaseFileColl.Name = "Base";
+			BaseFileColl.Folder = fmBase.Folder;
+			cvBase = null;
+			baseReadFiles = new ReadFiles();
+
+			OnPropertyChange("BaseFileColl");
+		}
+
+		private void ResetTest()
+		{
+			TestFileColl.Reset();
+			TestFileColl.Name = "Test";
+			TestFileColl.Folder = fmTest.Folder;
+			cvTest = null;
+			testReadFiles = new ReadFiles();
+
+			OnPropertyChange("BaseFileColl");
+		}
+
+		private void ResetFinal()
+		{
+			FinalFileColl.Reset();
+			ConfigFinal();
+			CollectionViewFinal();
+
+			OnPropertyChange("FinalFileColl");
+		}
+
+		private void ConfigFinal()
+		{
+			FinalFileColl.Name = "Final";
+			//			FinalFileColl.HideDirectory = true;
+		}
+
+		private void CollectionViewBase()
 		{
 			cvBase = CollectionViewSource.GetDefaultView(BaseFileColl.TestFiles);
 
@@ -217,7 +266,7 @@ namespace Sylvester.Process
 			OnPropertyChange("cvBase");
 		}
 
-		public void CollectionViewTest()
+		private void CollectionViewTest()
 		{
 			cvTest = CollectionViewSource.GetDefaultView(TestFileColl.TestFiles);
 
@@ -226,7 +275,7 @@ namespace Sylvester.Process
 			OnPropertyChange("cvTest");
 		}
 
-		public void CollectionViewFinal()
+		private void CollectionViewFinal()
 		{
 			cvFinal = CollectionViewSource.GetDefaultView(FinalFileColl.TestFiles);
 
@@ -235,31 +284,6 @@ namespace Sylvester.Process
 			OnPropertyChange("cvFinal");
 		}
 
-		public bool Process()
-		{
-			ProcessFiles p = new ProcessFiles(BaseFileColl, TestFileColl);
-
-			if ((FinalFileColl = p.Process()) == null) return false;
-			ConfigFinal();
-			CollectionViewFinal();
-
-			return true;
-		}
-
-		public bool RenameFiles()
-		{
-			FileRenameManager frm = new FileRenameManager();
-
-			if (!frm.RenameFiles(FinalFileColl)) return false;
-
-			Reset();
-
-			Read();
-
-			Process();
-
-			return true;
-		}
 
 		private void CaseChange()
 		{
@@ -285,6 +309,8 @@ namespace Sylvester.Process
 			MessageBoxResult r = b.Show();
 
 		}
+
+	#endregion
 
 	#region event handling
 

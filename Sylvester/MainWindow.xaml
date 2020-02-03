@@ -983,13 +983,6 @@
 					/>
 
 			<Button
-					Name="btnRead"
-					Content="Scan Folders"
-					Click="BtnRead_OnClick"
-					Style="{StaticResource btn}"
-					/>
-
-			<Button
 					Name="btnCompare"
 					Content="Compare"
 					Click="BtnCompare_OnClick"

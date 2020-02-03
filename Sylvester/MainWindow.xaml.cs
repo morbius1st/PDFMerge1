@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Sylvester.Process;
+using Sylvester.SavedFolders;
 using Sylvester.Settings;
 
 namespace Sylvester
@@ -99,16 +100,9 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
-		private void BtnRead_OnClick(object sender, RoutedEventArgs e)
-		{
-			pm.Read();
-
-			OnPropertyChange("pm");
-		}
-
 		private void BtnCompare_OnClick(object sender, RoutedEventArgs e)
 		{
-			Go = pm.Process();
+			Go = pm.Compare();
 
 			SetFocusComparison();
 
@@ -119,6 +113,8 @@ namespace Sylvester
 		{
 			Debug.WriteLine("@go");
 			pm.RenameFiles();
+
+			
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
