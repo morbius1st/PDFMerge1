@@ -8,6 +8,9 @@
 // username: jeffs
 // created:  1/4/2020 10:35:42 PM
 
+using Sylvester.Process;
+using UtilityLibrary;
+
 namespace Sylvester.FileSupport
 {
 	public enum MatchStatus
@@ -23,6 +26,8 @@ namespace Sylvester.FileSupport
 
 	public class FileFinal : SheetNameInfo
 	{
+		public new static FolderType FolderType => FolderType.FINAL;
+
 		public static string StatusMsgMatches { get; } = "OK As Is";
 		public static string StatusMsgNotMatches { get; } = "Rename";
 		public static string StatusMsgMissing { get; } = "Ignore";
@@ -38,6 +43,8 @@ namespace Sylvester.FileSupport
 		{
 			FullFileRoute = fullFileRoute;
 		}
+
+		public override int FolderTypeValue => FolderType.Value();
 
 		public override string SheetTitle
 		{

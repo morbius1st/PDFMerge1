@@ -24,7 +24,7 @@ using static Sylvester.SavedFolders.SavedFolderType;
 // general folder manager - works with either collection
 namespace Sylvester.FolderSupport
 {
-	public class FolderManager : INotifyPropertyChanged //, IDisposable
+	public class FolderManager : INotifyPropertyChanged
 	{
 		private SelectFolder sf = new SelectFolder();
 

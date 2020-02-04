@@ -18,7 +18,6 @@ using UtilityLibrary;
 // username: jeffs
 // created:  12/31/2019 10:57:47 PM
 
-
 namespace Sylvester.Process
 {
 	public enum SheetTitleCase
@@ -30,9 +29,36 @@ namespace Sylvester.Process
 
 	public enum FolderType
 	{
+		UNASSIGNED = -1,
 		CURRENT  = 0,
-		REVISION = 1
+		REVISION = 1,
+		FINAL = 2
 	}
+
+	// adjust to use generics - for (2) or (3)
+	// generic class would have
+	// T = FileCurrent / FileRevision / FileFinal  where T : SheetNameInfo
+	// file collection of <T> 
+	// folder manager (folder type) (needs access to header control)
+	// ICollectionView of the file collection<T>
+	// readfiles
+	//
+	// will need to move these to each generic:
+	// public: reset(), read...()
+	// private: create collection view
+
+	// will need to move these to a support class and provide to each
+	// change case(), readfail()
+	
+	// needs multilayered abstract classes:
+	// 
+	// final only needs:
+	// file collection, Icollectionview, reset, config, but not the rest.
+	// current & revision needs all except config final
+
+	// stays in the manager class:
+	// compare, renamefiles
+
 
 	public class ProcessManager : INotifyPropertyChanged
 	{
@@ -286,7 +312,6 @@ namespace Sylvester.Process
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("CvFinal");
 		}
-
 
 		private void caseChange()
 		{

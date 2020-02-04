@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Sylvester.Process;
+using UtilityLibrary;
 
 namespace Sylvester.FileSupport
 {
@@ -19,6 +21,8 @@ namespace Sylvester.FileSupport
 
 	public abstract class SheetNameInfo : INotifyPropertyChanged
 	{
+		public FolderType FolderType => FolderType.CURRENT;
+
 		public const string FILE_TYPE_EXT = ".pdf";
 
 		protected const string SEARCH_PATTERN_A = @"([ \.\-]+)";
@@ -57,7 +61,6 @@ namespace Sylvester.FileSupport
 		private bool selected = false;
 		private FileType fileType;
 
-
 		public SheetNameInfo()
 		{
 			fullFileRoute = Route.Invalid;
@@ -70,6 +73,9 @@ namespace Sylvester.FileSupport
 			comment = "";
 			adjustedSheetID = "";
 		}
+
+
+		public abstract int FolderTypeValue { get; }
 
 		public bool PreSelect { get; set; } = false;
 
@@ -106,7 +112,7 @@ namespace Sylvester.FileSupport
 		public string FilePath => fullFileRoute.Path;
 
 		public string FileName => fullFileRoute.FileName;
-
+		
 		public FileType FileType
 		{
 			get => fileType;

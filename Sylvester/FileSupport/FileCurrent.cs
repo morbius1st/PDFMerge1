@@ -1,6 +1,7 @@
 ﻿using System;
 using Sylvester.Process;
 using Sylvester.Settings;
+using UtilityLibrary;
 using static Sylvester.Support.Support;
 
 
@@ -11,14 +12,18 @@ using static Sylvester.Support.Support;
 // Created:      -- ()
 
 
-
+	
 namespace Sylvester.FileSupport {
 	public class FileCurrent : SheetNameInfo, ICloneable
 	{
+		public new static FolderType FolderType => FolderType.CURRENT;
+
 		public object Clone()
 		{
 			return this.Clone<FileCurrent>();
 		}
+
+		public override int FolderTypeValue => FolderType.Value();
 
 		public override string SheetTitle
 		{
