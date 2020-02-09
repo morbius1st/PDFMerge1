@@ -21,7 +21,7 @@ namespace Sylvester.FileSupport
 
 	public abstract class SheetNameInfo : INotifyPropertyChanged
 	{
-		public FolderType FolderType => FolderType.CURRENT;
+		public FolderType FolderType => FolderType.UNASSIGNED;
 
 		public const string FILE_TYPE_EXT = ".pdf";
 

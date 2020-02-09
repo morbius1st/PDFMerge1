@@ -1,21 +1,13 @@
 ﻿#region + Using Directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Animation;
-
 using SysPath = System.IO.Path;
 
 #endregion
 
-
-// projname: AODeliverable.FileSelection
 // itemname: Route
 // username: jeffs
 // created:  11/2/2019 5:18:09 PM
@@ -30,7 +22,6 @@ namespace AODeliverable.FileSelection
 		FILE,
 		DIRECTORY
 	}
-
 
 	public class Route : IEquatable<Route>
 	{
@@ -60,6 +51,7 @@ namespace AODeliverable.FileSelection
 	#region  public status properties
 
 		public bool IsValid { get; private set; }
+
 		public bool IsUnc
 		{
 			get
@@ -72,7 +64,8 @@ namespace AODeliverable.FileSelection
 				return false;
 			}
 		}
-		public bool IsRooted => !string.IsNullOrWhiteSpace(RootPath);
+
+		public bool IsRooted => !RootPath.Equals(@"\");
 		public bool HasFileName => !string.IsNullOrWhiteSpace(FileName);
 
 	#endregion
@@ -85,7 +78,7 @@ namespace AODeliverable.FileSelection
 		{
 			get
 			{
-				if (IsValid) 
+				if (IsValid)
 				{
 					return SysPath.GetPathRoot(FullPath);
 				}
@@ -99,7 +92,7 @@ namespace AODeliverable.FileSelection
 			get
 			{
 				if (!IsValid
-					|| !IsRooted 
+					|| !IsRooted
 					|| RootPath == null) return null;
 
 				if (!IsUnc && RootPath.EndsWith(@"\"))
@@ -158,6 +151,7 @@ namespace AODeliverable.FileSelection
 					if (SysPath.HasExtension(FullPath))
 						return SysPath.GetFileNameWithoutExtension(FullPath);
 				}
+
 				return null;
 			}
 		}
@@ -217,8 +211,6 @@ namespace AODeliverable.FileSelection
 					file = 0;
 				}
 
-				
-
 				if (!IsUnc)
 				{
 					root -= 1;
@@ -232,14 +224,13 @@ namespace AODeliverable.FileSelection
 			}
 		}
 
-		public int Levels
+		public int MaxDepth
 		{
 			get
 			{
-				if (!IsValid) return -1;
-				if (Folders == null) return -1;
+				if (!IsValid || Folders == null) return -1;
 
-				return DividePath(Folders)?.Length + 1 ?? -1;
+				return DividePath(Folders)?.Length + 1 ?? 0;
 			}
 		}
 
@@ -435,7 +426,7 @@ namespace AODeliverable.FileSelection
 }
 
 //
-// Levels         3
+// MaxDepth         3
 //
 // Paths(2)       v------------------v
 // Paths(1)       v--------------v   |
@@ -472,7 +463,7 @@ namespace AODeliverable.FileSelection
 // assemble path [-1] \\CS-004\Documents\Files
 
 //
-// Levels         4
+// MaxDepth         4
 //
 // Paths(3)       v------------v
 // Paths(2)       v---------v  |

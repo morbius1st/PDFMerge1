@@ -5,6 +5,7 @@
 
 using System.Runtime.Serialization;
 using Sylvester.FileSupport;
+using UtilityLibrary;
 
 namespace Sylvester.SavedFolders {
 	[DataContract]
@@ -31,7 +32,8 @@ namespace Sylvester.SavedFolders {
 			Current = current;
 			Revision = revision;
 
-			Key = MakeCurrRevFolderPairkey(current.FolderName(-1), revision.FolderName(-1), name);
+//			Key = MakeCurrRevFolderPairkey(current.FolderName(-1), revision.FolderName(-1), name);
+			Key = MakeCurrRevFolderPairkey(current.GetFolderName(current[-1]), revision.GetFolderName(revision[-1]), name);
 		}
 
 		public static string MakeCurrRevFolderPairkey(string currentRootFolder, string revisionRootFolder, string name = "")

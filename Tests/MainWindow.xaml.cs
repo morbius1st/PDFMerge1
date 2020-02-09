@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using AODeliverable.FileSelection;
 using Tests.Debug;
 using Tests.Sequence;
+using UtilityLibrary;
 using static Tests.Helpers;
 
 // // root element
@@ -37,8 +40,6 @@ using static Tests.Helpers;
 //     |
 //     |   // the collection of Named SeqItems just for screen display
 //     +-->Dictionary<string, SeqItem>
-
-
 
 
 namespace Tests
@@ -78,12 +79,8 @@ namespace Tests
 		{
 			InitializeComponent();
 
-			
 
 			h = new Helpers();
-
-			
-
 		}
 
 		private void MainWin_Loaded(object sender, RoutedEventArgs e)
@@ -93,7 +90,7 @@ namespace Tests
 //			os.Add(OutlineTestData.TestData());
 //			os.Sort();
 
-			test = SeqTestData.Instance;	
+			test = SeqTestData.Instance;
 
 			SqItems = test.si;
 			Parts = test.spl;
@@ -104,27 +101,25 @@ namespace Tests
 			OnPropertyChange("tx");
 
 //			System.Environment.Exit(0);
-
 		}
 
 		private void BtnGo_Click(object sender, RoutedEventArgs e)
 		{
-//			RouteTest();
+			RouteTest();
 //			TvTest2();
-			TvTest();
+//			TvTest();
 		}
 
 		private void BtnSelectArch_Click(object sender, RoutedEventArgs e)
 		{
-
 			test.spl.SetFilter("Architectural");
 		}
-		
+
 		private void BtnFilterClr_Click(object sender, RoutedEventArgs e)
 		{
 			test.spl.ClrFilter();
 		}
-		
+
 		private void BtnDebug_Click(object sender, RoutedEventArgs e)
 		{
 			System.Diagnostics.Debug.WriteLine("@debug");
@@ -148,8 +143,6 @@ namespace Tests
 			tbx.SetBinding(TextBox.TextProperty, b);
 
 			tvTestString = "this is a test";
-
-
 		}
 
 		private void Find()
@@ -178,23 +171,31 @@ namespace Tests
 			child.Items.Add(grandchild);
 
 			tvTestString = "test string changed";
-
-
 		}
 
 		private void RouteTest()
 		{
 			tbxLeft.Text = "";
 
+//			getUncDriveNames();
 
 			WriteLineToLeft("current directory is| " + (Environment.CurrentDirectory) + nl);
 
-
 			Route r;
 
-			r = new Route(@"\\CS-004\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
+			r = new Route(
+				@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
 			ListRoute(r);
-			r = new Route(@"C:\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
+
+			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			ListRoute(r);
+			r = new Route(
+				@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			ListRoute(r);
+
+			r = new Route(@"\\cs-006\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
+			ListRoute(r);
+			r = new Route(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
 			r = new Route(@"C:\Documents\Files\021 - Household\MicroStation\.file");
 			ListRoute(r);
@@ -218,7 +219,135 @@ namespace Tests
 			ListRoute(r);
 			r = new Route(@"");
 			ListRoute(r);
+
+//			WriteLineToLeft("");
+//			WriteLineToLeft("Drive info");
+//			ListDrives();
 		}
+
+//		private Dictionary<string, string> UncNames = new Dictionary<string, string>();
+//
+//		private void ListDrives()
+//		{
+//			DriveInfo[]  allDrives = DriveInfo.GetDrives();
+//
+//			foreach (DriveInfo di in allDrives)
+//			{
+//				WriteLineToLeft($"Drive Name      | {di.Name}");
+//				WriteLineToLeft($"Drive Type      | {di.DriveType}");
+//
+//				if (di.IsReady)
+//				{
+//					string driveLetter = "";
+//					string drivename = di.Name;
+//
+//					if (drivename.Length >= 2)
+//						driveLetter = drivename.Substring(0, 2);
+//
+//					string unc = getUncFromPath(driveLetter);
+//
+//					if (string.IsNullOrWhiteSpace(unc))
+//					{
+//						unc = "failed";
+//					}
+//
+//					WriteLineToLeft($"vol label       | {di.VolumeLabel}");
+//					WriteLineToLeft($"root dir        | {di.RootDirectory}");
+//					WriteLineToLeft($"file system type| {di.DriveFormat}");
+//					WriteLineToLeft($"drive letter    | {driveLetter}");
+//					WriteLineToLeft($"unc name        | {unc}");
+//				}
+//
+//				WriteLineToLeft("");
+//			}
+//		}
+//
+//		private void getUncDriveNames()
+//		{
+//			DriveInfo[] allDrives = DriveInfo.GetDrives();
+//
+//			foreach (DriveInfo di in allDrives)
+//			{
+//				if (di.IsReady)
+//				{
+//					string driveLetter = di.Name.Substring(0, 2);
+//
+//					string unc = getUncFromPath(driveLetter);
+//
+//					if (!string.IsNullOrWhiteSpace(unc))
+//					{
+//						if (!UncNames.ContainsKey(driveLetter))
+//						{
+//							UncNames.Add(driveLetter, unc);
+//							WriteLineToLeft("drive letter and unc name| " + driveLetter + " :: " + unc);
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//		private string getDriveFromUnc(string path)
+//		{
+//			if (!string.IsNullOrWhiteSpace(path))
+//			{
+//				foreach (KeyValuePair<string, string> kvp in UncNames)
+//				{
+//					int len = kvp.Value.Length;
+//
+//					if (path.Length < len) continue;
+//
+//					if (kvp.Value.ToLower().Equals(path.Substring(0, len).ToLower())) return kvp.Key;
+//				}
+//			}
+//
+//			return null;
+//		}
+//
+//
+//		[DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+//		public static extern int WNetGetConnection(
+//			[MarshalAs(UnmanagedType.LPTStr)] string localName,
+//			[MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
+//			ref int length);
+//
+//		private string getUncFromPath(string path)
+//		{
+//			if (string.IsNullOrWhiteSpace(path) ||
+//				path.Length < 2 ||
+//				path.StartsWith(@"\\") ||
+//				!path.Substring(1, 1).Equals(":")
+//				) return null;
+//
+//			StringBuilder sb = new StringBuilder(1024);
+//			int size = sb.Capacity;
+//
+//			// still may fail but has a better chance;
+//			int error = WNetGetConnection(path.Substring(0, 2), sb, ref size);
+//
+//			if (error != 0) return null;
+//
+//			return sb.ToString();
+//		}
+//
+//
+//		private void ListFileInfo(Route r)
+//		{
+//			try
+//			{
+//				System.IO.FileInfo f = new FileInfo(r.FullPath);
+//
+//				WriteLineToLeft("filesysteminfo fullname| " + f.FullName);
+//				WriteLineToLeft("filesysteminfo name| " + f.Name);
+//				WriteLineToLeft("filesysteminfo dir name| " + f.DirectoryName);
+//				WriteLineToLeft("directoryinfo  fullname| " + f.Directory.FullName);
+//				WriteLineToLeft("directoryinfo      name| " + f.Directory.Name);
+//			}
+//			catch
+//			{
+//				WriteLineToLeft("filesysteminfo fullname| failed");
+//			}
+//		}
+
 
 		private void ListRoute(Route r)
 		{
@@ -232,14 +361,40 @@ namespace Tests
 				return;
 			}
 
+//			ListFileInfo(r);
+
+//			string uncFromPath;
+//
+//			if (r.VolumeName != null)
+//			{
+//				if (!r.VolumeName.StartsWith(@"\\"))
+//				{
+//					uncFromPath = getUncFromPath(r.FullPath);
+//
+//					WriteLineToLeft("to UNC    | " + (uncFromPath ?? "failed"));
+//				}
+//				else
+//				{
+//					WriteLineToLeft("to UNC    | n/a");
+//					uncFromPath = r.FullPath;
+//				}
+//				string driveFromUnc = getDriveFromUnc(uncFromPath);
+//
+//				WriteLineToLeft("from UNC   | " + (driveFromUnc ?? "failed"));
+//			}
+
 			WriteLineToLeft("isvalid   | " + r.IsValid);
-			WriteLineToLeft("levels    | " + (r.Levels));
+			WriteLineToLeft("depth     | " + (r.Depth));
 			WriteLineToLeft("vol name  | " + (r.VolumeName ?? "is null"));
 			WriteLineToLeft("isunc     | " + r.IsUnc);
 			WriteLineToLeft("isrooted  | " + r.IsRooted);
 
 			WriteLineToLeft("rootpath  | " + (r.RootPath ?? "is null"));
 			WriteLineToLeft("root      | " + (r.Root ?? "is null"));
+
+			WriteLineToLeft("unc / path| " + (Route.UncVolumeFromPath(r.FullPath) ?? "is null"));
+			WriteLineToLeft("drv / path| " + (Route.DriveVolumeFromPath(r.FullPath) ?? "is null"));
+
 			WriteLineToLeft("path      | " + r.Path);
 			WriteLineToLeft("folders   | " + r.Folders);
 			WriteLineToLeft("hasfname  | " + r.HasFileName);
@@ -250,18 +405,53 @@ namespace Tests
 				r.DividePath(r.Folders) ?? new string[1]));
 
 			WriteLineToLeft("[+]       | ********");
-			for (int i = 0; i < r.Levels; i++)
+			for (int i = 0; i < r.Depth; i++)
 			{
 				WriteLineToLeft("[+" + i + "]      | " + r[i]
 					+ "  (" + r.GetFolderName(r[i]) + ")");
 			}
 
 			int j;
-			for (int i = -1; i > (r.Levels * -1); i--)
+			for (int i = -1; i > (r.Depth * -1 - 1); i--)
 			{
 				WriteLineToLeft("[" + i + "]      | " + r[i]
 					+ "  (" + r.GetFolderName(r[i]) + ")");
 			}
+
+			string[] names;
+
+			names =  r.FolderNames;
+
+			WriteLineToLeft("foldernames() as []");
+			for (int i = 0; i < names.Length; i++)
+			{
+				WriteLineToLeft("[" + i + "]       | "
+					+ names[i]);
+			}
+
+			WriteLineToLeft("GetFolderName(r[i])");
+			for (int i = 0 ; i < r.Depth; i++)
+			{
+				WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
+					+ r.GetFolderName(r[i]));
+			}
+			for (int i = -1 ; i > -1 * r.Depth -1; i--)
+			{
+				WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
+					+ r.GetFolderName(r[i]));
+			}
+
+
+
+
+			// foldernamelist()
+
+			// foldernames
+
+			// foldername()
+
+
+
 
 			WriteLineToLeft("assemble p| " + r.AssemblePath(2));
 			WriteLineToLeft("assemble p| " + r.AssemblePath(-1));

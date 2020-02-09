@@ -35,29 +35,19 @@ namespace Sylvester.Process
 		FINAL = 2
 	}
 
-	// adjust to use generics - for (2) or (3)
-	// generic class would have
-	// T = FileCurrent / FileRevision / FileFinal  where T : SheetNameInfo
-	// file collection of <T> 
-	// folder manager (folder type) (needs access to header control)
-	// ICollectionView of the file collection<T>
-	// readfiles
+	// functional where and what
+	// at mainwin | press history (either type) ->
+	//		| user selects history entry -> update folder routes
 	//
-	// will need to move these to each generic:
-	// public: reset(), read...()
-	// private: create collection view
-
-	// will need to move these to a support class and provide to each
-	// change case(), readfail()
-	
-	// needs multilayered abstract classes:
+	// at mainwin | press saved folder (either type) ->
+	//		| user selects a saved folder -> update folder routes
 	// 
-	// final only needs:
-	// file collection, Icollectionview, reset, config, but not the rest.
-	// current & revision needs all except config final
-
-	// stays in the manager class:
-	// compare, renamefiles
+	// at mainwin | press add saved folder ->
+	//		| user selects a history entry -> save to saved folders
+	//		| user selects new saved folder -> create and save a new saved folder
+	//
+	// at mainwin | press rename ->
+	//		| have saved folder create and save current as a history entry
 
 
 	public class ProcessManager : INotifyPropertyChanged
@@ -84,6 +74,8 @@ namespace Sylvester.Process
 			FileCollectionCurrent = new FilesCollection<FileCurrent>();
 			FileCollectionRevision = new FilesCollection<FileRevision>();
 			FileCollectionFinal = new FilesCollection<FileFinal>();
+
+			FileRevision rf = new FileRevision();
 
 			Reset();
 

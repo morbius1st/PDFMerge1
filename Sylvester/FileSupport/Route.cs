@@ -1,7 +1,9 @@
 ﻿#region + Using Directives
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using SysPath = System.IO.Path;
@@ -12,7 +14,7 @@ using SysPath = System.IO.Path;
 // username: jeffs
 // created:  11/2/2019 5:18:09 PM
 
-namespace Sylvester.FileSupport
+namespace UtilityLibrary
 {
 	public enum RouteType
 	{
@@ -28,6 +30,8 @@ namespace Sylvester.FileSupport
 	#region private fields
 
 		private string fullPath;
+
+		private static Dictionary<string, string> UncNameMap = new Dictionary<string, string>(10);
 
 	#endregion
 
@@ -63,6 +67,8 @@ namespace Sylvester.FileSupport
 
 		private void ConfigureRoute(string initialPath)
 		{
+			getUncNameMap();
+
 			IsValid = false;
 
 			fullPath = Validate(initialPath);
@@ -93,7 +99,7 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public bool IsRooted => !(RootPath.Equals(@"\"));
+		public bool IsRooted => !(RootPath?.Equals(@"\") ?? false);
 		public bool HasFileName => !string.IsNullOrWhiteSpace(FileName);
 
 	#endregion
@@ -111,20 +117,26 @@ namespace Sylvester.FileSupport
 		{
 			get
 			{
+				string result = null;
+
 				if (IsValid)
 				{
-//					FileInfo fi = new FileInfo(FullPath);
-//					DirectoryInfo di = new DirectoryInfo(FullPath);
-//					string s1 = SysPath.GetFullPath(FullPath);
-//					string s2 = SysPath.GetPathRoot(FullPath);
-//					bool b1= SysPath.IsPathRooted(FullPath);
-//					
-//
+//					return SysPath.GetPathRoot(FullPath);
 
-					return SysPath.GetPathRoot(FullPath);
+					result = findUncFromUncPath(fullPath);
+
+					if (string.IsNullOrWhiteSpace(result))
+					{
+						result =  DriveVolumeFromPath(fullPath);
+					}
+
+					if (!string.IsNullOrWhiteSpace(result))
+					{
+						result += @"\";
+					}
 				}
 
-				return null;
+				return result;
 			}
 		}
 
@@ -256,6 +268,8 @@ namespace Sylvester.FileSupport
 				{
 					root -= 1;
 				}
+
+				if (root < 0) root = 0;
 
 				int len = FullPath.Length - root - file;
 
@@ -407,27 +421,6 @@ namespace Sylvester.FileSupport
 			return Root + answer;
 		}
 
-		public string[] FolderNameList(string path)
-		{
-			if (string.IsNullOrWhiteSpace(path)) return null;
-
-			return path.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
-		}
-
-		public string FolderName(int index)
-		{
-			string[] names = FolderNames;
-
-			if (index < 0)
-			{
-				index = names.Length + index;
-			}
-
-			if (index < 0 || index >= names.Length) return null;
-
-			return FolderNames[index];
-		}
-
 		public string[] DividePath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path)) return null;
@@ -468,6 +461,53 @@ namespace Sylvester.FileSupport
 
 	#endregion
 
+	#region static methods
+
+		// place holder - needs to be integrated
+		public static string UncVolumeFromPath(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path) ||
+				path.Length < 2
+				) return null;
+
+			if (!path.StartsWith(@"\\"))
+			{
+				StringBuilder sb = new StringBuilder(1024);
+				int size = sb.Capacity;
+
+				// still may fail but has a better chance;
+				int error = WNetGetConnection(path.Substring(0, 2), sb, ref size);
+
+				if (error != 0) return null;
+
+				return sb.ToString();
+			}
+
+			return findUncFromUncPath(path);
+		}
+
+		// place holder - needs to be integrated
+		public static string DriveVolumeFromPath(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path)) return null;
+
+			string drive = findDriveFromUnc(path);
+
+			if (!string.IsNullOrWhiteSpace(drive)) return drive;
+
+
+			if (!path.StartsWith(@"\\"))
+			{
+				// does not start with "\\" if character 2 is ':' 
+				// assume provided with a drive and return that portion
+				if (path.Substring(1, 1).Equals(":")) return path.Substring(0, 2);
+			}
+
+			return null;
+		}
+
+	#endregion
+
 	#region indexer
 
 		public string this[int index]
@@ -476,11 +516,11 @@ namespace Sylvester.FileSupport
 			{
 				if (!IsValid) return null;
 
-				if (index < 0) return GetSubFolderInverse(index);
+				if (index < 0) return getSubFolderInverse(index);
 
 				if (index == 0) return RootPath;
 
-				return GetSubFolder(index);
+				return getSubFolder(index);
 			}
 		}
 
@@ -488,7 +528,14 @@ namespace Sylvester.FileSupport
 
 	#region private methods
 
-		private string GetSubFolder(int index)
+		private string[] FolderNameList(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path)) return null;
+
+			return path.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
+		}
+
+		private string getSubFolder(int index)
 		{
 			if (!IsValid) return null;
 
@@ -504,7 +551,7 @@ namespace Sylvester.FileSupport
 			return f[index];
 		}
 
-		private string GetSubFolderInverse(int index)
+		private string getSubFolderInverse(int index)
 		{
 			if (!IsValid) return null;
 
@@ -515,9 +562,83 @@ namespace Sylvester.FileSupport
 			// start with folders
 			string[] f = DividePath(Folders);
 
-			if (f == null || f.Length - 1 < index) return null;
+			if (f == null || f.Length < index) return null;
 
-			return f[f.Length - 1 - index];
+			string result;
+
+			if (f.Length == index)
+			{
+				result = RootPath;
+			}
+			else
+			{
+				result = f[f.Length - 1 - index];
+			}
+
+			return  result;
+		}
+
+		private static void getUncNameMap()
+		{
+			DriveInfo[] drives = DriveInfo.GetDrives();
+
+			foreach (DriveInfo di in drives)
+			{
+				if (di.IsReady)
+				{
+					string driveletter = di.Name.Substring(0, 2);
+
+					string unc = UncVolumeFromPath(driveletter);
+
+					if (!string.IsNullOrWhiteSpace(unc))
+					{
+						if (!UncNameMap.ContainsKey(driveletter))
+						{
+							UncNameMap.Add(driveletter, unc);
+						}
+					}
+				}
+			}
+		}
+
+		private static string findDriveFromUnc(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path) ||
+				!path.StartsWith(@"\\") ||
+				path.Length < 3) return null;
+
+			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
+
+			foreach (KeyValuePair<string, string> kvp in UncNameMap)
+			{
+				int len = kvp.Value.Length;
+
+				if (path.Length < len) continue;
+
+				if (kvp.Value.ToLower().Equals(path.Substring(0, len).ToLower())) return kvp.Key;
+			}
+
+			return null;
+		}
+
+		private static string findUncFromUncPath(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path)
+				|| !path.StartsWith(@"\\")
+				) return null;
+
+			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
+
+			foreach (KeyValuePair<string, string> kvp in UncNameMap)
+			{
+				int len = kvp.Value.Length;
+
+				if (path.Length < len) continue;
+
+				if (kvp.Value.ToLower().Equals(path.Substring(0, len).ToLower())) return kvp.Value;
+			}
+
+			return null;
 		}
 
 	#endregion
@@ -540,12 +661,21 @@ namespace Sylvester.FileSupport
 		}
 
 	#endregion
+
+	#region system Dll calls
+
+		[DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern int WNetGetConnection(
+			[MarshalAs(UnmanagedType.LPTStr)] string localName,
+			[MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
+			ref int length);
+
+	#endregion
 	}
 }
 
-
 //
-// Levels         3
+// Depth          3
 //
 // Paths(2)       v------------------v
 // Paths(1)       v--------------v   |
@@ -585,7 +715,8 @@ namespace Sylvester.FileSupport
 
 
 //
-// Levels         4
+// Levels??         4
+// Depth??
 //
 // Paths(3)       v------------v
 // Paths(2)       v---------v  |
@@ -610,24 +741,35 @@ namespace Sylvester.FileSupport
 
 // example
 // levels 4
-//   full route| C:\Documents\Files\021 - Household\MicroStation\0047116612.PDF
-//   [+0] [-5?]| C:\  (C:\)
-//   [+1] [-4] | \Documents  (Documents)
-//   [+2] [-3] | \Files  (Files)
-//   [+3] [-2] | \021 - Household  (021 - Household)
-//   [+4] [-1] | \MicroStation  (MicroStation)
+//   full route| P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf
+//               []                               GetFolderName([])
+//   [+0] [-5] | P:\                              P:\
+//   [+1] [-4] | \2099-999 Sample Project         2099-999 Sample Project
+//   [+2] [-3] | \Publish                         Publish
+//   [+3] [-2] | \9999 Current                    9999 Current
+//   [+4] [-1] 
 
-// assemble path() [+2] C:\Documents\Files
-// assemble path() [-2] C:\Documents\Files\021 - Household
+// assemble path(+2)   P:\2099-999 Sample Project\Publish
+// assemble path(-1)   P:\2099-999 Sample Project\Publish\9999 Current
 
-// FolderNameList() & FolderNames
-//   [0]   | Documents
-//   [1]   | Files
-//   [2]   | 021 - Household
-//   [3]   | MicroStation
-//
-// FolderName()
-//   (-4)  | Documents
-//   (-3)  | Files
-//   (-2)  | 021 - Household
-//   (-1)  | MicroStation
+/*
+foldernames() as []
+[0]       | 2015-491 Centercal - Long Beach
+[1]       | CD
+[2]       | 00 Primary
+[3]       | New folder
+
+GetFolderName(r[i])
+( 0)      | P:\
+( 1)      | 2015-491 Centercal - Long Beach
+( 2)      | CD
+( 3)      | 00 Primary
+( 4)      | New folder
+(-1)      | New folder
+(-2)      | 00 Primary
+(-3)      | CD
+(-4)      | 2015-491 Centercal - Long Beach
+(-5)      | P:\
+
+ */
+

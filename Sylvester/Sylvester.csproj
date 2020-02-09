@@ -76,6 +76,8 @@
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
     </AdditionalFiles>
+    <Compile Include="FolderSupport\FolderInfo.cs" />
+    <Compile Include="FolderSupport\FolderManager2.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="lvTestControl.xaml.cs">
       <DependentUpon>lvTestControl.xaml</DependentUpon>

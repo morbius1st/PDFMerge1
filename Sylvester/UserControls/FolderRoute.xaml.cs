@@ -5,7 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using Sylvester.FileSupport;
+using UtilityLibrary;
+using Sylvester.FolderSupport;
 
 namespace Sylvester.UserControls
 {
@@ -49,6 +50,15 @@ namespace Sylvester.UserControls
 			}
 		}
 
+		public void AssignEvents(FolderManager fm)
+		{
+			PathChange += fm.onPathPathChangeEvent;
+			SelectFolder += fm.onPathSelectFolderEvent;
+			Favorites += fm.onPathFavoriteEvent;
+			History += fm.onPathHistoryEvent;
+
+		}
+
 		private void clearObliqueButtons()
 		{
 			foreach (ObliqueButton spPathChild in SpPath.Children)
@@ -76,7 +86,14 @@ namespace Sylvester.UserControls
 			else
 			{
 				AddPath(newPath.FullPathNames);
+
+				SelectedPath = newPath.FullPath;
+//				SelectedFolder = newPath.FolderName(-1);
+				SelectedFolder = newPath.GetFolderName(newPath[-1]);
+				SelectedIndex = newPath.Depth;
 			}
+
+			RaisePathChangeEvent();
 		}
 
 		private void AddPath(string[] path)
@@ -130,6 +147,7 @@ namespace Sylvester.UserControls
 			SelectedFolder = ob.Text;
 			SelectedPath = path[0] + @"\";
 
+
 			if (SelectedIndex > 0)
 			{
 				StringBuilder sb = new StringBuilder(path[0]);
@@ -142,10 +160,12 @@ namespace Sylvester.UserControls
 				SelectedPath = sb.ToString();
 
 				RaisePathChangeEvent();
+
 			}
 			else
 			{
 				RaiseSelectFolderEvent();
+
 			}
 		}
 
@@ -235,7 +255,6 @@ namespace Sylvester.UserControls
 		}
 
 	#endregion
-
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter

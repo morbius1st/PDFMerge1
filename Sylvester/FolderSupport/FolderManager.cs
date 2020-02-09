@@ -3,7 +3,9 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using Sylvester.FileSupport;
 using Sylvester.SavedFolders;
 using Sylvester.Settings;
@@ -24,32 +26,58 @@ using static Sylvester.SavedFolders.SavedFolderType;
 // general folder manager - works with either collection
 namespace Sylvester.FolderSupport
 {
+//	public class FolderManager2
+//	{
+//		private SelectFolder sf = new SelectFolder();
+//
+//		private FolderInfo[] folders = new FolderInfo[2];
+//
+//		public FolderManager2(HeaderControl hcCurrent, HeaderControl hcRevision)
+//		{
+//			folders[0] = new FolderInfoCurrent(hcCurrent);
+//			folders[1] = new FolderInfoRevision(hcRevision);
+//		}
+//
+//		public FolderInfo CurrentFolderInfo => folders[FolderType.CURRENT.Value()];
+//		public FolderInfo RevisionFolderInfo => folders[FolderType.CURRENT.Value()];
+//
+//		public Route CurrentFolder => CurrentFolderInfo.Folder;
+//		public Route RevisionFolder => RevisionFolderInfo.Folder;
+//
+//	}
+
+
 	public class FolderManager : INotifyPropertyChanged
 	{
 		private SelectFolder sf = new SelectFolder();
 
-		public SavedFolderManager[] svfMgr = new SavedFolderManager[COUNT.Value()];
-
-		private Route folderPath;
+		public static SavedFolderManager[] svfMgr = new SavedFolderManager[COUNT.Value()];
 
 		private int index;
+
+		private static HeaderControl hcPath2;
 
 		private HeaderControl hcPath;
 
 		public FolderManager(int index, HeaderControl hcPath)
 		{
+			var fldrRoute = 
+
+
 			this.index = index;
 
 			this.hcPath = hcPath;
+			hcPath2 = hcPath;
 
-			hcPath.SetPathChangeEventHandler(onFolderPathPathChangeEvent);
-			hcPath.SetSelectFolderEventHandler(onFolderPathSelectFolderEvent);
-			hcPath.SetFavoritesEventHandler(onFolderPathFavoriteEvent);
-			hcPath.SetHistoryEventHandler(onFolderPathHistoryEvent);
+//			hcPath.SetPathChangeEventHandler(onPathPathChangeEvent);
+//			hcPath.SetSelectFolderEventHandler(onPathSelectFolderEvent);
+//			hcPath.SetFavoritesEventHandler(onPathFavoriteEvent);
+//			hcPath.SetHistoryEventHandler(onPathHistoryEvent);
+//
+//			hcPath.FolderRoute.MyCustomEvent += FldrRoute_MyCustomEvent;
 
-			svfMgr[HISTORY.Value()] = new SavedFolderManager(HISTORY);  //, SetgMgr.Instance.ProjectSavedFolders);
 
-			svfMgr[FAVORITES.Value()] = new SavedFolderManager(FAVORITES);  //, SetgMgr.Instance.FavoritesSavedFolders);
+			ConfigSavedFolders();
 
 			SavedFoldersDebugSupport.Instance.
 				ConfigSavedFoldersDebugSupport(svfMgr[HISTORY.Value()], svfMgr[FAVORITES.Value()]);
@@ -57,6 +85,21 @@ namespace Sylvester.FolderSupport
 			getPriorFolder();
 
 			configHeader();
+		}
+
+		private void FldrRoute_MyCustomEvent(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("custom event received");
+		}
+
+		private void ConfigSavedFolders()
+		{
+			if (svfMgr[0] == null)
+			{
+				svfMgr[HISTORY.Value()] = new SavedFolderManager(HISTORY);
+
+				svfMgr[FAVORITES.Value()] =new SavedFolderManager(FAVORITES);
+			}
 		}
 
 		private Route folder;
@@ -92,17 +135,6 @@ namespace Sylvester.FolderSupport
 			folderPathType += svfMgr[FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
 
 			hcPath.FolderPathType = folderPathType;
-		}
-
-
-		public Route FolderPath
-		{
-			get => folderPath;
-			set
-			{
-				folderPath = value;
-				OnPropertyChange();
-			}
 		}
 
 		private void tempGetPriorFolder()
@@ -161,12 +193,12 @@ namespace Sylvester.FolderSupport
 
 		public event FolderManager.FolderChangeEventHandler FolderChange;
 
-		protected virtual void RaiseFolderChangeEvent()
+		internal virtual void RaiseFolderChangeEvent()
 		{
 			FolderChange?.Invoke(this, new EventArgs());
 		}
 
-		private void onFolderPathPathChangeEvent(object sender, PathChangeArgs e)
+		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
 		{
 			Debug.WriteLine("folderManager, path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
@@ -177,21 +209,21 @@ namespace Sylvester.FolderSupport
 			Folder = hcPath.Path;
 		}
 
-		private void onFolderPathSelectFolderEvent(object sender, EventArgs e)
+		internal void onPathSelectFolderEvent(object sender, EventArgs e)
 		{
 			Debug.WriteLine("folderManager, Select Folder");
 
 			SelectFolder();
 		}
 
-		private void onFolderPathFavoriteEvent(object sender, EventArgs e)
+		internal void onPathFavoriteEvent(object sender, EventArgs e)
 		{
 			Debug.WriteLine("folderManager, Favorites");
 
 //			SelectFolder();
 		}
 
-		private void onFolderPathHistoryEvent(object sender, EventArgs e)
+		internal void onPathHistoryEvent(object sender, EventArgs e)
 		{
 			Debug.WriteLine("folderManager, History");
 

@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,13 +64,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\Sylvester\FileSupport\Route.cs">
+      <Link>.External\Route.cs</Link>
+    </Compile>
     <Compile Include=".Debug\SeqTestData.cs" />
     <Compile Include=".Debug\TestCollection.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="OutlineItem.cs" />
     <Compile Include="OutlineItems.cs" />
     <Compile Include=".Debug\OutlineTestData.cs" />
-    <Compile Include="Route.cs" />
     <Compile Include="Sequence\SeqDiscipline.cs" />
     <Compile Include="Sequence\SeqItem.cs" />
     <Compile Include="Sequence\SeqItems.cs" />

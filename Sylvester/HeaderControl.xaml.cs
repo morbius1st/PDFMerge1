@@ -1,7 +1,8 @@
-﻿using System.Windows;
+﻿
+using System.Windows;
 using System.Windows.Controls;
-using Sylvester.FileSupport;
-using Sylvester.UserControls;
+using Sylvester.FolderSupport;
+using UtilityLibrary;
 
 
 namespace Sylvester
@@ -16,30 +17,15 @@ namespace Sylvester
 			InitializeComponent();
 		}
 
-		public void SetPathChangeEventHandler(FolderRoute.PathChangedEventHandler f)
-		{
-			FldrRoute.PathChange += f;
-		}
-		
-		public void SetSelectFolderEventHandler(FolderRoute.SelectFolderEventHandler f)
-		{
-			FldrRoute.SelectFolder += f;
-		}
-		
-		public void SetFavoritesEventHandler(FolderRoute.FavoritesEventHandler f)
-		{
-			FldrRoute.Favorites += f;
-		}
-		
-		public void SetHistoryEventHandler(FolderRoute.HistoryEventHandler f)
-		{
-			FldrRoute.History += f;
-		}
-
 		public Route Path
 		{
-			get => FldrRoute.Path;
-			set => FldrRoute.Path = value;
+			get => FolderRoute.Path;
+			set => FolderRoute.Path = value;
+		}
+
+		public void AssignEvents(FolderManager fm)
+		{
+			FolderRoute.AssignEvents(fm);
 		}
 
 	#region public control properties

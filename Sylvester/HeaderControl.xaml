@@ -75,7 +75,7 @@
 					>
 
 				<user:FolderRoute
-						x:Name="FldrRoute"
+						x:Name="FolderRoute"
 						Margin="4,4,0,-2"
 						Height="{Binding ElementName=headerControl,
 														 Path=FolderRouteHeight,
