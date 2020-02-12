@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
+using static  System.IO.Path;
 using SysPath = System.IO.Path;
 
 #endregion
@@ -71,7 +72,7 @@ namespace UtilityLibrary
 
 			IsValid = false;
 
-			fullPath = Validate(initialPath);
+			fullPath = CleanPath(initialPath);
 
 			if (fullPath != null)
 			{
@@ -353,9 +354,9 @@ namespace UtilityLibrary
 			return true;
 		}
 
-		public string Validate(string testRoute)
+		public string CleanPath(string path)
 		{
-			if (string.IsNullOrWhiteSpace(testRoute))
+			if (string.IsNullOrWhiteSpace(path))
 			{
 				return null;
 			}
@@ -364,7 +365,7 @@ namespace UtilityLibrary
 
 			try
 			{
-				result = testRoute.Replace('/', '\\').Trim();
+				result = path.Replace('/', '\\').Trim();
 			}
 			catch
 			{
@@ -374,8 +375,59 @@ namespace UtilityLibrary
 			return result;
 		}
 
+
+//		public string Validate(string path)
+//		{
+
+
+			// use File.Exists and Directory.Exists
+
+			// note - always convert UNC to drive letter and process from there
+
+
+			// new flags
+			// of type enum = FlagType, -1 == false, 0 = undetermined, 1 = true
+			// isqualifiedpath, isfolderpath, isfilepath, isfound, hasdrive
+
+			// possibilities
+			// starts with drive letter,
+			//         no extension
+			//            = isvalid == true, hasdrive=true
+			//              isqualifiedpath == true, test path and set isfolderpath and isfilepath
+			//
+			// same
+			//         with extension = isvalid == true, hasdrive=true
+			//            isqualifiedpath == true, test path and set isfolderpath and isfilepath
+			//
+			// starts with "\\",
+			//         search drive letter - found
+			//             no extension
+			//                = isvalid == true, hasdrive=true
+			//                  isqualifiedpath == true, test path and set isfolderpath and isfilepath
+			//             with extension = isvalid == true, 
+			//                isqualifiedpath == true, test path and set isfolderpath and isfilepath
+			//
+			//         search drive letter - not found
+			//             no extension - assume last name is a folder
+			//                isvalid == null, isqualifiedpath=null, isfolderpath=true, isfilepath=null
+			//                  isfound == false, hasdrive=false
+			//             with extension
+			//                isvalid == null, isqualifiedpath=null, isfolderpath=null, isfilepath=null
+			//                  isfound == false, hasdrive=false
+			// 
+			// starts with neither of the above
+			//
+			// assume just folders without a root
+			//			no extension 
+			//             = isvalid == true, hasdrive = false, isqualifiedpath = false, 
+
+
+
+//		}
+
 		public string GetFolderName(string path)
 		{
+
 			if (string.IsNullOrWhiteSpace(path)) return null;
 
 			string answer = path.Trim();

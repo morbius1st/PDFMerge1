@@ -177,22 +177,27 @@ namespace Tests
 		{
 			tbxLeft.Text = "";
 
-//			getUncDriveNames();
-
-			WriteLineToLeft("current directory is| " + (Environment.CurrentDirectory) + nl);
+			//                         | 
+			WriteLineToLeft("current directory 1 is| " + (Directory.GetCurrentDirectory()) + nl);
+			WriteLineToLeft("current directory 2 is| " + (Environment.CurrentDirectory) + nl);
 
 			Route r;
 
-			r = new Route(
-				@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
+			// special - folder name looks like a file name (this is a folder)
+			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
 			ListRoute(r);
-
+			// special - file has no extension and folder name has an extension
+			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\1 New Text Document");
+			ListRoute(r);
+			// special - file has extension but no filename and folder name has an extension
+			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
+			ListRoute(r);
+			r = new Route(@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
+			ListRoute(r);
 			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-			r = new Route(
-				@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			r = new Route(@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-
 			r = new Route(@"\\cs-006\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
 			r = new Route(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
@@ -201,17 +206,11 @@ namespace Tests
 			ListRoute(r);
 			r = new Route(@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
 			ListRoute(r);
-			r = new Route(@"\\CS-004\Documents\Files\021 - Household\MicroStation");
-			ListRoute(r);
 			r = new Route(@"C:\Documents\Files\021 - Household\MicroStation");
 			ListRoute(r);
 			r = new Route(@"\Documents\Files\021 - Household\MicroStation");
 			ListRoute(r);
-			r = new Route(@"\\CS-004");
-			ListRoute(r);
 			r = new Route(@"C:\");
-			ListRoute(r);
-			r = new Route(@"\\CS-004\Documents");
 			ListRoute(r);
 			r = new Route(@"C:\Documents");
 			ListRoute(r);
@@ -220,138 +219,25 @@ namespace Tests
 			r = new Route(@"");
 			ListRoute(r);
 
-//			WriteLineToLeft("");
-//			WriteLineToLeft("Drive info");
-//			ListDrives();
-		}
+			return;
 
-//		private Dictionary<string, string> UncNames = new Dictionary<string, string>();
-//
-//		private void ListDrives()
-//		{
-//			DriveInfo[]  allDrives = DriveInfo.GetDrives();
-//
-//			foreach (DriveInfo di in allDrives)
-//			{
-//				WriteLineToLeft($"Drive Name      | {di.Name}");
-//				WriteLineToLeft($"Drive Type      | {di.DriveType}");
-//
-//				if (di.IsReady)
-//				{
-//					string driveLetter = "";
-//					string drivename = di.Name;
-//
-//					if (drivename.Length >= 2)
-//						driveLetter = drivename.Substring(0, 2);
-//
-//					string unc = getUncFromPath(driveLetter);
-//
-//					if (string.IsNullOrWhiteSpace(unc))
-//					{
-//						unc = "failed";
-//					}
-//
-//					WriteLineToLeft($"vol label       | {di.VolumeLabel}");
-//					WriteLineToLeft($"root dir        | {di.RootDirectory}");
-//					WriteLineToLeft($"file system type| {di.DriveFormat}");
-//					WriteLineToLeft($"drive letter    | {driveLetter}");
-//					WriteLineToLeft($"unc name        | {unc}");
-//				}
-//
-//				WriteLineToLeft("");
-//			}
-//		}
-//
-//		private void getUncDriveNames()
-//		{
-//			DriveInfo[] allDrives = DriveInfo.GetDrives();
-//
-//			foreach (DriveInfo di in allDrives)
-//			{
-//				if (di.IsReady)
-//				{
-//					string driveLetter = di.Name.Substring(0, 2);
-//
-//					string unc = getUncFromPath(driveLetter);
-//
-//					if (!string.IsNullOrWhiteSpace(unc))
-//					{
-//						if (!UncNames.ContainsKey(driveLetter))
-//						{
-//							UncNames.Add(driveLetter, unc);
-//							WriteLineToLeft("drive letter and unc name| " + driveLetter + " :: " + unc);
-//						}
-//					}
-//				}
-//			}
-//		}
-//
-//		private string getDriveFromUnc(string path)
-//		{
-//			if (!string.IsNullOrWhiteSpace(path))
-//			{
-//				foreach (KeyValuePair<string, string> kvp in UncNames)
-//				{
-//					int len = kvp.Value.Length;
-//
-//					if (path.Length < len) continue;
-//
-//					if (kvp.Value.ToLower().Equals(path.Substring(0, len).ToLower())) return kvp.Key;
-//				}
-//			}
-//
-//			return null;
-//		}
-//
-//
-//		[DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-//		public static extern int WNetGetConnection(
-//			[MarshalAs(UnmanagedType.LPTStr)] string localName,
-//			[MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
-//			ref int length);
-//
-//		private string getUncFromPath(string path)
-//		{
-//			if (string.IsNullOrWhiteSpace(path) ||
-//				path.Length < 2 ||
-//				path.StartsWith(@"\\") ||
-//				!path.Substring(1, 1).Equals(":")
-//				) return null;
-//
-//			StringBuilder sb = new StringBuilder(1024);
-//			int size = sb.Capacity;
-//
-//			// still may fail but has a better chance;
-//			int error = WNetGetConnection(path.Substring(0, 2), sb, ref size);
-//
-//			if (error != 0) return null;
-//
-//			return sb.ToString();
-//		}
-//
-//
-//		private void ListFileInfo(Route r)
-//		{
-//			try
-//			{
-//				System.IO.FileInfo f = new FileInfo(r.FullPath);
-//
-//				WriteLineToLeft("filesysteminfo fullname| " + f.FullName);
-//				WriteLineToLeft("filesysteminfo name| " + f.Name);
-//				WriteLineToLeft("filesysteminfo dir name| " + f.DirectoryName);
-//				WriteLineToLeft("directoryinfo  fullname| " + f.Directory.FullName);
-//				WriteLineToLeft("directoryinfo      name| " + f.Directory.Name);
-//			}
-//			catch
-//			{
-//				WriteLineToLeft("filesysteminfo fullname| failed");
-//			}
-//		}
+			r = new Route(@"\\CS-003");
+			ListRoute(r);
+			r = new Route(@"\\CS-003\Documents");
+			ListRoute(r);
+			r = new Route(@"\\CS-003\Documents\Files\021 - Household\MicroStation");
+			ListRoute(r);
+
+		}
 
 
 		private void ListRoute(Route r)
 		{
+			
+
 			WriteLineToLeft("full route| " + r.FullPath);
+//			WriteLineToLeft("is qual'd'| " + System.IO.Path.IsPathFullyQualified(r.FullPath));
+
 
 			if (r.IsValid == false)
 			{
@@ -361,138 +247,129 @@ namespace Tests
 				return;
 			}
 
-//			ListFileInfo(r);
-
-//			string uncFromPath;
-//
-//			if (r.VolumeName != null)
-//			{
-//				if (!r.VolumeName.StartsWith(@"\\"))
-//				{
-//					uncFromPath = getUncFromPath(r.FullPath);
-//
-//					WriteLineToLeft("to UNC    | " + (uncFromPath ?? "failed"));
-//				}
-//				else
-//				{
-//					WriteLineToLeft("to UNC    | n/a");
-//					uncFromPath = r.FullPath;
-//				}
-//				string driveFromUnc = getDriveFromUnc(uncFromPath);
-//
-//				WriteLineToLeft("from UNC   | " + (driveFromUnc ?? "failed"));
-//			}
-
 			WriteLineToLeft("isvalid   | " + r.IsValid);
-			WriteLineToLeft("depth     | " + (r.Depth));
-			WriteLineToLeft("vol name  | " + (r.VolumeName ?? "is null"));
-			WriteLineToLeft("isunc     | " + r.IsUnc);
-			WriteLineToLeft("isrooted  | " + r.IsRooted);
 
-			WriteLineToLeft("rootpath  | " + (r.RootPath ?? "is null"));
-			WriteLineToLeft("root      | " + (r.Root ?? "is null"));
-
-			WriteLineToLeft("unc / path| " + (Route.UncVolumeFromPath(r.FullPath) ?? "is null"));
-			WriteLineToLeft("drv / path| " + (Route.DriveVolumeFromPath(r.FullPath) ?? "is null"));
-
-			WriteLineToLeft("path      | " + r.Path);
-			WriteLineToLeft("folders   | " + r.Folders);
-			WriteLineToLeft("hasfname  | " + r.HasFileName);
-			WriteLineToLeft("file&ext  | " + r.FileName);
-			WriteLineToLeft("file no ex| " + r.FileWithoutExtension);
-			WriteLineToLeft("file ext  | " + r.FileExtension);
-			WriteLineToLeft("divide pth| " + string.Join(" :: ",
-				r.DividePath(r.Folders) ?? new string[1]));
-
-			WriteLineToLeft("[+]       | ********");
-			for (int i = 0; i < r.Depth; i++)
+			if (r.IsValid)
 			{
-				WriteLineToLeft("[+" + i + "]      | " + r[i]
-					+ "  (" + r.GetFolderName(r[i]) + ")");
-			}
-
-			int j;
-			for (int i = -1; i > (r.Depth * -1 - 1); i--)
-			{
-				WriteLineToLeft("[" + i + "]      | " + r[i]
-					+ "  (" + r.GetFolderName(r[i]) + ")");
-			}
-
-			string[] names;
-
-			names =  r.FolderNames;
-
-			WriteLineToLeft("foldernames() as []");
-			for (int i = 0; i < names.Length; i++)
-			{
-				WriteLineToLeft("[" + i + "]       | "
-					+ names[i]);
-			}
-
-			WriteLineToLeft("GetFolderName(r[i])");
-			for (int i = 0 ; i < r.Depth; i++)
-			{
-				WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
-					+ r.GetFolderName(r[i]));
-			}
-			for (int i = -1 ; i > -1 * r.Depth -1; i--)
-			{
-				WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
-					+ r.GetFolderName(r[i]));
-			}
+				
 
 
+				WriteLineToLeft("depth     | " + (r.Depth));
 
+				WriteLineToLeft("drv vol   | " + (r.DriveVolume ?? "is null"));
+				WriteLineToLeft("drv path  | " + (r.DrivePath ?? "is null"));
 
-			// foldernamelist()
-
-			// foldernames
-
-			// foldername()
-
-
-
-
-			WriteLineToLeft("assemble p| " + r.AssemblePath(2));
-			WriteLineToLeft("assemble p| " + r.AssemblePath(-1));
-
-
+				WriteLineToLeft("unc vol   | " + (r.UncVolume ?? "is null"));
+				WriteLineToLeft("unc path  | " + (r.UncPath ?? "is null"));
+				WriteLineToLeft("unc share | " + (r.UncShare ?? "is null"));
 //
-//			WriteLineToLeft("[0]       | " + r[0]);
-//			WriteLineToLeft("[0].name  | " + r.GetFolderName(r[0]));
-//			WriteLineToLeft("[2]       | " + r[2]);
-//			WriteLineToLeft("[2].name  | " + r.GetFolderName(r[2]));
-//			WriteLineToLeft("[-1]      | " + r[-1]);
-//			WriteLineToLeft("[-1].name | " + r.GetFolderName(r[-1]));
+//				WriteLineToLeft("unc / path| " + (PathWay.UncVolumeFromPath(r.FullPath) ?? "is null"));
+//				WriteLineToLeft("drv / path| " + (PathWay.DriveVolumeFromPath(r.FullPath) ?? "is null"));
+//
+//				WriteLineToLeft("find unc  | " + (PathWay.findUncFromUncPath(r.FullPath) ?? "is null"));
+//				WriteLineToLeft("find drv  | " + (PathWay.findDriveFromUncPath(r.FullPath) ?? "is null"));
+
+				WriteLineToLeft("path      | " + r.Path);
+				WriteLineToLeft("folders   | " + r.Folders);
+				WriteLineToLeft("hasfname  | " + r.HasFileName);
+				WriteLineToLeft("file&ext  | " + r.FileNameAndExtension);
+				WriteLineToLeft("file no ex| " + r.FileName);
+				WriteLineToLeft("file ext  | " + r.FileExtension);
+
+				WriteLineToLeft("qual'd nam| " + r.HasQualifiedPath);
+				WriteLineToLeft("has unc   | " + r.HasUnc);
+				WriteLineToLeft("has drv   | " + r.HasDrive);
+				WriteLineToLeft("hasFilenam| " + r.HasFileName);
+				WriteLineToLeft("is folder | " + r.IsFolderPath);
+				WriteLineToLeft("is file   | " + r.IsFilePath);
+				WriteLineToLeft("is found  | " + r.IsFound);
+
+//				WriteLineToLeft("divide pth| " + string.Join(" :: ",
+//					r.DividePath(r.Folders) ?? new string[1]));
+
+				WriteLineToLeft("[+]       | ********");
+				for (int i = 0; i < r.Depth; i++)
+				{
+					WriteLineToLeft("[+" + i + "]      | " + r[i]
+						+ "  (" + r.GetFolder(i) + ")");
+				}
+
+				int j;
+				for (int i = -1; i > (r.Depth * -1 - 1); i--)
+				{
+					WriteLineToLeft("[" + i + "]      | " + r[i]
+						+ "  (" + r.GetFolder(i) + ")");
+				}
+
+				string[] names;
+
+				names =  r.FolderNames;
+
+				WriteLineToLeft("foldernames() as []");
+				for (int i = 0; i < (names?.Length ?? 0); i++)
+				{
+					WriteLineToLeft("[" + i + "]       | "
+						+ names[i]);
+				}
+
+				WriteLineToLeft("GetFolder(i)");
+				for (int i = 0 ; i < r.Depth; i++)
+				{
+					WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
+						+ r.GetFolder(i));
+				}
+				for (int i = -1 ; i > -1 * r.Depth -1; i--)
+				{
+					WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
+						+ r.GetFolder(i));
+				}
+
+				//                         |
+				WriteLineToLeft("assemble p| " + r.AssemblePath(2));
+				WriteLineToLeft("assemble p| " + r.AssemblePath(-1));
+
+
+//				bool result = PathWay.separate(r.FullPath);
+//
+//				WriteLineToLeft("");
+//				WriteLineToLeft("new route tests | worked| " + result.ToString());
+//				WriteLineToLeft("");
+//				WriteLineToLeft("full route| " + r.FullPath);
+//
+//				if (result)
+//				{
+//					//                         |
+//					WriteLineToLeft("unc vol   | " + );
+//					WriteLineToLeft("unc path  | " + Route.xUncPath);
+//					WriteLineToLeft("drv vol   | " + Route.xDrvVolume);
+//					WriteLineToLeft("file name | " + Route.xFileName);
+//					WriteLineToLeft("file ext  | " + Route.xFileExt);
+//					WriteToLeft("folders   | " );
+//					
+//					foreach (string s in Route.xFolders)
+//					{
+//						WriteToLeft(s + " :: ");
+//					}
+//
+//					WriteLineToLeft("\n");
+//					WriteLineToLeft("isqualpath| " + Route.IsQualifiedPath);
+//					WriteLineToLeft("isfldrpath| " + Route.IsFolderPath);
+//					WriteLineToLeft("isfilepath| " + Route.IsFilePath);
+//					WriteLineToLeft("isfound   | " + Route.IsFound);
+//					WriteLineToLeft("hasdrive  | " + Route.HasDrive);
+//					WriteLineToLeft("hasunc    | " + Route.HasUnc);
+//				}
+			}
+			else
+			{
+				//                         | 
+				WriteLineToLeft("is not    | valid");
+			}
 
 
 			WriteLineToLeft("*******\n");
 
-//			WriteLineToLeft("****");
-//
-//			try
-//			{
-//				WriteLineToLeft("using Path");
-//				WriteLineToLeft("full route| " + r.FullPath);
-//				// this will correctly return the root portion of a path
-//				// i.e.
-//				// c:\
-//				// \\cs-004\documents
-//				WriteLineToLeft("root      | " + Path.GetPathRoot(r.FullPath));
-//				WriteLineToLeft("dir name  | " + Path.GetDirectoryName(r.FullPath));
-//				WriteLineToLeft("file name | " + Path.GetFileName(r.FullPath));
-//				WriteLineToLeft("fname-no-x| " + Path.GetFileNameWithoutExtension(r.FullPath));
-//				WriteLineToLeft("extension | " + Path.GetExtension(r.FullPath));
-//				WriteLineToLeft("extension?| " + Path.HasExtension(r.FullPath));
-//				WriteLineToLeft("rooted?   | " + Path.IsPathRooted(r.FullPath));
-//			}
-//			catch (Exception e)
-//			{
-//				Debug.WriteLine(e);
-//				WriteLineToLeft("*** Exception Caught ***");
-//			}
-//
-//			WriteLineToLeft("---------------------\n\n\n");
+
 		}
 
 		private void WriteToLeft(string message)
