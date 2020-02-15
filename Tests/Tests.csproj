@@ -62,7 +62,7 @@
     <Compile Include="OutlineItem.cs" />
     <Compile Include="OutlineItems.cs" />
     <Compile Include=".Debug\OutlineTestData.cs" />
-    <Compile Include="PathSupport\Route.cs" />
+    <Compile Include="PathSupport\FilePath.cs" />
     <Compile Include="Sequence\SeqDiscipline.cs" />
     <Compile Include="Sequence\SeqItem.cs" />
     <Compile Include="Sequence\SeqItems.cs" />

@@ -15,7 +15,7 @@ using SysPath = System.IO.Path;
 
 #endregion
 
-// itemname: Route
+// itemname: FilePath
 // username: jeffs
 // created:  11/2/2019 5:18:09 PM
 
@@ -38,7 +38,7 @@ using SysPath = System.IO.Path;
 namespace UtilityLibrary
 {
 	[DataContract]
-	public class Route<T> : IEquatable<Route<T>>, IComparable<Route<T>>
+	public class FilePath<T> : IEquatable<FilePath<T>>, IComparable<FilePath<T>>
 		where T : AFileName, new()
 	{
 		internal const string PATH_SEPARATOR = @"\";
@@ -52,37 +52,37 @@ namespace UtilityLibrary
 
 	#region private fields
 
-		private PathWay<T> pathway;
+		private FilePathInfo<T> pathway;
 
 	#endregion
 
 	#region static properties
 
 		/// <summary>
-		/// a Route that is not valid (IsValid == false)
+		/// a FilePath that is not valid (IsValid == false)
 		/// </summary>
-		public static Route<T>Invalid => new Route<T>();
+		public static FilePath<T>Invalid => new FilePath<T>();
 
 		/// <summary>
 		/// the current directory
 		/// </summary>
-		public static Route<T> CurrentDirectory => new Route<T>(Environment.CurrentDirectory);
+		public static FilePath<T> CurrentDirectory => new FilePath<T>(Environment.CurrentDirectory);
 
 	#endregion
 
 	#region ctor
 
-		public Route(string initialPath)
+		public FilePath(string initialPath)
 		{
-			ConfigureRoute(initialPath);
+			ConfigureFilePath(initialPath);
 		}
 
-		public Route()
+		public FilePath()
 		{
-			ConfigureRoute(null);
+			ConfigureFilePath(null);
 		}
 
-		public Route(string[] path)
+		public FilePath(string[] path)
 		{
 			StringBuilder sb = new StringBuilder(path[0]);
 
@@ -91,14 +91,14 @@ namespace UtilityLibrary
 				sb.Append(PATH_SEPARATOR).Append(path[i]);
 			}
 
-			ConfigureRoute(sb.ToString());
+			ConfigureFilePath(sb.ToString());
 		}
 
-		private void ConfigureRoute(string initialPath)
+		private void ConfigureFilePath(string initialPath)
 		{
-			PathWay<T>.getUncNameMap();
+			FilePathInfo<T>.getUncNameMap();
 
-			pathway = new PathWay<T>();
+			pathway = new FilePathInfo<T>();
 
 			IsValid = pathway.parse(initialPath);
 		}
@@ -122,7 +122,7 @@ namespace UtilityLibrary
 
 	#region public properties
 
-		public PathWay<T> PathWay => pathway;
+		public FilePathInfo<T> FilePathInfo => pathway;
 
 		[DataMember]
 		public string GetFullPath
@@ -166,7 +166,9 @@ namespace UtilityLibrary
 
 		public string GetFileNameWithoutExtension => pathway.Name;
 
-		public string GetFileExtension => pathway.Extension;
+		public string GetFileExtension => EXT_SEPARATOR_C + pathway.Extension;
+
+		public string GetFileExtensionNoSeparator => pathway.Extension;
 
 		/// <summary>
 		/// the path without the filename and extension
@@ -309,9 +311,9 @@ namespace UtilityLibrary
 			return sb.ToString();
 		}
 
-		public Route<T>Clone()
+		public FilePath<T>Clone()
 		{
-			return new Route<T>(GetFullPath);
+			return new FilePath<T>(GetFullPath);
 		}
 
 	#endregion
@@ -366,12 +368,12 @@ namespace UtilityLibrary
 
 	#region system methods
 
-		public bool Equals(Route<T>other)
+		public bool Equals(FilePath<T>other)
 		{
 			return this.GetFullPath.ToUpper().Equals(other.GetFullPath.ToUpper());
 		}
 
-		public int CompareTo(Route<T>other)
+		public int CompareTo(FilePath<T>other)
 		{
 			return GetFullPath.CompareTo(other.GetFullPath);
 		}
@@ -393,7 +395,7 @@ namespace UtilityLibrary
 			ref int length);
 	}
 
-	public class PathWay<T> where T : AFileName, new()
+	public class FilePathInfo<T> where T : AFileName, new()
 	{
 
 	#region public fields
@@ -543,7 +545,7 @@ namespace UtilityLibrary
 		{
 			if (folders.IsVoid()) return new List<string>();
 
-			return new List<string>(folders.Split(new char[] {Route<T>.PATH_SEPARATOR_C}, StringSplitOptions.RemoveEmptyEntries));
+			return new List<string>(folders.Split(new char[] {FilePath<T>.PATH_SEPARATOR_C}, StringSplitOptions.RemoveEmptyEntries));
 		}
 
 		/// <summary>
@@ -582,8 +584,8 @@ namespace UtilityLibrary
 			//    012345678901234
 			// ...\path.x\file    ('.'=5, '\'=7 -> 5-7 = -2)
 
-			int posPeriod = foldersAndFile.LastIndexOf(Route<T>.EXT_SEPARATOR_C);
-			int posEndSeparator = foldersAndFile.LastIndexOf(Route<T>.PATH_SEPARATOR_C);
+			int posPeriod = foldersAndFile.LastIndexOf(FilePath<T>.EXT_SEPARATOR_C);
+			int posEndSeparator = foldersAndFile.LastIndexOf(FilePath<T>.PATH_SEPARATOR_C);
 			int result = posPeriod - posEndSeparator;
 
 
@@ -624,7 +626,7 @@ namespace UtilityLibrary
 
 			string result = null;
 
-			if (path.StartsWith(Route<T>.PATH_SEPARATOR))
+			if (path.StartsWith(FilePath<T>.PATH_SEPARATOR))
 			{
 				return extractUncVolume(path);
 			}
@@ -634,7 +636,7 @@ namespace UtilityLibrary
 
 		private string parseRemainder(string path)
 		{
-			if (path[0] == Route<T>.PATH_SEPARATOR_C &&
+			if (path[0] == FilePath<T>.PATH_SEPARATOR_C &&
 				path.Length == 1) return null;
 
 			return path;
@@ -647,7 +649,7 @@ namespace UtilityLibrary
 
 			parseUncVolume();
 
-			if (path.StartsWith(Route<T>.PATH_SEPARATOR) && !uncShare.IsVoid())
+			if (path.StartsWith(FilePath<T>.PATH_SEPARATOR) && !uncShare.IsVoid())
 			{
 				pos = uncVolume.Length + uncShare.Length;
 			}
@@ -661,7 +663,7 @@ namespace UtilityLibrary
 		{
 			if (uncShare.IsVoid()) return;
 
-			int pos = uncShare.IndexOf(Route<T>.PATH_SEPARATOR_C, 2);
+			int pos = uncShare.IndexOf(FilePath<T>.PATH_SEPARATOR_C, 2);
 
 			if (pos == -1)
 			{
@@ -685,7 +687,7 @@ namespace UtilityLibrary
 		{
 			if (path.Length == 2) return null;
 
-			int pos = path.IndexOf(Route<T>.PATH_SEPARATOR_C, 2);
+			int pos = path.IndexOf(FilePath<T>.PATH_SEPARATOR_C, 2);
 
 			if (pos == -1)
 			{
@@ -762,9 +764,9 @@ namespace UtilityLibrary
 
 			try
 			{
-				result = path.Replace('/', Route<T>.PATH_SEPARATOR_C).Trim();
+				result = path.Replace('/', FilePath<T>.PATH_SEPARATOR_C).Trim();
 
-				if (result[1] == Route<T>.DRV_SUFFIX_C)
+				if (result[1] == FilePath<T>.DRV_SUFFIX_C)
 				{
 					result = result.Substring(0, 1).ToUpper() + result.Substring(1);
 				}
@@ -806,7 +808,7 @@ namespace UtilityLibrary
 				path.Length < 2
 				) return null;
 
-			if (!path.StartsWith(Route<T>.UNC_PREFACE))
+			if (!path.StartsWith(FilePath<T>.UNC_PREFACE))
 			{
 				StringBuilder sb = new StringBuilder(1024);
 				int size = sb.Capacity;
@@ -831,11 +833,11 @@ namespace UtilityLibrary
 			if (!drive.IsVoid()) return drive;
 
 
-			if (!path.StartsWith(Route<T>.UNC_PREFACE))
+			if (!path.StartsWith(FilePath<T>.UNC_PREFACE))
 			{
 				// does not start with "\\" if character 2 is ':' 
 				// assume provided with a drive and return that portion
-				if (path.Substring(1, 1).Equals(Route<T>.DRV_SUFFIX)) return path.Substring(0, 1);
+				if (path.Substring(1, 1).Equals(FilePath<T>.DRV_SUFFIX)) return path.Substring(0, 1);
 			}
 
 			return null;
@@ -844,7 +846,7 @@ namespace UtilityLibrary
 		public static string findDriveFromUncPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path) ||
-				!path.StartsWith(Route<T>.UNC_PREFACE) ||
+				!path.StartsWith(FilePath<T>.UNC_PREFACE) ||
 				path.Length < 3) return null;
 
 			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
@@ -864,7 +866,7 @@ namespace UtilityLibrary
 		public static string findUncFromUncPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path)
-				|| !path.StartsWith(Route<T>.UNC_PREFACE)
+				|| !path.StartsWith(FilePath<T>.UNC_PREFACE)
 				) return null;
 
 			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
