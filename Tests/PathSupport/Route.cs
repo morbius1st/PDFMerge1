@@ -48,6 +48,7 @@ namespace UtilityLibrary
 		internal const string UNC_PREFACE = @"\\";
 		internal const char EXT_SEPARATOR_C = '.';
 
+		private const string VERSION = "2.0";
 
 	#region private fields
 
@@ -105,6 +106,8 @@ namespace UtilityLibrary
 	#endregion
 
 	#region  public status properties
+
+		public string Version => VERSION;
 
 		public bool IsValid { get; private set; }
 		public bool HasQualifiedPath => pathway.HasQualifiedPath;
