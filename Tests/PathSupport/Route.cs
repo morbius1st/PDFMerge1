@@ -7,6 +7,9 @@ using System.IO;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using System.Security.AccessControl;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text;
 using SysPath = System.IO.Path;
 
@@ -18,15 +21,15 @@ using SysPath = System.IO.Path;
 
 /*
 1.  Change name to PathEx?
-2.  Make properties use Get...
-3.  Add a const for path separator.
+2.  done - Make properties use Get...
+3.  done - Add a const for path separator.
 4.  Follow Path class for properties
 5.  Validate path characters
-6.  Add GetCurrentDirectory
-7.  getpath = all of the parts as an array
-8.  make volume be the Unc volume and change to UncVloume, add Uncpath be the unc volume + its path
-9.  change root to RootVolume
-10. add switch to provide as unc when possible?
+6.  done fdAdd GetCurrentDirectory
+7.  done getpath = all of the parts as an array
+8.  done make volume be the Unc volume and change to UncVloume, add Uncpath be the unc volume + its path
+9.  done change root to RootVolume
+10. done add switch to provide as unc when possible?
 
 
  */
@@ -34,30 +37,35 @@ using SysPath = System.IO.Path;
 
 namespace UtilityLibrary
 {
-//	public enum RouteType
-//	{
-//		UNDEFINED,
-//		OTHER,
-//		FILE,
-//		DIRECTORY
-//	}
-
 	[DataContract]
-	public class Route : IEquatable<Route>, IComparable<Route>
+	public class Route<T> : IEquatable<Route<T>>, IComparable<Route<T>>
+		where T : AFileName, new()
 	{
+		internal const string PATH_SEPARATOR = @"\";
+		internal const char PATH_SEPARATOR_C = '\\';
+		internal const string DRV_SUFFIX = ":";
+		internal const char DRV_SUFFIX_C = ':';
+		internal const string UNC_PREFACE = @"\\";
+		internal const char EXT_SEPARATOR_C = '.';
+
+
 	#region private fields
 
-		private PathWay pathway;
-
-		private bool useUnc = false;
+		private PathWay<T> pathway;
 
 	#endregion
 
 	#region static properties
 
-		public static Route Invalid => new Route();
+		/// <summary>
+		/// a Route that is not valid (IsValid == false)
+		/// </summary>
+		public static Route<T>Invalid => new Route<T>();
 
-		public static Route CurrentDirectory => new Route(Environment.CurrentDirectory);
+		/// <summary>
+		/// the current directory
+		/// </summary>
+		public static Route<T> CurrentDirectory => new Route<T>(Environment.CurrentDirectory);
 
 	#endregion
 
@@ -79,7 +87,7 @@ namespace UtilityLibrary
 
 			for (int i = 1; i < path.Length; i++)
 			{
-				sb.Append(@"\").Append(path[i]);
+				sb.Append(PATH_SEPARATOR).Append(path[i]);
 			}
 
 			ConfigureRoute(sb.ToString());
@@ -87,9 +95,9 @@ namespace UtilityLibrary
 
 		private void ConfigureRoute(string initialPath)
 		{
-			PathWay.getUncNameMap();
+			PathWay<T>.getUncNameMap();
 
-			pathway = new PathWay();
+			pathway = new PathWay<T>();
 
 			IsValid = pathway.parse(initialPath);
 		}
@@ -102,7 +110,7 @@ namespace UtilityLibrary
 		public bool HasQualifiedPath => pathway.HasQualifiedPath;
 		public bool HasUnc => pathway.HasUnc;
 		public bool HasDrive => pathway.HasDrive;
-		public bool HasFileName => !pathway.FileName.IsVoid();
+		public bool HasFileName => !pathway.Name.IsVoid();
 		public bool IsFolderPath => pathway.IsFolderPath;
 		public bool IsFilePath => pathway.IsFilePath;
 		public bool IsFound => pathway.IsFound;
@@ -111,145 +119,93 @@ namespace UtilityLibrary
 
 	#region public properties
 
-		public PathWay PathWay => pathway;
+		public PathWay<T> PathWay => pathway;
 
 		[DataMember]
-		public string FullPath
+		public string GetFullPath
 		{
-			get => pathway.PathWayString;
-			set => pathway.PathWayString = value;
+			get => pathway.Path;
+			set => pathway.Path = value;
 		}
 
 		/// <summary>
 		/// the drive volume without a slash suffix
 		/// </summary>
-		public string DriveVolume => pathway.DriveVolume;
+		public string GetDriveVolume => pathway.DriveVolume;
 
 		/// <summary>
 		/// the drive volume with a slash suffix
 		/// </summary>
-		public string DrivePath => pathway.DriveVolume + @"\";
+		public string GetDrivePath => pathway.DriveVolume + DRV_SUFFIX;
 
-		public string UncVolume => pathway.UncVolume;
+		public string GetDriveRoot => GetDrivePath + PATH_SEPARATOR;
 
-		public string UncPath => pathway.UncPath;
+		public string GetUncVolume => pathway.UncVolume;
 
-		public string UncShare => pathway.UncVolume + pathway.UncPath;
+		public string GetUncPath => pathway.UncVolume + pathway.UncShare;
 
-		public string FileNameAndExtension
+		public string GetUncShare => pathway.UncShare;
+
+		public T GetFileNameObject => pathway.FileName;
+
+		public string GetFileName
 		{
 			get
 			{
-				if (pathway.FileName.IsVoid() &&
-					pathway.FileExt.IsVoid()) return null;
+				if (pathway.Name.IsVoid() &&
+					pathway.Extension.IsVoid()) return null;
 
-				if (pathway.FileExt.IsVoid()) return pathway.FileName;
+				if (pathway.Extension.IsVoid()) return pathway.Name;
 
-				return pathway.FileName + "." + pathway.FileExt;
+				return pathway.Name + "." + pathway.Extension;
 			}
 		}
 
-		public string FileName => pathway.FileName;
+		public string GetFileNameWithoutExtension => pathway.Name;
 
-		public string FileExtension => pathway.FileExt;
+		public string GetFileExtension => pathway.Extension;
 
 		/// <summary>
 		/// the path without the filename and extension
 		/// </summary>
-		public string Path
+		public string GetPath
 		{
 			get
 			{
 				if (!IsValid) return null;
 
-//				int file = 0;
-//
-//				if (FileNameAndExtension != null)
-//				{
-//					file = FileNameAndExtension.Length + 1;
-//				}
-//
-//				int len = FullPath.Length - file;
-//
-//				return FullPath.Substring(0, len);
-
 				return AssemblePath(Depth);
+			}
+		}
+		
+		/// <summary>
+		/// the path without the filename and extension and using unc if exists
+		/// </summary>
+		public string GetPathUnc
+		{
+			get
+			{
+				if (!IsValid) return null;
 
+				return AssemblePath(Depth, true);
 			}
 		}
 
-		public string Folders
+		public string[] GetPathNames => PathNames(false);
+
+		public string[] GetPathNamesAlt => PathNames(true);
+
+		public string GetFolders
 		{
 			get
 			{
 				if (!IsValid) return null;
 
 				return AssembleFolders();
-
-//				int root = (DrivePath ?? "").Length;
-//				int file;
-//
-//				if (FileNameAndExtension != null)
-//				{
-//					file = FileNameAndExtension.Length + 1;
-//				}
-//				else
-//				{
-//					file = 0;
-//				}
-//
-////				if (!IsUnc)
-////				{
-////					root -= 1;
-////				}
-//
-//				if (root < 0) root = 0;
-//
-//				int len = FullPath.Length - root - file;
-//
-//				if (len <= 0) return "";
-//
-//				return FullPath.Substring(root, len);
 			}
 		}
 
-//		[IgnoreDataMember]
-//		public string[] FullPathNames
-//		{
-//			get
-//			{
-//				string[] folderNames = FolderNames;
-//
-//				string[] fullPathNames = new string[folderNames.Length + 1];
-//
-//				fullPathNames[0] = UncVolume;
-//
-//				for (int i = 0; i < folderNames.Length; i++)
-//				{
-//					fullPathNames[i + 1] = folderNames[i];
-//				}
-//
-//				return fullPathNames;
-//			}
-//		}
-
-//		[IgnoreDataMember]
-//		public string[] FolderNames => FolderNameList(Folders);
-
-		[IgnoreDataMember]
-		public string[] FolderNames => pathway.Folders.ToArray();
-
-		public int FolderCount => pathway.Folders.Count;
-
-//		public int FolderCount
-//		{
-//			get
-//			{
-//				string[] names = FolderNames;
-//				if (names == null) return -1;
-//				return names.Length;
-//			}
-//		}
+		public int GetFolderCount => pathway.Folders.Count;
 
 		/// <summary>
 		/// the number of folders deep counting the volume as a depth
@@ -266,85 +222,64 @@ namespace UtilityLibrary
 			}
 		}
 
-		public int Length => FullPath.Length;
+		public int Length => GetFullPath.Length;
 
-//		public RouteType RouteType
-//		{
-//			get
-//			{
-//				if (!IsValid) return RouteType.UNDEFINED;
-//
-//				if (File.Exists(FullPath)) return RouteType.FILE;
-//
-//				if (Directory.Exists(FullPath)) return RouteType.DIRECTORY;
-//
-//				return RouteType.OTHER;
-//			}
-//		}
+		/// <summary>
+		/// cause information returned to provide the UncShare
+		/// rather than the GetDrivePath
+		/// </summary>
+		public bool UseUnc { get; set; } = false;
 
 	#endregion
 
 	#region public methods
 
-		/// <summary>
-		/// return the folder name (or root path) based on the
-		/// index allowing negative numbers to index from
-		/// the end rather than from the front
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		public string GetFolder(int index)
+		public void ChangeFileName(string name)
+		{
+			pathway.Name = name;
+		}
+
+		public void ChangeExtension(string ext)
+		{
+			pathway.Extension = ext;
+		}
+
+		public string[] PathNames(bool withBackSlash = false, bool useUnc = false)
 		{
 			if (!IsValid) return null;
 
-			string answer = this[index];
+			List<string> path = new List<string>();
 
-			if (index == 0) return answer;
+			path.Add(GetRootPath(useUnc));
 
-			return answer == null ? null : @"\" + answer;
+			for (int i = 0; i < Depth - 1; i++)
+			{
+				path.Add(
+					(withBackSlash ? PATH_SEPARATOR : "") +
+					pathway.Folders[i]);
+			}
+
+			return path.ToArray();
 		}
 
-
-//		public string GetFolder(string path)
-//		{
-//			if (string.IsNullOrWhiteSpace(path)) return null;
-//
-//			string answer = path.Trim();
-//
-//			if (answer.StartsWith(@"\\"))
-//			{
-//				return answer.Substring(2);
-//			}
-//
-//			if (answer.StartsWith(@"\"))
-//			{
-//				return answer.Substring(1);
-//			}
-//
-//			return path;
-//		}
-
-		public string AssemblePath(int index)
+		public string AssemblePath(int index, bool useUnc = false)
 		{
-//			if (index >= Depth ||
-//				index < (-1 * Depth)
-//				) return null;
-//
-//			int idx = index >= 0 ? index : Depth + index;
-
 			if (!IsValid) return null;
 
 			int idx = CalcIndex(index);
 
 			if (idx < 0) return null;
 
-			if (idx == 0) return DrivePath;
+			if (idx == 0)
+			{
+				return GetRootPath(useUnc);
+			}
 
-			StringBuilder sb = new StringBuilder(DriveVolume);
+			StringBuilder sb = new StringBuilder(GetRootPath(useUnc));
 
 			for (int i = 0; i < idx - 1; i++)
 			{
-				sb.Append(@"\").Append(pathway.Folders[i]);
+				sb.Append(PATH_SEPARATOR).Append(pathway.Folders[i]);
 			}
 
 			return sb.ToString();
@@ -352,13 +287,6 @@ namespace UtilityLibrary
 
 		public string AssembleFolders(int index = 0)
 		{
-//			if (index >= Depth ||
-//				index < (-1 * Depth) ||
-//				pathway.Folders.Count == 0
-//				) return null;
-//
-//			int idx = index >= 0 ? index : Depth + index;
-
 			if (!IsValid) return null;
 
 			int idx = CalcIndex(index);
@@ -372,98 +300,39 @@ namespace UtilityLibrary
 
 			for (int i = 1; i < idx - 1; i++)
 			{
-				sb.Append(@"\").Append(pathway.Folders[i-1]);
+				sb.Append(PATH_SEPARATOR).Append(pathway.Folders[i - 1]);
 			}
 
 			return sb.ToString();
 		}
 
-
-
-//		public string AssemblePath2(int index)
-//		{
-//			string[] folders = DividePath(Folders);
-//
-//			if (folders == null || index == 0 ||
-//				Math.Abs(index) >= folders.Length) return null;
-//
-//			string answer = null;
-//
-//			if (index > 0)
-//			{
-//				for (int i = 0; i < index; i++)
-//				{
-//					answer = answer + folders[i];
-//				}
-//			}
-//			else
-//			{
-//				int end = folders.Length + index + 1;
-//				for (int i = 0; i < end; i++)
-//				{
-//					answer = answer + folders[i];
-//				}
-//			}
-//
-//			return DriveVolume + answer;
-//		}
-
-//		public string[] DividePath(string path)
-//		{
-//			if (string.IsNullOrWhiteSpace(path)) return null;
-//
-//			string[] answer = FolderNameList(path);
-//
-//			for (int i = 0; i < answer.Length; i++)
-//			{
-//				answer[i] = @"\" + answer[i];
-//			}
-//
-//			return answer;
-//		}
-
-		public Route Clone()
+		public Route<T>Clone()
 		{
-			return new Route(FullPath);
+			return new Route<T>(GetFullPath);
 		}
-
-//		// provide a Route that is below the root path
-//		public Route SubPath(Route rootPath)
-//		{
-//			if (!IsValid || !rootPath.IsValid ||
-//				!HasQualifiedPath || !rootPath.HasQualifiedPath) return Route.Invalid;
-//
-//			int subtractorLength = rootPath.Length;
-//
-//			if (Length < subtractorLength) return Route.Invalid;
-//
-//			bool compare =
-//				FullPath.Substring(0, subtractorLength).ToUpper()
-//				.Equals(rootPath.FullPath.ToUpper());
-//
-//			if (!compare) return Route.Invalid;
-//
-//			return new Route(FullPath.Substring(subtractorLength));
-//		}
 
 	#endregion
 
-
 	#region indexer
 
-		public string this[int index]
+		public string this[double index]
 		{
 			get
 			{
 				if (!IsValid) return null;
 
-				int idx = CalcIndex(index);
+				bool makePath = !(index % 1).Equals(0);
+
+				int idx = CalcIndex((int) index);
 
 				if (idx < 0) return null;
 
-				if (idx == 0) return DrivePath;
+				if (idx == 0 ||
+					pathway.Folders.Count == 0) return GetRootPath();
 
-				return pathway.Folders[idx - 1];
+				return 
+					(makePath ? PATH_SEPARATOR : "") +
+					pathway.Folders[idx - 1];
 			}
 		}
 
@@ -471,12 +340,15 @@ namespace UtilityLibrary
 
 	#region private methods
 
-//		private string[] FolderNameList(string path)
-//		{
-//			if (string.IsNullOrWhiteSpace(path)) return null;
-//
-//			return path.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
-//		}
+		private string GetRootPath(bool useUnc = false)
+		{
+			if ((useUnc || UseUnc) && HasUnc)
+			{
+				return GetUncPath;
+			}
+
+			return GetDrivePath;
+		}
 
 		private int CalcIndex(int index)
 		{
@@ -486,449 +358,41 @@ namespace UtilityLibrary
 
 			return index;
 		}
-//
-//		private string GetSubFolder(int index)
-//		{
-//			if (!IsValid) return null;
-//
-//			index -= 1;
-//
-//			if (index < 0) return null;
-//
-//
-//		}
-//
-//
-//
-//		private string getSubFolder(int index)
-//		{
-//			if (!IsValid) return null;
-//
-//			index -= 1;
-//
-//			if (index < 0) return null;
-//
-//			// start with folders
-//			string[] f = DividePath(Folders);
-//
-//			if (f == null || index >= f.Length ) return null;
-//
-//			return f[index];
-//		}
-//
-//		private string getSubFolderInverse(int index)
-//		{
-//			if (!IsValid) return null;
-//
-//			if (index >= 0) return null;
-//
-//			index = (index * -1) - 1;
-//
-//			// start with folders
-//			string[] f = DividePath(Folders);
-//
-//			if (f == null || f.Length < index) return null;
-//
-//			string result;
-//
-//			if (f.Length == index)
-//			{
-//				result = DrivePath;
-//			}
-//			else
-//			{
-//				result = f[f.Length - 1 - index];
-//			}
-//
-//			return  result;
-//		}
 
 	#endregion
 
-
 	#region system methods
 
-		public bool Equals(Route other)
+		public bool Equals(Route<T>other)
 		{
-			return this.FullPath.ToUpper().Equals(other.FullPath.ToUpper());
+			return this.GetFullPath.ToUpper().Equals(other.GetFullPath.ToUpper());
 		}
 
-		public int CompareTo(Route other)
+		public int CompareTo(Route<T>other)
 		{
-			return FullPath.CompareTo(other.FullPath);
+			return GetFullPath.CompareTo(other.GetFullPath);
 		}
 
 		public override string ToString()
 		{
-			return FullPath;
+			return GetFullPath;
 		}
 
 	#endregion
-
-//
-//
-//		public enum PathStatus
-//		{
-//			FALSE = -1,
-//			UNDETERMINED = 0,
-//			TRUE = 1
-//		}
-//
-//		public static string xUncVolume; // '//' + computer name
-//
-//		public static string drvVolume; // drive letter + colon
-//
-//		public static string uncPath; // all except for the uncVolume
-//
-//		public static List<string> folders; // all of the folders along the path
-//
-//		public static string fileName;
-//		public static string fileExt;
-//
-//		public static string remain;
-//
-//		public static PathStatus HasQualifiedPath = PathStatus.FALSE;
-//		public static PathStatus IsFolderPath = PathStatus.FALSE;
-//		public static PathStatus IsFilePath = PathStatus.FALSE;
-//		public static PathStatus IsFound = PathStatus.FALSE;
-//		public static PathStatus HasDrive = PathStatus.FALSE;
-//		public static PathStatus HasUnc = PathStatus.FALSE;
-//
-//		private static void reset()
-//		{
-//			xUncVolume = null;
-//			drvVolume = null;
-//			uncPath = null;
-//			fileName = null;
-//			fileExt = null;
-//			remain = null;
-//		}
-//
-//
-//		public static bool parse(string way)
-//		{
-//			if (way.IsVoid()) return false;
-//
-//			reset();
-//			folders = new List<string>();
-//
-//			string path = CleanPath(way);
-//
-//			remain = searateDriveVolume(path);
-//
-//			remain = separateFileAndExtension(remain);
-//
-//			folders =
-//				separateFolders(remain);
-//
-//			setStatus();
-//
-//			return true;
-//		}
-//
-//		private static List<string> separateFolders(string folders)
-//		{
-//			if (folders.IsVoid()) return new List<string>();
-//
-//			return new List<string>(folders.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries));
-//		}
-//
-//		private static string separateFileAndExtension(string foldersAndFile)
-//		{
-//			if (foldersAndFile.IsVoid()) return null;
-//
-//			int posPeriod = foldersAndFile.LastIndexOf('.');
-//			int posEndSeparator = foldersAndFile.LastIndexOf('\\');
-//			int result = posPeriod - posEndSeparator;
-//
-//			if (posPeriod == 0 || result < 0)
-//			{
-//				// outcome C
-//				return foldersAndFile;
-//			}
-//
-//			int len = foldersAndFile.Length;
-//
-//
-//			// posible outcomes
-//			// A "normal", posPeriod - posEndSeparator > 1
-//			//     1234567890123
-//			//     0123456789
-//			//  ie path\file.ext  == 9 - 4 = 5 (9 - 4 - 1 = 4) / (13 - 9 - 1 = 3)
-//			// B "normal2", posPeriod - posEndSeparator = 1
-//			//     1234567890
-//			//     0123456789
-//			//  ie path\.file  == 5 - 4 = 1 (10 - 5 = 5)
-//			// C "normal3", posPeriod == 0
-//			//     0123456789
-//			//  ie path\path  == if posPeriod == 0 -> 0
-//			// D "abby normal", posPeriod - posEndSeparator < 0
-//			//     0123456789
-//			//  ie path.\path  == 4 - 5 = -1
-//			//  ie pa.th\path  == 2 - 5 = -3
-//
-//
-//			if (result == 1)
-//			{
-//				// outcome B
-//				fileName = foldersAndFile.Substring(posEndSeparator + 1, len - posPeriod);
-//			}
-//			else
-//			{
-//				// outcome A
-//				fileName = foldersAndFile.Substring(posEndSeparator + 1, posPeriod - posEndSeparator - 1);
-//				fileExt = foldersAndFile.Substring(posPeriod + 1, len - posPeriod - 1);
-//			}
-//
-//			return foldersAndFile.Substring(0, posEndSeparator);
-//		}
-//
-//		private static string searateDriveVolume(string path)
-//		{
-//			if (path.IsVoid()) return null;
-//
-//			uncPath = PathWay.UncVolumeFromPath(path);
-//			drvVolume = PathWay.DriveVolumeFromPath(path);
-//
-//			// 5 possible outcomes
-//			// A  got drive and unc
-//			// B  got drive and no unc
-//			// C  got no drive and no unc
-//			//  		and path starts with '\\'
-//			// D  got no drive and no unc
-//			//  		and path starts with '\'
-//			// E  got no drive and no unc
-//			//  		and path starts with anything else
-//
-//			if (!drvVolume.IsVoid())
-//			{
-//				return separateRemainderFromVolume(path);
-//			}
-//
-//			string result = null;
-//
-//			if (path.StartsWith(@"\\"))
-//			{
-//				return extractUncVolume(path);
-//			}
-//
-//			return separateRemainder(path);
-//		}
-//
-//		private static string separateRemainder(string path)
-//		{
-//			if (path[0] == '\\' &&
-//				path.Length == 1) return null;
-//
-//			return path;
-//		}
-//
-//		private static string separateRemainderFromVolume(string path)
-//		{
-//			// maybe A or B
-//			int pos = 2;
-//
-//			separateUncVolume();
-//
-//			if (path.StartsWith(@"\\") && !uncPath.IsVoid())
-//			{
-//				pos = xUncVolume.Length + uncPath.Length;
-//			}
-//
-//			if (path.Length == pos) return null;
-//
-//			return path.Substring(pos);
-//		}
-//
-//		private static void separateUncVolume()
-//		{
-//			if (uncPath.IsVoid()) return;
-//
-//			int pos = uncPath.IndexOf('\\', 2);
-//
-//			if (pos == -1)
-//			{
-//				xUncVolume = uncPath;
-//				uncPath = null;
-//				return;
-//			}
-//
-//			if (pos > 2)
-//			{
-//				xUncVolume = uncPath.Substring(0, pos);
-//				uncPath = uncPath.Substring(pos);
-//				return;
-//			}
-//
-//			xUncVolume = null;
-//			uncPath = null;
-//		}
-//
-//		private static string extractUncVolume(string path)
-//		{
-//			if (path.Length == 2) return null;
-//
-//			int pos = path.IndexOf('\\', 2);
-//
-//			if (pos == -1)
-//			{
-//				xUncVolume = path;
-//				return null;
-//			}
-//			else if (pos > 2)
-//			{
-//				xUncVolume = path.Substring(0, pos);
-//				return path.Substring(pos);
-//			}
-//
-//			return null;
-//		}
-//
-//		private static void setStatus()
-//		{
-//			HasQualifiedPath = PathStatus.FALSE;
-//			IsFolderPath = PathStatus.FALSE;
-//			IsFilePath = PathStatus.FALSE;
-//			IsFound = PathStatus.FALSE;
-//			HasDrive = PathStatus.FALSE;
-//			HasUnc = PathStatus.FALSE;
-//
-//			if (!drvVolume.IsVoid()) HasDrive = PathStatus.TRUE;
-//			if (!xUncVolume.IsVoid()) HasUnc = PathStatus.TRUE;
-//			if ((folders?.Count ?? 0) > 0) IsFolderPath = PathStatus.TRUE;
-//			if (!fileName.IsVoid()) IsFilePath = PathStatus.TRUE;
-//
-//			if (HasDrive == PathStatus.TRUE && IsFolderPath == PathStatus.TRUE || IsFilePath == PathStatus.TRUE)
-//				HasQualifiedPath = PathStatus.TRUE;
-//		}
-//
-//
-//		protected class xPathWay
-//		{
-//			public static Dictionary<string, string> UncNameMap { get; private set; }  =
-//				new Dictionary<string, string>(10);
-//
-//			private string uncVolume; // '//' + computer name
-//
-//			private string drvVolume; // drive letter + colon
-//
-//			private string uncPath; // all except for the uncVolume
-//
-//			private List<string> folders; // all of the folders along the path
-//
-//			private string fileName;
-//			private string extension;
-//
-//			public xPathWay(string way)
-//			{
-//				parse(way);
-//			}
-//
-//		#region public properties
-//
-//			public string UncVolume
-//			{
-//				get => uncVolume;
-//				set => uncVolume = value;
-//			}
-//
-//			public string DriveVolume
-//			{
-//				get => drvVolume;
-//				set => drvVolume = value;
-//			}
-//
-//			public string UncPath
-//			{
-//				get => uncPath;
-//				set => uncPath = value;
-//			}
-//
-//			public List<string> Folders
-//			{
-//				get => folders;
-//				set => folders = value;
-//			}
-//
-//			public string FileName1
-//			{
-//				get => fileName;
-//				set => fileName = value;
-//			}
-//
-//			public string Extension
-//			{
-//				get => extension;
-//				set => extension = value;
-//			}
-//
-//		#endregion
-//
-//		#region public methods
-//
-//			public string CleanPath(string path)
-//			{
-//				if (string.IsNullOrWhiteSpace(path))
-//				{
-//					return null;
-//				}
-//
-//				string result;
-//
-//				try
-//				{
-//					result = path.Replace('/', '\\').Trim();
-//
-//					if (result[1] == ':')
-//					{
-//						result = result.Substring(0, 1).ToUpper() + result.Substring(1);
-//					}
-//				}
-//				catch
-//				{
-//					return null;
-//				}
-//
-//				return result;
-//			}
-//
-//		#endregion
-//
-//		#region public static methods
-//
-//		#endregion
-//
-//		#region private methods
-//
-//			private void parse(string way)
-//			{
-//				string path = CleanPath(way);
-//			}
-//
-//			private string searateDriveVolume(string path)
-//			{
-//				UncPath = PathWay.UncVolumeFromPath(path);
-//				DriveVolume = PathWay.DriveVolumeFromPath(path);
-//
-//				string result;
-//
-//				if (path.StartsWith(@"\\")) { }
-//				else if (path[0] >= 'A' && path[0] <= 'Z' && path[1] == ':')
-//				{
-//					result = PathWay.findDriveFromUncPath(path);
-//				}
-//				else { }
-//
-//				return null;
-//			}
-//
-//		#endregion
-//		}
 	}
 
-
-	public class PathWay
+	public static class DllImports
 	{
+		[DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern int WNetGetConnection(
+			[MarshalAs(UnmanagedType.LPTStr)] string localName,
+			[MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
+			ref int length);
+	}
+
+	public class PathWay<T> where T : AFileName, new()
+	{
+
 	#region public fields
 
 		public static Dictionary<string, string> UncNameMap { get; private set; }  =
@@ -938,26 +402,27 @@ namespace UtilityLibrary
 
 	#region private fields
 
-		private string pathway; // original - un-modified;
+		private string path; // original - un-modified;
 
 		private string uncVolume; // '//' + computer name
-		private string uncPath;   // all except for the uncVolume
-		// also uncShare = uncVolume +  uncPath
+
+		private string uncShare; // all except for the uncVolume
 
 		private string driveVolume; // drive letter + colon
 
 		private List<string> folders; // all of the folders along the path
 
-		private string fileName;
-		private string fileExt;
+//		private string fileName;
+
+		private T fileName = new T();
 
 	#endregion
 
 	#region public properties
 
-		public string PathWayString
+		public string Path
 		{
-			get => pathway;
+			get => path;
 			set => parse(value);
 		}
 
@@ -967,10 +432,10 @@ namespace UtilityLibrary
 			private set => uncVolume = value;
 		}
 
-		public string UncPath
+		public string UncShare
 		{
-			get => uncPath;
-			private set => uncPath = value;
+			get => uncShare;
+			private set => uncShare = value;
 		}
 
 		public string DriveVolume
@@ -985,22 +450,24 @@ namespace UtilityLibrary
 			private set => folders = value;
 		}
 
+		public T FileName => fileName;
+
 		/// <summary>
 		/// the name of the file - no extension
 		/// </summary>
-		public string FileName
+		public string Name
 		{
-			get => fileName;
-			private set => fileName = value;
+			get => fileName.Name;
+			set => fileName.Name = value;
 		}
 
 		/// <summary>
 		/// the file's extension
 		/// </summary>
-		public string FileExt
+		public string Extension
 		{
-			get => fileExt;
-			private set => fileExt = value;
+			get => fileName.Extension;
+			set => fileName.Extension = value;
 		}
 
 	#endregion
@@ -1008,10 +475,6 @@ namespace UtilityLibrary
 	#region public status properties
 
 		public bool HasQualifiedPath => HasDrive && (IsFolderPath || IsFilePath);
-
-//		public bool IsFolderPath => (folders?.Count ?? 0) > 0;
-//
-//		public bool IsFilePath => !fileName.IsVoid();
 
 		public bool IsFolderPath { get; private set; }
 
@@ -1025,43 +488,42 @@ namespace UtilityLibrary
 
 	#endregion
 
-	#region sepatate path
+	#region parse
 
 		public bool parse(string pathWay)
 		{
-			this.pathway = pathWay;
+			this.path = pathWay;
 
 			if (pathWay.IsVoid()) return false;
 
 			string remain;
 
-			separateReset();
+			parseReset();
 
 			string path = CleanPath(pathWay);
 
-			IsFound = separateIsFound(pathWay);
+			IsFound = parseIsFound(pathWay);
 
-			remain = searateVolume(path);
+			remain = parseVolume(path);
 
-			remain = separateFileAndExtension(remain);
+			remain = parseFileAndExtension(remain);
 
 			folders =
-				separateFolders(remain);
+				parseFolders(remain);
 
 			return true;
 		}
 
-		private void separateReset()
+		private void parseReset()
 		{
 			folders = new List<string>();
 			uncVolume = null;
 			driveVolume = null;
-			uncPath = null;
-			fileName = null;
-			fileExt = null;
+			uncShare = null;
+			fileName = new T();
 		}
 
-		private bool separateIsFound(string pathWay)
+		private bool parseIsFound(string pathWay)
 		{
 			bool isFolderPath;
 			bool isFilePath;
@@ -1074,12 +536,11 @@ namespace UtilityLibrary
 			return isFound;
 		}
 
-
-		private List<string> separateFolders(string folders)
+		private List<string> parseFolders(string folders)
 		{
 			if (folders.IsVoid()) return new List<string>();
 
-			return new List<string>(folders.Split(new char[] {'\\'}, StringSplitOptions.RemoveEmptyEntries));
+			return new List<string>(folders.Split(new char[] {Route<T>.PATH_SEPARATOR_C}, StringSplitOptions.RemoveEmptyEntries));
 		}
 
 		/// <summary>
@@ -1088,7 +549,7 @@ namespace UtilityLibrary
 		/// </summary>
 		/// <param name="foldersAndFile"></param>
 		/// <returns>the original string with the fileneme and file extension removed</returns>
-		private string separateFileAndExtension(string foldersAndFile)
+		private string parseFileAndExtension(string foldersAndFile)
 		{
 			if (foldersAndFile.IsVoid()) return null;
 
@@ -1101,91 +562,91 @@ namespace UtilityLibrary
 			if (IsFolderPath) return foldersAndFile;
 
 			// possible cases
-			// A
+			// A  (>0)
 			//    0         1
 			//    012345678901234
 			// ...\path\file.ext  ('.'=10, '\'=5 -> 10-5 = 5)
-			// B
+			// B  (<0)
 			//    0         1
 			//    012345678901234
 			// ...\path\file      ('.'=0, '\'=5 -> 0-5 = -5)
-			// C
+			// C  (== 1)
 			//    0         1
 			//    012345678901234
 			// ...\path\.ext      ('.'=6, '\'=5 -> 6-5 = 1)
-			// D
+			// D  (<0)
 			//    0         1
 			//    012345678901234
 			// ...\path.x\file    ('.'=5, '\'=7 -> 5-7 = -2)
 
-			int posPeriod = foldersAndFile.LastIndexOf('.');
-			int posEndSeparator = foldersAndFile.LastIndexOf('\\');
+			int posPeriod = foldersAndFile.LastIndexOf(Route<T>.EXT_SEPARATOR_C);
+			int posEndSeparator = foldersAndFile.LastIndexOf(Route<T>.PATH_SEPARATOR_C);
 			int result = posPeriod - posEndSeparator;
 
 
 			if (result > 1)
 			{
 				// case A
-				fileName = foldersAndFile.Substring(posEndSeparator + 1, posPeriod - posEndSeparator - 1);
-				fileExt = foldersAndFile.Substring(posPeriod + 1);
-			} 
+				fileName.Name = foldersAndFile.Substring(posEndSeparator + 1, posPeriod - posEndSeparator - 1);
+				fileName.Extension = foldersAndFile.Substring(posPeriod + 1);
+			}
 			else if (result == 1)
 			{
 				// case C
-				fileName = "";
-				fileExt = foldersAndFile.Substring(posEndSeparator + 1);
+				fileName.Name = "";
+				fileName.Extension = foldersAndFile.Substring(posPeriod + 1);
 			}
 			else
 			{
 				// case B
 				// case D
-				fileName = foldersAndFile.Substring(posEndSeparator + 1);
-				fileExt = "";
+				fileName.Name = foldersAndFile.Substring(posEndSeparator + 1);
+				fileName.Extension = "";
 			}
 
 			return foldersAndFile.Substring(0, posEndSeparator);
 		}
 
-		private string searateVolume(string path)
+		private string parseVolume(string path)
 		{
 			if (path.IsVoid()) return null;
 
-			uncPath = UncVolumeFromPath(path);
+			uncShare = UncVolumeFromPath(path);
 			driveVolume = DriveVolumeFromPath(path);
 
 			if (!driveVolume.IsVoid())
 			{
-				return separateRemainderFromVolume(path);
+				return parseRemainderFromVolume(path);
 			}
 
 			string result = null;
 
-			if (path.StartsWith(@"\\"))
+			if (path.StartsWith(Route<T>.PATH_SEPARATOR))
 			{
 				return extractUncVolume(path);
 			}
 
-			return separateRemainder(path);
+			return parseRemainder(path);
 		}
 
-		private string separateRemainder(string path)
+		private string parseRemainder(string path)
 		{
-			if (path[0] == '\\' &&
+			if (path[0] == Route<T>.PATH_SEPARATOR_C &&
 				path.Length == 1) return null;
 
 			return path;
 		}
 
-		private string separateRemainderFromVolume(string path)
+		private string parseRemainderFromVolume(string path)
 		{
 			// maybe A or B
 			int pos = 2;
 
-			separateUncVolume();
+			parseUncVolume();
 
-			if (path.StartsWith(@"\\") && !uncPath.IsVoid())
+			if (path.StartsWith(Route<T>.PATH_SEPARATOR) && !uncShare.IsVoid())
 			{
-				pos = uncVolume.Length + uncPath.Length;
+				pos = uncVolume.Length + uncShare.Length;
 			}
 
 			if (path.Length == pos) return null;
@@ -1193,35 +654,35 @@ namespace UtilityLibrary
 			return path.Substring(pos);
 		}
 
-		private void separateUncVolume()
+		private void parseUncVolume()
 		{
-			if (uncPath.IsVoid()) return;
+			if (uncShare.IsVoid()) return;
 
-			int pos = uncPath.IndexOf('\\', 2);
+			int pos = uncShare.IndexOf(Route<T>.PATH_SEPARATOR_C, 2);
 
 			if (pos == -1)
 			{
-				uncVolume = uncPath;
-				uncPath = null;
+				uncVolume = uncShare;
+				uncShare = null;
 				return;
 			}
 
 			if (pos > 2)
 			{
-				uncVolume = uncPath.Substring(0, pos);
-				uncPath = uncPath.Substring(pos);
+				uncVolume = uncShare.Substring(0, pos);
+				uncShare = uncShare.Substring(pos);
 				return;
 			}
 
 			uncVolume = null;
-			uncPath = null;
+			uncShare = null;
 		}
 
 		private string extractUncVolume(string path)
 		{
 			if (path.Length == 2) return null;
 
-			int pos = path.IndexOf('\\', 2);
+			int pos = path.IndexOf(Route<T>.PATH_SEPARATOR_C, 2);
 
 			if (pos == -1)
 			{
@@ -1242,18 +703,20 @@ namespace UtilityLibrary
 	#region public static methods
 
 		/// <summary>
-		/// determine if the pathway points of an
+		/// determine if the path points of an
 		/// actual file or folder
 		/// </summary>
-		/// <param name="pathWay"></param>
-		/// <returns>true if pathway points to an actual file or folder</returns>
-		public bool Exists(string pathWay, out bool isFolderPath, out bool isFilePath)
+		/// <param name="path">String of the folder or file determine if it exists</param>
+		/// <param name="isFolderPath">out bool - true if the path references a folder</param>
+		/// <param name="isFilePath">out bool - true if the path references a file</param>
+		/// <returns>true if path points to an actual file or folder</returns>
+		public static bool Exists(string path, out bool isFolderPath, out bool isFilePath)
 		{
 			isFolderPath = false;
 			isFilePath = false;
 			try
 			{
-				isFolderPath = Directory.Exists(pathWay);
+				isFolderPath = Directory.Exists(path);
 			}
 			catch
 			{
@@ -1264,7 +727,10 @@ namespace UtilityLibrary
 			{
 				try
 				{
-					isFilePath = File.Exists(pathWay);
+					isFilePath = File.Exists(path);
+
+					
+
 				}
 				catch
 				{
@@ -1275,7 +741,13 @@ namespace UtilityLibrary
 			return isFolderPath || isFilePath;
 		}
 
-
+		/// <summary>
+		/// clean the string that represents a path -
+		/// replace slashes with back slashes
+		/// remove preface and suffix spaces
+		/// </summary>
+		/// <param name="path">the file path to clean</param>
+		/// <returns></returns>
 		public static string CleanPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
@@ -1287,9 +759,9 @@ namespace UtilityLibrary
 
 			try
 			{
-				result = path.Replace('/', '\\').Trim();
+				result = path.Replace('/', Route<T>.PATH_SEPARATOR_C).Trim();
 
-				if (result[1] == ':')
+				if (result[1] == Route<T>.DRV_SUFFIX_C)
 				{
 					result = result.Substring(0, 1).ToUpper() + result.Substring(1);
 				}
@@ -1325,20 +797,19 @@ namespace UtilityLibrary
 			}
 		}
 
-
 		public static string UncVolumeFromPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path) ||
 				path.Length < 2
 				) return null;
 
-			if (!path.StartsWith(@"\\"))
+			if (!path.StartsWith(Route<T>.UNC_PREFACE))
 			{
 				StringBuilder sb = new StringBuilder(1024);
 				int size = sb.Capacity;
 
 				// still may fail but has a better chance;
-				int error = WNetGetConnection(path.Substring(0, 2), sb, ref size);
+				int error = DllImports.WNetGetConnection(path.Substring(0, 2), sb, ref size);
 
 				if (error != 0) return null;
 
@@ -1350,28 +821,27 @@ namespace UtilityLibrary
 
 		public static string DriveVolumeFromPath(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path)) return null;
+			if (path.IsVoid()) return null;
 
 			string drive = findDriveFromUncPath(path);
 
-			if (!string.IsNullOrWhiteSpace(drive)) return drive;
+			if (!drive.IsVoid()) return drive;
 
 
-			if (!path.StartsWith(@"\\"))
+			if (!path.StartsWith(Route<T>.UNC_PREFACE))
 			{
 				// does not start with "\\" if character 2 is ':' 
 				// assume provided with a drive and return that portion
-				if (path.Substring(1, 1).Equals(":")) return path.Substring(0, 2);
+				if (path.Substring(1, 1).Equals(Route<T>.DRV_SUFFIX)) return path.Substring(0, 1);
 			}
 
 			return null;
 		}
 
-
 		public static string findDriveFromUncPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path) ||
-				!path.StartsWith(@"\\") ||
+				!path.StartsWith(Route<T>.UNC_PREFACE) ||
 				path.Length < 3) return null;
 
 			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
@@ -1391,7 +861,7 @@ namespace UtilityLibrary
 		public static string findUncFromUncPath(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path)
-				|| !path.StartsWith(@"\\")
+				|| !path.StartsWith(Route<T>.UNC_PREFACE)
 				) return null;
 
 			if (UncNameMap == null || UncNameMap.Count == 0) getUncNameMap();
@@ -1410,113 +880,153 @@ namespace UtilityLibrary
 
 	#endregion
 
-	#region system Dll calls
+	#region system overrites
 
-		[DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-		public static extern int WNetGetConnection(
-			[MarshalAs(UnmanagedType.LPTStr)] string localName,
-			[MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
-			ref int length);
+		public override string ToString()
+		{
+			return path;
+		}
 
 	#endregion
 	}
+
+
+	public abstract class AFileName : IEquatable<AFileName>, IComparable<AFileName>
+	{
+		protected string filename;
+		protected string fileextension;
+
+		public virtual string Name
+		{
+			get => filename;
+			set => filename = value;
+		}
+
+		public string Extension
+		{
+			get => fileextension;
+			set => fileextension = value;
+		}
+
+		public bool Equals(AFileName other)
+		{
+			return Name.Equals(other.Name) &&
+				Extension.Equals(other.Extension);
+		}
+
+		public int CompareTo(AFileName other)
+		{
+			int result = Name.CompareTo(other.Name);
+
+			if ( result != 0) return result;
+
+			return Extension.CompareTo(other.Extension); 
+		}
+
+
+	}
+
+	public class FileNameSimple : AFileName
+	{
+
+//		public FileNameSimple() { }
+
+//		public FileNameSimple(string filename)
+//		{
+//			this.filename = filename;
+//		}
+	}
+
+	public class FileNameAsSheet : AFileName
+	{
+		private string sheetnumber;
+		private string sheetname;
+
+//		public FileNameAsSheet() { }
+//
+//		public FileNameAsSheet(string name)
+//		{
+//			ParseName(name);
+//
+//		}
+
+		public string SheetNumber
+		{
+			get => sheetnumber;
+			set => sheetnumber = value;
+		}
+
+		public string SheetName
+		{
+			get => sheetname;
+			set => sheetname = value;
+		}
+
+		public override string Name
+		{
+			get => sheetnumber + " :: " + sheetname;
+			set
+			{
+				ParseName(value);
+			}
+		}
+
+		private void ParseName(string name)
+		{
+			sheetnumber = name?.Substring(0, 5) ?? null;
+			sheetname = name?.Substring(6) ?? null;
+		}
+	}
+
 }
 
-//
-// Depth          3
-//
-// Paths(2)       v------------------v
-// Paths(1)       v--------------v   |
-// Paths(0)       v----------v   |   |
-// [0]            v----------v   |   |
-// [1]            |          |v--v   |
-// [2]            |          ||  |v--v
-// FullPath       \\cs-004\dir\dir\dir\file.ext
-// [-1]           |      |   ||  |^--^ |  | | |
-// [-2]           |      |   |^--^   | |  | | |
-// UncVolume     ^------^   ||      | |  | | |
-// DrivePath       ^----------^|      | |  | | | 
-// Folders        |           ^------^ |  | | |
-// Path           ^------------------^ |  | | |
-// FileName                ^--^ | |
-// FileExtension                       |    ^-^
-// FileNameAndExtension                            ^------^
-// FullPath       ^---------------------------^
-
-// example
-// levels = 4
-//   full route| \\CS-004\Documents\Files\021 - Household\MicroStation\0047116612.PDF
-//   [+0]      | \\CS-004\Documents  (CS-004\Documents)
-//   [+1]      | \Files  (Files)
-//   [+2]      | \021 - Household  (021 - Household)
-//   [+3]      | \MicroStation  (MicroStation)
-//   [-1]      | \MicroStation  (MicroStation)
-//   [-2]      | \021 - Household  (021 - Household)
-//   [-3]      | \Files  (Files)
-
-// assemble path() [+2] \\CS-004\Documents\Files\021 - Household
-// assemble path() [-1] \\CS-004\Documents\Files
-
-// FolderNameList() & FolderNames[]
-// [0] = Documents  |  [1] = Files
-// [2] = 021 - Household  |  [3] = MicroStation
-
-
-//
-// Levels??         4
-// Depth??
-//
-// Paths(3)       v------------v
-// Paths(2)       v---------v  |
-// Paths(1)       v----v   |   |
-// Paths(0)       vv   |   |   |
-// [0]            vv   |   |   |
-// [1]            ||v--v   |   |
-// [2]            |||  |v--v   |
-// [3]            |||  ||  |v--v
-// FullPath       c:\dir\dir\dir\file.ext
-// [-1]           |||  ||  |^--^ |  | | |
-// [-2]           |||  |^--^   | |  | | |
-// [-3]           ||^--^       | |  | | |
-// UncVolume     ^^|          | |  | | |
-// DrivePath       ^-^          | |  | | | 
-// Folders        | ^----------^ |  | | |
-// Path           ^------------^ |  | | |
-// FileName          ^--^ | |
-// FileExtension                 |    ^-^
-// FileNameAndExtension                      ^------^
-// FullPath       ^---------------------^
-
-// example
-// levels 4
-//   full route| P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf
-//               []                               GetFolder([])
-//   [+0] [-5] | P:\                              P:\
-//   [+1] [-4] | \2099-999 Sample Project         2099-999 Sample Project
-//   [+2] [-3] | \Publish                         Publish
-//   [+3] [-2] | \9999 Current                    9999 Current
-//   [+4] [-1] 
-
-// assemble path(+2)   P:\2099-999 Sample Project\Publish
-// assemble path(-1)   P:\2099-999 Sample Project\Publish\9999 Current
-
 /*
-foldernames() as []
-[0]       | 2015-491 Centercal - Long Beach
-[1]       | CD
-[2]       | 00 Primary
-[3]       | New folder
+Depth = 4
+GetFolderCount = 3
+Length = 63 (characters long)
 
-GetFolder(r[i])
-( 0)      | P:\
-( 1)      | 2015-491 Centercal - Long Beach
-( 2)      | CD
-( 3)      | 00 Primary
-( 4)      | New folder
-(-1)      | New folder
-(-2)      | 00 Primary
-(-3)      | CD
-(-4)      | 2015-491 Centercal - Long Beach
-(-5)      | P:\
+the below is modified by UseUnc
 
- */
+use indexer
+note: use index of [#.x] to prepend a slash -----------------------------v
+FolderName 3  [+3] or [-1]                                v----------v   [+3.1] or [-1.1] = \FolderName 3
+FolderName 2  [+2] or [-2]                   v----------v |          |   [+2.1] or [-2.1] = \FolderName 2
+FolderName 1  [+1] or [-3]      v----------v |          | |          |   [+1.1] or [-3.1] = \FolderName 1
+P:            [+0] or [-4]   vv |          | |          | |          |   [+0.1] or [-4.1] = P:\
+GetDriveRoot                 v-v|          | |          | |          |
+GetDrivePath                 vv||          | |          | |          |
+GetDriveVolume               v|||          | |          | |          |
+GetFullPath                  P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt
+GetPath                      ^---------------------------------------^ |               | | |
+GetFolders                    |^-------------------------------------^ |               | | |
+equivalent unc:               ||                                     | |               | | |
+	           \\CS-006\P Drive\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt
+GetUncVolume   ^------^|      |                                      | |               | | |
+GetUncShare    |       ^------^                                      | |               | | |
+GetUncPath     ^--------------^                                      | |               | | |
+GetPathUnc     ^-----------------------------------------------------^ |               | | |
+GetFileNameWithoutExtension                                          | ^---------------^ | | (does not include '.')
+GetExtension                                                         | |                 ^-^ (does not include '.')
+GetFileName                                                          | ^-------------------^ (does include '.')
+
+get array: GetPathNames    -> [0] same as indexer[0],   [1] same as indexer [1], etc.
+get array: GetPathNamesAlt -> [0] same as indexer[0.1], [1] same as indexer [1.1], etc.
+
+AssemblePath(2)     | P:\FolderName 1
+AssemblePath(-1)    | P:\FolderName 1\FolderName 2
+
+*** Settings ***
+UseUnc              | False
+
+*** Status ***
+IsValid             | True
+HasQualifiedPath    | True
+HasUnc              | True
+HasDrive            | True
+hasFilename         | True
+IsFolderPath        | False
+IsFilePath          | True
+IsFound             | True
+
+
+*/

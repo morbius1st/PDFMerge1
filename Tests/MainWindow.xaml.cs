@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -175,166 +176,221 @@ namespace Tests
 
 		private void RouteTest()
 		{
+			//P:\FolderName\FolderName\FolderName\New Text Document.txt
+
 			tbxLeft.Text = "";
 
 			//                         | 
 			WriteLineToLeft("current directory 1 is| " + (Directory.GetCurrentDirectory()) + nl);
 			WriteLineToLeft("current directory 2 is| " + (Environment.CurrentDirectory) + nl);
 
-			Route r;
+			Route<FileNameSimple> r;
+			Route<FileNameAsSheet> rx;
+
+			// sample for documentation
+			ListRoute(new Route<FileNameSimple>(@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt"));
 
 			// special - folder name looks like a file name (this is a folder)
-			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
+			r = new Route<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
 			ListRoute(r);
 			// special - file has no extension and folder name has an extension
-			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\1 New Text Document");
-			ListRoute(r);
+			rx = new Route<FileNameAsSheet>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf");
+			ListRoute(rx);
 			// special - file has extension but no filename and folder name has an extension
-			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
+			r = new Route<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
 			ListRoute(r);
-			r = new Route(@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
+			// special - uses the sheet name class
+			r = new Route<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document");
 			ListRoute(r);
-			r = new Route(@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			r = new Route<FileNameSimple>(@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
 			ListRoute(r);
-			r = new Route(@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			r = new Route<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-			r = new Route(@"\\cs-006\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
+			r = new Route<FileNameSimple>(@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-			r = new Route(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
+			r = new Route<FileNameSimple>(@"\\cs-006\OneDrive\Prior GetFolders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-			r = new Route(@"C:\Documents\Files\021 - Household\MicroStation\.file");
+			r = new Route<FileNameSimple>(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
 			ListRoute(r);
-			r = new Route(@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
+			r = new Route<FileNameSimple>(@"C:\Documents\Files\021 - Household\MicroStation\.file");
 			ListRoute(r);
-			r = new Route(@"C:\Documents\Files\021 - Household\MicroStation");
+			r = new Route<FileNameSimple>(@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
 			ListRoute(r);
-			r = new Route(@"\Documents\Files\021 - Household\MicroStation");
+			r = new Route<FileNameSimple>(@"C:\Documents\Files\021 - Household\MicroStation");
 			ListRoute(r);
-			r = new Route(@"C:\");
+			r = new Route<FileNameSimple>(@"\Documents\Files\021 - Household\MicroStation");
 			ListRoute(r);
-			r = new Route(@"C:\Documents");
+			r = new Route<FileNameSimple>(@"C:\");
 			ListRoute(r);
-			r = new Route(@"\Documents");
+			r = new Route<FileNameSimple>(@"C:\Documents");
 			ListRoute(r);
-			r = new Route(@"");
+			r = new Route<FileNameSimple>(@"\Documents");
+			ListRoute(r);
+			r = new Route<FileNameSimple>(@"");
 			ListRoute(r);
 
 			return;
 
-			r = new Route(@"\\CS-003");
+			r = new Route<FileNameSimple>(@"\\CS-003");
 			ListRoute(r);
-			r = new Route(@"\\CS-003\Documents");
+			r = new Route<FileNameSimple>(@"\\CS-003\Documents");
 			ListRoute(r);
-			r = new Route(@"\\CS-003\Documents\Files\021 - Household\MicroStation");
+			r = new Route<FileNameSimple>(@"\\CS-003\Documents\Files\021 - Household\MicroStation");
 			ListRoute(r);
 
 		}
 
 
-		private void ListRoute(Route r)
+		private void ListRoute<T>(Route<T> r) where T : AFileName, new()
 		{
-			
+//			r.UseUnc = true;
 
-			WriteLineToLeft("full route| " + r.FullPath);
-//			WriteLineToLeft("is qual'd'| " + System.IO.Path.IsPathFullyQualified(r.FullPath));
+			Type tx = r.GetFileNameObject.GetType();
 
+			FileNameAsSheet sht = null;
+
+			WriteLineToLeft("\n*******\n");
+			WriteLineToLeft("type name           | " + tx.Name);
+			WriteLineToLeft("GetFullPath         | " + r.GetFullPath);
 
 			if (r.IsValid == false)
 			{
-				WriteLineToLeft("init route| " + "** is invalid (" +
-					r.FullPath + ")**");
+				WriteLineToLeft("init route          | " + "** is invalid (" +
+					r.GetFullPath + ")**");
 				WriteLineToLeft("---------------------\n\n\n");
 				return;
 			}
 
-			WriteLineToLeft("isvalid   | " + r.IsValid);
+			WriteLineToLeft("isvalid             | " + r.IsValid);
 
 			if (r.IsValid)
 			{
-				
+				//               x                   |
+				WriteLineToLeft("Depth               | " + r.Depth);
+				WriteLineToLeft("Length              | " + r.Length);
+				WriteLineToLeft("GetFolderCount      | " + r.GetFolderCount);
 
+				WriteLineToLeft("GetDriveVolume      | " + (r.GetDriveVolume ?? "is null"));
+				WriteLineToLeft("GetDrivePath        | " + (r.GetDrivePath ?? "is null"));
+				WriteLineToLeft("GetDriveRoot        | " + (r.GetDriveRoot ?? "is null"));
 
-				WriteLineToLeft("depth     | " + (r.Depth));
+				WriteLineToLeft("GetUncVolume        | " + (r.GetUncVolume ?? "is null"));
+				WriteLineToLeft("GetUncPath          | " + (r.GetUncPath ?? "is null"));
+				WriteLineToLeft("GetUncShare         | " + (r.GetUncShare ?? "is null"));
 
-				WriteLineToLeft("drv vol   | " + (r.DriveVolume ?? "is null"));
-				WriteLineToLeft("drv path  | " + (r.DrivePath ?? "is null"));
+				WriteLineToLeft("GetPath             | " + r.GetPath);
+				WriteLineToLeft("GetPathUnc          | " + r.GetPathUnc);
+				WriteLineToLeft("GetFolders          | " + r.GetFolders);
+				WriteLineToLeft("GetFileName         | " + r.GetFileName);
+				WriteLineToLeft("GetFileName-wo-ext  | " + r.GetFileNameWithoutExtension);
+				WriteLineToLeft("GetFileExtension    | " + r.GetFileExtension);
 
-				WriteLineToLeft("unc vol   | " + (r.UncVolume ?? "is null"));
-				WriteLineToLeft("unc path  | " + (r.UncPath ?? "is null"));
-				WriteLineToLeft("unc share | " + (r.UncShare ?? "is null"));
-//
-//				WriteLineToLeft("unc / path| " + (PathWay.UncVolumeFromPath(r.FullPath) ?? "is null"));
-//				WriteLineToLeft("drv / path| " + (PathWay.DriveVolumeFromPath(r.FullPath) ?? "is null"));
-//
-//				WriteLineToLeft("find unc  | " + (PathWay.findUncFromUncPath(r.FullPath) ?? "is null"));
-//				WriteLineToLeft("find drv  | " + (PathWay.findDriveFromUncPath(r.FullPath) ?? "is null"));
-
-				WriteLineToLeft("path      | " + r.Path);
-				WriteLineToLeft("folders   | " + r.Folders);
-				WriteLineToLeft("hasfname  | " + r.HasFileName);
-				WriteLineToLeft("file&ext  | " + r.FileNameAndExtension);
-				WriteLineToLeft("file no ex| " + r.FileName);
-				WriteLineToLeft("file ext  | " + r.FileExtension);
-
-				WriteLineToLeft("qual'd nam| " + r.HasQualifiedPath);
-				WriteLineToLeft("has unc   | " + r.HasUnc);
-				WriteLineToLeft("has drv   | " + r.HasDrive);
-				WriteLineToLeft("hasFilenam| " + r.HasFileName);
-				WriteLineToLeft("is folder | " + r.IsFolderPath);
-				WriteLineToLeft("is file   | " + r.IsFilePath);
-				WriteLineToLeft("is found  | " + r.IsFound);
-
-//				WriteLineToLeft("divide pth| " + string.Join(" :: ",
-//					r.DividePath(r.Folders) ?? new string[1]));
-
-				WriteLineToLeft("[+]       | ********");
-				for (int i = 0; i < r.Depth; i++)
+				if (tx == typeof(FileNameAsSheet))
 				{
-					WriteLineToLeft("[+" + i + "]      | " + r[i]
-						+ "  (" + r.GetFolder(i) + ")");
+					sht = r.GetFileNameObject as FileNameAsSheet;
+					WriteLineToLeft("SheetNumber         | " + sht?.SheetNumber ?? "is null");
+					WriteLineToLeft("SheetName           | " + sht?.SheetName ?? "is null");
 				}
 
-				int j;
+				WriteLineToLeft("status              | ********* ");
+				WriteLineToLeft("UseUnc              | " + r.UseUnc);
+				WriteLineToLeft("HasQualifiedPath    | " + r.HasQualifiedPath);
+				WriteLineToLeft("HasUnc              | " + r.HasUnc);
+				WriteLineToLeft("HasDrive            | " + r.HasDrive);
+				WriteLineToLeft("hasFilename         | " + r.HasFileName);
+				WriteLineToLeft("IsFolderPath        | " + r.IsFolderPath);
+				WriteLineToLeft("IsFilePath          | " + r.IsFilePath);
+				WriteLineToLeft("IsFound             | " + r.IsFound);
+
+//				WriteLineToLeft("divide pth| " + string.Join(" :: ",
+//					r.DividePath(r.GetFolders) ?? new string[1]));
+
+				//                                   |
+				WriteLineToLeft("[+]                 | *****  without the back slash prefix");
+				for (int i = 0; i < r.Depth; i++)
+				{
+					//                       x                   |
+					//                       [+0]      |
+					WriteLineToLeft("[+" + i + "]                | " + r[i]
+//						+ "  (" + r.GetFolderName(i) + ")"
+						);
+				}
+
 				for (int i = -1; i > (r.Depth * -1 - 1); i--)
 				{
-					WriteLineToLeft("[" + i + "]      | " + r[i]
-						+ "  (" + r.GetFolder(i) + ")");
+					//                      x                   |
+					//                      [+0]      |
+					WriteLineToLeft("[" + i + "]                | " + r[i]
+//						+ "  (" + r.GetFolderName(i) + ")"
+						);
+				}
+
+				//               x                   |
+				WriteLineToLeft("[+]                 | ***** with a back slash prefix (add 0.x)");
+				for (double i = 0.1; i < r.Depth; i++)
+				{
+					//                       x                   |
+					//                       [+0]      |
+					WriteLineToLeft("[+" + i + "]              | " + r[i]);
+				}
+
+				for (double i = -1.1; i > (r.Depth * -1 - 1); i--)
+				{
+					//                      x                   |
+					//                      [+0]      |
+					WriteLineToLeft("[" + i + "]              | " + r[i]);
 				}
 
 				string[] names;
 
-				names =  r.FolderNames;
+				names =  r.GetPathNames;
 
-				WriteLineToLeft("foldernames() as []");
+				WriteLineToLeft("getpathnames as []");
 				for (int i = 0; i < (names?.Length ?? 0); i++)
 				{
-					WriteLineToLeft("[" + i + "]       | "
+					//                       x                   |
+					//                       [0]      |
+					WriteLineToLeft("[" + i + "]                 | "
 						+ names[i]);
 				}
 
-				WriteLineToLeft("GetFolder(i)");
-				for (int i = 0 ; i < r.Depth; i++)
+				names =  r.GetPathNamesAlt;
+
+				WriteLineToLeft("getpathnamesalt as []");
+				for (int i = 0; i < (names?.Length ?? 0); i++)
 				{
-					WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
-						+ r.GetFolder(i));
-				}
-				for (int i = -1 ; i > -1 * r.Depth -1; i--)
-				{
-					WriteLineToLeft("(" + $"{i,2:#0}" + ")      | "
-						+ r.GetFolder(i));
+					//                       x                   |
+					//                       [0]      |
+					WriteLineToLeft("[" + i + "]                 | "
+						+ names[i]);
 				}
 
-				//                         |
-				WriteLineToLeft("assemble p| " + r.AssemblePath(2));
-				WriteLineToLeft("assemble p| " + r.AssemblePath(-1));
+				//               x                   |
+				WriteLineToLeft("AssemblePath(2)     | " + r.AssemblePath(2));
+				WriteLineToLeft("AssemblePath(-1)    | " + r.AssemblePath(-1));
+
+				WriteLineToLeft("change routines     | ");
+				WriteLineToLeft("change filename     | to \"this is a test\"");
+				WriteLineToLeft("change extension    | to \"ext\"");
+
+				r.ChangeFileName("this is a test");
+				r.ChangeExtension("ext");
+
+				WriteLineToLeft("GetFileName         | " + r.GetFileName);
+				WriteLineToLeft("GetFileName-wo-ext  | " + r.GetFileNameWithoutExtension);
+				WriteLineToLeft("GetFileExtension    | " + r.GetFileExtension);
 
 
-//				bool result = PathWay.separate(r.FullPath);
+
+
+
+
+//				bool result = PathWay.separate(r.GetFullPath);
 //
 //				WriteLineToLeft("");
 //				WriteLineToLeft("new route tests | worked| " + result.ToString());
 //				WriteLineToLeft("");
-//				WriteLineToLeft("full route| " + r.FullPath);
+//				WriteLineToLeft("full route| " + r.GetFullPath);
 //
 //				if (result)
 //				{
@@ -366,10 +422,7 @@ namespace Tests
 				WriteLineToLeft("is not    | valid");
 			}
 
-
-			WriteLineToLeft("*******\n");
-
-
+			WriteLineToLeft("\n*******\n");
 		}
 
 		private void WriteToLeft(string message)
@@ -399,5 +452,9 @@ namespace Tests
 		{
 			dataGridB.SelectedIndex = -1;
 		}
+
 	}
+
+
+
 }
