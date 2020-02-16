@@ -102,9 +102,9 @@ namespace Sylvester.FolderSupport
 			}
 		}
 
-		private Route folder;
+		private FilePath<FileNameAsSheet> folder;
 
-		public Route Folder
+		public FilePath<FileNameAsSheet> Folder
 		{
 			get => folder;
 			set
@@ -203,7 +203,7 @@ namespace Sylvester.FolderSupport
 			Debug.WriteLine("folderManager, path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
 			hcPath.Path = e.SelectedPath;
 			Folder = hcPath.Path;

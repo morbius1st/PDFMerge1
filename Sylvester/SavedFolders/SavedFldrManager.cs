@@ -86,19 +86,19 @@ namespace Sylvester.SavedFolders
 		}
 
 		public bool AddProject(
-			Route current,
-			Route revision
+			FilePath<FileNameAsSheet> current,
+			FilePath<FileNameAsSheet> revision
 			)
 		{
 
 			UserSettings.Data.priorPath = current;
 
-			SavedFolderProject sf = sm.FindSavedFolder(current.FolderNames[0], Index);
+			SavedFolderProject sf = sm.FindSavedFolder(current[0], Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
-				sf = new SavedFolderProject(current.VolumeName, current.FolderNames[0]);
+				sf = new SavedFolderProject(current.GetDrivePath, current.GetPathNames[0]);
 				sm.AddSavedFolder(sf, Index);
 			}
 			else

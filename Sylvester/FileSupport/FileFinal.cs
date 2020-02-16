@@ -39,7 +39,7 @@ namespace Sylvester.FileSupport
 
 		public FileFinal() { }
 
-		public FileFinal(Route fullFileRoute)
+		public FileFinal(FilePath<FileNameAsSheet> fullFileRoute)
 		{
 			FullFileRoute = fullFileRoute;
 		}

@@ -43,7 +43,7 @@ namespace Sylvester.FolderSupport
 
 	public abstract class FolderInfo
 	{
-		private Route folder;
+		private FilePath<FileNameAsSheet> folder;
 
 		private HeaderControl Hc;
 
@@ -55,7 +55,7 @@ namespace Sylvester.FolderSupport
 
 	#region public properties
 
-		public Route Folder
+		public FilePath<FileNameAsSheet> Folder
 		{
 			get => folder;
 

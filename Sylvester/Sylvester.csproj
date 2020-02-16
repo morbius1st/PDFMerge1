@@ -68,6 +68,9 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.External\CsExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
+      <Link>.External\CsFilePath.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.External\CsUtilities.cs</Link>
     </Compile>
@@ -132,7 +135,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FileSupport\Route.cs" />
+    <Compile Include="FileSupport\FilePath.cs" />
     <Compile Include="FolderSupport\SelectFolder.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

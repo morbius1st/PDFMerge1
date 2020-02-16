@@ -63,7 +63,7 @@ namespace Sylvester.Settings
 		public string[] PriorFolders = new string[2];
 
 		[DataMember]
-		public Route priorPath;
+		public FilePath<FileNameAsSheet> priorPath;
 
 
 //		// added with version 2.1

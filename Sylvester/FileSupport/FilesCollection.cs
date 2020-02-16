@@ -17,7 +17,7 @@ namespace Sylvester.FileSupport
 	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetNameInfo, new()
 	{
 		private string name;
-		private Route folder = Route.Invalid;
+		private FilePath<FileNameAsSheet> folder = FilePath<FileNameAsSheet>.Invalid;
 		private int nonSheetPdfsFiles;
 		private int otherFiles;
 		private bool hasFolder;
@@ -42,7 +42,7 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public Route Folder
+		public FilePath<FileNameAsSheet> Folder
 		{
 			get => folder;
 			set
@@ -100,7 +100,7 @@ namespace Sylvester.FileSupport
 
 		}
 
-		public void Add(Route r, bool preselect)
+		public void Add(FilePath<FileNameAsSheet> r, bool preselect)
 		{
 			T tf = new T();
 
@@ -138,7 +138,7 @@ namespace Sylvester.FileSupport
 		public void Reset()
 		{
 			Files.Clear();
-			Folder = Route.Invalid;
+			Folder = FilePath<FileNameAsSheet>.Invalid;
 			NonSheetPdfsFiles = 0;
 			OtherFiles = 0;
 

@@ -96,8 +96,8 @@ namespace Sylvester.SavedFolders
 				selectedFolderPair = value;
 				OnPropertyChange();
 
-				CurrentPath = selectedFolderPair.Current.FullPath;
-				RevisionPath = selectedFolderPair.Revision.FullPath;
+				CurrentPath = selectedFolderPair.Current.GetFullPath;
+				RevisionPath = selectedFolderPair.Revision.GetFullPath;
 			}
 		}
 

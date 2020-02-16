@@ -36,13 +36,13 @@ namespace Sylvester.FolderSupport
 		public SavedFolderManager[] svfMgr = new SavedFolderManager[COUNT.Value()];
 
 		private HeaderControl[] hc;
-		private Route[] folder;
+		private FilePath<FileNameAsSheet>[] folder;
 
 		private HeaderControl hcCurrent;
 		private HeaderControl hcRevision;
 
-		private Route folderCurrent;
-		private Route folderRevision;
+		private FilePath<FileNameAsSheet> folderCurrent;
+		private FilePath<FileNameAsSheet> folderRevision;
 
 		public FolderManager2(HeaderControl hcCurrent, HeaderControl hcRevision)
 		{
@@ -87,7 +87,7 @@ namespace Sylvester.FolderSupport
 			}
 		}
 
-		public Route CurrentFolder
+		public FilePath<FileNameAsSheet> CurrentFolder
 		{
 			get => folderCurrent;
 			set
@@ -100,7 +100,7 @@ namespace Sylvester.FolderSupport
 			}
 		}
 
-		public Route RevisionFolder
+		public FilePath<FileNameAsSheet> RevisionFolder
 		{
 			get => folderRevision;
 			set
@@ -212,7 +212,7 @@ namespace Sylvester.FolderSupport
 			Debug.WriteLine("folderManager| Current path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
 			hcCurrent.Path = e.SelectedPath;
 			CurrentFolder = hcCurrent.Path;
@@ -242,7 +242,7 @@ namespace Sylvester.FolderSupport
 			Debug.WriteLine("folderManager, Revision path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.FullPath);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
 			hcCurrent.Path = e.SelectedPath;
 			CurrentFolder = hcCurrent.Path;

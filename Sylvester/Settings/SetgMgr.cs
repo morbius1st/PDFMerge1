@@ -49,9 +49,9 @@ namespace Sylvester.Settings
 
 		public static string[] test = new string[3];
 
-		public static void SetPriorFolder(int index, Route folder)
+		public static void SetPriorFolder(int index, FilePath<FileNameAsSheet> folder)
 		{
-			UserSettings.Data.PriorFolders[index] = folder.FullPath;
+			UserSettings.Data.PriorFolders[index] = folder.GetFullPath;
 			UserSettings.Admin.Write();
 		}
 
@@ -66,9 +66,9 @@ namespace Sylvester.Settings
 			UserSettings.Admin.Write();
 		}
 
-		public static Route GetPriorFolder(int index)
+		public static FilePath<FileNameAsSheet> GetPriorFolder(int index)
 		{
-			return new Route(UserSettings.Data.PriorFolders[index]);
+			return new FilePath<FileNameAsSheet>(UserSettings.Data.PriorFolders[index]);
 		}
 
 	#endregion

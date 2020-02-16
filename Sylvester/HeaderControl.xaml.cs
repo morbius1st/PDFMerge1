@@ -17,7 +17,7 @@ namespace Sylvester
 			InitializeComponent();
 		}
 
-		public Route Path
+		public FilePath<FileNameAsSheet> Path
 		{
 			get => FolderRoute.Path;
 			set => FolderRoute.Path = value;

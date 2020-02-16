@@ -25,10 +25,10 @@ namespace Sylvester.SavedFolders
 
 		private SavedFolderManager[] sfMgr = new SavedFolderManager[2];
 
-		public Route CurrentFolder =
-			new Route(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
+		public FilePath<FileNameAsSheet> CurrentFolder =
+			new FilePath<FileNameAsSheet>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 
-		public Route TestFolder = new Route(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+		public FilePath<FileNameAsSheet> TestFolder = new FilePath<FileNameAsSheet>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
 
 		public static SavedFoldersDebugSupport Instance = new SavedFoldersDebugSupport();
 
@@ -44,10 +44,10 @@ namespace Sylvester.SavedFolders
 
 		public void Test_01()
 		{
-			Route r =  new Route(
+			FilePath<FileNameAsSheet> r =  new FilePath<FileNameAsSheet>(
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 
-			string[] names = UserSettings.Data.priorPath.FullPathNames;
+			string[] names = UserSettings.Data.priorPath.GetPathNamesAlt;
 
 			foreach (string name in names)
 			{
@@ -102,7 +102,7 @@ namespace Sylvester.SavedFolders
 			savedWin.AppendLine(nl);
 			savedWin.AppendLineFmt("default volume", d.DefaultVolume);
 			savedWin.AppendLineFmt("sheet title case", d.SheetTitleCase.Name());
-			savedWin.AppendLineFmt("prior path", d.priorPath?.FullPath ?? "null prior path");
+			savedWin.AppendLineFmt("prior path", d.priorPath?.GetFullPath ?? "null prior path");
 			
 			foreach (string s in d.PriorFolders)
 			{
@@ -143,8 +143,8 @@ namespace Sylvester.SavedFolders
 				savedWin.Append(nl);
 				savedWin.AppendLineFmt("item number", i++.ToString());
 				savedWin.AppendLineFmt("saved key", kvpair.Key);
-				savedWin.AppendLineFmt("current-full path", kvpair.Current?.FullPath ?? "null current route");
-				savedWin.AppendLineFmt("revision-full path", kvpair.Revision?.FullPath ?? "null revision route");
+				savedWin.AppendLineFmt("current-full path", kvpair.Current?.GetFullPath ?? "null current route");
+				savedWin.AppendLineFmt("revision-full path", kvpair.Revision?.GetFullPath ?? "null revision route");
 			}
 		}
 

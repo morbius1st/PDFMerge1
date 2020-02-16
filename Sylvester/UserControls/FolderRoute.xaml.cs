@@ -41,9 +41,9 @@ namespace Sylvester.UserControls
 		public string SelectedFolder { get; private set; }
 		public string SelectedPath { get; private set; }
 
-		public Route Path
+		public FilePath<FileNameAsSheet> Path
 		{
-			get => new Route(path);
+			get => new FilePath<FileNameAsSheet>(path);
 			set
 			{
 				SetPath(value);
@@ -70,7 +70,7 @@ namespace Sylvester.UserControls
 		}
 
 
-		public void SetPath(Route newPath)
+		public void SetPath(FilePath<FileNameAsSheet> newPath)
 		{
 			clearObliqueButtons();
 
@@ -85,11 +85,11 @@ namespace Sylvester.UserControls
 			}
 			else
 			{
-				AddPath(newPath.FullPathNames);
+				AddPath(newPath.GetPathNames);
 
-				SelectedPath = newPath.FullPath;
+				SelectedPath = newPath.GetFullPath;
 //				SelectedFolder = newPath.FolderName(-1);
-				SelectedFolder = newPath.GetFolderName(newPath[-1]);
+				SelectedFolder = newPath[-1.1];
 				SelectedIndex = newPath.Depth;
 			}
 

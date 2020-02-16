@@ -56,13 +56,15 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.external\CsExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
+      <Link>.external\CsFilePath.cs</Link>
+    </Compile>
     <Compile Include=".Debug\SeqTestData.cs" />
     <Compile Include=".Debug\TestCollection.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="OutlineItem.cs" />
     <Compile Include="OutlineItems.cs" />
     <Compile Include=".Debug\OutlineTestData.cs" />
-    <Compile Include="PathSupport\FilePath.cs" />
     <Compile Include="Sequence\SeqDiscipline.cs" />
     <Compile Include="Sequence\SeqItem.cs" />
     <Compile Include="Sequence\SeqItems.cs" />
@@ -109,6 +111,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PathSupport\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

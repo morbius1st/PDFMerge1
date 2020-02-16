@@ -180,7 +180,7 @@ namespace Tests
 			WriteLineToLeft("current directory 2 is| " + (Environment.CurrentDirectory) + nl);
 
 			FilePath<FileNameSimple> f;
-			FilePath<FileNameAsSheet> fx;
+			FilePath<FileNameAsSheetFile> fx;
 
 			// sample for documentation
 			ListFilePath(new FilePath<FileNameSimple>(@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt"));
@@ -189,7 +189,7 @@ namespace Tests
 			f = new FilePath<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
 			ListFilePath(f);
 			// special - file has no extension and folder name has an extension
-			fx = new FilePath<FileNameAsSheet>(
+			fx = new FilePath<FileNameAsSheetFile>(
 				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf");
 			ListFilePath(fx);
 			// special - file has extension but no filename and folder name has an extension
@@ -250,7 +250,7 @@ namespace Tests
 
 			Type tx = f.GetFileNameObject.GetType();
 
-			FileNameAsSheet sht = null;
+			FileNameAsSheetFile sht = null;
 
 			WriteLineToLeft("\n*******\n");
 			WriteLineToLeft("type name           | " + tx.Name);
@@ -289,9 +289,9 @@ namespace Tests
 			WriteLineToLeft("GetFileExtension    | " + f.GetFileExtension);
 			WriteLineToLeft("GetFileExt-no-sep   | " + f.GetFileExtensionNoSeparator);
 
-			if (tx == typeof(FileNameAsSheet))
+			if (tx == typeof(FileNameAsSheetFile))
 			{
-				sht = f.GetFileNameObject as FileNameAsSheet;
+				sht = f.GetFileNameObject as FileNameAsSheetFile;
 				WriteLineToLeft("SheetNumber         | " + sht?.SheetNumber ?? "is null");
 				WriteLineToLeft("SheetName           | " + sht?.SheetName ?? "is null");
 			}
