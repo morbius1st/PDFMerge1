@@ -61,7 +61,6 @@ namespace Sylvester.FolderSupport
 
 		public FolderManager(int index, HeaderControl hcPath)
 		{
-			var fldrRoute = 
 
 
 			this.index = index;
@@ -85,11 +84,6 @@ namespace Sylvester.FolderSupport
 			getPriorFolder();
 
 			configHeader();
-		}
-
-		private void FldrRoute_MyCustomEvent(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("custom event received");
 		}
 
 		private void ConfigSavedFolders()

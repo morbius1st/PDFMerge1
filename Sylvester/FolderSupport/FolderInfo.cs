@@ -41,6 +41,8 @@ namespace Sylvester.FolderSupport
 		public override int FolderTypeValue => FolderType.Value();
 	}
 
+
+
 	public abstract class FolderInfo
 	{
 		private FilePath<FileNameAsSheet> folder;

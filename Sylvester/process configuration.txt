@@ -1,0 +1,81 @@
+mainwin
++-> process manager
+    +-> headerfile manager
+        +-> headercontrol
+        
+mainwin
++-> headercontrol
++-> process manager
+wait for event
+subscribed events (all of its controls) + headercontrol/Folder changed
+
+
+start headercontrol
+-> gets initial folders
+-> event to mainwin -> raise folder changed event
+mainwin/folder changed
+-> process manager -> folders changed method
+process manager/folders changed
+-> read files -> populate collection
+-> set properties for button status
+wait for event
+
+mainwin
+● got files, buttons enabled
+-> press compare -> compare
+?-> press go -> rename -> process mgr -> refresh
+?-> press folder route button -> header -> process
+?-> cancel -> if info, are you sure ?-> yes -> quite ?-> no -> return
+?-> reset -> headercontrol -> reset
+
+headercontrol (two separate)
+-> start
+-> read prior folders from settings
+-> configure folder-route
+-> subscribe to events
+wait for event or method
+subscribed events: history / favorites / select folder / folder changed
+published events: folder changed
+public methods: reset / refresh
+public properties: selected folder / hasFolder
+
+headercontrol/favorites event
+-> show saved folders dialog / favorites
+?-> returns with ok -> update folder -> raise folder changed event
+?-> return with nope -> done
+
+headercontrol/history event
+-> show saved folders dialog / history
+?-> returns with ok -> update folder -> raise folder changed event
+?-> return with nope -> done
+
+headercontrol/select folder event
+-> show select folder dialog
+?-> returns with ok -> update folder -> raise folder changed event
+?-> return with nope -> done
+
+headercontrol/folder changed event
+update folder -> folder changed
+
+headercontrol/scan button pressed
+-> raise scan event
+
+start process manager
+-> initalize collection to (1) bogus entry
+-> create objects / read files / rename files
+wait
+public methods: folder changed (which), compare, rename, refresh
+
+process manager/folder changed
+-> validate folder
+?-> good, read files -> set buttons statuses
+
+process manager/compare
+?-> can proceed -> compare
+
+process manager/rename
+?-> can proceed -> rename -> refresh
+
+process manager/refresh
+-> folder changed for both
+
