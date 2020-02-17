@@ -24,11 +24,7 @@ namespace Sylvester.UserControls
 	/// </summary>
 	public partial class FolderRoute : UserControl
 	{
-		private string[] path = new []
-		{
-			@"C:\path",
-			@"C:\path"
-		};
+		private FilePath<FileNameSimple> path;
 
 		private int nextIndex;
 
@@ -37,27 +33,40 @@ namespace Sylvester.UserControls
 			InitializeComponent();
 		}
 
+		public bool IsPathValid => Path.IsValid;
 		public int SelectedIndex { get; private set; }
 		public string SelectedFolder { get; private set; }
-		public string SelectedPath { get; private set; }
+		public FilePath<FileNameSimple> SelectedPath => path;
 
-		public FilePath<FileNameAsSheet> Path
+
+		public FilePath<FileNameSimple> Path
 		{
-			get => new FilePath<FileNameAsSheet>(path);
+			get => path;
 			set
 			{
+				path = value;
 				SetPath(value);
+				RaisePathChangeEvent();
 			}
 		}
 
-		public void AssignEvents(FolderManager fm)
-		{
-			PathChange += fm.onPathPathChangeEvent;
-			SelectFolder += fm.onPathSelectFolderEvent;
-			Favorites += fm.onPathFavoriteEvent;
-			History += fm.onPathHistoryEvent;
+//		public FilePath<FileNameSimple> Path
+//		{
+//			get => Path;
+//			set
+//			{
+//				SetPath(value);
+//			}
+//		}
 
-		}
+//		public void AssignEvents(FolderManager fm)
+//		{
+//			PathChange += fm.onPathPathChangeEvent;
+//			SelectFolder += fm.onPathSelectFolderEvent;
+//			Favorites += fm.onPathFavoriteEvent;
+//			History += fm.onPathHistoryEvent;
+//
+//		}
 
 		private void clearObliqueButtons()
 		{
@@ -70,7 +79,7 @@ namespace Sylvester.UserControls
 		}
 
 
-		public void SetPath(FilePath<FileNameAsSheet> newPath)
+		public void SetPath(FilePath<FileNameSimple> newPath)
 		{
 			clearObliqueButtons();
 
@@ -79,29 +88,27 @@ namespace Sylvester.UserControls
 			if (newPath == null || !newPath.IsValid)
 			{
 				// when null, reset and show the select folder button
-				SelectedPath = null;
+				path = FilePath<FileNameSimple>.Invalid;
 				SelectedFolder = null;
-				path = null;
 			}
 			else
 			{
-				AddPath(newPath.GetPathNames);
+				path = newPath;
 
-				SelectedPath = newPath.GetFullPath;
-//				SelectedFolder = newPath.FolderName(-1);
+				AddPath(newPath);
+
 				SelectedFolder = newPath[-1.1];
 				SelectedIndex = newPath.Depth;
 			}
 
-			RaisePathChangeEvent();
+//			RaisePathChangeEvent();
 		}
 
-		private void AddPath(string[] path)
+		private void AddPath(FilePath<FileNameSimple> path)
 		{
-			this.path = path;
 			nextIndex = 0;
 
-			foreach (string s in this.path)
+			foreach (string s in path.GetPathNames)
 			{
 				Add(s, nextIndex++);
 			}
@@ -145,7 +152,7 @@ namespace Sylvester.UserControls
 
 			SelectedIndex = (int) ob.Tag;
 			SelectedFolder = ob.Text;
-			SelectedPath = path[0] + @"\";
+//			Path = se + @"\";
 
 
 			if (SelectedIndex > 0)
@@ -157,9 +164,9 @@ namespace Sylvester.UserControls
 					sb.Append(@"\").Append(path[i]);
 				}
 
-				SelectedPath = sb.ToString();
+				Path = new FilePath<FileNameSimple>(sb.ToString());
 
-				RaisePathChangeEvent();
+//				RaisePathChangeEvent();
 
 			}
 			else
@@ -178,7 +185,7 @@ namespace Sylvester.UserControls
 
 		protected virtual void RaisePathChangeEvent()
 		{
-			PathChange?.Invoke(this, new PathChangeArgs(SelectedIndex, SelectedFolder, SelectedPath));
+			PathChange?.Invoke(this, new PathChangeArgs(SelectedIndex, SelectedFolder, Path));
 		}
 
 		// event 2, the select folder button was pressed

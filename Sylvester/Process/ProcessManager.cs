@@ -54,28 +54,29 @@ namespace Sylvester.Process
 	{
 	#region private fields
 
-		private readonly FolderManager _fmCurrent;
-		private readonly FolderManager _fmRevision;
+//		private readonly FolderManager _fmCurrent;
+//		private readonly FolderManager _fmRevision;
 		private ReadFiles readFilesCurrent;
 		private ReadFiles readFilesRevision;
 
+
 	#endregion
 
-		public ProcessManager() { }
+		public ProcessManager() { //}
 
-		public ProcessManager(HeaderControl hcCurrent, HeaderControl hcRevision)
-		{
-			_fmCurrent = new FolderManager(FolderType.CURRENT.Value(), hcCurrent);
-			_fmCurrent.FolderChange += OnCurrentFolderChange;
-
-			_fmRevision = new FolderManager(FolderType.REVISION.Value(), hcRevision);
-			_fmRevision.FolderChange += OnRevisionFolderChange;
+//		public ProcessManager(HeaderControl hcCurrent, HeaderControl hcRevision)
+//		{
+//			_fmCurrent = new FolderManager(FolderType.CURRENT.Value(), hcCurrent);
+//			_fmCurrent.FolderChange += OnCurrentFolderChange;
+//
+//			_fmRevision = new FolderManager(FolderType.REVISION.Value(), hcRevision);
+//			_fmRevision.FolderChange += OnRevisionFolderChange;
 
 			FileCollectionCurrent = new FilesCollection<FileCurrent>();
 			FileCollectionRevision = new FilesCollection<FileRevision>();
 			FileCollectionFinal = new FilesCollection<FileFinal>();
 
-			FileRevision rf = new FileRevision();
+//			FileRevision rf = new FileRevision();
 
 			Reset();
 
@@ -86,7 +87,6 @@ namespace Sylvester.Process
 		public FilesCollection<FileCurrent> FileCollectionCurrent { get; private set; } = new FilesCollection<FileCurrent>();
 		public FilesCollection<FileRevision> FileCollectionRevision { get; private set; } = new FilesCollection<FileRevision>();
 		public FilesCollection<FileFinal> FileCollectionFinal { get; private set; } = new FilesCollection<FileFinal>();
-
 
 		public ICollectionView CvCurrent { get; private set; }
 		public ICollectionView CvRevision { get; private set; }
@@ -147,9 +147,43 @@ namespace Sylvester.Process
 
 		public bool HasRevisionItems => !CvRevision?.IsEmpty ?? false;
 
+//		public FilePath<FileNameSimple> Current
+//		{
+//			get => FileCollectionCurrent.Folder;
+//			set => FileCollectionCurrent.Folder = value;
+//		}
+//
+//		public FilePath<FileNameSimple> Revision
+//		{
+//			get => FileCollectionRevision.Folder;
+//			set => FileCollectionRevision.Folder = value;
+//		}
+
+
 	#endregion
 
 	#region public methods
+
+		public void FolderChanged(FolderType ft, FilePath<FileNameSimple> folder)
+		{
+			switch (ft)
+			{
+			case FolderType.CURRENT:
+				{
+					FileCollectionCurrent.Folder = folder;
+//					ReadCurrent();
+					break;
+				}
+			case FolderType.REVISION:
+				{
+					FileCollectionRevision.Folder = folder;
+//					ReadRevision();
+					break;
+				}
+			}
+		}
+
+
 
 		public bool Compare()
 		{
@@ -203,7 +237,7 @@ namespace Sylvester.Process
 
 		public bool ReadCurrent()
 		{
-			bool result = readFilesCurrent.GetFiles(_fmCurrent.Folder, false, FileCollectionCurrent);
+			bool result = readFilesCurrent.GetFiles( FileCollectionCurrent, false, FileCollectionCurrent.Folder);
 
 			collectionViewCurrent();
 
@@ -218,7 +252,7 @@ namespace Sylvester.Process
 
 		public bool ReadRevision()
 		{
-			bool result = readFilesRevision.GetFiles(_fmRevision.Folder, true, FileCollectionRevision);
+			bool result = readFilesRevision.GetFiles( FileCollectionRevision, true, FileCollectionRevision.Folder);
 
 			collectionViewRevision();
 
@@ -239,7 +273,7 @@ namespace Sylvester.Process
 		{
 			FileCollectionCurrent.Reset();
 			FileCollectionCurrent.Name = "Current";
-			FileCollectionCurrent.Folder = _fmCurrent.Folder;
+//			FileCollectionCurrent.Folder = _fmCurrent.Folder;
 			CvCurrent = null;
 			readFilesCurrent = new ReadFiles();
 
@@ -251,7 +285,7 @@ namespace Sylvester.Process
 		{
 			FileCollectionRevision.Reset();
 			FileCollectionRevision.Name = "Revision";
-			FileCollectionRevision.Folder = _fmRevision.Folder;
+//			FileCollectionRevision.Folder = _fmRevision.Folder;
 			CvRevision = null;
 			readFilesRevision = new ReadFiles();
 
@@ -336,15 +370,15 @@ namespace Sylvester.Process
 
 	#region event handling
 
-		public void OnCurrentFolderChange(object sender, EventArgs e)
-		{
-			FileCollectionCurrent.Folder = _fmCurrent.Folder;
-		}
-		
-		public void OnRevisionFolderChange(object sender, EventArgs e)
-		{
-			FileCollectionRevision.Folder = _fmRevision.Folder;
-		}
+//		public void OnCurrentFolderChange(object sender, EventArgs e)
+//		{
+//			FileCollectionCurrent.Folder = _fmCurrent.Folder;
+//		}
+//		
+//		public void OnRevisionFolderChange(object sender, EventArgs e)
+//		{
+//			FileCollectionRevision.Folder = _fmRevision.Folder;
+//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

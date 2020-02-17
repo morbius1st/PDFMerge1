@@ -165,12 +165,13 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					FontSize="12"
+					FolderType="CURRENT"
 					DataContext="{Binding pm.FileCollectionCurrent,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
-					FolderRouteHeight="13"
-					TextFontSize="9.5"
+					FolderRouteHeight="14"
+					TextFontSize="11"
 					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
 					/>
@@ -243,12 +244,13 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					FontSize="12"
+					FolderType="REVISION"
 					DataContext="{Binding pm.FileCollectionRevision,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
-					FolderRouteHeight="13"
-					TextFontSize="9.5"
+					FolderRouteHeight="14"
+					TextFontSize="11"
 					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
 					/>
@@ -319,6 +321,7 @@
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
 					FontSize="12"
+					FolderType="FINAL"
 					DataContext="{Binding pm.FileCollectionFinal,
 																ElementName=mainwin,
 																Mode=OneWay,

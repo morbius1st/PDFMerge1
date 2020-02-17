@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Sylvester.FileSupport;
+using Sylvester.Process;
 using Sylvester.SavedFolders;
 using Sylvester.Settings;
 using Sylvester.UserControls;
@@ -26,65 +27,37 @@ using static Sylvester.SavedFolders.SavedFolderType;
 // general folder manager - works with either collection
 namespace Sylvester.FolderSupport
 {
-//	public class FolderManager2
-//	{
-//		private SelectFolder sf = new SelectFolder();
-//
-//		private FolderInfo[] folders = new FolderInfo[2];
-//
-//		public FolderManager2(HeaderControl hcCurrent, HeaderControl hcRevision)
-//		{
-//			folders[0] = new FolderInfoCurrent(hcCurrent);
-//			folders[1] = new FolderInfoRevision(hcRevision);
-//		}
-//
-//		public FolderInfo CurrentFolderInfo => folders[FolderType.CURRENT.Value()];
-//		public FolderInfo RevisionFolderInfo => folders[FolderType.CURRENT.Value()];
-//
-//		public Route CurrentFolder => CurrentFolderInfo.Folder;
-//		public Route RevisionFolder => RevisionFolderInfo.Folder;
-//
-//	}
-
-
+/*
 	public class FolderManager : INotifyPropertyChanged
 	{
 		private SelectFolder sf = new SelectFolder();
 
 		public static SavedFolderManager[] svfMgr = new SavedFolderManager[COUNT.Value()];
 
-		private int index;
+		private FolderType index;
 
 		private static HeaderControl hcPath2;
 
 		private HeaderControl hcPath;
 
-		public FolderManager(int index, HeaderControl hcPath)
-		{
-
-
-			this.index = index;
-
-			this.hcPath = hcPath;
-			hcPath2 = hcPath;
-
-//			hcPath.SetPathChangeEventHandler(onPathPathChangeEvent);
-//			hcPath.SetSelectFolderEventHandler(onPathSelectFolderEvent);
-//			hcPath.SetFavoritesEventHandler(onPathFavoriteEvent);
-//			hcPath.SetHistoryEventHandler(onPathHistoryEvent);
+//		public FolderManager(FolderType index, HeaderControl hcPath)
+//		{
 //
-//			hcPath.FolderRoute.MyCustomEvent += FldrRoute_MyCustomEvent;
-
-
-			ConfigSavedFolders();
-
-			SavedFoldersDebugSupport.Instance.
-				ConfigSavedFoldersDebugSupport(svfMgr[HISTORY.Value()], svfMgr[FAVORITES.Value()]);
-
-			getPriorFolder();
-
-			configHeader();
-		}
+//
+//			this.index = index;
+//
+//			this.hcPath = hcPath;
+//			hcPath2 = hcPath;
+//
+//			ConfigSavedFolders();
+//
+//			SavedFoldersDebugSupport.Instance.
+//				ConfigSavedFoldersDebugSupport(svfMgr[HISTORY.Value()], svfMgr[FAVORITES.Value()]);
+//
+//			getPriorFolder();
+//
+//			configHeader();
+//		}
 
 		private void ConfigSavedFolders()
 		{
@@ -96,9 +69,9 @@ namespace Sylvester.FolderSupport
 			}
 		}
 
-		private FilePath<FileNameAsSheet> folder;
+		private FilePath<FileNameSimple> folder;
 
-		public FilePath<FileNameAsSheet> Folder
+		public FilePath<FileNameSimple> Folder
 		{
 			get => folder;
 			set
@@ -145,13 +118,13 @@ namespace Sylvester.FolderSupport
 
 		private void tempPriorCurrentFolder()
 		{
-			SetgMgr.SetPriorFolder(0,
+			SetgMgr.SetPriorFolder(FolderType.CURRENT.Value(),
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 		}
 
 		private void tempPriorRevisionFolder()
 		{
-			SetgMgr.SetPriorFolder(1,
+			SetgMgr.SetPriorFolder(FolderType.REVISION.Value(),
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
 		}
 
@@ -160,7 +133,7 @@ namespace Sylvester.FolderSupport
 		{
 			Folder = SetgMgr.GetPriorFolder(index);
 
-			hcPath.Path = Folder;
+//			hcPath.Folder = Folder;
 		}
 
 		private void SelectFolder()
@@ -174,7 +147,7 @@ namespace Sylvester.FolderSupport
 
 			SetgMgr.SetPriorFolder(index, Folder);
 
-			hcPath.Path = Folder;
+//			hcPath.Folder = Folder;
 
 			configHeader();
 
@@ -199,8 +172,8 @@ namespace Sylvester.FolderSupport
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
 			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
-			hcPath.Path = e.SelectedPath;
-			Folder = hcPath.Path;
+//			hcPath.Folder = e.SelectedPath;
+			Folder = hcPath.Folder;
 		}
 
 		internal void onPathSelectFolderEvent(object sender, EventArgs e)
@@ -234,4 +207,5 @@ namespace Sylvester.FolderSupport
 	#endregion
 
 	}
+*/
 }

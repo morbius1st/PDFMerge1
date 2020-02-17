@@ -18,15 +18,15 @@ namespace Sylvester.SavedFolders {
 		public string Icon { get; set; }
 
 		[DataMember]
-		public FilePath<FileNameAsSheet> Current { get; set; }
+		public FilePath<FileNameSimple> Current { get; set; }
 
 		[DataMember]
-		public FilePath<FileNameAsSheet> Revision { get; set; }
+		public FilePath<FileNameSimple> Revision { get; set; }
 
 		public SavedFolderPair() { }
 
-		public SavedFolderPair(FilePath<FileNameAsSheet> current,
-			FilePath<FileNameAsSheet> revision, string name = "")
+		public SavedFolderPair(FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision, string name = "")
 		{
 			Icon = null;
 			Current = current;

@@ -49,7 +49,7 @@ namespace Sylvester.FileSupport
 
 		protected Regex regex = new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline);
 
-		protected FilePath<FileNameAsSheet> fullFileRoute;
+		protected FilePath<FileNameSimple> fullFileRoute;
 		protected string phaseBldg;
 		protected string phaseBldgSep;
 		protected string sheetID;
@@ -63,7 +63,7 @@ namespace Sylvester.FileSupport
 
 		public SheetNameInfo()
 		{
-			fullFileRoute = UtilityLibrary.FilePath<FileNameAsSheet>.Invalid;
+			fullFileRoute = UtilityLibrary.FilePath<FileNameSimple>.Invalid;
 
 			phaseBldg = "";
 			phaseBldgSep = "";
@@ -79,7 +79,7 @@ namespace Sylvester.FileSupport
 
 		public bool PreSelect { get; set; } = false;
 
-		public FilePath<FileNameAsSheet> FullFileRoute
+		public FilePath<FileNameSimple> FullFileRoute
 		{
 			get => fullFileRoute;
 			set

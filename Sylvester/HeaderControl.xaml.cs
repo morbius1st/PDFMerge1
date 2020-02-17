@@ -1,7 +1,13 @@
 ﻿
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using Sylvester.FolderSupport;
+using Sylvester.Process;
+using Sylvester.SavedFolders;
+using Sylvester.Settings;
+using Sylvester.UserControls;
 using UtilityLibrary;
 
 
@@ -12,23 +18,190 @@ namespace Sylvester
 	/// </summary>
 	public partial class HeaderControl : UserControl
 	{
+
+	#region fields
+
+		private FilePath<FileNameSimple> fromSelectFolder = null;
+
+		private SelectFolder sf;
+
+		private SetgMgr sm;
+		public static SavedFolderManager[] sfm = new SavedFolderManager[SavedFolderType.COUNT.Value()];
+
+	#endregion
+
+	#region ctor
+
 		public HeaderControl()
 		{
 			InitializeComponent();
+
+			sm = SetgMgr.Instance;
+
+			sf = new SelectFolder();
+
+			sfm[SavedFolderType.HISTORY.Value()] = new SavedFolderManager(SavedFolderType.HISTORY);
+
+			sfm[SavedFolderType.FAVORITES.Value()] = new SavedFolderManager(SavedFolderType.FAVORITES);
 		}
 
-		public FilePath<FileNameAsSheet> Path
+	#endregion
+
+	#region public properties
+
+		public bool HasFolder => FolderRoute.Path.IsValid;
+
+		public FilePath<FileNameSimple> Folder => FolderRoute.Path;
+
+	#endregion
+
+	#region public methods
+
+		public void Start()
 		{
-			get => FolderRoute.Path;
-			set => FolderRoute.Path = value;
+			FolderRoute.PathChange += onPathPathChangeEvent;
+			FolderRoute.Favorites += onPathFavoriteEvent;
+			FolderRoute.History += onPathHistoryEvent;
+			FolderRoute.SelectFolder += onPathSelectFolderEvent;
+
+			FolderRoute.Path = SetgMgr.GetPriorFolder(FolderType);
+
+
+			configureFolderRoute();
 		}
 
-		public void AssignEvents(FolderManager fm)
+		public void SetFolder(FilePath<FileNameSimple> path)
 		{
-			FolderRoute.AssignEvents(fm);
+			FolderRoute.Path = path;
 		}
+
+	#endregion
+
+	#region private methods
+
+		private void SelectFolder()
+		{
+			fromSelectFolder = sf.GetFolder(Folder);
+			if (!fromSelectFolder.IsValid) return;
+
+//			tempGetPriorFolder();
+
+			SetgMgr.SetPriorFolder(FolderType, fromSelectFolder);
+
+			FolderRoute.Path = fromSelectFolder;
+
+			configureFolderRoute();
+		}
+
+		private void configureFolderRoute()
+		{
+			int folderPathType;
+
+			folderPathType = ObliqueButtonType.SELECTFOLDER.Value();
+
+			if (HasFolder)
+			{
+				folderPathType += ObliqueButtonType.TEXT.Value();
+			}
+
+			folderPathType += sfm[SavedFolderType.HISTORY.Value()].HasSavedFolders ? ObliqueButtonType.HISTORY.Value() : 0;
+			folderPathType += sfm[SavedFolderType.FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
+
+			FolderPathType = folderPathType;
+		}
+
+
+	#endregion
+
+
+
+	#region temp methods
+
+		private void tempGetPriorFolder()
+		{
+			if (FolderType == FolderType.CURRENT)
+			{
+				tempPriorCurrentFolder();
+			}
+			else
+			{
+				tempPriorRevisionFolder();
+			}
+		}
+
+		private void tempPriorCurrentFolder()
+		{
+			fromSelectFolder = new FilePath<FileNameSimple>(
+				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
+		}
+
+		private void tempPriorRevisionFolder()
+		{
+			fromSelectFolder = new FilePath<FileNameSimple>(
+				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+
+		}
+
+	#endregion
+
+	#region event processing
+
+		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
+		{
+			Debug.WriteLine("folderManager, path changed");
+			Debug.WriteLine("folderManager| index     | " + e.Index);
+			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
+
+			RaiseFolderChangedEvent();
+		}
+
+		internal void onPathSelectFolderEvent(object sender, EventArgs e)
+		{
+			Debug.WriteLine("folderManager, Select Folder");
+
+			SelectFolder();
+		}
+
+		internal void onPathFavoriteEvent(object sender, EventArgs e)
+		{
+			Debug.WriteLine("folderManager, Favorites");
+
+//			SelectFolder();
+		}
+
+		internal void onPathHistoryEvent(object sender, EventArgs e)
+		{
+			Debug.WriteLine("folderManager, History");
+
+//			SelectFolder();
+		}
+
+	#endregion
+
+	#region events
+
+		public delegate void FolderChangedEventHandler(object sender, EventArgs e);
+
+		public event HeaderControl.FolderChangedEventHandler PathChanged;
+
+		protected virtual void RaiseFolderChangedEvent()
+		{
+			PathChanged?.Invoke(this, new EventArgs());
+		}
+
+	#endregion
 
 	#region public control properties
+
+		public static readonly DependencyProperty FolderTypeProperty = DependencyProperty.Register(
+			"FolderType", typeof(FolderType), typeof(HeaderControl), new PropertyMetadata(FolderType.UNASSIGNED));
+
+		public FolderType FolderType
+		{
+			get { return (FolderType) GetValue(FolderTypeProperty); }
+			set { SetValue(FolderTypeProperty, value); }
+		}
 
 		public static readonly DependencyProperty TitleProperty =
 			DependencyProperty.Register("Title", typeof(string),

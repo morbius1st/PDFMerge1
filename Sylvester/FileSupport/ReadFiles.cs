@@ -16,16 +16,15 @@ namespace Sylvester.FileSupport
 {
 	public class ReadFiles
 	{
-		public bool GetFiles<T>(FilePath<FileNameAsSheet> Folder, bool preselect,
-			FilesCollection<T> fc) where T : SheetNameInfo, new()
+		public bool GetFiles<T>( FilesCollection<T> fc, bool preselect, FilePath<FileNameSimple> folder) where T : SheetNameInfo, new()
 		{
 			fc.Reset();
 
 			foreach (string file in
-				Directory.EnumerateFiles(Folder.GetFullPath, "*.*",
+				Directory.EnumerateFiles(folder.GetFullPath, "*.*",
 					SearchOption.TopDirectoryOnly))
 			{
-				fc.Add(new FilePath<FileNameAsSheet>(file), preselect);
+				fc.Add(new FilePath<FileNameSimple>(file), preselect);
 			}
 			
 			return fc.SheetPdfs > 0;

@@ -17,11 +17,11 @@ namespace Sylvester.FolderSupport
 {
 	public class SelectFolder //: IDisposable
 	{
-		public FilePath<FileNameAsSheet> GetFolder(FilePath<FileNameAsSheet> initFolder)
+		public FilePath<FileNameSimple> GetFolder(FilePath<FileNameSimple> initFolder)
 		{
 			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select PDF Package Folder"))
 			{
-				if (!initFolder.IsValid) return FilePath<FileNameAsSheet>.Invalid;
+				if (!initFolder.IsValid) return FilePath<FileNameSimple>.Invalid;
 
 				cfd.InitialDirectory = initFolder.GetFullPath;
 				cfd.IsFolderPicker = true;
@@ -36,10 +36,10 @@ namespace Sylvester.FolderSupport
 
 				if (result != CommonFileDialogResult.Ok)
 				{
-					return FilePath<FileNameAsSheet>.Invalid;
+					return FilePath<FileNameSimple>.Invalid;
 				}
 
-				return new FilePath<FileNameAsSheet>(cfd.FileName);
+				return new FilePath<FileNameSimple>(cfd.FileName);
 			}
 		}
 	}

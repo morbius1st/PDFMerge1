@@ -25,10 +25,10 @@ namespace Sylvester.SavedFolders
 
 		private SavedFolderManager[] sfMgr = new SavedFolderManager[2];
 
-		public FilePath<FileNameAsSheet> CurrentFolder =
-			new FilePath<FileNameAsSheet>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
+		public FilePath<FileNameSimple> CurrentFolder =
+			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 
-		public FilePath<FileNameAsSheet> TestFolder = new FilePath<FileNameAsSheet>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+		public FilePath<FileNameSimple> TestFolder = new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
 
 		public static SavedFoldersDebugSupport Instance = new SavedFoldersDebugSupport();
 
@@ -44,7 +44,7 @@ namespace Sylvester.SavedFolders
 
 		public void Test_01()
 		{
-			FilePath<FileNameAsSheet> r =  new FilePath<FileNameAsSheet>(
+			FilePath<FileNameSimple> r =  new FilePath<FileNameSimple>(
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 
 			string[] names = UserSettings.Data.priorPath.GetPathNamesAlt;

@@ -25,35 +25,35 @@ namespace UtilityLibrary
 		DIRECTORY
 	}
 
-	public class FileNameAsSheet : AFileName
-	{
-		private string sheetnumber;
-		private string sheetname;
-
-		public string SheetNumber
-		{
-			get => sheetnumber;
-			set => sheetnumber = value;
-		}
-
-		public string SheetName
-		{
-			get => sheetname;
-			set => sheetname = value;
-		}
-
-		public override string Name
-		{
-			get => sheetnumber + " :: " + sheetname;
-			set { ParseName(value); }
-		}
-
-		private void ParseName(string name)
-		{
-			sheetnumber = name?.Substring(0, 5) ?? null;
-			sheetname = name?.Substring(6) ?? null;
-		}
-	}
+//	public class FileNameSimple : AFileName
+//	{
+//		private string sheetnumber;
+//		private string sheetname;
+//
+//		public string SheetNumber
+//		{
+//			get => sheetnumber;
+//			set => sheetnumber = value;
+//		}
+//
+//		public string SheetName
+//		{
+//			get => sheetname;
+//			set => sheetname = value;
+//		}
+//
+//		public override string Name
+//		{
+//			get => sheetnumber + " :: " + sheetname;
+//			set { ParseName(value); }
+//		}
+//
+//		private void ParseName(string name)
+//		{
+//			sheetnumber = name?.Substring(0, 5) ?? null;
+//			sheetname = name?.Substring(6) ?? null;
+//		}
+//	}
 
 
 

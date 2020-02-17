@@ -86,8 +86,8 @@ namespace Sylvester.SavedFolders
 		}
 
 		public bool AddProject(
-			FilePath<FileNameAsSheet> current,
-			FilePath<FileNameAsSheet> revision
+			FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision
 			)
 		{
 

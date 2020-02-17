@@ -13,13 +13,13 @@ namespace Sylvester.UserControls
 	{
 		public int Index;
 		public string SelectedFolder;
-		public FilePath<FileNameAsSheet> SelectedPath;
+		public FilePath<FileNameSimple> SelectedPath;
 
-		public PathChangeArgs(int index, string selectedFolder, string selectedPath)
+		public PathChangeArgs(int index, string selectedFolder, FilePath<FileNameSimple> selectedPath)
 		{
-			Index = index;
-			SelectedFolder = selectedFolder;
-			SelectedPath = new FilePath<FileNameAsSheet>(selectedPath);
+			this.Index = index;
+			this.SelectedFolder = selectedFolder;
+			this.SelectedPath = selectedPath;
 		}
 	}
 }

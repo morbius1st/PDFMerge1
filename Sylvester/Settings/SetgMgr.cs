@@ -49,26 +49,26 @@ namespace Sylvester.Settings
 
 		public static string[] test = new string[3];
 
-		public static void SetPriorFolder(int index, FilePath<FileNameAsSheet> folder)
+		public static void SetPriorFolder(FolderType index, FilePath<FileNameSimple> folder)
 		{
-			UserSettings.Data.PriorFolders[index] = folder.GetFullPath;
+			UserSettings.Data.PriorFolders[index.Value()] = folder.GetFullPath;
 			UserSettings.Admin.Write();
 		}
 
-		public static void SetPriorFolder(int index, string folder)
+		public static void SetPriorFolder(FolderType index, string folder)
 		{
 
 			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
 
 			UserSettingData30 a = UserSettings.Data;
 
-			UserSettings.Data.PriorFolders[index] = folder;
+			UserSettings.Data.PriorFolders[index.Value()] = folder;
 			UserSettings.Admin.Write();
 		}
 
-		public static FilePath<FileNameAsSheet> GetPriorFolder(int index)
+		public static FilePath<FileNameSimple> GetPriorFolder(FolderType index)
 		{
-			return new FilePath<FileNameAsSheet>(UserSettings.Data.PriorFolders[index]);
+			return new FilePath<FileNameSimple>(UserSettings.Data.PriorFolders[index.Value()]);
 		}
 
 	#endregion

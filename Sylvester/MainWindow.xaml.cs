@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace Sylvester
 
 		public static Window MainWin;
 
-		public ProcessManager pm { get; private set; } = new ProcessManager();
+		public ProcessManager pm { get; private set; }// = new ProcessManager();
 
 		public MainWindow()
 		{
@@ -127,13 +128,36 @@ namespace Sylvester
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{
-			pm = new ProcessManager(HdrCurrent, HdrRevision);
+			// get PM started - get events wired
+			pm = new ProcessManager();
+
+			// order matters - wire events
+			HdrCurrent.PathChanged += OnPathChanged;
+			HdrRevision.PathChanged += OnPathChanged;
+
+			// then start up which uses the above events
+			HdrCurrent.Start();
+			HdrRevision.Start();
+
+
 
 			OnPropertyChange("pm");
 		}
 
 	#endregion
 
+	#region events handling
+
+		internal void OnPathChanged(object sender, EventArgs e)
+		{
+			HeaderControl hc = sender as HeaderControl;
+
+			pm.FolderChanged(hc.FolderType, hc.Folder);
+		}
+
+		
+
+	#endregion
 	#region events
 
 		public event PropertyChangedEventHandler PropertyChanged;
