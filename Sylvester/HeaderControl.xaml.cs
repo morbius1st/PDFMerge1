@@ -97,7 +97,11 @@ namespace Sylvester
 		{
 			int folderPathType;
 
-			folderPathType = ObliqueButtonType.SELECTFOLDER.Value();
+			// always show the select folder button
+			// always show the favorites button (how else could they
+			// make a new favorite
+			folderPathType = ObliqueButtonType.SELECTFOLDER.Value() +
+				ObliqueButtonType.FAVORITES.Value();
 
 			if (HasFolder)
 			{
@@ -105,7 +109,7 @@ namespace Sylvester
 			}
 
 			folderPathType += sfm[SavedFolderType.HISTORY.Value()].HasSavedFolders ? ObliqueButtonType.HISTORY.Value() : 0;
-			folderPathType += sfm[SavedFolderType.FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
+//			folderPathType += sfm[SavedFolderType.FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
 
 			FolderPathType = folderPathType;
 		}
@@ -158,21 +162,25 @@ namespace Sylvester
 
 		internal void onPathSelectFolderEvent(object sender, EventArgs e)
 		{
-			Debug.WriteLine("folderManager, Select Folder");
+			Debug.WriteLine("Header Control, Select Folder");
 
 			SelectFolder();
 		}
 
 		internal void onPathFavoriteEvent(object sender, EventArgs e)
 		{
-			Debug.WriteLine("folderManager, Favorites");
+//			Debug.WriteLine("folderManager, Favorites");
+
+			sfm[SavedFolderType.FAVORITES.Value()].test();
 
 //			SelectFolder();
 		}
 
 		internal void onPathHistoryEvent(object sender, EventArgs e)
 		{
-			Debug.WriteLine("folderManager, History");
+//			Debug.WriteLine("folderManager, History");
+
+			sfm[SavedFolderType.HISTORY.Value()].test();
 
 //			SelectFolder();
 		}

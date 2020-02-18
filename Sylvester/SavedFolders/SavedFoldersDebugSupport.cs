@@ -21,46 +21,61 @@ namespace Sylvester.SavedFolders
 {
 	public class SavedFoldersDebugSupport :INotifyPropertyChanged
 	{
-		private SavedFoldersWin savedWin;
+		private SavedFoldersWin savedWin => SavedFolderManager.SavedWinInstance;
+//
+//		private SavedFolderManager[] sfMgr = new SavedFolderManager[2];
 
-		private SavedFolderManager[] sfMgr = new SavedFolderManager[2];
-
-		public FilePath<FileNameSimple> CurrentFolder =
+		public FilePath<FileNameSimple> CurrentFolder2 =
 			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
 
-		public FilePath<FileNameSimple> TestFolder = new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+		public FilePath<FileNameSimple>[] CurrentFolder = new []
+		{
+			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base"),
+			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base - Copy"),
+			new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\9999 Current\Individual Sheets\Base 2"),
+			new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\9999 Current\Individual Sheets\Base 3")
+		};
+
+		public FilePath<FileNameSimple> TestFolder2 = new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+
+		public FilePath<FileNameSimple>[] TestFolder = new []
+		{
+			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test"),
+			new FilePath<FileNameSimple>(@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test - Copy"),
+			new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\9999 Current\Individual Sheets\Test 2"),
+			new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\9999 Current\Individual Sheets\Test 3"),
+		};
+
 
 		public static SavedFoldersDebugSupport Instance = new SavedFoldersDebugSupport();
 
 		private SavedFoldersDebugSupport() { }
 
-		public void ConfigSavedFoldersDebugSupport(SavedFolderManager current, SavedFolderManager revision)
+//		public void ConfigSavedFoldersDebugSupport(SavedFolderManager current, SavedFolderManager revision)
+//		{
+//		}
+
+//		public void Test_01()
+//		{
+//			FilePath<FileNameSimple> r =  new FilePath<FileNameSimple>(
+//				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
+//
+//			string[] names = UserSettings.Data.priorPath.GetPathNamesAlt;
+//
+//			foreach (string name in names)
+//			{
+//				savedWin.AppendLineFmt("name",  name + nl);
+//
+//			}
+//		}
+
+		private int idx = 0;
+
+		public void Test_02(SavedFolderManager sfMgr, SavedFolderType index)
 		{
-			savedWin = SavedFolderManager.SavedWinInstance;
+//			UserSettingData30 d = UserSettings.Data;
 
-			sfMgr[0] = current;
-			sfMgr[1] = revision;
-		}
-
-		public void Test_01()
-		{
-			FilePath<FileNameSimple> r =  new FilePath<FileNameSimple>(
-				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
-
-			string[] names = UserSettings.Data.priorPath.GetPathNamesAlt;
-
-			foreach (string name in names)
-			{
-				savedWin.AppendLineFmt("name",  name + nl);
-
-			}
-		}
-
-		public void Test_02(SavedFolderType index)
-		{
-			UserSettingData30 d = UserSettings.Data;
-
-			bool result = sfMgr[0].AddProject(CurrentFolder, TestFolder);
+			bool result = sfMgr.AddProjectFavorite(CurrentFolder[idx], TestFolder[idx++]);
 
 			savedWin.AppendLineFmt("make project", (result ? ";worked" : "failed"));
 
@@ -102,11 +117,12 @@ namespace Sylvester.SavedFolders
 			savedWin.AppendLine(nl);
 			savedWin.AppendLineFmt("default volume", d.DefaultVolume);
 			savedWin.AppendLineFmt("sheet title case", d.SheetTitleCase.Name());
-			savedWin.AppendLineFmt("prior path", d.priorPath?.GetFullPath ?? "null prior path");
+			savedWin.AppendLineFmt("prior path 0", d.PriorFolders[0]?.GetFullPath ?? "null prior path");
+			savedWin.AppendLineFmt("prior path 1", d.PriorFolders[1]?.GetFullPath ?? "null prior path");
 			
-			foreach (string s in d.PriorFolders)
+			foreach (FilePath<FileNameSimple> s in d.PriorFolders)
 			{
-				savedWin.AppendLineFmt("prior folder #" + i++, s ?? "is null");
+				savedWin.AppendLineFmt("prior folder #" + i++, s?.GetFullPath ?? "is null");
 			}
 		}
 
@@ -133,7 +149,7 @@ namespace Sylvester.SavedFolders
 			savedWin.AppendLineFmt("saved key", kvp.Key);
 			savedWin.AppendLineFmt("name", kvp.Name);
 			savedWin.AppendLineFmt("Id/Vol", kvp.Identifier.Volume ?? "null volume");
-			savedWin.AppendLineFmt("Id/Root Folder", kvp.Identifier.RootFolder ?? "null root folder");
+			savedWin.AppendLineFmt("Id/Root Folder", kvp.Identifier.ProjectFolder ?? "null root folder");
 			savedWin.AppendLineFmt("UseCount", kvp.UseCount.ToString());
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("current/rev fldf pair");

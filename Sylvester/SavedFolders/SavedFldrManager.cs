@@ -7,10 +7,12 @@
 // itemname: SavedFolderManager
 // username: jeffs
 // created:  1/20/2020 8:55:27 PM
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Sylvester.FileSupport;
+using Sylvester.Process;
 using Sylvester.Settings;
 using UtilityLibrary;
 
@@ -25,54 +27,32 @@ namespace Sylvester.SavedFolders
 
 	public class SavedFolderManager : INotifyPropertyChanged
 	{
-		// will be two versions 
+		// will be two copies 
 		// one for history
 		// one for favorites
 
+		private static string[] titles = new [] {"Historical Folders", "Favorite Folders"};
+
 		private static SavedFoldersWin savedWinInstance;
-
-//		private ObservableCollection<SavedFolderProject> savedFolders;
-
-//		private Dictionary<string, SavedFolderProject> savedFolders;
-//		private ICollectionView savedFolderVue;
 
 		private SetgMgr sm;
 
-		public SavedFolderManager() { }
+		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
 
-		public SavedFolderManager(SavedFolderType index
-//			,
-//			ObservableCollection<SavedFolderProject> savedFolders
-			)
+		private string title;
+
+//		public SavedFolderManager() { }
+
+		public SavedFolderManager(SavedFolderType index)
 		{
 			// before make savedfolderwin
 			sm = SetgMgr.Instance;
 
-			savedWinInstance = new SavedFoldersWin(this);
-
 			Index = index;
-
-//			this.savedFolders = savedFolders;
+			this.title = titles[index.Value()];
 		}
 
-//		public void Initialize()
-//		{
-//			Vue = CollectionViewSource.GetDefaultView(savedFolders);
-//		}
-//
-
-//		public ICollectionView Vue
-//		{
-//			get => savedFolderVue;
-//			set
-//			{
-//				savedFolderVue = value;
-//				OnPropertyChange();
-//			}
-//		}
-
-//		public ObservableCollection<SavedFolderProject> SavedFolders => savedFolders;
-		public ObservableCollection<SavedFolderProject> SavedFolders => sm.SavedFolders[Index.Value()];
+	#region public methods
 
 		public SavedFolderType Index { get; set; }
 
@@ -80,45 +60,111 @@ namespace Sylvester.SavedFolders
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
 
+	#endregion
+
+	#region public methods
+
 		public void test()
 		{
+			savedWinInstance = new SavedFoldersWin(Index, title);
+			savedWinInstance.AddFavorite -= SavedWinInstance_AddFavorite;
+			savedWinInstance.AddFavorite += SavedWinInstance_AddFavorite;
 			bool? result = savedWinInstance.ShowDialog();
 		}
 
-		public bool AddProject(
+		public bool AddProjectFavorite(
 			FilePath<FileNameSimple> current,
 			FilePath<FileNameSimple> revision
 			)
 		{
+//			UserSettings.Data.priorPath = current;
 
-			UserSettings.Data.priorPath = current;
 
-			SavedFolderProject sf = sm.FindSavedFolder(current[0], Index);
+//			SetgMgr.SetPriorFolder(FolderType.CURRENT, current);
+//			SetgMgr.SetPriorFolder(FolderType.REVISION, revision);
+
+//			string searchKey = SavedFolderProject.MakeSavedFolderKey(current.AssemblePath(1));
+//
+//			SavedFolderProject sf = sm.FindSavedFolder(searchKey, Index);
+//			SavedFolderPair cfp = new SavedFolderPair(current, revision);
+//
+//			if (sf == null)
+//			{
+//				sf = new SavedFolderProject(current);
+//				sm.AddSavedFolder(sf, Index);
+//			}
+//			else
+//			{
+//				if (sm.FindSavedFolderPair(sf, cfp.Key) != null) return false;
+//			}
+//
+//			sf.SavedFolderPairs.Add(cfp);
+//
+//			UserSettings.Admin.Write();
+
+			bool result = AddProject(current, revision);
+
+			if (!result) return false;
+
+			savedWinInstance.CollectionUpdated();
+
+			return true;
+		}
+
+		public bool AddProjectHistory(
+			FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision
+			)
+		{
+			bool result = AddProject(current, revision);
+
+			if (!result) return false;
+
+			savedWinInstance.CollectionUpdated();
+
+			return true;
+		}
+
+	#endregion
+
+	#region private methods
+
+		private bool AddProject (
+			FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision)
+		{
+			string searchKey = SavedFolderProject.MakeSavedFolderKey(current.AssemblePath(1));
+
+			SavedFolderProject sf = sm.FindSavedFolder(searchKey, Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
-				sf = new SavedFolderProject(current.GetDrivePath, current.GetPathNames[0]);
+				sf = new SavedFolderProject(current);
 				sm.AddSavedFolder(sf, Index);
 			}
 			else
 			{
-				if (sm.FindCurrentRevisionFolderPair(sf, cfp.Key) != null) return false;
+				if (sm.FindSavedFolderPair(sf, cfp.Key) != null) return false;
 			}
 
 			sf.SavedFolderPairs.Add(cfp);
 
 			UserSettings.Admin.Write();
 
-			OnPropertyChange("SavedFolders");
-
-			savedWinInstance.CollectionUpdated();
-
-//			savedWinInstance
-
 			return true;
 		}
 
+	#endregion
+
+	#region event processing
+
+		private void SavedWinInstance_AddFavorite(object sender, EventArgs e)
+		{
+			// add a fav
+
+			sfds.Test_02(this, Index);
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -126,5 +172,7 @@ namespace Sylvester.SavedFolders
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+	#endregion
 	}
 }

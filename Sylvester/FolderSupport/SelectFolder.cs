@@ -21,7 +21,11 @@ namespace Sylvester.FolderSupport
 		{
 			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select PDF Package Folder"))
 			{
-				if (!initFolder.IsValid) return FilePath<FileNameSimple>.Invalid;
+//				if (!initFolder.IsValid) return FilePath<FileNameSimple>.Invalid;
+				if (!initFolder.IsValid)
+				{
+					initFolder = new FilePath<FileNameSimple>("");
+				}
 
 				cfd.InitialDirectory = initFolder.GetFullPath;
 				cfd.IsFolderPicker = true;

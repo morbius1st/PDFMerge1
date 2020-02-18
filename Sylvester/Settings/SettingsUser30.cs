@@ -49,8 +49,12 @@ namespace Sylvester.Settings
 	{
 		public UserSettingData30()
 		{
-
 			initialize();
+
+			for (var i = 0; i < PriorFolders.Length; i++)
+			{
+				PriorFolders[i] = new FilePath<FileNameSimple>();
+			}
 		}
 
 		[DataMember]
@@ -59,11 +63,11 @@ namespace Sylvester.Settings
 		[DataMember]
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
-		[DataMember]
-		public string[] PriorFolders = new string[2];
+//		[DataMember]
+//		public string[] PriorFolders = new string[2];
 
 		[DataMember]
-		public FilePath<FileNameSimple> priorPath;
+		public FilePath<FileNameSimple>[] PriorFolders = new FilePath<FileNameSimple>[2];
 
 
 //		// added with version 2.1

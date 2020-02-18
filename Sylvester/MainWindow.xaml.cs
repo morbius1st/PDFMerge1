@@ -158,6 +158,7 @@ namespace Sylvester
 		
 
 	#endregion
+
 	#region events
 
 		public event PropertyChangedEventHandler PropertyChanged;

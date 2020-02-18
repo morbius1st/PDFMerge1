@@ -15,7 +15,7 @@
 		mc:Ignorable="d"
 		Background="#333333"
 		DataContext="{Binding ElementName=SavedFolderWin, Path=SavedFolders}"
-		>
+				Loaded="SavedFolderWin_Loaded">
 	<Window.Resources>
 
 		<Style
@@ -28,6 +28,7 @@
 			<Setter Property="Padding" Value="0" />
 		</Style>
 
+		<SolidColorBrush x:Key="btnBkg">LightGray</SolidColorBrush>
 
 	</Window.Resources>
 	<Grid>
@@ -53,14 +54,14 @@
 				>
 
 			<Button
-					Name="btnTest"
-					Content="Test"
+					Name="btnAddFav"
+					Content="Add Fav"
 					Margin="5,10,5,5"
 					Width="60"
 					HorizontalAlignment="Right"
-					Background="#555555"
-					Foreground="White"
-					Click="BtnTest_OnClick"
+					
+					
+					Click="BtnAddFav_OnClick"
 					/>
 
 			<Button
@@ -69,8 +70,8 @@
 					Margin="5,10,5,5"
 					Width="60"
 					HorizontalAlignment="Right"
-					Background="#555555"
-					Foreground="White"
+					
+					
 					Click="BtnDebug_OnClick"
 					/>
 
@@ -79,8 +80,8 @@
 					Content="Done"
 					Margin="5,10,5,5"
 					Width="60"
-					Background="#555555"
-					Foreground="White"
+					
+					
 					Click="BtnDone_OnClick"
 					/>
 

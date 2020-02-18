@@ -149,6 +149,21 @@ namespace Sylvester.FileSupport
 
 		}
 
+		public void Initialize()
+		{
+			Files.Clear();
+			NonSheetPdfsFiles = 0;
+			OtherFiles = 0;
+
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("Files");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("SheetPDFs");
+			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("FilesFound");
+
+		}
+
 		public override string ToString()
 		{
 			return Name;

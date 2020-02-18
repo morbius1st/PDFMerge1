@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
+using Sylvester.SavedFolders;
 using Sylvester.Settings;
 using UtilityLibrary;
 
@@ -59,6 +60,8 @@ namespace Sylvester.Process
 		private ReadFiles readFilesCurrent;
 		private ReadFiles readFilesRevision;
 
+		private SavedFolderManager sfm;
+
 
 	#endregion
 
@@ -77,6 +80,8 @@ namespace Sylvester.Process
 			FileCollectionFinal = new FilesCollection<FileFinal>();
 
 //			FileRevision rf = new FileRevision();
+			
+			sfm = new SavedFolderManager(SavedFolderType.HISTORY);
 
 			Reset();
 
@@ -170,13 +175,13 @@ namespace Sylvester.Process
 			{
 			case FolderType.CURRENT:
 				{
-					FileCollectionCurrent.Folder = folder;
+					FileCollectionCurrent.Folder = new FilePath<FileNameSimple>(folder.GetFullPath);
 //					ReadCurrent();
 					break;
 				}
 			case FolderType.REVISION:
 				{
-					FileCollectionRevision.Folder = folder;
+					FileCollectionRevision.Folder  = new FilePath<FileNameSimple>(folder.GetFullPath);
 //					ReadRevision();
 					break;
 				}
@@ -203,6 +208,8 @@ namespace Sylvester.Process
 			FileRenameManager frm = new FileRenameManager();
 
 			if (!frm.RenameFiles(FileCollectionFinal)) return false;
+
+			sfm.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 
 			Reset();
 
@@ -271,7 +278,7 @@ namespace Sylvester.Process
 
 		private void resetCurrent()
 		{
-			FileCollectionCurrent.Reset();
+			FileCollectionCurrent.Initialize();
 			FileCollectionCurrent.Name = "Current";
 //			FileCollectionCurrent.Folder = _fmCurrent.Folder;
 			CvCurrent = null;
@@ -283,7 +290,7 @@ namespace Sylvester.Process
 
 		private void resetRevision()
 		{
-			FileCollectionRevision.Reset();
+			FileCollectionRevision.Initialize();
 			FileCollectionRevision.Name = "Revision";
 //			FileCollectionRevision.Folder = _fmRevision.Folder;
 			CvRevision = null;

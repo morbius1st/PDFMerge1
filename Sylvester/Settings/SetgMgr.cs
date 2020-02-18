@@ -51,24 +51,24 @@ namespace Sylvester.Settings
 
 		public static void SetPriorFolder(FolderType index, FilePath<FileNameSimple> folder)
 		{
-			UserSettings.Data.PriorFolders[index.Value()] = folder.GetFullPath;
-			UserSettings.Admin.Write();
-		}
-
-		public static void SetPriorFolder(FolderType index, string folder)
-		{
-
-			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
-
-			UserSettingData30 a = UserSettings.Data;
-
 			UserSettings.Data.PriorFolders[index.Value()] = folder;
 			UserSettings.Admin.Write();
 		}
 
+//		public static void SetPriorFolder(FolderType index, FilePath<FileNameSimple> folder)
+//		{
+//
+//			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
+//
+//			UserSettingData30 a = UserSettings.Data;
+//
+//			UserSettings.Data.PriorFolders[index.Value()] = folder;
+//			UserSettings.Admin.Write();
+//		}
+
 		public static FilePath<FileNameSimple> GetPriorFolder(FolderType index)
 		{
-			return new FilePath<FileNameSimple>(UserSettings.Data.PriorFolders[index.Value()]);
+			return UserSettings.Data.PriorFolders[index.Value()];
 		}
 
 	#endregion
@@ -82,7 +82,7 @@ namespace Sylvester.Settings
 
 		public bool AddSavedFolder(SavedFolderProject sf, SavedFolderType index)
 		{
-			if (FindSavedFolder(sf.Identifier.RootFolder, index) != null) return false;
+			if (FindSavedFolder(sf.Identifier.ProjectFolder, index) != null) return false;
 
 			UserSettings.Data.SavedFolders[index.Value()].Add(sf);
 
@@ -100,7 +100,7 @@ namespace Sylvester.Settings
 		}
 
 		public SavedFolderPair 
-			FindCurrentRevisionFolderPair(SavedFolderProject sf, string testKey)
+			FindSavedFolderPair(SavedFolderProject sf, string testKey)
 		{
 
 			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)

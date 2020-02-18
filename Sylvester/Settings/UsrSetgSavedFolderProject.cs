@@ -6,6 +6,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using UtilityLibrary;
 
 namespace Sylvester.SavedFolders
 {
@@ -20,11 +21,11 @@ namespace Sylvester.SavedFolders
 			public string Volume { get; set; }
 
 			[DataMember]
-			public string RootFolder { get; set; }
+			public string ProjectFolder { get; set; }
 		}
 
 		[DataMember]
-		public FolderRoot Identifier { get; set; } = new FolderRoot() {Volume = null, RootFolder = null};
+		public FolderRoot Identifier { get; set; } = new FolderRoot() {Volume = null, ProjectFolder = null};
 
 		[DataMember]
 		public string Key { get; set; }
@@ -44,25 +45,25 @@ namespace Sylvester.SavedFolders
 
 		public SavedFolderProject() { }
 
-		public SavedFolderProject(string volume, string rootFolder, string name = "")
+		public SavedFolderProject(FilePath<FileNameSimple> folder, string name = "")
 		{
 			Identifier = new FolderRoot()
 			{
-				Volume = volume,
-				RootFolder = rootFolder
+				Volume = folder.GetDrivePath, 
+				ProjectFolder = folder.AssemblePath(1)
 			};
 			UseCount = 0;
 
-			Name = string.IsNullOrWhiteSpace(name) ? Identifier.RootFolder : name;
+			Name = string.IsNullOrWhiteSpace(name) ? Identifier.ProjectFolder : name;
 
-			Key = MakeSavedFolderKey(UseCount, Name);
+			Key = MakeSavedFolderKey(Name);
 
 			Icon = null;
 		}
 
-		public static string MakeSavedFolderKey(int useCount, string name)
+		public static string MakeSavedFolderKey(string name)
 		{
-			return $"{useCount:D5} / " + name;
+			return name.ToUpper();
 		}
 	}
 }

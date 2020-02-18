@@ -370,7 +370,14 @@ namespace Tests
 			}
 
 			//               x                   |
+			WriteLineToLeft("AssemblePath(4)     | " + f.AssemblePath(4));
+			WriteLineToLeft("AssemblePath(3)     | " + f.AssemblePath(3));
 			WriteLineToLeft("AssemblePath(2)     | " + f.AssemblePath(2));
+			WriteLineToLeft("AssemblePath(1)     | " + f.AssemblePath(1));
+			WriteLineToLeft("AssemblePath(0)     | " + f.AssemblePath(0));
+			WriteLineToLeft("AssemblePath(-4)    | " + f.AssemblePath(-4));
+			WriteLineToLeft("AssemblePath(-3)    | " + f.AssemblePath(-3));
+			WriteLineToLeft("AssemblePath(-2)    | " + f.AssemblePath(-2));
 			WriteLineToLeft("AssemblePath(-1)    | " + f.AssemblePath(-1));
 
 			WriteLineToLeft("change routines     | ");

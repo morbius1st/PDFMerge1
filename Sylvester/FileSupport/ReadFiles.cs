@@ -18,7 +18,7 @@ namespace Sylvester.FileSupport
 	{
 		public bool GetFiles<T>( FilesCollection<T> fc, bool preselect, FilePath<FileNameSimple> folder) where T : SheetNameInfo, new()
 		{
-			fc.Reset();
+			fc.Initialize();
 
 			foreach (string file in
 				Directory.EnumerateFiles(folder.GetFullPath, "*.*",
