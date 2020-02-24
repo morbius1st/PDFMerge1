@@ -33,7 +33,7 @@ namespace Sylvester.FolderSupport
 				cfd.ShowPlacesList = true;
 				cfd.AllowNonFileSystemItems = false;
 
-				cfd.AllowPropertyEditing = AppSettings.Data.AllowPropertyEditing;
+				cfd.AllowPropertyEditing = SetgMgr.AllowPropertyEditing;
 				AppSettings.Admin.Write();
 
 				CommonFileDialogResult	result = cfd.ShowDialog();

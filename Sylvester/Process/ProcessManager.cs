@@ -60,7 +60,7 @@ namespace Sylvester.Process
 		private ReadFiles readFilesCurrent;
 		private ReadFiles readFilesRevision;
 
-		private SavedFolderManager sfm;
+		private SavedFolderManager sfmHistory;
 
 
 	#endregion
@@ -80,8 +80,8 @@ namespace Sylvester.Process
 			FileCollectionFinal = new FilesCollection<FileFinal>();
 
 //			FileRevision rf = new FileRevision();
-			
-			sfm = new SavedFolderManager(SavedFolderType.HISTORY);
+
+			sfmHistory = SavedFolderManager.GetHistoryManager;
 
 			Reset();
 
@@ -152,19 +152,6 @@ namespace Sylvester.Process
 
 		public bool HasRevisionItems => !CvRevision?.IsEmpty ?? false;
 
-//		public FilePath<FileNameSimple> Current
-//		{
-//			get => FileCollectionCurrent.Folder;
-//			set => FileCollectionCurrent.Folder = value;
-//		}
-//
-//		public FilePath<FileNameSimple> Revision
-//		{
-//			get => FileCollectionRevision.Folder;
-//			set => FileCollectionRevision.Folder = value;
-//		}
-
-
 	#endregion
 
 	#region public methods
@@ -175,20 +162,18 @@ namespace Sylvester.Process
 			{
 			case FolderType.CURRENT:
 				{
-					FileCollectionCurrent.Folder = new FilePath<FileNameSimple>(folder.GetFullPath);
+					FileCollectionCurrent.Folder = folder;
 //					ReadCurrent();
 					break;
 				}
 			case FolderType.REVISION:
 				{
-					FileCollectionRevision.Folder  = new FilePath<FileNameSimple>(folder.GetFullPath);
+					FileCollectionRevision.Folder  = folder;
 //					ReadRevision();
 					break;
 				}
 			}
 		}
-
-
 
 		public bool Compare()
 		{
@@ -209,7 +194,7 @@ namespace Sylvester.Process
 
 			if (!frm.RenameFiles(FileCollectionFinal)) return false;
 
-			sfm.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
+			sfmHistory.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 
 			Reset();
 

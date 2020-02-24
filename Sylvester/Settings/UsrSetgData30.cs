@@ -41,7 +41,7 @@ namespace Sylvester.Settings
 
 	public partial class UserSettingData30
 	{
-		private void initialize()
+		private void initializeSavedFolders()
 		{
 			if (SavedFolders == null)
 			{ 

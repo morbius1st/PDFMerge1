@@ -43,26 +43,26 @@
 				Color="#999999"
 				/>
 
-		<SolidColorBrush
-				x:Key="Path.Favorite.Fill"
-				Color="OrangeRed"
-				/>
+		<!-- <SolidColorBrush -->
+		<!-- 		x:Key="Path.Favorite.Fill" -->
+		<!-- 		Color="OrangeRed" -->
+		<!-- 		/> -->
+		<!-- -->
+		<!-- <SolidColorBrush -->
+		<!-- 		x:Key="Path.Plus.Fill" -->
+		<!-- 		Color="Lime" -->
+		<!-- 		/> -->
+		<!-- -->
+		<!-- <SolidColorBrush -->
+		<!-- 		x:Key="Path.History.Fill" -->
+		<!-- 		Color="#00efff" -->
+		<!-- 		/> -->
 
-		<SolidColorBrush
-				x:Key="Path.Plus.Fill"
-				Color="Lime"
-				/>
 
-		<SolidColorBrush
-				x:Key="Path.History.Fill"
-				Color="#00efff"
-				/>
-
-
-		<SolidColorBrush
-				x:Key="Button.Static.Background"
-				Color="#444444"
-				/>
+		<!-- <SolidColorBrush -->
+		<!-- 		x:Key="Button.Static.Background" -->
+		<!-- 		Color="#444444" -->
+		<!-- 		/> -->
 
 		<SolidColorBrush
 				x:Key="Button.Static.Foreground"
@@ -223,10 +223,11 @@
 						</StackPanel.Style>
 
 						<!--#region > favorites symbol  -->
+						<!-- Data="F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z" -->
 						<Path
 								x:Name="Star"
 								Margin="0,0,0,0"
-								Data="F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z"
+								Data="{StaticResource Icon.Svg.Favorite}"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=FavoritesBrush,
 															 FallbackValue={StaticResource Path.Favorite.Fill}}"
@@ -257,13 +258,15 @@
 															 FallbackValue={StaticResource Path.History.Fill}}"
 								Opacity="1"
 								Stretch="Uniform"
-						>
-							<Path.Data>
-								<PathGeometry
-										Figures="M234.667,138.667 234.667,245.333 325.973,299.52 341.333,273.6 266.667,229.333 266.667,138.667z  M255.893 32C149.76 32 64 117.973 64 224H0l83.093 83.093l1.493 3.093L170.667 224h-64 c0-82.453 66.88-149.333 149.333-149.333S405.333 141.547 405.333 224S338.453 373.333 256 373.333     c-41.28 0-78.507-16.853-105.493-43.84L120.32 359.68C154.987 394.453 202.88 416 255.893 416C362.027 416 448 330.027 448 224     S362.027 32 255.893 32z"
-										FillRule="NonZero"
-								/>
-							</Path.Data>
+								Data="{StaticResource Icon.Svg.History}"
+								>
+							<!-- <Path.Data> -->
+							<!-- 	<PathGeometry /> -->
+							<!-- </Path.Data> -->
+								<!-- <PathGeometry -->
+								<!-- 		Figures="M234.667,138.667 234.667,245.333 325.973,299.52 341.333,273.6 266.667,229.333 266.667,138.667z  M255.893 32C149.76 32 64 117.973 64 224H0l83.093 83.093l1.493 3.093L170.667 224h-64 c0-82.453 66.88-149.333 149.333-149.333S405.333 141.547 405.333 224S338.453 373.333 256 373.333     c-41.28 0-78.507-16.853-105.493-43.84L120.32 359.68C154.987 394.453 202.88 416 255.893 416C362.027 416 448 330.027 448 224     S362.027 32 255.893 32z" -->
+								<!-- 		FillRule="NonZero" -->
+								<!-- /> -->
 							<Path.Style>
 								<Style TargetType="Path">
 									<Setter Property="Visibility" Value="Collapsed">
@@ -281,10 +284,11 @@
 
 
 						<!--#region > select folder symbol  -->
+						<!-- Data="F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z" -->
 						<Path
 								x:Name="Plus"
 								Margin="0"
-								Data="F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z"
+								Data="{StaticResource Icon.Svg.SelectFolder}"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=PlusBrush,
 															 FallbackValue={StaticResource Path.Plus.Fill}}"

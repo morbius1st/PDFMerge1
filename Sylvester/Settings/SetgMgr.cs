@@ -2,10 +2,12 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using SettingManager;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
+using Sylvester.Windows;
 using UtilityLibrary;
 
 #endregion
@@ -23,13 +25,28 @@ namespace Sylvester.Settings
 	{
 		private static readonly SetgMgr instance = new SetgMgr();
 
+		private static WindowManager winMgr = new WindowManager();
+
 		static SetgMgr() { }
 
-		public SetgMgr()
-		{
-		}
+		public SetgMgr() { }
 
 		public static SetgMgr Instance => instance;
+
+	#region app settings
+
+		public static bool DebugMode
+		{
+			get => AppSettings.Data.DebugMode;
+			set => AppSettings.Data.DebugMode = value;
+		}
+
+		public static bool AllowPropertyEditing => AppSettings.Data.AllowPropertyEditing;
+
+	#endregion
+
+
+	#region user settings
 
 	#region configuration settings
 
@@ -47,24 +64,11 @@ namespace Sylvester.Settings
 
 	#region configuration data - prior folders
 
-		public static string[] test = new string[3];
-
 		public static void SetPriorFolder(FolderType index, FilePath<FileNameSimple> folder)
 		{
 			UserSettings.Data.PriorFolders[index.Value()] = folder;
 			UserSettings.Admin.Write();
 		}
-
-//		public static void SetPriorFolder(FolderType index, FilePath<FileNameSimple> folder)
-//		{
-//
-//			SettingsMgr<UserSettingInfo30> admin = UserSettings.Admin;
-//
-//			UserSettingData30 a = UserSettings.Data;
-//
-//			UserSettings.Data.PriorFolders[index.Value()] = folder;
-//			UserSettings.Admin.Write();
-//		}
 
 		public static FilePath<FileNameSimple> GetPriorFolder(FolderType index)
 		{
@@ -72,6 +76,18 @@ namespace Sylvester.Settings
 		}
 
 	#endregion
+
+	#region public methods
+
+		public static void WriteUsr()
+		{
+			UserSettings.Admin.Write();
+		}
+
+		public static void WriteApp()
+		{
+			AppSettings.Admin.Write();
+		}
 
 		public List<ObservableCollection<SavedFolderProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
@@ -82,7 +98,7 @@ namespace Sylvester.Settings
 
 		public bool AddSavedFolder(SavedFolderProject sf, SavedFolderType index)
 		{
-			if (FindSavedFolder(sf.Identifier.ProjectFolder, index) != null) return false;
+			if (FindSavedFolder(sf.Name, index) != null) return false;
 
 			UserSettings.Data.SavedFolders[index.Value()].Add(sf);
 
@@ -93,24 +109,59 @@ namespace Sylvester.Settings
 		{
 			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[index.Value()])
 			{
-				if (sp.Key.Equals(testkey)) return sp;
+				if (sp.Name.Equals(testkey)) return sp;
 			}
 
 			return null;
 		}
 
-		public SavedFolderPair 
-			FindSavedFolderPair(SavedFolderProject sf, string testKey)
+		public SavedFolderPair FindSavedFolderPair(SavedFolderProject sf, string testKey)
 		{
-
 			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)
 			{
-				if (sfp.Key.Equals(testKey)) return sfp;
+				if (sfp.Name.Equals(testKey)) return sfp;
 			}
 
 			return null;
 		}
 
+	#endregion
 
+	#endregion
+
+		public static WindowLayout GetMainWindowLayout => GetWindowLayout(WindowId.WINDOW_MAIN);
+		public static WindowLayout GetSavedFolderLayout => GetWindowLayout(WindowId.DIALOG_SAVED_FOLDERS);
+
+
+		public static WindowLayout GetWindowLayout(WindowId id)
+		{
+			return UserSettings.Data.SavedWinLocationInfo[(int) id];
+		}
+
+		public static void SetWindowLayout(WindowId id, WindowLayout layout)
+		{
+			UserSettings.Data.SavedWinLocationInfo[(int) id] = layout;
+
+			UserSettings.Admin.Write();
+		}
+
+
+		public static void RestoreWindowPosition(WindowId id, Window win)
+		{
+			winMgr.RestoreWinPosition(win, GetWindowLayout(id));
+		}
+
+
+		public static void RestoreWindowLayout(WindowId id, Window win)
+		{
+			winMgr.RestoreWinLayout(win, GetWindowLayout(id));
+		}
+
+		public static void SaveWindowLayout(WindowId id, Window win)
+		{
+			SetWindowLayout(id,
+				winMgr.SaveWinLayout(win, GetWindowLayout(id))
+				);
+		}
 	}
 }

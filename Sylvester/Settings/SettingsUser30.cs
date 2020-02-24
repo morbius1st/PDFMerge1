@@ -49,7 +49,8 @@ namespace Sylvester.Settings
 	{
 		public UserSettingData30()
 		{
-			initialize();
+			initializeSavedFolders();
+			initializeWindowLayout();
 
 			for (var i = 0; i < PriorFolders.Length; i++)
 			{
@@ -63,11 +64,10 @@ namespace Sylvester.Settings
 		[DataMember]
 		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
 
-//		[DataMember]
-//		public string[] PriorFolders = new string[2];
-
 		[DataMember]
 		public FilePath<FileNameSimple>[] PriorFolders = new FilePath<FileNameSimple>[2];
+
+
 
 
 //		// added with version 2.1
@@ -180,9 +180,11 @@ namespace Sylvester.Settings
 //	}
 //
 //	// sample class / data
-//	public class Window1
+//	public class WindowLayout
 //	{
-//		public int Height = 50;
-//		public int Width  = 100;
+//		public double Height = -1;
+//		public double Width  = -1;
+//		public double TopEdge = -1;
+//		public double LeftEdge = -1;
 //	}
 }

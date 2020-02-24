@@ -36,7 +36,7 @@ headercontrol (two separate)
 wait for event or method
 subscribed events: history / favorites / select folder / folder changed
 published events: folder changed
-public methods: reset / refresh
+public methods: 
 public properties: selected folder / hasFolder
 
 headercontrol/favorites event
@@ -64,11 +64,12 @@ start process manager
 -> initalize collection to (1) bogus entry
 -> create objects / read files / rename files
 wait
-public methods: folder changed (which), compare, rename, refresh
+public methods: folder changed (which), compare, rename, refresh, reset
 
 process manager/folder changed
 -> validate folder
 ?-> good, read files -> set buttons statuses
+?-> no good -> reset collection -> set button status
 
 process manager/compare
 ?-> can proceed -> compare
@@ -78,4 +79,7 @@ process manager/rename
 
 process manager/refresh
 -> folder changed for both
+
+process manager/reset
+-> provide new folder (both) -> folder changed
 

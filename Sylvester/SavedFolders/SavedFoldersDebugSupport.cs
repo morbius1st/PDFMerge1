@@ -146,10 +146,9 @@ namespace Sylvester.SavedFolders
 		{
 			int i = 0;
 
-			savedWin.AppendLineFmt("saved key", kvp.Key);
 			savedWin.AppendLineFmt("name", kvp.Name);
-			savedWin.AppendLineFmt("Id/Vol", kvp.Identifier.Volume ?? "null volume");
-			savedWin.AppendLineFmt("Id/Root Folder", kvp.Identifier.ProjectFolder ?? "null root folder");
+//			savedWin.AppendLineFmt("Id/Vol", kvp.Identifier.Volume ?? "null volume");
+//			savedWin.AppendLineFmt("Id/Root Folder", kvp.Identifier.ProjectFolder ?? "null root folder");
 			savedWin.AppendLineFmt("UseCount", kvp.UseCount.ToString());
 			savedWin.Append(nl);
 			savedWin.AppendLineFmt("current/rev fldf pair");
@@ -158,7 +157,6 @@ namespace Sylvester.SavedFolders
 			{
 				savedWin.Append(nl);
 				savedWin.AppendLineFmt("item number", i++.ToString());
-				savedWin.AppendLineFmt("saved key", kvpair.Key);
 				savedWin.AppendLineFmt("current-full path", kvpair.Current?.GetFullPath ?? "null current route");
 				savedWin.AppendLineFmt("revision-full path", kvpair.Revision?.GetFullPath ?? "null revision route");
 			}

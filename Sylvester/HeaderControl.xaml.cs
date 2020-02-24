@@ -40,9 +40,9 @@ namespace Sylvester
 
 			sf = new SelectFolder();
 
-			sfm[SavedFolderType.HISTORY.Value()] = new SavedFolderManager(SavedFolderType.HISTORY);
+			sfm[SavedFolderType.HISTORY.Value()] = SavedFolderManager.GetHistoryManager;
 
-			sfm[SavedFolderType.FAVORITES.Value()] = new SavedFolderManager(SavedFolderType.FAVORITES);
+			sfm[SavedFolderType.FAVORITES.Value()] = SavedFolderManager.GetFavoriteManager;
 		}
 
 	#endregion

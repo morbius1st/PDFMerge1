@@ -31,8 +31,6 @@ namespace Sylvester.SavedFolders
 		// one for history
 		// one for favorites
 
-		private static string[] titles = new [] {"Historical Folders", "Favorite Folders"};
-
 		private static SavedFoldersWin savedWinInstance;
 
 		private SetgMgr sm;
@@ -41,18 +39,42 @@ namespace Sylvester.SavedFolders
 
 		private string title;
 
-//		public SavedFolderManager() { }
+		private static SavedFolderManager favoritesMgr;
+		private static SavedFolderManager historyMgr;
 
-		public SavedFolderManager(SavedFolderType index)
+		private SavedFolderManager(SavedFolderType index, string title)
 		{
 			// before make savedfolderwin
 			sm = SetgMgr.Instance;
 
 			Index = index;
-			this.title = titles[index.Value()];
+			this.title = title;
 		}
 
 	#region public methods
+
+		public static SavedFolderManager GetFavoriteManager
+		{
+			get
+			{
+				if (favoritesMgr == null)
+					favoritesMgr =
+						new SavedFolderManager(SavedFolderType.FAVORITES, "Favorite Folders");
+
+				return favoritesMgr;
+			}
+		}
+
+		public static SavedFolderManager GetHistoryManager
+		{
+			get
+			{
+				if (historyMgr == null)
+					historyMgr =
+						new SavedFolderManager(SavedFolderType.HISTORY, "Historical Folders");
+				return historyMgr;
+			}
+		}
 
 		public SavedFolderType Index { get; set; }
 
@@ -69,6 +91,8 @@ namespace Sylvester.SavedFolders
 			savedWinInstance = new SavedFoldersWin(Index, title);
 			savedWinInstance.AddFavorite -= SavedWinInstance_AddFavorite;
 			savedWinInstance.AddFavorite += SavedWinInstance_AddFavorite;
+			savedWinInstance.Owner = MainWindow.MainWin;
+
 			bool? result = savedWinInstance.ShowDialog();
 		}
 
@@ -77,31 +101,6 @@ namespace Sylvester.SavedFolders
 			FilePath<FileNameSimple> revision
 			)
 		{
-//			UserSettings.Data.priorPath = current;
-
-
-//			SetgMgr.SetPriorFolder(FolderType.CURRENT, current);
-//			SetgMgr.SetPriorFolder(FolderType.REVISION, revision);
-
-//			string searchKey = SavedFolderProject.MakeSavedFolderKey(current.AssemblePath(1));
-//
-//			SavedFolderProject sf = sm.FindSavedFolder(searchKey, Index);
-//			SavedFolderPair cfp = new SavedFolderPair(current, revision);
-//
-//			if (sf == null)
-//			{
-//				sf = new SavedFolderProject(current);
-//				sm.AddSavedFolder(sf, Index);
-//			}
-//			else
-//			{
-//				if (sm.FindSavedFolderPair(sf, cfp.Key) != null) return false;
-//			}
-//
-//			sf.SavedFolderPairs.Add(cfp);
-//
-//			UserSettings.Admin.Write();
-
 			bool result = AddProject(current, revision);
 
 			if (!result) return false;
@@ -133,7 +132,7 @@ namespace Sylvester.SavedFolders
 			FilePath<FileNameSimple> current,
 			FilePath<FileNameSimple> revision)
 		{
-			string searchKey = SavedFolderProject.MakeSavedFolderKey(current.AssemblePath(1));
+			string searchKey = SavedFolderProject.MakeSavedFolderKey(current);
 
 			SavedFolderProject sf = sm.FindSavedFolder(searchKey, Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
@@ -145,7 +144,7 @@ namespace Sylvester.SavedFolders
 			}
 			else
 			{
-				if (sm.FindSavedFolderPair(sf, cfp.Key) != null) return false;
+				if (sm.FindSavedFolderPair(sf, cfp.Name) != null) return false;
 			}
 
 			sf.SavedFolderPairs.Add(cfp);

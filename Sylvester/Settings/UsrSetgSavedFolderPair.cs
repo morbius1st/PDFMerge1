@@ -3,16 +3,18 @@
 // File:             SavedFolderPair.cs
 // Created:      -- ()
 
+using System;
 using System.Runtime.Serialization;
 using Sylvester.FileSupport;
 using UtilityLibrary;
 
-namespace Sylvester.SavedFolders {
+namespace Sylvester.SavedFolders 
+{
 	[DataContract]
-	public class SavedFolderPair
+	public class SavedFolderPair : IComparable<SavedFolderPair>, IEquatable<SavedFolderPair>
 	{
 		[DataMember]
-		public string Key { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
 		public string Icon { get; set; }
@@ -32,15 +34,26 @@ namespace Sylvester.SavedFolders {
 			Current = current;
 			Revision = revision;
 
-//			Key = MakeCurrRevFolderPairkey(current.FolderName(-1), revision.FolderName(-1), name);
-			Key = MakeCurrRevFolderPairkey(current[current.GetFolderCount], revision[revision.GetFolderCount], name);
+
+			Name = name.IsVoid()
+				? MakeCurrRevFolderPairkey(current[current.GetFolderCount],
+					revision[revision.GetFolderCount])
+				: name;
 		}
 
-		public static string MakeCurrRevFolderPairkey(string currentRootFolder, string revisionRootFolder, string name = "")
+		public static string MakeCurrRevFolderPairkey(string currentRootFolder, string revisionRootFolder)
 		{
-			if (!string.IsNullOrWhiteSpace(name)) return name;
-
 			return currentRootFolder + " / " + revisionRootFolder;
+		}
+
+		public int CompareTo(SavedFolderPair other)
+		{
+			return Name.ToUpper().CompareTo(other.Name.ToUpper());
+		}
+
+		public bool Equals(SavedFolderPair other)
+		{
+			return Name.ToUpper().Equals(other.Name.ToUpper());
 		}
 	}
 }

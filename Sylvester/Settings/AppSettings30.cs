@@ -47,6 +47,9 @@ namespace Sylvester.Settings
 		[DataMember(Order = 1)]
 		public bool AllowPropertyEditing { get; set; } = false;
 
+		[DataMember(Order = 2)]
+		public bool DebugMode { get; set; } = true;
+
 //		[DataMember(Order = 2)]
 //		public bool AppB { get; set; } = false;
 //

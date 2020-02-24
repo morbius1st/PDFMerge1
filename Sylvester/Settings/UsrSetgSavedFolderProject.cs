@@ -3,6 +3,7 @@
 // File:             SavedFolderProject.cs
 // Created:      -- ()
 
+using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -12,24 +13,8 @@ namespace Sylvester.SavedFolders
 {
 
 	[DataContract]
-	public class SavedFolderProject
+	public class SavedFolderProject : IComparable<SavedFolderProject>, IEquatable<SavedFolderProject>
 	{
-		// this will be the root folder name
-		public struct FolderRoot
-		{
-			[DataMember]
-			public string Volume { get; set; }
-
-			[DataMember]
-			public string ProjectFolder { get; set; }
-		}
-
-		[DataMember]
-		public FolderRoot Identifier { get; set; } = new FolderRoot() {Volume = null, ProjectFolder = null};
-
-		[DataMember]
-		public string Key { get; set; }
-
 		[DataMember]
 		public string Name { get; set; }
 
@@ -47,23 +32,26 @@ namespace Sylvester.SavedFolders
 
 		public SavedFolderProject(FilePath<FileNameSimple> folder, string name = "")
 		{
-			Identifier = new FolderRoot()
-			{
-				Volume = folder.GetDrivePath, 
-				ProjectFolder = folder.AssemblePath(1)
-			};
 			UseCount = 0;
 
-			Name = string.IsNullOrWhiteSpace(name) ? Identifier.ProjectFolder : name;
-
-			Key = MakeSavedFolderKey(Name);
+			Name = name.IsVoid() ? MakeSavedFolderKey(folder) : name;
 
 			Icon = null;
 		}
 
-		public static string MakeSavedFolderKey(string name)
+		public static string MakeSavedFolderKey(FilePath<FileNameSimple> folder)
 		{
-			return name.ToUpper();
+			return folder.AssemblePath(1);
+		}
+
+		public int CompareTo(SavedFolderProject other)
+		{
+			return Name.ToUpper().CompareTo(other.Name.ToUpper());
+		}
+
+		public bool Equals(SavedFolderProject other)
+		{
+			return Name.ToUpper().Equals(other.Name.ToUpper());
 		}
 	}
 }

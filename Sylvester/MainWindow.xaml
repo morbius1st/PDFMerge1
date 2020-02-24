@@ -9,14 +9,20 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Name="mainwin"
 		Title="MainWindow"
-		Width="1300"
-		Height="850"
+		Width="{Binding ElementName=mainwin,
+										Path=MinWidth}"
+		Height="{Binding ElementName=mainwin,
+										 Path=MinHeight}"
+		MinWidth="{Binding ElementName=mainwin,
+											 Path=MIN_WIDTH, FallbackValue=1300}"
+		MinHeight="{Binding ElementName=mainwin,
+												Path=MIN_HEIGHT, FallbackValue=850}"
 		DataContext="{Binding ElementName=mainwin,
 													Path=pm}"
 		Loaded="Mainwin_Loaded"
 		mc:Ignorable="d"
 		Background="#333333"
-		>
+				Initialized="Mainwin_Initialized">
 	<Window.Resources>
 
 		<sys:Double x:Key="lblTitleWidth">
@@ -33,6 +39,31 @@
 			NEW_FILE
 		</filesupport:MatchStatus>
 
+		<local:BoolTestConverter x:Key="converter"/>
+
+		<Style
+				x:Key="control"
+				TargetType="ContentControl"
+				>
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="HorizontalContentAlignment" Value="Left" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+		</Style>
+
+		<Style
+				x:Key="btn"
+				TargetType="Button"
+				>
+			<Setter Property="Width" Value="75" />
+			<Setter Property="Height" Value="26" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
+			<Setter Property="Margin" Value="7,7,7,12" />
+		</Style>
+
 	</Window.Resources>
 
 	<Grid>
@@ -41,33 +72,142 @@
 			<ColumnDefinition Width="718*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition />
 			<RowDefinition />
-			<RowDefinition Height="72" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+
+
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="0"
+				Margin="0,0,4,10"
+				Orientation="Vertical"
+				>
+			<StackPanel
+					HorizontalAlignment="Stretch"
+					Orientation="Horizontal"
+					Background="#395482CD"
+					>
+
+				<Label
+						Content="Operation"
+						Margin="3,-3,0,-1"
+						FontSize="22"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Button
+				x:Name="btnScan"
+				Content="Scan Both"
+						Margin="7,7,7,0"
+						HorizontalAlignment="Left"
+					Style="{StaticResource btn}"
+						>
+					<Button.IsEnabled>
+						<MultiBinding Converter="{StaticResource converter}">
+							<Binding ElementName="mainwin" Path="pm.FileCollectionCurrent.HasFolder"/>
+							<Binding ElementName="mainwin" Path="pm.FileCollectionRevision.HasFolder"/>
+						</MultiBinding>
+					</Button.IsEnabled>
+
+					<!-- <Button.Style> -->
+					<!-- 	<Style -->
+					<!-- 			TargetType="Button" -->
+					<!-- 			BasedOn="{StaticResource btn}" -->
+					<!-- 			> -->
+					<!-- 		<Setter Property="Content" Value="Scan Both"/> -->
+					<!-- 		<Setter Property="IsEnabled" Value="false" /> -->
+					<!-- 		<Style.Triggers> -->
+					<!-- 			~1~ <DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionRevision.HasFolder, FallbackValue=false}" Value="true"> @1@ -->
+					<!-- 			~1~ 	<Setter Property="Content" Value="true 2"/> @1@ -->
+					<!-- 			~1~ </DataTrigger> @1@ -->
+					<!-- 			<MultiDataTrigger> -->
+					<!-- 				<MultiDataTrigger.Conditions> -->
+					<!-- 					<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionCurrent.HasFolder, FallbackValue=false}" Value="=True" /> -->
+					<!-- 					<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionRevision.HasFolder, FallbackValue=false}" Value="True" /> -->
+					<!-- 				</MultiDataTrigger.Conditions> -->
+					<!-- 					<Setter Property="IsEnabled" Value="True" /> -->
+					<!-- 					<Setter Property="Content" Value="true 1"></Setter> -->
+					<!-- 			</MultiDataTrigger> -->
+					<!-- -->
+					<!-- -->
+					<!-- 		</Style.Triggers> -->
+					<!-- 	</Style> -->
+					<!-- -->
+					<!-- </Button.Style> -->
+
+				</Button>
+
+				<Button
+						x:Name="btnFavorites"
+						Margin="7,7,7,0"
+						Width="30"
+						HorizontalAlignment="Left"
+						Background="{StaticResource Button.Static.Background}"
+						Click="BtnFavorites_OnClick"
+						Style="{StaticResource btn}"
+						>
+					<Button.Content>
+						<StackPanel
+								HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								>
+							<Path
+									Margin="0,0,0,2"
+									Width="20"
+									Data="{StaticResource Icon.Svg.Favorite}"
+									Fill="{StaticResource Path.Favorite.Fill2}"
+									Stretch="Uniform"
+									/>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+
+				<Button
+						x:Name="btnHistory"
+						Margin="7,7,7,0"
+						Width="30"
+						HorizontalAlignment="Left"
+						Background="{StaticResource Button.Static.Background}"
+						Click="BtnHistory_OnClick"
+						Style="{StaticResource btn}"
+						>
+					<Button.Content>
+						<StackPanel
+								HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								>
+							<Path
+									Margin="0,0,0,2"
+									Width="20"
+									Data="{StaticResource Icon.Svg.History}"
+									Fill="{StaticResource Path.History.Fill}"
+									Stretch="Uniform"
+									/>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+
+
+			</StackPanel>
+
+		</StackPanel>
 
 
 		<!--#region > settings panel-->
 		<StackPanel
-				Grid.Column="0"
-				Grid.Row="2"
-				Margin="0,0,4,0"
+				Grid.Column="1"
+				Grid.Row="0"
+				Margin="0,0,4,10"
 				Orientation="Vertical"
 				>
 			<StackPanel.Resources>
 
-				<Style
-						x:Key="control"
-						TargetType="ContentControl"
-						>
-					<Setter Property="Foreground" Value="White" />
-					<Setter Property="HorizontalAlignment" Value="Left" />
-					<Setter Property="HorizontalContentAlignment" Value="Left" />
-					<Setter Property="Margin" Value="0" />
-					<Setter Property="Padding" Value="0" />
-					<Setter Property="VerticalAlignment" Value="Center" />
-					<Setter Property="VerticalContentAlignment" Value="Center" />
-				</Style>
+
 
 				<Style
 						x:Key="rb"
@@ -145,7 +285,7 @@
 
 		<Grid
 				Grid.Column="0"
-				Grid.Row="0"
+				Grid.Row="1"
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
@@ -153,7 +293,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="20" />
+				<RowDefinition Height="0" />
 				<RowDefinition Height="72" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
@@ -166,12 +306,12 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					FontSize="12"
-					FolderType="CURRENT"
 					DataContext="{Binding pm.FileCollectionCurrent,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
 					FolderRouteHeight="14"
+					FolderType="CURRENT"
 					TextFontSize="11"
 					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
@@ -225,14 +365,14 @@
 
 		<Grid
 				Grid.Column="0"
-				Grid.Row="1"
+				Grid.Row="2"
 				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="60" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="20" />
+				<RowDefinition Height="00" />
 				<RowDefinition Height="72" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
@@ -245,12 +385,12 @@
 					Grid.ColumnSpan="2"
 					Margin="60,0,4,0"
 					FontSize="12"
-					FolderType="REVISION"
 					DataContext="{Binding pm.FileCollectionRevision,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
 					FolderRouteHeight="14"
+					FolderType="REVISION"
 					TextFontSize="11"
 					TextMargin="0,-1,0,2"
 					TitleBarMargin="-60,0,0,0"
@@ -302,7 +442,7 @@
 
 		<Grid
 				Grid.Column="1"
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.RowSpan="2"
 				Margin="0"
 				>
@@ -322,13 +462,13 @@
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
 					FontSize="12"
-					FolderType="FINAL"
 					DataContext="{Binding pm.FileCollectionFinal,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
 					FolderPathType="0"
 					FolderRouteHeight="13.0"
+					FolderType="FINAL"
 					HideDirectory="true"
 					TextFontSize="9.5"
 					/>
@@ -948,21 +1088,13 @@
 		</Grid>
 		<StackPanel
 				Grid.Column="0"
-				Grid.Row="2"
+				Grid.Row="3"
 				Grid.ColumnSpan="3"
 				HorizontalAlignment="Right"
 				Orientation="Horizontal"
 				>
 			<StackPanel.Resources>
-				<Style
-						x:Key="btn"
-						TargetType="Button"
-						>
-					<Setter Property="Width" Value="75" />
-					<Setter Property="Height" Value="26" />
-					<Setter Property="VerticalAlignment" Value="Bottom" />
-					<Setter Property="Margin" Value="7,7,7,12" />
-				</Style>
+
 			</StackPanel.Resources>
 
 			<Button
@@ -990,19 +1122,22 @@
 					Name="btnCompare"
 					Content="Compare"
 					Click="BtnCompare_OnClick"
-
 					>
 				<Button.Style>
 
-					<Style TargetType="Button"  BasedOn="{StaticResource btn }">
-						<Setter Property="IsEnabled" Value="False"></Setter>
+					<Style
+							TargetType="Button"
+							BasedOn="{StaticResource btn}"
+							>
+						<Setter Property="IsEnabled" Value="False">
+						</Setter>
 						<Style.Triggers>
 							<MultiDataTrigger>
 								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}" Value="true"/>
-									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}" Value="true"/>
+									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}" Value="true" />
+									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}" Value="true" />
 								</MultiDataTrigger.Conditions>
-								<Setter Property="IsEnabled" Value="True"/>
+								<Setter Property="IsEnabled" Value="True" />
 							</MultiDataTrigger>
 
 						</Style.Triggers>

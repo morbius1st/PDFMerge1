@@ -34,8 +34,8 @@
 							 LastChildFill="False">
 			<Button x:Name="BtnOK"
 					DockPanel.Dock="right"
-					Height="{StaticResource ButtonHeight}"
-					Width="{StaticResource ButtonWidth}"
+					Height="{StaticResource Button.Height}"
+					Width="{StaticResource Button.Width}"
 					Margin="{StaticResource ButtonMargin}"
 					VerticalAlignment="Bottom"
 					HorizontalAlignment="Right"

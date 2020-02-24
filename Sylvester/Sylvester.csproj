@@ -77,6 +77,9 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
+      <Link>.External\ScreenParametersWpf.cs</Link>
+    </Compile>
     <Compile Include="FileSupport\FileRevision.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
@@ -90,6 +93,7 @@
       <DependentUpon>CsMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
+    <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="UserControls\PathChangeArgs.cs" />
     <Compile Include="SavedFolders\SavedFldrManager.cs" />
     <Compile Include="Settings\UsrSetgSavedFolderProject.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="UserControls\ObliqueButton.xaml.cs">
       <DependentUpon>ObliqueButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\WindowManager.cs" />
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -146,6 +151,14 @@
     <Page Include="CsMessageBox\CsMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\SVG\folder-project-01.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\folder-project-02.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SavedFolders\SavedFoldersWin.xaml">
       <SubType>Designer</SubType>
@@ -194,8 +207,6 @@
   <ItemGroup>
     <Resource Include="Resources\Image\warning.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\SVG\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
