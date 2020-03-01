@@ -107,7 +107,9 @@
 
 
 		<!--  the folder path names  -->
-		<StackPanel Name="SpPath" Orientation="Horizontal">
+		<StackPanel Name="SpPath" Orientation="Horizontal"
+				CanHorizontallyScroll="True"
+				>
 
 			<local:ObliqueButton
 					x:Name="BtnText"

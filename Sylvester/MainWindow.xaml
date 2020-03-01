@@ -9,20 +9,16 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Name="mainwin"
 		Title="MainWindow"
-		Width="{Binding ElementName=mainwin,
-										Path=MinWidth}"
-		Height="{Binding ElementName=mainwin,
-										 Path=MinHeight}"
-		MinWidth="{Binding ElementName=mainwin,
-											 Path=MIN_WIDTH, FallbackValue=1300}"
-		MinHeight="{Binding ElementName=mainwin,
-												Path=MIN_HEIGHT, FallbackValue=850}"
-		DataContext="{Binding ElementName=mainwin,
-													Path=pm}"
+		Width="{Binding ElementName=mainwin, Path=MinWidth}"
+		Height="{Binding ElementName=mainwin, Path=MinHeight}"
+		MinWidth="{Binding ElementName=mainwin, Path=MIN_WIDTH, FallbackValue=1300}"
+		MinHeight="{Binding ElementName=mainwin, Path=MIN_HEIGHT, FallbackValue=850}"
+		DataContext="{Binding ElementName=mainwin, Path=pm}"
+		Initialized="Mainwin_Initialized"
 		Loaded="Mainwin_Loaded"
 		mc:Ignorable="d"
 		Background="#333333"
-				Initialized="Mainwin_Initialized">
+		>
 	<Window.Resources>
 
 		<sys:Double x:Key="lblTitleWidth">
@@ -39,12 +35,9 @@
 			NEW_FILE
 		</filesupport:MatchStatus>
 
-		<local:BoolTestConverter x:Key="converter"/>
+		<local:BoolTestConverter x:Key="converter" />
 
-		<Style
-				x:Key="control"
-				TargetType="ContentControl"
-				>
+		<Style x:Key="control" TargetType="ContentControl">
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -54,14 +47,11 @@
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style
-				x:Key="btn"
-				TargetType="Button"
-				>
-			<Setter Property="Width" Value="75" />
+		<Style x:Key="btn" TargetType="Button">
 			<Setter Property="Height" Value="26" />
-			<Setter Property="VerticalAlignment" Value="Bottom" />
 			<Setter Property="Margin" Value="7,7,7,12" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
+			<Setter Property="Width" Value="75" />
 		</Style>
 
 	</Window.Resources>
@@ -80,8 +70,8 @@
 
 
 		<StackPanel
-				Grid.Column="0"
 				Grid.Row="0"
+				Grid.Column="0"
 				Margin="0,0,4,10"
 				Orientation="Vertical"
 				>
@@ -101,24 +91,24 @@
 
 			<StackPanel Orientation="Horizontal">
 				<Button
-				x:Name="btnScan"
-				Content="Scan Both"
+						x:Name="btnScan"
+						Content="Scan Both"
 						Margin="7,7,7,0"
 						HorizontalAlignment="Left"
-					Style="{StaticResource btn}"
+						Style="{StaticResource btn}"
 						>
 					<Button.IsEnabled>
 						<MultiBinding Converter="{StaticResource converter}">
-							<Binding ElementName="mainwin" Path="pm.FileCollectionCurrent.HasFolder"/>
-							<Binding ElementName="mainwin" Path="pm.FileCollectionRevision.HasFolder"/>
+							<Binding ElementName="mainwin" Path="pm.FileCollectionCurrent.HasFolder" />
+							<Binding ElementName="mainwin" Path="pm.FileCollectionRevision.HasFolder" />
 						</MultiBinding>
 					</Button.IsEnabled>
 
 					<!-- <Button.Style> -->
-					<!-- 	<Style -->
-					<!-- 			TargetType="Button" -->
-					<!-- 			BasedOn="{StaticResource btn}" -->
-					<!-- 			> -->
+					<!--  <Style  -->
+					<!--  TargetType="Button"  -->
+					<!--  BasedOn="{StaticResource btn}"  -->
+					<!--  >  -->
 					<!-- 		<Setter Property="Content" Value="Scan Both"/> -->
 					<!-- 		<Setter Property="IsEnabled" Value="false" /> -->
 					<!-- 		<Style.Triggers> -->
@@ -133,11 +123,11 @@
 					<!-- 					<Setter Property="IsEnabled" Value="True" /> -->
 					<!-- 					<Setter Property="Content" Value="true 1"></Setter> -->
 					<!-- 			</MultiDataTrigger> -->
-					<!-- -->
-					<!-- -->
+					<!--    -->
+					<!--    -->
 					<!-- 		</Style.Triggers> -->
 					<!-- 	</Style> -->
-					<!-- -->
+					<!--    -->
 					<!-- </Button.Style> -->
 
 				</Button>
@@ -152,10 +142,7 @@
 						Style="{StaticResource btn}"
 						>
 					<Button.Content>
-						<StackPanel
-								HorizontalAlignment="Center"
-								Orientation="Horizontal"
-								>
+						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 							<Path
 									Margin="0,0,0,2"
 									Width="20"
@@ -177,10 +164,7 @@
 						Style="{StaticResource btn}"
 						>
 					<Button.Content>
-						<StackPanel
-								HorizontalAlignment="Center"
-								Orientation="Horizontal"
-								>
+						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 							<Path
 									Margin="0,0,0,2"
 									Width="20"
@@ -200,8 +184,8 @@
 
 		<!--#region > settings panel-->
 		<StackPanel
-				Grid.Column="1"
 				Grid.Row="0"
+				Grid.Column="1"
 				Margin="0,0,4,10"
 				Orientation="Vertical"
 				>
@@ -242,10 +226,7 @@
 						BorderThickness="4,1,1,1"
 						BorderBrush="LightGray"
 						>
-					<StackPanel
-							HorizontalAlignment="Stretch"
-							Orientation="Horizontal"
-							>
+					<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
 						<Label
 								Content="Sheet Name Case"
 								Margin="5,0,0,1"
@@ -254,24 +235,21 @@
 
 						<RadioButton
 								Content="Keep Existing"
-								IsChecked="{Binding Path=UseExistingCaseShtTitle,
-																		FallbackValue=false}"
+								IsChecked="{Binding Path=UseExistingCaseShtTitle, FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
 
 						<RadioButton
 								Content="Make Uppercase"
-								IsChecked="{Binding Path=ForceUpperCaseShtTitle,
-																		FallbackValue=false}"
+								IsChecked="{Binding Path=ForceUpperCaseShtTitle, FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
 
 						<RadioButton
 								Content="Make Caps Each Word"
-								IsChecked="{Binding Path=ForceWordCapShtTitle,
-																		FallbackValue=false}"
+								IsChecked="{Binding Path=ForceWordCapShtTitle, FallbackValue=false}"
 								Click="rbtn_OnClick"
 								Style="{StaticResource rb}"
 								/>
@@ -284,8 +262,8 @@
 
 
 		<Grid
-				Grid.Column="0"
 				Grid.Row="1"
+				Grid.Column="0"
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
@@ -294,22 +272,19 @@
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="0" />
-				<RowDefinition Height="72" />
+				<RowDefinition Height="80" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
 			<local:HeaderControl
 					x:Name="HdrCurrent"
 					Title="Current"
-					Grid.Column="0"
 					Grid.Row="1"
+					Grid.Column="0"
 					Grid.ColumnSpan="2"
-					Margin="60,0,4,0"
+					Margin="0,0,4,0"
 					FontSize="12"
-					DataContext="{Binding pm.FileCollectionCurrent,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
+					DataContext="{Binding pm.FileCollectionCurrent, ElementName=mainwin, Mode=OneWay, FallbackValue={x:Null}}"
 					FolderRouteHeight="14"
 					FolderType="CURRENT"
 					TextFontSize="11"
@@ -319,23 +294,20 @@
 
 			<local:lvTestControl
 					x:Name="LvCurrent"
-					Grid.Column="0"
 					Grid.Row="2"
+					Grid.Column="0"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					CanSelect="False"
 					CheckBoxVisibility="Hidden"
-					DataContext="{Binding pm.CvCurrent,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
+					DataContext="{Binding pm.CvCurrent, ElementName=mainwin, Mode=OneWay, FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
-					Grid.Column="0"
 					Grid.Row="1"
+					Grid.Column="0"
 					Margin="0,28,0,0"
 					VerticalAlignment="Center"
 					Orientation="Vertical"
@@ -350,8 +322,7 @@
 						>
 					<Button.Style>
 						<Style TargetType="Button">
-							<Setter Property="IsEnabled" Value="false">
-							</Setter>
+							<Setter Property="IsEnabled" Value="false" />
 							<Style.Triggers>
 								<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionCurrent.HasFolder, FallbackValue=false}" Value="true">
 									<Setter Property="IsEnabled" Value="true" />
@@ -363,32 +334,26 @@
 			</StackPanel>
 		</Grid>
 
-		<Grid
-				Grid.Column="0"
-				Grid.Row="2"
-				>
+		<Grid Grid.Row="2" Grid.Column="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="60" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="00" />
-				<RowDefinition Height="72" />
+				<RowDefinition Height="80" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
 			<local:HeaderControl
 					x:Name="HdrRevision"
 					Title="Revision"
-					Grid.Column="0"
 					Grid.Row="1"
+					Grid.Column="0"
 					Grid.ColumnSpan="2"
-					Margin="60,0,4,0"
+					Margin="0,0,4,0"
 					FontSize="12"
-					DataContext="{Binding pm.FileCollectionRevision,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
+					DataContext="{Binding pm.FileCollectionRevision, ElementName=mainwin, Mode=OneWay, FallbackValue={x:Null}}"
 					FolderRouteHeight="14"
 					FolderType="REVISION"
 					TextFontSize="11"
@@ -398,21 +363,18 @@
 
 			<local:lvTestControl
 					x:Name="LvRevision"
-					Grid.Column="0"
 					Grid.Row="2"
+					Grid.Column="0"
 					Grid.ColumnSpan="2"
 					Margin="0,0,4,4"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					DataContext="{Binding pm.CvRevision,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
+					DataContext="{Binding pm.CvRevision, ElementName=mainwin, Mode=OneWay, FallbackValue={x:Null}}"
 					/>
 
 			<StackPanel
-					Grid.Column="0"
 					Grid.Row="1"
+					Grid.Column="0"
 					Margin="0,28,0,0"
 					VerticalAlignment="Center"
 					Orientation="Vertical"
@@ -441,31 +403,28 @@
 		</Grid>
 
 		<Grid
-				Grid.Column="1"
 				Grid.Row="1"
 				Grid.RowSpan="2"
+				Grid.Column="1"
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="72" />
+				<RowDefinition Height="80" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
 			<local:HeaderControl
 					x:Name="HdrComparison"
 					Title="Comparison"
-					Grid.Column="0"
 					Grid.Row="0"
+					Grid.Column="0"
 					Margin="0,0,0,0"
 					Padding="4,0,4,0"
 					FontSize="12"
-					DataContext="{Binding pm.FileCollectionFinal,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
+					DataContext="{Binding pm.FileCollectionFinal, ElementName=mainwin, Mode=OneWay, FallbackValue={x:Null}}"
 					FolderPathType="0"
 					FolderRouteHeight="13.0"
 					FolderType="FINAL"
@@ -475,18 +434,14 @@
 
 			<ListView
 					Name="LvFinal"
-					Grid.Column="0"
 					Grid.Row="1"
+					Grid.Column="0"
 					Margin="4,0,4,4"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					d:DataContext="{Binding ElementName=mainwin,
-																	Path=pm.CvFinal}"
-					DataContext="{Binding ElementName=mainwin,
-																Mode=OneWay,
-																Path=pm.CvFinal,
-																FallbackValue={x:Null}}"
+					d:DataContext="{Binding ElementName=mainwin, Path=pm.CvFinal}"
+					DataContext="{Binding ElementName=mainwin, Mode=OneWay, Path=pm.CvFinal, FallbackValue={x:Null}}"
 					ScrollViewer.CanContentScroll="False"
 					Background="#444444"
 					Foreground="White"
@@ -645,10 +600,7 @@
 						</Style.Triggers>
 					</Style>
 
-					<ControlTemplate
-							x:Key="CheckBoxControlTemplate1"
-							TargetType="{x:Type CheckBox}"
-							>
+					<ControlTemplate x:Key="CheckBoxControlTemplate1" TargetType="{x:Type CheckBox}">
 						<Grid
 								x:Name="templateRoot"
 								SnapsToDevicePixels="True"
@@ -692,10 +644,10 @@
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									ContentStringFormat="{TemplateBinding ContentStringFormat}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
 									Focusable="False"
 									RecognizesAccessKey="True"
 									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-									ContentTemplate="{TemplateBinding ContentTemplate}"
 									/>
 						</Grid>
 						<ControlTemplate.Triggers>
@@ -757,10 +709,7 @@
 							x:Name="DataTemplateTest2"
 							DataType="filesupport:FileFinal"
 							>
-						<Border
-								CornerRadius="5"
-								BorderThickness="5,1,.5,6"
-								>
+						<Border CornerRadius="5" BorderThickness="5,1,.5,6">
 							<Border.BorderBrush>
 								<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
 									<GradientStop Offset="0.03" Color="#FF111132" />
@@ -802,9 +751,9 @@
 									</Grid.RowDefinitions>
 
 									<CheckBox
-											Grid.Column="0"
 											Grid.Row="0"
 											Grid.RowSpan="3"
+											Grid.Column="0"
 											Margin="1,0,0,0"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
@@ -832,8 +781,8 @@
 									<Label
 											x:Name="current"
 											Content="Current"
-											Grid.Column="1"
 											Grid.Row="0"
+											Grid.Column="1"
 											Width="{StaticResource lblTitleWidth}"
 											HorizontalContentAlignment="Right"
 											BorderThickness="0,0,1,0"
@@ -842,8 +791,8 @@
 											/>
 
 									<Line
-											Grid.Column="1"
 											Grid.Row="1"
+											Grid.Column="1"
 											Margin="2,0,0,0"
 											Height="0.8"
 											VerticalAlignment="Center"
@@ -852,38 +801,34 @@
 											Stroke="#FF999999"
 											StrokeThickness=".6"
 											X1="0"
-											X2="{Binding Width,
-																	 ElementName=current}"
+											X2="{Binding Width, ElementName=current}"
 											Y1="0.4"
 											Y2="0.4"
 											/>
 
 									<Label
 											Name="ShtNum"
-											Content="{Binding MatchedSheetNumber,
-																				FallbackValue='A  1-0-0-0A'}"
-											Grid.Column="2"
+											Content="{Binding MatchedSheetNumber, FallbackValue='A  1-0-0-0A'}"
 											Grid.Row="0"
+											Grid.Column="2"
 											HorizontalContentAlignment="Right"
 											Style="{StaticResource LblMatched}"
 											/>
 
 									<Label
 											Name="Sep"
-											Content="{Binding MatchedSeparator,
-																				FallbackValue=sep}"
-											Grid.Column="3"
+											Content="{Binding MatchedSeparator, FallbackValue=sep}"
 											Grid.Row="0"
+											Grid.Column="3"
 											HorizontalContentAlignment="Center"
 											Style="{StaticResource LblMatched}"
 											/>
 
 									<Label
 											x:Name="ShtTitle"
-											Content="{Binding MatchedSheetTitle,
-																				FallbackValue=sheet title}"
-											Grid.Column="4"
+											Content="{Binding MatchedSheetTitle, FallbackValue=sheet title}"
 											Grid.Row="0"
+											Grid.Column="4"
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Left"
 											Style="{StaticResource LblMatched}"
@@ -892,8 +837,8 @@
 									<Label
 											Name="Status"
 											Content="Status"
-											Grid.Column="5"
 											Grid.Row="0"
+											Grid.Column="5"
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"
 											Visibility="Visible"
@@ -902,8 +847,8 @@
 
 									<Label
 											Content=" File does not exist in the list of current files "
-											Grid.Column="2"
 											Grid.Row="0"
+											Grid.Column="2"
 											Grid.ColumnSpan="3"
 											HorizontalContentAlignment="Left"
 											BorderThickness=".5,4,.5,0"
@@ -915,8 +860,8 @@
 
 									<Label
 											Content="Revision"
-											Grid.Column="1"
 											Grid.Row="2"
+											Grid.Column="1"
 											Width="{StaticResource lblTitleWidth}"
 											HorizontalContentAlignment="Right"
 											BorderThickness="0,0,1,0"
@@ -926,38 +871,34 @@
 
 									<Label
 											Name="testShtNum"
-											Content="{Binding SheetNumber,
-																				FallbackValue=test value}"
-											Grid.Column="2"
+											Content="{Binding SheetNumber, FallbackValue=test value}"
 											Grid.Row="2"
+											Grid.Column="2"
 											HorizontalContentAlignment="Right"
 											Style="{StaticResource LblTestShtNum}"
 											/>
 
 									<Label
-											Content="{Binding Separator,
-																				FallbackValue=s}"
-											Grid.Column="3"
+											Content="{Binding Separator, FallbackValue=s}"
 											Grid.Row="2"
+											Grid.Column="3"
 											HorizontalContentAlignment="Center"
 											Style="{StaticResource LblTestSep}"
 											/>
 
 									<Label
-											Content="{Binding SheetTitle,
-																				FallbackValue=name}"
-											Grid.Column="4"
+											Content="{Binding SheetTitle, FallbackValue=name}"
 											Grid.Row="2"
+											Grid.Column="4"
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Left"
 											Style="{StaticResource LblTestShtName}"
 											/>
 
 									<Label
-											Content="{Binding StatusMessage,
-																				FallbackValue=name}"
-											Grid.Column="5"
+											Content="{Binding StatusMessage, FallbackValue=name}"
 											Grid.Row="2"
+											Grid.Column="5"
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"
 											Visibility="Visible"
@@ -966,8 +907,8 @@
 
 									<Label
 											Content=" Revision file name matches "
-											Grid.Column="2"
 											Grid.Row="2"
+											Grid.Column="2"
 											Grid.ColumnSpan="3"
 											HorizontalContentAlignment="left"
 											BorderBrush="LawnGreen"
@@ -982,34 +923,13 @@
 
 					</DataTemplate>
 
-					<SolidColorBrush
-							x:Key="Item.MouseOver.Background"
-							Color="#3800C3FF"
-							/>
-					<SolidColorBrush
-							x:Key="Item.MouseOver.Border"
-							Color="#86EEFF"
-							/>
-					<SolidColorBrush
-							x:Key="Item.SelectedInactive.Background"
-							Color="#3DDADADA"
-							/>
-					<SolidColorBrush
-							x:Key="Item.SelectedInactive.Border"
-							Color="#FFDADADA"
-							/>
-					<SolidColorBrush
-							x:Key="Item.SelectedActive.Background"
-							Color="#3D26A0DA"
-							/>
-					<SolidColorBrush
-							x:Key="Item.SelectedActive.Border"
-							Color="#FF26A0DA"
-							/>
-					<SolidColorBrush
-							x:Key="Item.NotEnabled.Foreground"
-							Color="#FFDADADA"
-							/>
+					<SolidColorBrush x:Key="Item.MouseOver.Background" Color="#3800C3FF" />
+					<SolidColorBrush x:Key="Item.MouseOver.Border" Color="#86EEFF" />
+					<SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA" />
+					<SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA" />
+					<SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA" />
+					<SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA" />
+					<SolidColorBrush x:Key="Item.NotEnabled.Foreground" Color="#FFDADADA" />
 
 					<Style
 							x:Key="ListViewItemStyle2"
@@ -1087,15 +1007,13 @@
 			</ListView>
 		</Grid>
 		<StackPanel
-				Grid.Column="0"
 				Grid.Row="3"
+				Grid.Column="0"
 				Grid.ColumnSpan="3"
 				HorizontalAlignment="Right"
 				Orientation="Horizontal"
 				>
-			<StackPanel.Resources>
-
-			</StackPanel.Resources>
+			<StackPanel.Resources />
 
 			<Button
 					Name="btnTest1"
@@ -1125,12 +1043,8 @@
 					>
 				<Button.Style>
 
-					<Style
-							TargetType="Button"
-							BasedOn="{StaticResource btn}"
-							>
-						<Setter Property="IsEnabled" Value="False">
-						</Setter>
+					<Style TargetType="Button" BasedOn="{StaticResource btn}">
+						<Setter Property="IsEnabled" Value="False" />
 						<Style.Triggers>
 							<MultiDataTrigger>
 								<MultiDataTrigger.Conditions>
@@ -1148,8 +1062,7 @@
 			<Button
 					Name="btnGo"
 					Content="Go"
-					IsEnabled="{Binding ElementName=mainwin,
-															Path=Go}"
+					IsEnabled="{Binding ElementName=mainwin, Path=Go}"
 					Click="BtnGo_OnClick"
 					Style="{StaticResource btn}"
 					/>

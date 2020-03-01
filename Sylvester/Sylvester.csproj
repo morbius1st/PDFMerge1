@@ -92,6 +92,7 @@
     <Compile Include="CsMessageBox\CsMessageBox.xaml.cs">
       <DependentUpon>CsMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="UserControls\PathChangeArgs.cs" />
@@ -152,6 +153,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\SVG\Folder-Pair-03.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\Folder-Pair-05.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\SVG\folder-project-01.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -159,6 +168,30 @@
     <Page Include="Resources\SVG\folder-project-02.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\folder-project-03.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\folder-project-04.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\Folder-Pair-01.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\Folder-Pair-02.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SVG\Folder-Pair-04.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAML\NarrowScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SavedFolders\SavedFoldersWin.xaml">
       <SubType>Designer</SubType>

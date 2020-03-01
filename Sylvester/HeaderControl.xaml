@@ -8,16 +8,13 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
-		d:DesignHeight="72"
+		d:DesignHeight="80"
 		d:DesignWidth="600"
 		mc:Ignorable="d"
 		>
 	<UserControl.Resources>
 
-		<Style
-				x:Key="label"
-				TargetType="Label"
-				>
+		<Style x:Key="label" TargetType="Label">
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -47,48 +44,46 @@
 	<StackPanel Orientation="Vertical">
 
 		<StackPanel
-				Margin="{Binding TitleBarMargin,
-												 ElementName=headerControl}"
+				Margin="{Binding TitleBarMargin, ElementName=headerControl}"
 				HorizontalAlignment="Stretch"
 				Orientation="Horizontal"
 				Background="#395482CD"
 				>
 
 			<Label
-					Content="{Binding Title,
-														ElementName=headerControl,
-														FallbackValue=Current}"
+					Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}"
 					Margin="3,-3,0,-1"
 					FontSize="22"
 					Style="{StaticResource label}"
 					/>
 		</StackPanel>
 
-		<StackPanel
-				Margin="0,2,0,0"
-				Orientation="Horizontal"
+		<DockPanel Margin="60,2,0,0"
+				HorizontalAlignment="Stretch"
 				>
 
-			<StackPanel
-					Margin="0,0,0,0"
-					Orientation="Vertical"
+			<DockPanel Margin="0,0,0,0"
+					HorizontalAlignment="Stretch"
+					
 					>
+
+				<ScrollViewer x:Name="RevisionScrollBar"
+						DockPanel.Dock="Top"
+						MinWidth="8"
+						MinHeight="8"
+						HorizontalScrollBarVisibility="Visible"
+						VerticalScrollBarVisibility="Hidden"
+						Template="{DynamicResource ScrollViewerNarrow}">
 
 				<user:FolderRoute
 						x:Name="FolderRoute"
 						Margin="4,4,0,-2"
-						Height="{Binding ElementName=headerControl,
-														 Path=FolderRouteHeight,
-														 FallbackValue=15}"
+						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=15}"
 						VerticalAlignment="Bottom"
 						FontBrush="#cccccc"
-						ProposedObliqueButtonType="{Binding ElementName=headerControl,
-																								Path=FolderPathType,
-																								FallbackValue=7}"
-						TextFontSize="{Binding ElementName=headerControl,
-																	 Path=TextFontSize, FallbackValue=8}"
-						TextMargin="{Binding ElementName=headerControl,
-																 Path=TextMargin}"
+						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
+						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize, FallbackValue=8}"
+						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
 						>
 					<user:FolderRoute.Style>
 						<Style TargetType="user:FolderRoute">
@@ -99,71 +94,43 @@
 							</Style.Triggers>
 						</Style>
 					</user:FolderRoute.Style>
-
 				</user:FolderRoute>
+				</ScrollViewer>
 
-				<Grid
-						Margin="0,3,0,0"
-						VerticalAlignment="Stretch"
-						>
+				<Grid Margin="0,3,0,0" 
+						DockPanel.Dock="bottom"
+						VerticalAlignment="Stretch">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 
 
-					<StackPanel
-							Grid.Row="1"
-							Orientation="Horizontal"
-							>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
 
 						<Label
 								Content="File Summary"
 								Width="80"
 								Style="{StaticResource label}"
 								/>
-						<StackPanel
-								Width="80"
-								Orientation="Horizontal"
-								>
-							<Label
-									Content="Total"
-									Style="{StaticResource lblStats}"
-									/>
-							<Label
-									Content="{Binding Path=FilesFound,
-																		FallbackValue=0}"
-									Style="{StaticResource lblCount}"
-									/>
+						<StackPanel Width="80" Orientation="Horizontal">
+							<Label Content="Total" Style="{StaticResource lblStats}" />
+							<Label Content="{Binding Path=FilesFound, FallbackValue=0}" Style="{StaticResource lblCount}" />
 						</StackPanel>
 
-						<StackPanel
-								Width="120"
-								Orientation="Horizontal"
-								>
-							<Label
-									Content="Sheets PDF's"
-									Style="{StaticResource lblStats}"
-									/>
-							<Label
-									Content="{Binding Path=SheetPdfs,
-																		FallbackValue=0}"
-									Style="{StaticResource lblCount}"
-									/>
+						<StackPanel Width="120" Orientation="Horizontal">
+							<Label Content="Sheets PDF's" Style="{StaticResource lblStats}" />
+							<Label Content="{Binding Path=SheetPdfs, FallbackValue=0}" Style="{StaticResource lblCount}" />
 						</StackPanel>
 
-						<StackPanel
-								Width="120"
-								Orientation="Horizontal"
-								>
+						<StackPanel Width="120" Orientation="Horizontal">
 							<Label
 									Content="Other PDF's"
 									Foreground="LightGray"
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
-									Content="{Binding Path=NonSheetPdfsFiles,
-																		FallbackValue=0}"
+									Content="{Binding Path=NonSheetPdfsFiles, FallbackValue=0}"
 									Foreground="LightGray"
 									Style="{StaticResource lblCount}"
 									/>
@@ -175,14 +142,13 @@
 								Style="{StaticResource lblStats}"
 								/>
 						<Label
-								Content="{Binding Path=OtherFiles,
-																	FallbackValue=0}"
+								Content="{Binding Path=OtherFiles, FallbackValue=0}"
 								Foreground="#bababa"
 								Style="{StaticResource lblCount}"
 								/>
 					</StackPanel>
 				</Grid>
-			</StackPanel>
-		</StackPanel>
+			</DockPanel>
+		</DockPanel>
 	</StackPanel>
 </UserControl>

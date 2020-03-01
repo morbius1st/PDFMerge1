@@ -9,7 +9,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Sylvester.Process;
+using Sylvester.SavedFolders.SubFolder;
 using Sylvester.Settings;
+using Sylvester.UserControls;
 using Sylvester.Windows;
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
@@ -46,10 +49,28 @@ namespace Sylvester.SavedFolders
 	{
 		private Dictionary<string, string> z;
 
-		public double MIN_WIDTH { get; } = 700;
-		public double MIN_HEIGHT { get; }  = 450;
+		public static double MIN_WIDTH { get; } = 700;
+		public static double MIN_HEIGHT { get; }  = 450;
 
+		public double WidthMin { get; } = MIN_WIDTH;
+		public double HeightMin { get; } = MIN_HEIGHT;
 
+		private SubFolderManager currentFolder = null;
+		private SubFolderManager revisionFolder = null;
+
+		public SavedFoldersWin(SavedFolderType index, string title)
+		{
+			InitializeComponent();
+
+			Title = title;
+			this.index = index;
+
+			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_HEIGHT;
+			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_WIDTH;
+
+			currentFolder = new SubFolderManager(FolderRouteCurrent);
+			revisionFolder = new SubFolderManager(FolderRouteRevision);
+		}
 
 		// upper listbox
 		public ObservableCollection<SavedFolderProject> savedFolders;
@@ -63,33 +84,7 @@ namespace Sylvester.SavedFolders
 		// the selected value
 		private SavedFolderPair selectedFolderPair;
 
-		private string currentPath;
-		private string revisionPath;
-		private string volume;
-		private string rootFolder;
-
 		private SavedFolderType index;
-
-		public PropertyPath[] pp1 = new PropertyPath[]
-		{
-			new PropertyPath("[folder1]"),
-			new PropertyPath("[folder2]"),
-
-		};
-
-		public PropertyPath ppx => pp1[1];
-
-
-		public SavedFoldersWin(SavedFolderType index, string title)
-		{
-			InitializeComponent();
-
-			Title = title;
-			this.index = index;
-
-			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_HEIGHT;
-			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_WIDTH;
-		}
 
 	#region public properties
 
@@ -105,7 +100,7 @@ namespace Sylvester.SavedFolders
 
 		public string Title { get; private set; }
 
-
+		// the project folder collection
 		public ObservableCollection<SavedFolderProject> SavedFolders
 		{
 			get => SetgMgr.Instance.SavedFolders[index.Value()];
@@ -116,6 +111,8 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
+		// the folder pair collection - this is assigned after
+		// a project folder is selected
 		public ObservableCollection<SavedFolderPair> FolderPairs
 		{
 			get => folderPairs;
@@ -139,6 +136,7 @@ namespace Sylvester.SavedFolders
 
 				OnPropertyChange();
 
+				// assign the folder pair collection
 				FolderPairs = value.SavedFolderPairs;
 			}
 		}
@@ -151,17 +149,36 @@ namespace Sylvester.SavedFolders
 			{
 				selectedFolderPair = value;
 				OnPropertyChange();
+
+				currentFolder.Folder = selectedFolderPair.Current;
+//				CurrentScrollBar.ScrollToRightEnd();
+
+				revisionFolder.Folder = selectedFolderPair.Revision;
 			}
 		}
 
-		private string x1 = "folder1";
+		private string projectFolderIndex = App.Icon_FolderProjects[0];
 
-		public string x
+		// the project folder array index
+		public string ProjectFolderIndex
 		{
-			get => x1;
+			get => projectFolderIndex.IsVoid() ? App.Icon_FolderProjects[0] : projectFolderIndex;
 			set
 			{
-				x1 = value;
+				projectFolderIndex = value;
+				OnPropertyChange();
+			}
+		}
+
+		private string pairFolderIndex = App.Icon_FolderPairs[0];
+
+		// the folder pair array index
+		public string PairFolderIndex
+		{
+			get => pairFolderIndex.IsVoid() ? App.Icon_FolderPairs[0] : pairFolderIndex;
+			set
+			{
+				pairFolderIndex = value;
 				OnPropertyChange();
 			}
 		}
@@ -205,9 +222,17 @@ namespace Sylvester.SavedFolders
 			this.Close();
 		}
 
+		private int projectFolderIdx;
+		private int pairFolderIdx;
+
 		private void BtnDebugx_OnClick(object sender, RoutedEventArgs e)
 		{
-			x = x.Equals("folder1") ? "folder2" : "folder1";
+			projectFolderIdx = projectFolderIdx >= 3 ? 0 : ++projectFolderIdx;
+			ProjectFolderIndex = App.Icon_FolderProjects[projectFolderIdx];
+
+			pairFolderIdx = pairFolderIdx >= 4  ? 0 : ++pairFolderIdx;
+			PairFolderIndex = App.Icon_FolderPairs[pairFolderIdx];
+
 
 			Debug.WriteLine("@savedfolderWin| debug");
 		}
@@ -252,7 +277,12 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 
-	#region event processing
+	#region event handeling
+
+		private void FolderProject_OnClick(object sender, RoutedEventArgs e) { }
+
+		private void FolderPair_OnClick(object sender, RoutedEventArgs e) { }
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -286,6 +316,7 @@ namespace Sylvester.SavedFolders
 	#endregion
 	}
 
+	[ValueConversion(null, typeof(Viewbox))]
 	public class IconConverter : IMultiValueConverter
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -293,7 +324,8 @@ namespace Sylvester.SavedFolders
 			ListDictionary icons = (ListDictionary) values[0];
 			string index = (string) values[1];
 
-			Viewbox c = (Viewbox) icons[index];
+			Viewbox c = (Viewbox) (index.IsVoid() ? parameter : icons[index]);
+//			Viewbox c = (Viewbox) icons[index];
 
 			return c;
 		}
@@ -303,5 +335,4 @@ namespace Sylvester.SavedFolders
 			throw  new NotImplementedException();
 		}
 	}
-
 }
