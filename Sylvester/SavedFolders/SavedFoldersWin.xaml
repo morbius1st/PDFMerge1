@@ -395,8 +395,6 @@
 
 					<!-- <ScrollViewer -->
 					<!-- 		x:Name="CurrentScrollBar" -->
-					<!-- 		MinWidth="8" -->
-					<!-- 		MinHeight="8" -->
 					<!-- 		HorizontalScrollBarVisibility="Visible" -->
 					<!-- 		VerticalScrollBarVisibility="Hidden" -->
 					<!-- 		Template="{DynamicResource ScrollViewerNarrow}" -->
@@ -405,38 +403,42 @@
 						<user:FolderRoute
 								x:Name="FolderRouteCurrent"
 								Margin="0,0,0,4"
-								Height="14"
 								DockPanel.Dock="Left"
 								ProposedObliqueButtonType="3"
-								TextFontSize="10"
+								Style="{StaticResource FolderRoute.Style}"
 								/>
-					<!-- </ScrollViewer> -->
-
+								<!-- Height="24" -->
+								<!-- ObliqueButtonHeight="14" -->
+								<!-- TextFontSize="10" -->
 
 				</DockPanel>
 
-				<DockPanel HorizontalAlignment="Stretch">
+				<DockPanel Margin="0,0,0,3">
 					<Label
 							Content="Revision Folder"
 							DockPanel.Dock="top"
+							Margin="0,0,0,3"
 							Style="{StaticResource label}"
 							/>
 
-					<ScrollViewer x:Name="RevisionScrollBar"
-							MinWidth="8"
-							MinHeight="8"
-							HorizontalScrollBarVisibility="Visible"
-							VerticalScrollBarVisibility="Hidden"
-							Template="{DynamicResource ScrollViewerNarrow}">
+					<!-- <ScrollViewer x:Name="RevisionScrollBar" -->
+					<!-- 		MinWidth="8" -->
+					<!-- 		MinHeight="8" -->
+					<!-- 		HorizontalScrollBarVisibility="Visible" -->
+					<!-- 		VerticalScrollBarVisibility="Hidden" -->
+					<!-- 		Template="{DynamicResource ScrollViewerNarrow}"> -->
 
 					<user:FolderRoute
 							x:Name="FolderRouteRevision"
-							Height="14"
 							DockPanel.Dock="Left"
 							ProposedObliqueButtonType="3"
+							Style="{StaticResource FolderRoute.Style}"
 							/>
+							<!-- Height="24" -->
+							<!-- ObliqueButtonHeight="14" -->
+							<!-- TextFontSize="10" -->
 
-					</ScrollViewer>
+					<!-- </ScrollViewer> -->
 
 					<!--  <TextBox  -->
 					<!--  Text="{Binding ElementName=SavedFolderWin,  -->

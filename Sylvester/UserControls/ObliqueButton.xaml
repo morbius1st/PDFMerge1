@@ -9,7 +9,7 @@
 		x:Name="obliqueButton"
 		Margin="0,0,-5.5,0"
 		Padding="0"
-		d:DesignHeight="15"
+		d:DesignHeight="13"
 		d:DesignWidth="200"
 		Tag="{Binding ElementName=obliqueButton,
 									Path=Index,

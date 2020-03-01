@@ -44,7 +44,7 @@
 	<StackPanel Orientation="Vertical">
 
 		<StackPanel
-				Margin="{Binding TitleBarMargin, ElementName=headerControl}"
+				Margin="0"
 				HorizontalAlignment="Stretch"
 				Orientation="Horizontal"
 				Background="#395482CD"
@@ -58,7 +58,7 @@
 					/>
 		</StackPanel>
 
-		<DockPanel Margin="60,2,0,0"
+		<DockPanel Margin="{Binding TitleBarMargin, ElementName=headerControl}"
 				HorizontalAlignment="Stretch"
 				>
 
@@ -66,21 +66,23 @@
 					HorizontalAlignment="Stretch"
 					
 					>
-
-				<ScrollViewer x:Name="RevisionScrollBar"
-						DockPanel.Dock="Top"
-						MinWidth="8"
-						MinHeight="8"
-						HorizontalScrollBarVisibility="Visible"
-						VerticalScrollBarVisibility="Hidden"
-						Template="{DynamicResource ScrollViewerNarrow}">
+				<!-- -->
+				<!-- <ScrollViewer x:Name="RevisionScrollBar" -->
+				<!-- 		DockPanel.Dock="Top" -->
+				<!-- 		MinWidth="8" -->
+				<!-- 		MinHeight="8" -->
+				<!-- 		HorizontalScrollBarVisibility="Visible" -->
+				<!-- 		VerticalScrollBarVisibility="Hidden" -->
+				<!-- 		Template="{DynamicResource ScrollViewerNarrow}"> -->
 
 				<user:FolderRoute
 						x:Name="FolderRoute"
+						DockPanel.Dock="Top"
+						ObliqueButtonHeight="14"
 						Margin="4,4,0,-2"
-						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=15}"
+						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=24}"
 						VerticalAlignment="Bottom"
-						FontBrush="#cccccc"
+						FontBrush="{Binding ElementName=headerControl, Path=FontBrush}"
 						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
 						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize, FallbackValue=8}"
 						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
@@ -95,7 +97,7 @@
 						</Style>
 					</user:FolderRoute.Style>
 				</user:FolderRoute>
-				</ScrollViewer>
+				<!-- </ScrollViewer> -->
 
 				<Grid Margin="0,3,0,0" 
 						DockPanel.Dock="bottom"

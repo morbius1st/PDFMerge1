@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Sylvester.FolderSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
@@ -305,7 +306,26 @@ namespace Sylvester
 			get { return (double) GetValue(TextFontSizeProperty); }
 			set { SetValue(TextFontSizeProperty, value); }
 		}
-		
+
+
+		public static readonly DependencyProperty ObliqueButtonHeightProperty = DependencyProperty.Register(
+			"ObliqueButtonHeight", typeof(double), typeof(HeaderControl), new PropertyMetadata(13.0));
+
+		public double ObliqueButtonHeight
+		{
+			get { return (double) GetValue(ObliqueButtonHeightProperty); }
+			set { SetValue(ObliqueButtonHeightProperty, value); }
+		}
+
+		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
+			"FontBrush", typeof(SolidColorBrush), typeof(HeaderControl), new PropertyMetadata(Brushes.White));
+
+		public SolidColorBrush FontBrush
+		{
+			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
+			set { SetValue(FontBrushProperty, value); }
+		}
+
 
 	#endregion
 

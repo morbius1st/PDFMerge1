@@ -36,8 +36,4 @@ namespace Sylvester
 		};
 	}
 
-	public class Info
-	{
-		
-	}
 }

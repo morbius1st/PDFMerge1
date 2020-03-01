@@ -112,6 +112,8 @@ namespace Sylvester.UserControls
 			{
 				Add(s, nextIndex++);
 			}
+
+			ScrollBar.ScrollToRightEnd();
 		}
 
 		private void Add(string text, int index)
@@ -259,6 +261,15 @@ namespace Sylvester.UserControls
 		{
 			get { return (double) GetValue(TextFontSizeProperty); }
 			set { SetValue(TextFontSizeProperty, value); }
+		}
+
+		public static readonly DependencyProperty ObliqueButtonHeightProperty = DependencyProperty.Register(
+			"ObliqueButtonHeight", typeof(double), typeof(FolderRoute), new PropertyMetadata(13.0));
+
+		public double ObliqueButtonHeight
+		{
+			get { return (double) GetValue(ObliqueButtonHeightProperty); }
+			set { SetValue(ObliqueButtonHeightProperty, value); }
 		}
 
 	#endregion

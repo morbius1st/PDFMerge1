@@ -56,8 +56,6 @@ namespace Sylvester.UserControls
 			set { SetValue(TextMarginProperty, value); }
 		}
 
-
-
 		// show the text?
 		public static readonly DependencyProperty ShowTextProperty = DependencyProperty.Register(
 			"ShowText", typeof(bool), typeof(ObliqueButton), new PropertyMetadata(false));
