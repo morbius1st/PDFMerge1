@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Sylvester.Process;
 using Sylvester.SavedFolders.SubFolder;
 using Sylvester.Settings;
@@ -58,12 +59,12 @@ namespace Sylvester.SavedFolders
 		private SubFolderManager currentFolder = null;
 		private SubFolderManager revisionFolder = null;
 
-		public SavedFoldersWin(SavedFolderType index, string title)
+		public SavedFoldersWin(SavedFolderType index, string winTitle)
 		{
-			InitializeComponent();
-
-			Title = title;
+			WinTitle = winTitle;
 			this.index = index;
+
+			InitializeComponent();
 
 			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_HEIGHT;
 			SetgMgr.GetSavedFolderLayout.Min_Height = MIN_WIDTH;
@@ -72,8 +73,8 @@ namespace Sylvester.SavedFolders
 			revisionFolder = new SubFolderManager(FolderRouteRevision);
 		}
 
-		// upper listbox
-		public ObservableCollection<SavedFolderProject> savedFolders;
+//		// upper listbox
+//		public ObservableCollection<SavedFolderProject> savedFolders;
 
 		// the selected value
 		private SavedFolderProject selectedSavedFolderProject;
@@ -98,17 +99,21 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-		public string Title { get; private set; }
+		public bool Test => false;
+
+		public string WinTitle { get; private set; }
+
+		public SavedFolderType Index => index;
 
 		// the project folder collection
 		public ObservableCollection<SavedFolderProject> SavedFolders
 		{
 			get => SetgMgr.Instance.SavedFolders[index.Value()];
-			set
-			{
-				savedFolders = value;
-				OnPropertyChange();
-			}
+//			set
+//			{
+//				savedFolders = value;
+//				OnPropertyChange();
+//			}
 		}
 
 		// the folder pair collection - this is assigned after
@@ -138,6 +143,10 @@ namespace Sylvester.SavedFolders
 
 				// assign the folder pair collection
 				FolderPairs = value.SavedFolderPairs;
+
+				OnPropertyChange("ProjectFolderIconIndex");
+
+				SelectedFolderPair = null;
 			}
 		}
 
@@ -150,36 +159,62 @@ namespace Sylvester.SavedFolders
 				selectedFolderPair = value;
 				OnPropertyChange();
 
-				currentFolder.Folder = selectedFolderPair.Current;
-//				CurrentScrollBar.ScrollToRightEnd();
+				currentFolder.Folder = selectedFolderPair?.Current ?? FilePath<FileNameSimple>.Invalid;
+				revisionFolder.Folder = selectedFolderPair?.Revision ?? FilePath<FileNameSimple>.Invalid;
 
-				revisionFolder.Folder = selectedFolderPair.Revision;
+				OnPropertyChange("FolderPairIndex");
 			}
 		}
-
-		private string projectFolderIndex = App.Icon_FolderProjects[0];
 
 		// the project folder array index
-		public string ProjectFolderIndex
+		public string ProjectFolderIconIndex
 		{
-			get => projectFolderIndex.IsVoid() ? App.Icon_FolderProjects[0] : projectFolderIndex;
+			get
+			{
+				if (selectedSavedFolderProject == null)
+				{
+					FolderProject.Visibility = Visibility.Hidden;
+					return null;
+				}
+
+				FolderProject.Visibility = Visibility.Visible;
+
+				if (selectedSavedFolderProject.Icon.IsVoid()) return App.Icon_FolderProjects[0];
+
+				return selectedSavedFolderProject.Icon;
+			}
 			set
 			{
-				projectFolderIndex = value;
+				selectedSavedFolderProject.Icon = value;
 				OnPropertyChange();
+
+				UserSettings.Admin.Write();
 			}
 		}
 
-		private string pairFolderIndex = App.Icon_FolderPairs[0];
-
 		// the folder pair array index
-		public string PairFolderIndex
+		public string FolderPairIndex
 		{
-			get => pairFolderIndex.IsVoid() ? App.Icon_FolderPairs[0] : pairFolderIndex;
+			get
+			{
+				if (selectedFolderPair == null)
+				{
+					FolderPair.Visibility = Visibility.Hidden;
+					return null;
+				}
+
+				FolderPair.Visibility = Visibility.Visible;
+
+				if (selectedFolderPair.Icon.IsVoid()) return App.Icon_FolderPairs[0];
+
+				return selectedFolderPair.Icon;
+			}
 			set
 			{
-				pairFolderIndex = value;
+				selectedFolderPair.Icon = value;
 				OnPropertyChange();
+
+				UserSettings.Admin.Write();
 			}
 		}
 
@@ -217,21 +252,24 @@ namespace Sylvester.SavedFolders
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetgMgr.SaveWindowLayout(WindowId.DIALOG_SAVED_FOLDERS, this);
+			SetgMgr.WriteUsr();
 
 			this.DialogResult = true;
 			this.Close();
 		}
 
-		private int projectFolderIdx;
-		private int pairFolderIdx;
+		private int projectFolderIdx = 0;
+		private int pairFolderIdx = 0;
 
 		private void BtnDebugx_OnClick(object sender, RoutedEventArgs e)
 		{
-			projectFolderIdx = projectFolderIdx >= 3 ? 0 : ++projectFolderIdx;
-			ProjectFolderIndex = App.Icon_FolderProjects[projectFolderIdx];
+//			projectFolderIdx = projectFolderIdx > 3 ? 0 : projectFolderIdx;
+//			ProjectFolderIconIndex = App.Icon_FolderProjects[projectFolderIdx++];
+//
+//			pairFolderIdx = pairFolderIdx > 4  ? 0 : pairFolderIdx;
+//			FolderPairIndex = App.Icon_FolderPairs[pairFolderIdx++];
 
-			pairFolderIdx = pairFolderIdx >= 4  ? 0 : ++pairFolderIdx;
-			PairFolderIndex = App.Icon_FolderPairs[pairFolderIdx];
+			SetgMgr sm = SetgMgr.Instance;
 
 
 			Debug.WriteLine("@savedfolderWin| debug");
@@ -251,6 +289,20 @@ namespace Sylvester.SavedFolders
 			Test01();
 		}
 
+		private void ProjectFolderIconButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			ProjectFolderIconIndex = ((CheckBox) sender).Tag.ToString();
+
+			ProjectScrollViewer.Visibility = Visibility.Hidden;
+		}
+
+		private void FolderPairIconButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			FolderPairIndex = ((CheckBox) sender).Tag.ToString();
+
+			FolderPairScrollViewer.Visibility = Visibility.Hidden;
+		}
+
 		private void SavedFolderWin_Initialized(object sender, EventArgs e)
 		{
 			SetgMgr.RestoreWindowLayout(WindowId.DIALOG_SAVED_FOLDERS, this);
@@ -259,7 +311,47 @@ namespace Sylvester.SavedFolders
 
 		private void SavedFolderWin_Loaded(object sender, RoutedEventArgs e)
 		{
-			SavedFolders = SetgMgr.Instance.SavedFolders[index.Value()];
+//			SavedFolders = SetgMgr.Instance.SavedFolders[index.Value()];
+		}
+
+		private void FolderProject_OnClick(object sender, RoutedEventArgs e)
+		{
+			ProjectScrollViewer.Visibility = Visibility.Visible;
+			ProjectScrollViewer.Focus();
+		}
+
+		private void ProjectScrollViewer_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (!withinScrollViewer)
+				ProjectScrollViewer.Visibility = Visibility.Hidden;
+
+			e.Handled = true;
+		}
+
+		private bool withinScrollViewer = false;
+
+		private void ScrollViewer_OnMouseEnter(object sender, MouseEventArgs e)
+		{
+			withinScrollViewer = true;
+		}
+
+		private void ScrollViewer_OnMouseLeave(object sender, MouseEventArgs e)
+		{
+			withinScrollViewer = false;
+		}
+
+		private void FolderPair_OnClick(object sender, RoutedEventArgs e)
+		{
+			FolderPairScrollViewer.Visibility = Visibility.Visible;
+			FolderPairScrollViewer.Focus();
+		}
+
+		private void FolderPairScrollViewer_OnLostFocus(object sender, RoutedEventArgs e)
+		{
+			if (!withinScrollViewer)
+				FolderPairScrollViewer.Visibility = Visibility.Hidden;
+
+			e.Handled = true;
 		}
 
 	#endregion
@@ -278,11 +370,6 @@ namespace Sylvester.SavedFolders
 	#endregion
 
 	#region event handeling
-
-		private void FolderProject_OnClick(object sender, RoutedEventArgs e) { }
-
-		private void FolderPair_OnClick(object sender, RoutedEventArgs e) { }
-
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -311,9 +398,11 @@ namespace Sylvester.SavedFolders
 			AppendLine(logMsgDbS(msg1, msg2));
 		}
 
+
 	#endif
 
 	#endregion
+
 	}
 
 	[ValueConversion(null, typeof(Viewbox))]
@@ -321,18 +410,62 @@ namespace Sylvester.SavedFolders
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
-			ListDictionary icons = (ListDictionary) values[0];
-			string index = (string) values[1];
+			if (values == null || values[0] == null || parameter == null ||
+				values[0].GetType() != typeof(ListDictionary) || parameter.GetType() != typeof(string)) return null;
 
-			Viewbox c = (Viewbox) (index.IsVoid() ? parameter : icons[index]);
+//			ListDictionary icons = (ListDictionary) values[0];
+			string index = (string) (values[1] ?? parameter);
+
 //			Viewbox c = (Viewbox) icons[index];
+//
+			Viewbox cx = new Viewbox();
+			cx.Child =  (UIElement) Application.Current.Resources[index];
 
-			return c;
+			return cx;
 		}
 
 		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 		{
 			throw  new NotImplementedException();
+		}
+	}
+
+	[ValueConversion(null, typeof(Viewbox))]
+	public class IconNameConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (parameter == null || parameter.GetType() != typeof(string)) return null;
+
+			string index = (string) (value ?? parameter);
+
+			Viewbox cx = new Viewbox();
+			cx.Child =  (UIElement) Application.Current.Resources[index];
+
+			return cx;
+		}
+
+		public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
+		{
+			throw  new NotImplementedException();
+		}
+	}
+
+	[ValueConversion(typeof(string), typeof(bool))]
+	public class StringToBoolConverter : IMultiValueConverter
+	{
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (values == null || values[0] == null || values[1] == null ||
+				values[0].GetType() != typeof(string) || values[1].GetType() != typeof(string)) return false;
+
+			return ((string) values[0]).Equals((string) values[1]);
+		}
+
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+//			throw  new NotImplementedException();
+			return null;
 		}
 	}
 }

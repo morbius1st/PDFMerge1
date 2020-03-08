@@ -5,6 +5,7 @@
 
 	<Canvas
 			x:Key="Folder-Pair-04"
+			x:Shared="False"
 			Width="3600"
 			Height="2400"
 			>
@@ -52,7 +53,7 @@
 					Width="1233.7473"
 					Height="1242.9232"
 					Canvas.Top="-700.01672"
-					Fill="#FF55DDFF"
+					Fill="#17B4E0"
 					RadiusX="66.563255"
 					RadiusY="67.477386"
 					Stroke="#FFFFFFFF"

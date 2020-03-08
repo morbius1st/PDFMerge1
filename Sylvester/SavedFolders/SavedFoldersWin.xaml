@@ -6,13 +6,14 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester.SavedFolders"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:res="clr-namespace:Sylvester.UserControls"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		x:Name="SavedFolderWin"
 		Title="{Binding ElementName=SavedFolderWin,
-										Path=Title}"
-		Width="800"
-		Height="450"
+										Path=WinTitle}"
+		Width="850"
+		Height="470"
 		MinWidth="{Binding ElementName=SavedFolderWin,
 											 Path=WidthMin}"
 		MinHeight="{Binding ElementName=SavedFolderWin,
@@ -24,24 +25,72 @@
 		mc:Ignorable="d"
 		Background="#333333"
 		>
-	<!--
-		Width="{Binding ElementName=SavedFolderWin,
-		Path=WidthMin,
-		FallbackValue={x:Static local:SavedFoldersWin.MIN_WIDTH}}"
-		Height="{Binding ElementName=SavedFolderWin,
-		Path=HeightMin,
-		FallbackValue={x:Static local:SavedFoldersWin.MIN_HEIGHT}}"
-	-->
+
+	<Window.Style>
+		<Style TargetType="Window">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Index}" Value="{x:Static local:SavedFolderType.HISTORY}">
+					<Setter Property="Icon">
+						<Setter.Value>
+							<DrawingImage>
+								<DrawingImage.Drawing>
+									<GeometryDrawing Geometry="{StaticResource Icon.Rect}">
+										<GeometryDrawing.Brush>
+											<DrawingBrush>
+												<DrawingBrush.Drawing>
+													<GeometryDrawing
+															Geometry="{StaticResource Icon.Svg.History}"
+															Brush="{StaticResource Path.History.Fill}"
+															/>
+												</DrawingBrush.Drawing>
+											</DrawingBrush>
+										</GeometryDrawing.Brush>
+									</GeometryDrawing>
+								</DrawingImage.Drawing>
+							</DrawingImage>
+						</Setter.Value>
+					</Setter>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Index}" Value="{x:Static local:SavedFolderType.FAVORITES}">
+					<Setter Property="Icon">
+						<Setter.Value>
+							<DrawingImage>
+								<DrawingImage.Drawing>
+									<GeometryDrawing Geometry="{StaticResource Icon.Rect}">
+										<GeometryDrawing.Brush>
+											<DrawingBrush>
+												<DrawingBrush.Drawing>
+													<GeometryDrawing
+															Geometry="{StaticResource Icon.Svg.Favorite}"
+															Brush="{StaticResource Path.Favorite.Fill2}"
+															/>
+												</DrawingBrush.Drawing>
+											</DrawingBrush>
+										</GeometryDrawing.Brush>
+									</GeometryDrawing>
+								</DrawingImage.Drawing>
+							</DrawingImage>
+						</Setter.Value>
+					</Setter>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+	</Window.Style>
 
 	<Window.Resources>
 
 		<ResourceDictionary>
 
 			<local:IconConverter x:Key="icv" />
+			<local:IconNameConverter x:Key="incv" />
+			<local:StringToBoolConverter x:Key="stcv" />
 
 			<SolidColorBrush x:Key="btnBkg">LightGray</SolidColorBrush>
 
 			<sys:Double x:Key="Height.Bottom.Row">80</sys:Double>
+			<sys:Double x:Key="Icon.Height">30</sys:Double>
+			<sys:Double x:Key="Icon.Width">30</sys:Double>
 
 			<Style
 					x:Key="lbl"
@@ -89,18 +138,228 @@
 					>
 				<Setter Property="Margin" Value="0,1,0,.5" />
 			</Style>
+
+			<!-- <Setter Property="Width" Value="36" /> -->
+			<!-- <Setter Property="Height" Value="30" /> -->
+			<Style
+					x:Key="Button.Icon"
+					TargetType="Button"
+					>
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderBrush" Value="White" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate
+								x:Name="CT"
+								TargetType="Button"
+								>
+							<Border
+									x:Name="BDR"
+									Padding="3"
+									CornerRadius="3"
+									Background="Transparent"
+									BorderThickness="2"
+									BorderBrush="Transparent"
+									>
+								<ContentPresenter
+										x:Name="contentPresenter"
+										Content="{TemplateBinding Content}"
+										Margin="{TemplateBinding Padding}"
+										Width="{StaticResource Icon.Width}"
+										Height="{StaticResource Icon.Height}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										ContentTemplate="{TemplateBinding ContentTemplate}"
+										/>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter TargetName="BDR" Property="BorderBrush" Value="#FFFFA500" />
+								</Trigger>
+
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="VerticalAlignment" Value="Top" />
+			</Style>
+
+
+			<ControlTemplate
+					x:Key="Button.Icon.ControlTemplate"
+					TargetType="{x:Type ButtonBase}"
+					>
+				<Border
+						x:Name="border"
+						CornerRadius="3"
+						Opacity="1.0"
+						SnapsToDevicePixels="True"
+						Background="Transparent"
+						BorderThickness="1"
+						BorderBrush="Transparent"
+						>
+					<!--  BorderThickness="{TemplateBinding BorderThickness}"  -->
+					<!--  BorderBrush="Transparent"  -->
+					<ContentPresenter
+							x:Name="contentPresenter"
+							Content="{TemplateBinding Content}"
+							Margin="{TemplateBinding Padding}"
+							Width="{StaticResource Icon.Width}"
+							Height="{StaticResource Icon.Height}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							ContentStringFormat="{TemplateBinding ContentStringFormat}"
+							Focusable="False"
+							RecognizesAccessKey="True"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+				</Border>
+				<ControlTemplate.Triggers>
+					<!-- <Trigger Property="Button.IsDefaulted" Value="True"> -->
+					<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="#ff00ff00" /> -->
+					<!-- </Trigger> -->
+					<Trigger Property="IsMouseOver" Value="True">
+						<!-- <Setter TargetName="border" Property="Background" Value="#FFBEE6FD" /> -->
+						<!-- <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" /> -->
+						<Setter TargetName="border" Property="BorderBrush" Value="#FFFFFF00" />
+					</Trigger>
+					<Trigger Property="IsPressed" Value="True">
+						<!-- <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" /> -->
+						<Setter TargetName="border" Property="BorderBrush" Value="#FFFFA500" />
+					</Trigger>
+					<Trigger Property="ToggleButton.IsChecked" Value="True">
+						<!-- <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" /> -->
+						<Setter TargetName="border" Property="BorderBrush" Value="#FF00FF00" />
+					</Trigger>
+					<Trigger Property="IsEnabled" Value="False">
+						<!-- <Setter Property="Foreground" Value="#FF838383" /> -->
+						<!-- <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" /> -->
+						<Setter TargetName="border" Property="Opacity" Value="0.5" />
+						<!-- <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" /> -->
+					</Trigger>
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+			<ControlTemplate
+					x:Key="ProjectIcon"
+					TargetType="ContentControl"
+					>
+				<CheckBox
+						x:Name="ProjectIconButton"
+						Margin="2"
+						Padding="3"
+						HorizontalContentAlignment="Center"
+						Tag="{TemplateBinding Tag}"
+						Background="Transparent"
+						BorderThickness="1"
+						BorderBrush="Transparent"
+						IsChecked="False"
+						Click="ProjectFolderIconButton_OnClick"
+						Template="{StaticResource Button.Icon.ControlTemplate}"
+						>
+					<CheckBox.Content>
+						<Viewbox>
+							<ContentPresenter />
+						</Viewbox>
+					</CheckBox.Content>
+				</CheckBox>
+
+				<!-- </Border> -->
+				<ControlTemplate.Triggers>
+					<DataTrigger Value="true">
+						<DataTrigger.Binding>
+							<MultiBinding
+									Converter="{StaticResource stcv}"
+									Mode="OneWay"
+									>
+								<Binding
+										ElementName="SavedFolderWin"
+										Mode="OneWay"
+										Path="ProjectFolderIconIndex"
+										/>
+								<Binding
+										Mode="OneWay"
+										Path="Tag"
+										RelativeSource="{RelativeSource Self}"
+										/>
+
+							</MultiBinding>
+						</DataTrigger.Binding>
+						<!-- <Setter TargetName="BDR" Property="BorderBrush" Value="red" /> -->
+						<Setter TargetName="ProjectIconButton" Property="IsChecked" Value="True" />
+					</DataTrigger>
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+			<ControlTemplate
+					x:Key="PairIcon"
+					TargetType="ContentControl"
+					>
+				<CheckBox
+						x:Name="PairIconButton"
+						Margin="2"
+						Padding="3"
+						HorizontalContentAlignment="Center"
+						Tag="{TemplateBinding Tag}"
+						Background="Transparent"
+						BorderThickness="1"
+						BorderBrush="Transparent"
+						IsChecked="False"
+						Click="FolderPairIconButton_OnClick"
+						Template="{StaticResource Button.Icon.ControlTemplate}"
+						>
+					<CheckBox.Content>
+						<Viewbox>
+							<ContentPresenter />
+						</Viewbox>
+					</CheckBox.Content>
+				</CheckBox>
+
+				<!-- </Border> -->
+				<ControlTemplate.Triggers>
+					<DataTrigger Value="true">
+						<DataTrigger.Binding>
+							<MultiBinding
+									Converter="{StaticResource stcv}"
+									Mode="OneWay"
+									>
+								<Binding
+										ElementName="SavedFolderWin"
+										Mode="OneWay"
+										Path="FolderPairIndex"
+										/>
+								<Binding
+										Mode="OneWay"
+										Path="Tag"
+										RelativeSource="{RelativeSource Self}"
+										/>
+
+							</MultiBinding>
+						</DataTrigger.Binding>
+						<!-- <Setter TargetName="BDR" Property="BorderBrush" Value="red" /> -->
+						<Setter TargetName="PairIconButton" Property="IsChecked" Value="True" />
+					</DataTrigger>
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+
 		</ResourceDictionary>
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="180" />
-			<ColumnDefinition Width="180" />
+			<ColumnDefinition Width="240" />
+			<ColumnDefinition Width="240" />
 			<ColumnDefinition Width="*" MinWidth="260" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition />
-			<RowDefinition Height="Auto" MinHeight="60" MaxHeight="{StaticResource Height.Bottom.Row}" />
+			<RowDefinition Height="Auto" MinHeight="40" MaxHeight="{StaticResource Height.Bottom.Row}" />
 		</Grid.RowDefinitions>
 
 		<StackPanel
@@ -178,82 +437,181 @@
 							/>
 				</StackPanel>
 
-				<StackPanel
-						Margin="0,5,0,0"
-						Orientation="Horizontal"
-						>
+				<DockPanel Margin="0,5,0,0">
 					<Label
 							Content="Icon"
-							Margin="0,-2,20,0"
+							Margin="0,-2,10,0"
 							Style="{StaticResource label}"
 							/>
 
+
 					<Button
 							x:Name="FolderProject"
-							Padding="0"
-							Background="Transparent"
-							BorderThickness="0"
-							BorderBrush="Transparent"
-
 							Click="FolderProject_OnClick"
+							Style="{StaticResource Button.Icon}"
 							>
-						 <Viewbox 
-						 		Width="36" 
-						 		Height="24" 
-						 		HorizontalAlignment="Left" 
-						 		> 
-						 	<ContentPresenter> 
-						 		<ContentPresenter.Content> 
-						 			<MultiBinding Converter="{StaticResource icv}"
-											FallbackValue="{StaticResource Folder-Project-01}"
-											> 
-						 				<Binding Source="{StaticResource Folder-Project-Icons}" /> 
-						 				<Binding 
-						 						ElementName="SavedFolderWin" 
-												Path="ProjectFolderIndex" 
-						 						/> 
-						 			</MultiBinding> 
-						 		</ContentPresenter.Content> 
-						 	</ContentPresenter> 
-						 
-						 </Viewbox> 
-						<Button.Style>
-							<Style TargetType="Button">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="Button">
-											<Border
-													x:Name="BDR"
-													CornerRadius="3"
-													Background="Transparent"
-													BorderThickness="2"
-													BorderBrush="Transparent"
-													>
-												<ContentPresenter
-														x:Name="contentPresenter"
-														Content="{TemplateBinding Content}"
-														Margin="{TemplateBinding Padding}"
-														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														ContentTemplate="{TemplateBinding ContentTemplate}"
-														>
-												</ContentPresenter>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="IsMouseOver" Value="True">
-													<Setter TargetName="BDR" Property="BorderBrush" Value="Red" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-
-							</Style>
-						</Button.Style>
+						<ContentControl>
+							<ContentControl.Content>
+								<Binding
+										Converter="{StaticResource incv}"
+										ConverterParameter="{x:Static app:App.Icon_FolderProject00}"
+										ElementName="SavedFolderWin"
+										Path="ProjectFolderIconIndex"
+										/>
+							</ContentControl.Content>
+						</ContentControl>
 					</Button>
-					
 
-				</StackPanel>
+					<ScrollViewer
+							x:Name="ProjectScrollViewer"
+							Margin="5,0,0,0"
+							HorizontalContentAlignment="Stretch"
+							DockPanel.Dock="left"
+							HorizontalScrollBarVisibility="Visible"
+							LostFocus="ProjectScrollViewer_LostFocus"
+							MouseEnter="ScrollViewer_OnMouseEnter"
+							MouseLeave="ScrollViewer_OnMouseLeave"
+							VerticalScrollBarVisibility="Hidden"
+							Background="Transparent"
+							Template="{StaticResource ScrollViewerNarrow}"
+							>
+
+						<ScrollViewer.Style>
+							<Style TargetType="ScrollViewer">
+								<Setter Property="Visibility" Value="Hidden" />
+							</Style>
+						</ScrollViewer.Style>
+
+
+						<StackPanel Orientation="Horizontal">
+							<ContentControl
+									Content="{StaticResource Folder-Project-00}"
+									Tag="{x:StaticExtension app:App.Icon_FolderProject00}"
+									Template="{StaticResource ProjectIcon}"
+									/>
+							<ContentControl
+									Content="{StaticResource Folder-Project-01}"
+									Tag="{x:StaticExtension app:App.Icon_FolderProject01}"
+									Template="{StaticResource ProjectIcon}"
+									/>
+							<ContentControl
+									Content="{StaticResource Folder-Project-02}"
+									Tag="{x:StaticExtension app:App.Icon_FolderProject02}"
+									Template="{StaticResource ProjectIcon}"
+									/>
+							<ContentControl
+									Content="{StaticResource Folder-Project-03}"
+									Tag="{x:StaticExtension app:App.Icon_FolderProject03}"
+									Template="{StaticResource ProjectIcon}"
+									/>
+							<ContentControl
+									Content="{StaticResource Folder-Project-04}"
+									Tag="{x:StaticExtension app:App.Icon_FolderProject04}"
+									Template="{StaticResource ProjectIcon}"
+									/>
+
+
+						</StackPanel>
+					</ScrollViewer>
+
+				</DockPanel>
+
+				<!-- removed for now
+					 <DockPanel HorizontalAlignment="Stretch" Visibility="Collapsed">
+
+						 <ListBox
+						 		Margin="5,0,0,0"
+								Padding="0"
+						 		Height="26"
+						 		HorizontalAlignment="Stretch"
+						 		Background="Transparent"
+						 		BorderThickness="0"
+								ScrollViewer.VerticalScrollBarVisibility="Hidden"
+						 		>
+							<ListBox.Resources>
+						 		<ControlTemplate
+						 				x:Key="ControlTemplate1"
+						 				TargetType="ListBoxItem"
+						 				>
+						 			<Border
+						 					x:Name="BDR"
+											Height="26"
+											Width="26"
+											Padding="2"
+						 					BorderThickness="1"
+						 					BorderBrush="Transparent"
+											Background="Transparent"
+						 					>
+						 				<Viewbox
+						 						x:Name="vbx" >
+						 					<ContentPresenter
+						 							x:Name="Presenter"
+						 							/>
+										</Viewbox>
+						 			</Border>
+						 			<ControlTemplate.Triggers>
+						 				<DataTrigger Value="true">
+						 					<DataTrigger.Binding>
+						 						<MultiBinding Converter="{StaticResource stcv}" Mode="OneWay">
+						 							<Binding
+						 									ElementName="SavedFolderWin"
+						 									Path="ProjectFolderIndex"
+															Mode="OneWay"
+						 									/>
+													<Binding RelativeSource="{RelativeSource Self}"
+															Path="Tag" Mode="OneWay"
+															
+															/>
+
+												</MultiBinding>
+						 					</DataTrigger.Binding>
+						 					<Setter TargetName="BDR" Property="BorderBrush" Value="red"/>
+										</DataTrigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+
+						 	</ListBox.Resources>
+						 	<ListBox.ItemsPanel>
+						 		<ItemsPanelTemplate>
+						 			<StackPanel Orientation="Horizontal">
+						
+						 			</StackPanel>
+						 		</ItemsPanelTemplate>
+						 	</ListBox.ItemsPanel>
+						  <ListBoxItem
+						  		Content="{StaticResource Folder-Project-00}"
+						  		Tag="{x:StaticExtension app:App.Icon_FolderProject00}"
+						  		Template="{StaticResource ControlTemplate1}"
+						  		/>
+						
+						  <ListBoxItem
+						  		Content="{StaticResource Folder-Project-01}"
+						  		Tag="{x:StaticExtension app:App.Icon_FolderProject01}"
+						  		Template="{StaticResource ControlTemplate1}"
+						  		/>
+							<ListBoxItem
+						  		Content="{StaticResource Folder-Project-02}"
+						  		Tag="{x:StaticExtension app:App.Icon_FolderProject02}"
+						  		Template="{StaticResource ControlTemplate1}"
+						  		/>  						
+						  <ListBoxItem
+						  		Content="{StaticResource Folder-Project-03}"
+						  		Tag="{x:StaticExtension app:App.Icon_FolderProject03}"
+						  		Template="{StaticResource ControlTemplate1}"
+						  		/>
+						  <ListBoxItem
+						  		Content="{StaticResource Folder-Project-04}"
+						  		Tag="{x:StaticExtension app:App.Icon_FolderProject04}"
+						  		Template="{StaticResource ControlTemplate1}"
+						  		/>
+						 </ListBox>
+
+
+					 </DockPanel>
+				</DockPanel>
+
+					-->
+
 
 
 				<DockPanel
@@ -293,80 +651,164 @@
 							/>
 				</StackPanel>
 
-				<StackPanel
-						Margin="0,5,0,0"
-						Orientation="Horizontal"
-						>
+				<DockPanel Margin="0,5,0,0">
 					<Label
 							Content="Icon"
-							Margin="0,-2,20,0"
+							Margin="0,-2,10,0"
 							Style="{StaticResource label}"
 							/>
 
-
 					<Button
 							x:Name="FolderPair"
-							Padding="0"
-							Background="Transparent"
-							BorderThickness="0"
-							BorderBrush="Transparent"
 							Click="FolderPair_OnClick"
+							Style="{StaticResource Button.Icon}"
 							>
-						<Viewbox
-								Width="36"
-								Height="24"
-								HorizontalAlignment="Left"
-								>
-							<ContentPresenter>
-								<ContentPresenter.Content>
-									<MultiBinding Converter="{StaticResource icv}"
-											FallbackValue="{StaticResource Folder-Pair-05}"
-											>
-										<Binding Source="{StaticResource Folder-Pair-Icons}" />
-										<Binding
-												ElementName="SavedFolderWin"
-												Path="PairFolderIndex"
-												/>
-									</MultiBinding>
-								</ContentPresenter.Content>
-							</ContentPresenter>
-
-						</Viewbox>
-						<Button.Style>
-							<Style TargetType="Button">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="Button">
-											<Border
-													x:Name="BDR"
-													CornerRadius="3"
-													Background="Transparent"
-													BorderThickness="2"
-													BorderBrush="Transparent"
-													>
-												<ContentPresenter
-														x:Name="contentPresenter"
-														Content="{TemplateBinding Content}"
-														Margin="{TemplateBinding Padding}"
-														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														ContentTemplate="{TemplateBinding ContentTemplate}"
-														/>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="IsMouseOver" Value="True">
-													<Setter TargetName="BDR" Property="BorderBrush" Value="Red" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-
-							</Style>
-						</Button.Style>
+						<ContentControl>
+							<ContentControl.Content>
+								<Binding
+										Converter="{StaticResource incv}"
+										ConverterParameter="{x:Static app:App.Icon_FolderProject00}"
+										ElementName="SavedFolderWin"
+										Path="FolderPairIndex"
+										/>
+							</ContentControl.Content>
+						</ContentControl>
 					</Button>
 
-				</StackPanel>
+
+					<!--  <Button  -->
+					<!--  x:Name="FolderPair"  -->
+					<!--  Margin="0,1,0,0"  -->
+					<!--  Width="36"  -->
+					<!--  Height="30"  -->
+					<!--  Padding="0"  -->
+					<!--  VerticalAlignment="Top"  -->
+					<!--  Background="Transparent"  -->
+					<!--  BorderThickness="0"  -->
+					<!--  BorderBrush="Transparent"  -->
+					<!--  Click="FolderPair_OnClick"  -->
+					<!--  >  -->
+					<!--  <Viewbox  -->
+					<!--  x:Name="vbx"  -->
+					<!--  HorizontalAlignment="Left"  -->
+					<!--  >  -->
+					<!-- 		<ContentPresenter> -->
+					<!-- 			<ContentPresenter.Content> -->
+					<!--  <MultiBinding  -->
+					<!--  Converter="{StaticResource icv}"  -->
+					<!--  ConverterParameter="{x:Static app:App.Icon_FolderPair00}"  -->
+					<!--  >  -->
+					<!-- 					<Binding Source="{StaticResource Folder-Pair-Icons}" /> -->
+					<!--  <Binding  -->
+					<!--  ElementName="SavedFolderWin"  -->
+					<!--  FallbackValue="pair00"  -->
+					<!--  Path="FolderPairIndex"  -->
+					<!--  />  -->
+					<!-- 				</MultiBinding> -->
+					<!-- 			</ContentPresenter.Content> -->
+					<!-- 		</ContentPresenter> -->
+					<!--    -->
+					<!-- 	</Viewbox> -->
+					<!-- 	<Button.Style> -->
+					<!-- 		<Style TargetType="Button"> -->
+					<!-- 			<Setter Property="Template"> -->
+					<!-- 				<Setter.Value> -->
+					<!-- 					<ControlTemplate TargetType="Button"> -->
+					<!--  <Border  -->
+					<!--  x:Name="BDR"  -->
+					<!--  Padding="3"  -->
+					<!--  CornerRadius="3"  -->
+					<!--  Background="Transparent"  -->
+					<!--  BorderThickness="2"  -->
+					<!--  BorderBrush="Transparent"  -->
+					<!--  >  -->
+					<!--  <ContentPresenter  -->
+					<!--  x:Name="contentPresenter"  -->
+					<!--  Content="{TemplateBinding Content}"  -->
+					<!--  Margin="{TemplateBinding Padding}"  -->
+					<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
+					<!--  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"  -->
+					<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
+					<!--  />  -->
+					<!-- 						</Border> -->
+					<!-- 						<ControlTemplate.Triggers> -->
+					<!-- 							<Trigger Property="IsMouseOver" Value="True"> -->
+					<!-- 								<Setter TargetName="BDR" Property="BorderBrush" Value="#FFFFA500" /> -->
+					<!-- 							</Trigger> -->
+					<!-- 						</ControlTemplate.Triggers> -->
+					<!-- 					</ControlTemplate> -->
+					<!-- 				</Setter.Value> -->
+					<!-- 			</Setter> -->
+					<!--    -->
+					<!-- 		</Style> -->
+					<!-- 	</Button.Style> -->
+					<!-- </Button> -->
+
+
+					<ScrollViewer
+							x:Name="FolderPairScrollViewer"
+							Margin="5,0,0,0"
+							HorizontalContentAlignment="Stretch"
+							DockPanel.Dock="left"
+							HorizontalScrollBarVisibility="Visible"
+							LostFocus="FolderPairScrollViewer_OnLostFocus"
+							MouseEnter="ScrollViewer_OnMouseEnter"
+							MouseLeave="ScrollViewer_OnMouseLeave"
+							VerticalScrollBarVisibility="Hidden"
+							Visibility="Hidden"
+							Background="Transparent"
+							Template="{StaticResource ScrollViewerNarrow}"
+							>
+						<!--  IsEnabled="False"  -->
+						<!--  Opacity=".5"  -->
+
+						<StackPanel Orientation="Horizontal">
+							<ContentControl
+									Content="{StaticResource Folder-Pair-00}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair00}"
+									Template="{StaticResource PairIcon}"
+									/>
+							<ContentControl
+									Content="{StaticResource Folder-Pair-01}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair01}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+							<ContentControl
+									Content="{StaticResource Folder-Pair-02}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair02}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+							<ContentControl
+									Content="{StaticResource Folder-Pair-03}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair03}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+							<ContentControl
+									Content="{StaticResource Folder-Pair-04}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair04}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+							<ContentControl
+									Content="{StaticResource Folder-Pair-05}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair05}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+
+							<ContentControl
+									Content="{StaticResource Folder-Pair-06}"
+									Tag="{x:StaticExtension app:App.Icon_FolderPair06}"
+									Template="{StaticResource PairIcon}"
+									/>
+
+						</StackPanel>
+					</ScrollViewer>
+
+				</DockPanel>
 
 				<DockPanel HorizontalAlignment="Stretch">
 					<Label
@@ -393,40 +835,40 @@
 							Style="{StaticResource label}"
 							/>
 
-					<!-- <ScrollViewer -->
-					<!-- 		x:Name="CurrentScrollBar" -->
-					<!-- 		HorizontalScrollBarVisibility="Visible" -->
-					<!-- 		VerticalScrollBarVisibility="Hidden" -->
-					<!-- 		Template="{DynamicResource ScrollViewerNarrow}" -->
-					<!-- 		> -->
+					<!--  <ScrollViewer  -->
+					<!--  x:Name="CurrentScrollBar"  -->
+					<!--  HorizontalScrollBarVisibility="Visible"  -->
+					<!--  VerticalScrollBarVisibility="Hidden"  -->
+					<!--  Template="{DynamicResource ScrollViewerNarrow}"  -->
+					<!--  >  -->
 
-						<user:FolderRoute
-								x:Name="FolderRouteCurrent"
-								Margin="0,0,0,4"
-								DockPanel.Dock="Left"
-								ProposedObliqueButtonType="3"
-								Style="{StaticResource FolderRoute.Style}"
-								/>
-								<!-- Height="24" -->
-								<!-- ObliqueButtonHeight="14" -->
-								<!-- TextFontSize="10" -->
+					<user:FolderRoute
+							x:Name="FolderRouteCurrent"
+							Margin="0,0,0,4"
+							DockPanel.Dock="Left"
+							ProposedObliqueButtonType="3"
+							Style="{StaticResource FolderRoute.Style}"
+							/>
+					<!--  Height="24"  -->
+					<!--  ObliqueButtonHeight="14"  -->
+					<!--  TextFontSize="10"  -->
 
 				</DockPanel>
 
 				<DockPanel Margin="0,0,0,3">
 					<Label
 							Content="Revision Folder"
-							DockPanel.Dock="top"
 							Margin="0,0,0,3"
+							DockPanel.Dock="top"
 							Style="{StaticResource label}"
 							/>
 
-					<!-- <ScrollViewer x:Name="RevisionScrollBar" -->
-					<!-- 		MinWidth="8" -->
-					<!-- 		MinHeight="8" -->
-					<!-- 		HorizontalScrollBarVisibility="Visible" -->
-					<!-- 		VerticalScrollBarVisibility="Hidden" -->
-					<!-- 		Template="{DynamicResource ScrollViewerNarrow}"> -->
+					<!--  <ScrollViewer x:Name="RevisionScrollBar"  -->
+					<!--  MinWidth="8"  -->
+					<!--  MinHeight="8"  -->
+					<!--  HorizontalScrollBarVisibility="Visible"  -->
+					<!--  VerticalScrollBarVisibility="Hidden"  -->
+					<!--  Template="{DynamicResource ScrollViewerNarrow}">  -->
 
 					<user:FolderRoute
 							x:Name="FolderRouteRevision"
@@ -434,9 +876,9 @@
 							ProposedObliqueButtonType="3"
 							Style="{StaticResource FolderRoute.Style}"
 							/>
-							<!-- Height="24" -->
-							<!-- ObliqueButtonHeight="14" -->
-							<!-- TextFontSize="10" -->
+					<!--  Height="24"  -->
+					<!--  ObliqueButtonHeight="14"  -->
+					<!--  TextFontSize="10"  -->
 
 					<!-- </ScrollViewer> -->
 
@@ -471,7 +913,7 @@
 
 			<Grid.Style>
 				<Style TargetType="Grid">
-					<Setter Property="Visibility" Value="Visible" />
+					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=DebugMode}" Value="false">
 							<Setter Property="Visibility" Value="Collapsed" />
@@ -489,7 +931,7 @@
 					BorderBrush="White"
 					>
 				<StackPanel
-						HorizontalAlignment="Left"
+						HorizontalAlignment="Stretch"
 						Orientation="Vertical"
 						>
 					<Label
@@ -534,7 +976,7 @@
 					BorderBrush="White"
 					>
 				<StackPanel
-						HorizontalAlignment="Left"
+						HorizontalAlignment="Stretch"
 						Orientation="Vertical"
 						>
 
@@ -561,6 +1003,7 @@
 				Grid.Column="0"
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
+				Visibility="Collapsed"
 				Margin="5,5,5,0"
 				Height="{StaticResource Height.Bottom.Row}"
 				HorizontalAlignment="Stretch"
@@ -586,67 +1029,142 @@
 			</TextBox.Style>
 		</TextBox>
 
-		<ListView
-				x:Name="lvProjects"
+
+		<DockPanel
 				Grid.Column="0"
 				Grid.Row="0"
-				DataContext="{Binding ElementName=SavedFolderWin,
-															Path=SavedFolders}"
-				SelectedValue="{Binding ElementName=SavedFolderWin,
-																Path=SelectedSavedFolderProject}"
-				SelectionMode="Single"
-				Background="#333333"
-				ItemTemplate="{DynamicResource DataTemplate1}"
-				ItemsSource="{Binding}"
+				Margin="5,5,0,5"
+
 				>
-			<!--  ItemsSource="{Binding SavedFolders}"  -->
-			<ListView.Resources>
-				<DataTemplate
-						x:Key="DataTemplate1"
-						DataType="local:SavedFolderProject"
-						>
-					<StackPanel Orientation="Horizontal">
-						<Label
-								Content="{Binding Name,
-																	FallbackValue=''}"
-								Foreground="White"
-								/>
-					</StackPanel>
-				</DataTemplate>
-			</ListView.Resources>
-		</ListView>
-		<!--    -->
+			<Label
+					Content="Projects"
+					Padding="0,0,0,3"
+					Margin="0,0,0,5"
+					HorizontalAlignment="Stretch"
+					DockPanel.Dock="Top"
+					Background="#395482CD"
+					Foreground="White"
+					>
+			</Label>
+
+			<ListView
+					x:Name="lvProjects"
+
+					DataContext="{Binding ElementName=SavedFolderWin,
+																Path=SavedFolders}"
+					DockPanel.Dock="Left"
+					SelectedValue="{Binding ElementName=SavedFolderWin,
+																	Path=SelectedSavedFolderProject}"
+					SelectionMode="Single"
+					Background="#333333"
+					ItemTemplate="{DynamicResource DataTemplate1}"
+					ItemsSource="{Binding}"
+					>
+				<!--  ItemsSource="{Binding SavedFolders}"  -->
+				<ListView.Resources>
+					<DataTemplate
+							x:Key="DataTemplate1"
+							DataType="local:SavedFolderProject"
+							>
+						<StackPanel
+								Margin="0,2,0,3"
+								Orientation="Horizontal"
+								>
+							<ContentControl
+									Width="{StaticResource Icon.Width}"
+									Height="{StaticResource Icon.Height}"
+									VerticalAlignment="Center"
+									>
+								<ContentControl.Content>
+									<Binding
+											Converter="{StaticResource incv}"
+											ConverterParameter="{x:Static app:App.Icon_FolderProject00}"
+											Path="Icon"
+											/>
+								</ContentControl.Content>
+							</ContentControl>
+							<Label
+									Content="{Binding Name,
+																		FallbackValue='Nothing Saved'}"
+									Margin="10,0"
+									Padding="0"
+									VerticalAlignment="Center"
+									Foreground="White"
+									/>
+
+						</StackPanel>
+					</DataTemplate>
+				</ListView.Resources>
+			</ListView>
+			<!--    -->
+		</DockPanel>
 
 
-		<ListView
-				x:Name="lvFolders"
-				Grid.Column="1"
-				Grid.Row="0"
-				DataContext="{Binding ElementName=SavedFolderWin,
+		<DockPanel
+				Margin="5,5,0,5"
+					Grid.Column="1"
+					Grid.Row="0"
+
+				>
+
+				<Label Content="Folder Pairs"
+						Padding="0,0,0,3"
+						Margin="0,0,0,5"
+						HorizontalAlignment="Stretch"
+						DockPanel.Dock="Top"
+						Background="#395482CD"
+						Foreground="White">
+				</Label>
+
+			<ListView x:Name="lvFolders"
+
+					DataContext="{Binding ElementName=SavedFolderWin,
 															Path=FolderPairs}"
-				SelectedValue="{Binding ElementName=SavedFolderWin,
+					SelectedValue="{Binding ElementName=SavedFolderWin,
 																Path=SelectedFolderPair}"
-				SelectionMode="Single"
-				Background="#333333"
-				ItemTemplate="{DynamicResource DataTemplate2}"
-				ItemsSource="{Binding}"
-				>
-			<!--  ItemsSource="{Binding SavedFolders}"  -->
-			<ListView.Resources>
-				<DataTemplate
-						x:Key="DataTemplate2"
-						DataType="local:SavedFolderPair"
-						>
-					<StackPanel Orientation="Horizontal">
-						<Label
-								Content="{Binding Name,
-																	FallbackValue=''}"
-								Foreground="White"
-								/>
-					</StackPanel>
-				</DataTemplate>
-			</ListView.Resources>
-		</ListView>
+					SelectionMode="Single"
+					Background="#333333"
+					ItemTemplate="{DynamicResource DataTemplate2}"
+					ItemsSource="{Binding}">
+				<!--  ItemsSource="{Binding SavedFolders}"  -->
+				<ListView.Resources>
+					<DataTemplate x:Key="DataTemplate2"
+							DataType="local:SavedFolderPair">
+						<StackPanel Margin="0,2,0,3"
+								Orientation="Horizontal">
+							<ContentControl Width="{StaticResource Icon.Width}"
+									Height="{StaticResource Icon.Height}"
+									VerticalAlignment="Top">
+								<ContentControl.Content>
+									<Binding Converter="{StaticResource incv}"
+											ConverterParameter="{x:Static app:App.Icon_FolderPair00}"
+											Path="Icon" />
+								</ContentControl.Content>
+							</ContentControl>
+
+							<StackPanel Margin="10,0"
+									Orientation="Vertical">
+								<Label Content="{Binding Name,
+																		FallbackValue='Nothing Saved'}"
+										Padding="0"
+										Foreground="White" />
+								<TextBlock Padding="10,3,0,0"
+										FontSize="10"
+										Text="{Binding Current,
+																 FallbackValue='C:\\path\\path'}"
+										Foreground="White" />
+								<TextBlock Padding="10,2,0,0"
+										FontSize="10"
+										Text="{Binding Revision,
+																 FallbackValue='c:\\path\\path'}"
+										Foreground="White" />
+
+							</StackPanel>
+						</StackPanel>
+					</DataTemplate>
+				</ListView.Resources>
+			</ListView>
+		</DockPanel>
 
 	</Grid>
 </Window>

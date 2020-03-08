@@ -33,8 +33,6 @@ namespace Sylvester.SavedFolders
 
 		private static SavedFoldersWin savedWinInstance;
 
-		private SetgMgr sm;
-
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
 
 		private string title;
@@ -44,9 +42,6 @@ namespace Sylvester.SavedFolders
 
 		private SavedFolderManager(SavedFolderType index, string title)
 		{
-			// before make savedfolderwin
-			sm = SetgMgr.Instance;
-
 			Index = index;
 			this.title = title;
 		}
@@ -78,7 +73,7 @@ namespace Sylvester.SavedFolders
 
 		public SavedFolderType Index { get; set; }
 
-		public bool HasSavedFolders => sm.HasSavedFolders(Index);
+		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(Index);
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
 
@@ -134,17 +129,17 @@ namespace Sylvester.SavedFolders
 		{
 			string searchKey = SavedFolderProject.MakeSavedFolderKey(current);
 
-			SavedFolderProject sf = sm.FindSavedFolder(searchKey, Index);
+			SavedFolderProject sf = SetgMgr.Instance.FindSavedFolder(searchKey, Index);
 			SavedFolderPair cfp = new SavedFolderPair(current, revision);
 
 			if (sf == null)
 			{
 				sf = new SavedFolderProject(current);
-				sm.AddSavedFolder(sf, Index);
+				SetgMgr.Instance.AddSavedFolder(sf, Index);
 			}
 			else
 			{
-				if (sm.FindSavedFolderPair(sf, cfp.Name) != null) return false;
+				if (SetgMgr.Instance.FindSavedFolderPair(sf, cfp.Name) != null) return false;
 			}
 
 			sf.SavedFolderPairs.Add(cfp);

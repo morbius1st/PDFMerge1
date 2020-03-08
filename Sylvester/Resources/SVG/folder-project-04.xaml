@@ -2,6 +2,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
 	<Canvas x:Key="Folder-Project-04"
+			x:Shared="False"
 			Name="svg97" Width="26.277277" Height="26.056242">
     <Canvas.RenderTransform>
       <TranslateTransform X="0" Y="0"/>

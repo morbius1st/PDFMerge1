@@ -5,6 +5,7 @@
 
 	<Canvas
 			x:Key="Folder-Pair-05"
+			x:Shared="False"
 			Width="3600"
 			Height="2400"
 			>

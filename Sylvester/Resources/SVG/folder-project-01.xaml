@@ -6,6 +6,7 @@
 
 	<Canvas
 			x:Key="Folder-Project-01"
+			x:Shared="False"
 			Name="svg97"
 			Width="26.277277"
 			Height="26.056242"

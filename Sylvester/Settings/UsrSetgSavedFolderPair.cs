@@ -4,6 +4,8 @@
 // Created:      -- ()
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Sylvester.FileSupport;
 using UtilityLibrary;
@@ -11,13 +13,23 @@ using UtilityLibrary;
 namespace Sylvester.SavedFolders 
 {
 	[DataContract]
-	public class SavedFolderPair : IComparable<SavedFolderPair>, IEquatable<SavedFolderPair>
+	public class SavedFolderPair : IComparable<SavedFolderPair>, IEquatable<SavedFolderPair>, INotifyPropertyChanged
 	{
+		private string icon;
+
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
-		public string Icon { get; set; }
+		public string Icon
+		{
+			get => icon;
+			set
+			{
+				icon = value;
+				OnPropertyChange();
+			}
+		}
 
 		[DataMember]
 		public FilePath<FileNameSimple> Current { get; set; }
@@ -54,6 +66,13 @@ namespace Sylvester.SavedFolders
 		public bool Equals(SavedFolderPair other)
 		{
 			return Name.ToUpper().Equals(other.Name.ToUpper());
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 	}
 }

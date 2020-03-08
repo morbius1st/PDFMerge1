@@ -5,6 +5,8 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using UtilityLibrary;
@@ -13,13 +15,23 @@ namespace Sylvester.SavedFolders
 {
 
 	[DataContract]
-	public class SavedFolderProject : IComparable<SavedFolderProject>, IEquatable<SavedFolderProject>
+	public class SavedFolderProject : IComparable<SavedFolderProject>, IEquatable<SavedFolderProject>, INotifyPropertyChanged
 	{
+		private string icon;
+
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
-		public string Icon { get; set; }
+		public string Icon
+		{
+			get => icon;
+			set
+			{
+				icon = value;
+				OnPropertyChange();
+			}
+		}
 
 		[DataMember]
 		public int UseCount { get; set; }
@@ -52,6 +64,13 @@ namespace Sylvester.SavedFolders
 		public bool Equals(SavedFolderProject other)
 		{
 			return Name.ToUpper().Equals(other.Name.ToUpper());
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 	}
 }
