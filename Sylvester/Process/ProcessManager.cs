@@ -81,7 +81,7 @@ namespace Sylvester.Process
 
 //			FileRevision rf = new FileRevision();
 
-			sfmHistory = SavedFolderManager.GetHistoryManager;
+			sfmHistory = SavedFolderManager.GetHistoryManager();
 
 			Reset();
 
@@ -194,7 +194,7 @@ namespace Sylvester.Process
 
 			if (!frm.RenameFiles(FileCollectionFinal)) return false;
 
-			sfmHistory.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
+//			sfmHistory.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 
 			Reset();
 

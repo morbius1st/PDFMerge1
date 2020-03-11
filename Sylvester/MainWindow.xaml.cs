@@ -27,6 +27,10 @@ namespace Sylvester
 		private bool compare = false;
 		private bool go = false;
 
+		private SavedFolderManager favorites;
+		private SavedFolderManager history;
+
+
 		public static Window MainWin;
 
 		public ProcessManager pm { get; private set; } // = new ProcessManager();
@@ -45,6 +49,8 @@ namespace Sylvester
 
 			SetgMgr.RestoreWindowLayout(WindowId.WINDOW_MAIN, this);
 
+			favorites = SavedFolderManager.GetFavoriteManager();
+			history = SavedFolderManager.GetHistoryManager();
 		}
 
 	#region public properties
@@ -136,12 +142,12 @@ namespace Sylvester
 
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)
 		{
-			SavedFolderManager.GetFavoriteManager.test();
+			favorites.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
 		}
 
 		private void BtnHistory_OnClick(object sender, RoutedEventArgs e)
 		{
-			SavedFolderManager.GetHistoryManager.test();
+			history.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -156,11 +162,7 @@ namespace Sylvester
 			SetFocusComparison();
 		}
 
-
-		private void Mainwin_Initialized(object sender, EventArgs e)
-		{
-			
-		}
+		private void Mainwin_Initialized(object sender, EventArgs e) { }
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
 		{

@@ -12,12 +12,10 @@
 		x:Name="SavedFolderWin"
 		Title="{Binding ElementName=SavedFolderWin,
 										Path=WinTitle}"
-		Width="850"
-		Height="470"
-		MinWidth="{Binding ElementName=SavedFolderWin,
-											 Path=WidthMin}"
-		MinHeight="{Binding ElementName=SavedFolderWin,
-												Path=HeightMin}"
+		Width="{x:Static local:SavedFoldersWin.MIN_WIDTH}"
+		Height="{x:Static local:SavedFoldersWin.MIN_HEIGHT}"
+		MinWidth="{x:Static local:SavedFoldersWin.MIN_WIDTH}"
+		MinHeight="{x:Static local:SavedFoldersWin.MIN_HEIGHT}"
 		DataContext="{Binding ElementName=SavedFolderWin,
 													Path=SavedFolders}"
 		Initialized="SavedFolderWin_Initialized"
@@ -29,7 +27,7 @@
 	<Window.Style>
 		<Style TargetType="Window">
 			<Style.Triggers>
-				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Index}" Value="{x:Static local:SavedFolderType.HISTORY}">
+				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderType}" Value="{x:Static local:SavedFolderType.HISTORY}">
 					<Setter Property="Icon">
 						<Setter.Value>
 							<DrawingImage>
@@ -51,7 +49,7 @@
 						</Setter.Value>
 					</Setter>
 				</DataTrigger>
-				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Index}" Value="{x:Static local:SavedFolderType.FAVORITES}">
+				<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderType}" Value="{x:Static local:SavedFolderType.FAVORITES}">
 					<Setter Property="Icon">
 						<Setter.Value>
 							<DrawingImage>
@@ -82,7 +80,7 @@
 
 		<ResourceDictionary>
 
-			<local:IconConverter x:Key="icv" />
+			<!-- <local:IconConverter x:Key="icv" /> -->
 			<local:IconNameConverter x:Key="incv" />
 			<local:StringToBoolConverter x:Key="stcv" />
 
@@ -93,19 +91,48 @@
 			<sys:Double x:Key="Icon.Width">30</sys:Double>
 
 			<Style
-					x:Key="lbl"
+					x:Key="Label"
 					TargetType="Label"
 					>
-				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0,0,0,0" />
+			</Style>
+
+			<Style
+					x:Key="Label.Foreground.Black"
+					TargetType="Label"
+					BasedOn="{StaticResource Label}"
+					>
+				<Setter Property="Foreground" Value="Black" />
+			</Style>
+
+			<Style
+					x:Key="Label.Button.StackedText"
+					TargetType="Label"
+					BasedOn="{StaticResource Label.Foreground.Black}"
+					>
+				<Setter Property="FontSize" Value="12" />
+				<Setter Property="Margin" Value="0,-2,0,0" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+
+			</Style>
+
+
+
+			<Style
+					x:Key="Label.Foreground.White"
+					TargetType="Label"
+					BasedOn="{StaticResource Label}"
+					>
+				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Padding" Value="0,0,0,3" />
 			</Style>
 
 
 			<Style
-					x:Key="label"
+					x:Key="label.Width.Auto"
 					TargetType="Label"
-					BasedOn="{StaticResource lbl}"
+					BasedOn="{StaticResource Label.Foreground.White}"
 					>
 				<Setter Property="Width" Value="Auto" />
 
@@ -114,7 +141,7 @@
 			<Style
 					x:Key="label.value"
 					TargetType="Label"
-					BasedOn="{StaticResource lbl}"
+					BasedOn="{StaticResource Label.Foreground.White}"
 					>
 				<Setter Property="Background" Value="#444444" />
 			</Style>
@@ -188,6 +215,32 @@
 				<Setter Property="VerticalAlignment" Value="Top" />
 			</Style>
 
+			<Style
+					x:Key="TextBlock.Path"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Padding" Value="10,3,0,0" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="FontSize" Value="10" />
+			</Style>
+
+			<ControlTemplate x:Key="DuplicateNameValidationTemplate">
+				<DockPanel>
+					<TextBox
+							FontSize="14"
+							Text="!"
+							ToolTip="Duplicate Name Entered.  Please provide a Unique Name"
+							Foreground="Red"
+							/>
+					<Border
+							BorderThickness="1"
+							BorderBrush="Red"
+							>
+						<AdornedElementPlaceholder />
+					</Border>
+				</DockPanel>
+
+			</ControlTemplate>
 
 			<ControlTemplate
 					x:Key="Button.Icon.ControlTemplate"
@@ -362,6 +415,113 @@
 			<RowDefinition Height="Auto" MinHeight="40" MaxHeight="{StaticResource Height.Bottom.Row}" />
 		</Grid.RowDefinitions>
 
+
+
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="0,10,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Bottom"
+				Orientation="Horizontal"
+				>
+
+			<Button
+					Name="btnAddProject"
+					HorizontalAlignment="Right"
+					FontSize="11"
+					Click="BtnAddFolderProject_OnClick"
+					Style="{StaticResource Button.Style.Standard.Left}"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<Label
+								Content="Add a"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+						<Label
+								Content="Project"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button
+					Name="btnDeleteProject"
+					HorizontalAlignment="Right"
+					Click="BtnDeleteFolderProject_OnClick"
+					Style="{StaticResource Button.Style.Standard.Left}"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<Label
+								Content="Delete a"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+						<Label
+								Content="Project"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+		</StackPanel>
+
+		<StackPanel
+				Grid.Column="1"
+				Grid.Row="1"
+				Margin="0,10,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Bottom"
+				Orientation="Horizontal"
+				>
+
+			<Button
+					Name="btnAddFolderPair"
+					HorizontalAlignment="Right"
+					Click="BtnAddFolderPair_OnClick"
+					Style="{StaticResource Button.Style.Standard.Left}"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<Label
+								Content="Add a"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+						<Label
+								Content="Folder Pair"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button
+					Name="btnDeleteFolderPair"
+					HorizontalAlignment="Right"
+					Click="BtnDeleteFolderPair_OnClick"
+					Style="{StaticResource Button.Style.Standard.Left}"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<Label
+								Content="Delete a"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+						<Label
+								Content="Folder Pair"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+		</StackPanel>
+
+
+
 		<StackPanel
 				Grid.Column="2"
 				Grid.Row="1"
@@ -376,7 +536,7 @@
 					Content="Debug x"
 					HorizontalAlignment="Right"
 					Click="BtnDebugx_OnClick"
-					Style="{StaticResource Button.Style.Standard}"
+					Style="{StaticResource Button.Style.Standard.Right}"
 					/>
 
 			<Button
@@ -384,25 +544,15 @@
 					Content="Debug"
 					HorizontalAlignment="Right"
 					Click="BtnDebug_OnClick"
-					Style="{StaticResource Button.Style.Standard}"
+					Style="{StaticResource Button.Style.Standard.Right}"
 					/>
-
-
-			<Button
-					Name="btnAddFav"
-					Content="Add Fav"
-					HorizontalAlignment="Right"
-					Click="BtnAddFav_OnClick"
-					Style="{StaticResource Button.Style.Standard}"
-					/>
-
 
 			<Button
 					Name="btnDone"
 					Content="Done"
 					HorizontalAlignment="Right"
 					Click="BtnDone_OnClick"
-					Style="{StaticResource Button.Style.Standard}"
+					Style="{StaticResource Button.Style.Standard.Right}"
 					/>
 
 		</StackPanel>
@@ -411,12 +561,14 @@
 		<Grid
 				Grid.Column="2"
 				Grid.Row="0"
-				Margin="5,5,5,5"
+				Margin="10,0,10,5"
 				VerticalAlignment="Stretch"
 				>
+
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
 			<StackPanel
@@ -427,13 +579,15 @@
 
 				<StackPanel
 						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
 						Orientation="Horizontal"
 						Background="#395482CD"
 						>
 					<Label
 							Content="Project information"
 							HorizontalAlignment="Left"
-							Style="{StaticResource label}"
+							FontSize="{StaticResource Font.Size.Header}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 				</StackPanel>
 
@@ -441,7 +595,7 @@
 					<Label
 							Content="Icon"
 							Margin="0,-2,10,0"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 
 
@@ -621,16 +775,65 @@
 					<Label
 							Content="Name"
 							DockPanel.Dock="Top"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
+
+
 					<TextBox
-							x:Name="lblName"
+							x:Name="TbxProjInfoName"
+							Margin="0,0,0,3"
 							DockPanel.Dock="Left"
-							Text="{Binding ElementName=SavedFolderWin,
-														 Path=SelectedSavedFolderProject.Name,
-														 FallbackValue=''}"
-							Style="{StaticResource TextBox.Edit}"
-							/>
+							KeyUp="TbxProjInfoName_OnKeyUp"
+							MaxLines="1"
+							SpellCheck.IsEnabled="True"
+							Validation.ErrorTemplate="{StaticResource DuplicateNameValidationTemplate}"
+							>
+						<TextBox.Resources>
+							<local:BindingProxy
+									x:Key="Proxy"
+									Data="{Binding ElementName=SavedFolderWin}"
+									/>
+						</TextBox.Resources>
+						<TextBox.Text>
+							<Binding
+									ElementName="SavedFolderWin"
+									FallbackValue=""
+									Path="SelectedSavedFolderProject.Name"
+									>
+								<Binding.ValidationRules>
+									<local:DuplicateNameRule>
+										<local:DuplicateNameRule.SavedFolderInformation>
+											<local:SavedFolderInformation
+													OriginalName="{Binding Source={StaticResource Proxy},
+																								 Path=Data.SelectedSavedFolderProject.Name}"
+													SavedFolderCategory="FOLDER_PROJECT"
+													SavedFolderProject="{x:Null}"
+													SavedFolderType="{Binding Source={StaticResource Proxy},
+																										Path=Data.SavedFolderType}"
+													/>
+										</local:DuplicateNameRule.SavedFolderInformation>
+									</local:DuplicateNameRule>
+								</Binding.ValidationRules>
+
+							</Binding>
+						</TextBox.Text>
+
+						<TextBox.Style>
+							<Style
+									TargetType="TextBox"
+									BasedOn="{StaticResource TextBox.Edit}"
+									>
+								<Style.Triggers>
+									<Trigger Property="Validation.HasError" Value="True">
+										<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</TextBox.Style>
+
+					</TextBox>
+
+
 				</DockPanel>
 
 			</StackPanel>
@@ -647,7 +850,8 @@
 					<Label
 							Content="Folder Pair information"
 							HorizontalAlignment="Left"
-							Style="{StaticResource label}"
+							FontSize="{StaticResource Font.Size.Header}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 				</StackPanel>
 
@@ -655,7 +859,7 @@
 					<Label
 							Content="Icon"
 							Margin="0,-2,10,0"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 
 					<Button
@@ -674,75 +878,6 @@
 							</ContentControl.Content>
 						</ContentControl>
 					</Button>
-
-
-					<!--  <Button  -->
-					<!--  x:Name="FolderPair"  -->
-					<!--  Margin="0,1,0,0"  -->
-					<!--  Width="36"  -->
-					<!--  Height="30"  -->
-					<!--  Padding="0"  -->
-					<!--  VerticalAlignment="Top"  -->
-					<!--  Background="Transparent"  -->
-					<!--  BorderThickness="0"  -->
-					<!--  BorderBrush="Transparent"  -->
-					<!--  Click="FolderPair_OnClick"  -->
-					<!--  >  -->
-					<!--  <Viewbox  -->
-					<!--  x:Name="vbx"  -->
-					<!--  HorizontalAlignment="Left"  -->
-					<!--  >  -->
-					<!-- 		<ContentPresenter> -->
-					<!-- 			<ContentPresenter.Content> -->
-					<!--  <MultiBinding  -->
-					<!--  Converter="{StaticResource icv}"  -->
-					<!--  ConverterParameter="{x:Static app:App.Icon_FolderPair00}"  -->
-					<!--  >  -->
-					<!-- 					<Binding Source="{StaticResource Folder-Pair-Icons}" /> -->
-					<!--  <Binding  -->
-					<!--  ElementName="SavedFolderWin"  -->
-					<!--  FallbackValue="pair00"  -->
-					<!--  Path="FolderPairIndex"  -->
-					<!--  />  -->
-					<!-- 				</MultiBinding> -->
-					<!-- 			</ContentPresenter.Content> -->
-					<!-- 		</ContentPresenter> -->
-					<!--    -->
-					<!-- 	</Viewbox> -->
-					<!-- 	<Button.Style> -->
-					<!-- 		<Style TargetType="Button"> -->
-					<!-- 			<Setter Property="Template"> -->
-					<!-- 				<Setter.Value> -->
-					<!-- 					<ControlTemplate TargetType="Button"> -->
-					<!--  <Border  -->
-					<!--  x:Name="BDR"  -->
-					<!--  Padding="3"  -->
-					<!--  CornerRadius="3"  -->
-					<!--  Background="Transparent"  -->
-					<!--  BorderThickness="2"  -->
-					<!--  BorderBrush="Transparent"  -->
-					<!--  >  -->
-					<!--  <ContentPresenter  -->
-					<!--  x:Name="contentPresenter"  -->
-					<!--  Content="{TemplateBinding Content}"  -->
-					<!--  Margin="{TemplateBinding Padding}"  -->
-					<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
-					<!--  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"  -->
-					<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
-					<!--  />  -->
-					<!-- 						</Border> -->
-					<!-- 						<ControlTemplate.Triggers> -->
-					<!-- 							<Trigger Property="IsMouseOver" Value="True"> -->
-					<!-- 								<Setter TargetName="BDR" Property="BorderBrush" Value="#FFFFA500" /> -->
-					<!-- 							</Trigger> -->
-					<!-- 						</ControlTemplate.Triggers> -->
-					<!-- 					</ControlTemplate> -->
-					<!-- 				</Setter.Value> -->
-					<!-- 			</Setter> -->
-					<!--    -->
-					<!-- 		</Style> -->
-					<!-- 	</Button.Style> -->
-					<!-- </Button> -->
 
 
 					<ScrollViewer
@@ -814,17 +949,63 @@
 					<Label
 							Content="Name"
 							DockPanel.Dock="top"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
+
 					<TextBox
-							x:Name="lblPairName"
+							x:Name="TxbFolderPairName"
 							Margin="0,0,0,3"
 							DockPanel.Dock="Left"
-							Text="{Binding ElementName=SavedFolderWin,
-														 Path=SelectedFolderPair.Name,
-														 FallbackValue=''}"
-							Style="{StaticResource TextBox.Edit}"
-							/>
+							KeyUp="TxbFolderPairName_OnKeyUp"
+							MaxLines="1"
+							Validation.ErrorTemplate="{StaticResource DuplicateNameValidationTemplate}"
+							>
+						<TextBox.Resources>
+							<local:BindingProxy
+									x:Key="Proxy"
+									Data="{Binding ElementName=SavedFolderWin}"
+									/>
+						</TextBox.Resources>
+						<TextBox.Text>
+							<Binding
+									ElementName="SavedFolderWin"
+									FallbackValue=""
+									Path="SelectedFolderPair.Name"
+									>
+								<Binding.ValidationRules>
+									<local:DuplicateNameRule>
+										<local:DuplicateNameRule.SavedFolderInformation>
+											<local:SavedFolderInformation
+													OriginalName="{Binding Source={StaticResource Proxy},
+																								 Path=Data.SelectedFolderPair.Name}"
+													SavedFolderCategory="FOLDER_PAIR"
+													SavedFolderProject="{Binding Source={StaticResource Proxy},
+																											 Path=Data.SelectedSavedFolderProject}"
+													SavedFolderType="{Binding Source={StaticResource Proxy},
+																										Path=Data.SavedFolderType}"
+													/>
+										</local:DuplicateNameRule.SavedFolderInformation>
+									</local:DuplicateNameRule>
+								</Binding.ValidationRules>
+
+							</Binding>
+						</TextBox.Text>
+
+						<TextBox.Style>
+							<Style
+									TargetType="TextBox"
+									BasedOn="{StaticResource TextBox.Edit}"
+									>
+								<Style.Triggers>
+									<Trigger Property="Validation.HasError" Value="True">
+										<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</TextBox.Style>
+
+					</TextBox>
+
 				</DockPanel>
 
 				<DockPanel Margin="0,0,0,3">
@@ -832,7 +1013,7 @@
 							Content="Current Folder"
 							Margin="0,0,0,3"
 							DockPanel.Dock="top"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 
 					<!--  <ScrollViewer  -->
@@ -860,15 +1041,8 @@
 							Content="Revision Folder"
 							Margin="0,0,0,3"
 							DockPanel.Dock="top"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
-
-					<!--  <ScrollViewer x:Name="RevisionScrollBar"  -->
-					<!--  MinWidth="8"  -->
-					<!--  MinHeight="8"  -->
-					<!--  HorizontalScrollBarVisibility="Visible"  -->
-					<!--  VerticalScrollBarVisibility="Hidden"  -->
-					<!--  Template="{DynamicResource ScrollViewerNarrow}">  -->
 
 					<user:FolderRoute
 							x:Name="FolderRouteRevision"
@@ -876,21 +1050,66 @@
 							ProposedObliqueButtonType="3"
 							Style="{StaticResource FolderRoute.Style}"
 							/>
-					<!--  Height="24"  -->
-					<!--  ObliqueButtonHeight="14"  -->
-					<!--  TextFontSize="10"  -->
 
-					<!-- </ScrollViewer> -->
-
-					<!--  <TextBox  -->
-					<!--  Text="{Binding ElementName=SavedFolderWin,  -->
-					<!--  Path=SelectedFolderPair.Revision.GetFullPath,  -->
-					<!--  Mode=TwoWay,  -->
-					<!--  FallbackValue=''}"  -->
-					<!--  Style="{StaticResource TextBox.Edit}"  -->
-					<!--  />  -->
 				</DockPanel>
+
+
 			</StackPanel>
+
+			<DockPanel Grid.Row="2">
+
+				<TextBlock
+						Padding="3,0,3,10"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Bottom"
+						FontSize="10"
+						DockPanel.Dock="Bottom"
+						Text="{Binding ElementName=SavedFolderWin,
+													 Path=Message,
+													 FallbackValue='Management'}"
+						Background="#222222"
+						Foreground="White"
+						>
+					<TextBlock.Style>
+						<Style TargetType="TextBlock">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Message}" Value="{x:Null}">
+									<Setter Property="Visibility" Value="Collapsed">
+									</Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+				</TextBlock>
+
+
+
+				<Label
+						Content="Current Operation"
+						Margin="0,10,0,5"
+						Padding="0,0,0,3"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Bottom"
+						FontSize="13"
+						DockPanel.Dock="Bottom"
+						Background="#395482CD"
+						Foreground="White"
+						>
+					<Label.Style>
+						<Style TargetType="Label">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=Message}" Value="{x:Null}">
+									<Setter Property="Visibility" Value="Collapsed">
+									</Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Label.Style>
+
+				</Label>
+
+
+			</DockPanel>
 
 		</Grid>
 
@@ -936,7 +1155,7 @@
 						>
 					<Label
 							Content="Use Count"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 					<Label
 							Content="{Binding ElementName=SavedFolderWin,
@@ -947,7 +1166,7 @@
 					<Label
 							Content="Children"
 							Margin="0,10,0,0"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 					<Label
 							Content="{Binding ElementName=SavedFolderWin,
@@ -958,7 +1177,7 @@
 					<Label
 							Content="Icon"
 							Margin="0,10,0,0"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 					<Label
 							Content="{Binding ElementName=SavedFolderWin,
@@ -982,7 +1201,7 @@
 
 					<Label
 							Content="Icon"
-							Style="{StaticResource label}"
+							Style="{StaticResource label.Width.Auto}"
 							/>
 					<Label
 							Content="{Binding ElementName=SavedFolderWin,
@@ -1003,7 +1222,6 @@
 				Grid.Column="0"
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
-				Visibility="Collapsed"
 				Margin="5,5,5,0"
 				Height="{StaticResource Height.Bottom.Row}"
 				HorizontalAlignment="Stretch"
@@ -1014,6 +1232,7 @@
 				Text="TextBox"
 				TextWrapping="Wrap"
 				VerticalScrollBarVisibility="Visible"
+				Visibility="Collapsed"
 				Background="Transparent"
 				Foreground="White"
 				>
@@ -1033,23 +1252,21 @@
 		<DockPanel
 				Grid.Column="0"
 				Grid.Row="0"
-				Margin="5,5,0,5"
-
+				Margin="5,0,0,5"
 				>
 			<Label
 					Content="Projects"
-					Padding="0,0,0,3"
 					Margin="0,0,0,5"
+					Padding="0,0,0,3"
 					HorizontalAlignment="Stretch"
+					FontSize="{StaticResource Font.Size.Header}"
 					DockPanel.Dock="Top"
 					Background="#395482CD"
 					Foreground="White"
-					>
-			</Label>
+					/>
 
 			<ListView
 					x:Name="lvProjects"
-
 					DataContext="{Binding ElementName=SavedFolderWin,
 																Path=SavedFolders}"
 					DockPanel.Dock="Left"
@@ -1101,63 +1318,78 @@
 
 
 		<DockPanel
-				Margin="5,5,0,5"
-					Grid.Column="1"
-					Grid.Row="0"
-
+				Grid.Column="1"
+				Grid.Row="0"
+				Margin="5,0,0,5"
 				>
 
-				<Label Content="Folder Pairs"
-						Padding="0,0,0,3"
-						Margin="0,0,0,5"
-						HorizontalAlignment="Stretch"
-						DockPanel.Dock="Top"
-						Background="#395482CD"
-						Foreground="White">
-				</Label>
+			<Label
+					Content="Folder Pairs"
+					Margin="0,0,0,5"
+					Padding="0,0,0,3"
+					HorizontalAlignment="Stretch"
+					FontSize="{StaticResource Font.Size.Header}"
+					DockPanel.Dock="Top"
+					Background="#395482CD"
+					Foreground="White"
+					/>
 
-			<ListView x:Name="lvFolders"
-
+			<ListView
+					x:Name="lvFolders"
 					DataContext="{Binding ElementName=SavedFolderWin,
-															Path=FolderPairs}"
+																Path=FolderPairs}"
 					SelectedValue="{Binding ElementName=SavedFolderWin,
-																Path=SelectedFolderPair}"
+																	Path=SelectedFolderPair}"
 					SelectionMode="Single"
 					Background="#333333"
 					ItemTemplate="{DynamicResource DataTemplate2}"
-					ItemsSource="{Binding}">
+					ItemsSource="{Binding}"
+					>
 				<!--  ItemsSource="{Binding SavedFolders}"  -->
 				<ListView.Resources>
-					<DataTemplate x:Key="DataTemplate2"
-							DataType="local:SavedFolderPair">
-						<StackPanel Margin="0,2,0,3"
-								Orientation="Horizontal">
-							<ContentControl Width="{StaticResource Icon.Width}"
+					<DataTemplate
+							x:Key="DataTemplate2"
+							DataType="local:SavedFolderPair"
+							>
+						<StackPanel
+								Margin="0,2,0,3"
+								Orientation="Horizontal"
+								>
+							<ContentControl
+									Width="{StaticResource Icon.Width}"
 									Height="{StaticResource Icon.Height}"
-									VerticalAlignment="Top">
+									VerticalAlignment="Top"
+									>
 								<ContentControl.Content>
-									<Binding Converter="{StaticResource incv}"
+									<Binding
+											Converter="{StaticResource incv}"
 											ConverterParameter="{x:Static app:App.Icon_FolderPair00}"
-											Path="Icon" />
+											Path="Icon"
+											/>
 								</ContentControl.Content>
 							</ContentControl>
 
-							<StackPanel Margin="10,0"
-									Orientation="Vertical">
-								<Label Content="{Binding Name,
-																		FallbackValue='Nothing Saved'}"
+							<StackPanel
+									Margin="10,0"
+									Orientation="Vertical"
+									>
+								<Label
+										Content="{Binding Name,
+																			FallbackValue='Nothing Saved'}"
 										Padding="0"
-										Foreground="White" />
-								<TextBlock Padding="10,3,0,0"
-										FontSize="10"
-										Text="{Binding Current,
-																 FallbackValue='C:\\path\\path'}"
-										Foreground="White" />
-								<TextBlock Padding="10,2,0,0"
-										FontSize="10"
-										Text="{Binding Revision,
-																 FallbackValue='c:\\path\\path'}"
-										Foreground="White" />
+										Foreground="White"
+										/>
+								<TextBlock
+										Text="{Binding Current.GetFullPath,
+																	 FallbackValue='No Path Saved'}"
+										Style="{StaticResource TextBlock.Path}"
+										/>
+
+								<TextBlock
+										Text="{Binding Revision.GetFullPath,
+																	 FallbackValue='No Path Saved'}"
+										Style="{StaticResource TextBlock.Path}"
+										/>
 
 							</StackPanel>
 						</StackPanel>

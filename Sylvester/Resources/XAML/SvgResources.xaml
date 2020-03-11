@@ -1,0 +1,78 @@
+﻿<ResourceDictionary
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="Sylvester.Resources.XAML"
+		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
+		xmlns:sylvester="clr-namespace:Sylvester"
+		>
+
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-00.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-01.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-02.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-03.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-04.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-05.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-06.xaml" />
+
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-00.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-01.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-02.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-03.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-04.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<specialized:ListDictionary x:Key="Folder-Project-Icons">
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderProject00}"
+				Child="{StaticResource Folder-Project-00}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderProject01}"
+				Child="{StaticResource Folder-Project-01}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderProject02}"
+				Child="{StaticResource Folder-Project-02}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderProject03}"
+				Child="{StaticResource Folder-Project-03}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderProject04}"
+				Child="{StaticResource Folder-Project-04}"
+				/>
+	</specialized:ListDictionary>
+
+	<specialized:ListDictionary x:Key="Folder-Pair-Icons">
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair00}"
+				Child="{StaticResource Folder-Pair-00}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair01}"
+				Child="{StaticResource Folder-Pair-01}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair02}"
+				Child="{StaticResource Folder-Pair-02}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair03}"
+				Child="{StaticResource Folder-Pair-03}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair04}"
+				Child="{StaticResource Folder-Pair-04}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair05}"
+				Child="{StaticResource Folder-Pair-05}"
+				/>
+		<Viewbox
+				x:Key="{x:Static sylvester:App.Icon_FolderPair06}"
+				Child="{StaticResource Folder-Pair-06}"
+				/>
+	</specialized:ListDictionary>
+</ResourceDictionary>

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +18,6 @@ namespace Sylvester
 	/// </summary>
 	public partial class HeaderControl : UserControl
 	{
-
 	#region fields
 
 		private FilePath<FileNameSimple> fromSelectFolder = null;
@@ -27,6 +25,7 @@ namespace Sylvester
 		private SelectFolder sf;
 
 		private SetgMgr sm;
+
 		public static SavedFolderManager[] sfm = new SavedFolderManager[SavedFolderType.COUNT.Value()];
 
 	#endregion
@@ -41,9 +40,9 @@ namespace Sylvester
 
 			sf = new SelectFolder();
 
-			sfm[SavedFolderType.HISTORY.Value()] = SavedFolderManager.GetHistoryManager;
+			sfm[SavedFolderType.HISTORY.Value()] = SavedFolderManager.GetHistoryManager();
 
-			sfm[SavedFolderType.FAVORITES.Value()] = SavedFolderManager.GetFavoriteManager;
+			sfm[SavedFolderType.FAVORITES.Value()] = SavedFolderManager.GetFavoriteManager();
 		}
 
 	#endregion
@@ -80,6 +79,13 @@ namespace Sylvester
 
 	#region private methods
 
+		private SavedFolderOperation GetFolderOp()
+		{
+			if (FolderType == FolderType.CURRENT) return SavedFolderOperation.GET_CURRENT;
+
+			return SavedFolderOperation.GET_REVISION;
+		}
+
 		private void SelectFolder()
 		{
 			fromSelectFolder = sf.GetFolder(Folder);
@@ -109,15 +115,15 @@ namespace Sylvester
 				folderPathType += ObliqueButtonType.TEXT.Value();
 			}
 
-			folderPathType += sfm[SavedFolderType.HISTORY.Value()].HasSavedFolders ? ObliqueButtonType.HISTORY.Value() : 0;
+			folderPathType += sfm[SavedFolderType.HISTORY.Value()].HasSavedFolders
+				? ObliqueButtonType.HISTORY.Value()
+				: 0;
 //			folderPathType += sfm[SavedFolderType.FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
 
 			FolderPathType = folderPathType;
 		}
 
-
 	#endregion
-
 
 
 	#region temp methods
@@ -144,7 +150,6 @@ namespace Sylvester
 		{
 			fromSelectFolder = new FilePath<FileNameSimple>(
 				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
-
 		}
 
 	#endregion
@@ -170,18 +175,22 @@ namespace Sylvester
 
 		internal void onPathFavoriteEvent(object sender, EventArgs e)
 		{
+			sfm[(int) SavedFolderType.FAVORITES].ShowSavedFolderWin(GetFolderOp());
+
 //			Debug.WriteLine("folderManager, Favorites");
 
-			sfm[SavedFolderType.FAVORITES.Value()].test();
+//			sfm[SavedFolderType.FAVORITES.Value()].test();
 
 //			SelectFolder();
 		}
 
 		internal void onPathHistoryEvent(object sender, EventArgs e)
 		{
+			sfm[(int) SavedFolderType.HISTORY].ShowSavedFolderWin(GetFolderOp());
+
 //			Debug.WriteLine("folderManager, History");
 
-			sfm[SavedFolderType.HISTORY.Value()].test();
+//			sfm[SavedFolderType.HISTORY.Value()].test();
 
 //			SelectFolder();
 		}
@@ -326,8 +335,6 @@ namespace Sylvester
 			set { SetValue(FontBrushProperty, value); }
 		}
 
-
 	#endregion
-
 	}
 }

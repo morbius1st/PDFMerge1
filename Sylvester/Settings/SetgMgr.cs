@@ -91,29 +91,90 @@ namespace Sylvester.Settings
 
 		public List<ObservableCollection<SavedFolderProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
-		public bool HasSavedFolders(SavedFolderType index)
+		// saved project methods
+
+		// create a blank project - with temp name and null folder pairs
+		public SavedFolderProject CreateSavedProject(SavedFolderType folderType)
 		{
-			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
+			SavedFolderProject sfp = new SavedFolderProject(null, folderType);
+
+			SavedFolderPair cfp = new SavedFolderPair(null, null, "Folder Pair Name");
+
+			sfp.SavedFolderPairs.Add(cfp);
+
+			AddSavedProjectFolder(sfp, folderType);
+
+			WriteUsr();
+
+			return sfp;
 		}
-
-		public bool AddSavedFolder(SavedFolderProject sf, SavedFolderType index)
+		
+		public bool AddSavedProjectFolder(SavedFolderProject sf, SavedFolderType folderType)
 		{
-			if (FindSavedFolder(sf.Name, index) != null) return false;
+			if (FindSavedFolder(sf.Name, folderType) != null) return false;
 
-			UserSettings.Data.SavedFolders[index.Value()].Add(sf);
+			UserSettings.Data.SavedFolders[folderType.Value()].Add(sf);
 
 			return true;
 		}
 
-		public SavedFolderProject FindSavedFolder(string testkey, SavedFolderType index)
+		public bool DeleteSavedProjectFolder(SavedFolderProject sf, SavedFolderType folderType)
 		{
-			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[index.Value()])
+			UserSettings.Data.SavedFolders[(int) folderType].Remove(sf);
+
+			return true;
+		}
+
+
+		public SavedFolderProject FindSavedFolder(string testkey, SavedFolderType folderType)
+		{
+			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[folderType.Value()])
 			{
 				if (sp.Name.Equals(testkey)) return sp;
 			}
 
 			return null;
 		}
+
+		public bool ContainsSavedFolder(string testkey, SavedFolderType folderType)
+		{
+			bool result = FindSavedFolder(testkey, folderType) != null;
+
+			return result;
+		}
+
+		public bool HasSavedFolders(SavedFolderType index)
+		{
+			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
+		}
+
+		// end
+		 
+		// folder pair methods
+
+		public bool AddFolderPair(SavedFolderProject sf,
+			FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision)
+		{
+			if (sf == null) return false;
+
+			SavedFolderPair pair = new SavedFolderPair(current, revision,
+				SavedFolderPair.MakeFolderPairkey(sf, current, revision));
+
+			sf.SavedFolderPairs.Add(pair);
+
+			return true;
+		}
+		
+		public bool DeleteFolderPair(SavedFolderProject sf, SavedFolderPair pair)
+		{
+			if (!ContainsFolderPair(sf, pair.Name)) return false;
+
+			sf.SavedFolderPairs.Remove(pair);
+
+			return true;
+		}
+
 
 		public SavedFolderPair FindSavedFolderPair(SavedFolderProject sf, string testKey)
 		{
@@ -125,9 +186,22 @@ namespace Sylvester.Settings
 			return null;
 		}
 
+		public bool ContainsFolderPair(SavedFolderProject sf, string testKey)
+		{
+			return FindSavedFolderPair(sf, testKey) != null;
+		}
+
+
+
+		// end
+
+
+
 	#endregion
 
 	#endregion
+
+	#region window layout
 
 		public static WindowLayout GetMainWindowLayout => GetWindowLayout(WindowId.WINDOW_MAIN);
 		public static WindowLayout GetSavedFolderLayout => GetWindowLayout(WindowId.DIALOG_SAVED_FOLDERS);
@@ -163,5 +237,7 @@ namespace Sylvester.Settings
 				winMgr.SaveWinLayout(win, GetWindowLayout(id))
 				);
 		}
+
+	#endregion
 	}
 }

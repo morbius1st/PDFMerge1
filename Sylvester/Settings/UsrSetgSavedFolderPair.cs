@@ -7,18 +7,30 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Xml;
 using Sylvester.FileSupport;
+using Sylvester.Settings;
 using UtilityLibrary;
 
-namespace Sylvester.SavedFolders 
+namespace Sylvester.SavedFolders
 {
 	[DataContract]
 	public class SavedFolderPair : IComparable<SavedFolderPair>, IEquatable<SavedFolderPair>, INotifyPropertyChanged
 	{
 		private string icon;
 
+		private string name;
+
 		[DataMember]
-		public string Name { get; set; }
+		public string Name
+		{
+			get => name;
+			set
+			{
+				name = value;
+				OnPropertyChange();
+			}
+		}
 
 		[DataMember]
 		public string Icon
@@ -40,22 +52,49 @@ namespace Sylvester.SavedFolders
 		public SavedFolderPair() { }
 
 		public SavedFolderPair(FilePath<FileNameSimple> current,
-			FilePath<FileNameSimple> revision, string name = "")
+			FilePath<FileNameSimple> revision, string name)
 		{
-			Icon = null;
-			Current = current;
-			Revision = revision;
+			Icon = App.Icon_FolderPair00;
+			Current = current;   // ?? FilePath<FileNameSimple>.Invalid;
+			Revision = revision; // ?? FilePath<FileNameSimple>.Invalid;
 
-
-			Name = name.IsVoid()
-				? MakeCurrRevFolderPairkey(current[current.GetFolderCount],
-					revision[revision.GetFolderCount])
-				: name;
+			Name = name;
 		}
 
-		public static string MakeCurrRevFolderPairkey(string currentRootFolder, string revisionRootFolder)
+		public static string MakeFolderPairkey(
+			SavedFolderProject sf,
+			FilePath<FileNameSimple> currentRootFolder, FilePath<FileNameSimple> revisionRootFolder)
 		{
-			return currentRootFolder + " / " + revisionRootFolder;
+			string result;
+
+			if (currentRootFolder.GetFullPath.IsVoid() || revisionRootFolder.GetFullPath.IsVoid())
+			{
+				result = tempFolderPairKey(sf);
+			}
+			else
+			{
+				result = tempFolderPairKey(sf,
+					currentRootFolder + " / " + revisionRootFolder);
+			}
+
+			return result;
+
+		}
+
+		private const string PAIR_PREFIX = "Pair ";
+
+		private static string tempFolderPairKey(SavedFolderProject sf, string prefix = null)
+		{
+			int idx = 1;
+			string preface = prefix ?? PAIR_PREFIX;
+			string tempKey = preface + "1";
+
+			while (SetgMgr.Instance.ContainsFolderPair(sf, tempKey))
+			{
+				tempKey = $"{preface}{++idx:D}";
+			}
+
+			return tempKey;
 		}
 
 		public int CompareTo(SavedFolderPair other)

@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using Sylvester.Settings;
 using UtilityLibrary;
 
 namespace Sylvester.SavedFolders
@@ -18,9 +19,18 @@ namespace Sylvester.SavedFolders
 	public class SavedFolderProject : IComparable<SavedFolderProject>, IEquatable<SavedFolderProject>, INotifyPropertyChanged
 	{
 		private string icon;
+		private string name;
 
 		[DataMember]
-		public string Name { get; set; }
+		public string Name
+		{
+			get => name;
+			set
+			{ 
+				name = value;
+				OnPropertyChange();
+			}
+		}
 
 		[DataMember]
 		public string Icon
@@ -42,18 +52,33 @@ namespace Sylvester.SavedFolders
 
 		public SavedFolderProject() { }
 
-		public SavedFolderProject(FilePath<FileNameSimple> folder, string name = "")
+		public SavedFolderProject(FilePath<FileNameSimple> folder, SavedFolderType folderType, string name = "")
 		{
 			UseCount = 0;
 
-			Name = name.IsVoid() ? MakeSavedFolderKey(folder) : name;
+			Name = name.IsVoid() ? MakeFolderProjectKey(folder, folderType) : name;
 
-			Icon = null;
+			Icon = App.Icon_FolderProject00;
 		}
 
-		public static string MakeSavedFolderKey(FilePath<FileNameSimple> folder)
+		public static string MakeFolderProjectKey(FilePath<FileNameSimple> folder, SavedFolderType folderType)
 		{
-			return folder.AssemblePath(1);
+			return folder?.AssemblePath(1) ?? TempFolderProjectKey(folderType);
+		}
+
+		private const string PROJECT_PREFIX = "Project ";
+
+		private static string TempFolderProjectKey(SavedFolderType folderType)
+		{
+			int idx = 1;
+			string tempKey = PROJECT_PREFIX + "1";
+
+			while (SetgMgr.Instance.ContainsSavedFolder(tempKey, folderType))
+			{
+				tempKey = $"{PROJECT_PREFIX}{++idx:D}";
+			}
+
+			return tempKey;
 		}
 
 		public int CompareTo(SavedFolderProject other)

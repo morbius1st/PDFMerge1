@@ -25,12 +25,26 @@ namespace Sylvester.SavedFolders
 		COUNT = 2
 	}
 
+	public enum SavedFolderOperation
+	{
+		MANAGEMENT = 0,
+		GET_CURRENT = 1,
+		GET_REVISION = 2
+	}
+
+	public enum SavedFolderCategory
+	{
+		FOLDER_PROJECT = 0,
+		FOLDER_PAIR = 1
+	}
+
 	public class SavedFolderManager : INotifyPropertyChanged
 	{
+	#region private fields
+
 		// will be two copies 
 		// one for history
-		// one for favorites
-
+		// one for favorite
 		private static SavedFoldersWin savedWinInstance;
 
 		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
@@ -40,40 +54,42 @@ namespace Sylvester.SavedFolders
 		private static SavedFolderManager favoritesMgr;
 		private static SavedFolderManager historyMgr;
 
-		private SavedFolderManager(SavedFolderType index, string title)
+		private SavedFolderManager( SavedFolderType folderType, string title)
 		{
-			Index = index;
+			FolderType = folderType;
 			this.title = title;
 		}
 
+	#endregion
+
 	#region public methods
 
-		public static SavedFolderManager GetFavoriteManager
-		{
-			get
-			{
-				if (favoritesMgr == null)
-					favoritesMgr =
-						new SavedFolderManager(SavedFolderType.FAVORITES, "Favorite Folders");
+//		public static SavedFolderManager GetFavoriteManager
+//		{
+//			get
+//			{
+//				if (favoritesMgr == null)
+//					favoritesMgr =
+//						new SavedFolderManager(SavedFolderType.FAVORITES, TODO, "Favorite Folders");
+//
+//				return favoritesMgr;
+//			}
+//		}
+//
+//		public static SavedFolderManager GetHistoryManager
+//		{
+//			get
+//			{
+//				if (historyMgr == null)
+//					historyMgr =
+//						new SavedFolderManager(SavedFolderType.HISTORY, TODO, "History Folders");
+//				return historyMgr;
+//			}
+//		}
 
-				return favoritesMgr;
-			}
-		}
+		public SavedFolderType FolderType { get; set; }
 
-		public static SavedFolderManager GetHistoryManager
-		{
-			get
-			{
-				if (historyMgr == null)
-					historyMgr =
-						new SavedFolderManager(SavedFolderType.HISTORY, "Historical Folders");
-				return historyMgr;
-			}
-		}
-
-		public SavedFolderType Index { get; set; }
-
-		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(Index);
+		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(FolderType);
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
 
@@ -81,84 +97,102 @@ namespace Sylvester.SavedFolders
 
 	#region public methods
 
-		public void test()
+		public static SavedFolderManager GetFavoriteManager()
 		{
-			savedWinInstance = new SavedFoldersWin(Index, title);
-			savedWinInstance.AddFavorite -= SavedWinInstance_AddFavorite;
-			savedWinInstance.AddFavorite += SavedWinInstance_AddFavorite;
-			savedWinInstance.Owner = MainWindow.MainWin;
-
-			bool? result = savedWinInstance.ShowDialog();
+			return new SavedFolderManager(SavedFolderType.FAVORITES, "Favorite Folders");
 		}
 
-		public bool AddProjectFavorite(
-			FilePath<FileNameSimple> current,
-			FilePath<FileNameSimple> revision
-			)
+		public static SavedFolderManager GetHistoryManager()
 		{
-			bool result = AddProject(current, revision);
-
-			if (!result) return false;
-
-			savedWinInstance.CollectionUpdated();
-
-			return true;
+			return new SavedFolderManager(SavedFolderType.HISTORY, "History Folders");
 		}
 
-		public bool AddProjectHistory(
-			FilePath<FileNameSimple> current,
-			FilePath<FileNameSimple> revision
-			)
+		public bool? ShowSavedFolderWin(SavedFolderOperation folderOp = SavedFolderOperation.MANAGEMENT)
 		{
-			bool result = AddProject(current, revision);
+			savedWinInstance = new SavedFoldersWin(FolderType, title);
+			savedWinInstance.SavedFolderOperation = folderOp;
 
-			if (!result) return false;
-
-			savedWinInstance.CollectionUpdated();
-
-			return true;
+			return savedWinInstance.ShowDialog();
 		}
+
+//		public void test()
+//		{
+//			savedWinInstance = new SavedFoldersWin(FolderType, title);
+//			savedWinInstance.AddFavorite -= SavedWinInstance_AddFavorite;
+//			savedWinInstance.AddFavorite += SavedWinInstance_AddFavorite;
+//			savedWinInstance.Owner = MainWindow.MainWin;
+//
+//			bool? result = savedWinInstance.ShowDialog();
+//		}
+//
+//		public bool AddProjectFavorite(
+//			FilePath<FileNameSimple> current,
+//			FilePath<FileNameSimple> revision
+//			)
+//		{
+//			bool result = AddProject(current, revision);
+//
+//			if (!result) return false;
+//
+//			savedWinInstance.CollectionUpdated();
+//
+//			return true;
+//		}
+//
+//		public bool AddProjectHistory(
+//			FilePath<FileNameSimple> current,
+//			FilePath<FileNameSimple> revision
+//			)
+//		{
+//			bool result = AddProject(current, revision);
+//
+//			if (!result) return false;
+//
+//			savedWinInstance.CollectionUpdated();
+//
+//			return true;
+//		}
 
 	#endregion
 
 	#region private methods
 
-		private bool AddProject (
-			FilePath<FileNameSimple> current,
-			FilePath<FileNameSimple> revision)
-		{
-			string searchKey = SavedFolderProject.MakeSavedFolderKey(current);
-
-			SavedFolderProject sf = SetgMgr.Instance.FindSavedFolder(searchKey, Index);
-			SavedFolderPair cfp = new SavedFolderPair(current, revision);
-
-			if (sf == null)
-			{
-				sf = new SavedFolderProject(current);
-				SetgMgr.Instance.AddSavedFolder(sf, Index);
-			}
-			else
-			{
-				if (SetgMgr.Instance.FindSavedFolderPair(sf, cfp.Name) != null) return false;
-			}
-
-			sf.SavedFolderPairs.Add(cfp);
-
-			UserSettings.Admin.Write();
-
-			return true;
-		}
+//		private bool AddProject (
+//			FilePath<FileNameSimple> current,
+//			FilePath<FileNameSimple> revision)
+//		{
+//			string searchKey = SavedFolderProject.MakeFolderProjectKey(current, FolderType);
+//
+//			SavedFolderProject sf = SetgMgr.Instance.FindSavedFolder(searchKey, FolderType);
+//			SavedFolderPair cfp = new SavedFolderPair(current, revision);
+//
+//			if (sf == null)
+//			{
+//				sf = new SavedFolderProject(current, FolderType);
+//				SetgMgr.Instance.AddSavedProjectFolder(sf, FolderType);
+//			}
+//			else
+//			{
+//				if (SetgMgr.Instance.FindSavedFolderPair(sf, cfp.Name) != null) return false;
+//			}
+//
+//			sf.SavedFolderPairs.Add(cfp);
+//
+//			UserSettings.Admin.Write();
+//
+//			return true;
+//		}
 
 	#endregion
 
 	#region event processing
 
-		private void SavedWinInstance_AddFavorite(object sender, EventArgs e)
-		{
-			// add a fav
-
-			sfds.Test_02(this, Index);
-		}
+//		private void SavedWinInstance_AddFavorite(object sender, EventArgs e)
+//		{
+//			// add a fav
+//
+//			sfds.Test_02(this, FolderType);
+//		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

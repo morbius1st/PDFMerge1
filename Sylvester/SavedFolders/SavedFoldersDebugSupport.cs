@@ -71,16 +71,16 @@ namespace Sylvester.SavedFolders
 
 		private int idx = 0;
 
-		public void Test_02(SavedFolderManager sfMgr, SavedFolderType index)
-		{
-//			UserSettingData30 d = UserSettings.Data;
-
-			bool result = sfMgr.AddProjectFavorite(CurrentFolder[idx], TestFolder[idx++]);
-
-			savedWin.AppendLineFmt("make project", (result ? ";worked" : "failed"));
-
-//			Test_03(index);
-		}
+//		public void Test_02(SavedFolderManager sfMgr, SavedFolderType index)
+//		{
+////			UserSettingData30 d = UserSettings.Data;
+//
+//			bool result = sfMgr.AddProjectFavorite(CurrentFolder[idx], TestFolder[idx++]);
+//
+//			savedWin.AppendLineFmt("make project", (result ? ";worked" : "failed"));
+//
+////			Test_03(index);
+//		}
 
 		public void Test_03(SavedFolderType index)
 		{
