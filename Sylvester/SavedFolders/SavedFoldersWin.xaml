@@ -674,6 +674,7 @@
 					Name="btnDebugx"
 					Content="Debug x"
 					HorizontalAlignment="Right"
+					Visibility="Collapsed"
 					Click="BtnDebugx_OnClick"
 					Style="{StaticResource Button.Style.Standard.Right}"
 					/>
@@ -682,6 +683,7 @@
 					Name="btnDebug"
 					Content="Debug"
 					HorizontalAlignment="Right"
+					Visibility="Collapsed"
 					Click="BtnDebug_OnClick"
 					Style="{StaticResource Button.Style.Standard.Right}"
 					/>

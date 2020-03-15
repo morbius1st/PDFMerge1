@@ -54,9 +54,9 @@ namespace Sylvester.Process
 	public class ProcessManager : INotifyPropertyChanged
 	{
 	#region private fields
+		private ICollectionView cvRevision;
+		private ICollectionView cvCurrent;
 
-//		private readonly FolderManager _fmCurrent;
-//		private readonly FolderManager _fmRevision;
 		private ReadFiles readFilesCurrent;
 		private ReadFiles readFilesRevision;
 
@@ -84,7 +84,6 @@ namespace Sylvester.Process
 			sfmHistory = SavedFolderManager.GetHistoryManager();
 
 			Reset();
-
 		}
 
 	#region public properties
@@ -93,8 +92,27 @@ namespace Sylvester.Process
 		public FilesCollection<FileRevision> FileCollectionRevision { get; private set; } = new FilesCollection<FileRevision>();
 		public FilesCollection<FileFinal> FileCollectionFinal { get; private set; } = new FilesCollection<FileFinal>();
 
-		public ICollectionView CvCurrent { get; private set; }
-		public ICollectionView CvRevision { get; private set; }
+
+		public ICollectionView CvCurrent
+		{
+			get => cvCurrent;
+			private set
+			{
+				cvCurrent = value;
+				OnPropertyChange();
+			}
+		}
+
+		public ICollectionView CvRevision
+		{
+			get => cvRevision;
+			private set
+			{
+				cvRevision = value;
+				OnPropertyChange();
+			}
+		}
+
 		public ICollectionView CvFinal { get; private set; }
 
 		public bool UseExistingCaseShtTitle
@@ -163,13 +181,13 @@ namespace Sylvester.Process
 			case FolderType.CURRENT:
 				{
 					FileCollectionCurrent.Folder = folder;
-//					ReadCurrent();
+					resetCurrent();
 					break;
 				}
 			case FolderType.REVISION:
 				{
 					FileCollectionRevision.Folder  = folder;
-//					ReadRevision();
+					resetRevision();
 					break;
 				}
 			}
@@ -270,6 +288,7 @@ namespace Sylvester.Process
 			readFilesCurrent = new ReadFiles();
 
 			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("HasCurrentItems");
 			OnPropertyChange("FileCollectionCurrent");
 		}
 
@@ -282,6 +301,7 @@ namespace Sylvester.Process
 			readFilesRevision = new ReadFiles();
 
 			// ReSharper disable once ExplicitCallerInfoArgument
+			OnPropertyChange("HasRevisionItems");
 			OnPropertyChange("FileCollectionCurrent");
 		}
 

@@ -41,6 +41,7 @@ namespace Sylvester.SavedFolders
 
 	public class SavedFolderManager : INotifyPropertyChanged
 	{
+
 	#region private fields
 
 		// will be two copies 
@@ -74,10 +75,6 @@ namespace Sylvester.SavedFolders
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
 
 		public static Window Parent { get; set; } 
-
-	#endregion
-
-	#region public methods
 
 		public static SavedFolderManager GetFavoriteManager()
 		{

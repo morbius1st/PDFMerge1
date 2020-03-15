@@ -20,8 +20,6 @@ namespace Sylvester
 	{
 	#region fields
 
-		private FilePath<FileNameSimple> fromSelectFolder = null;
-
 		private SelectFolder sf;
 
 		private SetgMgr sm;
@@ -66,13 +64,14 @@ namespace Sylvester
 
 			FolderRoute.Path = SetgMgr.GetPriorFolder(FolderType);
 
-
 			configureFolderRoute();
 		}
 
 		public void SetFolder(FilePath<FileNameSimple> path)
 		{
 			FolderRoute.Path = path;
+
+			RaiseFolderChangedEvent();
 		}
 
 	#endregion
@@ -88,14 +87,18 @@ namespace Sylvester
 
 		private void SelectFolder()
 		{
-			fromSelectFolder = sf.GetFolder(Folder);
-			if (!fromSelectFolder.IsValid) return;
+			FilePath<FileNameSimple> fromSelectFolder = sf.GetFolder(Folder);
 
-//			tempGetPriorFolder();
+			AssignFolder(fromSelectFolder);
+		}
 
-			SetgMgr.SetPriorFolder(FolderType, fromSelectFolder);
+		private void AssignFolder(FilePath<FileNameSimple> folder)
+		{
+			if (!folder.IsValid) return;
 
-			FolderRoute.Path = fromSelectFolder;
+			SetgMgr.SetPriorFolder(FolderType, folder);
+
+			SetFolder(folder);
 
 			configureFolderRoute();
 		}
@@ -118,7 +121,6 @@ namespace Sylvester
 			folderPathType += sfm[SavedFolderType.HISTORY.Value()].HasSavedFolders
 				? ObliqueButtonType.HISTORY.Value()
 				: 0;
-//			folderPathType += sfm[SavedFolderType.FAVORITES.Value()].HasSavedFolders ? ObliqueButtonType.FAVORITES.Value() : 0;
 
 			FolderPathType = folderPathType;
 		}
@@ -168,31 +170,44 @@ namespace Sylvester
 
 		internal void onPathSelectFolderEvent(object sender, EventArgs e)
 		{
-			Debug.WriteLine("Header Control, Select Folder");
+//			Debug.WriteLine("Header Control, Select Folder");
 
 			SelectFolder();
 		}
 
 		internal void onPathFavoriteEvent(object sender, EventArgs e)
 		{
-			sfm[(int) SavedFolderType.FAVORITES].ShowSavedFolderWin(GetFolderOp());
+			bool? result = sfm[(int) SavedFolderType.FAVORITES].ShowSavedFolderWin(GetFolderOp());
 
-//			Debug.WriteLine("folderManager, Favorites");
+			if (result == true)
+			{
+				if (FolderType == FolderType.CURRENT)
+				{
+					AssignFolder(sfm[(int) SavedFolderType.FAVORITES].Current);
+				}
+				else
+				{
+					AssignFolder(sfm[(int) SavedFolderType.FAVORITES].Revision);
+				}
+			}
 
-//			sfm[SavedFolderType.FAVORITES.Value()].test();
-
-//			SelectFolder();
 		}
 
 		internal void onPathHistoryEvent(object sender, EventArgs e)
 		{
-			sfm[(int) SavedFolderType.HISTORY].ShowSavedFolderWin(GetFolderOp());
+			bool? result = sfm[(int) SavedFolderType.HISTORY].ShowSavedFolderWin(GetFolderOp());
 
-//			Debug.WriteLine("folderManager, History");
-
-//			sfm[SavedFolderType.HISTORY.Value()].test();
-
-//			SelectFolder();
+			if (result == true)
+			{
+				if (FolderType == FolderType.CURRENT)
+				{
+					AssignFolder(sfm[(int) SavedFolderType.HISTORY].Current);
+				}
+				else
+				{
+					AssignFolder(sfm[(int) SavedFolderType.HISTORY].Revision);
+				}
+			}
 		}
 
 	#endregion

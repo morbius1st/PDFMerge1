@@ -113,6 +113,12 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
+		private void BtnReadBoth_Click(object sender, RoutedEventArgs e)
+		{
+			BtnReadCurrent_OnClick(null, null);
+			BtnReadRevision_OnClick(null, null);
+		}
+
 		private void BtnReadCurrent_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (!pm.ReadCurrent()) return;
@@ -144,12 +150,24 @@ namespace Sylvester
 
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)
 		{
-			favorites.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
+			bool? result = favorites.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
+
+			if (result == true)
+			{
+				HdrCurrent.SetFolder(favorites.Current);
+				HdrRevision.SetFolder(favorites.Revision);
+			}
 		}
 
 		private void BtnHistory_OnClick(object sender, RoutedEventArgs e)
 		{
-			history.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
+			bool? result = history.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
+
+			if (result == true)
+			{
+				HdrCurrent.SetFolder(history.Current);
+				HdrRevision.SetFolder(history.Revision);
+			}
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -180,10 +198,6 @@ namespace Sylvester
 			HdrRevision.Start();
 
 			OnPropertyChange("pm");
-
-//			SetgMgr.RestoreWindowLayout(WindowId.WINDOW_MAIN, this);
-
-
 		}
 
 	#endregion

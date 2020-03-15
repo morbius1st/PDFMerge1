@@ -152,7 +152,9 @@
 
 	</Window.Resources>
 
-	<Grid>
+	<Grid
+			Margin="5,0,0,0"
+			>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="575*" />
 			<ColumnDefinition Width="718*" />
@@ -185,14 +187,15 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
+
 				<Button
-						x:Name="btnScan"
+						x:Name="btnReadBoth"
 						Content="Scan Both"
-						Margin="7,7,7,0"
+						Margin="0,7,7,0"
 						Height="28"
 						HorizontalAlignment="Left"
 						Style="{StaticResource btn}"
-						>
+								Click="BtnReadBoth_Click">
 					<Button.IsEnabled>
 						<MultiBinding Converter="{StaticResource converter}">
 							<Binding
@@ -207,33 +210,6 @@
 									/>
 						</MultiBinding>
 					</Button.IsEnabled>
-
-					<!-- <Button.Style> -->
-					<!--  <Style  -->
-					<!--  TargetType="Button"  -->
-					<!--  BasedOn="{StaticResource btn}"  -->
-					<!--  >  -->
-					<!-- 		<Setter Property="Content" Value="Scan Both"/> -->
-					<!-- 		<Setter Property="IsEnabled" Value="false" /> -->
-					<!-- 		<Style.Triggers> -->
-					<!-- 			~1~ <DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionRevision.HasFolder, FallbackValue=false}" Value="true"> @1@ -->
-					<!-- 			~1~ 	<Setter Property="Content" Value="true 2"/> @1@ -->
-					<!-- 			~1~ </DataTrigger> @1@ -->
-					<!-- 			<MultiDataTrigger> -->
-					<!-- 				<MultiDataTrigger.Conditions> -->
-					<!-- 					<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionCurrent.HasFolder, FallbackValue=false}" Value="=True" /> -->
-					<!-- 					<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionRevision.HasFolder, FallbackValue=false}" Value="True" /> -->
-					<!-- 				</MultiDataTrigger.Conditions> -->
-					<!-- 					<Setter Property="IsEnabled" Value="True" /> -->
-					<!-- 					<Setter Property="Content" Value="true 1"></Setter> -->
-					<!-- 			</MultiDataTrigger> -->
-					<!--    -->
-					<!--    -->
-					<!-- 		</Style.Triggers> -->
-					<!-- 	</Style> -->
-					<!--    -->
-					<!-- </Button.Style> -->
-
 				</Button>
 
 				<Button
@@ -261,26 +237,6 @@
 									/>
 						</StackPanel>
 					</Button.Content>
-					<!-- <Button.Template> -->
-					<!-- 	<ControlTemplate TargetType="Button"> -->
-					<!--  <StackPanel  -->
-					<!--  HorizontalAlignment="Center"  -->
-					<!--  Orientation="Horizontal"  -->
-					<!--  >  -->
-					<!--  <Path Margin="0,0,0,2"  -->
-					<!--  Width="20"  -->
-					<!--  Data="{StaticResource Icon.Svg.Favorite}"  -->
-					<!--  Fill="{StaticResource Path.Favorite.Fill2}"  -->
-					<!--  Stretch="Uniform" />  -->
-					<!-- 		</StackPanel> -->
-					<!-- 		<ControlTemplate.Triggers> -->
-					<!-- 			<Trigger Property="IsPressed" Value="True"> -->
-					<!-- 				<Setter Property="Background" Value="#ff555555"></Setter> -->
-					<!-- 			</Trigger> -->
-					<!-- 		</ControlTemplate.Triggers> -->
-					<!-- 	</ControlTemplate> -->
-					<!-- </Button.Template> -->
-
 				</Button>
 
 				<Button
@@ -430,6 +386,7 @@
 																FallbackValue={x:Null}}"
 					FolderType="CURRENT"
 					TitleBarMargin="60,0,0,0"
+
 					Style="{StaticResource HeaderControl.FolderRoute.Style}"
 					/>
 			<!--  FolderRouteHeight="24"  -->
@@ -457,15 +414,16 @@
 					Grid.Column="0"
 					Grid.Row="1"
 					Margin="0,28,0,0"
-					VerticalAlignment="Center"
+					VerticalAlignment="Top"
 					Orientation="Vertical"
 					>
 				<Button
 						Name="BtnReadCurrent"
 						Content="Scan"
-						Width="48"
+						Width="56"
 						Height="26"
-						VerticalAlignment="Bottom"
+						Margin="0,5,0,0"
+						HorizontalAlignment="Left"
 						Click="BtnReadCurrent_OnClick"
 						>
 					<Button.Style>
@@ -535,16 +493,17 @@
 					Grid.Column="0"
 					Grid.Row="1"
 					Margin="0,28,0,0"
-					VerticalAlignment="Center"
+					VerticalAlignment="top"
 					Orientation="Vertical"
 					>
 
 				<Button
 						Name="BtnReadRevision"
 						Content="Scan"
-						Width="48"
+						Width="56"
 						Height="26"
-						VerticalAlignment="Bottom"
+						Margin="0,5,0,0"
+						HorizontalAlignment="Left"
 						Click="BtnReadRevision_OnClick"
 						>
 					<Button.Style>

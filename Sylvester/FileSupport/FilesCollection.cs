@@ -15,7 +15,8 @@ using UtilityLibrary;
 namespace Sylvester.FileSupport
 {
 	public class FilesCollection<T> : INotifyPropertyChanged where T : SheetNameInfo, new()
-	{
+	{		
+		private ObservableCollection<T> files;
 		private string name;
 		private FilePath<FileNameSimple> folder = FilePath<FileNameSimple>.Invalid;
 		private int nonSheetPdfsFiles;
@@ -27,8 +28,15 @@ namespace Sylvester.FileSupport
 			Files = new ObservableCollection<T>();
 		}
 
-		public ObservableCollection<T>
-			Files { get; private set; }
+		public ObservableCollection<T> Files
+		{
+			get => files;
+			private set
+			{
+				files = value;
+				OnPropertyChange();
+			}
+		}
 
 		public  string Name
 		{
@@ -47,6 +55,8 @@ namespace Sylvester.FileSupport
 			{
 				folder = value;
 				OnPropertyChange();
+
+				Files = new ObservableCollection<T>();
 
 				HasFolder = folder != null && folder.IsValid;
 			}

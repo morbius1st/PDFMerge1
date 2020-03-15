@@ -114,9 +114,6 @@ namespace Sylvester.SavedFolders
 				")";
 		}
 
-//		public SavedFolderType SavedFolderType { get; }
-
-
 		public SavedFolderOperation SavedFolderOperation
 		{
 			get => savedFolderOperation;
@@ -553,6 +550,7 @@ namespace Sylvester.SavedFolders
 	#endif
 
 	#endregion
+
 	}
 
 	public class SavedFolderInformation : DependencyObject
@@ -683,7 +681,6 @@ namespace Sylvester.SavedFolders
 			throw  new NotImplementedException();
 		}
 	}
-
 
 	[ValueConversion(null, typeof(Double))]
 	public class InnerWidthConverter : IValueConverter
