@@ -165,6 +165,13 @@ namespace Sylvester.Settings
 
 			return true;
 		}
+
+		public SavedFolderPair CopyFolderPair(SavedFolderProject sf, SavedFolderPair pair)
+		{
+			if (pair == null) return null;
+
+			return pair.Clone(sf);
+		}
 		
 		public bool DeleteFolderPair(SavedFolderProject sf, SavedFolderPair pair)
 		{

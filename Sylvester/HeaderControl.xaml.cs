@@ -128,29 +128,29 @@ namespace Sylvester
 
 	#region temp methods
 
-		private void tempGetPriorFolder()
-		{
-			if (FolderType == FolderType.CURRENT)
-			{
-				tempPriorCurrentFolder();
-			}
-			else
-			{
-				tempPriorRevisionFolder();
-			}
-		}
-
-		private void tempPriorCurrentFolder()
-		{
-			fromSelectFolder = new FilePath<FileNameSimple>(
-				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
-		}
-
-		private void tempPriorRevisionFolder()
-		{
-			fromSelectFolder = new FilePath<FileNameSimple>(
-				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
-		}
+//		private void tempGetPriorFolder()
+//		{
+//			if (FolderType == FolderType.CURRENT)
+//			{
+//				tempPriorCurrentFolder();
+//			}
+//			else
+//			{
+//				tempPriorRevisionFolder();
+//			}
+//		}
+//
+//		private void tempPriorCurrentFolder()
+//		{
+//			fromSelectFolder = new FilePath<FileNameSimple>(
+//				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Base");
+//		}
+//
+//		private void tempPriorRevisionFolder()
+//		{
+//			fromSelectFolder = new FilePath<FileNameSimple>(
+//				@"C:\2099-999 Sample Project\Publish\9999 Current\Individual Sheets\Test");
+//		}
 
 	#endregion
 
@@ -158,10 +158,10 @@ namespace Sylvester
 
 		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
 		{
-			Debug.WriteLine("folderManager, path changed");
-			Debug.WriteLine("folderManager| index     | " + e.Index);
-			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
+//			Debug.WriteLine("folderManager, path changed");
+//			Debug.WriteLine("folderManager| index     | " + e.Index);
+//			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
+//			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
 			RaiseFolderChangedEvent();
 		}

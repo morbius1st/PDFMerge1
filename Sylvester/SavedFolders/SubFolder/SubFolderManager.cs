@@ -43,6 +43,8 @@ namespace Sylvester.SavedFolders.SubFolder
 
 			FolderRoute.PathChange += onPathPathChangeEvent;
 			FolderRoute.SelectFolder += onPathSelectFolderEvent;
+
+			sf = new SelectFolder();
 		}
 
 	#region public properties
@@ -55,7 +57,14 @@ namespace Sylvester.SavedFolders.SubFolder
 
 			set
 			{
-				FolderRoute.Path = value; 
+				if (value == null || !value.IsValid )
+				{
+					FolderRoute.Path = null;
+					return;
+				}
+
+				FolderRoute.Path = value;
+				OnPropertyChange();
 			}
 		}
 
@@ -70,8 +79,7 @@ namespace Sylvester.SavedFolders.SubFolder
 
 			SetgMgr.SetPriorFolder(FolderType, fromSelectFolder);
 
-			FolderRoute.Path = fromSelectFolder;
-
+			Folder = fromSelectFolder;
 		}
 
 	#endregion
@@ -80,17 +88,20 @@ namespace Sylvester.SavedFolders.SubFolder
 
 		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
 		{
-			Debug.WriteLine("folderManager, path changed");
-			Debug.WriteLine("folderManager| index     | " + e.Index);
-			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
+//			Debug.WriteLine("subfolderManager| path changed");
+//			Debug.WriteLine("subfolderManager| index     | " + e.Index);
+//			Debug.WriteLine("subfolderManager| sel folder| " + e.SelectedFolder);
+//			Debug.WriteLine("subfolderManager| sel path  | " + e.SelectedPath.GetFullPath);
 
-//			RaiseFolderChangedEvent();
+			if (!e.SelectedPath.GetFullPath.IsVoid())
+			{
+				OnPropertyChange("Folder");
+			}
 		}
 
 		internal void onPathSelectFolderEvent(object sender, EventArgs e)
 		{
-			Debug.WriteLine("Header Control, Select Folder");
+//			Debug.WriteLine("subfolderManager| Select Folder");
 
 			SelectFolder();
 		}

@@ -16,7 +16,7 @@ namespace Sylvester.UserControls
 		SELECTFOLDER = 2,
 		FAVORITES    = 4,
 		HISTORY      = 8
-	} 
+	}
 
 
 	/// <summary>
@@ -31,13 +31,15 @@ namespace Sylvester.UserControls
 		public FolderRoute()
 		{
 			InitializeComponent();
+
+			BtnText.Text = "";
 		}
 
 		public bool IsPathValid => Path.IsValid;
 		public int SelectedIndex { get; private set; }
 		public string SelectedFolder { get; private set; }
-		public FilePath<FileNameSimple> SelectedPath => path;
 
+//		public FilePath<FileNameSimple> SelectedPath => path;
 
 		public FilePath<FileNameSimple> Path
 		{
@@ -79,7 +81,7 @@ namespace Sylvester.UserControls
 		}
 
 
-		public void SetPath(FilePath<FileNameSimple> newPath)
+		private void SetPath(FilePath<FileNameSimple> newPath)
 		{
 			clearObliqueButtons();
 
@@ -89,11 +91,13 @@ namespace Sylvester.UserControls
 			{
 				// when null, reset and show the select folder button
 				path = FilePath<FileNameSimple>.Invalid;
+				SetValue(FilePathProperty, path);
 				SelectedFolder = null;
 			}
 			else
 			{
-				path = newPath;
+//				path = newPath;
+//				SetValue(FilePathProperty, path);
 
 				AddPath(newPath);
 
@@ -118,7 +122,6 @@ namespace Sylvester.UserControls
 
 		private void Add(string text, int index)
 		{
-
 			ObliqueButton ob = new ObliqueButton();
 			ob.Name = $"obx_{index:D3}";
 			ob.Text = text;
@@ -135,7 +138,7 @@ namespace Sylvester.UserControls
 		{
 			RaiseFavoritesEvent();
 		}
-		
+
 		private void InnerButton_History(object sender, RoutedEventArgs e)
 		{
 			RaiseHistoryEvent();
@@ -156,7 +159,6 @@ namespace Sylvester.UserControls
 			SelectedFolder = ob.Text;
 //			Path = se + @"\";
 
-
 			if (SelectedIndex > 0)
 			{
 				StringBuilder sb = new StringBuilder(path[0]);
@@ -167,14 +169,10 @@ namespace Sylvester.UserControls
 				}
 
 				Path = new FilePath<FileNameSimple>(sb.ToString());
-
-//				RaisePathChangeEvent();
-
 			}
 			else
 			{
 				RaiseSelectFolderEvent();
-
 			}
 		}
 
@@ -221,7 +219,6 @@ namespace Sylvester.UserControls
 		}
 
 	#endregion
-
 
 	#region control properties
 
@@ -272,6 +269,21 @@ namespace Sylvester.UserControls
 			set { SetValue(ObliqueButtonHeightProperty, value); }
 		}
 
+		public static readonly DependencyProperty FilePathProperty =
+			DependencyProperty.Register("FilePath",
+				typeof(FilePath<FileNameSimple>), typeof(FolderRoute),
+				new PropertyMetadata(null));
+
+		public FilePath<FileNameSimple> FilePath
+		{
+			get => (FilePath<FileNameSimple>) GetValue(FilePathProperty); 
+			set
+			{
+				Path = value;
+				SetValue(FilePathProperty, value);
+			}
+		}
+
 	#endregion
 	}
 
@@ -298,6 +310,4 @@ namespace Sylvester.UserControls
 			throw new NotImplementedException();
 		}
 	}
-
-
 }

@@ -15,11 +15,13 @@ using UtilityLibrary;
 namespace Sylvester.SavedFolders
 {
 	[DataContract]
-	public class SavedFolderPair : IComparable<SavedFolderPair>, IEquatable<SavedFolderPair>, INotifyPropertyChanged
+	public class SavedFolderPair : IComparable<SavedFolderPair>, 
+		IEquatable<SavedFolderPair>, INotifyPropertyChanged, ICloneable
 	{
 		private string icon;
-
 		private string name;
+		private FilePath<FileNameSimple> current;
+		private FilePath<FileNameSimple> revision;
 
 		[DataMember]
 		public string Name
@@ -43,11 +45,29 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-		[DataMember]
-		public FilePath<FileNameSimple> Current { get; set; }
 
 		[DataMember]
-		public FilePath<FileNameSimple> Revision { get; set; }
+		public FilePath<FileNameSimple> Current
+		{
+			get => current;
+			set
+			{
+				current = value;
+				OnPropertyChange();
+			}
+		}
+
+
+		[DataMember]
+		public FilePath<FileNameSimple> Revision
+		{
+			get => revision;
+			set
+			{
+				revision = value;
+				OnPropertyChange();
+			}
+		}
 
 		public SavedFolderPair() { }
 
@@ -67,7 +87,8 @@ namespace Sylvester.SavedFolders
 		{
 			string result;
 
-			if (currentRootFolder.GetFullPath.IsVoid() || revisionRootFolder.GetFullPath.IsVoid())
+			if (currentRootFolder == null || revisionRootFolder == null ||
+				currentRootFolder.GetFullPath.IsVoid() || revisionRootFolder.GetFullPath.IsVoid())
 			{
 				result = tempFolderPairKey(sf);
 			}
@@ -97,6 +118,45 @@ namespace Sylvester.SavedFolders
 			return tempKey;
 		}
 
+		public string CloneName(SavedFolderProject sf)
+		{
+			int copyNum = 0;
+			string clonePrefix = name == null ? "" : name + " ";
+			string cloneName;
+			string cloneSuffix;
+
+			do
+			{
+				cloneSuffix = $"Copy {copyNum++:D}";
+
+				cloneName = clonePrefix + cloneSuffix;
+			}
+			while (SetgMgr.Instance.ContainsFolderPair(sf, cloneName));
+
+			return cloneName;
+		}
+
+		public SavedFolderPair Clone(SavedFolderProject sf)
+		{
+			string cloneName = CloneName(sf);
+
+			SavedFolderPair clone = Clone() as SavedFolderPair;
+
+			clone.name = cloneName;
+			clone.Icon = Icon;
+
+			return clone;
+		}
+
+		public object Clone()
+		{
+			SavedFolderPair clone = new SavedFolderPair(current, revision, name);
+
+			clone.Icon = Icon;
+
+			return clone;
+		}
+
 		public int CompareTo(SavedFolderPair other)
 		{
 			return Name.ToUpper().CompareTo(other.Name.ToUpper());
@@ -113,5 +173,6 @@ namespace Sylvester.SavedFolders
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
 	}
 }

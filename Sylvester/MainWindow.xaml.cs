@@ -51,6 +51,8 @@ namespace Sylvester
 
 			favorites = SavedFolderManager.GetFavoriteManager();
 			history = SavedFolderManager.GetHistoryManager();
+
+			SavedFolderManager.Parent = this;
 		}
 
 	#region public properties

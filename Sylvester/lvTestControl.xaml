@@ -42,7 +42,7 @@
 			HorizontalContentAlignment="Stretch"
 			Focusable="False"
 			ScrollViewer.CanContentScroll="False"
-			Background="#444444"
+			Background="#333333"
 			Foreground="White"
 			ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
 			ItemTemplate="{DynamicResource DataTemplateTest2}"

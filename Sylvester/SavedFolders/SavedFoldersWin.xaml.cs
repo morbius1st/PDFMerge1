@@ -38,11 +38,6 @@ purpose
 
 namespace Sylvester.SavedFolders
 {
-	public static class WinX
-	{
-		public static int TEST = 900;
-	}
-
 	/// <summary>
 	/// Interaction logic for SavedFoldersWin.xaml
 	/// </summary>
@@ -58,7 +53,7 @@ namespace Sylvester.SavedFolders
 		private SubFolderManager revisionFolder = null;
 
 		// the selected project value
-		private SavedFolderProject selectedSavedFolderProject;
+		private SavedFolderProject selectedFolderProject;
 
 		// the selected pair value
 		private SavedFolderPair selectedFolderPair;
@@ -91,6 +86,9 @@ namespace Sylvester.SavedFolders
 
 			currentFolder = new SubFolderManager(FolderRouteCurrent);
 			revisionFolder = new SubFolderManager(FolderRouteRevision);
+
+			currentFolder.PropertyChanged += CurrentFolderOnPropertyChanged;
+			revisionFolder.PropertyChanged += RevisionFolderOnPropertyChanged;
 		}
 
 
@@ -151,41 +149,33 @@ namespace Sylvester.SavedFolders
 		}
 
 		// the selected project value;
-		public SavedFolderProject SelectedSavedFolderProject
+		public SavedFolderProject SelectedFolderProject
 		{
-			private get { return selectedSavedFolderProject; }
+			private get { return selectedFolderProject; }
 			set
 			{
-				Append(nl);
-				AppendLineFmt("selected", value.Name);
+//				Append(nl);
+//				AppendLineFmt("selected", value.Name);
 
-				selectedSavedFolderProject = value;
+				selectedFolderProject = value;
 
-				OnPropertyChange();
-
-				// assign the folder pair collection
-				FolderPairs = value.SavedFolderPairs;
-
-				OnPropertyChange("ProjectFolderIconIndex");
+				if (value != null)
+				{
+					// assign the folder pair collection
+					FolderPairs = value.SavedFolderPairs;
+				}
+				else
+				{
+					FolderPairs = null;
+				}
 
 				SelectedFolderPair = null;
+
+				OnPropertyChange();
+				OnPropertyChange("SelectedFolderPair");
+				OnPropertyChange("ProjectFolderIconIndex");
 			}
 		}
-
-//		public string SelectedProjectName
-//		{
-//			get => selectedSavedFolderProject.Name;
-//
-//			set
-//			{
-//				bool result = SetgMgr.Instance.ContainsSavedFolder(value, SavedFolderType);
-//
-//				if (result)
-//				{
-//
-//				}
-//			}
-//		}
 
 		// the selected folder pair value;
 		public SavedFolderPair SelectedFolderPair
@@ -194,11 +184,11 @@ namespace Sylvester.SavedFolders
 			set
 			{
 				selectedFolderPair = value;
-				OnPropertyChange();
 
 				currentFolder.Folder = selectedFolderPair?.Current ?? FilePath<FileNameSimple>.Invalid;
 				revisionFolder.Folder = selectedFolderPair?.Revision ?? FilePath<FileNameSimple>.Invalid;
 
+				OnPropertyChange();
 				OnPropertyChange("FolderPairIndex");
 			}
 		}
@@ -208,7 +198,7 @@ namespace Sylvester.SavedFolders
 		{
 			get
 			{
-				if (selectedSavedFolderProject == null)
+				if (selectedFolderProject == null)
 				{
 					FolderProject.Visibility = Visibility.Hidden;
 					return null;
@@ -216,13 +206,13 @@ namespace Sylvester.SavedFolders
 
 				FolderProject.Visibility = Visibility.Visible;
 
-				if (selectedSavedFolderProject.Icon.IsVoid()) return App.Icon_FolderProjects[0];
+				if (selectedFolderProject.Icon.IsVoid()) return App.Icon_FolderProjects[0];
 
-				return selectedSavedFolderProject.Icon;
+				return selectedFolderProject.Icon;
 			}
 			set
 			{
-				selectedSavedFolderProject.Icon = value;
+				selectedFolderProject.Icon = value;
 				OnPropertyChange();
 
 				UserSettings.Admin.Write();
@@ -276,27 +266,11 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 
-
 	#region public methods
-
-		public void CollectionUpdated()
-		{
-			lvProjects.Items.Refresh();
-
-			OnPropertyChange("SavedFolders");
-		}
 
 	#endregion
 
 	#region test methods
-
-//		private void Test01()
-//		{
-//			// add complete project test
-//			tbxMain.Clear();
-//
-//			RaiseAddFavoriteEvent();
-//		}
 
 	#endregion
 
@@ -307,7 +281,18 @@ namespace Sylvester.SavedFolders
 	#region window events
 
 		// main button events
-		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
+
+
+		private void BtnClose_OnClick(object sender, RoutedEventArgs e)
+		{
+			SetgMgr.SaveWindowLayout(WindowId.DIALOG_SAVED_FOLDERS, this);
+			SetgMgr.WriteUsr();
+
+			this.DialogResult = false;
+			this.Close();
+		}
+
+		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetgMgr.SaveWindowLayout(WindowId.DIALOG_SAVED_FOLDERS, this);
 			SetgMgr.WriteUsr();
@@ -325,7 +310,16 @@ namespace Sylvester.SavedFolders
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			DebugMode = !DebugMode;
+//			DebugMode = !DebugMode;
+
+			if (SelectedFolderPair == null)
+			{
+				Debug.WriteLine("@savedfolderWin| SelectedFolderPair is null");
+				return;
+			}
+
+//			SelectedFolderPair.Current = new FilePath<FileNameSimple>("C:\\Temp");
+//			SelectedFolderPair.Revision = new FilePath<FileNameSimple>("C:\\Temp");
 
 			Debug.WriteLine("@savedfolderWin| debug");
 		}
@@ -333,20 +327,21 @@ namespace Sylvester.SavedFolders
 		// folder project
 		private void BtnAddFolderProject_OnClick(object sender, RoutedEventArgs e)
 		{
-			SelectedSavedFolderProject =
+			SelectedFolderProject =
 				SetgMgr.Instance.CreateSavedProject(SavedFolderType);
 
 			SelectedFolderPair =
-				selectedSavedFolderProject.SavedFolderPairs[0];
+				selectedFolderProject.SavedFolderPairs[0];
 		}
 
 		private void BtnDeleteFolderProject_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (selectedSavedFolderProject == null) return;
+			if (selectedFolderProject == null) return;
 
-			SetgMgr.Instance.DeleteSavedProjectFolder(selectedSavedFolderProject, SavedFolderType);
+			SetgMgr.Instance.DeleteSavedProjectFolder(selectedFolderProject, SavedFolderType);
 
 			SelectedFolderPair = null;
+			SelectedFolderProject = null;
 
 			SetgMgr.WriteUsr();
 		}
@@ -354,10 +349,23 @@ namespace Sylvester.SavedFolders
 		// folder pair
 		private void BtnAddFolderPair_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (selectedSavedFolderProject == null) return;
+			if (selectedFolderProject == null) return;
 
-			SetgMgr.Instance.AddFolderPair(selectedSavedFolderProject,
+			SetgMgr.Instance.AddFolderPair(selectedFolderProject,
 				null, null);
+
+			SetgMgr.WriteUsr();
+		}
+
+		private void BtnCopyFolderPair_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (selectedFolderProject == null ||
+				selectedFolderPair == null ) return;
+
+			SavedFolderPair pair =
+				SetgMgr.Instance.CopyFolderPair(selectedFolderProject, selectedFolderPair);
+
+			folderPairs.Add(pair);
 
 			SetgMgr.WriteUsr();
 		}
@@ -366,13 +374,12 @@ namespace Sylvester.SavedFolders
 		{
 			if (selectedFolderPair == null) return;
 
-			SetgMgr.Instance.DeleteFolderPair(selectedSavedFolderProject, selectedFolderPair);
+			SetgMgr.Instance.DeleteFolderPair(selectedFolderProject, selectedFolderPair);
+
+			SelectedFolderPair = null;
 
 			SetgMgr.WriteUsr();
-
 		}
-
-
 
 		// controls button's events
 		private void ProjectFolderIconButton_OnClick(object sender, RoutedEventArgs e)
@@ -442,10 +449,10 @@ namespace Sylvester.SavedFolders
 			if (e.Key == Key.Enter || e.Key == Key.Return)
 			{
 				TbxProjInfoName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-			} 
+			}
 			else if (e.Key == Key.Escape)
 			{
-				TbxProjInfoName.Text = selectedSavedFolderProject.Name;
+				TbxProjInfoName.Text = selectedFolderProject.Name;
 			}
 		}
 
@@ -460,6 +467,8 @@ namespace Sylvester.SavedFolders
 
 			if (e.Key == Key.Enter || e.Key == Key.Return)
 			{
+				BindingExpression b = TxbFolderPairName.GetBindingExpression(TextBox.TextProperty);
+
 				TxbFolderPairName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 			}
 			else if (e.Key == Key.Escape)
@@ -484,6 +493,23 @@ namespace Sylvester.SavedFolders
 
 	#region events
 
+		private void CurrentFolderOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName.Equals("Folder"))
+			{
+				SelectedFolderPair.Current = currentFolder.Folder;
+			}
+		}
+
+		private void RevisionFolderOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName.Equals("Folder"))
+			{
+				SelectedFolderPair.Revision = revisionFolder.Folder;
+			}
+		}
+
+
 		public delegate void AddFavoriteEventHandler(object sender, EventArgs e);
 
 		public event AddFavoriteEventHandler AddFavorite;
@@ -506,20 +532,17 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 
-
-
-
 	#region debug routines
 
 	#if DEBUG
 		public void Append(string msg)
 		{
-			tbxMain.AppendText(msg);
+//			tbxMain.AppendText(msg);
 		}
 
 		public void AppendLine(string msg)
 		{
-			Append(msg + nl);
+//			Append(msg + nl);
 		}
 
 		public void AppendLineFmt(string msg1, string msg2 = "")
@@ -527,19 +550,16 @@ namespace Sylvester.SavedFolders
 			AppendLine(logMsgDbS(msg1, msg2));
 		}
 
-
 	#endif
 
 	#endregion
-
-
-
 	}
 
 	public class SavedFolderInformation : DependencyObject
 	{
 		public static readonly DependencyProperty SavedFolderTypeProperty = DependencyProperty.Register(
-			"SavedFolderType", typeof(SavedFolderType), typeof(SavedFolderInformation), new PropertyMetadata(default(SavedFolderType)));
+			"SavedFolderType", typeof(SavedFolderType), typeof(SavedFolderInformation),
+			new PropertyMetadata(default(SavedFolderType)));
 
 		public SavedFolderType SavedFolderType
 		{
@@ -548,7 +568,8 @@ namespace Sylvester.SavedFolders
 		}
 
 		public static readonly DependencyProperty SavedFolderCategoryProperty = DependencyProperty.Register(
-			"SavedFolderCategory", typeof(SavedFolderCategory), typeof(SavedFolderInformation), new PropertyMetadata(default(SavedFolderCategory)));
+			"SavedFolderCategory", typeof(SavedFolderCategory), typeof(SavedFolderInformation),
+			new PropertyMetadata(default(SavedFolderCategory)));
 
 		public SavedFolderCategory SavedFolderCategory
 		{
@@ -557,7 +578,8 @@ namespace Sylvester.SavedFolders
 		}
 
 		public static readonly DependencyProperty SavedFolderProjectProperty = DependencyProperty.Register(
-			"SavedFolderProject", typeof(SavedFolderProject), typeof(SavedFolderInformation), new PropertyMetadata(default(SavedFolderProject)));
+			"SavedFolderProject", typeof(SavedFolderProject), typeof(SavedFolderInformation),
+			new PropertyMetadata(default(SavedFolderProject)));
 
 		public SavedFolderProject SavedFolderProject
 		{
@@ -573,7 +595,6 @@ namespace Sylvester.SavedFolders
 			get { return (string) GetValue(OriginalNameProperty); }
 			set { SetValue(OriginalNameProperty, value); }
 		}
-
 	}
 
 	public class DuplicateNameRule : ValidationRule
@@ -599,8 +620,9 @@ namespace Sylvester.SavedFolders
 				result = SetgMgr.Instance.ContainsFolderPair(SavedFolderInformation.SavedFolderProject, name);
 			}
 
-			if (result) return new ValidationResult(false,
-				"Duplicate Name Entered.  Please Provide a Unique Name.");
+			if (result)
+				return new ValidationResult(false,
+					"Duplicate Name Entered.  Please Provide a Unique Name.");
 
 			return ValidationResult.ValidResult;
 		}
@@ -620,34 +642,76 @@ namespace Sylvester.SavedFolders
 		}
 
 		public static readonly DependencyProperty DataProperty =
-			DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), 
+			DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy),
 				new PropertyMetadata(null));
 	}
 
+	[ValueConversion(null, typeof(Double))]
+	public class DoubleLessThenConverter : IMultiValueConverter
+	{
+		// value[0] is the primary number
+		// value[1] is the test number
+		// returned number is the smaller of the two
+		public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value == null) return null;
+
+			if (
+				value[0].GetType() != typeof(Double) &&
+				value[1].GetType() != typeof(Double)
+				) return null;
+
+			if (value[0].GetType() != typeof(Double))
+			{
+				return (Double) (value[1]);
+			}
+			else if (value[1].GetType() != typeof(Double))
+			{
+				return (Double) (value[0]);
+			}
+
+			Double primary = (Double) (value[0]);
+			Double test = (Double) (value[1]);
+
+			Double result = primary < test ? primary : test;
+
+			return result;
+		}
+
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			throw  new NotImplementedException();
+		}
+	}
 
 
+	[ValueConversion(null, typeof(Double))]
+	public class InnerWidthConverter : IValueConverter
+	{
+		// value is the basic width (usually the actualwidth)
+		// parameter is the the left and right margin amount
+		// returned number is basic width - (2 * margin amount)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (
+				value == null || value.GetType() != typeof(Double) ||
+				parameter == null || parameter.GetType() != typeof(string)
+				) return null;
 
-//	[ValueConversion(null, typeof(Viewbox))]
-//	public class IconConverter : IMultiValueConverter
-//	{
-//		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-//		{
-//			if (values == null || values[0] == null || parameter == null ||
-//				values[0].GetType() != typeof(ListDictionary) || parameter.GetType() != typeof(string)) return null;
-//
-//			string index = (string) (values[1] ?? parameter);
-//
-//			Viewbox cx = new Viewbox();
-//			cx.Child =  (UIElement) Application.Current.Resources[index];
-//
-//			return cx;
-//		}
-//
-//		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-//		{
-//			throw  new NotImplementedException();
-//		}
-//	}
+			Double width = (Double) (value);
+
+			bool result = double.TryParse((string) parameter, out double margin  );
+
+			if (!result) { margin = 0; }
+
+			return width - (margin * 2);
+		}
+
+		public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
+		{
+			throw  new NotImplementedException();
+		}
+	}
 
 	[ValueConversion(null, typeof(Viewbox))]
 	public class IconNameConverter : IValueConverter

@@ -16,7 +16,8 @@ namespace Sylvester.SavedFolders
 {
 
 	[DataContract]
-	public class SavedFolderProject : IComparable<SavedFolderProject>, IEquatable<SavedFolderProject>, INotifyPropertyChanged
+	public class SavedFolderProject : IComparable<SavedFolderProject>, 
+		IEquatable<SavedFolderProject>, INotifyPropertyChanged
 	{
 		private string icon;
 		private string name;
@@ -97,5 +98,6 @@ namespace Sylvester.SavedFolders
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
 	}
 }

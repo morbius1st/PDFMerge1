@@ -11,6 +11,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.Settings;
@@ -51,6 +52,8 @@ namespace Sylvester.SavedFolders
 
 		private string title;
 
+
+
 		private static SavedFolderManager favoritesMgr;
 		private static SavedFolderManager historyMgr;
 
@@ -64,34 +67,13 @@ namespace Sylvester.SavedFolders
 
 	#region public methods
 
-//		public static SavedFolderManager GetFavoriteManager
-//		{
-//			get
-//			{
-//				if (favoritesMgr == null)
-//					favoritesMgr =
-//						new SavedFolderManager(SavedFolderType.FAVORITES, TODO, "Favorite Folders");
-//
-//				return favoritesMgr;
-//			}
-//		}
-//
-//		public static SavedFolderManager GetHistoryManager
-//		{
-//			get
-//			{
-//				if (historyMgr == null)
-//					historyMgr =
-//						new SavedFolderManager(SavedFolderType.HISTORY, TODO, "History Folders");
-//				return historyMgr;
-//			}
-//		}
-
 		public SavedFolderType FolderType { get; set; }
 
 		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(FolderType);
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
+
+		public static Window Parent { get; set; } 
 
 	#endregion
 
@@ -110,78 +92,16 @@ namespace Sylvester.SavedFolders
 		public bool? ShowSavedFolderWin(SavedFolderOperation folderOp = SavedFolderOperation.MANAGEMENT)
 		{
 			savedWinInstance = new SavedFoldersWin(FolderType, title);
+			savedWinInstance.Owner = Parent;
 			savedWinInstance.SavedFolderOperation = folderOp;
 
-			return savedWinInstance.ShowDialog();
+			bool? result = savedWinInstance.ShowDialog();
+
+			return result;
 		}
 
-//		public void test()
-//		{
-//			savedWinInstance = new SavedFoldersWin(FolderType, title);
-//			savedWinInstance.AddFavorite -= SavedWinInstance_AddFavorite;
-//			savedWinInstance.AddFavorite += SavedWinInstance_AddFavorite;
-//			savedWinInstance.Owner = MainWindow.MainWin;
-//
-//			bool? result = savedWinInstance.ShowDialog();
-//		}
-//
-//		public bool AddProjectFavorite(
-//			FilePath<FileNameSimple> current,
-//			FilePath<FileNameSimple> revision
-//			)
-//		{
-//			bool result = AddProject(current, revision);
-//
-//			if (!result) return false;
-//
-//			savedWinInstance.CollectionUpdated();
-//
-//			return true;
-//		}
-//
-//		public bool AddProjectHistory(
-//			FilePath<FileNameSimple> current,
-//			FilePath<FileNameSimple> revision
-//			)
-//		{
-//			bool result = AddProject(current, revision);
-//
-//			if (!result) return false;
-//
-//			savedWinInstance.CollectionUpdated();
-//
-//			return true;
-//		}
-
-	#endregion
-
-	#region private methods
-
-//		private bool AddProject (
-//			FilePath<FileNameSimple> current,
-//			FilePath<FileNameSimple> revision)
-//		{
-//			string searchKey = SavedFolderProject.MakeFolderProjectKey(current, FolderType);
-//
-//			SavedFolderProject sf = SetgMgr.Instance.FindSavedFolder(searchKey, FolderType);
-//			SavedFolderPair cfp = new SavedFolderPair(current, revision);
-//
-//			if (sf == null)
-//			{
-//				sf = new SavedFolderProject(current, FolderType);
-//				SetgMgr.Instance.AddSavedProjectFolder(sf, FolderType);
-//			}
-//			else
-//			{
-//				if (SetgMgr.Instance.FindSavedFolderPair(sf, cfp.Name) != null) return false;
-//			}
-//
-//			sf.SavedFolderPairs.Add(cfp);
-//
-//			UserSettings.Admin.Write();
-//
-//			return true;
-//		}
+		public FilePath<FileNameSimple> Current => savedWinInstance.SelectedFolderPair?.Current ?? null;
+		public FilePath<FileNameSimple> Revision => savedWinInstance.SelectedFolderPair?.Revision ?? null;
 
 	#endregion
 

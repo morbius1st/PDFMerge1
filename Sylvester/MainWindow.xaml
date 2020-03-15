@@ -100,6 +100,52 @@
 				<Setter Property="VerticalAlignment" Value="Bottom" />
 				<Setter Property="Width" Value="75" />
 			</Style>
+
+
+			<ControlTemplate
+					x:Key="IconControlTemplate"
+					TargetType="{x:Type ButtonBase}"
+					>
+				<Border
+						x:Name="border"
+						SnapsToDevicePixels="True"
+						Background="{TemplateBinding Background}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						>
+					<ContentPresenter
+							x:Name="contentPresenter"
+							Content="{TemplateBinding Content}"
+							Margin="{TemplateBinding Padding}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							ContentStringFormat="{TemplateBinding ContentStringFormat}"
+							Focusable="False"
+							RecognizesAccessKey="True"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+				</Border>
+				<ControlTemplate.Triggers>
+					<Trigger Property="Button.IsDefaulted" Value="True">
+						<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+					</Trigger>
+					<Trigger Property="IsMouseOver" Value="True">
+						<Setter Property="Foreground" Value="{StaticResource MouseOver.Foreground}" />
+						<Setter TargetName="border" Property="Background" Value="{StaticResource MouseOver.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MouseOver.Border}" />
+					</Trigger>
+					<Trigger Property="IsPressed" Value="True">
+						<Setter TargetName="border" Property="Background" Value="{StaticResource Pressed.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Pressed.Border}" />
+					</Trigger>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{StaticResource Disabled.Foreground}" />
+						<Setter TargetName="border" Property="Background" Value="{StaticResource Disabled.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Disabled.Border}" />
+					</Trigger>
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
 		</ResourceDictionary>
 
 
@@ -143,6 +189,7 @@
 						x:Name="btnScan"
 						Content="Scan Both"
 						Margin="7,7,7,0"
+						Height="28"
 						HorizontalAlignment="Left"
 						Style="{StaticResource btn}"
 						>
@@ -150,10 +197,12 @@
 						<MultiBinding Converter="{StaticResource converter}">
 							<Binding
 									ElementName="mainwin"
+									FallbackValue="false"
 									Path="pm.FileCollectionCurrent.HasFolder"
 									/>
 							<Binding
 									ElementName="mainwin"
+									FallbackValue="false"
 									Path="pm.FileCollectionRevision.HasFolder"
 									/>
 						</MultiBinding>
@@ -190,11 +239,13 @@
 				<Button
 						x:Name="btnFavorites"
 						Margin="7,7,7,0"
-						Width="30"
+						Width="28"
+						Height="28"
 						HorizontalAlignment="Left"
 						Background="{StaticResource Button.Static.Background}"
 						Click="BtnFavorites_OnClick"
 						Style="{StaticResource btn}"
+						Template="{DynamicResource IconControlTemplate}"
 						>
 					<Button.Content>
 						<StackPanel
@@ -202,24 +253,46 @@
 								Orientation="Horizontal"
 								>
 							<Path
-									Margin="0,0,0,2"
-									Width="20"
+									Margin="0,2,0,2"
+									Width="22"
 									Data="{StaticResource Icon.Svg.Favorite}"
 									Fill="{StaticResource Path.Favorite.Fill2}"
 									Stretch="Uniform"
 									/>
 						</StackPanel>
 					</Button.Content>
+					<!-- <Button.Template> -->
+					<!-- 	<ControlTemplate TargetType="Button"> -->
+					<!--  <StackPanel  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  Orientation="Horizontal"  -->
+					<!--  >  -->
+					<!--  <Path Margin="0,0,0,2"  -->
+					<!--  Width="20"  -->
+					<!--  Data="{StaticResource Icon.Svg.Favorite}"  -->
+					<!--  Fill="{StaticResource Path.Favorite.Fill2}"  -->
+					<!--  Stretch="Uniform" />  -->
+					<!-- 		</StackPanel> -->
+					<!-- 		<ControlTemplate.Triggers> -->
+					<!-- 			<Trigger Property="IsPressed" Value="True"> -->
+					<!-- 				<Setter Property="Background" Value="#ff555555"></Setter> -->
+					<!-- 			</Trigger> -->
+					<!-- 		</ControlTemplate.Triggers> -->
+					<!-- 	</ControlTemplate> -->
+					<!-- </Button.Template> -->
+
 				</Button>
 
 				<Button
 						x:Name="btnHistory"
 						Margin="7,7,7,0"
-						Width="30"
+						Width="28"
+						Height="28"
 						HorizontalAlignment="Left"
 						Background="{StaticResource Button.Static.Background}"
 						Click="BtnHistory_OnClick"
 						Style="{StaticResource btn}"
+						Template="{DynamicResource IconControlTemplate}"
 						>
 					<Button.Content>
 						<StackPanel
@@ -227,8 +300,8 @@
 								Orientation="Horizontal"
 								>
 							<Path
-									Margin="0,0,0,2"
-									Width="20"
+									Margin="0,0,1,1"
+									Width="22"
 									Data="{StaticResource Icon.Svg.History}"
 									Fill="{StaticResource Path.History.Fill}"
 									Stretch="Uniform"
@@ -537,7 +610,7 @@
 																Path=pm.CvFinal,
 																FallbackValue={x:Null}}"
 					ScrollViewer.CanContentScroll="False"
-					Background="#444444"
+					Background="#333333"
 					Foreground="White"
 					IsSynchronizedWithCurrentItem="True"
 					ItemContainerStyle="{DynamicResource ListViewItemStyle2}"

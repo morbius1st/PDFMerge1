@@ -5,6 +5,7 @@
 		xmlns:sylvester="clr-namespace:Sylvester"
 		xmlns:system="clr-namespace:System;assembly=mscorlib"
 		xmlns:userControls="clr-namespace:Sylvester.UserControls"
+		xmlns:utilityLibrary="clr-namespace:UtilityLibrary"
 		>
 
 	<system:Double x:Key="Button.Height">30</system:Double>
@@ -18,13 +19,23 @@
 	<Thickness x:Key="FldrRtTxFntMargin">0,-1,0,2</Thickness>
 	<Thickness x:Key="ButtonMargin">0,0,6,6</Thickness>
 
-	<SolidColorBrush x:Key="FldrRtFntBrush">#cccccc</SolidColorBrush>
-	<SolidColorBrush x:Key="Background">#333333</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill">OrangeRed</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill2">#FF581A</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.History.Fill">#00efff</SolidColorBrush>
-	<SolidColorBrush x:Key="Button.Static.Background">#444444</SolidColorBrush>
+	<SolidColorBrush x:Key="FldrRtFntBrush"              >#cccccc</SolidColorBrush>
+	<SolidColorBrush x:Key="Background"                  >#333333</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill"          >OrangeRed</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill2"         >#FF581A</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Plus.Fill"              >Lime</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.History.Fill"           >#00efff</SolidColorBrush>
+	<SolidColorBrush x:Key="Button.Static.Background"    >#444444</SolidColorBrush>
+
+	<SolidColorBrush x:Key="MouseOver.Foreground"        >White</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border.Background" >#FF3A779B</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border"            >#FFC7EAFF</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border.Background"   >#FFC4E5F6</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border"              >#FF2C628B</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Foreground"         >#FFCACACA</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border.Background"  >#FF727272</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border"             >#FFADB2B5</SolidColorBrush>
+
 
 	<Geometry x:Key="Icon.Rect">F1M0,0 32,0 32,32 0,32 0,0z</Geometry>
 	<Geometry x:Key="Icon.Svg.Favorite">F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z</Geometry>
@@ -73,6 +84,7 @@
 		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRtObBtnHeight}" />
 		<Setter Property="TextFontSize" Value="{StaticResource FldrRtTxFntSize}" />
 		<Setter Property="TextMargin" Value="{StaticResource FldrRtTxFntMargin}" />
+
 	</Style>
 
 	<Style
