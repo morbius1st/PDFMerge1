@@ -21,8 +21,8 @@ namespace Sylvester
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 
-		public double MIN_WIDTH { get; } = 1300;
-		public double MIN_HEIGHT { get; }  = 850;
+		public double MIN_WIDTH { get; } = 1500;
+		public double MIN_HEIGHT { get; }  = 1050;
 
 		private bool compare = false;
 		private bool go = false;

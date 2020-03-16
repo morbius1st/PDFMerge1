@@ -1169,7 +1169,30 @@
 
 				</DockPanel>
 
-				<DockPanel Margin="0,0,0,3">
+				<DockPanel Name="DockPanelCurrentFolder"
+						Margin="0,0,0,3">
+					<DockPanel.Style>
+						<Style TargetType="DockPanel">
+							<Setter Property="Visibility"
+									Value="Collapsed" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderOperation, 
+										FallbackValue={x:Static local:SavedFolderOperation.GET_CURRENT}}"
+										Value="{x:Static local:SavedFolderOperation.GET_CURRENT}">
+									<Setter Property="Visibility"
+											Value="Visible">
+									</Setter>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderOperation, 
+										FallbackValue={x:Static local:SavedFolderOperation.MANAGEMENT}}"
+										Value="{x:Static local:SavedFolderOperation.MANAGEMENT}">
+									<Setter Property="Visibility"
+											Value="Visible">
+									</Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</DockPanel.Style>
 					<Label
 							Content="Current Folder"
 							Margin="0,0,0,3"
@@ -1201,11 +1224,28 @@
 							</Style>
 						</user:FolderRoute.Style>
 					</user:FolderRoute>
-
-
 				</DockPanel>
 
-				<DockPanel Margin="0,0,0,3">
+				<DockPanel 
+						Name="DockPanelRevisionFolder"
+						Margin="0,0,0,3">
+					<DockPanel.Style>
+						<Style TargetType="DockPanel">
+							<Setter Property="Visibility" Value="Collapsed"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderOperation, 
+										FallbackValue={x:Static local:SavedFolderOperation.GET_REVISION}}" 
+										Value="{x:Static local:SavedFolderOperation.GET_REVISION}">
+									<Setter Property="Visibility" Value="Visible"></Setter>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding ElementName=SavedFolderWin, Path=SavedFolderOperation, 
+										FallbackValue={x:Static local:SavedFolderOperation.MANAGEMENT}}" 
+										Value="{x:Static local:SavedFolderOperation.MANAGEMENT}">
+									<Setter Property="Visibility" Value="Visible"></Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</DockPanel.Style>
 					<Label
 							Content="Revision Folder"
 							Margin="0,0,0,3"

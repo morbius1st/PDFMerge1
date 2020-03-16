@@ -42,14 +42,14 @@ namespace Sylvester.Settings
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "AppSettingData30")]
-	public class AppSettingData30
+	public partial class AppSettingData30
 	{
 		[DataMember(Order = 1)]
 		public bool AllowPropertyEditing { get; set; } = false;
 
-		[DataMember(Order = 2)]
-		public bool DebugMode { get; set; } = true;
-
+//		[DataMember(Order = 2)]
+//		public bool DebugMode { get; set; } = true;
+//
 //		[DataMember(Order = 2)]
 //		public bool AppB { get; set; } = false;
 //
@@ -80,7 +80,7 @@ namespace Sylvester.Settings
 		[DataMember]
 		public AppSettingData30 Data = new AppSettingData30();
 
-		public override string ClassVersion => "0.0";
+		public override string ClassVersion => "1.0";
 
 		public override void UpgradeFromPrior(SettingBase prior)
 		{

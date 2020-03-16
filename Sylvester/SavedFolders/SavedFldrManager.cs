@@ -49,7 +49,7 @@ namespace Sylvester.SavedFolders
 		// one for favorite
 		private static SavedFoldersWin savedWinInstance;
 
-		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
+//		private SavedFoldersDebugSupport sfds = SavedFoldersDebugSupport.Instance;
 
 		private string title;
 
@@ -120,4 +120,8 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 	}
+
+
+
+
 }

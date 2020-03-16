@@ -35,11 +35,11 @@ namespace Sylvester.Settings
 
 	#region app settings
 
-		public static bool DebugMode
-		{
-			get => AppSettings.Data.DebugMode;
-			set => AppSettings.Data.DebugMode = value;
-		}
+//		public static bool DebugMode
+//		{
+//			get => AppSettings.Data.DebugMode;
+//			set => AppSettings.Data.DebugMode = value;
+//		}
 
 		public static bool AllowPropertyEditing => AppSettings.Data.AllowPropertyEditing;
 

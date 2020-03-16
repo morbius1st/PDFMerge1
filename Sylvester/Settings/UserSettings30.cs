@@ -6,7 +6,7 @@ using Sylvester.Process;
 using UtilityLibrary;
 
 // projname: SettingsManagerV30
-// itemname: UserSettingInfo22
+// itemname: SettingsUser30
 // username: jeffs
 // created:  12/23/2018 1:14:35 PM
 

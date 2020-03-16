@@ -93,6 +93,7 @@
       <DependentUpon>CsMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
+    <Compile Include="Settings\AppSetgData30.cs" />
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="UserControls\PathChangeArgs.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="FileSupport\ReadFiles.cs" />
     <Compile Include="FileSupport\SheetNameInfo.cs" />
     <Compile Include="FileSupport\FileCurrent.cs" />
-    <Compile Include="SavedFolders\SavedFoldersDebugSupport.cs" />
     <Compile Include="Support\Support.cs" />
     <Compile Include="FileSupport\FileFinal.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="FolderSupport\FolderManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
-    <Compile Include="Settings\SettingsUser30.cs" />
+    <Compile Include="Settings\UserSettings30.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>
     </Compile>

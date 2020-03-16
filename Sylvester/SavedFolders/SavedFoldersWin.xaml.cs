@@ -69,6 +69,7 @@ namespace Sylvester.SavedFolders
 		private string NewProjectName;
 		private string NewFolderPairName;
 
+
 //		private int projectFolderIdx = 0;
 //		private int pairFolderIdx = 0;
 
@@ -97,21 +98,25 @@ namespace Sylvester.SavedFolders
 		public static double MIN_WIDTH { get; } = 850;
 		public static double MIN_HEIGHT { get; }  = 530;
 
-		public bool DebugMode
-		{
-			get => SetgMgr.DebugMode;
-			set
-			{
-				SetgMgr.DebugMode = value;
-				OnPropertyChange();
-			}
-		}
+//		public bool DebugMode
+//		{
+//			get => SetgMgr.DebugMode;
+//			set
+//			{
+//				SetgMgr.DebugMode = value;
+//				OnPropertyChange();
+//			}
+//		}
 
 		public string WinTitle
 		{
-			get => winTitle + " (" +
-				SavedFolderOperation.ToString() +
-				")";
+			get
+			{
+				string title = "";
+
+				return winTitle + " " +
+					AppSettingData30.SavedFolderOperationDesc[(int) savedFolderOperation, 0];
+			}
 		}
 
 		public SavedFolderOperation SavedFolderOperation
@@ -248,16 +253,8 @@ namespace Sylvester.SavedFolders
 		{
 			get
 			{
-				if (savedFolderOperation == SavedFolderOperation.GET_CURRENT)
-				{
-					return "Selecting a Current Folder";
-				}
-				else if (savedFolderOperation == SavedFolderOperation.GET_REVISION)
-				{
-					return "Selecting a Revision Folder";
-				}
+				return AppSettingData30.SavedFolderOperationDesc[(int) savedFolderOperation, 1];
 
-				return null;
 			}
 		}
 
@@ -550,7 +547,6 @@ namespace Sylvester.SavedFolders
 	#endif
 
 	#endregion
-
 	}
 
 	public class SavedFolderInformation : DependencyObject

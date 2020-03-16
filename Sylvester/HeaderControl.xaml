@@ -8,7 +8,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
-		d:DesignHeight="80"
+
 		d:DesignWidth="600"
 		mc:Ignorable="d"
 		>
@@ -41,79 +41,42 @@
 		</Style>
 
 	</UserControl.Resources>
+
 	<StackPanel Orientation="Vertical">
+		<!-- -->
+		<!-- <StackPanel -->
+		<!-- 		Margin="0" -->
+		<!-- 		HorizontalAlignment="Stretch" -->
+		<!-- 		Orientation="Horizontal" -->
+		<!-- 		Background="#395482CD" -->
+		<!-- 		> -->
+		<!-- -->
+		<!-- 	<Label -->
+		<!-- 			Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}" -->
+		<!-- 			Margin="3,-3,0,-1" -->
+		<!-- 			FontSize="22" -->
+		<!-- 			Style="{StaticResource label}" -->
+		<!-- 			/> -->
+		<!-- </StackPanel> -->
 
-		<StackPanel
-				Margin="0"
+		<DockPanel Margin="0"
 				HorizontalAlignment="Stretch"
-				Orientation="Horizontal"
-				Background="#395482CD"
 				>
 
-			<Label
-					Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}"
-					Margin="3,-3,0,-1"
-					FontSize="22"
-					Style="{StaticResource label}"
-					/>
-		</StackPanel>
-
-		<DockPanel Margin="{Binding TitleBarMargin, ElementName=headerControl}"
-				HorizontalAlignment="Stretch"
-				>
-
-			<DockPanel Margin="0,0,0,0"
-					HorizontalAlignment="Stretch"
-					
-					>
-				<!-- -->
-				<!-- <ScrollViewer x:Name="RevisionScrollBar" -->
-				<!-- 		DockPanel.Dock="Top" -->
-				<!-- 		MinWidth="8" -->
-				<!-- 		MinHeight="8" -->
-				<!-- 		HorizontalScrollBarVisibility="Visible" -->
-				<!-- 		VerticalScrollBarVisibility="Hidden" -->
-				<!-- 		Template="{DynamicResource ScrollViewerNarrow}"> -->
-
-				<user:FolderRoute
-						x:Name="FolderRoute"
+				<Grid Margin="0,0,0,5" 
 						DockPanel.Dock="Top"
-						ObliqueButtonHeight="14"
-						Margin="4,4,0,-2"
-						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=24}"
-						VerticalAlignment="Bottom"
-						FontBrush="{Binding ElementName=headerControl, Path=FontBrush}"
-						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
-						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize, FallbackValue=8}"
-						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
-						>
-					<user:FolderRoute.Style>
-						<Style TargetType="user:FolderRoute">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding ElementName=headerControl, Path=HideDirectory}" Value="true">
-									<Setter Property="Visibility" Value="Hidden" />
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</user:FolderRoute.Style>
-				</user:FolderRoute>
-				<!-- </ScrollViewer> -->
-
-				<Grid Margin="0,3,0,0" 
-						DockPanel.Dock="bottom"
 						VerticalAlignment="Stretch">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
-						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 
-
-					<StackPanel Grid.Row="1" Orientation="Horizontal">
+					<StackPanel Grid.Row="0" Orientation="Horizontal">
 
 						<Label
 								Content="File Summary"
 								Width="80"
 								Style="{StaticResource label}"
+								Margin="{Binding ElementName=headerControl, Path=TitleBarMargin}"
 								/>
 						<StackPanel Width="80" Orientation="Horizontal">
 							<Label Content="Total" Style="{StaticResource lblStats}" />
@@ -150,7 +113,35 @@
 								/>
 					</StackPanel>
 				</Grid>
+
+			<!-- <DockPanel Margin="0,0,0,0" -->
+			<!-- 		HorizontalAlignment="Stretch" -->
+			<!-- > -->
+				<user:FolderRoute
+						x:Name="FolderRoute"
+						DockPanel.Dock="Bottom"
+						ObliqueButtonHeight="14"
+						Margin="0,9,0,0"
+						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=24}"
+						VerticalAlignment="Bottom"
+						FontBrush="{Binding ElementName=headerControl, Path=FontBrush}"
+						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
+						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize, FallbackValue=8}"
+						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
+						>
+					<user:FolderRoute.Style>
+						<Style TargetType="user:FolderRoute">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=headerControl, Path=HideDirectory}" Value="true">
+									<Setter Property="Visibility" Value="Hidden" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</user:FolderRoute.Style>
+				</user:FolderRoute>
+				<!-- </ScrollViewer> -->
+
 			</DockPanel>
-		</DockPanel>
+		<!-- </DockPanel> -->
 	</StackPanel>
 </UserControl>
