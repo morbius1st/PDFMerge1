@@ -67,19 +67,9 @@ namespace Sylvester.Process
 
 		public ProcessManager() { //}
 
-//		public ProcessManager(HeaderControl hcCurrent, HeaderControl hcRevision)
-//		{
-//			_fmCurrent = new FolderManager(FolderType.CURRENT.Value(), hcCurrent);
-//			_fmCurrent.FolderChange += OnCurrentFolderChange;
-//
-//			_fmRevision = new FolderManager(FolderType.REVISION.Value(), hcRevision);
-//			_fmRevision.FolderChange += OnRevisionFolderChange;
-
 			FileCollectionCurrent = new FilesCollection<FileCurrent>();
 			FileCollectionRevision = new FilesCollection<FileRevision>();
 			FileCollectionFinal = new FilesCollection<FileFinal>();
-
-//			FileRevision rf = new FileRevision();
 
 			sfmHistory = SavedFolderManager.GetHistoryManager();
 
@@ -100,6 +90,7 @@ namespace Sylvester.Process
 			{
 				cvCurrent = value;
 				OnPropertyChange();
+				OnPropertyChange("HasCurrentItems");
 			}
 		}
 
@@ -110,6 +101,7 @@ namespace Sylvester.Process
 			{
 				cvRevision = value;
 				OnPropertyChange();
+				OnPropertyChange("HasRevisionItems");
 			}
 		}
 
@@ -253,7 +245,7 @@ namespace Sylvester.Process
 
 			if (!result)
 			{
-				fileReadFail();
+//				fileReadFail();
 				return false;
 			}
 
@@ -268,7 +260,7 @@ namespace Sylvester.Process
 
 			if (!result)
 			{
-				fileReadFail();
+//				fileReadFail();
 				return false;
 			}
 

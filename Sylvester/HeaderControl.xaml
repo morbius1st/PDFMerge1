@@ -8,13 +8,15 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
-
 		d:DesignWidth="600"
 		mc:Ignorable="d"
 		>
 	<UserControl.Resources>
 
-		<Style x:Key="label" TargetType="Label">
+		<Style
+				x:Key="label"
+				TargetType="Label"
+				>
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -40,108 +42,196 @@
 			<Setter Property="Margin" Value="6,0,0,0" />
 		</Style>
 
+		<Style
+				x:Key="FileSummary.Panel"
+				TargetType="StackPanel"
+				>
+			<Setter Property="Width" Value="120" />
+			<Setter Property="Orientation" Value="Horizontal" />
+		</Style>
+
+		<Style
+				x:Key="FileSummary.Panel.Show"
+				TargetType="StackPanel"
+				BasedOn="{StaticResource FileSummary.Panel}"
+				>
+			<Setter Property="Visibility" Value="Visible" />
+			<Style.Triggers>
+				<DataTrigger
+						Binding="{Binding Path=FilesFound,
+															FallbackValue=''}"
+						Value="0"
+						>
+					<Setter Property="Visibility" Value="Collapsed" />
+				</DataTrigger>
+				<DataTrigger
+						Binding="{Binding Path=SheetPdfs,
+															FallbackValue=''}"
+						Value="0"
+						>
+					<Setter Property="Visibility" Value="Collapsed" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style
+				x:Key="FileSummary.Panel.Hide.SheetPdfs"
+				TargetType="StackPanel"
+				BasedOn="{StaticResource FileSummary.Panel}"
+				>
+			<Setter Property="Visibility" Value="Collapsed" />
+			<Style.Triggers>
+				<DataTrigger
+						Binding="{Binding Path=SheetPdfs,
+															FallbackValue=''}"
+						Value="0"
+						>
+					<Setter Property="Visibility" Value="Visible" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Vertical">
-		<!-- -->
-		<!-- <StackPanel -->
-		<!-- 		Margin="0" -->
-		<!-- 		HorizontalAlignment="Stretch" -->
-		<!-- 		Orientation="Horizontal" -->
-		<!-- 		Background="#395482CD" -->
-		<!-- 		> -->
-		<!-- -->
-		<!-- 	<Label -->
-		<!-- 			Content="{Binding Title, ElementName=headerControl, FallbackValue=Current}" -->
-		<!-- 			Margin="3,-3,0,-1" -->
-		<!-- 			FontSize="22" -->
-		<!-- 			Style="{StaticResource label}" -->
-		<!-- 			/> -->
-		<!-- </StackPanel> -->
 
-		<DockPanel Margin="0"
+		<DockPanel
+				Margin="0"
 				HorizontalAlignment="Stretch"
 				>
 
-				<Grid Margin="0,0,0,5" 
-						DockPanel.Dock="Top"
-						VerticalAlignment="Stretch">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
+			<Grid
+					Margin="0,0,0,5"
+					VerticalAlignment="Stretch"
+					DockPanel.Dock="Top"
+					>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
 
-					<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<StackPanel
+						Grid.Row="0"
+						Orientation="Horizontal"
+						>
+					<Label
+							Content="File Summary |"
+							Margin="{Binding ElementName=headerControl,
+															 Path=TitleBarMargin}"
+							Width="80"
+							Style="{StaticResource label}"
+							/>
 
+					<StackPanel
+							Width="250"
+							Style="{StaticResource FileSummary.Panel.Hide.SheetPdfs}"
+							>
 						<Label
-								Content="File Summary"
-								Width="80"
-								Style="{StaticResource label}"
-								Margin="{Binding ElementName=headerControl, Path=TitleBarMargin}"
+								Content="Folder does not contain any Sheet PDFs"
+								Style="{StaticResource lblStats}"
 								/>
-						<StackPanel Width="80" Orientation="Horizontal">
-							<Label Content="Total" Style="{StaticResource lblStats}" />
-							<Label Content="{Binding Path=FilesFound, FallbackValue=0}" Style="{StaticResource lblCount}" />
-						</StackPanel>
+					</StackPanel>
 
-						<StackPanel Width="120" Orientation="Horizontal">
-							<Label Content="Sheets PDF's" Style="{StaticResource lblStats}" />
-							<Label Content="{Binding Path=SheetPdfs, FallbackValue=0}" Style="{StaticResource lblCount}" />
-						</StackPanel>
+					<StackPanel
+							Width="80"
+							Style="{StaticResource FileSummary.Panel.Show}"
+							>
+						<Label
+								Content="Total"
+								Style="{StaticResource lblStats}"
+								/>
+						<Label
+								Content="{Binding Path=FilesFound,
+																	FallbackValue=0}"
+								Style="{StaticResource lblCount}"
+								/>
+					</StackPanel>
 
-						<StackPanel Width="120" Orientation="Horizontal">
-							<Label
-									Content="Other PDF's"
-									Foreground="LightGray"
-									Style="{StaticResource lblStats}"
-									/>
-							<Label
-									Content="{Binding Path=NonSheetPdfsFiles, FallbackValue=0}"
-									Foreground="LightGray"
-									Style="{StaticResource lblCount}"
-									/>
-						</StackPanel>
+					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
+						<Label
+								Content="Sheets PDF's"
+								Style="{StaticResource lblStats}"
+								/>
+						<Label
+								Content="{Binding Path=SheetPdfs,
+																	FallbackValue=0}"
+								Style="{StaticResource lblCount}"
+								/>
+					</StackPanel>
 
+					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
+						<Label
+								Content="Other PDF's"
+								Foreground="LightGray"
+								Style="{StaticResource lblStats}"
+								/>
+						<Label
+								Content="{Binding Path=NonSheetPdfsFiles,
+																	FallbackValue=0}"
+								Foreground="LightGray"
+								Style="{StaticResource lblCount}"
+								/>
+					</StackPanel>
+
+					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
 						<Label
 								Content="Other Files"
 								Foreground="#bababa"
 								Style="{StaticResource lblStats}"
 								/>
 						<Label
-								Content="{Binding Path=OtherFiles, FallbackValue=0}"
+								Content="{Binding Path=OtherFiles,
+																	FallbackValue=0}"
 								Foreground="#bababa"
 								Style="{StaticResource lblCount}"
 								/>
 					</StackPanel>
-				</Grid>
+				</StackPanel>
+			</Grid>
 
-			<!-- <DockPanel Margin="0,0,0,0" -->
-			<!-- 		HorizontalAlignment="Stretch" -->
-			<!-- > -->
-				<user:FolderRoute
-						x:Name="FolderRoute"
-						DockPanel.Dock="Bottom"
-						ObliqueButtonHeight="14"
-						Margin="0,9,0,0"
-						Height="{Binding ElementName=headerControl, Path=FolderRouteHeight, FallbackValue=24}"
-						VerticalAlignment="Bottom"
-						FontBrush="{Binding ElementName=headerControl, Path=FontBrush}"
-						ProposedObliqueButtonType="{Binding ElementName=headerControl, Path=FolderPathType, FallbackValue=7}"
-						TextFontSize="{Binding ElementName=headerControl, Path=TextFontSize, FallbackValue=8}"
-						TextMargin="{Binding ElementName=headerControl, Path=TextMargin}"
-						>
-					<user:FolderRoute.Style>
-						<Style TargetType="user:FolderRoute">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding ElementName=headerControl, Path=HideDirectory}" Value="true">
-									<Setter Property="Visibility" Value="Hidden" />
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</user:FolderRoute.Style>
-				</user:FolderRoute>
-				<!-- </ScrollViewer> -->
+			<!--  <DockPanel Margin="0,0,0,0"  -->
+			<!--  HorizontalAlignment="Stretch"  -->
+			<!--  >  -->
+			<user:FolderRoute
+					x:Name="FolderRoute"
+					Margin="0,9,0,0"
+					Height="{Binding ElementName=headerControl,
+													 Path=FolderRouteHeight,
+													 FallbackValue=24}"
+					VerticalAlignment="Bottom"
+					FontBrush="{Binding ElementName=headerControl,
+															Path=FontBrush}"
+					DockPanel.Dock="Bottom"
+					ObliqueButtonHeight="{Binding ElementName=headerControl,
+																				Path=ObliqueButtonHeight}"
+					ObliqueButtonMargin="{Binding ElementName=headerControl,
+																				Path=ObliqueButtonMargin}"
+					ProposedObliqueButtonType="{Binding ElementName=headerControl,
+																							Path=FolderPathType,
+																							FallbackValue=7}"
+					TextFontSize="{Binding ElementName=headerControl,
+																 Path=TextFontSize,
+																 FallbackValue=8}"
+					TextMargin="{Binding ElementName=headerControl,
+															 Path=TextMargin}"
+					>
+				<user:FolderRoute.Style>
+					<Style TargetType="user:FolderRoute">
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding ElementName=headerControl,
+																		Path=HideDirectory}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Hidden" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</user:FolderRoute.Style>
+			</user:FolderRoute>
+			<!-- </ScrollViewer> -->
 
-			</DockPanel>
+		</DockPanel>
 		<!-- </DockPanel> -->
 	</StackPanel>
 </UserControl>

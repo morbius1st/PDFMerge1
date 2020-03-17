@@ -126,7 +126,15 @@ namespace Sylvester.UserControls
 			ob.Name = $"obx_{index:D3}";
 			ob.Text = text;
 			ob.Index = index;
-			ob.Style = (Style) folderRoute.FindResource("ObText");
+
+			if (index == 0)
+			{
+				ob.Style = (Style) folderRoute.FindResource("ObBtn");
+			}
+			else
+			{
+				ob.Style = (Style) folderRoute.FindResource("ObText");
+			}
 
 			ob.InnerButton.Click += InnerButton_Click;
 
@@ -241,6 +249,15 @@ namespace Sylvester.UserControls
 			set { SetValue(ProposedObliqueButtonTypeProperty, value); }
 		}
 
+		public static readonly DependencyProperty ObliqueButtonMarginProperty = DependencyProperty.Register(
+			"ObliqueButtonMargin", typeof(Thickness), typeof(FolderRoute), new PropertyMetadata(new Thickness(0)));
+
+		public Thickness ObliqueButtonMargin
+		{
+			get { return (Thickness) GetValue(ObliqueButtonMarginProperty); }
+			set { SetValue(ObliqueButtonMarginProperty, value); }
+		}
+
 
 		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
 			"TextMargin", typeof(Thickness), typeof(FolderRoute), new PropertyMetadata(new Thickness(0)));
@@ -276,7 +293,7 @@ namespace Sylvester.UserControls
 
 		public FilePath<FileNameSimple> FilePath
 		{
-			get => (FilePath<FileNameSimple>) GetValue(FilePathProperty); 
+			get => (FilePath<FileNameSimple>) GetValue(FilePathProperty);
 			set
 			{
 				Path = value;

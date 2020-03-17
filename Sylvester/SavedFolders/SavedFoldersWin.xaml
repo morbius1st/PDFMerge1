@@ -1346,6 +1346,7 @@
 			</DockPanel>
 
 		</Grid>
+
 		<!--    -->
 		<!--  <Grid  -->
 		<!--  x:Name="DebugPanel"  -->

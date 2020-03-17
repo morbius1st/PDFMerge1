@@ -10,7 +10,6 @@
 		d:DesignHeight="23"
 		d:DesignWidth="250"
 		mc:Ignorable="d"
-
 		>
 	<UserControl.Resources>
 
@@ -20,6 +19,7 @@
 				x:Key="ObliqueButtonStyle"
 				TargetType="local:ObliqueButton"
 				>
+			<Setter Property="ObliqueButtonMargin" Value="0" />
 			<Setter Property="Height" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonHeight, FallbackValue=14}" />
 			<Setter Property="Visibility">
 				<Setter.Value>
@@ -46,13 +46,22 @@
 		</Style>
 
 		<Style
-				x:Key="ObText"
+				x:Key="ObBtnStyle"
+				TargetType="local:ObliqueButton"
+				BasedOn="{StaticResource ObliqueButtonStyle}"
+				>
+			<Setter Property="ObliqueButtonMargin" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonMargin}" />
+		</Style>
+
+		<Style
+				x:Key="ObBtn"
 				TargetType="local:ObliqueButton"
 				BasedOn="{StaticResource ObliqueButtonStyle}"
 				>
 			<Setter Property="FontBrush" Value="{Binding ElementName=folderRoute, Path=FontBrush, FallbackValue=white}" />
 			<Setter Property="TextMargin" Value="{Binding ElementName=folderRoute, Path=TextMargin, FallbackValue='0,0,0,0'}" />
 			<Setter Property="FontSize" Value="{Binding ElementName=folderRoute, Path=TextFontSize, FallbackValue=8.0}" />
+			<Setter Property="ObliqueButtonMargin" Value="0" />
 			<Setter Property="ObliqueButtonType" Value="TEXT" />
 			<Setter Property="ShowArrow" Value="True" />
 			<Setter Property="ShowText" Value="True" />
@@ -60,19 +69,25 @@
 			<Setter Property="DockPanel.Dock" Value="Left" />
 		</Style>
 
+		<Style
+				x:Key="ObText"
+				TargetType="local:ObliqueButton"
+				BasedOn="{StaticResource ObBtn}"
+				>
+			<Setter Property="ObliqueButtonMargin" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonMargin}" />
+		</Style>
+
 	</UserControl.Resources>
 
 	<DockPanel
 			x:Name="PathDockPanel"
 			Margin="0"
+			Width="{Binding ElementName=folderRoute,
+											Path=ActualWidth}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			Width="{Binding ElementName=folderRoute, Path=ActualWidth}"
 			>
-		<DockPanel
-				Margin="0,0,12,0"
-
-				>
+		<DockPanel Margin="0,0,12,0">
 			<Rectangle
 					Width="Auto"
 					Height="8"
@@ -92,7 +107,7 @@
 					ShowFavorite="True"
 					BorderBrush="Gray"
 					FavoritesBrush="OrangeRed"
-					Style="{StaticResource ObliqueButtonStyle}"
+					Style="{StaticResource ObBtnStyle}"
 					/>
 			<!--  ObliqueButtonType="4"  -->
 
@@ -106,7 +121,7 @@
 					ShowHistory="True"
 					BorderBrush="Gray"
 					HistoryBrush="#00efff"
-					Style="{StaticResource ObliqueButtonStyle}"
+					Style="{StaticResource ObBtnStyle}"
 					/>
 			<!--  ObliqueButtonType="8"  -->
 
@@ -120,7 +135,7 @@
 					ShowPlus="True"
 					BorderBrush="Gray"
 					PlusBrush="Lime"
-					Style="{StaticResource ObliqueButtonStyle}"
+					Style="{StaticResource ObBtnStyle}"
 					/>
 
 		</DockPanel>
@@ -129,7 +144,7 @@
 		<!--  ObliqueButtonType="2"  -->
 		<ScrollViewer
 				x:Name="ScrollBar"
-				Margin="0,0,0,0"
+				Margin="-6,0,0,0"
 				Padding="0"
 				VerticalContentAlignment="Stretch"
 				HorizontalScrollBarVisibility="Visible"
@@ -145,12 +160,15 @@
 					>
 				<local:ObliqueButton
 						x:Name="BtnText"
+						Margin="0,0,0,0"
 						Padding="0"
 						VerticalAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
+						FontSize="{Binding ElementName=folderRoute,
+															 Path=TextFontSize}"
 						Button.Click="InnerButton_Click"
 						Index="-1"
-						Style="{StaticResource ObText}"
+						Style="{StaticResource ObBtn}"
 						/>
 
 			</DockPanel>

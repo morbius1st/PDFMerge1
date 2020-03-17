@@ -10,14 +10,9 @@
 
 	<system:Double x:Key="Button.Height">30</system:Double>
 	<system:Double x:Key="Button.Width">64</system:Double>
-
-	<system:Double x:Key="FldrRtHeight">24</system:Double>
-	<system:Double x:Key="FldrRtObBtnHeight">14</system:Double>
-	<system:Double x:Key="FldrRtTxFntSize">10</system:Double>
-	<system:Double x:Key="Font.Size.Header">22</system:Double>
-
-	<Thickness x:Key="FldrRtTxFntMargin">0,-1,0,2</Thickness>
 	<Thickness x:Key="ButtonMargin">0,0,6,6</Thickness>
+
+	<system:Double x:Key="Font.Size.Header">22</system:Double>
 
 	<SolidColorBrush x:Key="FldrRtFntBrush"              >#cccccc</SolidColorBrush>
 	<SolidColorBrush x:Key="Background"                  >#333333</SolidColorBrush>
@@ -75,27 +70,43 @@
 		<Setter Property="Margin" Value="10,0,0,10" />
 	</Style>
 
+
+
+
+	<system:Double x:Key="FldrRt.Height">30</system:Double>
+	<system:Double x:Key="FldrRt.ObBtnHeight">17</system:Double>
+	<system:Double x:Key="FldrRt.TxFntSize">12</system:Double>
+	<system:Double x:Key="FldrRt.FntSize">12</system:Double>
+
+	<Thickness x:Key="FldrRt.TxFntMargin">0,0,0,2</Thickness>
+	<Thickness x:Key="FldrRt.ObBtnMargin">-1,0,0,0</Thickness>
+	
 	<Style
 			x:Key="FolderRoute.Style"
 			TargetType="userControls:FolderRoute"
 			>
+		<Setter Property="Height" Value="{StaticResource FldrRt.Height}" />
 		<Setter Property="FontBrush" Value="{StaticResource FldrRtFntBrush}" />
-		<Setter Property="Height" Value="{StaticResource FldrRtHeight}" />
-		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRtObBtnHeight}" />
-		<Setter Property="TextFontSize" Value="{StaticResource FldrRtTxFntSize}" />
-		<Setter Property="TextMargin" Value="{StaticResource FldrRtTxFntMargin}" />
-
+		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRt.ObBtnHeight}" />
+		<Setter Property="TextFontSize" Value="{StaticResource FldrRt.TxFntSize}" />
+		<Setter Property="TextMargin" Value="{StaticResource FldrRt.TxFntMargin}" />
+		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}"/>
+		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}"/>
 	</Style>
 
 	<Style
 			x:Key="HeaderControl.FolderRoute.Style"
 			TargetType="sylvester:HeaderControl"
 			>
-		<Setter Property="FolderRouteHeight" Value="{StaticResource FldrRtHeight}" />
+		<Setter Property="FolderRouteHeight" Value="{StaticResource FldrRt.Height}" />
 		<Setter Property="FontBrush" Value="{StaticResource FldrRtFntBrush}" />
-		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRtObBtnHeight}" />
-		<Setter Property="TextFontSize" Value="{StaticResource FldrRtTxFntSize}" />
-		<Setter Property="TextMargin" Value="{StaticResource FldrRtTxFntMargin}" />
+		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRt.ObBtnHeight}" />
+		<Setter Property="TextFontSize" Value="{StaticResource FldrRt.TxFntSize}" />
+		<Setter Property="TextMargin" Value="{StaticResource FldrRt.TxFntMargin}" />
+		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}"/>
+		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}"/>
+
 	</Style>
+
 
 </ResourceDictionary>

@@ -21,8 +21,8 @@ namespace Sylvester
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 
-		public double MIN_WIDTH { get; } = 1500;
-		public double MIN_HEIGHT { get; }  = 1050;
+		public double MIN_WIDTH { get; } = 1000;
+		public double MIN_HEIGHT { get; }  = 850;
 
 		private bool compare = false;
 		private bool go = false;
@@ -123,14 +123,14 @@ namespace Sylvester
 		{
 			if (!pm.ReadCurrent()) return;
 
-			OnPropertyChange("pm");
+//			OnPropertyChange("pm");
 		}
 
 		private void BtnReadRevision_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (!pm.ReadRevision()) return;
 
-			OnPropertyChange("pm");
+//			OnPropertyChange("pm");
 		}
 
 		private void BtnCompare_OnClick(object sender, RoutedEventArgs e)
@@ -155,7 +155,10 @@ namespace Sylvester
 			if (result == true)
 			{
 				HdrCurrent.SetFolder(favorites.Current);
+				SetgMgr.SetPriorFolder(FolderType.CURRENT, favorites.Current);
+
 				HdrRevision.SetFolder(favorites.Revision);
+				SetgMgr.SetPriorFolder(FolderType.REVISION, favorites.Revision);
 			}
 		}
 
@@ -166,7 +169,10 @@ namespace Sylvester
 			if (result == true)
 			{
 				HdrCurrent.SetFolder(history.Current);
+				SetgMgr.SetPriorFolder(FolderType.CURRENT, history.Current);
+
 				HdrRevision.SetFolder(history.Revision);
+				SetgMgr.SetPriorFolder(FolderType.REVISION, history.Revision);
 			}
 		}
 

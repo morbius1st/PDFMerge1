@@ -1,29 +1,33 @@
-﻿<Window x:Class="Sylvester.MainWindow"
-				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
-				xmlns:local="clr-namespace:Sylvester"
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:sys="clr-namespace:System;assembly=mscorlib"
-				Name="mainwin"
-				Title="MainWindow"
-				Width="{Binding ElementName=mainwin,
+﻿<Window
+		x:Class="Sylvester.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
+		xmlns:local="clr-namespace:Sylvester"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:setg="clr-namespace:Sylvester.Settings"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:user="clr-namespace:Sylvester.UserControls"
+		Name="mainwin"
+		Title="MainWindow"
+		Width="{Binding ElementName=mainwin,
 										Path=MinWidth}"
-				Height="{Binding ElementName=mainwin,
+		Height="{Binding ElementName=mainwin,
 										 Path=MinHeight}"
-				MinWidth="{Binding ElementName=mainwin,
+		MinWidth="{Binding ElementName=mainwin,
 											 Path=MIN_WIDTH,
-											 FallbackValue=1500}"
-				MinHeight="{Binding ElementName=mainwin,
+											 FallbackValue=1000}"
+		MinHeight="{Binding ElementName=mainwin,
 												Path=MIN_HEIGHT,
-												FallbackValue=1050}"
-				DataContext="{Binding ElementName=mainwin,
+												FallbackValue=850}"
+		DataContext="{Binding ElementName=mainwin,
 													Path=pm}"
-				Initialized="Mainwin_Initialized"
-				Loaded="Mainwin_Loaded"
-				mc:Ignorable="d"
-				Background="#333333">
+		Initialized="Mainwin_Initialized"
+		Loaded="Mainwin_Loaded"
+		mc:Ignorable="d"
+		Background="#333333"
+		>
 
 	<Window.Icon>
 		<DrawingImage>
@@ -71,95 +75,88 @@
 			<local:BoolTestConverter x:Key="converter" />
 
 
-			<VisualBrush x:Key="Vb"
-									 Visual="{StaticResource Sylvester}" />
+			<VisualBrush
+					x:Key="Vb"
+					Visual="{StaticResource Sylvester}"
+					/>
 
-			<Style x:Key="control"
-						 TargetType="ContentControl">
-				<Setter Property="Foreground"
-								Value="White" />
-				<Setter Property="HorizontalAlignment"
-								Value="Left" />
-				<Setter Property="HorizontalContentAlignment"
-								Value="Left" />
-				<Setter Property="Margin"
-								Value="0" />
-				<Setter Property="Padding"
-								Value="0" />
-				<Setter Property="VerticalAlignment"
-								Value="Center" />
-				<Setter Property="VerticalContentAlignment"
-								Value="Center" />
+			<Style
+					x:Key="control"
+					TargetType="ContentControl"
+					>
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="HorizontalContentAlignment" Value="Left" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
 			</Style>
 
-			<Style x:Key="btn"
-						 TargetType="Button">
-				<Setter Property="Height"
-								Value="26" />
-				<Setter Property="Margin"
-								Value="7,7,7,12" />
-				<Setter Property="VerticalAlignment"
-								Value="Bottom" />
-				<Setter Property="Width"
-								Value="75" />
+			<Style
+					x:Key="btn"
+					TargetType="Button"
+					>
+				<Setter Property="Height" Value="26" />
+				<Setter Property="Margin" Value="7,7,7,12" />
+				<Setter Property="VerticalAlignment" Value="Bottom" />
+				<Setter Property="Width" Value="75" />
 			</Style>
 
 
-			<ControlTemplate x:Key="IconControlTemplate"
-											 TargetType="{x:Type ButtonBase}">
-				<Border x:Name="border"
-								SnapsToDevicePixels="True"
-								Background="{TemplateBinding Background}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								BorderBrush="{TemplateBinding BorderBrush}">
-					<ContentPresenter x:Name="contentPresenter"
-														Content="{TemplateBinding Content}"
-														Margin="{TemplateBinding Padding}"
-														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														ContentStringFormat="{TemplateBinding ContentStringFormat}"
-														Focusable="False"
-														RecognizesAccessKey="True"
-														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-														ContentTemplate="{TemplateBinding ContentTemplate}" />
+			<ControlTemplate
+					x:Key="IconControlTemplate"
+					TargetType="{x:Type ButtonBase}"
+					>
+				<Border
+						x:Name="border"
+						SnapsToDevicePixels="True"
+						Background="{TemplateBinding Background}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						>
+					<ContentPresenter
+							x:Name="contentPresenter"
+							Content="{TemplateBinding Content}"
+							Margin="{TemplateBinding Padding}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							ContentStringFormat="{TemplateBinding ContentStringFormat}"
+							Focusable="False"
+							RecognizesAccessKey="True"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
 				</Border>
 				<ControlTemplate.Triggers>
-					<Trigger Property="Button.IsDefaulted"
-									 Value="True">
-						<Setter TargetName="border"
-										Property="BorderBrush"
-										Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+					<Trigger
+							Property="Button.IsDefaulted"
+							Value="True"
+							>
+						<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 					</Trigger>
-					<Trigger Property="IsMouseOver"
-									 Value="True">
-						<Setter Property="Foreground"
-										Value="{StaticResource MouseOver.Foreground}" />
-						<Setter TargetName="border"
-										Property="Background"
-										Value="{StaticResource MouseOver.Border.Background}" />
-						<Setter TargetName="border"
-										Property="BorderBrush"
-										Value="{StaticResource MouseOver.Border}" />
+					<Trigger
+							Property="IsMouseOver"
+							Value="True"
+							>
+						<Setter Property="Foreground" Value="{StaticResource MouseOver.Foreground}" />
+						<Setter TargetName="border" Property="Background" Value="{StaticResource MouseOver.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MouseOver.Border}" />
 					</Trigger>
-					<Trigger Property="IsPressed"
-									 Value="True">
-						<Setter TargetName="border"
-										Property="Background"
-										Value="{StaticResource Pressed.Border.Background}" />
-						<Setter TargetName="border"
-										Property="BorderBrush"
-										Value="{StaticResource Pressed.Border}" />
+					<Trigger
+							Property="IsPressed"
+							Value="True"
+							>
+						<Setter TargetName="border" Property="Background" Value="{StaticResource Pressed.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Pressed.Border}" />
 					</Trigger>
-					<Trigger Property="IsEnabled"
-									 Value="False">
-						<Setter Property="Foreground"
-										Value="{StaticResource Disabled.Foreground}" />
-						<Setter TargetName="border"
-										Property="Background"
-										Value="{StaticResource Disabled.Border.Background}" />
-						<Setter TargetName="border"
-										Property="BorderBrush"
-										Value="{StaticResource Disabled.Border}" />
+					<Trigger
+							Property="IsEnabled"
+							Value="False"
+							>
+						<Setter Property="Foreground" Value="{StaticResource Disabled.Foreground}" />
+						<Setter TargetName="border" Property="Background" Value="{StaticResource Disabled.Border.Background}" />
+						<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Disabled.Border}" />
 					</Trigger>
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
@@ -182,82 +179,108 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel Grid.Column="0"
-								Grid.Row="0"
-								Margin="0,0,0,5"
-								Orientation="Vertical">
-			<StackPanel HorizontalAlignment="Stretch"
-									Orientation="Horizontal"
-									Background="#395482CD">
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="0"
+				Margin="0,0,0,5"
+				Orientation="Vertical"
+				>
+			<StackPanel
+					HorizontalAlignment="Stretch"
+					Orientation="Horizontal"
+					Background="#395482CD"
+					>
 
-				<Label Content="Operation"
-							 Margin="0,-2,0,4"
-							Padding="3,0,0,0"
-							 FontSize="{StaticResource Font.Size.Header}"
-							 Style="{StaticResource control}" />
+				<Label
+						Content="Operation"
+						Margin="0,-2,0,4"
+						Padding="3,0,0,0"
+						FontSize="{StaticResource Font.Size.Header}"
+						Style="{StaticResource control}"
+						/>
 			</StackPanel>
 
-			<StackPanel Margin="0,9,0,0"
-									Orientation="Horizontal">
+			<StackPanel
+					Margin="0,9,0,0"
+					Orientation="Horizontal"
+					>
 
-				<Button x:Name="btnReadBoth"
-								Content="Scan Both"
-								Margin="0,0,7,0"
-								Width="64"
-								Height="28"
-								HorizontalAlignment="Left"
-								Click="BtnReadBoth_Click"
-								Style="{StaticResource btn}">
+				<Button
+						x:Name="btnReadBoth"
+						Content="Scan Both"
+						Margin="0,0,7,0"
+						Width="64"
+						Height="28"
+						HorizontalAlignment="Left"
+						Click="BtnReadBoth_Click"
+						Style="{StaticResource btn}"
+						>
 					<Button.IsEnabled>
 						<MultiBinding Converter="{StaticResource converter}">
-							<Binding ElementName="mainwin"
-											 FallbackValue="false"
-											 Path="pm.FileCollectionCurrent.HasFolder" />
-							<Binding ElementName="mainwin"
-											 FallbackValue="false"
-											 Path="pm.FileCollectionRevision.HasFolder" />
+							<Binding
+									ElementName="mainwin"
+									FallbackValue="false"
+									Path="pm.FileCollectionCurrent.HasFolder"
+									/>
+							<Binding
+									ElementName="mainwin"
+									FallbackValue="false"
+									Path="pm.FileCollectionRevision.HasFolder"
+									/>
 						</MultiBinding>
 					</Button.IsEnabled>
 				</Button>
 
-				<Button x:Name="btnFavorites"
-								Margin="7,0,7,0"
-								Width="28"
-								Height="28"
-								HorizontalAlignment="Left"
-								Background="{StaticResource Button.Static.Background}"
-								Click="BtnFavorites_OnClick"
-								Style="{StaticResource btn}"
-								Template="{DynamicResource IconControlTemplate}">
+				<Button
+						x:Name="btnFavorites"
+						Margin="7,0,7,0"
+						Width="28"
+						Height="28"
+						HorizontalAlignment="Left"
+						Background="{StaticResource Button.Static.Background}"
+						Click="BtnFavorites_OnClick"
+						Style="{StaticResource btn}"
+						Template="{DynamicResource IconControlTemplate}"
+						>
 					<Button.Content>
-						<StackPanel HorizontalAlignment="Center"
-												Orientation="Horizontal">
-							<Path Margin="0,2,0,2"
-										Width="22"
-										Data="{StaticResource Icon.Svg.Favorite}"
-										Fill="{StaticResource Path.Favorite.Fill2}"
-										Stretch="Uniform" />
+						<StackPanel
+								HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								>
+							<Path
+									Margin="0,2,0,2"
+									Width="22"
+									Data="{StaticResource Icon.Svg.Favorite}"
+									Fill="{StaticResource Path.Favorite.Fill2}"
+									Stretch="Uniform"
+									/>
 						</StackPanel>
 					</Button.Content>
 				</Button>
 
-				<Button x:Name="btnHistory"
-								Margin="7,0,7,0"
-								Width="28"
-								Height="28"
-								HorizontalAlignment="Left"
-								Background="{StaticResource Button.Static.Background}"
-								Click="BtnHistory_OnClick"
-								Style="{StaticResource btn}"
-								Template="{DynamicResource IconControlTemplate}">
+				<Button
+						x:Name="btnHistory"
+						Margin="7,0,7,0"
+						Width="28"
+						Height="28"
+						HorizontalAlignment="Left"
+						Background="{StaticResource Button.Static.Background}"
+						Click="BtnHistory_OnClick"
+						Style="{StaticResource btn}"
+						Template="{DynamicResource IconControlTemplate}"
+						>
 					<Button.Content>
-						<StackPanel HorizontalAlignment="Center"
-												Orientation="Horizontal">
-							<Path Margin="0,0,1,1"
-										Width="22"
-										Data="{StaticResource Icon.Svg.History}"
-										Fill="{StaticResource Path.History.Fill}"
-										Stretch="Uniform" />
+						<StackPanel
+								HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								>
+							<Path
+									Margin="0,0,1,1"
+									Width="22"
+									Data="{StaticResource Icon.Svg.History}"
+									Fill="{StaticResource Path.History.Fill}"
+									Stretch="Uniform"
+									/>
 						</StackPanel>
 					</Button.Content>
 				</Button>
@@ -269,62 +292,85 @@
 
 
 		<!--#region > settings panel-->
-		<StackPanel Grid.Column="2"
-								Grid.Row="0"
-								Margin="0,0,0,10"
-								Orientation="Vertical">
+		<StackPanel
+				Grid.Column="2"
+				Grid.Row="0"
+				Margin="0,0,0,10"
+				Orientation="Vertical"
+				>
 			<StackPanel.Resources>
 
-				<Style x:Key="rb"
-							 TargetType="RadioButton"
-							 BasedOn="{StaticResource control}">
-					<Setter Property="Margin"
-									Value="18,0,3,1" />
+				<Style
+						x:Key="rb"
+						TargetType="RadioButton"
+						BasedOn="{StaticResource control}"
+						>
+					<Setter Property="Margin" Value="18,0,3,1" />
 				</Style>
 
 			</StackPanel.Resources>
 
-			<StackPanel HorizontalAlignment="Stretch"
-									Orientation="Horizontal"
-									Background="#395482CD">
+			<StackPanel
+					HorizontalAlignment="Stretch"
+					Orientation="Horizontal"
+					Background="#395482CD"
+					>
 
-				<Label Content="Settings"
-							 Margin="3,-2,0,4"
-							 FontSize="{StaticResource Font.Size.Header}"
-							 Style="{StaticResource control}" />
+				<Label
+						Content="Settings"
+						Margin="3,-2,0,4"
+						FontSize="{StaticResource Font.Size.Header}"
+						Style="{StaticResource control}"
+						/>
 			</StackPanel>
 
 			<Grid HorizontalAlignment="Stretch">
-				<Border Margin="4,8,0,0"
-								Padding="0"
-								HorizontalAlignment="Stretch"
-								CornerRadius="3"
-								BorderThickness="4,1,1,1"
-								BorderBrush="LightGray">
+				<Border
+						Margin="4,8,0,0"
+						Padding="0"
+						HorizontalAlignment="Stretch"
+						CornerRadius="3"
+						BorderThickness="4,1,1,1"
+						BorderBrush="LightGray"
+						>
 
-					<StackPanel HorizontalAlignment="Stretch"
-											Orientation="Horizontal">
-						<Label Content="Sheet Name Case"
-									 Margin="5,0,0,1"
-									 Style="{StaticResource control}" />
+					<StackPanel
+							HorizontalAlignment="Stretch"
+							Orientation="Horizontal"
+							>
+						<Label
+								Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+																	Path=[0]}"
+								Margin="5,0,0,1"
+								Style="{StaticResource control}"
+								/>
 
-						<RadioButton Content="Keep Existing"
-												 IsChecked="{Binding Path=UseExistingCaseShtTitle,
+						<RadioButton
+								Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+																	Path=[1]}"
+								IsChecked="{Binding Path=UseExistingCaseShtTitle,
 																		FallbackValue=false}"
-												 Click="rbtn_OnClick"
-												 Style="{StaticResource rb}" />
+								Click="rbtn_OnClick"
+								Style="{StaticResource rb}"
+								/>
 
-						<RadioButton Content="Make Uppercase"
-												 IsChecked="{Binding Path=ForceUpperCaseShtTitle,
+						<RadioButton
+								Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+																	Path=[2]}"
+								IsChecked="{Binding Path=ForceUpperCaseShtTitle,
 																		FallbackValue=false}"
-												 Click="rbtn_OnClick"
-												 Style="{StaticResource rb}" />
+								Click="rbtn_OnClick"
+								Style="{StaticResource rb}"
+								/>
 
-						<RadioButton Content="Make Caps Each Word"
-												 IsChecked="{Binding Path=ForceWordCapShtTitle,
+						<RadioButton
+								Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+																	Path=[3]}"
+								IsChecked="{Binding Path=ForceWordCapShtTitle,
 																		FallbackValue=false}"
-												 Click="rbtn_OnClick"
-												 Style="{StaticResource rb}" />
+								Click="rbtn_OnClick"
+								Style="{StaticResource rb}"
+								/>
 
 					</StackPanel>
 				</Border>
@@ -333,9 +379,11 @@
 		<!--#endregion-->
 
 
-		<Grid Grid.Column="0"
-					Grid.Row="1"
-					Margin="0,0,0,0">
+		<Grid
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="0,0,0,0"
+				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="70" />
 				<ColumnDefinition Width="*" />
@@ -348,82 +396,99 @@
 			</Grid.RowDefinitions>
 
 			<StackPanel
-						Margin="0,5,0,0"
-						Grid.Column="0"
-						Grid.Row="1"
-						Grid.ColumnSpan="2"
-						Background="#395482CD"
+					Grid.Column="0"
+					Grid.Row="1"
+					Grid.ColumnSpan="2"
+					Margin="0,5,0,0"
+					Background="#395482CD"
 					>
-				<Label Content="Current"
+				<Label
+						Content="Current"
 						Margin="0,-2,0,2"
 						Padding="3,0,0,0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="top"
 						FontSize="{StaticResource Font.Size.Header}"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
 
-						Style="{StaticResource control}" /></StackPanel>
-
-			<Button Name="BtnReadCurrent"
-							Content="Scan"
-							Grid.Column="0"
-							Grid.Row="2"
-							Margin="0,8,0,0"
-							Width="64"
-							Height="26"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Top"
-							Click="BtnReadCurrent_OnClick">
+			<Button
+					Name="BtnReadCurrent"
+					Content="Scan"
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="0,8,0,0"
+					Width="64"
+					Height="26"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Click="BtnReadCurrent_OnClick"
+					>
 				<Button.Style>
 					<Style TargetType="Button">
-						<Setter Property="IsEnabled"
-										Value="false" />
+						<Setter Property="IsEnabled" Value="false" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding ElementName=mainwin,
+							<DataTrigger
+									Binding="{Binding ElementName=mainwin,
 																		Path=pm.FileCollectionCurrent.HasFolder,
 																		FallbackValue=false}"
-													 Value="true">
-								<Setter Property="IsEnabled"
-												Value="true" />
+									Value="true"
+									>
+								<Setter Property="IsEnabled" Value="true" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
 			</Button>
 
-			<local:HeaderControl x:Name="HdrCurrent"
-													 Title="Current"
-													 Grid.Column="0"
-													 Grid.Row="2"
-													 Grid.ColumnSpan="2"
-													 Margin="0,13,0,8"
-													 FontSize="12"
-													 DataContext="{Binding pm.FileCollectionCurrent,
+			<local:HeaderControl
+					x:Name="HdrCurrent"
+					Title="Current"
+					Grid.Column="0"
+					Grid.Row="2"
+					Grid.ColumnSpan="2"
+					Margin="0,13,0,8"
+					DataContext="{Binding pm.FileCollectionCurrent,
+																ElementName=mainwin,
+																Mode=OneWay,
+																FallbackValue='this is text'}"
+					FolderType="CURRENT"
+					TitleBarMargin="80,0,0,0"
+					Style="{StaticResource HeaderControl.FolderRoute.Style}"
+					>
+				<!--  FontSize="12"  -->
+				<!--  ObliqueButtonHeight="17"  -->
+				<!--  FolderRouteHeight="30"  -->
+				<!--  TextFontSize="12"  -->
+				<!--  TextMargin="0,0,0,2"  -->
+				<!--  ObliqueButtonMargin="-1,0,0,0"  -->
+
+			</local:HeaderControl>
+
+
+			<local:lvTestControl
+					x:Name="LvCurrent"
+					Grid.Column="0"
+					Grid.Row="3"
+					Grid.ColumnSpan="2"
+					Margin="0,0,0,0"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
+					CanSelect="False"
+					CheckBoxVisibility="Hidden"
+					DataContext="{Binding pm.CvCurrent,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
-													 FolderType="CURRENT"
-													 TitleBarMargin="80,0,0,0"
-													 Style="{StaticResource HeaderControl.FolderRoute.Style}" />
-
-
-			<local:lvTestControl x:Name="LvCurrent"
-													 Grid.Column="0"
-													 Grid.Row="3"
-													 Grid.ColumnSpan="2"
-													 Margin="0,0,0,0"
-													 HorizontalContentAlignment="Stretch"
-													 VerticalContentAlignment="Stretch"
-													 CanSelect="False"
-													 CheckBoxVisibility="Hidden"
-													 DataContext="{Binding pm.CvCurrent,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}" />
+					/>
 		</Grid>
 
-		<Grid Grid.Column="0"
-					Grid.Row="2"
-					Margin="0">
+		<Grid
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0"
+				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="70" />
 				<ColumnDefinition Width="*" />
@@ -436,85 +501,96 @@
 			</Grid.RowDefinitions>
 
 
-			<StackPanel Margin="0,9,0,0"
+			<StackPanel
 					Grid.Column="0"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
-					Background="#395482CD">
+					Margin="0,9,0,0"
+					Background="#395482CD"
+					>
 
-			<Label Content="Revision"
-					Margin="0,-2,0,2"
-					Padding="3,0,0,0"
-						 HorizontalAlignment="Stretch"
-						 VerticalAlignment="Top"
-						 FontSize="{StaticResource Font.Size.Header}"
-
-						 Style="{StaticResource control}" />
-						 </StackPanel>
-			<Button Name="BtnReadRevision"
-							Grid.Column="0"
-							Grid.Row="2"
-							Content="Scan"
-							Margin="0,8,0,0"
-							Width="64"
-							Height="26"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Top"
-							Click="BtnReadRevision_OnClick">
+				<Label
+						Content="Revision"
+						Margin="0,-2,0,2"
+						Padding="3,0,0,0"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Top"
+						FontSize="{StaticResource Font.Size.Header}"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
+			<Button
+					Name="BtnReadRevision"
+					Content="Scan"
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="0,8,0,0"
+					Width="64"
+					Height="26"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Click="BtnReadRevision_OnClick"
+					>
 				<Button.Style>
 					<Style TargetType="Button">
-						<Setter Property="IsEnabled"
-										Value="False" />
+						<Setter Property="IsEnabled" Value="False" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding ElementName=mainwin,
-																			Path=pm.FileCollectionRevision.HasFolder,
-																			FallbackValue=false}"
-													 Value="true">
-								<Setter Property="IsEnabled"
-												Value="true" />
+							<DataTrigger
+									Binding="{Binding ElementName=mainwin,
+																		Path=pm.FileCollectionRevision.HasFolder,
+																		FallbackValue=false}"
+									Value="true"
+									>
+								<Setter Property="IsEnabled" Value="true" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
 			</Button>
 
-			<local:HeaderControl x:Name="HdrRevision"
-													 Title="Revision"
-													 Grid.Column="0"
-													 Grid.Row="2"
-													 Grid.ColumnSpan="2"
-													 Margin="0,13,0,8"
-													 FontSize="12"
-													 DataContext="{Binding pm.FileCollectionRevision,
+			<local:HeaderControl
+					x:Name="HdrRevision"
+					Title="Revision"
+					Grid.Column="0"
+					Grid.Row="2"
+					Grid.ColumnSpan="2"
+					Margin="0,13,0,8"
+					DataContext="{Binding pm.FileCollectionRevision,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
-													 FolderType="REVISION"
-													 TitleBarMargin="80,0,0,0"
-													 Style="{StaticResource HeaderControl.FolderRoute.Style}" />
+					FolderType="REVISION"
+					TitleBarMargin="80,0,0,0"
+					Style="{StaticResource HeaderControl.FolderRoute.Style}"
+					/>
+			<!--  FontSize="12"  -->
 			<!--  ObliqueButtonHeight="14"  -->
 			<!--  FolderRouteHeight="24"  -->
 			<!--  TextFontSize="11"  -->
 			<!--  TextMargin="0,-1,0,2"  -->
 
-			<local:lvTestControl x:Name="LvRevision"
-													 Grid.Column="0"
-													 Grid.Row="3"
-													 Grid.ColumnSpan="2"
-													 Margin="0,0,0,0"
-													 HorizontalContentAlignment="Stretch"
-													 VerticalContentAlignment="Stretch"
-													 DataContext="{Binding pm.CvRevision,
+			<local:lvTestControl
+					x:Name="LvRevision"
+					Grid.Column="0"
+					Grid.Row="3"
+					Grid.ColumnSpan="2"
+					Margin="0,0,0,0"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
+					DataContext="{Binding pm.CvRevision,
 																ElementName=mainwin,
 																Mode=OneWay,
-																FallbackValue={x:Null}}" />
+																FallbackValue={x:Null}}"
+					/>
 
 		</Grid>
 
-		<Grid Grid.Column="2"
-					Grid.Row="1"
-					Grid.RowSpan="2"
-					Margin="0">
+		<Grid
+				Grid.Column="2"
+				Grid.Row="1"
+				Grid.RowSpan="2"
+				Margin="0"
+				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
@@ -525,415 +601,454 @@
 			</Grid.RowDefinitions>
 
 
-			<StackPanel Margin="0,5,0,0"
+			<StackPanel
 					Grid.Column="0"
 					Grid.Row="0"
-					Background="#395482CD">
+					Margin="0,5,0,0"
+					Background="#395482CD"
+					>
 
-			<Label Content="Comparison"
-					Margin="0,-2,0,2"
-					Padding="3,0,0,0"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="top"
-					FontSize="{StaticResource Font.Size.Header}"
-					Style="{StaticResource control}" />
-					</StackPanel>
+				<Label
+						Content="Comparison"
+						Margin="0,-2,0,2"
+						Padding="3,0,0,0"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="top"
+						FontSize="{StaticResource Font.Size.Header}"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
 
-			<Button Name="btnCompare"
+			<StackPanel
 					Grid.Column="0"
 					Grid.Row="1"
-					Content="Compare"
-					Margin="0,8,0,0"
-					Width="64"
-					Height="26"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Top"
-					Click="BtnCompare_OnClick">
-				<Button.Style>
+					Orientation="Horizontal"
+					Margin="0,0,0,11"
+					>
+				<Button
+						Name="btnCompare"
+						Content="Compare"
+						Width="84"
+						Height="26"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						Click="BtnCompare_OnClick"
+						>
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="IsEnabled" Value="False" />
+							<Style.Triggers>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}" Value="true" />
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}" Value="true" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="True" />
+								</MultiDataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
 
-					<Style TargetType="Button"
-							>
-						<Setter Property="IsEnabled"
-								Value="False" />
-						<Style.Triggers>
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}"
-											Value="true" />
-									<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}"
-											Value="true" />
-								</MultiDataTrigger.Conditions>
-								<Setter Property="IsEnabled"
-										Value="True" />
-							</MultiDataTrigger>
-						</Style.Triggers>
-					</Style>
-				</Button.Style>
-			</Button>
+				<Button
+						Name="btnGo"
+						Content="Adjust Names"
+						Width="84"
+						Height="26"
+						Margin="12,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						IsEnabled="{Binding ElementName=mainwin,
+																Path=Go, FallbackValue=False}"
+						Click="BtnGo_OnClick"
+				/>
 
 
-			<local:HeaderControl x:Name="HdrComparison"
-													 Title="Comparison"
-													 Grid.Column="0"
-													 Grid.Row="1"
-													Margin="0,13,0,8"
-													FontSize="12"
-													 DataContext="{Binding pm.FileCollectionFinal,
+			</StackPanel>
+
+			<local:HeaderControl
+					x:Name="HdrComparison"
+					Title="Comparison"
+					Grid.Column="0"
+					Grid.Row="1"
+					Margin="0,13,0,8"
+					DataContext="{Binding pm.FileCollectionFinal,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
-													 FolderPathType="0"
-													 FolderRouteHeight="24"
-													 FolderType="FINAL"
-													 HideDirectory="true"
-													 TextFontSize="9.5"
-													 TitleBarMargin="80,0,0,0" />
+					FolderPathType="0"
+					FolderType="FINAL"
+					HideDirectory="true"
+					TitleBarMargin="0,0,0,0"
+					Style="{StaticResource HeaderControl.FolderRoute.Style}"
+					/>
 
-			<ListView Name="LvFinal"
-								Grid.Column="0"
-								Grid.Row="2"
-								Margin="0"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
-								HorizontalContentAlignment="Stretch"
-								d:DataContext="{Binding ElementName=mainwin,
+			<ListView
+					Name="LvFinal"
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					d:DataContext="{Binding ElementName=mainwin,
 																	Path=pm.CvFinal}"
-								DataContext="{Binding ElementName=mainwin,
+					DataContext="{Binding ElementName=mainwin,
 																Mode=OneWay,
 																Path=pm.CvFinal,
 																FallbackValue={x:Null}}"
-								ScrollViewer.CanContentScroll="False"
-								Background="#333333"
-								Foreground="White"
-								IsSynchronizedWithCurrentItem="True"
-								ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
-								ItemTemplate="{DynamicResource DataTemplateTest2}"
-								ItemsSource="{Binding}">
+					ScrollViewer.CanContentScroll="False"
+					Background="#333333"
+					Foreground="White"
+					IsSynchronizedWithCurrentItem="True"
+					ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
+					ItemTemplate="{DynamicResource DataTemplateTest2}"
+					ItemsSource="{Binding}"
+					>
 
 				<ListView.Resources>
 
-					<Style x:Key="LblRoot"
-								 x:Name="LblRoot"
-								 TargetType="Label">
-						<Setter Property="Foreground"
-										Value="#d8d8d8" />
-						<Setter Property="Margin"
-										Value="1,0,2,0" />
-						<Setter Property="Padding"
-										Value="4,0,6,3" />
+					<Style
+							x:Key="LblRoot"
+							x:Name="LblRoot"
+							TargetType="Label"
+							>
+						<Setter Property="Foreground" Value="#d8d8d8" />
+						<Setter Property="Margin" Value="1,0,2,0" />
+						<Setter Property="Padding" Value="4,0,6,3" />
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="Label">
-									<Border Padding="{TemplateBinding Padding}"
-													CornerRadius="3"
-													SnapsToDevicePixels="true"
-													Background="{TemplateBinding Background}"
-													BorderThickness="{TemplateBinding BorderThickness}"
-													BorderBrush="{TemplateBinding BorderBrush}">
-										<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-																			VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-																			RecognizesAccessKey="True"
-																			SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+									<Border
+											Padding="{TemplateBinding Padding}"
+											CornerRadius="3"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
+											>
+										<ContentPresenter
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												RecognizesAccessKey="True"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
 									</Border>
 									<ControlTemplate.Triggers>
-										<Trigger Property="IsEnabled"
-														 Value="false">
-											<Setter Property="Foreground"
-															Value="#AAAAAA" />
+										<Trigger
+												Property="IsEnabled"
+												Value="false"
+												>
+											<Setter Property="Foreground" Value="#AAAAAA" />
 										</Trigger>
 									</ControlTemplate.Triggers>
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
-						<Setter Property="VerticalAlignment"
-										Value="Stretch" />
+						<Setter Property="VerticalAlignment" Value="Stretch" />
 					</Style>
 
-					<Style x:Key="LblMatched"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblRoot}">
+					<Style
+							x:Key="LblMatched"
+							TargetType="Label"
+							BasedOn="{StaticResource LblRoot}"
+							>
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding FileNew}"
-													 Value="true">
-								<Setter Property="Visibility"
-												Value="Collapsed" />
+							<DataTrigger
+									Binding="{Binding FileNew}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<Style x:Key="LblTitle"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblRoot}">
-						<Setter Property="Foreground"
-										Value="PaleTurquoise" />
+					<Style
+							x:Key="LblTitle"
+							TargetType="Label"
+							BasedOn="{StaticResource LblRoot}"
+							>
+						<Setter Property="Foreground" Value="PaleTurquoise" />
 					</Style>
 
-					<Style x:Key="LblFileNew"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblRoot}">
-						<Setter Property="Visibility"
-										Value="Collapsed" />
+					<Style
+							x:Key="LblFileNew"
+							TargetType="Label"
+							BasedOn="{StaticResource LblRoot}"
+							>
+						<Setter Property="Visibility" Value="Collapsed" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding FileNew}"
-													 Value="true">
-								<Setter Property="Visibility"
-												Value="Visible" />
+							<DataTrigger
+									Binding="{Binding FileNew}"
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Visible" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
 					<!--  test styles  -->
 					<!--  root  -->
-					<Style x:Key="LblTestRoot"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblRoot}">
-						<Setter Property="BorderBrush"
-										Value="Transparent" />
-						<Setter Property="BorderThickness"
-										Value=".5,0,.5,4" />
-						<Setter Property="Padding"
-										Value="4,.5,4,0" />
-						<Setter Property="VerticalAlignment"
-										Value="Top" />
+					<Style
+							x:Key="LblTestRoot"
+							TargetType="Label"
+							BasedOn="{StaticResource LblRoot}"
+							>
+						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="BorderThickness" Value=".5,0,.5,4" />
+						<Setter Property="Padding" Value="4,.5,4,0" />
+						<Setter Property="VerticalAlignment" Value="Top" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding FileMatches,
+							<DataTrigger
+									Binding="{Binding FileMatches,
 																		FallbackValue=false}"
-													 Value="true">
-								<Setter Property="Visibility"
-												Value="Collapsed" />
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<Style x:Key="LblTestShtNum"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblTestRoot}">
+					<Style
+							x:Key="LblTestShtNum"
+							TargetType="Label"
+							BasedOn="{StaticResource LblTestRoot}"
+							>
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding SheetNumberMatches,
+							<DataTrigger
+									Binding="{Binding SheetNumberMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource notmatch}">
-								<Setter Property="BorderBrush"
-												Value="Red" />
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger Binding="{Binding SheetNumberMatches,
+							<DataTrigger
+									Binding="{Binding SheetNumberMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource match}">
-								<Setter Property="BorderBrush"
-												Value="LawnGreen" />
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<Style x:Key="LblTestSep"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblTestRoot}">
-						<Setter Property="HorizontalAlignment"
-										Value="Center" />
+					<Style
+							x:Key="LblTestSep"
+							TargetType="Label"
+							BasedOn="{StaticResource LblTestRoot}"
+							>
+						<Setter Property="HorizontalAlignment" Value="Center" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding SeparationMatches,
+							<DataTrigger
+									Binding="{Binding SeparationMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource notmatch}">
-								<Setter Property="BorderBrush"
-												Value="Red" />
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger Binding="{Binding SeparationMatches,
+							<DataTrigger
+									Binding="{Binding SeparationMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource match}">
-								<Setter Property="BorderBrush"
-												Value="LawnGreen" />
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<Style x:Key="LblTestShtName"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblTestRoot}">
+					<Style
+							x:Key="LblTestShtName"
+							TargetType="Label"
+							BasedOn="{StaticResource LblTestRoot}"
+							>
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding SheetTitleMatches,
+							<DataTrigger
+									Binding="{Binding SheetTitleMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource notmatch}">
-								<Setter Property="BorderBrush"
-												Value="Red" />
+									Value="{StaticResource notmatch}"
+									>
+								<Setter Property="BorderBrush" Value="Red" />
 							</DataTrigger>
-							<DataTrigger Binding="{Binding SheetTitleMatches,
+							<DataTrigger
+									Binding="{Binding SheetTitleMatches,
 																		FallbackValue=false}"
-													 Value="{StaticResource match}">
-								<Setter Property="BorderBrush"
-												Value="LawnGreen" />
+									Value="{StaticResource match}"
+									>
+								<Setter Property="BorderBrush" Value="LawnGreen" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<Style x:Key="LblTestMatches"
-								 TargetType="Label"
-								 BasedOn="{StaticResource LblTestRoot}">
-						<Setter Property="Visibility"
-										Value="Collapsed" />
+					<Style
+							x:Key="LblTestMatches"
+							TargetType="Label"
+							BasedOn="{StaticResource LblTestRoot}"
+							>
+						<Setter Property="Visibility" Value="Collapsed" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding FileMatches,
+							<DataTrigger
+									Binding="{Binding FileMatches,
 																		FallbackValue=false}"
-													 Value="true">
-								<Setter Property="Visibility"
-												Value="Visible" />
+									Value="true"
+									>
+								<Setter Property="Visibility" Value="Visible" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 
-					<ControlTemplate x:Key="CheckBoxControlTemplate1"
-													 TargetType="{x:Type CheckBox}">
-						<Grid x:Name="templateRoot"
-									SnapsToDevicePixels="True"
-									Background="Transparent">
+					<ControlTemplate
+							x:Key="CheckBoxControlTemplate1"
+							TargetType="{x:Type CheckBox}"
+							>
+						<Grid
+								x:Name="templateRoot"
+								SnapsToDevicePixels="True"
+								Background="Transparent"
+								>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							<Border x:Name="checkBoxBorder"
-											Margin="1"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											Background="{TemplateBinding Background}"
-											BorderThickness="{TemplateBinding BorderThickness}"
-											BorderBrush="{TemplateBinding BorderBrush}">
+							<Border
+									x:Name="checkBoxBorder"
+									Margin="1"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									>
 								<Grid x:Name="markGrid">
-									<Path x:Name="optionMark"
-												Margin="1"
-												Data="F1M9.97498,1.22334L4.6983,9.09834 4.52164,9.09834 0,5.19331 1.27664,3.52165 4.255,6.08833 8.33331,1.52588E-05 9.97498,1.22334z"
-												Fill="#FF212121"
-												Opacity="0"
-												Stretch="None" />
-									<Rectangle x:Name="indeterminateMark"
-														 Margin="2"
-														 Fill="#FF212121"
-														 Opacity="0" />
+									<Path
+											x:Name="optionMark"
+											Margin="1"
+											Data="F1M9.97498,1.22334L4.6983,9.09834 4.52164,9.09834 0,5.19331 1.27664,3.52165 4.255,6.08833 8.33331,1.52588E-05 9.97498,1.22334z"
+											Fill="#FF212121"
+											Opacity="0"
+											Stretch="None"
+											/>
+									<Rectangle
+											x:Name="indeterminateMark"
+											Margin="2"
+											Fill="#FF212121"
+											Opacity="0"
+											/>
 								</Grid>
 							</Border>
-							<ContentPresenter x:Name="contentPresenter"
-																Content="{TemplateBinding Content}"
-																Grid.Column="1"
-																Margin="{TemplateBinding Padding}"
-																HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-																VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-																ContentStringFormat="{TemplateBinding ContentStringFormat}"
-																Focusable="False"
-																RecognizesAccessKey="True"
-																SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-																ContentTemplate="{TemplateBinding ContentTemplate}" />
+							<ContentPresenter
+									x:Name="contentPresenter"
+									Content="{TemplateBinding Content}"
+									Grid.Column="1"
+									Margin="{TemplateBinding Padding}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									ContentStringFormat="{TemplateBinding ContentStringFormat}"
+									Focusable="False"
+									RecognizesAccessKey="True"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									/>
 						</Grid>
 						<ControlTemplate.Triggers>
-							<Trigger Property="HasContent"
-											 Value="True">
+							<Trigger
+									Property="HasContent"
+									Value="True"
+									>
 								<Setter Property="FocusVisualStyle">
 									<Setter.Value>
 										<Style>
 											<Setter Property="Control.Template">
 												<Setter.Value>
 													<ControlTemplate>
-														<Rectangle Margin="14,0,0,0"
-																			 SnapsToDevicePixels="True"
-																			 Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-																			 StrokeDashArray="1 2"
-																			 StrokeThickness="1" />
+														<Rectangle
+																Margin="14,0,0,0"
+																SnapsToDevicePixels="True"
+																Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+																StrokeDashArray="1 2"
+																StrokeThickness="1"
+																/>
 													</ControlTemplate>
 												</Setter.Value>
 											</Setter>
 										</Style>
 									</Setter.Value>
 								</Setter>
-								<Setter Property="Padding"
-												Value="4,-1,0,0" />
+								<Setter Property="Padding" Value="4,-1,0,0" />
 							</Trigger>
-							<Trigger Property="IsMouseOver"
-											 Value="True">
-								<Setter TargetName="checkBoxBorder"
-												Property="Background"
-												Value="#FFF3F9FF" />
-								<Setter TargetName="checkBoxBorder"
-												Property="BorderBrush"
-												Value="#FF5593FF" />
-								<Setter TargetName="indeterminateMark"
-												Property="Fill"
-												Value="#FF212121" />
-								<Setter TargetName="optionMark"
-												Property="Fill"
-												Value="#FF212121" />
+							<Trigger
+									Property="IsMouseOver"
+									Value="True"
+									>
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFF3F9FF" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF5593FF" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
 							</Trigger>
-							<Trigger Property="IsEnabled"
-											 Value="False">
-								<Setter TargetName="checkBoxBorder"
-												Property="Background"
-												Value="#FF70A3B5" />
-								<Setter TargetName="checkBoxBorder"
-												Property="BorderBrush"
-												Value="#3C6A7B" />
-								<Setter TargetName="indeterminateMark"
-												Property="Fill"
-												Value="#FF707070" />
-								<Setter TargetName="optionMark"
-												Property="Fill"
-												Value="#FF707070" />
+							<Trigger
+									Property="IsEnabled"
+									Value="False"
+									>
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FF70A3B5" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#3C6A7B" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF707070" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF707070" />
 							</Trigger>
-							<Trigger Property="IsPressed"
-											 Value="True">
-								<Setter TargetName="checkBoxBorder"
-												Property="Background"
-												Value="#FFD9ECFF" />
-								<Setter TargetName="checkBoxBorder"
-												Property="BorderBrush"
-												Value="#FF3C77DD" />
-								<Setter TargetName="indeterminateMark"
-												Property="Fill"
-												Value="#FF212121" />
-								<Setter TargetName="optionMark"
-												Property="Fill"
-												Value="#FF212121" />
+							<Trigger
+									Property="IsPressed"
+									Value="True"
+									>
+								<Setter TargetName="checkBoxBorder" Property="Background" Value="#FFD9ECFF" />
+								<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#FF3C77DD" />
+								<Setter TargetName="indeterminateMark" Property="Fill" Value="#FF212121" />
+								<Setter TargetName="optionMark" Property="Fill" Value="#FF212121" />
 							</Trigger>
-							<Trigger Property="IsChecked"
-											 Value="True">
-								<Setter TargetName="indeterminateMark"
-												Property="Opacity"
-												Value="0" />
-								<Setter TargetName="optionMark"
-												Property="Opacity"
-												Value="1" />
+							<Trigger
+									Property="IsChecked"
+									Value="True"
+									>
+								<Setter TargetName="indeterminateMark" Property="Opacity" Value="0" />
+								<Setter TargetName="optionMark" Property="Opacity" Value="1" />
 							</Trigger>
-							<Trigger Property="IsChecked"
-											 Value="{x:Null}">
-								<Setter TargetName="indeterminateMark"
-												Property="Opacity"
-												Value="1" />
-								<Setter TargetName="optionMark"
-												Property="Opacity"
-												Value="0" />
+							<Trigger
+									Property="IsChecked"
+									Value="{x:Null}"
+									>
+								<Setter TargetName="indeterminateMark" Property="Opacity" Value="1" />
+								<Setter TargetName="optionMark" Property="Opacity" Value="0" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 
 
 
-					<DataTemplate x:Key="DataTemplateTest2"
-												x:Name="DataTemplateTest2"
-												DataType="filesupport:FileFinal">
-						<Border CornerRadius="5"
-										BorderThickness="5,1,.5,6">
+					<DataTemplate
+							x:Key="DataTemplateTest2"
+							x:Name="DataTemplateTest2"
+							DataType="filesupport:FileFinal"
+							>
+						<Border
+								CornerRadius="5"
+								BorderThickness="5,1,.5,6"
+								>
 							<Border.BorderBrush>
-								<LinearGradientBrush StartPoint="0.5,1"
-																		 EndPoint="0.5,0">
-									<GradientStop Offset="0.03"
-																Color="#FF111132" />
-									<GradientStop Offset="0.10"
-																Color="#FFAAEAF3" />
+								<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+									<GradientStop Offset="0.03" Color="#FF111132" />
+									<GradientStop Offset="0.10" Color="#FFAAEAF3" />
 								</LinearGradientBrush>
 							</Border.BorderBrush>
-							<Border Margin="-5,-1,-.5,-.5"
-											Padding="0,0,0,2"
-											CornerRadius="4"
-											BorderThickness="12,2.5,.5,.5"
-											BorderBrush="#FFAAEAF3">
-								<Grid Margin="0,1,0,0"
-											Width="Auto"
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Center">
+							<Border
+									Margin="-5,-1,-.5,-.5"
+									Padding="0,0,0,2"
+									CornerRadius="4"
+									BorderThickness="12,2.5,.5,.5"
+									BorderBrush="#FFAAEAF3"
+									>
+								<Grid
+										Margin="0,1,0,0"
+										Width="Auto"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										>
 									<Grid.ColumnDefinitions>
 										<!--  0  checkbox  -->
 										<ColumnDefinition Width="30" />
@@ -955,156 +1070,181 @@
 										<RowDefinition Height="20" />
 									</Grid.RowDefinitions>
 
-									<CheckBox Grid.Column="0"
-														Grid.Row="0"
-														Grid.RowSpan="3"
-														Margin="1,0,0,0"
-														HorizontalAlignment="Center"
-														VerticalAlignment="Center"
-														IsChecked="{Binding Selected}"
-														Template="{DynamicResource CheckBoxControlTemplate1}">
+									<CheckBox
+											Grid.Column="0"
+											Grid.Row="0"
+											Grid.RowSpan="3"
+											Margin="1,0,0,0"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											IsChecked="{Binding Selected}"
+											Template="{DynamicResource CheckBoxControlTemplate1}"
+											>
 										<CheckBox.Effect>
 											<DropShadowEffect />
 										</CheckBox.Effect>
 										<CheckBox.Style>
 											<Style TargetType="CheckBox">
-												<Setter Property="Background"
-																Value="#FFCAEAF3" />
-												<Setter Property="BorderBrush"
-																Value="DarkTurquoise" />
+												<Setter Property="Background" Value="#FFCAEAF3" />
+												<Setter Property="BorderBrush" Value="DarkTurquoise" />
 												<Style.Triggers>
-													<Trigger Property="IsEnabled"
-																	 Value="false">
-														<Setter Property="Background"
-																		Value="#FF70A3B5" />
-														<Setter Property="Background"
-																		Value="Red" />
-														<Setter Property="BorderBrush"
-																		Value="Red" />
+													<Trigger
+															Property="IsEnabled"
+															Value="false"
+															>
+														<Setter Property="Background" Value="#FF70A3B5" />
+														<Setter Property="Background" Value="Red" />
+														<Setter Property="BorderBrush" Value="Red" />
 													</Trigger>
 												</Style.Triggers>
 											</Style>
 										</CheckBox.Style>
 									</CheckBox>
 
-									<Label x:Name="current"
-												 Content="Current"
-												 Grid.Column="1"
-												 Grid.Row="0"
-												 Width="{StaticResource lblTitleWidth}"
-												 HorizontalContentAlignment="Right"
-												 BorderThickness="0,0,1,0"
-												 BorderBrush="#999999"
-												 Style="{StaticResource LblTitle}" />
+									<Label
+											x:Name="current"
+											Content="Current"
+											Grid.Column="1"
+											Grid.Row="0"
+											Width="{StaticResource lblTitleWidth}"
+											HorizontalContentAlignment="Right"
+											BorderThickness="0,0,1,0"
+											BorderBrush="#999999"
+											Style="{StaticResource LblTitle}"
+											/>
 
-									<Line Grid.Column="1"
-												Grid.Row="1"
-												Margin="2,0,0,0"
-												Height="0.8"
-												VerticalAlignment="Center"
-												Panel.ZIndex="1"
-												Fill="#FF999999"
-												Stroke="#FF999999"
-												StrokeThickness=".6"
-												X1="0"
-												X2="{Binding Width,
+									<Line
+											Grid.Column="1"
+											Grid.Row="1"
+											Margin="2,0,0,0"
+											Height="0.8"
+											VerticalAlignment="Center"
+											Panel.ZIndex="1"
+											Fill="#FF999999"
+											Stroke="#FF999999"
+											StrokeThickness=".6"
+											X1="0"
+											X2="{Binding Width,
 																	 ElementName=current}"
-												Y1="0.4"
-												Y2="0.4" />
+											Y1="0.4"
+											Y2="0.4"
+											/>
 
-									<Label Name="ShtNum"
-												 Content="{Binding MatchedSheetNumber,
+									<Label
+											Name="ShtNum"
+											Content="{Binding MatchedSheetNumber,
 																				FallbackValue='A  1-0-0-0A'}"
-												 Grid.Column="2"
-												 Grid.Row="0"
-												 HorizontalContentAlignment="Right"
-												 Style="{StaticResource LblMatched}" />
+											Grid.Column="2"
+											Grid.Row="0"
+											HorizontalContentAlignment="Right"
+											Style="{StaticResource LblMatched}"
+											/>
 
-									<Label Name="Sep"
-												 Content="{Binding MatchedSeparator,
+									<Label
+											Name="Sep"
+											Content="{Binding MatchedSeparator,
 																				FallbackValue=sep}"
-												 Grid.Column="3"
-												 Grid.Row="0"
-												 HorizontalContentAlignment="Center"
-												 Style="{StaticResource LblMatched}" />
+											Grid.Column="3"
+											Grid.Row="0"
+											HorizontalContentAlignment="Center"
+											Style="{StaticResource LblMatched}"
+											/>
 
-									<Label x:Name="ShtTitle"
-												 Content="{Binding MatchedSheetTitle,
+									<Label
+											x:Name="ShtTitle"
+											Content="{Binding MatchedSheetTitle,
 																				FallbackValue=sheet title}"
-												 Grid.Column="4"
-												 Grid.Row="0"
-												 HorizontalAlignment="Stretch"
-												 HorizontalContentAlignment="Left"
-												 Style="{StaticResource LblMatched}" />
+											Grid.Column="4"
+											Grid.Row="0"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Left"
+											Style="{StaticResource LblMatched}"
+											/>
 
-									<Label Name="Status"
-												 Content="Status"
-												 Grid.Column="5"
-												 Grid.Row="0"
-												 HorizontalAlignment="Stretch"
-												 HorizontalContentAlignment="Center"
-												 Visibility="Visible"
-												 Style="{StaticResource LblMatched}" />
+									<Label
+											Name="Status"
+											Content="Status"
+											Grid.Column="5"
+											Grid.Row="0"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Visibility="Visible"
+											Style="{StaticResource LblMatched}"
+											/>
 
-									<Label Content=" File does not exist in the list of current files "
-												 Grid.Column="2"
-												 Grid.Row="0"
-												 Grid.ColumnSpan="3"
-												 HorizontalContentAlignment="Left"
-												 BorderThickness=".5,4,.5,0"
-												 BorderBrush="#CECE00"
-												 Style="{StaticResource LblFileNew}" />
+									<Label
+											Content=" File does not exist in the list of current files "
+											Grid.Column="2"
+											Grid.Row="0"
+											Grid.ColumnSpan="3"
+											HorizontalContentAlignment="Left"
+											BorderThickness=".5,4,.5,0"
+											BorderBrush="#CECE00"
+											Style="{StaticResource LblFileNew}"
+											/>
 
 									<!--  revision / test  -->
 
-									<Label Content="Revision"
-												 Grid.Column="1"
-												 Grid.Row="2"
-												 Width="{StaticResource lblTitleWidth}"
-												 HorizontalContentAlignment="Right"
-												 BorderThickness="0,0,1,0"
-												 BorderBrush="#999999"
-												 Style="{StaticResource LblTitle}" />
+									<Label
+											Content="Revision"
+											Grid.Column="1"
+											Grid.Row="2"
+											Width="{StaticResource lblTitleWidth}"
+											HorizontalContentAlignment="Right"
+											BorderThickness="0,0,1,0"
+											BorderBrush="#999999"
+											Style="{StaticResource LblTitle}"
+											/>
 
-									<Label Name="testShtNum"
-												 Content="{Binding SheetNumber,
+									<Label
+											Name="testShtNum"
+											Content="{Binding SheetNumber,
 																				FallbackValue=test value}"
-												 Grid.Column="2"
-												 Grid.Row="2"
-												 HorizontalContentAlignment="Right"
-												 Style="{StaticResource LblTestShtNum}" />
+											Grid.Column="2"
+											Grid.Row="2"
+											HorizontalContentAlignment="Right"
+											Style="{StaticResource LblTestShtNum}"
+											/>
 
-									<Label Content="{Binding Separator,
+									<Label
+											Content="{Binding Separator,
 																				FallbackValue=s}"
-												 Grid.Column="3"
-												 Grid.Row="2"
-												 HorizontalContentAlignment="Center"
-												 Style="{StaticResource LblTestSep}" />
+											Grid.Column="3"
+											Grid.Row="2"
+											HorizontalContentAlignment="Center"
+											Style="{StaticResource LblTestSep}"
+											/>
 
-									<Label Content="{Binding SheetTitle,
+									<Label
+											Content="{Binding SheetTitle,
 																				FallbackValue=name}"
-												 Grid.Column="4"
-												 Grid.Row="2"
-												 HorizontalAlignment="Stretch"
-												 HorizontalContentAlignment="Left"
-												 Style="{StaticResource LblTestShtName}" />
+											Grid.Column="4"
+											Grid.Row="2"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Left"
+											Style="{StaticResource LblTestShtName}"
+											/>
 
-									<Label Content="{Binding StatusMessage,
+									<Label
+											Content="{Binding StatusMessage,
 																				FallbackValue=name}"
-												 Grid.Column="5"
-												 Grid.Row="2"
-												 HorizontalAlignment="Stretch"
-												 HorizontalContentAlignment="Center"
-												 Visibility="Visible"
-												 Style="{StaticResource LblTestRoot}" />
+											Grid.Column="5"
+											Grid.Row="2"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Visibility="Visible"
+											Style="{StaticResource LblTestRoot}"
+											/>
 
-									<Label Content=" Revision file name matches "
-												 Grid.Column="2"
-												 Grid.Row="2"
-												 Grid.ColumnSpan="3"
-												 HorizontalContentAlignment="left"
-												 BorderBrush="LawnGreen"
-												 Style="{StaticResource LblTestMatches}" />
+									<Label
+											Content=" Revision file name matches "
+											Grid.Column="2"
+											Grid.Row="2"
+											Grid.ColumnSpan="3"
+											HorizontalContentAlignment="left"
+											BorderBrush="LawnGreen"
+											Style="{StaticResource LblTestMatches}"
+											/>
 
 									<!-- </StackPanel> -->
 
@@ -1114,161 +1254,158 @@
 
 					</DataTemplate>
 
-					<SolidColorBrush x:Key="Item.MouseOver.Background"
-													 Color="#3800C3FF" />
-					<SolidColorBrush x:Key="Item.MouseOver.Border"
-													 Color="#86EEFF" />
-					<SolidColorBrush x:Key="Item.SelectedInactive.Background"
-													 Color="#3DDADADA" />
-					<SolidColorBrush x:Key="Item.SelectedInactive.Border"
-													 Color="#FFDADADA" />
-					<SolidColorBrush x:Key="Item.SelectedActive.Background"
-													 Color="#3D26A0DA" />
-					<SolidColorBrush x:Key="Item.SelectedActive.Border"
-													 Color="#FF26A0DA" />
-					<SolidColorBrush x:Key="Item.NotEnabled.Foreground"
-													 Color="#FFDADADA" />
+					<SolidColorBrush
+							x:Key="Item.MouseOver.Background"
+							Color="#3800C3FF"
+							/>
+					<SolidColorBrush
+							x:Key="Item.MouseOver.Border"
+							Color="#86EEFF"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedInactive.Background"
+							Color="#3DDADADA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedInactive.Border"
+							Color="#FFDADADA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedActive.Background"
+							Color="#3D26A0DA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.SelectedActive.Border"
+							Color="#FF26A0DA"
+							/>
+					<SolidColorBrush
+							x:Key="Item.NotEnabled.Foreground"
+							Color="#FFDADADA"
+							/>
 
-					<Style x:Key="ListViewItemStyle2"
-								 x:Name="lvComparison_ListViewItemStyle2"
-								 TargetType="{x:Type ListViewItem}">
-						<Setter Property="Background"
-										Value="Transparent" />
-						<Setter Property="BorderBrush"
-										Value="Transparent" />
-						<Setter Property="BorderThickness"
-										Value="1" />
-						<Setter Property="HorizontalContentAlignment"
-										Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-						<Setter Property="IsSelected"
-										Value="{Binding Selected, FallbackValue=false}" />
-						<Setter Property="Padding"
-										Value="4,1" />
-						<Setter Property="SnapsToDevicePixels"
-										Value="True" />
+					<Style
+							x:Key="ListViewItemStyle2"
+							x:Name="lvComparison_ListViewItemStyle2"
+							TargetType="{x:Type ListViewItem}"
+							>
+						<Setter Property="Background" Value="Transparent" />
+						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="BorderThickness" Value="1" />
+						<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+						<Setter Property="IsSelected" Value="{Binding Selected, FallbackValue=false}" />
+						<Setter Property="Padding" Value="4,1" />
+						<Setter Property="SnapsToDevicePixels" Value="True" />
 
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="{x:Type ListViewItem}">
-									<Border x:Name="Bd"
-													Padding="{TemplateBinding Padding}"
-													SnapsToDevicePixels="true"
-													Background="{TemplateBinding Background}"
-													BorderThickness="{TemplateBinding BorderThickness}"
-													BorderBrush="{TemplateBinding BorderBrush}">
-										<ContentPresenter x:Name="Presenter"
-																			HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-																			VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-																			SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+									<Border
+											x:Name="Bd"
+											Padding="{TemplateBinding Padding}"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
+											>
+										<ContentPresenter
+												x:Name="Presenter"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
 									</Border>
 									<ControlTemplate.Triggers>
 										<MultiTrigger>
 											<MultiTrigger.Conditions>
-												<Condition Property="IsMouseOver"
-																	 Value="True" />
+												<Condition Property="IsMouseOver" Value="True" />
 											</MultiTrigger.Conditions>
-											<Setter TargetName="Bd"
-															Property="Background"
-															Value="{StaticResource Item.MouseOver.Background}" />
-											<Setter TargetName="Bd"
-															Property="BorderBrush"
-															Value="{StaticResource Item.MouseOver.Border}" />
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.MouseOver.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border}" />
 										</MultiTrigger>
 										<MultiTrigger>
 											<MultiTrigger.Conditions>
-												<Condition Property="Selector.IsSelectionActive"
-																	 Value="False" />
-												<Condition Property="IsSelected"
-																	 Value="True" />
+												<Condition Property="Selector.IsSelectionActive" Value="False" />
+												<Condition Property="IsSelected" Value="True" />
 											</MultiTrigger.Conditions>
-											<Setter TargetName="Bd"
-															Property="Background"
-															Value="{StaticResource Item.SelectedInactive.Background}" />
-											<Setter TargetName="Bd"
-															Property="BorderBrush"
-															Value="{StaticResource Item.SelectedInactive.Border}" />
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedInactive.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedInactive.Border}" />
 										</MultiTrigger>
 										<MultiTrigger>
 											<MultiTrigger.Conditions>
-												<Condition Property="Selector.IsSelectionActive"
-																	 Value="True" />
-												<Condition Property="IsSelected"
-																	 Value="True" />
+												<Condition Property="Selector.IsSelectionActive" Value="True" />
+												<Condition Property="IsSelected" Value="True" />
 											</MultiTrigger.Conditions>
-											<Setter TargetName="Bd"
-															Property="Background"
-															Value="{StaticResource Item.SelectedActive.Background}" />
-											<Setter TargetName="Bd"
-															Property="BorderBrush"
-															Value="{StaticResource Item.SelectedActive.Border}" />
+											<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedActive.Background}" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" />
 										</MultiTrigger>
-										<Trigger Property="IsEnabled"
-														 Value="False">
-											<Setter TargetName="Bd"
-															Property="TextElement.Foreground"
-															Value="{StaticResource Item.NotEnabled.Foreground}" />
+										<Trigger
+												Property="IsEnabled"
+												Value="False"
+												>
+											<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Item.NotEnabled.Foreground}" />
 										</Trigger>
-										<DataTrigger Binding="{Binding FileNew}"
-																 Value="True">
-											<Setter Property="IsEnabled"
-															Value="False" />
-											<Setter Property="IsSelected"
-															Value="False" />
-											<Setter TargetName="Bd"
-															Property="Background"
-															Value="Transparent" />
-											<Setter TargetName="Bd"
-															Property="BorderBrush"
-															Value="Transparent" />
+										<DataTrigger
+												Binding="{Binding FileNew}"
+												Value="True"
+												>
+											<Setter Property="IsEnabled" Value="False" />
+											<Setter Property="IsSelected" Value="False" />
+											<Setter TargetName="Bd" Property="Background" Value="Transparent" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
 										</DataTrigger>
 									</ControlTemplate.Triggers>
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
-						<Setter Property="VerticalContentAlignment"
-										Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+						<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 
 					</Style>
 
 				</ListView.Resources>
 			</ListView>
 		</Grid>
-		<StackPanel Grid.Column="0"
-								Grid.Row="3"
-								Grid.ColumnSpan="3"
-								HorizontalAlignment="Right"
-								Orientation="Horizontal">
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="3"
+				Grid.ColumnSpan="3"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal"
+				>
 			<StackPanel.Resources />
 
-			<Button Name="btnTest1"
-							Content="Test1"
-							Visibility="Collapsed"
-							Click="BtnTest1_OnClick"
-							Style="{StaticResource btn}" />
+			<Button
+					Name="btnTest1"
+					Content="Test1"
+					Visibility="Collapsed"
+					Click="BtnTest1_OnClick"
+					Style="{StaticResource btn}"
+					/>
 
-			<Button Name="btnDebug"
-							Content="Debug"
-							Visibility="Collapsed"
-							Click="BtnDebug_OnClick"
-							Style="{StaticResource btn}" />
+			<Button
+					Name="btnDebug"
+					Content="Debug"
+					Visibility="Collapsed"
+					Click="BtnDebug_OnClick"
+					Style="{StaticResource btn}"
+					/>
 
-			<Button Name="btnReset"
-							Content="Reset"
-							Visibility="Collapsed"
-							Click="BtnReset_OnClick"
-							Style="{StaticResource btn}" />
+			<Button
+					Name="btnReset"
+					Content="Reset"
+					Visibility="Collapsed"
+					Click="BtnReset_OnClick"
+					Style="{StaticResource btn}"
+					/>
 
-			<Button Name="btnGo"
-							Content="Go"
-							IsEnabled="{Binding ElementName=mainwin,
-															Path=Go}"
-							Click="BtnGo_OnClick"
-							Style="{StaticResource btn}" />
 
-			<Button Name="btnDone"
-							Content="Done"
-							Click="BtnDone_OnClick"
-							Style="{StaticResource btn}" />
+
+			<Button
+					Name="btnDone"
+					Content="Done"
+					Click="BtnDone_OnClick"
+					Style="{StaticResource btn}"
+					/>
+
 		</StackPanel>
 
 	</Grid>

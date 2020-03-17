@@ -9,7 +9,7 @@
 		x:Name="obliqueButton"
 		Margin="0,0,-5.5,0"
 		Padding="0"
-		d:DesignHeight="15"
+		d:DesignHeight="30"
 		d:DesignWidth="200"
 		Tag="{Binding ElementName=obliqueButton,
 									Path=Index,
@@ -18,25 +18,6 @@
 >
 
 	<UserControl.Resources>
-
-
-
-		<!-- <Style x:Key="FocusVisual"> -->
-		<!-- 	<Setter Property="Control.Template"> -->
-		<!-- 		<Setter.Value> -->
-		<!-- 			<ControlTemplate> -->
-		<!--  <Rectangle  -->
-		<!--  Margin="2"  -->
-		<!--  SnapsToDevicePixels="true"  -->
-		<!--  Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"  -->
-		<!--  StrokeDashArray="1 2"  -->
-		<!--  StrokeThickness="1"  -->
-		<!--  />  -->
-		<!-- 			</ControlTemplate> -->
-		<!-- 		</Setter.Value> -->
-		<!-- 	</Setter> -->
-		<!-- </Style> -->
-
 
 
 		<!--  <SolidColorBrush  -->
@@ -125,6 +106,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Center" />
 			<Setter Property="VerticalContentAlignment" Value="Stretch" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="Margin" Value="{Binding ElementName=obliqueButton, Path=ObliqueButtonMargin}"/>
 			<Setter Property="Padding" Value="0" />
 			<Setter Property="Opacity" Value="1"/>
 			<Setter Property="Template">
@@ -139,13 +121,13 @@
 								>
 							<ContentPresenter
 									x:Name="CP1"
-									Margin="{TemplateBinding Padding}"
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									Focusable="False"
 									RecognizesAccessKey="True"
 									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 									/>
+									<!-- Margin="{TemplateBinding Padding}" -->
 						</Border>
 						<ControlTemplate.Triggers>
 							<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowBorder}" Value="False">
@@ -298,7 +280,7 @@
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=PlusBrush,
 															 FallbackValue={StaticResource Path.Plus.Fill}}"
-								Stretch="Uniform"
+								Stretch="UniformToFill"
 						>
 							<Path.Style>
 								<Style TargetType="Path">
@@ -366,9 +348,6 @@
 																		 Path=Foreground,
 																		 FallbackValue=White}"
 								>
-							<!--  Foreground="{Binding ElementName=InnerButton,  -->
-							<!--  Path=Foreground,  -->
-							<!--  FallbackValue=white}"  -->
 
 							<Label.Style>
 								<Style TargetType="Label">

@@ -27,6 +27,11 @@ namespace Sylvester.Settings
 				{" (Selecting a Revision Folder)", "Select for the Revision Folder"}
 			};
 
+		[DataMember]
+		public static string[] SettingSheetNameCase { get; private set; } =
+		{
+			"Sheet Name Case", "Keep Existing", "Make Uppercase", "Capitalize Each Word"
+		};
 
 	}
 }

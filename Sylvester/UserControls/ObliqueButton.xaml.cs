@@ -55,6 +55,15 @@ namespace Sylvester.UserControls
 			get { return (Thickness) GetValue(TextMarginProperty); }
 			set { SetValue(TextMarginProperty, value); }
 		}
+		
+		public static readonly DependencyProperty ObliqueButtonMarginProperty = DependencyProperty.Register(
+			"ObliqueButtonMargin", typeof(Thickness), typeof(ObliqueButton), new PropertyMetadata(new Thickness(0)));
+
+		public Thickness ObliqueButtonMargin
+		{
+			get { return (Thickness) GetValue(ObliqueButtonMarginProperty); }
+			set { SetValue(ObliqueButtonMarginProperty, value); }
+		}
 
 		// show the text?
 		public static readonly DependencyProperty ShowTextProperty = DependencyProperty.Register(
@@ -114,7 +123,6 @@ namespace Sylvester.UserControls
 			get { return (bool) GetValue(ShowBorderProperty); }
 			set { SetValue(ShowBorderProperty, value); }
 		}
-
 
 
 		// color for the font

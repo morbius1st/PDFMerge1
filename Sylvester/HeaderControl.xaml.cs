@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using Sylvester.FolderSupport;
 using Sylvester.Process;
@@ -332,6 +334,16 @@ namespace Sylvester
 		}
 
 
+		public static readonly DependencyProperty ObliqueButtonMarginProperty = DependencyProperty.Register(
+			"ObliqueButtonMargin", typeof(Thickness), typeof(HeaderControl), new PropertyMetadata(new Thickness(0)));
+
+		public Thickness ObliqueButtonMargin
+		{
+			get { return (Thickness) GetValue(ObliqueButtonMarginProperty); }
+			set { SetValue(ObliqueButtonMarginProperty, value); }
+		}
+
+
 		public static readonly DependencyProperty ObliqueButtonHeightProperty = DependencyProperty.Register(
 			"ObliqueButtonHeight", typeof(double), typeof(HeaderControl), new PropertyMetadata(13.0));
 
@@ -352,4 +364,7 @@ namespace Sylvester
 
 	#endregion
 	}
+
+
+
 }
