@@ -168,16 +168,20 @@
 
 	<Grid Margin="7,0,7,0">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="575*" />
+			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="718*" />
+			<ColumnDefinition Width="1.1*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition />
-			<RowDefinition />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="30" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+
+
+		<!--#region > operation panel-->
 
 		<StackPanel
 				Grid.Column="0"
@@ -185,6 +189,7 @@
 				Margin="0,0,0,5"
 				Orientation="Vertical"
 				>
+
 			<StackPanel
 					HorizontalAlignment="Stretch"
 					Orientation="Horizontal"
@@ -284,18 +289,36 @@
 						</StackPanel>
 					</Button.Content>
 				</Button>
-
-
 			</StackPanel>
-
 		</StackPanel>
-
+		<!--#endregion-->
 
 		<!--#region > settings panel-->
+
+			<StackPanel Grid.Column="0"
+					Grid.Row="3"
+					HorizontalAlignment="Stretch"
+					Orientation="Horizontal"
+					Background="#395482CD"
+					Margin="0,10,0,0"
+					>
+
+				<Label
+						Content="Settings"
+						Margin="0,-4,0,0"
+						Padding="3,0,0,0"
+						FontSize="16"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
+
+
 		<StackPanel
-				Grid.Column="2"
-				Grid.Row="0"
-				Margin="0,0,0,10"
+				Grid.Column="0"
+				Grid.Row="4"
+				Grid.RowSpan="2"
+				Margin="0,10,0,0"
+				VerticalAlignment="top"
 				Orientation="Vertical"
 				>
 			<StackPanel.Resources>
@@ -306,27 +329,13 @@
 						BasedOn="{StaticResource control}"
 						>
 					<Setter Property="Margin" Value="18,0,3,1" />
+					<Setter Property="FontSize" Value="10" />
 				</Style>
 
 			</StackPanel.Resources>
 
-			<StackPanel
-					HorizontalAlignment="Stretch"
-					Orientation="Horizontal"
-					Background="#395482CD"
-					>
-
-				<Label
-						Content="Settings"
-						Margin="3,-2,0,4"
-						FontSize="{StaticResource Font.Size.Header}"
-						Style="{StaticResource control}"
-						/>
-			</StackPanel>
-
-			<Grid HorizontalAlignment="Stretch">
 				<Border
-						Margin="4,8,0,0"
+						Margin="0,0,0,0"
 						Padding="0"
 						HorizontalAlignment="Stretch"
 						CornerRadius="3"
@@ -374,11 +383,11 @@
 
 					</StackPanel>
 				</Border>
-			</Grid>
 		</StackPanel>
+
 		<!--#endregion-->
 
-
+		<!--#region > current panel-->
 		<Grid
 				Grid.Column="0"
 				Grid.Row="1"
@@ -483,6 +492,9 @@
 																FallbackValue={x:Null}}"
 					/>
 		</Grid>
+		<!--#endregion-->
+
+		<!--#region > Revision Panel-->
 
 		<Grid
 				Grid.Column="0"
@@ -584,11 +596,14 @@
 					/>
 
 		</Grid>
+		<!--#endregion-->
 
+
+		<!--#region > comparison panel-->
 		<Grid
 				Grid.Column="2"
-				Grid.Row="1"
-				Grid.RowSpan="2"
+				Grid.Row="0"
+				Grid.RowSpan="4"
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
@@ -604,13 +619,13 @@
 			<StackPanel
 					Grid.Column="0"
 					Grid.Row="0"
-					Margin="0,5,0,0"
+					Margin="0,0,0,0"
 					Background="#395482CD"
 					>
 
 				<Label
 						Content="Comparison"
-						Margin="0,-2,0,2"
+						Margin="0,-2,0,4"
 						Padding="3,0,0,0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="top"
@@ -622,13 +637,13 @@
 			<StackPanel
 					Grid.Column="0"
 					Grid.Row="1"
+					Margin="0,10,0,11"
 					Orientation="Horizontal"
-					Margin="0,0,0,11"
 					>
 				<Button
 						Name="btnCompare"
 						Content="Compare"
-						Width="84"
+						Width="64"
 						Height="26"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
@@ -652,36 +667,35 @@
 
 				<Button
 						Name="btnGo"
-						Content="Adjust Names"
-						Width="84"
-						Height="26"
+						Content="Fix Names"
 						Margin="12,0,0,0"
+						Width="64"
+						Height="26"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
 						IsEnabled="{Binding ElementName=mainwin,
-																Path=Go, FallbackValue=False}"
+																Path=Go,
+																FallbackValue=False}"
 						Click="BtnGo_OnClick"
-				/>
+						/>
 
 
 			</StackPanel>
 
-			<local:HeaderControl
-					x:Name="HdrComparison"
-					Title="Comparison"
-					Grid.Column="0"
-					Grid.Row="1"
-					Margin="0,13,0,8"
-					DataContext="{Binding pm.FileCollectionFinal,
-																ElementName=mainwin,
-																Mode=OneWay,
-																FallbackValue={x:Null}}"
-					FolderPathType="0"
-					FolderType="FINAL"
-					HideDirectory="true"
-					TitleBarMargin="0,0,0,0"
-					Style="{StaticResource HeaderControl.FolderRoute.Style}"
-					/>
+			<!--  <local:HeaderControl x:Name="HdrComparison"  -->
+			<!--  Title="Comparison"  -->
+			<!--  Grid.Column="0"  -->
+			<!--  Grid.Row="1"  -->
+			<!--  Margin="0,13,0,8"  -->
+			<!--  DataContext="{Binding pm.FileCollectionFinal,  -->
+			<!--  ElementName=mainwin,  -->
+			<!--  Mode=OneWay,  -->
+			<!--  FallbackValue={x:Null}}"  -->
+			<!--  FolderPathType="0"  -->
+			<!--  FolderType="FINAL"  -->
+			<!--  HideDirectory="true"  -->
+			<!--  TitleBarMargin="0,0,0,0"  -->
+			<!--  Style="{StaticResource HeaderControl.FolderRoute.Style}" />  -->
 
 			<ListView
 					Name="LvFinal"
@@ -1364,9 +1378,10 @@
 				</ListView.Resources>
 			</ListView>
 		</Grid>
+		<!--#endregion-->
 		<StackPanel
 				Grid.Column="0"
-				Grid.Row="3"
+				Grid.Row="4"
 				Grid.ColumnSpan="3"
 				HorizontalAlignment="Right"
 				Orientation="Horizontal"

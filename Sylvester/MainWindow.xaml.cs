@@ -144,7 +144,7 @@ namespace Sylvester
 
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
-			Debug.WriteLine("@go");
+			
 			pm.RenameFiles();
 		}
 
