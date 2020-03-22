@@ -58,9 +58,9 @@ namespace Sylvester.SavedFolders
 		private static SavedFolderManager favoritesMgr;
 		private static SavedFolderManager historyMgr;
 
-		private SavedFolderManager( SavedFolderType folderType, string title)
+		private SavedFolderManager( SavedFolderType savedFolderType, string title)
 		{
-			FolderType = folderType;
+			SavedFolderType = savedFolderType;
 			this.title = title;
 		}
 
@@ -68,9 +68,9 @@ namespace Sylvester.SavedFolders
 
 	#region public methods
 
-		public SavedFolderType FolderType { get; set; }
+		public SavedFolderType SavedFolderType { get; set; }
 
-		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(FolderType);
+		public bool HasSavedFolders => SetgMgr.Instance.HasSavedFolders(SavedFolderType);
 
 		public static SavedFoldersWin SavedWinInstance => savedWinInstance;
 
@@ -88,7 +88,7 @@ namespace Sylvester.SavedFolders
 
 		public bool? ShowSavedFolderWin(SavedFolderOperation folderOp = SavedFolderOperation.MANAGEMENT)
 		{
-			savedWinInstance = new SavedFoldersWin(FolderType, title);
+			savedWinInstance = new SavedFoldersWin(SavedFolderType, title);
 			savedWinInstance.Owner = Parent;
 			savedWinInstance.SavedFolderOperation = folderOp;
 
@@ -98,40 +98,40 @@ namespace Sylvester.SavedFolders
 		}
 
 		public FilePath<FileNameSimple> Current => savedWinInstance.SelectedFolderPair?.Current ?? null;
+
 		public FilePath<FileNameSimple> Revision => savedWinInstance.SelectedFolderPair?.Revision ?? null;
 
-		public void AddToHistory(FilePath<FileNameSimple> current, FilePath<FileNameSimple> revision)
+		public bool AddToSavedFolders(FilePath<FileNameSimple> current, FilePath<FileNameSimple> revision)
 		{
 			SavedFolderProject sf;
 
-			SavedFolderPair pair = SetgMgr.Instance.
-				FindSavedProjectByPaths(current, revision, 
-					SavedFolderType.HISTORY, out sf);
+			SavedFolderPair sfp =
+				SetgMgr.Instance.FindSavedProjectByPaths(current, revision, SavedFolderType, out sf);
 
-			// not found - add
-			if (sf != null)
+			// already in history
+			if (sfp != null) return true;
+
+			// combo of current and revision is not in history
+			// check one - is project in history 
+
+			sf = SetgMgr.Instance.FindFolderProjectByRootFolder(current, SavedFolderType);
+
+			bool result;
+
+			// already exists?
+			if (sf == null)
 			{
-				string name = SavedFolderProject.MakeName(current, SavedFolderType.HISTORY);
-
-				// verify if this name matches
-				sf = SetgMgr.Instance.FindFolderProjectByName(name, SavedFolderType.HISTORY);
-
-				if (sf != null)
-				{
-					SetgMgr.Instance.AddFolderPair(sf, current, revision);
-
-				}
-				else
-				{
-					// add project and folder pair
-					// prevent duplicate / extra work - save saved folder selected and note
-					// if not modified, do not resave
-					// same for project selected
-
-					
-				}
-
+				// add full boat
+				result = SetgMgr.Instance.NewFolderProject(current, revision, SavedFolderType) == null;
 			}
+			else
+			{
+				result = SetgMgr.Instance.AddFolderPair(sf, current, revision);
+			}
+
+			SetgMgr.WriteUsr();
+
+			return result;
 		}
 
 
@@ -143,7 +143,7 @@ namespace Sylvester.SavedFolders
 //		{
 //			// add a fav
 //
-//			sfds.Test_02(this, FolderType);
+//			sfds.Test_02(this, SavedFolderType);
 //		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -154,9 +154,6 @@ namespace Sylvester.SavedFolders
 		}
 
 	#endregion
+
 	}
-
-
-
-
 }

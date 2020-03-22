@@ -143,7 +143,6 @@ namespace Sylvester
 	#endregion
 
 
-
 	#region button events
 
 		// test and debug buttons
@@ -203,6 +202,7 @@ namespace Sylvester
 			
 		}
 
+
 		// favs and history
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -215,6 +215,8 @@ namespace Sylvester
 
 				HdrRevision.SetFolder(favorites.Revision);
 				SetgMgr.SetPriorFolder(FolderType.REVISION, favorites.Revision);
+
+
 			}
 		}
 
@@ -232,13 +234,17 @@ namespace Sylvester
 			}
 		}
 
+		private void BtnAddToFavs_OnClick(object sender, RoutedEventArgs e)
+		{
+			pm.SaveToFavorites();
+		}
+		
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetgMgr.SaveWindowLayout(WindowId.WINDOW_MAIN, this);
 
 			this.Close();
 		}
-
 
 		// settings
 		private void rbtn_OnClick(object sender, RoutedEventArgs e)

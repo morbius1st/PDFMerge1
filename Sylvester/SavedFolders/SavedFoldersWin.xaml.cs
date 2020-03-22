@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Sylvester.Process;
 using Sylvester.SavedFolders.SubFolder;
 using Sylvester.Settings;
 using Sylvester.Windows;
@@ -337,12 +338,6 @@ namespace Sylvester.SavedFolders
 	#endregion
 
 	#region public methods
-
-		public void AddToHistory(FilePath<FileNameSimple> current, FilePath<FileNameSimple> revision)
-		{
-
-		}
-
 
 	#endregion
 

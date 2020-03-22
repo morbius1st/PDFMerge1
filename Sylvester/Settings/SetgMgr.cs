@@ -96,11 +96,12 @@ namespace Sylvester.Settings
 
 	#region saved project methods
 
-		public SavedFolderProject CreateFolderProject(SavedFolderType folderType)
+		public SavedFolderProject NewFolderProject(FilePath<FileNameSimple> current,
+			FilePath<FileNameSimple> revision, SavedFolderType folderType)
 		{
-			SavedFolderProject sfp = new SavedFolderProject(null, folderType);
+			SavedFolderProject sfp = new SavedFolderProject(current, folderType);
 
-			SavedFolderPair cfp = new SavedFolderPair(sfp, null, null);
+			SavedFolderPair cfp = new SavedFolderPair(sfp, current, revision);
 
 			sfp.SavedFolderPairs.Add(cfp);
 
@@ -109,6 +110,23 @@ namespace Sylvester.Settings
 			WriteUsr();
 
 			return sfp;
+		}
+
+		public SavedFolderProject CreateFolderProject(SavedFolderType folderType)
+		{
+//			SavedFolderProject sfp = new SavedFolderProject(null, folderType);
+//
+//			SavedFolderPair cfp = new SavedFolderPair(sfp, null, null);
+//
+//			sfp.SavedFolderPairs.Add(cfp);
+//
+//			AddSavedFolderProject(sfp, folderType);
+//
+//			WriteUsr();
+//
+//			return sfp;
+
+			return NewFolderProject(null, null, folderType);
 		}
 		
 		public bool AddSavedFolderProject(SavedFolderProject sf, SavedFolderType folderType)
@@ -127,12 +145,35 @@ namespace Sylvester.Settings
 			return true;
 		}
 
+		// find by root folder path
+		public SavedFolderProject FindFolderProjectByRootFolder(FilePath<FileNameSimple> current,
+			SavedFolderType folderType)
+		{
+			if (current == null || current== FilePath<FileNameSimple>.Invalid) return null;
+
+			string testKey = current.AssemblePath(1).ToUpper();
+
+			foreach (SavedFolderProject sf in UserSettings.Data.SavedFolders[(int) folderType])
+			{
+				foreach (SavedFolderPair pair in sf.SavedFolderPairs)
+				{
+					string rootPath = pair.Current.AssemblePath(1);
+
+					// got it?  return it.
+					if (rootPath.ToUpper().Equals(testKey)) return sf;
+				}
+			}
+
+			// nothing found
+			return null;
+		}
+
 		// find by name
 		public SavedFolderProject FindFolderProjectByKey(string testKey, SavedFolderType folderType)
 		{
-			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[folderType.Value()])
+			foreach (SavedFolderProject fp in UserSettings.Data.SavedFolders[folderType.Value()])
 			{
-				if (sp.Key.Equals(testKey)) return sp;
+				if (fp.Key.Equals(testKey)) return fp;
 			}
 
 			return null;
@@ -299,5 +340,6 @@ namespace Sylvester.Settings
 		}
 
 	#endregion
+
 	}
 }

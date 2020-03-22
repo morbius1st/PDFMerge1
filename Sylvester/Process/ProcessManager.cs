@@ -62,7 +62,7 @@ namespace Sylvester.Process
 		private ReadFiles readFilesRevision;
 
 		private SavedFolderManager history;
-
+		private SavedFolderManager favorites;
 
 	#endregion
 
@@ -73,6 +73,7 @@ namespace Sylvester.Process
 			FileCollectionFinal = new FilesCollection<FileFinal>();
 
 			history = SavedFolderManager.GetHistoryManager();
+			favorites = SavedFolderManager.GetFavoriteManager();
 
 			Reset();
 		}
@@ -175,12 +176,14 @@ namespace Sylvester.Process
 				{
 					FileCollectionCurrent.Folder = folder;
 					resetCurrent();
+					resetFinal();
 					break;
 				}
 			case FolderType.REVISION:
 				{
 					FileCollectionRevision.Folder  = folder;
 					resetRevision();
+					resetFinal();
 					break;
 				}
 			}
@@ -205,7 +208,7 @@ namespace Sylvester.Process
 
 			if (!frm.RenameFiles(FileCollectionFinal)) return false;
 
-			history.AddToHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
+			history.AddToSavedFolders(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 
 			Reset();
 
@@ -259,6 +262,11 @@ namespace Sylvester.Process
 			}
 
 			return true;
+		}
+
+		public bool SaveToFavorites()
+		{
+			return favorites.AddToSavedFolders(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 		}
 
 	#endregion
