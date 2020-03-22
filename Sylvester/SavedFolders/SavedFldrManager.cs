@@ -100,6 +100,41 @@ namespace Sylvester.SavedFolders
 		public FilePath<FileNameSimple> Current => savedWinInstance.SelectedFolderPair?.Current ?? null;
 		public FilePath<FileNameSimple> Revision => savedWinInstance.SelectedFolderPair?.Revision ?? null;
 
+		public void AddToHistory(FilePath<FileNameSimple> current, FilePath<FileNameSimple> revision)
+		{
+			SavedFolderProject sf;
+
+			SavedFolderPair pair = SetgMgr.Instance.
+				FindSavedProjectByPaths(current, revision, 
+					SavedFolderType.HISTORY, out sf);
+
+			// not found - add
+			if (sf != null)
+			{
+				string name = SavedFolderProject.MakeName(current, SavedFolderType.HISTORY);
+
+				// verify if this name matches
+				sf = SetgMgr.Instance.FindFolderProjectByName(name, SavedFolderType.HISTORY);
+
+				if (sf != null)
+				{
+					SetgMgr.Instance.AddFolderPair(sf, current, revision);
+
+				}
+				else
+				{
+					// add project and folder pair
+					// prevent duplicate / extra work - save saved folder selected and note
+					// if not modified, do not resave
+					// same for project selected
+
+					
+				}
+
+			}
+		}
+
+
 	#endregion
 
 	#region event processing
