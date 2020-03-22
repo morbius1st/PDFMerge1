@@ -45,7 +45,6 @@ namespace Sylvester.Settings
 
 	#endregion
 
-
 	#region user settings
 
 	#region configuration settings
@@ -79,6 +78,8 @@ namespace Sylvester.Settings
 
 	#region public methods
 
+	#region misc methods
+
 		public static void WriteUsr()
 		{
 			UserSettings.Admin.Write();
@@ -91,27 +92,28 @@ namespace Sylvester.Settings
 
 		public List<ObservableCollection<SavedFolderProject>> SavedFolders => UserSettings.Data.SavedFolders;
 
-		// saved project methods
+	#endregion
 
-		// create a blank project - with temp name and null folder pairs
-		public SavedFolderProject CreateSavedProject(SavedFolderType folderType)
+	#region saved project methods
+
+		public SavedFolderProject CreateFolderProject(SavedFolderType folderType)
 		{
 			SavedFolderProject sfp = new SavedFolderProject(null, folderType);
 
-			SavedFolderPair cfp = new SavedFolderPair(null, null, "Folder Pair Name");
+			SavedFolderPair cfp = new SavedFolderPair(sfp, null, null);
 
 			sfp.SavedFolderPairs.Add(cfp);
 
-			AddSavedProjectFolder(sfp, folderType);
+			AddSavedFolderProject(sfp, folderType);
 
 			WriteUsr();
 
 			return sfp;
 		}
 		
-		public bool AddSavedProjectFolder(SavedFolderProject sf, SavedFolderType folderType)
+		public bool AddSavedFolderProject(SavedFolderProject sf, SavedFolderType folderType)
 		{
-			if (FindSavedFolder(sf.Name, folderType) != null) return false;
+			if (FindFolderProjectByName(sf.Name, folderType) != null) return false;
 
 			UserSettings.Data.SavedFolders[folderType.Value()].Add(sf);
 
@@ -125,32 +127,50 @@ namespace Sylvester.Settings
 			return true;
 		}
 
-
-		public SavedFolderProject FindSavedFolder(string testkey, SavedFolderType folderType)
+		// find by name
+		public SavedFolderProject FindFolderProjectByKey(string testKey, SavedFolderType folderType)
 		{
 			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[folderType.Value()])
 			{
-				if (sp.Name.Equals(testkey)) return sp;
+				if (sp.Key.Equals(testKey)) return sp;
 			}
 
 			return null;
 		}
 
-		public bool ContainsSavedFolder(string testkey, SavedFolderType folderType)
+		public bool ContainsKey(string testKey, SavedFolderType folderType)
 		{
-			bool result = FindSavedFolder(testkey, folderType) != null;
+			bool result = FindFolderProjectByKey(testKey, folderType) != null;
 
 			return result;
 		}
 
-		public bool HasSavedFolders(SavedFolderType index)
+		// find by name
+		public SavedFolderProject FindFolderProjectByName(string testName, SavedFolderType folderType)
 		{
-			return UserSettings.Data.SavedFolders[index.Value()].Count > 0;
+			foreach (SavedFolderProject sp in UserSettings.Data.SavedFolders[folderType.Value()])
+			{
+				if (sp.Name.Equals(testName)) return sp;
+			}
+
+			return null;
 		}
 
-		// end
-		 
-		// folder pair methods
+		public bool ContainsName(string testName, SavedFolderType folderType)
+		{
+			bool result = FindFolderProjectByName(testName, folderType) != null;
+
+			return result;
+		}
+
+		public bool HasSavedFolders(SavedFolderType folderType)
+		{
+			return UserSettings.Data.SavedFolders[folderType.Value()].Count > 0;
+		}
+
+	#endregion
+
+	#region saved pair methdods
 
 		public bool AddFolderPair(SavedFolderProject sf,
 			FilePath<FileNameSimple> current,
@@ -158,8 +178,7 @@ namespace Sylvester.Settings
 		{
 			if (sf == null) return false;
 
-			SavedFolderPair pair = new SavedFolderPair(current, revision,
-				SavedFolderPair.MakeFolderPairkey(sf, current, revision));
+			SavedFolderPair pair = new SavedFolderPair(sf, current, revision);
 
 			sf.SavedFolderPairs.Add(pair);
 
@@ -175,34 +194,68 @@ namespace Sylvester.Settings
 		
 		public bool DeleteFolderPair(SavedFolderProject sf, SavedFolderPair pair)
 		{
-			if (!ContainsFolderPair(sf, pair.Name)) return false;
+			if (!ContainsName(sf, pair.Name)) return false;
 
 			sf.SavedFolderPairs.Remove(pair);
 
 			return true;
 		}
 
-
-		public SavedFolderPair FindSavedFolderPair(SavedFolderProject sf, string testKey)
+		public SavedFolderPair FindFolderPairByKey(SavedFolderProject sf, string testKey)
 		{
 			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)
 			{
-				if (sfp.Name.Equals(testKey)) return sfp;
+				if (sfp.Key.Equals(testKey)) return sfp;
 			}
 
 			return null;
 		}
 
-		public bool ContainsFolderPair(SavedFolderProject sf, string testKey)
+		public bool ContainsKey(SavedFolderProject sf, string testKey)
 		{
-			return FindSavedFolderPair(sf, testKey) != null;
+			return FindFolderPairByKey(sf, testKey) != null;
 		}
 
+		public SavedFolderPair FindFolderPairByName(SavedFolderProject sf, string testName)
+		{
+			foreach (SavedFolderPair sfp in sf.SavedFolderPairs)
+			{
+				if (sfp.Name.Equals(testName)) return sfp;
+			}
 
+			return null;
+		}
 
-		// end
+		public bool ContainsName(SavedFolderProject sf, string testName)
+		{
+			return FindFolderPairByName(sf, testName) != null;
+		}
 
+		public SavedFolderPair FindSavedProjectByPaths(FilePath<FileNameSimple> Current, 
+			FilePath<FileNameSimple> Revision, SavedFolderType folderType, out SavedFolderProject project)
+		{
+			project = null;
 
+			foreach (SavedFolderProject sf in UserSettings.Data.SavedFolders[(int) folderType])
+			{
+				foreach (SavedFolderPair pair in sf.SavedFolderPairs)
+				{
+					if (pair.Current.Equals(Current))
+					{
+						if (pair.Revision.Equals(Revision))
+						{
+							// found
+							project = sf;
+							return pair;
+						}
+					}
+				}
+			}
+
+			return null;
+		}
+		
+	#endregion
 
 	#endregion
 

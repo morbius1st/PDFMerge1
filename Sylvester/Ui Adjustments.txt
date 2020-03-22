@@ -1,0 +1,38 @@
+saved folders
+2.  add some space between things
+3.  add a bit of color around the icons to note they can be pressed
+4.  add a highlight bar at each name in the lists
+5.  make folder pairs list 20% wider & whole form wider too
+6.  make initial current and revision folder == null
+
+
+main window (done)
+1.  name / title
+2  more space at header control
+3. header control:
+a. more space between items
+b.  move file path down below button
+c.  file path a tad bigger
+4. more space between revision title and list above
+5. at settings: change description of cap each word
+6. make space at right and left == 10 px.
+7.  adjust file summary to show "no files selected" when empty folder - remove dialog box
+8.  remove extra buttons - debut / test / reset.
+
+
+
+// Generate a random string with a given size  
+public string RandomString(int size, bool lowerCase)  
+{  
+    StringBuilder builder = new StringBuilder();  
+    Random random = new Random();  
+    char ch;  
+    for (int i = 0; i < size; i++)  
+    {  
+        ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));  
+        builder.Append(ch);  
+    }  
+    if (lowerCase)  
+        return builder.ToString().ToLower();  
+    return builder.ToString();  
+} 

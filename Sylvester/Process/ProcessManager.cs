@@ -53,6 +53,7 @@ namespace Sylvester.Process
 
 	public class ProcessManager : INotifyPropertyChanged
 	{
+
 	#region private fields
 		private ICollectionView cvRevision;
 		private ICollectionView cvCurrent;
@@ -60,7 +61,7 @@ namespace Sylvester.Process
 		private ReadFiles readFilesCurrent;
 		private ReadFiles readFilesRevision;
 
-		private SavedFolderManager sfmHistory;
+		private SavedFolderManager history;
 
 
 	#endregion
@@ -71,7 +72,7 @@ namespace Sylvester.Process
 			FileCollectionRevision = new FilesCollection<FileRevision>();
 			FileCollectionFinal = new FilesCollection<FileFinal>();
 
-			sfmHistory = SavedFolderManager.GetHistoryManager();
+			history = SavedFolderManager.GetHistoryManager();
 
 			Reset();
 		}
@@ -204,7 +205,7 @@ namespace Sylvester.Process
 
 			if (!frm.RenameFiles(FileCollectionFinal)) return false;
 
-//			sfmHistory.AddProjectHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
+			history.AddToHistory(FileCollectionCurrent.Folder, FileCollectionRevision.Folder);
 
 			Reset();
 
@@ -214,13 +215,6 @@ namespace Sylvester.Process
 
 			return true;
 		}
-
-//		public void HistorySave()
-//		{
-//			fmCurrent.svfMgr
-//
-//
-//		}
 
 		public void Reset()
 		{

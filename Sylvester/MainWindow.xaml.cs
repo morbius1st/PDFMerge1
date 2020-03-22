@@ -12,6 +12,55 @@ using Sylvester.Settings;
 using Sylvester.Windows;
 using UtilityLibrary;
 
+
+	/*
+
+	todo
+	1.  saved folder
+	a.  create a new project - must provide a real name
+	b.  *  all fields must use a temp field that is not saved
+	 to the settings file unless saved
+	 *  saved project / saved pair will have a key that is internal
+	 *  key is derived from saved folder pairs
+	 *  names cannot be blank
+	c.  must add a save button when adding new entry
+	d.  adding a new entry is for favorites only
+	e.  allow add project from external source.
+
+	2.  setgmgr
+	a.  need find project by key
+	b.  need find project by both filepaths
+	c.  need add a project but must have all fields
+	d.  need add a pair but must have all fields
+	e.  add project by savedfolderproject object
+
+
+	3. usr setg folderproject
+	a. add key
+	b. key internally created - provide public method
+	c. fail if key exists
+	d. key = current folderpath root foldername
+	e. add method to find project from  folder pair
+	f. add field - fully configured - which means
+	   i.    has a name
+	   ii.   has a key
+	   iii.  has min 1 folder pair (fully configured)
+	g. add method to clone
+
+	4. usr setg folder pair
+	a. add key
+	b. key internally created - provide public method
+	c. key == current folder name + " :: " + revision foldername
+	d. add field = project key - part of constructor
+	e. add field - fully configured - which means
+	   i.    has name
+	   ii.   has a key
+	   iii   has both folders
+	   iv.   has a project name
+	f. add method to clone
+
+	 */
+
 namespace Sylvester
 {
 
@@ -93,8 +142,11 @@ namespace Sylvester
 
 	#endregion
 
-	#region window events
 
+
+	#region button events
+
+		// test and debug buttons
 		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@test1");
@@ -113,6 +165,8 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
+
+		// operation buttons
 		private void BtnReadBoth_Click(object sender, RoutedEventArgs e)
 		{
 			BtnReadCurrent_OnClick(null, null);
@@ -144,10 +198,12 @@ namespace Sylvester
 
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
-			
 			pm.RenameFiles();
+
+			
 		}
 
+		// favs and history
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)
 		{
 			bool? result = favorites.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
@@ -183,11 +239,19 @@ namespace Sylvester
 			this.Close();
 		}
 
+
+		// settings
 		private void rbtn_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetFocusComparison();
 		}
 
+	#endregion
+
+
+	#region window events
+
+		// system events
 		private void Mainwin_Initialized(object sender, EventArgs e) { }
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)
