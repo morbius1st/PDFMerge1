@@ -61,9 +61,6 @@ using UtilityLibrary;
 
 	 */
 
-
-
-
 namespace Sylvester
 {
 
@@ -145,8 +142,11 @@ namespace Sylvester
 
 	#endregion
 
-	#region window events
 
+
+	#region button events
+
+		// test and debug buttons
 		private void BtnTest1_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("@test1");
@@ -165,6 +165,8 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
+
+		// operation buttons
 		private void BtnReadBoth_Click(object sender, RoutedEventArgs e)
 		{
 			BtnReadCurrent_OnClick(null, null);
@@ -197,8 +199,11 @@ namespace Sylvester
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			pm.RenameFiles();
+
+			
 		}
 
+		// favs and history
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)
 		{
 			bool? result = favorites.ShowSavedFolderWin(SavedFolderOperation.MANAGEMENT);
@@ -234,11 +239,19 @@ namespace Sylvester
 			this.Close();
 		}
 
+
+		// settings
 		private void rbtn_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetFocusComparison();
 		}
 
+	#endregion
+
+
+	#region window events
+
+		// system events
 		private void Mainwin_Initialized(object sender, EventArgs e) { }
 
 		private void Mainwin_Loaded(object sender, RoutedEventArgs e)

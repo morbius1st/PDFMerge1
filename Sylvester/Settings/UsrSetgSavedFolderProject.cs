@@ -91,7 +91,6 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-
 		[DataMember]
 		public ObservableCollection<SavedFolderPair> SavedFolderPairs
 		{

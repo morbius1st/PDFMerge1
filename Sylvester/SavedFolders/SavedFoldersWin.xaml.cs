@@ -338,6 +338,12 @@ namespace Sylvester.SavedFolders
 
 	#region public methods
 
+		public void AddToHistory(FilePath<FileNameSimple> current, FilePath<FileNameSimple> revision)
+		{
+
+		}
+
+
 	#endregion
 
 	#region private methods
@@ -358,9 +364,9 @@ namespace Sylvester.SavedFolders
 
 	#endregion
 
-	#region window events
+	#region control events
 
-		// main button events
+		// operation button events
 
 		private void BtnDebugx_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -390,6 +396,11 @@ namespace Sylvester.SavedFolders
 		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetgMgr.SaveWindowLayout(WindowId.DIALOG_SAVED_FOLDERS, this);
+
+			selectedFolderProject.UseCount += 1;
+
+			selectedFolderPair.ParentKey = selectedFolderProject.Key;
+
 			SetgMgr.WriteUsr();
 
 			this.DialogResult = true;
@@ -581,6 +592,10 @@ namespace Sylvester.SavedFolders
 				lvProjects.SelectedIndex = selectedFolderProjectIdx;
 			}
 		}
+
+	#endregion
+
+	#region window events
 
 		// window events
 		private void SavedFolderWin_Initialized(object sender, EventArgs e)
