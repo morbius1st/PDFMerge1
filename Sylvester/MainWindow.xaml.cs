@@ -236,7 +236,7 @@ namespace Sylvester
 
 		private void BtnAddToFavs_OnClick(object sender, RoutedEventArgs e)
 		{
-			pm.SaveToFavorites();
+			bool result = pm.SaveToFavorites();
 		}
 		
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)

@@ -288,11 +288,10 @@
 			</Style>
 
 
-
 			<Style
-					x:Key="Button.Style.Std.Left.C"
+					x:Key="Button.Style.Std.Right.A"
 					TargetType="Button"
-					BasedOn="{StaticResource Button.Style.Standard.Left}"
+					BasedOn="{StaticResource Button.Style.Standard.Right}"
 					>
 				<Setter Property="Visibility" Value="Visible" />
 				<Setter Property="IsEnabled" Value="True">
@@ -931,7 +930,7 @@
 				<Button.Style>
 					<Style
 							TargetType="Button"
-							BasedOn="{StaticResource Button.Style.Std.Left.C}"
+							BasedOn="{StaticResource Button.Style.Std.Right.A}"
 							>
 						<Style.Triggers>
 						<DataTrigger Binding="{Binding SelectedFolderPair}" Value="{x:Null}">
@@ -951,7 +950,7 @@
 				<Button.Style>
 					<Style
 							TargetType="Button"
-							BasedOn="{StaticResource Button.Style.Std.Left.C}"
+							BasedOn="{StaticResource Button.Style.Std.Right.A}"
 							>
 					</Style>
 				</Button.Style>

@@ -1,3 +1,13 @@
 
-check if neew install
+check if new install
 add selected item to history
+
+
+main window
+change window title name
+when selecting new folder, reset comparison to empty
+
+
+saved folders
+make sure disable some controls when history
+select & close buttons to close to right side

@@ -29,13 +29,15 @@ namespace Sylvester.FileSupport
 		public new static FolderType FolderType => FolderType.FINAL;
 
 		public static string StatusMsgMatches { get; } = "OK As Is";
-		public static string StatusMsgNotMatches { get; } = "Rename";
 		public static string StatusMsgMissing { get; } = "Ignore";
+		public static string StatusMsgNotMatches { get; } = "Rename";
+		public static string StatusMsgNotSelected { get; } = "Not Selected";
 
 		private string matchedSheetNumber = "";
 		private string matchedSeparator = "";
 		private string matchedSheetTitle = "";
 		private FileCurrent fileCurrent;
+		private bool isChecked;
 
 		public FileFinal() { }
 
@@ -68,6 +70,17 @@ namespace Sylvester.FileSupport
 			}
 		}
 
+//		public bool IsChecked
+//		{
+//			get => isChecked;
+//			set
+//			{
+//				isChecked = value;
+//				OnPropertyChange();
+//				OnPropertyChange("StatusMessage");
+//			}
+//		}
+
 		public bool FileNew => SheetTitleMatches == MatchStatus.NEW_FILE &&
 			SeparationMatches == MatchStatus.NEW_FILE && SheetTitleMatches == MatchStatus.NEW_FILE;
 
@@ -78,6 +91,7 @@ namespace Sylvester.FileSupport
 		{
 			get
 			{
+				if (!Selected) return StatusMsgNotSelected;
 				if (FileNew) return StatusMsgMissing;
 				if (FileMatches) return StatusMsgMatches;
 				return StatusMsgNotMatches;
@@ -152,7 +166,22 @@ namespace Sylvester.FileSupport
 
 		public override void UpdateSelectStatus()
 		{
-			Selected = StatusMessage.Equals(StatusMsgNotMatches);
+			bool result = !(FileNew || FileMatches);
+
+			Selected = result;
 		}
+
+		public new bool Selected
+		{
+			get => selected;
+			set
+			{
+				selected = value;
+				OnPropertyChange();
+				OnPropertyChange("StatusMessage");
+
+			}
+		}
+
 	}
 }

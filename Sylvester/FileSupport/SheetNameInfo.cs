@@ -58,7 +58,7 @@ namespace Sylvester.FileSupport
 		protected string sheetTitle;
 		protected string comment;
 		protected string adjustedSheetID;
-		private bool selected = false;
+		protected bool selected = false;
 		private FileType fileType;
 
 		public SheetNameInfo()

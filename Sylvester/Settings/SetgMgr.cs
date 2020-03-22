@@ -155,8 +155,12 @@ namespace Sylvester.Settings
 
 			foreach (SavedFolderProject sf in UserSettings.Data.SavedFolders[(int) folderType])
 			{
+				if (sf == null) continue;
+
 				foreach (SavedFolderPair pair in sf.SavedFolderPairs)
 				{
+					if (pair.Current == null) continue;
+
 					string rootPath = pair.Current.AssemblePath(1);
 
 					// got it?  return it.
@@ -277,10 +281,18 @@ namespace Sylvester.Settings
 		{
 			project = null;
 
+			if (Current == null || Current == FilePath<FileNameSimple>.Invalid ||
+				Revision == null || Revision == FilePath<FileNameSimple>.Invalid) return null;
+
 			foreach (SavedFolderProject sf in UserSettings.Data.SavedFolders[(int) folderType])
 			{
+				if (sf == null) continue;
+
 				foreach (SavedFolderPair pair in sf.SavedFolderPairs)
 				{
+					if (pair.Current == null) continue;
+					if (pair.Revision == null) continue;
+
 					if (pair.Current.Equals(Current))
 					{
 						if (pair.Revision.Equals(Revision))
