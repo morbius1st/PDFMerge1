@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
+using System.Windows.Threading;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
 using Sylvester.Settings;
@@ -13,63 +15,61 @@ using Sylvester.Windows;
 using UtilityLibrary;
 
 
-	/*
+/*
 
-	todo
-	1.  saved folder
-	a.  create a new project - must provide a real name
-	b.  *  all fields must use a temp field that is not saved
-	 to the settings file unless saved
-	 *  saved project / saved pair will have a key that is internal
-	 *  key is derived from saved folder pairs
-	 *  names cannot be blank
-	c.  must add a save button when adding new entry
-	d.  adding a new entry is for favorites only
-	e.  allow add project from external source.
+todo
+1.  saved folder
+a.  create a new project - must provide a real name
+b.  *  all fields must use a temp field that is not saved
+to the settings file unless saved
+*  saved project / saved pair will have a key that is internal
+*  key is derived from saved folder pairs
+*  names cannot be blank
+c.  must add a save button when adding new entry
+d.  adding a new entry is for favorites only
+e.  allow add project from external source.
 
-	2.  setgmgr
-	a.  need find project by key
-	b.  need find project by both filepaths
-	c.  need add a project but must have all fields
-	d.  need add a pair but must have all fields
-	e.  add project by savedfolderproject object
+2.  setgmgr
+a.  need find project by key
+b.  need find project by both filepaths
+c.  need add a project but must have all fields
+d.  need add a pair but must have all fields
+e.  add project by savedfolderproject object
 
 
-	3. usr setg folderproject
-	a. add key
-	b. key internally created - provide public method
-	c. fail if key exists
-	d. key = current folderpath root foldername
-	e. add method to find project from  folder pair
-	f. add field - fully configured - which means
-	   i.    has a name
-	   ii.   has a key
-	   iii.  has min 1 folder pair (fully configured)
-	g. add method to clone
+3. usr setg folderproject
+a. add key
+b. key internally created - provide public method
+c. fail if key exists
+d. key = current folderpath root foldername
+e. add method to find project from  folder pair
+f. add field - fully configured - which means
+	i.    has a name
+	ii.   has a key
+	iii.  has min 1 folder pair (fully configured)
+g. add method to clone
 
-	4. usr setg folder pair
-	a. add key
-	b. key internally created - provide public method
-	c. key == current folder name + " :: " + revision foldername
-	d. add field = project key - part of constructor
-	e. add field - fully configured - which means
-	   i.    has name
-	   ii.   has a key
-	   iii   has both folders
-	   iv.   has a project name
-	f. add method to clone
+4. usr setg folder pair
+a. add key
+b. key internally created - provide public method
+c. key == current folder name + " :: " + revision foldername
+d. add field = project key - part of constructor
+e. add field - fully configured - which means
+	i.    has name
+	ii.   has a key
+	iii   has both folders
+	iv.   has a project name
+f. add method to clone
 
-	 */
+*/
 
 namespace Sylvester
 {
-
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
-
 		public double MIN_WIDTH { get; } = 1000;
 		public double MIN_HEIGHT { get; }  = 850;
 
@@ -79,6 +79,8 @@ namespace Sylvester
 		private SavedFolderManager favorites;
 		private SavedFolderManager history;
 
+		private DispatcherTimer dispatcherTimer;
+		private string message = null;
 
 		public static Window MainWin;
 
@@ -86,7 +88,6 @@ namespace Sylvester
 
 		public MainWindow()
 		{
-
 			InitializeComponent();
 
 			UserSettings.Admin.Read();
@@ -100,6 +101,10 @@ namespace Sylvester
 
 			favorites = SavedFolderManager.GetFavoriteManager();
 			history = SavedFolderManager.GetHistoryManager();
+
+			dispatcherTimer = new DispatcherTimer();
+			dispatcherTimer.Tick += DispatcherTimerOnTick;
+			dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 4);
 
 			SavedFolderManager.Parent = this;
 		}
@@ -131,6 +136,28 @@ namespace Sylvester
 			}
 		}
 
+
+		public string Message
+		{
+			get => message;
+			private set
+			{
+				message = value;
+				OnPropertyChange();
+
+				if (message != null)
+				{
+					TblkMessage.Tag = "fadein";
+
+					dispatcherTimer.Start();
+				}
+				else
+				{
+					TblkMessage.Tag = "solid";
+				}
+			}
+		}
+
 	#endregion
 
 	#region public methods
@@ -153,7 +180,6 @@ namespace Sylvester
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-
 			Debug.WriteLine("@debug");
 		}
 
@@ -198,8 +224,6 @@ namespace Sylvester
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			pm.RenameFiles();
-
-			
 		}
 
 
@@ -215,8 +239,6 @@ namespace Sylvester
 
 				HdrRevision.SetFolder(favorites.Revision);
 				SetgMgr.SetPriorFolder(FolderType.REVISION, favorites.Revision);
-
-
 			}
 		}
 
@@ -237,8 +259,10 @@ namespace Sylvester
 		private void BtnAddToFavs_OnClick(object sender, RoutedEventArgs e)
 		{
 			bool result = pm.SaveToFavorites();
+
+			Message = "Saved to Favorites";
 		}
-		
+
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			SetgMgr.SaveWindowLayout(WindowId.WINDOW_MAIN, this);
@@ -256,6 +280,16 @@ namespace Sylvester
 
 
 	#region window events
+
+		private void DispatcherTimerOnTick(object sender, EventArgs e)
+		{
+			//Things which happen after 1 timer interval
+			message = null;
+			TblkMessage.Tag = "solid";
+
+			//Disable the timer
+			dispatcherTimer.IsEnabled = false;
+		}
 
 		// system events
 		private void Mainwin_Initialized(object sender, EventArgs e) { }
@@ -298,8 +332,7 @@ namespace Sylvester
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		#endregion
-
+	#endregion
 	}
 
 
@@ -320,6 +353,5 @@ namespace Sylvester
 		{
 			return null;
 		}
-
 	}
 }

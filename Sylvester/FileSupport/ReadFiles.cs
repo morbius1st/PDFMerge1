@@ -22,7 +22,7 @@ namespace Sylvester.FileSupport
 
 			foreach (string file in
 				Directory.EnumerateFiles(folder.GetFullPath, "*.*",
-					SearchOption.TopDirectoryOnly))
+					SearchOption.AllDirectories))
 			{
 				fc.Add(new FilePath<FileNameSimple>(file), preselect);
 			}

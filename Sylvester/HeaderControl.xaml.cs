@@ -87,9 +87,9 @@ namespace Sylvester
 			return SavedFolderOperation.GET_REVISION;
 		}
 
-		private void SelectFolder()
+		private void SelectFolder(string titleSuffix)
 		{
-			FilePath<FileNameSimple> fromSelectFolder = sf.GetFolder(Folder);
+			FilePath<FileNameSimple> fromSelectFolder = sf.GetFolder(Folder, titleSuffix);
 
 			AssignFolder(fromSelectFolder);
 		}
@@ -174,7 +174,16 @@ namespace Sylvester
 		{
 //			Debug.WriteLine("Header Control, Select Folder");
 
-			SelectFolder();
+			if (FolderType == FolderType.CURRENT)
+			{
+				SelectFolder("Current Folder");
+			}
+			else
+			{
+				SelectFolder("Revision Folder");
+			}
+
+			
 		}
 
 		internal void onPathFavoriteEvent(object sender, EventArgs e)

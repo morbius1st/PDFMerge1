@@ -70,17 +70,6 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-//		public bool IsChecked
-//		{
-//			get => isChecked;
-//			set
-//			{
-//				isChecked = value;
-//				OnPropertyChange();
-//				OnPropertyChange("StatusMessage");
-//			}
-//		}
-
 		public bool FileNew => SheetTitleMatches == MatchStatus.NEW_FILE &&
 			SeparationMatches == MatchStatus.NEW_FILE && SheetTitleMatches == MatchStatus.NEW_FILE;
 

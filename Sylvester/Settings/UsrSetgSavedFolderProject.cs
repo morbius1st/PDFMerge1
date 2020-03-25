@@ -22,6 +22,7 @@ namespace Sylvester.SavedFolders
 		private const string PROJECT_PREFIX = "Project ";
 
 		private string icon;
+		private DateTime dateTime;
 		private string name;
 		private string key;
 		private int useCount;
@@ -40,6 +41,8 @@ namespace Sylvester.SavedFolders
 			Key = MakeKey(folderType);
 
 			Icon = App.Icon_FolderProject00;
+
+			DateTime = DateTime.Now;
 		}
 
 	#endregion
@@ -54,6 +57,21 @@ namespace Sylvester.SavedFolders
 			{
 				key = value;
 				OnPropertyChange("IsConfigured");
+			}
+		}
+
+		[DataMember]
+		public DateTime DateTime
+		{
+			get
+			{
+				if (dateTime == DateTime.MinValue) dateTime = DateTime.Now;
+				return dateTime;
+			}
+			set
+			{
+				dateTime = value;
+				OnPropertyChange();
 			}
 		}
 

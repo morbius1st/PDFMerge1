@@ -18,6 +18,11 @@
 				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/SvgResources.xaml" />
 				<ResourceDictionary Source="Resources/XAML/NarrowScrollBar.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+
+
+
+
+
 		</ResourceDictionary>
 
 	</Application.Resources>

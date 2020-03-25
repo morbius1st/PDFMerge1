@@ -72,9 +72,9 @@ namespace Sylvester.SavedFolders.SubFolder
 
 	#region private methods
 
-		private void SelectFolder()
+		private void SelectFolder(string titleSuffix)
 		{
-			fromSelectFolder = sf.GetFolder(Folder);
+			fromSelectFolder = sf.GetFolder(Folder, titleSuffix);
 			if (!fromSelectFolder.IsValid) return;
 
 			SetgMgr.SetPriorFolder(FolderType, fromSelectFolder);
@@ -88,11 +88,6 @@ namespace Sylvester.SavedFolders.SubFolder
 
 		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
 		{
-//			Debug.WriteLine("subfolderManager| path changed");
-//			Debug.WriteLine("subfolderManager| index     | " + e.Index);
-//			Debug.WriteLine("subfolderManager| sel folder| " + e.SelectedFolder);
-//			Debug.WriteLine("subfolderManager| sel path  | " + e.SelectedPath.GetFullPath);
-
 			if (!e.SelectedPath.GetFullPath.IsVoid())
 			{
 				OnPropertyChange("Folder");
@@ -101,9 +96,14 @@ namespace Sylvester.SavedFolders.SubFolder
 
 		internal void onPathSelectFolderEvent(object sender, EventArgs e)
 		{
-//			Debug.WriteLine("subfolderManager| Select Folder");
-
-			SelectFolder();
+			if (FolderType == FolderType.CURRENT)
+			{
+				SelectFolder("Current Folder");
+			}
+			else
+			{
+				SelectFolder("Revision Folder");
+			}
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

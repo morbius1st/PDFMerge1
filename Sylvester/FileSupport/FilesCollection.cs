@@ -1,6 +1,7 @@
 ﻿#region + Using Directives
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
 
@@ -99,6 +100,15 @@ namespace Sylvester.FileSupport
 			get => FilesFound - NonSheetPdfsFiles - OtherFiles; 
 		}
 
+		public int SelectedCount {
+			get
+			{ 
+				int n= Files.Count(info => info.Selected);
+
+				return n;
+			}
+	}
+
 		public void Add(T tf)
 		{
 			Files.Add(tf);
@@ -172,6 +182,11 @@ namespace Sylvester.FileSupport
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("FilesFound");
 
+		}
+
+		public void Update()
+		{
+			OnPropertyChange("SelectedCount");
 		}
 
 		public override string ToString()

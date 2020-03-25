@@ -64,6 +64,8 @@ namespace Sylvester.Process
 		private SavedFolderManager history;
 		private SavedFolderManager favorites;
 
+		private FilesCollection<FileFinal> fileCollectionFinal = new FilesCollection<FileFinal>();
+
 	#endregion
 
 		public ProcessManager() { //}
@@ -82,7 +84,18 @@ namespace Sylvester.Process
 
 		public FilesCollection<FileCurrent> FileCollectionCurrent { get; private set; } = new FilesCollection<FileCurrent>();
 		public FilesCollection<FileRevision> FileCollectionRevision { get; private set; } = new FilesCollection<FileRevision>();
-		public FilesCollection<FileFinal> FileCollectionFinal { get; private set; } = new FilesCollection<FileFinal>();
+
+
+		public FilesCollection<FileFinal> FileCollectionFinal
+		{
+			get => fileCollectionFinal;
+			private set
+			{
+				fileCollectionFinal = value;
+				OnPropertyChange();
+				fileCollectionFinal.Update();
+			}
+		}
 
 
 		public ICollectionView CvCurrent
@@ -337,12 +350,16 @@ namespace Sylvester.Process
 
 		private void collectionViewFinal()
 		{
+
 			CvFinal = CollectionViewSource.GetDefaultView(FileCollectionFinal.Files);
 
 			CvFinal.SortDescriptions.Add(new SortDescription("AdjustedSheetId", ListSortDirection.Ascending));
 
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChange("CvFinal");
+
+
+
 		}
 
 		private void caseChange()

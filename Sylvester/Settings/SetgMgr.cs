@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using SettingManager;
 using Sylvester.FileSupport;
@@ -17,7 +18,6 @@ using UtilityLibrary;
 // itemname: SettingsManager
 // username: jeffs
 // created:  11/16/2019 6:02:58 AM
-
 
 namespace Sylvester.Settings
 {
@@ -114,18 +114,6 @@ namespace Sylvester.Settings
 
 		public SavedFolderProject CreateFolderProject(SavedFolderType folderType)
 		{
-//			SavedFolderProject sfp = new SavedFolderProject(null, folderType);
-//
-//			SavedFolderPair cfp = new SavedFolderPair(sfp, null, null);
-//
-//			sfp.SavedFolderPairs.Add(cfp);
-//
-//			AddSavedFolderProject(sfp, folderType);
-//
-//			WriteUsr();
-//
-//			return sfp;
-
 			return NewFolderProject(null, null, folderType);
 		}
 		

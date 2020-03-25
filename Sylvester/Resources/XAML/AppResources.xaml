@@ -14,22 +14,24 @@
 
 	<system:Double x:Key="Font.Size.Header">22</system:Double>
 
-	<SolidColorBrush x:Key="FldrRtFntBrush"              >#cccccc</SolidColorBrush>
-	<SolidColorBrush x:Key="Background"                  >#333333</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill"          >OrangeRed</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill2"         >#FF581A</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Plus.Fill"              >Lime</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.History.Fill"           >#00efff</SolidColorBrush>
-	<SolidColorBrush x:Key="Button.Static.Background"    >#444444</SolidColorBrush>
+	<system:Int32 x:Key="c1">#FFDDDDDD</system:Int32>
 
-	<SolidColorBrush x:Key="MouseOver.Foreground"        >White</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border.Background" >#FF3A779B</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border"            >#FFC7EAFF</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border.Background"   >#FFC4E5F6</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border"              >#FF2C628B</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Foreground"         >#FFCACACA</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border.Background"  >#FF727272</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border"             >#FFADB2B5</SolidColorBrush>
+	<SolidColorBrush x:Key="FldrRtFntBrush">#FFEEEEEE</SolidColorBrush>
+	<SolidColorBrush x:Key="Background">#333333</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill">OrangeRed</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill2">#FF581A</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.History.Fill">#00efff</SolidColorBrush>
+	<SolidColorBrush x:Key="Button.Static.Background">#444444</SolidColorBrush>
+
+	<SolidColorBrush x:Key="MouseOver.Foreground">White</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border.Background">#FF3A779B</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border">#FFC7EAFF</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border.Background">#FFC4E5F6</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border">#FF2C628B</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Foreground">#FFDDDDDD</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border.Background">#FF646464</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border">#FFADB2B5</SolidColorBrush>
 
 
 	<Geometry x:Key="Icon.Rect">F1M0,0 32,0 32,32 0,32 0,0z</Geometry>
@@ -42,6 +44,115 @@
 			FillRule="Nonzero"
 			/>
 
+	<ControlTemplate
+			x:Key="LabelBase"
+			TargetType="{x:Type Label}"
+			>
+		<Border
+				Padding="{TemplateBinding Padding}"
+				SnapsToDevicePixels="True"
+				Background="{TemplateBinding Background}"
+				BorderThickness="{TemplateBinding BorderThickness}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				>
+			<ContentPresenter
+					Content="{TemplateBinding Content}"
+					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					ContentStringFormat="{TemplateBinding ContentStringFormat}"
+					RecognizesAccessKey="True"
+					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
+					/>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger
+					Property="IsEnabled"
+					Value="False"
+					>
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+			</Trigger>
+			<Trigger
+					Property="IsEnabled"
+					Value="False"
+					>
+				<Setter Property="Foreground" Value="#FF666666" />
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+
+
+
+
+	<ControlTemplate
+			x:Key="ButtonBase"
+			TargetType="{x:Type ButtonBase}"
+			>
+		<Border
+				x:Name="border"
+				SnapsToDevicePixels="True"
+				Background="{TemplateBinding Background}"
+				BorderThickness="{TemplateBinding BorderThickness}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				>
+
+			<ContentPresenter
+					x:Name="cp"
+					Content="{TemplateBinding Content}"
+					Margin="{TemplateBinding Padding}"
+					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					ContentStringFormat="{TemplateBinding ContentStringFormat}"
+					Focusable="False"
+					RecognizesAccessKey="True"
+					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
+					/>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger
+					Property="Button.IsDefaulted"
+					Value="True"
+					>
+				<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+			</Trigger>
+			<Trigger
+					Property="IsMouseOver"
+					Value="True"
+					>
+				<Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
+				<Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
+			</Trigger>
+			<Trigger
+					Property="IsPressed"
+					Value="True"
+					>
+				<Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
+				<Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
+			</Trigger>
+			<Trigger
+					Property="ToggleButton.IsChecked"
+					Value="True"
+					>
+				<Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
+				<Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
+			</Trigger>
+			<Trigger
+					Property="IsEnabled"
+					Value="False"
+					>
+				<Setter Property="Foreground" Value="#FF666666" />
+				<Setter TargetName="border" Property="Background" Value="#FFCCCCCC" />
+				<Setter TargetName="border" Property="BorderBrush" Value="#FF888888" />
+			</Trigger>
+
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+
+
+	<Style x:Key="Label.Style.Standard" TargetType="Label">
+		<Setter Property="Template" Value="{StaticResource LabelBase}"/>
+	</Style>
 
 	<Style
 			x:Key="Button.Style.Standard"
@@ -52,6 +163,7 @@
 		<Setter Property="Padding" Value="0" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Width" Value="{StaticResource Button.Width}" />
+		<Setter Property="Template" Value="{StaticResource ButtonBase}" />
 	</Style>
 
 	<Style
@@ -59,7 +171,7 @@
 			TargetType="Button"
 			BasedOn="{StaticResource Button.Style.Standard}"
 			>
-		<Setter Property="Margin" Value="0,0,10,10" />
+		<Setter Property="Margin" Value="0,0,12,10" />
 	</Style>
 
 	<Style
@@ -67,11 +179,8 @@
 			TargetType="Button"
 			BasedOn="{StaticResource Button.Style.Standard}"
 			>
-		<Setter Property="Margin" Value="10,0,0,10" />
+		<Setter Property="Margin" Value="12,0,0,10" />
 	</Style>
-
-
-
 
 	<system:Double x:Key="FldrRt.Height">30</system:Double>
 	<system:Double x:Key="FldrRt.ObBtnHeight">17</system:Double>
@@ -80,7 +189,7 @@
 
 	<Thickness x:Key="FldrRt.TxFntMargin">0,0,0,2</Thickness>
 	<Thickness x:Key="FldrRt.ObBtnMargin">-1,0,0,0</Thickness>
-	
+
 	<Style
 			x:Key="FolderRoute.Style"
 			TargetType="userControls:FolderRoute"
@@ -90,8 +199,8 @@
 		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRt.ObBtnHeight}" />
 		<Setter Property="TextFontSize" Value="{StaticResource FldrRt.TxFntSize}" />
 		<Setter Property="TextMargin" Value="{StaticResource FldrRt.TxFntMargin}" />
-		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}"/>
-		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}"/>
+		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}" />
+		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}" />
 	</Style>
 
 	<Style
@@ -103,8 +212,8 @@
 		<Setter Property="ObliqueButtonHeight" Value="{StaticResource FldrRt.ObBtnHeight}" />
 		<Setter Property="TextFontSize" Value="{StaticResource FldrRt.TxFntSize}" />
 		<Setter Property="TextMargin" Value="{StaticResource FldrRt.TxFntMargin}" />
-		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}"/>
-		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}"/>
+		<Setter Property="ObliqueButtonMargin" Value="{StaticResource FldrRt.ObBtnMargin}" />
+		<Setter Property="FontSize" Value="{StaticResource FldrRt.TxFntSize}" />
 
 	</Style>
 

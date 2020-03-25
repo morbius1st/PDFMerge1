@@ -93,7 +93,7 @@
 			<local:StringEqualToBoolConverter x:Key="StrEqCv" />
 			<local:IntGreaterThanConverter x:Key="IntGtCv" />
 
-			<SolidColorBrush x:Key="btnBkg">LightGray</SolidColorBrush>
+			<SolidColorBrush x:Key="GrayLight">#CCCCCC</SolidColorBrush>
 
 			<sys:Double x:Key="Height.Bottom.Row">80</sys:Double>
 			<sys:Double x:Key="Icon.Height">30</sys:Double>
@@ -102,9 +102,10 @@
 			<Style
 					x:Key="Label"
 					TargetType="Label"
+					BasedOn="{StaticResource Label.Style.Standard}"
 					>
 				<Setter Property="Margin" Value="0" />
-				<Setter Property="Padding" Value="0,0,0,0" />
+				<Setter Property="Padding" Value="0" />
 			</Style>
 
 			<Style
@@ -145,11 +146,14 @@
 			</Style>
 
 			<Style
-					x:Key="label.value"
+					x:Key="label.DateTime"
 					TargetType="Label"
-					BasedOn="{StaticResource Label.Foreground.White}"
+					BasedOn="{StaticResource Label}"
 					>
-				<Setter Property="Background" Value="#444444" />
+				<Setter Property="Foreground" Value="{StaticResource GrayLight}" />
+				<Setter Property="FontSize" Value="10.5" />
+				<Setter Property="Padding" Value="2,0,0,0">
+				</Setter>
 			</Style>
 
 
@@ -177,7 +181,7 @@
 					TargetType="TextBlock"
 					>
 				<Setter Property="Padding" Value="0,3,0,0" />
-				<Setter Property="Foreground" Value="White" />
+				<Setter Property="Foreground" Value="{StaticResource GrayLight}" />
 				<Setter Property="FontSize" Value="10" />
 				<Setter Property="HorizontalAlignment" Value="Left" />
 				<Setter Property="TextAlignment" Value="Right" />
@@ -288,6 +292,39 @@
 			</Style>
 
 
+			<Style x:Key="Button.Style.Std.Left.C"
+					TargetType="Button"
+					BasedOn="{StaticResource Button.Style.Standard.Left}">
+				<Setter Property="Visibility"
+						Value="Visible" />
+				<Setter Property="IsEnabled"
+						Value="True">
+				</Setter>
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding Path=SavedFolderType}"
+							Value="{x:Static local:SavedFolderType.FAVORITES}">
+						<Setter Property="Visibility"
+								Value="Collapsed">
+						</Setter>
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
+
+			<Style x:Key="Button.Style.Std.Left.C1"
+					TargetType="Button"
+					BasedOn="{StaticResource Button.Style.Std.Left.C}">
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding SelectedFolderProject}"
+							Value="{x:Null}">
+						<Setter Property="IsEnabled"
+								Value="False">
+						</Setter>
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
+
 			<Style
 					x:Key="Button.Style.Std.Right.A"
 					TargetType="Button"
@@ -298,7 +335,7 @@
 				</Setter>
 				<Style.Triggers>
 					<DataTrigger
-							Binding="{Binding Path=SavedFolderType}"
+							Binding="{Binding Path=FolderProjectOp}"
 							Value="{x:Static local:FolderProjectOp.ADD_PROJECT}"
 							>
 						<Setter Property="IsEnabled" Value="false">
@@ -330,7 +367,7 @@
 									CornerRadius="3"
 									Background="Transparent"
 									BorderThickness="2"
-									BorderBrush="#555555"
+									BorderBrush="#666666"
 									>
 								<ContentPresenter
 										x:Name="contentPresenter"
@@ -658,25 +695,6 @@
 								<Setter Property="Visibility" Value="Collapsed" />
 							</DataTrigger>
 
-							<!-- <Setter Property="Visibility" Value="Visible" /> -->
-							<!-- <Setter Property="IsEnabled" Value="True"> -->
-							<!-- </Setter> -->
-							<!-- <Style.Triggers> -->
-							<!--  <DataTrigger  -->
-							<!--  Binding="{Binding ElementName=SavedFolderWin,  -->
-							<!--  Path=SelectedFolderProject}"  -->
-							<!--  Value="{x:Null}"  -->
-							<!--  >  -->
-							<!-- 		<Setter Property="IsEnabled" Value="False" /> -->
-							<!-- 	</DataTrigger> -->
-							<!--  <DataTrigger  -->
-							<!--  Binding="{Binding Path=FolderProjectOp,  -->
-							<!--  FallbackValue={x:Static local:FolderProjectOp.ADD_PROJECT}}"  -->
-							<!--  Value="{x:Static local:FolderProjectOp.NONE}"  -->
-							<!--  >  -->
-							<!-- 		<Setter Property="Visibility" Value="Collapsed"> -->
-							<!-- 		</Setter> -->
-							<!-- 	</DataTrigger> -->
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
@@ -751,6 +769,47 @@
 					</Style>
 				</Button.Style>
 			</Button>
+
+			<Button
+					Name="BtnAddToFavorites"
+					HorizontalAlignment="Right"
+					Click="BtnAddToFavorites_OnClick"
+					>
+				<!--  Style="{StaticResource Button.Style.Standard.Left}"  -->
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<Label
+								Content="Add To"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+						<Label
+								Content="Favorites"
+								Style="{StaticResource Label.Button.StackedText}"
+								/>
+					</StackPanel>
+				</Button.Content>
+				<Button.Style>
+					<Style
+							TargetType="Button"
+							BasedOn="{StaticResource Button.Style.Std.Left.C1}"
+							>
+						<!-- <Setter Property="Visibility" Value="Collapsed" /> -->
+						<Style.Triggers>
+							<DataTrigger
+									Binding="{Binding Path=FolderProjectOp}"
+									Value="{x:Static local:FolderProjectOp.ADD_PROJECT}"
+									>
+								<Setter Property="IsEnabled" Value="True">
+								</Setter>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
+
+
+
+
 
 		</StackPanel>
 
@@ -864,7 +923,7 @@
 						<Label
 								Content="Delete a"
 								Style="{StaticResource Label.Button.StackedText}"
-								/>
+/>
 						<Label
 								Content="Folder Pair"
 								Style="{StaticResource Label.Button.StackedText}"
@@ -933,9 +992,13 @@
 							BasedOn="{StaticResource Button.Style.Std.Right.A}"
 							>
 						<Style.Triggers>
-						<DataTrigger Binding="{Binding SelectedFolderPair}" Value="{x:Null}">
-							<Setter Property="IsEnabled" Value="False"></Setter>
-						</DataTrigger>
+							<DataTrigger
+									Binding="{Binding SelectedFolderPair}"
+									Value="{x:Null}"
+									>
+								<Setter Property="IsEnabled" Value="False">
+								</Setter>
+							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
@@ -946,7 +1009,7 @@
 					Content="Close"
 					HorizontalAlignment="Right"
 					Click="BtnClose_OnClick"
-					>
+							>
 				<Button.Style>
 					<Style
 							TargetType="Button"
@@ -995,16 +1058,16 @@
 				<DockPanel Margin="0,5,0,0">
 
 					<Label
-							DockPanel.Dock="Top"
 							Content="Icon"
 							Margin="0,-2,10,0"
+							DockPanel.Dock="Top"
 							Style="{StaticResource label.Width.Auto}"
 							/>
 
 
 					<Button
-							DockPanel.Dock="Left"
 							x:Name="FolderProject"
+							DockPanel.Dock="Left"
 							Click="FolderProject_OnClick"
 							Style="{StaticResource Button.Icon}"
 							>
@@ -1191,6 +1254,7 @@
 							KeyUp="TbxProjInfoName_OnKeyUp"
 							MaxLines="1"
 							SpellCheck.IsEnabled="True"
+							TextChanged="TbxProjInfoName_TextChanged"
 							Validation.ErrorTemplate="{StaticResource DuplicateNameValidationTemplate}"
 							>
 						<TextBox.Resources>
@@ -1231,7 +1295,14 @@
 									TargetType="TextBox"
 									BasedOn="{StaticResource TextBox.Edit}"
 									>
+								<Setter Property="IsEnabled"
+										Value="True" />
 								<Style.Triggers>
+									<DataTrigger Binding="{Binding SavedFolderType}"
+											Value="{x:Static local:SavedFolderType.HISTORY}">
+										<Setter Property="IsEnabled"
+												Value="False" />
+									</DataTrigger>
 									<Trigger
 											Property="Validation.HasError"
 											Value="True"
@@ -1269,9 +1340,9 @@
 				<DockPanel Margin="0,5,0,0">
 
 					<Label
-							DockPanel.Dock="Top"
 							Content="Icon"
 							Margin="0,-2,10,0"
+							DockPanel.Dock="Top"
 							Style="{StaticResource label.Width.Auto}"
 							/>
 
@@ -1413,7 +1484,14 @@
 									TargetType="TextBox"
 									BasedOn="{StaticResource TextBox.Edit}"
 									>
+								<Setter Property="IsEnabled" Value="True" />
 								<Style.Triggers>
+									<DataTrigger
+											Binding="{Binding SavedFolderType}"
+											Value="{x:Static local:SavedFolderType.HISTORY}"
+											>
+										<Setter Property="IsEnabled" Value="False" />
+									</DataTrigger>
 									<Trigger
 											Property="Validation.HasError"
 											Value="True"
@@ -1436,6 +1514,7 @@
 						<Style TargetType="DockPanel">
 							<Setter Property="Visibility" Value="Collapsed" />
 							<Style.Triggers>
+
 								<DataTrigger
 										Binding="{Binding ElementName=SavedFolderWin,
 																			Path=SavedFolderOperation,
@@ -1475,7 +1554,14 @@
 									TargetType="user:FolderRoute"
 									BasedOn="{StaticResource FolderRoute.Style}"
 									>
+								<Setter Property="IsEnabled"
+										Value="True" />
 								<Style.Triggers>
+									<DataTrigger Binding="{Binding SavedFolderType}"
+											Value="{x:Static local:SavedFolderType.HISTORY}">
+										<Setter Property="IsEnabled"
+												Value="False" />
+									</DataTrigger>
 									<DataTrigger
 											Binding="{Binding ElementName=SavedFolderWin,
 																				Path=SelectedFolderPair}"
@@ -1536,7 +1622,14 @@
 									TargetType="user:FolderRoute"
 									BasedOn="{StaticResource FolderRoute.Style}"
 									>
+								<Setter Property="IsEnabled"
+										Value="True" />
 								<Style.Triggers>
+									<DataTrigger Binding="{Binding SavedFolderType}"
+											Value="{x:Static local:SavedFolderType.HISTORY}">
+										<Setter Property="IsEnabled"
+												Value="False" />
+									</DataTrigger>
 									<DataTrigger
 											Binding="{Binding ElementName=SavedFolderWin,
 																				Path=SelectedFolderPair}"
@@ -1628,12 +1721,12 @@
 
 
 				<Label
-						Content="Messages"
+						Content="Message"
 						Margin="0,10,0,5"
 						Padding="0,0,0,3"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Bottom"
-						FontSize="16"
+						FontSize="15"
 						DockPanel.Dock="top"
 						Background="#395482CD"
 						Foreground="White"
@@ -1692,26 +1785,10 @@
 														To="0.0"
 														Duration="0:0:1.0"
 														/>
-
 											</Storyboard>
 										</BeginStoryboard>
 									</Trigger.ExitActions>
 								</Trigger>
-
-								<!-- <Trigger Property="Tag" Value="fadeout"> -->
-								<!-- <Trigger.EnterActions> -->
-								<!-- 	<BeginStoryboard> -->
-								<!-- 		<Storyboard> -->
-								<!--  <DoubleAnimation  -->
-								<!--  Storyboard.TargetProperty="Foreground.Opacity"  -->
-								<!--  From="1.0" To="0.0" Duration="0:0:1.0"  -->
-								<!--  BeginTime="0:0:0"  -->
-								<!--  />  -->
-								<!--    -->
-								<!-- 		</Storyboard> -->
-								<!-- 	</BeginStoryboard> -->
-								<!-- </Trigger.EnterActions> -->
-								<!-- </Trigger> -->
 							</Style.Triggers>
 						</Style>
 					</TextBlock.Style>
@@ -1911,7 +1988,6 @@
 				<ListView.Resources>
 					<DataTemplate
 							x:Key="DataTemplate1"
-							x:Name="dtLvProjects"
 							DataType="local:SavedFolderProject"
 							>
 						<StackPanel
@@ -1934,15 +2010,53 @@
 
 								</ContentControl.Content>
 							</ContentControl>
-							<Label
-									Content="{Binding Name,
-																		FallbackValue='Nothing Saved'}"
-									Margin="10,0"
-									Padding="0"
-									VerticalAlignment="Center"
-									Foreground="White"
-									/>
 
+							<StackPanel
+									VerticalAlignment="Center"
+									Orientation="Vertical"
+									>
+								<Label
+										Content="{Binding Name,
+																			FallbackValue='Nothing Saved'}"
+										Margin="10,0,0,0"
+										Padding="0"
+										Foreground="White"
+										/>
+
+								<StackPanel Orientation="Horizontal">
+									<StackPanel.Style>
+										<Style TargetType="StackPanel">
+											<Setter Property="Visibility" Value="Visible" />
+											<Style.Triggers>
+												<DataTrigger
+														Binding="{Binding ElementName=SavedFolderWin,
+																							Path=SavedFolderType}"
+														Value="{x:Static local:SavedFolderType.FAVORITES}"
+														>
+													<Setter Property="Visibility" Value="Collapsed" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</StackPanel.Style>
+
+									<Label
+											Content="Saved: "
+											Margin="15,0,0,0"
+											Style="{StaticResource label.DateTime}"
+											/>
+
+
+									<Label
+											Content="{Binding Path=DateTime,
+																				FallbackValue=0}"
+											Style="{StaticResource label.DateTime}"
+											>
+
+									</Label>
+								</StackPanel>
+
+
+							</StackPanel>
 						</StackPanel>
 					</DataTemplate>
 				</ListView.Resources>
@@ -1983,8 +2097,7 @@
 					ItemTemplate="{DynamicResource DataTemplate2}"
 					ItemsSource="{Binding}"
 					>
-				<!--  IsSynchronizedWithCurrentItem="True"  -->
-				<!--  ItemsSource="{Binding SavedFolders}"  -->
+
 				<ListView.Resources>
 					<DataTemplate
 							x:Key="DataTemplate2"

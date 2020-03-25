@@ -80,6 +80,8 @@ namespace Sylvester.SavedFolders
 		private DispatcherTimer dispatcherTimer;
 		private string message = null;
 
+		private ICollectionView projects; 
+
 	#endregion
 
 		public SavedFoldersWin(SavedFolderType savedFolderType, string winTitle)
@@ -100,16 +102,14 @@ namespace Sylvester.SavedFolders
 
 			dispatcherTimer = new DispatcherTimer();
 			dispatcherTimer.Tick += DispatcherTimerOnTick;
-//			dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, MESSAGE_VISIBILITY_DURATION);
 			dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 4);
 		}
-
 
 	#region public properties
 
 		public static double MIN_WIDTH { get; } = 1000;
 		public static double MIN_HEIGHT { get; }  = 600;
-		public static int MESSAGE_VISIBILITY_DURATION { get; } = 5000; // millisecs
+
 
 //		public bool DebugMode
 //		{
@@ -147,9 +147,28 @@ namespace Sylvester.SavedFolders
 		}
 
 		// the project folder collection
-		public ObservableCollection<SavedFolderProject> SavedFolders
+//		public ObservableCollection<SavedFolderProject> SavedFolders
+		public ICollectionView SavedFolders
 		{
-			get => SetgMgr.Instance.SavedFolders[(int) SavedFolderType];
+			get
+			{
+				projects = CollectionViewSource.GetDefaultView(SetgMgr.Instance.SavedFolders[(int) SavedFolderType]);
+
+				if (SavedFolderType == SavedFolderType.HISTORY)
+				{
+					projects.SortDescriptions.Add(new SortDescription("DateTime", ListSortDirection.Ascending));
+				}
+				else
+				{
+					projects.SortDescriptions.Add(new SortDescription("UseCount", ListSortDirection.Ascending));
+					projects.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+
+				}
+
+
+				return projects;
+//				SetgMgr.Instance.SavedFolders[(int) SavedFolderType];
+			}
 		}
 
 		// the folder pair collection - this is assigned after
@@ -164,23 +183,10 @@ namespace Sylvester.SavedFolders
 			}
 		}
 
-
-//		public int SelectedFolderProjectIdx
-//		{
-//			get => selectedFolderProjectIdx;
-//			set
-//			{
-//				if (value == selectedFolderProjectIdx) return;
-//
-//				selectedFolderProjectIdx = value;
-//				OnPropertyChange();
-//			}
-//		}
-
 		// the selected project value;
 		public SavedFolderProject SelectedFolderProject
 		{
-			private get { return selectedFolderProject; }
+			get { return selectedFolderProject; }
 			set
 			{
 				if (selectedFolderProject != null && value != null &&
@@ -297,9 +303,6 @@ namespace Sylvester.SavedFolders
 				message = value;
 				OnPropertyChange();
 
-//				if (message != null && 
-//					SavedFolderOperation == SavedFolderOperation.MANAGEMENT)
-//
 				if (message != null)
 				{
 					TblkMessage.Tag = "fadein";
@@ -348,9 +351,11 @@ namespace Sylvester.SavedFolders
 		{
 			if (selectedFolderProject != null)
 			{
+				FolderPairs.Clear();
+				SelectedFolderPair = null;
+
 				SetgMgr.Instance.DeleteSavedProjectFolder(selectedFolderProject, SavedFolderType);
 
-				SelectedFolderPair = null;
 				SelectedFolderProject = null;
 
 				SetgMgr.WriteUsr();
@@ -407,14 +412,24 @@ namespace Sylvester.SavedFolders
 		private void BtnAddFolderProject_OnClick(object sender, RoutedEventArgs e)
 		{
 			selectedFolderProjectIdx = lvProjects.Items.Count;
+			selectedFolderProject = null;
 
 			SelectedFolderProject =
 				SetgMgr.Instance.CreateFolderProject(SavedFolderType);
+
+//			FolderPairs = SelectedFolderProject.SavedFolderPairs;
 
 			SelectedFolderPair =
 				selectedFolderProject.SavedFolderPairs[0];
 
 			FolderProjectOp = FolderProjectOp.ADD_PROJECT;
+		}
+
+		private void BtnAddToFavorites_OnClick(object sender, RoutedEventArgs e)
+		{
+			Message = "Adding to Favorites";
+
+			RaiseAddFavoriteEvent();
 		}
 
 		private void BtnDeleteFolderProject_OnClick(object sender, RoutedEventArgs e)
@@ -621,6 +636,8 @@ namespace Sylvester.SavedFolders
 			if (e.PropertyName.Equals("Folder"))
 			{
 				SelectedFolderPair.Current = currentFolder.Folder;
+
+				OnPropertyChange("CanSave");
 			}
 		}
 
@@ -629,6 +646,8 @@ namespace Sylvester.SavedFolders
 			if (e.PropertyName.Equals("Folder"))
 			{
 				SelectedFolderPair.Revision = revisionFolder.Folder;
+
+				OnPropertyChange("CanSave");
 			}
 		}
 
@@ -662,7 +681,12 @@ namespace Sylvester.SavedFolders
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-	#endregion
+		#endregion
+
+		private void TbxProjInfoName_TextChanged(object sender, TextChangedEventArgs e)
+		{
+
+		}
 	}
 
 

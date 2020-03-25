@@ -17,9 +17,10 @@ namespace Sylvester.FolderSupport
 {
 	public class SelectFolder //: IDisposable
 	{
-		public FilePath<FileNameSimple> GetFolder(FilePath<FileNameSimple> initFolder)
+		public FilePath<FileNameSimple> GetFolder(FilePath<FileNameSimple> initFolder, string titleSuffix)
 		{
-			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select PDF Package Folder"))
+			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select PDF Package - " 
+				+ titleSuffix))
 			{
 
 				if (!initFolder.IsValid)

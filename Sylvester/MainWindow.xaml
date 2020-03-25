@@ -58,22 +58,16 @@
 				<ResourceDictionary Source="Resources/SVG/Sylvester.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<sys:Double x:Key="lblTitleWidth">
-				55
-			</sys:Double>
+			<sys:Double x:Key="lblTitleWidth">55</sys:Double>
 
-			<filesupport:MatchStatus x:Key="match">
-				DOES_MATCH
-			</filesupport:MatchStatus>
-			<filesupport:MatchStatus x:Key="notmatch">
-				DOES_NOT_MATCH
-			</filesupport:MatchStatus>
-			<filesupport:MatchStatus x:Key="FileNew">
-				NEW_FILE
-			</filesupport:MatchStatus>
+			<GridLength x:Key="Row4Height">30</GridLength>
+			<GridLength x:Key="Row5Height">50</GridLength>
+
+			<filesupport:MatchStatus x:Key="match">DOES_MATCH</filesupport:MatchStatus>
+			<filesupport:MatchStatus x:Key="notmatch">DOES_NOT_MATCH</filesupport:MatchStatus>
+			<filesupport:MatchStatus x:Key="FileNew">NEW_FILE</filesupport:MatchStatus>
 
 			<local:BoolTestConverter x:Key="converter" />
-
 
 			<VisualBrush
 					x:Key="Vb"
@@ -189,8 +183,6 @@
 			</ControlTemplate>
 		</ResourceDictionary>
 
-
-
 	</Window.Resources>
 
 	<Grid Margin="7,0,7,0">
@@ -203,8 +195,8 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="30" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="{StaticResource Row4Height}" />
+			<RowDefinition Height="{StaticResource Row5Height}" />
 		</Grid.RowDefinitions>
 
 
@@ -344,8 +336,7 @@
 		<StackPanel
 				Grid.Column="0"
 				Grid.Row="4"
-
-				Margin="0,10,0,0"
+				Margin="0,10,0,10"
 				VerticalAlignment="top"
 				Orientation="Vertical"
 				>
@@ -626,27 +617,30 @@
 		</Grid>
 		<!--#endregion-->
 
-
 		<!--#region > comparison panel-->
 		<Grid
 				Grid.Column="2"
 				Grid.Row="0"
-				Grid.RowSpan="4"
+				Grid.RowSpan="5"
 				Margin="0"
 				>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="{StaticResource Row4Height}" />
+				<RowDefinition Height="{StaticResource Row5Height}" />
 			</Grid.RowDefinitions>
 
 
 			<StackPanel
 					Grid.Column="0"
 					Grid.Row="0"
+					Grid.ColumnSpan="2"
 					Margin="0,0,0,0"
 					Background="#395482CD"
 					>
@@ -665,6 +659,7 @@
 			<StackPanel
 					Grid.Column="0"
 					Grid.Row="1"
+					Grid.ColumnSpan="2"
 					Margin="0,10,0,11"
 					Orientation="Horizontal"
 					>
@@ -705,30 +700,27 @@
 																Path=Go,
 																FallbackValue=False}"
 						Click="BtnGo_OnClick"
-						/>
+						>
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="IsEnabled" Value="True"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.SelectedCount}" Value="0">
+									<Setter Property="IsEnabled" Value="False"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
 
 
 			</StackPanel>
-
-			<!--  <local:HeaderControl x:Name="HdrComparison"  -->
-			<!--  Title="Comparison"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="1"  -->
-			<!--  Margin="0,13,0,8"  -->
-			<!--  DataContext="{Binding pm.FileCollectionFinal,  -->
-			<!--  ElementName=mainwin,  -->
-			<!--  Mode=OneWay,  -->
-			<!--  FallbackValue={x:Null}}"  -->
-			<!--  FolderPathType="0"  -->
-			<!--  FolderType="FINAL"  -->
-			<!--  HideDirectory="true"  -->
-			<!--  TitleBarMargin="0,0,0,0"  -->
-			<!--  Style="{StaticResource HeaderControl.FolderRoute.Style}" />  -->
 
 			<ListView
 					Name="LvFinal"
 					Grid.Column="0"
 					Grid.Row="2"
+					Grid.ColumnSpan="2"
 					Margin="0"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -1405,80 +1397,169 @@
 
 				</ListView.Resources>
 			</ListView>
+
+			<StackPanel
+					Grid.Column="1"
+					Grid.Row="3"
+					Grid.RowSpan="2"
+					Margin="10,0,0,0"
+					HorizontalAlignment="Right"
+					DockPanel.Dock="Right"
+					Orientation="Horizontal"
+					>
+
+				<Button
+						Name="btnAddFavs"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnAddToFavs_OnClick"
+
+						Style="{StaticResource Button.Style.Standard.Left}"
+
+						>
+					<Button.Content>
+						<StackPanel Orientation="Vertical">
+							<Label
+									Content="Add as"
+									Style="{StaticResource Label.Button.StackedText}"
+									/>
+							<Label
+									Content="Favorite"
+									Style="{StaticResource Label.Button.StackedText}"
+									/>
+						</StackPanel>
+					</Button.Content>
+					<Button.IsEnabled>
+						<MultiBinding Converter="{StaticResource converter}">
+							<Binding
+									ElementName="mainwin"
+									FallbackValue="false"
+									Path="pm.FileCollectionCurrent.HasFolder"
+									/>
+							<Binding
+									ElementName="mainwin"
+									FallbackValue="false"
+									Path="pm.FileCollectionRevision.HasFolder"
+									/>
+						</MultiBinding>
+					</Button.IsEnabled>
+				</Button>
+
+				<Button
+						Name="btnDone"
+						Content="Done"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						DockPanel.Dock="Right"
+						Click="BtnDone_OnClick"
+						Style="{StaticResource Button.Style.Standard.Left}"
+						/>
+
+
+				<Button
+						Name="btnTest1"
+						Content="Test1"
+						DockPanel.Dock="Right"
+						Visibility="Collapsed"
+						Click="BtnTest1_OnClick"
+						Style="{StaticResource btn}"
+						/>
+
+				<Button
+						Name="btnDebug"
+						Content="Debug"
+						DockPanel.Dock="Right"
+						Visibility="Collapsed"
+						Click="BtnDebug_OnClick"
+						Style="{StaticResource btn}"
+						/>
+
+				<Button
+						Name="btnReset"
+						Content="Reset"
+						DockPanel.Dock="Right"
+						Visibility="Collapsed"
+						Click="BtnReset_OnClick"
+						Style="{StaticResource btn}"
+						/>
+
+			</StackPanel>
+
+			<StackPanel
+					Grid.Column="0"
+					Grid.Row="3"
+					Margin="0,10,0,0"
+					HorizontalAlignment="Stretch"
+					DockPanel.Dock="Top"
+					Orientation="Vertical"
+					Background="#395482CD"
+					>
+
+				<Label
+						Content="Message"
+						Margin="0,-4,0,0"
+						Padding="3,0,0,0"
+						FontSize="16"
+						Style="{StaticResource control}"
+						/>
+			</StackPanel>
+
+			<!--  this must follow the right side of the dock panel  -->
+			<TextBlock
+					x:Name="TblkMessage"
+					Grid.Column="0"
+					Grid.Row="4"
+					Margin="0,5,0,10"
+					Padding="2"
+					FontSize="11"
+					Text="{Binding ElementName=mainwin, Path=Message, FallbackValue=Message, Mode=OneWay}"
+					Background="#222222"
+					Foreground="White"
+					>
+				<TextBlock.Style>
+					<Style TargetType="TextBlock">
+						<Setter Property="Tag"
+								Value="solid" />
+						<Setter Property="Foreground">
+							<Setter.Value>
+								<SolidColorBrush Opacity="0.0"
+										Color="White" />
+							</Setter.Value>
+						</Setter>
+						<Style.Triggers>
+							<Trigger Property="Tag"
+									Value="fadein">
+								<Trigger.EnterActions>
+									<BeginStoryboard>
+										<Storyboard>
+											<DoubleAnimation BeginTime="0:0:0"
+													Storyboard.TargetProperty="Foreground.Opacity"
+													From="0.0"
+													To="1.0"
+													Duration="0:0:1.0" />
+										</Storyboard>
+									</BeginStoryboard>
+								</Trigger.EnterActions>
+								<Trigger.ExitActions>
+									<BeginStoryboard>
+										<Storyboard>
+											<DoubleAnimation BeginTime="0:0:0.2"
+													Storyboard.TargetProperty="Foreground.Opacity"
+													From="1.0"
+													To="0.0"
+													Duration="0:0:1.0" />
+										</Storyboard>
+									</BeginStoryboard>
+								</Trigger.ExitActions>
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
+
 		</Grid>
+
 		<!--#endregion-->
-		<StackPanel
-				Grid.Column="0"
-				Grid.Row="4"
-				Grid.ColumnSpan="3"
-				Margin="0,10,0,0"
-				HorizontalAlignment="Right"
-				Orientation="Horizontal"
-				>
-			<StackPanel.Resources />
-
-			<Button
-					Name="btnTest1"
-					Content="Test1"
-					Visibility="Collapsed"
-					Click="BtnTest1_OnClick"
-					Style="{StaticResource btn}"
-					/>
-
-			<Button
-					Name="btnDebug"
-					Content="Debug"
-					Visibility="Collapsed"
-					Click="BtnDebug_OnClick"
-					Style="{StaticResource btn}"
-					/>
-
-			<Button
-					Name="btnReset"
-					Content="Reset"
-					Visibility="Collapsed"
-					Click="BtnReset_OnClick"
-					Style="{StaticResource btn}"
-					/>
-
-			<Button
-					Name="btnAddFavs"
-					Click="BtnAddToFavs_OnClick"
-					Style="{StaticResource Button.Style.Standard.Left}"
-			>
-				<Button.Content>
-					<StackPanel Orientation="Vertical">
-						<Label
-								Content="Add as"
-								Style="{StaticResource Label.Button.StackedText}"
-								/>
-						<Label
-								Content="Favorite"
-								Style="{StaticResource Label.Button.StackedText}"
-								/>
-					</StackPanel>
-				</Button.Content>
-				<Button.IsEnabled>
-					<MultiBinding Converter="{StaticResource converter}">
-						<Binding ElementName="mainwin"
-								FallbackValue="false"
-								Path="pm.FileCollectionCurrent.HasFolder" />
-						<Binding ElementName="mainwin"
-								FallbackValue="false"
-								Path="pm.FileCollectionRevision.HasFolder" />
-					</MultiBinding>
-				</Button.IsEnabled>
-
-			</Button>
-
-			<Button
-					Name="btnDone"
-					Content="Done"
-					Click="BtnDone_OnClick"
-					Style="{StaticResource Button.Style.Standard.Left}"
-					/>
-
-		</StackPanel>
 
 	</Grid>
 </Window>

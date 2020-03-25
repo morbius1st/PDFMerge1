@@ -19,6 +19,22 @@
 
 	<UserControl.Resources>
 
+		<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+				Color="Red">
+		</SolidColorBrush>
+		<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+				Color="Blue">
+		</SolidColorBrush>
+		<SolidColorBrush x:Key="{x:Static SystemColors.InactiveCaptionTextBrushKey}"
+				Color="Green">
+		</SolidColorBrush>
+		<SolidColorBrush x:Key="{x:Static SystemColors.ControlDarkDarkBrushKey}"
+				Color="BlueViolet">
+		</SolidColorBrush>
+		<SolidColorBrush x:Key="{x:Static SystemColors.GrayTextBrushKey}"
+				Color="HotPink">
+		</SolidColorBrush>
+
 
 		<!--  <SolidColorBrush  -->
 		<!--  x:Key="Path.Favorite.Fill"  -->
@@ -145,9 +161,11 @@
 								<Setter TargetName="border" Property="Background" Value="{StaticResource Pressed.Border.Background}" />
 								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Pressed.Border}" />
 							</Trigger>
+								<!-- <Setter Property="Opacity" Value="1.0"/> -->
 							<Trigger Property="IsEnabled" Value="false">
 								<Setter Property="Opacity" Value="{StaticResource Button.Disabled.Opacity}"/>
 								<Setter TargetName="CP1" Property="TextElement.Foreground" Value="{StaticResource Disabled.Foreground}" />
+								<Setter Property="TextElement.Foreground" Value="{StaticResource Disabled.Foreground}" />
 								<Setter TargetName="border" Property="Background" Value="{StaticResource Disabled.Border.Background}" />
 								<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Disabled.Border}" />
 							</Trigger>
@@ -344,15 +362,19 @@
 																	 Path=FontSize,
 																	 FallbackValue=9.5}"
 								Background="Transparent"
-								Foreground="{Binding ElementName=InnerButton,
+
+							Foreground="{Binding ElementName=InnerButton,
 																		 Path=Foreground,
 																		 FallbackValue=White}"
 								>
+							<Label.Resources>
+
+							</Label.Resources>
+
 
 							<Label.Style>
 								<Style TargetType="Label">
 									<Setter Property="Visibility" Value="Collapsed" />
-									<Setter Property="Foreground" Value="{Binding ElementName=InnerButton, Path=Foreground, FallbackValue=White}" />
 									<Style.Triggers>
 										<!--  false  -->
 										<DataTrigger Binding="{Binding ElementName=obliqueButton, Path=ShowText, FallbackValue={StaticResource ButtonDefault}}" Value="true">

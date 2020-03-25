@@ -53,18 +53,17 @@ namespace Sylvester.SavedFolders
 
 		private string title;
 
-
-
 		private static SavedFolderManager favoritesMgr;
 		private static SavedFolderManager historyMgr;
+
+
+	#endregion
 
 		private SavedFolderManager( SavedFolderType savedFolderType, string title)
 		{
 			SavedFolderType = savedFolderType;
 			this.title = title;
 		}
-
-	#endregion
 
 	#region public methods
 
@@ -91,6 +90,8 @@ namespace Sylvester.SavedFolders
 			savedWinInstance = new SavedFoldersWin(SavedFolderType, title);
 			savedWinInstance.Owner = Parent;
 			savedWinInstance.SavedFolderOperation = folderOp;
+
+			savedWinInstance.AddFavorite += OnAddFavorite;
 
 			bool? result = savedWinInstance.ShowDialog();
 
@@ -134,17 +135,51 @@ namespace Sylvester.SavedFolders
 			return result;
 		}
 
-
 	#endregion
 
 	#region event processing
 
-//		private void SavedWinInstance_AddFavorite(object sender, EventArgs e)
-//		{
-//			// add a fav
-//
-//			sfds.Test_02(this, SavedFolderType);
-//		}
+		private void OnAddFavorite(object sender, EventArgs e)
+		{
+			// add a fav
+
+			SavedFolderProject sf = SetgMgr.Instance.FindFolderProjectByKey(
+				savedWinInstance.SelectedFolderProject.Key, SavedFolderType.FAVORITES);
+
+			FilePath < FileNameSimple > current =
+				savedWinInstance.SelectedFolderProject.SavedFolderPairs[0]?.Current;
+
+			FilePath < FileNameSimple > revision =
+				savedWinInstance.SelectedFolderProject.SavedFolderPairs[0]?.Revision;
+
+			if (sf == null)
+			{
+				sf = SetgMgr.Instance.NewFolderProject(current, revision, SavedFolderType.FAVORITES);
+			}
+			else
+			{
+				SetgMgr.Instance.AddFolderPair(sf, current, revision);
+			}
+
+			if (savedWinInstance.SelectedFolderProject.SavedFolderPairs.Count > 1)
+			{
+
+				for (int i = 1; i < savedWinInstance.SelectedFolderProject.SavedFolderPairs.Count; i++)
+				{
+					current =
+						savedWinInstance.SelectedFolderProject.SavedFolderPairs[i]?.Current;
+
+					revision =
+						savedWinInstance.SelectedFolderProject.SavedFolderPairs[i]?.Revision;
+
+					SetgMgr.Instance.AddFolderPair(sf, current, revision);
+				}
+
+			}
+
+
+			SetgMgr.WriteUsr();
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

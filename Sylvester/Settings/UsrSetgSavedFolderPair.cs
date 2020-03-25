@@ -162,7 +162,7 @@ namespace Sylvester.SavedFolders
 			else
 			{
 				result = CreateName(sf,
-					currentRootFolder + "/" + revisionRootFolder);
+					currentRootFolder[-1] + " / " + revisionRootFolder[-1]);
 			}
 
 			return result;
