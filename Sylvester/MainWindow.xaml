@@ -7,6 +7,7 @@
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:setg="clr-namespace:Sylvester.Settings"
+		xmlns:support="clr-namespace:Sylvester.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="mainwin"
@@ -68,6 +69,9 @@
 			<filesupport:MatchStatus x:Key="FileNew">NEW_FILE</filesupport:MatchStatus>
 
 			<local:BoolTestConverter x:Key="converter" />
+			<support:IntGreaterThanConverter x:Key="IntGtConv" />
+			<support:MultiBoolToBoolConverter x:Key="MBoolBoolConv" />
+			<support:BoolInverterConverter x:Key="BoolInvConv"></support:BoolInverterConverter>
 
 			<VisualBrush
 					x:Key="Vb"
@@ -680,6 +684,7 @@
 									<MultiDataTrigger.Conditions>
 										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}" Value="true" />
 										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}" Value="true" />
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.Files.Count}" Value="0"/>
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 								</MultiDataTrigger>
@@ -696,22 +701,59 @@
 						Height="26"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
-						IsEnabled="{Binding ElementName=mainwin,
-																Path=Go,
-																FallbackValue=False}"
 						Click="BtnGo_OnClick"
 						>
-					<Button.Style>
-						<Style TargetType="Button">
-							<Setter Property="IsEnabled" Value="True"/>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.SelectedCount}" Value="0">
-									<Setter Property="IsEnabled" Value="False"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</Button.Style>
+					<!--  IsEnabled="{Binding ElementName=mainwin,  -->
+					<!--  Path=Go,  -->
+					<!--  FallbackValue=False}"  -->
+
+					<Button.IsEnabled>
+						<MultiBinding Converter="{StaticResource MBoolBoolConv}">
+							<Binding
+									ElementName="mainwin"
+									Path="Go"
+									/>
+							<Binding
+									Converter="{StaticResource IntGtConv}"
+									ConverterParameter="0"
+									ElementName="mainwin"
+									Path="pm.FileCollectionFinal.SelectedCount"
+									/>
+						</MultiBinding>
+					</Button.IsEnabled>
+
+					<!-- <Button.Style> -->
+					<!-- 	<Style TargetType="Button"> -->
+					<!-- 		<Setter Property="IsEnabled" Value="True" /> -->
+					<!-- 		<Style.Triggers> -->
+					<!--  <DataTrigger  -->
+					<!--  Binding="{Binding ElementName=mainwin,  -->
+					<!--  Path=pm.FileCollectionFinal.SelectedCount}"  -->
+					<!--  Value="0"  -->
+					<!--  >  -->
+					<!-- 				<Setter Property="IsEnabled" Value="False" /> -->
+					<!-- 			</DataTrigger> -->
+					<!-- 		</Style.Triggers> -->
+					<!-- 	</Style> -->
+					<!-- </Button.Style> -->
 				</Button>
+
+				<!--  <Label  -->
+				<!--  Foreground="White"  -->
+				<!--  Margin="10,0,0,0"  -->
+				<!--  >  -->
+				<!-- 		<Label.Style> -->
+				<!-- 			<Style TargetType="Label"> -->
+				<!-- 				<Setter Property="Content" Value="not zero"/> -->
+				<!-- 				<Style.Triggers> -->
+				<!-- 					<DataTrigger Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.SelectedCount}" Value="0"> -->
+				<!-- 						<Setter Property="Content" Value="is zero"/> -->
+				<!-- 					</DataTrigger> -->
+				<!-- 				</Style.Triggers> -->
+				<!-- 			</Style> -->
+				<!-- 		</Label.Style> -->
+				<!--    -->
+				<!-- </Label> -->
 
 
 			</StackPanel>
@@ -1113,6 +1155,7 @@
 											VerticalAlignment="Center"
 											IsChecked="{Binding Selected}"
 											Template="{DynamicResource CheckBoxControlTemplate1}"
+											IsEnabled="{Binding Path=FileMatches, FallbackValue=true, Converter={StaticResource BoolInvConv}}"
 											>
 										<CheckBox.Effect>
 											<DropShadowEffect />
@@ -1413,9 +1456,7 @@
 						HorizontalAlignment="Right"
 						VerticalAlignment="Bottom"
 						Click="BtnAddToFavs_OnClick"
-
 						Style="{StaticResource Button.Style.Standard.Left}"
-
 						>
 					<Button.Content>
 						<StackPanel Orientation="Vertical">
@@ -1512,42 +1553,52 @@
 					Margin="0,5,0,10"
 					Padding="2"
 					FontSize="11"
-					Text="{Binding ElementName=mainwin, Path=Message, FallbackValue=Message, Mode=OneWay}"
+					Text="{Binding ElementName=mainwin,
+												 Path=Message,
+												 FallbackValue=Message,
+												 Mode=OneWay}"
 					Background="#222222"
 					Foreground="White"
 					>
 				<TextBlock.Style>
 					<Style TargetType="TextBlock">
-						<Setter Property="Tag"
-								Value="solid" />
+						<Setter Property="Tag" Value="solid" />
 						<Setter Property="Foreground">
 							<Setter.Value>
-								<SolidColorBrush Opacity="0.0"
-										Color="White" />
+								<SolidColorBrush
+										Opacity="0.0"
+										Color="White"
+										/>
 							</Setter.Value>
 						</Setter>
 						<Style.Triggers>
-							<Trigger Property="Tag"
-									Value="fadein">
+							<Trigger
+									Property="Tag"
+									Value="fadein"
+									>
 								<Trigger.EnterActions>
 									<BeginStoryboard>
 										<Storyboard>
-											<DoubleAnimation BeginTime="0:0:0"
+											<DoubleAnimation
+													BeginTime="0:0:0"
 													Storyboard.TargetProperty="Foreground.Opacity"
 													From="0.0"
 													To="1.0"
-													Duration="0:0:1.0" />
+													Duration="0:0:1.0"
+													/>
 										</Storyboard>
 									</BeginStoryboard>
 								</Trigger.EnterActions>
 								<Trigger.ExitActions>
 									<BeginStoryboard>
 										<Storyboard>
-											<DoubleAnimation BeginTime="0:0:0.2"
+											<DoubleAnimation
+													BeginTime="0:0:0.2"
 													Storyboard.TargetProperty="Foreground.Opacity"
 													From="1.0"
 													To="0.0"
-													Duration="0:0:1.0" />
+													Duration="0:0:1.0"
+													/>
 										</Storyboard>
 									</BeginStoryboard>
 								</Trigger.ExitActions>

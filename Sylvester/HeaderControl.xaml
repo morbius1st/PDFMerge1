@@ -4,14 +4,19 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester"
+		xmlns:process="clr-namespace:Sylvester.Process"
+		xmlns:support="clr-namespace:Sylvester.Support"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
 		d:DesignWidth="600"
 		mc:Ignorable="d"
+
 		>
 	<UserControl.Resources>
+
+	<support:IntGreaterThanConverter x:Key="IntGtConv"/>
 
 		<Style
 				x:Key="label"
@@ -78,18 +83,25 @@
 				x:Key="FileSummary.Panel.Hide.SheetPdfs"
 				TargetType="StackPanel"
 				BasedOn="{StaticResource FileSummary.Panel}"
+
 				>
 			<Setter Property="Visibility" Value="Collapsed" />
 			<Style.Triggers>
-				<DataTrigger
-						Binding="{Binding Path=SheetPdfs,
-															FallbackValue=''}"
-						Value="0"
-						>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0"/>
+						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', 
+						Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true"/>
+					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Visible" />
-				</DataTrigger>
+				</MultiDataTrigger>
 			</Style.Triggers>
 		</Style>
+
+		<!-- Binding="{Binding Path=SheetPdfs, -->
+		<!-- FallbackValue=''}" -->
+		<!-- Value="0" -->
+		<!-- > -->
 
 
 	</UserControl.Resources>

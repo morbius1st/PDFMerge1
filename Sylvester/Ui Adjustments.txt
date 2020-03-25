@@ -1,12 +1,11 @@
 
-at new condition, don't have favorites at header
 
+main window
+at header: when nothing, show summary items with all zero
+
+
+at comparison.  disable each item that matches
 
 
 savedfolder:
-convert a folder pair to a favorite
-
-at select folder, change name to note current or revision folder
-at select folder, when old is empty, use other & up one level, as starting point
-
 
