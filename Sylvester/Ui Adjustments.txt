@@ -4,8 +4,5 @@ main window
 at header: when nothing, show summary items with all zero
 
 
-at comparison.  disable each item that matches
-
-
 savedfolder:
 
