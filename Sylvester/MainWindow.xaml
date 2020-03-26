@@ -1430,6 +1430,15 @@
 											<Setter TargetName="Bd" Property="Background" Value="Transparent" />
 											<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
 										</DataTrigger>
+										<DataTrigger
+												Binding="{Binding FileMatches}"
+												Value="True"
+												>
+											<Setter Property="IsEnabled" Value="False" />
+											<Setter Property="IsSelected" Value="False" />
+											<Setter TargetName="Bd" Property="Background" Value="Transparent" />
+											<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
+										</DataTrigger>
 									</ControlTemplate.Triggers>
 								</ControlTemplate>
 							</Setter.Value>

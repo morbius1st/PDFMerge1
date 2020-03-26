@@ -4,19 +4,18 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Sylvester"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:process="clr-namespace:Sylvester.Process"
 		xmlns:support="clr-namespace:Sylvester.Support"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
 		d:DesignWidth="600"
 		mc:Ignorable="d"
-
 		>
 	<UserControl.Resources>
 
-	<support:IntGreaterThanConverter x:Key="IntGtConv"/>
+		<support:IntGreaterThanConverter x:Key="IntGtConv" />
 
 		<Style
 				x:Key="label"
@@ -58,8 +57,8 @@
 		<Style
 				x:Key="FileSummary.Panel.Show"
 				TargetType="StackPanel"
-				BasedOn="{StaticResource FileSummary.Panel}"
 				>
+			<Setter Property="Orientation" Value="Horizontal" />
 			<Setter Property="Visibility" Value="Visible" />
 			<Style.Triggers>
 				<DataTrigger
@@ -83,25 +82,23 @@
 				x:Key="FileSummary.Panel.Hide.SheetPdfs"
 				TargetType="StackPanel"
 				BasedOn="{StaticResource FileSummary.Panel}"
-
 				>
 			<Setter Property="Visibility" Value="Collapsed" />
 			<Style.Triggers>
 				<MultiDataTrigger>
 					<MultiDataTrigger.Conditions>
-						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0"/>
-						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', 
-						Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true"/>
+						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0" />
+						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
 					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Visible" />
 				</MultiDataTrigger>
 			</Style.Triggers>
 		</Style>
 
-		<!-- Binding="{Binding Path=SheetPdfs, -->
-		<!-- FallbackValue=''}" -->
-		<!-- Value="0" -->
-		<!-- > -->
+		<!--  Binding="{Binding Path=SheetPdfs,  -->
+		<!--  FallbackValue=''}"  -->
+		<!--  Value="0"  -->
+		<!--  >  -->
 
 
 	</UserControl.Resources>
@@ -145,59 +142,66 @@
 					</StackPanel>
 
 					<StackPanel
-							Width="80"
 							Style="{StaticResource FileSummary.Panel.Show}"
 							>
-						<Label
-								Content="Total"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=FilesFound,
-																	FallbackValue=0}"
-								Style="{StaticResource lblCount}"
-								/>
+						<StackPanel
+								Width="80"
+								Style="{StaticResource FileSummary.Panel}"
+								>
+							<Label
+									Content="Total"
+									Style="{StaticResource lblStats}"
+									/>
+							<Label
+									Content="{Binding Path=FilesFound,
+																		FallbackValue=0}"
+									Style="{StaticResource lblCount}"
+									/>
+						</StackPanel>
+
+						<StackPanel Style="{StaticResource FileSummary.Panel}">
+							<Label
+									Content="Sheets PDF's"
+									Style="{StaticResource lblStats}"
+									/>
+							<Label
+									Content="{Binding Path=SheetPdfs,
+																		FallbackValue=0}"
+									Style="{StaticResource lblCount}"
+									/>
+						</StackPanel>
+
+						<StackPanel Style="{StaticResource FileSummary.Panel}">
+							<Label
+									Content="Other PDF's"
+									Foreground="LightGray"
+									Style="{StaticResource lblStats}"
+									/>
+							<Label
+									Content="{Binding Path=NonSheetPdfsFiles,
+																		FallbackValue=0}"
+									Foreground="LightGray"
+									Style="{StaticResource lblCount}"
+									/>
+						</StackPanel>
+
+						<StackPanel Style="{StaticResource FileSummary.Panel}">
+							<Label
+									Content="Other Files"
+									Foreground="#bababa"
+									Style="{StaticResource lblStats}"
+									/>
+							<Label
+									Content="{Binding Path=OtherFiles,
+																		FallbackValue=0}"
+									Foreground="#bababa"
+									Style="{StaticResource lblCount}"
+									/>
+						</StackPanel>
 					</StackPanel>
 
-					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
-						<Label
-								Content="Sheets PDF's"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=SheetPdfs,
-																	FallbackValue=0}"
-								Style="{StaticResource lblCount}"
-								/>
-					</StackPanel>
 
-					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
-						<Label
-								Content="Other PDF's"
-								Foreground="LightGray"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=NonSheetPdfsFiles,
-																	FallbackValue=0}"
-								Foreground="LightGray"
-								Style="{StaticResource lblCount}"
-								/>
-					</StackPanel>
 
-					<StackPanel Style="{StaticResource FileSummary.Panel.Show}">
-						<Label
-								Content="Other Files"
-								Foreground="#bababa"
-								Style="{StaticResource lblStats}"
-								/>
-						<Label
-								Content="{Binding Path=OtherFiles,
-																	FallbackValue=0}"
-								Foreground="#bababa"
-								Style="{StaticResource lblCount}"
-								/>
-					</StackPanel>
 				</StackPanel>
 			</Grid>
 
