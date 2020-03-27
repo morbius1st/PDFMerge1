@@ -86,10 +86,11 @@ namespace Sylvester.FileSupport
 			{
 				fullFileRoute = value;
 
-				if (PreSelect && fullFileRoute.GetFileExtension.ToUpper().Equals(".PDF"))
-				{
-					Selected = true;
-				}
+//				if (PreSelect && FileType == FileType.SHEET_PDF)
+////					&& fullFileRoute.GetFileExtension.ToUpper().Equals(".PDF"))
+//				{
+//					Selected = true;
+//				}
 
 				OnPropertyChange();
 			}
@@ -120,6 +121,14 @@ namespace Sylvester.FileSupport
 			{
 				fileType = value;
 				OnPropertyChange();
+
+				if (PreSelect && FileType == FileType.SHEET_PDF)
+//					&& fullFileRoute.GetFileExtension.ToUpper().Equals(".PDF"))
+				{
+					Selected = true;
+				}
+
+
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:s="clr-namespace:Sylvester"
 		xmlns:local="Sylvester.Resources.XAML"
 		xmlns:sylvester="clr-namespace:Sylvester"
 		xmlns:system="clr-namespace:System;assembly=mscorlib"

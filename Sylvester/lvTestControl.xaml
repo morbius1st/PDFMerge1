@@ -11,7 +11,14 @@
 		d:DesignHeight="380.2"
 		d:DesignWidth="541.8"
 		mc:Ignorable="d"
+		d:DataContext="{Binding pm.CvRevision,
+														RelativeSource={RelativeSource FindAncestor,
+																													 AncestorType={x:Type local:MainWindow}},
+														Mode=OneWay,
+														FallbackValue='this is text'}"
 		>
+
+
 	<UserControl.Resources>
 
 		<x:Static
@@ -104,7 +111,7 @@
 			<DataTemplate
 					x:Key="DataTemplateTest2"
 					x:Name="itemTemplate"
-					DataType="fileSupport:FileFinal"
+					DataType="fileSupport:FileRevision"
 					>
 				<Border
 						x:Name="Border"
@@ -137,7 +144,7 @@
 						<Label
 								x:Name="testShtNum"
 								Content="{Binding SheetName,
-																	FallbackValue=c:\\name\\name\\name\\value}"
+																	FallbackValue=c:\\name\\name\\name\\value.pdf}"
 								Grid.Column="1"
 								Margin="0,-1,0,2"
 								HorizontalContentAlignment="Left"

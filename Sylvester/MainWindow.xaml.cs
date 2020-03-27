@@ -136,6 +136,17 @@ namespace Sylvester
 			}
 		}
 
+		private int num;
+
+		public int number
+		{
+			get => num;
+			set
+			{
+				num = value;
+				OnPropertyChange();
+			}
+		}
 
 		public string Message
 		{
@@ -168,7 +179,6 @@ namespace Sylvester
 		}
 
 	#endregion
-
 
 	#region button events
 

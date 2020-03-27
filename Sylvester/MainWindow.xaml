@@ -71,7 +71,8 @@
 			<local:BoolTestConverter x:Key="converter" />
 			<support:IntGreaterThanConverter x:Key="IntGtConv" />
 			<support:MultiBoolToBoolConverter x:Key="MBoolBoolConv" />
-			<support:BoolInverterConverter x:Key="BoolInvConv"></support:BoolInverterConverter>
+			<support:BoolInverterConverter x:Key="BoolInvConv">
+			</support:BoolInverterConverter>
 
 			<VisualBrush
 					x:Key="Vb"
@@ -682,9 +683,9 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasCurrentItems, FallbackValue=false}" Value="true" />
-										<Condition Binding="{Binding ElementName=mainwin, Path=pm.HasRevisionItems, FallbackValue=false}" Value="true" />
-										<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.Files.Count}" Value="0"/>
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionCurrent.SheetPdfs, FallbackValue=false, Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionRevision.SheetPdfs, FallbackValue=false, Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
+										<Condition Binding="{Binding ElementName=mainwin, Path=pm.FileCollectionFinal.Files.Count}" Value="0" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 								</MultiDataTrigger>
@@ -754,7 +755,6 @@
 				<!-- 		</Label.Style> -->
 				<!--    -->
 				<!-- </Label> -->
-
 
 			</StackPanel>
 
@@ -1154,8 +1154,10 @@
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											IsChecked="{Binding Selected}"
+											IsEnabled="{Binding Path=FileMatches,
+																					FallbackValue=true,
+																					Converter={StaticResource BoolInvConv}}"
 											Template="{DynamicResource CheckBoxControlTemplate1}"
-											IsEnabled="{Binding Path=FileMatches, FallbackValue=true, Converter={StaticResource BoolInvConv}}"
 											>
 										<CheckBox.Effect>
 											<DropShadowEffect />

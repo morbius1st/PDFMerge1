@@ -10,9 +10,16 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
 		Name="headerControl"
+		d:DataContext="{Binding pm.FileCollectionCurrent,
+														RelativeSource={RelativeSource FindAncestor,
+																													 AncestorType={x:Type local:MainWindow}},
+														Mode=OneWay,
+														FallbackValue='this is text'}"
 		d:DesignWidth="600"
 		mc:Ignorable="d"
 		>
+
+
 	<UserControl.Resources>
 
 		<support:IntGreaterThanConverter x:Key="IntGtConv" />
@@ -54,32 +61,51 @@
 			<Setter Property="Orientation" Value="Horizontal" />
 		</Style>
 
+
 		<Style
-				x:Key="FileSummary.Panel.Show"
+				x:Key="FileSummary.Panel.Hide"
 				TargetType="StackPanel"
-				>
-			<Setter Property="Orientation" Value="Horizontal" />
+		>
 			<Setter Property="Visibility" Value="Visible" />
+			<Setter Property="Orientation" Value="Horizontal"/>
 			<Style.Triggers>
-				<DataTrigger
-						Binding="{Binding Path=FilesFound,
-															FallbackValue=''}"
-						Value="0"
-						>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0" />
+						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
+						<Condition Binding="{Binding Path=HasFolder}" Value="true" />
+					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Collapsed" />
-				</DataTrigger>
-				<DataTrigger
-						Binding="{Binding Path=SheetPdfs,
-															FallbackValue=''}"
-						Value="0"
-						>
-					<Setter Property="Visibility" Value="Collapsed" />
-				</DataTrigger>
+				</MultiDataTrigger>
 			</Style.Triggers>
 		</Style>
 
+		<!-- <Style -->
+		<!-- 		x:Key="FileSummary.Panel.Show" -->
+		<!-- 		TargetType="StackPanel" -->
+		<!-- 		> -->
+		<!-- 	<Setter Property="Orientation" Value="Horizontal" /> -->
+		<!-- 	<Setter Property="Visibility" Value="Visible" /> -->
+		<!-- 	<Style.Triggers> -->
+		<!-- 		<DataTrigger -->
+		<!-- 				Binding="{Binding Path=FilesFound, -->
+		<!-- 													FallbackValue=''}" -->
+		<!-- 				Value="0" -->
+		<!-- 				> -->
+		<!-- 			<Setter Property="Visibility" Value="Collapsed" /> -->
+		<!-- 		</DataTrigger> -->
+		<!-- 		<DataTrigger -->
+		<!-- 				Binding="{Binding Path=SheetPdfs, -->
+		<!-- 													FallbackValue=''}" -->
+		<!-- 				Value="0" -->
+		<!-- 				> -->
+		<!-- 			<Setter Property="Visibility" Value="Collapsed" /> -->
+		<!-- 		</DataTrigger> -->
+		<!-- 	</Style.Triggers> -->
+		<!-- </Style> -->
+
 		<Style
-				x:Key="FileSummary.Panel.Hide.SheetPdfs"
+				x:Key="FileSummary.Panel.Show"
 				TargetType="StackPanel"
 				BasedOn="{StaticResource FileSummary.Panel}"
 				>
@@ -89,6 +115,7 @@
 					<MultiDataTrigger.Conditions>
 						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0" />
 						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
+						<Condition Binding="{Binding Path=HasFolder}" Value="true" />
 					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Visible" />
 				</MultiDataTrigger>
@@ -133,7 +160,7 @@
 
 					<StackPanel
 							Width="250"
-							Style="{StaticResource FileSummary.Panel.Hide.SheetPdfs}"
+							Style="{StaticResource FileSummary.Panel.Show}"
 							>
 						<Label
 								Content="Folder does not contain any Sheet PDFs"
@@ -141,9 +168,7 @@
 								/>
 					</StackPanel>
 
-					<StackPanel
-							Style="{StaticResource FileSummary.Panel.Show}"
-							>
+					<StackPanel Style="{StaticResource FileSummary.Panel.Hide}">
 						<StackPanel
 								Width="80"
 								Style="{StaticResource FileSummary.Panel}"
