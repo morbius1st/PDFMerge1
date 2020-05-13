@@ -40,7 +40,9 @@ namespace Tests2.PDFMergeManager
 		private int depth;
 		private bool? isSelected;
 
+#pragma warning disable CS0414 // The field 'PDFMergeItem.currentState' is assigned but its value is never used
 		private SelectedState currentState = SelectedState.UNDEFINED;
+#pragma warning restore CS0414 // The field 'PDFMergeItem.currentState' is assigned but its value is never used
 
 		private FileItem fileItem;
 		private ObservableCollection<KeyValuePair<string, PDFMergeItem>> mergeItems;

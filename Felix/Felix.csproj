@@ -96,7 +96,7 @@
     <Compile Include="..\..\utilitylibrary\utilitylibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
-    <Compile Include="..\..\utilitylibrary\utilitylibrary\SettingsMgr.-v30.cs">
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />

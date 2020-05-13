@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
+      <Link>.External\SettingsMgr.-v30.cs</Link>
+    </Compile>
     <Compile Include=".Support\Utilities.cs" />
     <Compile Include="FileSelection\FileItem.cs" />
     <Compile Include="FileSelection\Route.cs" />
@@ -96,9 +99,6 @@
     </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingsMgr.-v30.cs">
-      <Link>.External\SettingsMgr.-v30.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

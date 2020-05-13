@@ -1,15 +1,10 @@
 ﻿#region + Using Directives
 
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
+
 using static Test3.MainWindow;
-using static Test3.CheckedState;
 
 
 #endregion
@@ -23,11 +18,9 @@ using static Test3.CheckedState;
 
 namespace Test3
 {
-
-
 	public class TreeNode5 : INotifyPropertyChanged
 	{
-		public enum CheckedStatus
+		public enum CheckedState
 		{
 			UNSET = -1,
 			MIXED = 0,
@@ -50,8 +43,8 @@ namespace Test3
 		private bool isExpanded;
 		private bool MixedStateBeenTold = false;
 
-		private CheckedStatus checkState = CheckedStatus.UNCHECKED;
-		private CheckedStatus selectTriState = CheckedStatus.UNSET;
+		private CheckedState checkedState = CheckedState.UNCHECKED;
+		private CheckedState triState = CheckedState.UNSET;
 
 		private TreeNode5 parent;
 
@@ -96,9 +89,9 @@ namespace Test3
 
 		public NodeType NodeType { get; private set; } = NodeType.LEAF;
 
-		public CheckedStatus CheckState
+		public CheckedState CheckState
 		{
-			get => checkState;
+			get => checkedState;
 //			set
 //			{
 //				ProcessStateChange(value);
@@ -106,34 +99,34 @@ namespace Test3
 //			}
 		}
 
-		private CheckedStatus ChkState
+		private CheckedState ChkState
 		{
 			set
 			{
-				if (value == CheckedStatus.UNSET)
+				if (value == CheckedState.UNSET)
 				{
-					checkState = value;
+					checkedState = value;
 					return;
 				}
-				else if (value != checkState)
+				else if (value != checkedState)
 				{
-					checkState = value;
+					checkedState = value;
 					OnPropertyChange("SelectState");
 					OnPropertyChange("Checked");
 
-					parent?.AdjustChildCount(checkState);
+					parent?.AdjustChildCount(checkedState);
 				}
 			}
 		}
 
-		public CheckedStatus TriState
+		public CheckedState TriState
 		{
-			get => selectTriState;
+			get => triState;
 			set
 			{
-				if (value != selectTriState)
+				if (value != triState)
 				{
-					selectTriState = value;
+					triState = value;
 					OnPropertyChange();
 				}
 			}
@@ -143,10 +136,10 @@ namespace Test3
 		{
 			get
 			{
-				if (checkState == CheckedStatus.UNSET)
+				if (checkedState == CheckedState.UNSET)
 					return null;
 
-				return _boolList[(int) checkState];
+				return _boolList[(int) checkedState];
 			}
 			set
 			{
@@ -192,9 +185,9 @@ namespace Test3
 
 	#region public methods
 
-		public void AdjustChildCount(CheckedStatus childState)
+		public void AdjustChildCount(CheckedState childState)
 		{
-			if (childState == CheckedStatus.MIXED)
+			if (childState == CheckedState.MIXED)
 			{
 				if (!MixedStateBeenTold)
 				{
@@ -206,7 +199,7 @@ namespace Test3
 
 			MixedStateBeenTold = false;
 
-			if (childState == CheckedStatus.CHECKED)
+			if (childState == CheckedState.CHECKED)
 			{
 				CheckedChildrenCount++;
 				return;
@@ -227,8 +220,8 @@ namespace Test3
 
 		public void Reset()
 		{
-			ChkState = CheckedStatus.UNCHECKED;
-			TriState = CheckedStatus.UNSET;
+			ChkState = CheckedState.UNCHECKED;
+			TriState = CheckedState.UNSET;
 		}
 
 		// reset children then myself
@@ -248,21 +241,21 @@ namespace Test3
 			Reset();
 		}
 
-		public void StateChangeFromParent(CheckedStatus newState, CheckedStatus oldState, bool useTristate)
+		public void StateChangeFromParent(CheckedState newState, CheckedState oldState, bool useTristate)
 		{
 			if (useTristate)
 			{
-				if (selectTriState == CheckedStatus.UNSET)
+				if (triState == CheckedState.UNSET)
 				{
 					// first time through - save current
-					selectTriState = checkState;
+					triState = checkedState;
 				}
 
-				if (newState == CheckedStatus.MIXED) newState = selectTriState;
+				if (newState == CheckedState.MIXED) newState = triState;
 			}
 			else
 			{
-				selectTriState = CheckedStatus.UNSET;
+				triState = CheckedState.UNSET;
 			}
 
 			ChkState = newState;
@@ -270,67 +263,67 @@ namespace Test3
 			NotifyChildrenOfStateChange(newState, oldState, useTristate);
 		}
 
-		public void StateChangeFromChild(CheckedStatus newState, CheckedStatus oldState, bool useTristate)
+		public void StateChangeFromChild(CheckedState newState, CheckedState oldState, bool useTristate)
 		{
-			CheckedStatus priorState = checkState;
-			CheckedStatus finalState = CheckedStatus.UNSET;
+			CheckedState priorState = checkedState;
+			CheckedState finalState = CheckedState.UNSET;
 
 
 			if (!useTristate)
 			{
-				selectTriState = CheckedStatus.UNSET;
+				triState = CheckedState.UNSET;
 			}
-			else if (selectTriState == CheckedStatus.UNSET)
+			else if (triState == CheckedState.UNSET)
 			{
 				// usetristate is true
 				// starting tristate process - save the current state
-				selectTriState = checkState;
+				triState = checkedState;
 			}
 
 			switch (newState)
 			{
 			// newstate is checked - child is checked
-			case CheckedStatus.CHECKED:
+			case CheckedState.CHECKED:
 				if (checkedChildrenCount == (Children?.Count ?? 0))
 				{
-					finalState = CheckedStatus.CHECKED;
+					finalState = CheckedState.CHECKED;
 				}
-				else if (checkState != CheckedStatus.MIXED)
+				else if (checkedState != CheckedState.MIXED)
 				{
-					finalState = CheckedStatus.MIXED;
+					finalState = CheckedState.MIXED;
 				}
 
 				break;
 			// newstate is unchecked - child is unchecked
-			case CheckedStatus.UNCHECKED:
+			case CheckedState.UNCHECKED:
 				if (checkedChildrenCount == 0)
 				{
-					finalState = CheckedStatus.UNCHECKED;
+					finalState = CheckedState.UNCHECKED;
 				}
-				else if (checkState == CheckedStatus.CHECKED)
+				else if (checkedState == CheckedState.CHECKED)
 				{
-					finalState = CheckedStatus.MIXED;
+					finalState = CheckedState.MIXED;
 				}
 
 				break;
 			// newstate is checked - child is mixed
-			case CheckedStatus.MIXED:
+			case CheckedState.MIXED:
 				// must evaluate whether coming from checked to mixed or
 				// from unchecked to mixed
 
 				// i am checked, flip from checked to
 				// mixed.  inform parent.
-				if (checkState == CheckedStatus.CHECKED ||
-					checkState == CheckedStatus.UNCHECKED)
+				if (checkedState == CheckedState.CHECKED ||
+					checkedState == CheckedState.UNCHECKED)
 				{
-					finalState = CheckedStatus.MIXED;
+					finalState = CheckedState.MIXED;
 				}
 
 
 				break;
 			}
 
-			if (finalState != CheckedStatus.UNSET)
+			if (finalState != CheckedState.UNSET)
 			{
 				ChkState = finalState;
 				NotifyParentOfStateChange(finalState, priorState, useTristate);
@@ -339,7 +332,7 @@ namespace Test3
 
 		public void TriStateReset()
 		{
-			TriState = CheckedStatus.UNSET;
+			TriState = CheckedState.UNSET;
 		}
 
 	#if DEBUG
@@ -353,12 +346,12 @@ namespace Test3
 
 	#region private methods
 
-		private void NotifyParentOfStateChange(CheckedStatus newState, CheckedStatus oldState, bool useTriState)
+		private void NotifyParentOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			parent?.StateChangeFromChild(newState, oldState, useTriState);
 		}
 
-		private void NotifyChildrenOfStateChange(CheckedStatus newState, CheckedStatus oldState, bool useTriState)
+		private void NotifyChildrenOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			if (Children == null) return;
 
@@ -368,14 +361,14 @@ namespace Test3
 			}
 		}
 
-		private void ProcessStateChangeLeaf(CheckedStatus newState, CheckedStatus oldState, bool useTriState)
+		private void ProcessStateChangeLeaf(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			ChkState = newState;
 
 			NotifyParentOfStateChange(newState, oldState, useTriState);
 		}
 
-		private void processStateChangeBranch(CheckedStatus newState, CheckedStatus oldState, bool useTriState)
+		private void processStateChangeBranch(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			ChkState = newState;
 
@@ -383,32 +376,32 @@ namespace Test3
 			NotifyParentOfStateChange(newState, oldState, useTriState);
 		}
 
-		private void ProcessStateChange(CheckedStatus newState)
+		private void ProcessStateChange(CheckedState newState)
 		{
-			CheckedStatus oldState = checkState;
+			CheckedState oldState = checkedState;
 
 			// process when leaf
 			if (NodeType == NodeType.LEAF)
 			{
-				ProcessStateChangeLeaf(newState, checkState, false);
+				ProcessStateChangeLeaf(newState, checkedState, false);
 
 				return;
 			}
 
 			// node type is branch
-			if (selectTriState == CheckedStatus.UNSET)
+			if (triState == CheckedState.UNSET)
 			{
 				// not currently tristate processing
 
-				if (checkState == CheckedStatus.CHECKED ||
-					checkState == CheckedStatus.UNCHECKED)
+				if (checkedState == CheckedState.CHECKED ||
+					checkedState == CheckedState.UNCHECKED)
 				{
 					processStateChangeBranch(newState, oldState, false);
 				}
 				// state is mixed // start using tri-state
 				else
 				{
-					selectTriState = checkState;
+					triState = checkedState;
 
 					processStateChangeBranch(newState, oldState,  true);
 				}
@@ -424,7 +417,7 @@ namespace Test3
 				// current is checked -> change to unchecked
 				// current is unchecked -> change to mixed
 			{
-				CheckedStatus proposed =
+				CheckedState proposed =
 					SelectStateFromBool(_boolList[(int) oldState + 1]);
 
 				ChkState = proposed;
@@ -444,9 +437,9 @@ namespace Test3
 			return 0;
 		}
 
-		private CheckedStatus SelectStateFromBool(bool? test)
+		private CheckedState SelectStateFromBool(bool? test)
 		{
-			return (CheckedStatus) indexInBoolList(test);
+			return (CheckedState) indexInBoolList(test);
 		}
 
 	#endregion
@@ -484,7 +477,7 @@ namespace Test3
 
 		public override string ToString()
 		{
-			return NodeType + "::" + name + "::" + checkState;
+			return NodeType + "::" + name + "::" + checkedState;
 		}
 
 	#endregion

@@ -4,12 +4,10 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		>
 
-	<Canvas
-			x:Key="Folder-Project-01"
-			x:Shared="False"
-			Name="svg97"
+	<Canvas x:Key="Folder-Project-01" Name="svg97"
 			Width="26.277277"
 			Height="26.056242"
+			x:Shared="False"
 			>
 		<Canvas.RenderTransform>
 			<TranslateTransform X="0" Y="0" />
@@ -39,7 +37,9 @@
 					</GradientStopCollection>
 				</LinearGradientBrush.GradientStops>
 				<LinearGradientBrush.Transform>
-					<MatrixTransform Matrix="0.60072161 0 0 0.60098717 -1.8322278 -0.055418" />
+					<MatrixTransform
+							Matrix="0.60072161 0 0 0.60098717 -1.8322278 -0.055418"
+							/>
 				</LinearGradientBrush.Transform>
 			</LinearGradientBrush>
 			<LinearGradientBrush x:Key="linearGradient9772" MappingMode="Absolute" StartPoint="22,37" EndPoint="22,32">
@@ -50,7 +50,9 @@
 					</GradientStopCollection>
 				</LinearGradientBrush.GradientStops>
 				<LinearGradientBrush.Transform>
-					<MatrixTransform Matrix="0.58553618 0 0 0.59905303 -1.7676575 0.03328073" />
+					<MatrixTransform
+							Matrix="0.58553618 0 0 0.59905303 -1.7676575 0.03328073"
+							/>
 				</LinearGradientBrush.Transform>
 			</LinearGradientBrush>
 			<LinearGradientBrush x:Key="linearGradient322-1" MappingMode="Absolute" StartPoint="13,33" EndPoint="13,47">
@@ -61,7 +63,9 @@
 					</GradientStopCollection>
 				</LinearGradientBrush.GradientStops>
 				<LinearGradientBrush.Transform>
-					<MatrixTransform Matrix="0.77145159 0 0 0.50194756 -2.3487059 -0.974753" />
+					<MatrixTransform
+							Matrix="0.77145159 0 0 0.50194756 -2.3487059 -0.974753"
+							/>
 				</LinearGradientBrush.Transform>
 			</LinearGradientBrush>
 			<LinearGradientBrush x:Key="linearGradient8340" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
@@ -153,17 +157,18 @@
 			</LinearGradientBrush>
 		</Canvas.Resources>
 
-		<Canvas Name="layer1">
+		<Canvas Name="layer1"
+				>
 			<Canvas.RenderTransform>
 				<TranslateTransform X="2.3987374e-5" Y="-21.943736" />
 			</Canvas.RenderTransform>
 		</Canvas>
-		<Canvas Name="g43">
+		<Canvas Name="g43"
+				>
 			<Canvas.RenderTransform>
 				<TranslateTransform X="2.3987374e-5" Y="2.0562641" />
 			</Canvas.RenderTransform>
-			<Path
-					Name="path2165"
+			<Path Name="path2165"
 					Fill="#FFFFFFFF"
 					Stroke="{StaticResource linearGradient3104-5}"
 					StrokeEndLineCap="Round"
@@ -179,12 +184,11 @@
 							/>
 				</Path.Data>
 			</Path>
-			<Rectangle
-					Name="rect39655"
+			<Rectangle Name="rect39655"
 					Canvas.Left="0.003854125"
+					Canvas.Top="0"
 					Width="23.996141"
 					Height="23.996084"
-					Canvas.Top="0"
 					Fill="#FFBEBEBE"
 					Opacity="0"
 					StrokeEndLineCap="Round"
@@ -194,17 +198,21 @@
 					StrokeThickness="0.73938"
 					/>
 		</Canvas>
-		<Canvas Name="layer2">
+		<Canvas Name="layer2"
+				>
 			<Canvas.RenderTransform>
 				<TranslateTransform X="-1.7884859e-7" Y="2.0562641" />
 			</Canvas.RenderTransform>
-			<Canvas Name="g75">
+			<Canvas Name="g75"
+					>
 				<Canvas.RenderTransform>
-					<MatrixTransform Matrix="0.65 0 0 0.65 10.677277 -4.0062641" />
+					<MatrixTransform
+							Matrix="0.65 0 0 0.65 10.677277 -4.0062641"
+							/>
 				</Canvas.RenderTransform>
-				<Canvas Name="g88">
-					<Path
-							Name="rect83"
+				<Canvas Name="g88"
+						>
+					<Path Name="rect83"
 							Fill="#FFFFCCAA"
 							StrokeThickness="1.53846"
 							>
@@ -215,8 +223,7 @@
 									/>
 						</Path.Data>
 					</Path>
-					<Path
-							Name="path64"
+					<Path Name="path64"
 							Fill="#000000"
 							>
 						<Path.Data>
@@ -229,12 +236,12 @@
 				</Canvas>
 			</Canvas>
 		</Canvas>
-		<Canvas Name="layer3">
+		<Canvas Name="layer3"
+				>
 			<Canvas.RenderTransform>
 				<TranslateTransform X="-1.7884859e-7" Y="2.0562641" />
 			</Canvas.RenderTransform>
-			<Path
-					Name="path2335"
+			<Path Name="path2335"
 					Fill="{StaticResource linearGradient9772}"
 					Stroke="#FF3465A4"
 					StrokeEndLineCap="Flat"
@@ -253,8 +260,7 @@
 					<TranslateTransform X="2.4166223e-5" />
 				</Path.RenderTransform>
 			</Path>
-			<Path
-					Name="path3043"
+			<Path Name="path3043"
 					Opacity="0.465909"
 					Stroke="{StaticResource linearGradient322-1}"
 					StrokeEndLineCap="Round"

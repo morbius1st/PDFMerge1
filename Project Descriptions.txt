@@ -1,0 +1,9 @@
+AODeliverable	proof of concept app - working (show to the office)
+Flex			final PDF merge app
+PDFMerge1		test app to merge PDF files
+StoreAndRead	Component project to store and read data from an XML file using the settings routines
+StoreAndRead2	blank
+Sylvester		Completed app to sync PDF file names
+test3			test using a tri-state tree using events and methods
+tests			PDF categories and codes
+tests2			categorizing PDF files / presenting in trees

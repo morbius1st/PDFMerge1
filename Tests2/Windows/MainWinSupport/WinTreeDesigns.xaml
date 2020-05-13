@@ -5,21 +5,21 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		>
 
-	<!-- <x:Static x:Key="TvBranchFontSize" -->
-	<!-- 		Member="local:WinTreeDesigns.TvBranchFontSize" -->
-	<!-- 		/> -->
+	<!--  <x:Static x:Key="TvBranchFontSize"  -->
+	<!--  Member="local:WinTreeDesigns.TvBranchFontSize"  -->
+	<!--  />  -->
 
-	<!-- <x:Static x:Key="TvLeafFontSize" -->
-	<!-- 		Member="local:WinTreeDesigns.TvLeafFontSize" -->
-	<!-- 		/> -->
+	<!--  <x:Static x:Key="TvLeafFontSize"  -->
+	<!--  Member="local:WinTreeDesigns.TvLeafFontSize"  -->
+	<!--  />  -->
 
-	<!-- <x:Static x:Key="TvRowHeight" -->
-	<!-- 		Member="local:WinTreeDesigns.TvRowHeight" -->
-	<!-- 		/> -->
-	<!-- -->
-	<!-- <x:Static x:Key="TvRowHeightHalf" -->
-	<!-- 		Member="local:WinTreeDesigns.TvRowHeightHalf" -->
-	<!-- 		/> -->
+	<!--  <x:Static x:Key="TvRowHeight"  -->
+	<!--  Member="local:WinTreeDesigns.TvRowHeight"  -->
+	<!--  />  -->
+	<!--    -->
+	<!--  <x:Static x:Key="TvRowHeightHalf"  -->
+	<!--  Member="local:WinTreeDesigns.TvRowHeightHalf"  -->
+	<!--  />  -->
 
 	<x:Static x:Key="TvTreeMarginLeft"
 			Member="local:WinTreeDesigns.TvTreeMargLeft"
@@ -95,11 +95,13 @@
 			Color="#FF868686"
 			/>
 
-	<Color x:Key="ToggleButtonFillStart">
+	<Color x:Key="ToggleButtonFillStart"
+			>
 		#FF6F6F6F
 	</Color>
 
-	<Color x:Key="ToggleButtonFillEnd">
+	<Color x:Key="ToggleButtonFillEnd"
+			>
 		#FFE6E6E6
 	</Color>
 

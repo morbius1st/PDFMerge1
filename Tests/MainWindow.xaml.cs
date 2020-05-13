@@ -11,6 +11,11 @@ using Tests.Debug;
 using Tests.Sequence;
 using UtilityLibrary;
 
+
+
+// a hierarchical sequence and associated tree view - but using single level codes
+
+
 // // root element
 // SeqPart
 // |    

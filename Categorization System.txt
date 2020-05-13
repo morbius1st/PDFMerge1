@@ -1,0 +1,133 @@
+﻿
+
+sample file names
+
+A CS1.0-0 This is a Test CS10
+A T1.0-0  This is a Test T10
+  C1.0-0  This is a Test C10
+  L1.0-0  This is a Test L10
+A A1.0-0a This is a Test A10
+A S1.0-0  This is a Test S10
+A P1.0-0  This is a Test P10
+A M1.0-0a This is a Test M10
+__-_ - _- __________________
+^ ^^ ^ ^^ ^
+| || | || +- name
+| || | |+- sub-modifier (and sub-sub-modifier)
+| || | +- modifier
+| || +- sub-category
+| |+- category
+| +- discipline designaor
++- building (sometimes)
+^
++- phase identifier (not shown)
+
+
+CS1.0-0 This is a Test CS10
+T1.0-0 This is a Test T10
+C1.0-0 This is a Test C10
+L1.0-0 This is a Test L10
+A1.0-0 This is a Test A10
+S1.0-0 This is a Test S10
+P1.0-0 This is a Test P10
+M1.0-0 This is a Test M10
+-_ - _ __________________
+^^ ^ ^ ^
+|| | | +- name
+|| | +- modifier
+|| +- sub-sequence
+|+- sequence
++- discipline
+
+
+1. read file list from the drive / ignore folder structure
+2. put path / file names into a tree per its categorization
+
+
+order code is the key name for the tree
+
+top level
+			order
+Pattern     code        description									title
+(n/a)		␢␢0			uncategorized								Uncategorized
+CS*         ␢00			cover sheet									Cover Sheet
+A*          ␢07			architectural								Architectural
+x A*        107			building x architectural
+S*          ␢11			structural
+x S*        111			building x structural
+
+next level
+						order
+preface     pattern     code    description							title
+A*          1*			01		general or special plan sheets		General
+A*          2*          02      plan sheets							Plans
+A*          3*          03		vertical view sheets				Elevations and Sections
+S*          0*          00		general								General
+
+next level
+						order
+preface     pattern		code	description							title
+A*1*        (none - return)
+A*2*        0*			00		slab plan sheets					Slab Plan
+A*2*        1*			01		floor plan sheets					Floor Plan
+A*2*        2*			02		roof plan sheets					Roof Plans
+
+
+Both categories and sheets go into tree structures
+
+Tree example for categories
+pattern
+A* or
+x A* 
+	+---> 1*
+	+---> 2*
+		  +---> 0*
+		  +---> 1*
+		  +---> 3*
+
+
+node class - can be either leaf or branch
+name:
+NumberCompClass (number component classifier)
+key: 
+code / string
+
+value:
+title (will be the book mark) / string
+description / string
+pattern / regex
+
+
+process
+
+match against tree level 1 -> not found -> add to uncategorized
+|				
+v (found) (add as level 1 leaf)
+match against tree level 2 -> not found -> return
+|
+v (found) (add as level 2 leaf)
+match against tree level 3 -> not found -> return
+|
+v
+etc.
+
+editor
+display / edit data in a tree structure
+add leaf
+add children to leaf / convert leaf to branch
+edit leaf info
+edit branch info
+delete leaf
+delete branch (and all below)
+move leaf to different branch
+move branch to different branch
+have a library of parts
+	- categorize as systems that includes
+	a complete set of ?? 
+	- allow the selection of a complete set
+	- allow the selection of individual ?? from a system
+?? name for of each leaf:
+number comp class (sheet number component classifier)
+
+
+

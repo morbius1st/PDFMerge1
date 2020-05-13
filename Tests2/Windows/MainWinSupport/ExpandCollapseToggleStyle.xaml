@@ -4,15 +4,21 @@
 		xmlns:local="clr-namespace:Tests2.Windows.MainWinSupport"
 		>
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="WinTreeDesigns.xaml" />
+		<ResourceDictionary
+				Source="WinTreeDesigns.xaml"
+				/>
 	</ResourceDictionary.MergedDictionaries>
 
 	<!--  Toggle Button  -->
-	<Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
+	<Style x:Key="ExpandCollapseToggleStyle"
+			TargetType="ToggleButton"
+			>
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="ToggleButton">
+				<ControlTemplate
+						TargetType="ToggleButton"
+						>
 					<Grid Name="grid_toggle_btn"
 							Width="{StaticResource ToggleButtonWidth}"
 							Height="{StaticResource ToggleButtonHeight}"
@@ -28,16 +34,14 @@
 								/>
 						<!--  Vertical line inside rectangle  -->
 
-						<Rectangle
-								x:Name="ExpandPathVert_toggle_btn"
+						<Rectangle x:Name="ExpandPathVert_toggle_btn"
 								Width="1"
 								Height="{StaticResource ToggleButtonPlusHeight}"
 								SnapsToDevicePixels="true"
 								Stroke="{StaticResource ToggleButtonPlusVertLine}"
 								/>
 						<!--  Horizontal line inside rectangle  -->
-						<Rectangle
-						x:Name="ExpandPathHoriz_toggle_btn"
+						<Rectangle x:Name="ExpandPathHoriz_toggle_btn"
 								Width="{StaticResource ToggleButtonPlusWidth}"
 								Height="1"
 								SnapsToDevicePixels="true"
@@ -46,9 +50,9 @@
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsChecked" Value="True">
+							<Setter TargetName="ExpandPathHoriz_toggle_btn" Property="Height" Value="{StaticResource ToggleBtnHorizLineHeightChecked}" />
+							<Setter TargetName="ExpandPathHoriz_toggle_btn" Property="Stroke" Value="{StaticResource ToggleButtonPlusHorizLineChecked}" />
 							<Setter TargetName="ExpandPathVert_toggle_btn" Property="Visibility" Value="Collapsed" />
-							<Setter TargetName="ExpandPathHoriz_toggle_btn" Property="Stroke" Value="{StaticResource ToggleButtonPlusHorizLineChecked}"/>
-							<Setter TargetName="ExpandPathHoriz_toggle_btn" Property="Height" Value="{StaticResource ToggleBtnHorizLineHeightChecked}"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

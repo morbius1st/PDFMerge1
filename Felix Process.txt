@@ -1,0 +1,58 @@
+Felix
+
+library routines
+* file route
+* scan a folder / create list of files by type & criteria
+* maybe adjust (view) to use a better scroll bar
+* cyberstudio standards
+    * standard button size
+    * standard color library
+
+take a set of sheet PDF's from a folder structure and combine them 
+into a single PDF
+*.  create bookmarks based on settings / not on folder structure
+*.  preserve links
+
+notes:
+* use oblique button / file route
+* maintain favorites & history - but only the input folder
+
+settings:
+* overwrite output folder - remove - always ask for permission
+* create hierarchical bookmark structure - yes or no
+
+operations:
+* select input folder
+* change settings
+* set output folder
+* set output file name
+* edit bookmark setting file
+* select bookmark setting file
+
+additional windows:
+* favorites
+* bookmarks
+    * edit
+    * select
+
+process
+
+* sync names
+* select input folder (folder route)
+* scan folder(s) and retrieve all sheet file names
+* sub-divide file name into sheet number and sheet name
+* adjust if no sheet PDF's
+* determine file bookmark based on sheet number
+* user editing? no
+    * no: change bookmark name
+    * no: change bookmark sequence
+* ad-hoc: set output folder (allow make folder)
+* ad-hoc: set output file name 
+* show expectation in a treeview
+* proceed:
+    * if has output folder
+    * if has output file name
+    * if has some input files
+    * do: merge pdf's
+
+

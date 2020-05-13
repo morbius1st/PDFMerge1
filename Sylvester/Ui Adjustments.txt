@@ -1,4 +1,4 @@
-
+B:\Programming\VisualStudioProjects\PDFMerge1\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll
 
 main window
 at header: when nothing, show summary items with all zero

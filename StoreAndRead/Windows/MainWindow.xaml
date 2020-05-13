@@ -1,0 +1,125 @@
+﻿<Window x:Class="StoreAndRead.Windows.MainWindow"
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:local="clr-namespace:StoreAndRead.Windows"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:data1="clr-namespace:StoreAndRead.SampleData"
+				xmlns:data2="clr-namespace:StoreAndRead.TestData"
+				x:Name="mainWin"
+				Title="MainWindow"
+				Width="800"
+				Height="450"
+				DataContext="{Binding ElementName=mainWin}"
+				mc:Ignorable="d"
+				Background="{StaticResource Normal.Window.Background}"
+				Loaded="mainWin_Loaded">
+	<Window.Resources>
+
+		<x:Static x:Key="sd1z"
+							Member="local:MainWindow.sd1x" />
+
+		<!-- <x:Static -->
+		<!-- 		x:Key="sd2z" -->
+		<!-- 		Member="local:MainWindow.sd2x" -->
+		<!-- 		/> -->
+
+	</Window.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="120" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="50" />
+		</Grid.RowDefinitions>
+
+		<Button Content="Debug"
+						Grid.Column="3"
+						Grid.Row="2"
+						Margin="5"
+						Click="BtnDebug_OnClick" />
+
+		<TreeView x:Name="tv1"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Top"
+							d:DataContext="{Binding Source={x:Static local:MainWindow.sd1x}}"
+							ItemTemplate="{DynamicResource tvDt}"
+							DataContext="{Binding ElementName=mainWin, Path=SD1}"
+							ItemsSource="{Binding Root}">
+			<TreeView.Resources>
+
+				<HierarchicalDataTemplate x:Key="tvDt"
+																	DataType="{x:Type data1:SampleItem}"
+																	ItemsSource="{Binding Leaves}">
+					<StackPanel Orientation="Horizontal">
+						<Label Content="{Binding Name}">
+						</Label>
+					</StackPanel>
+				</HierarchicalDataTemplate>
+
+			</TreeView.Resources>
+		</TreeView>
+
+
+		<TreeView x:Name="tv2"
+							Grid.Column="1"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Top"
+							d:DataContext="{Binding Source={x:Static local:MainWindow.sd2x}}"
+							ItemTemplate="{DynamicResource tvDt}"
+							DataContext="{Binding ElementName=mainWin, Path=Dm1}"
+							ItemsSource="{Binding Root}">
+			<TreeView.Resources>
+				<HierarchicalDataTemplate x:Key="tvDt"
+																	DataType="{x:Type data2:TestItem}"
+																	ItemsSource="{Binding Leaves}">
+					<StackPanel Orientation="Horizontal">
+						<Label Content="{Binding Name}">
+						</Label>
+					</StackPanel>
+				</HierarchicalDataTemplate>
+			</TreeView.Resources>
+		</TreeView>
+
+		<TreeView x:Name="tv3"
+							Grid.Column="2"
+							Grid.Row="0"
+							Grid.RowSpan="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Top"
+							d:DataContext="{Binding Source={x:Static local:MainWindow.sd2x}}"
+							ItemTemplate="{DynamicResource tvDt}"
+							DataContext="{Binding ElementName=mainWin, Path=Dm2}"
+							ItemsSource="{Binding Root}">
+			<TreeView.Resources>
+				<HierarchicalDataTemplate x:Key="tvDt"
+																	DataType="{x:Type data2:TestItem}"
+																	ItemsSource="{Binding Leaves}">
+					<StackPanel Orientation="Horizontal">
+						<Label Content="{Binding Name}">
+						</Label>
+					</StackPanel>
+				</HierarchicalDataTemplate>
+			</TreeView.Resources>
+		</TreeView>
+
+
+	</Grid>
+</Window>

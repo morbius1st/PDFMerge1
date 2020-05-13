@@ -76,6 +76,9 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.External\MessageUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
+      <Link>.Settings\SettingsMgr.-v30.cs</Link>
+    </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
     <Compile Include="FileListManager\SelectFiles.cs" />
@@ -95,9 +98,6 @@
     <Compile Include="Windows\MainWinManager.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingsMgr.-v30.cs">
-      <Link>.Settings\SettingsMgr.-v30.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
