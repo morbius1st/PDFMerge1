@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 #endregion
@@ -16,6 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace ClassifierEditor.NumberComponent
 {
+	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	public class NumberComponentItem : INotifyPropertyChanged
 	{
 	#region private fields
@@ -34,13 +36,14 @@ namespace ClassifierEditor.NumberComponent
 			this.keyCode = keyCode;
 			this.title = title;
 			this.description = description;
-			this.pattern = pattern == null ? null : new Regex(pattern);
+			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
 		}
 
 	#endregion
 
 	#region public properties
 
+		[DataMember(Order = 1)]
 		public string KeyCode
 		{
 			get => keyCode;
@@ -52,6 +55,7 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
+		[DataMember(Order = 2)]
 		public string Title
 		{
 			get => title;
@@ -63,6 +67,7 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
+		[DataMember(Order = 3)]
 		public string Description
 		{
 			get => description;
@@ -74,6 +79,7 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
+		[DataMember(Order = 4)]
 		public string Pattern
 		{
 			get => pattern.ToString();

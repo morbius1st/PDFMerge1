@@ -634,7 +634,7 @@ namespace SettingsManager
 
 #region + Support Classes
 
-	[DataContract(Namespace = Heading.N_SPACE)]
+	[DataContract(Namespace = "")]
 	public abstract class SettingInfoBase<Tdata> : IComparable<SettingInfoBase<Tdata>>
 		where Tdata : new()
 	{
@@ -760,7 +760,7 @@ namespace SettingsManager
 
 #region info class for data
 
-	[DataContract(Name = "DataStorage", Namespace = "")]
+	[DataContract(Name = "DataStore", Namespace = "")]
 	public class StorageMgrInfo<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new ()
 	{

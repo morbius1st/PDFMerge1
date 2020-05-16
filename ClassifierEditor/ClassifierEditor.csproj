@@ -57,6 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataRepo\DataManagerCategories.cs" />
+    <Compile Include="DataRepo\SheetCategories.cs" />
+    <Compile Include="DataRepo\StorageManager.cs" />
     <Compile Include="NumberComponent\NumberComponentItem.cs" />
     <Compile Include="NumberComponent\SampleData.cs" />
     <Compile Include="NumberComponent\TreeManager.cs" />

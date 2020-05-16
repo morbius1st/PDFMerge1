@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 
 using System.Windows;
 using System.Windows.Controls;
+using ClassifierEditor.DataRepo;
 using ClassifierEditor.NumberComponent;
 using ClassifierEditor.Windows.Support;
 
@@ -27,6 +28,8 @@ namespace ClassifierEditor.Windows
 	{
 	#region private fields
 
+		private DataManagerCategories categories = new DataManagerCategories();
+
 		private TreeManager tm;
 
 		private string selectedTitle;
@@ -35,17 +38,34 @@ namespace ClassifierEditor.Windows
 
 	#region ctor
 
+		static MainWindow()
+		{
+			SampleData sd = new SampleData();
+			sd.Sample(RootNode);
+		}
+
 		public MainWindow()
 		{
 			InitializeComponent();
 
 			TreeManager = new TreeManager();
-
 		}
 
 	#endregion
 
 	#region public properties
+
+		public static TreeNode RootNode { get; set; } = new TreeNode();
+
+		public DataManagerCategories Categories
+		{
+			get => categories;
+			private set
+			{
+				categories = value;
+				OnPropertyChange();
+			}
+		} 
 
 		public static TreeManager Tmx { get; private set; } = new TreeManager();
 
@@ -83,16 +103,33 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-	#region control methods
+	#region window event methods
 
-		private void CheckBox_LostFocus5(object sender, RoutedEventArgs e)
+		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			CheckBox cbx = (CheckBox) sender;
+			TreeManager = new TreeManager();
 
-			TreeNode node = (TreeNode) cbx.DataContext;
+//			DataGrid dx = Dg1;
 
-			node.TriStateReset();
+			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor", "SheetCategories.xml");
+
+//			categories.LoadSampleData();
+//
+//			OnPropertyChange("Categories");
+
+			categories.Read();
+
+			categories.LoadSampleData();
+
+			OnPropertyChange("Categories");
+
+			categories.Write();
+
+
 		}
+	#endregion
+
+	#region control event methods
 
 		private void BtnRowDetailDone_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -105,12 +142,22 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			Dg1.CurrentCell = new DataGridCellInfo(Dg1.Items[0], Dg1.Columns[1]);
+//			DataGrid dx = Dg1;
 
-			Dg1.BeginEdit();
+//			Dg1.CurrentCell = new DataGridCellInfo(Dg1.Items[0], Dg1.Columns[1]);
+
+//			Dg1.BeginEdit();
 
 			Debug.WriteLine("at debug");
 		}
+
+
+		private void BtnAddDetailRow_OnClick(object sender, RoutedEventArgs e)
+		{
+			DataGridRow r = (DataGridRow) ((Button) sender).Tag;
+
+		}
+
 
 		private void DataGrid_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
 		{
@@ -157,11 +204,6 @@ namespace ClassifierEditor.Windows
 
 		}
 
-		private void BtnAddDetailRow_OnClick(object sender, RoutedEventArgs e)
-		{
-			DataGridRow r = (DataGridRow) ((Button) sender).Tag;
-
-		}
 
 
 	#endregion
@@ -169,10 +211,6 @@ namespace ClassifierEditor.Windows
 
 	#region event handeling
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			TreeManager = new TreeManager();
-		}
 
 	#endregion
 

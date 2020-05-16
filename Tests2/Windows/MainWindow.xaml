@@ -23,7 +23,6 @@
 
 			</ResourceDictionary.MergedDictionaries>
 
-
 			<x:Static x:Key="flx"
 					Member="local:MainWindow.flx"
 					/>
@@ -850,6 +849,8 @@
 					Margin="10,10,10,0"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
+					d:DataContext="{Binding Source={x:Static local:MainWindow.Mtx},
+																Mode=OneWay}"
 					DataContext="{Binding MrgTree.MergeTree,
 																ElementName=mainWin,
 																Mode=OneWay}"

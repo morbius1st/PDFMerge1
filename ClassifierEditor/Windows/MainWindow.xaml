@@ -10,14 +10,14 @@
 		xmlns:tree="clr-namespace:ClassifierEditor.NumberComponent"
 		x:Name="MainWin"
 		Title="MainWindow"
-		Width="1200"
+		Width="900"
 		Height="650"
-		FontFamily="MS Gothic"
+		FontFamily="Tahoma"
 		FontSize="12"
 		d:UseSampleData="True"
 		Loaded="Window_Loaded"
 		mc:Ignorable="d"
-		Background="#222222"
+		Background="{DynamicResource Brush.Window.Background}"
 		>
 	<Window.Resources>
 
@@ -41,11 +41,16 @@
 
 			<Color x:Key="Datagrid.Row.Selected">#FF003554</Color>
 
+			<Color x:Key="Window.Background">#FF222222</Color>
+			<Color x:Key="TreeView.Background">#FF212121</Color>
+
+
 			<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
 			<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
 			<SolidColorBrush x:Key="Grid.Line" Color="LightSkyBlue" />
 
-
+			<SolidColorBrush x:Key="Brush.TreeView.Background" Color="{StaticResource TreeView.Background}"/>
+			<SolidColorBrush x:Key="Brush.Window.Background" Color="{StaticResource Window.Background}"/>
 
 			<Style
 					x:Key="ColumnHeaderStyle1"
@@ -66,7 +71,7 @@
 				<!--  TargetType="{x:Type DataGridCell}"  -->
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="BorderThickness" Value="0" />
-				<Setter Property="Margin" Value="0" />
+				<Setter Property="Margin" Value="10,0,10,0" />
 				<Setter Property="Height" Value="Auto" />
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 				<!--<Setter Property="MinHeight" Value="24" />-->
@@ -74,11 +79,11 @@
 			</Style>
 
 			<Style
-					x:Key="CellStyleDiscipline"
+					x:Key="CellStyleValue"
 					TargetType="DataGridCell"
 					BasedOn="{StaticResource CellStyleBase}"
 					>
-				<Setter Property="Margin" Value="5,0,0,0">
+				<Setter Property="Margin" Value="5,0,5,0">
 				</Setter>
 			</Style>
 
@@ -291,8 +296,6 @@
 			</Style>
 
 
-
-
 			<Style
 					x:Key="DataGridStyle1"
 					TargetType="DataGrid"
@@ -424,17 +427,17 @@
 															Background="{StaticResource ScrollBarBkg}"
 															Style="{DynamicResource ScrollBarStyle}"
 															/>
-													<!--  <ScrollBar  -->
-													<!--  x:Name="PART_HorizontalScrollBar"  -->
-													<!--  Grid.Column="1"  -->
-													<!--  Maximum="{TemplateBinding ScrollableWidth}"  -->
-													<!--  Orientation="Horizontal"  -->
-													<!--  ViewportSize="{TemplateBinding ViewportWidth}"  -->
-													<!--  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"  -->
-													<!--  Value="{Binding HorizontalOffset,  -->
-													<!--  Mode=OneWay,  -->
-													<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
-													<!--  />  -->
+													<!--<ScrollBar
+													  x:Name="PART_HorizontalScrollBar"
+													  Grid.Column="1"
+													  Maximum="{TemplateBinding ScrollableWidth}"
+													  Orientation="Horizontal"
+													  ViewportSize="{TemplateBinding ViewportWidth}"
+													  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+													  Value="{Binding HorizontalOffset,
+													  Mode=OneWay,
+													  RelativeSource={RelativeSource TemplatedParent}}"
+													  />-->
 												</Grid>
 											</Grid>
 										</ControlTemplate>
@@ -564,6 +567,7 @@
 					TargetType="DataGridCell"
 					BasedOn="{StaticResource dgIdCel}"
 					>
+				<Setter Property="Height" Value="50" />
 				<!--  TargetType="{x:Type DataGridCell}"  -->
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
 			</Style>
@@ -574,7 +578,7 @@
 			<!--#region > Dg1 resources-->
 
 			<DataTemplate x:Key="Dty">
-				<Grid>
+				<Grid HorizontalAlignment="Left">
 					<Button
 							Name="BtnAddDetailRow"
 							Content="Add"
@@ -585,6 +589,210 @@
 							/>
 				</Grid>
 			</DataTemplate>
+
+			<DataTemplate
+					x:Key="Dtz"
+					DataType="tree:TreeNode"
+					>
+				<Border
+						x:Name="Bd"
+						Background="#222222"
+						BorderThickness="1,0,1,1"
+						BorderBrush="Red"
+						>
+					<Border.Style>
+						<Style TargetType="Border">
+							<Style.Triggers>
+								<DataTrigger
+										Binding="{Binding HasChildren}"
+										Value="true"
+										>
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Border.Style>
+
+
+					<Grid Background="#222222">
+
+						<DataGrid
+								Margin="5,35,5,5"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								FontSize="12"
+								d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"
+								AreRowDetailsFrozen="False"
+								AutoGenerateColumns="false"
+								CanUserAddRows="False"
+								CanUserDeleteRows="False"
+								CanUserReorderColumns="False"
+								CanUserResizeRows="False"
+								CanUserSortColumns="False"
+								CellEditEnding="DataGrid_OnCellEditEnding"
+								GridLinesVisibility="None"
+								HorizontalScrollBarVisibility="Visible"
+								PreparingCellForEdit="DataGrid_OnPreparingCellForEdit"
+								RowDetailsVisibilityMode="Collapsed"
+								SelectionMode="Single"
+								VerticalScrollBarVisibility="Visible"
+								VirtualizingPanel.ScrollUnit="Pixel"
+								Background="#222222"
+								Foreground="White"
+								BorderThickness="0,1,0,0"
+								HorizontalGridLinesBrush="LightSkyBlue"
+								VerticalGridLinesBrush="LightSkyBlue"
+								IsReadOnly="False"
+								ItemsSource="{Binding Children}"
+								CellStyle="{DynamicResource CellStyleBase}"
+								ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}"
+								RowStyle="{DynamicResource DataGridRowStyle}"
+								Style="{DynamicResource DataGridStyle1}"
+								>
+
+							<DataGrid.Columns>
+								<DataGridTemplateColumn
+										Width="32"
+										IsReadOnly="True"
+										CellStyle="{StaticResource CellStyleNarrow}"
+										>
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<CheckBox
+													x:Name="BtnExpander"
+													Margin="0,0,0,0"
+													Width="16"
+													Height="16"
+													MinHeight="{StaticResource Dg.Row.Height}"
+													HorizontalAlignment="Center"
+													custom:CustomProperties.GenericBoolOne="{Binding HasChildren}"
+													Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+													BorderThickness="0"
+													Click="CbxExpander_OnClick"
+													FocusVisualStyle="{x:Null}"
+													Style="{DynamicResource ChkExpander}"
+													/>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+
+								</DataGridTemplateColumn>
+
+								<DataGridTextColumn
+										Width="120"
+										Binding="{Binding Item.Title}"
+										CellStyle="{StaticResource CellStyleValue}"
+										EditingElementStyle="{StaticResource EditTbxStyle1}"
+										>
+
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="TextBlock">
+
+											<Setter Property="VerticalAlignment" Value="Center" />
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+									<DataGridTextColumn.Header>
+										<DataGridColumnHeader
+												Content="Discipline"
+												Margin="0,0,10,0"
+												Padding="5,2,5,3"
+												HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Stretch"
+												Visibility="Visible"
+												Background="Transparent"
+												BorderThickness="1,1,1,1"
+												BorderBrush="{StaticResource Grid.Line}"
+												/>
+									</DataGridTextColumn.Header>
+								</DataGridTextColumn>
+
+								<DataGridTextColumn
+										Width="120"
+										Binding="{Binding Item.Description}"
+										CellStyle="{StaticResource CellStyleValue}"
+										EditingElementStyle="{StaticResource EditTbxStyle1}"
+										>
+
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="TextBlock">
+											<Setter Property="VerticalAlignment" Value="Center" />
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+									<DataGridTextColumn.Header>
+										<DataGridColumnHeader
+												Content="Description"
+												Margin="0,0,0,0"
+												Width="Auto"
+												HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Stretch"
+												Visibility="Visible"
+												BorderThickness="1,1,1,0"
+												BorderBrush="{StaticResource Grid.Line}"
+												/>
+									</DataGridTextColumn.Header>
+								</DataGridTextColumn>
+
+								<DataGridTextColumn
+										Width="120"
+										Binding="{Binding Item.Pattern}"
+										CellStyle="{StaticResource CellStyleValue}"
+										EditingElementStyle="{StaticResource EditTbxStyle1}"
+										>
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="TextBlock">
+											<Setter Property="VerticalAlignment" Value="Center" />
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+									<DataGridTextColumn.Header>
+										<DataGridColumnHeader
+												Content=""
+												Margin="0,0,0,0"
+												Width="0"
+												HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Stretch"
+												Visibility="Visible"
+												BorderThickness="1,1,1,0"
+												BorderBrush="{StaticResource Grid.Line}"
+												/>
+									</DataGridTextColumn.Header>
+								</DataGridTextColumn>
+
+								<DataGridTextColumn
+										Width="50"
+										Binding="{Binding Item.KeyCode}"
+										IsReadOnly="True"
+										CellStyle="{StaticResource CellStyleValue}"
+										>
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="TextBlock">
+											<Setter Property="VerticalAlignment" Value="Center" />
+											<Setter Property="HorizontalAlignment" Value="right" />
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+									<DataGridTextColumn.Header>
+										<DataGridColumnHeader
+												Content="Key"
+												Margin="00,0,0,0"
+												Width="50"
+												HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Stretch"
+												Visibility="Visible"
+												BorderBrush="{StaticResource Grid.Line}"
+												/>
+									</DataGridTextColumn.Header>
+								</DataGridTextColumn>
+
+							</DataGrid.Columns>
+
+						</DataGrid>
+
+
+
+					</Grid>
+				</Border>
+			</DataTemplate>
+
+
+
 
 			<DataTemplate
 					x:Key="Dtx"
@@ -611,12 +819,11 @@
 
 
 					<Grid Background="#222222">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="30" />
-							<RowDefinition Height="auto" />
-						</Grid.RowDefinitions>
+						<!-- <Grid.RowDefinitions> -->
+						<!--    -->
+						<!-- </Grid.RowDefinitions> -->
 
-						<Button
+						<!--<Button
 								x:Name="BtnRowDetailDone"
 								Content="Done"
 								Grid.Column="0"
@@ -629,12 +836,13 @@
 								FontSize="10"
 								Tag="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}"
 								Visibility="Visible"
-								Click="BtnRowDetailDone_OnClick"
-								/>
+								Click="Btn
+								RowDetailDone_OnClick"
+								/>-->
 						<DataGrid
 								Grid.Column="0"
-								Grid.Row="1"
 								HorizontalAlignment="Stretch"
+								d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"
 								AutoGenerateColumns="False"
 								CellEditEnding="DataGrid_OnCellEditEnding"
 								HeadersVisibility="None"
@@ -649,8 +857,8 @@
 								VerticalGridLinesBrush="LightSkyBlue"
 								IsReadOnly="False"
 								ItemsSource="{Binding Path=Children}"
-								RowDetailsTemplate="{DynamicResource Dtx}"
 								>
+							<!--  RowDetailsTemplate="{DynamicResource Dtx}"  -->
 							<DataGrid.RowStyle>
 								<Style TargetType="DataGridRow">
 									<Setter Property="Background" Value="#222222" />
@@ -664,20 +872,23 @@
 
 								<DataGridTextColumn
 										Width="120"
-										Binding="{Binding Item.Title}"
+										Binding="{Binding Item.Title,
+																			FallbackValue='title'}"
 										Header="Title"
 										CellStyle="{StaticResource dgIdCelBeg}"
 										HeaderStyle="{StaticResource dgIdHdrMid}"
 										/>
 								<DataGridTextColumn
-										Binding="{Binding Item.Description}"
+										Binding="{Binding Item.Description,
+																			FallbackValue='description'}"
 										Header="Description"
 										CellStyle="{StaticResource dgIdCelBeg}"
 										HeaderStyle="{StaticResource dgIdHdrMid}"
 										/>
 								<DataGridTextColumn
 										Width="80"
-										Binding="{Binding Item.KeyCode}"
+										Binding="{Binding Item.KeyCode,
+																			FallbackValue='key'}"
 										Header="Key Code"
 										CellStyle="{StaticResource dgCel}"
 										HeaderStyle="{StaticResource dgIdHdrBeg}"
@@ -712,14 +923,510 @@
 					TargetType="TextBox"
 					>
 				<Setter Property="Margin" Value="4,0" />
-				<Setter Property="Padding" Value="6,4,4,4" />
+				<Setter Property="Padding" Value="6,2,4,2" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="VerticalContentAlignment" Value="Center" />
-				<Setter Property="DataContext" Value="{Binding ElementName=Dg1, Path=SelectedValue}" />
 				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="BorderThickness" Value="0" />
 			</Style>
+
+
+			<HierarchicalDataTemplate
+					x:Key="Tv1DataTemplate1"
+					DataType="{x:Type tree:TreeNode}"
+					ItemsSource="{Binding Path=Children}"
+					>
+				<Grid
+						x:Name="GD1"
+						Margin="0,1,0,0"
+						Width="Auto"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Center"
+						
+						>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="200" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="{Binding Path=Item.Title}"
+							Grid.Column="0"
+							Grid.Row="0"
+							Margin="5,2,4,0"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							DockPanel.Dock="Left"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="{Binding Path=Item.Description}"
+							Grid.Column="1"
+							Grid.Row="0"
+							Margin="5,2,4,0"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							DockPanel.Dock="Right"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="{Binding Path=Item.Pattern}"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Margin="22,1,4,4"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							FontSize="8"
+							DockPanel.Dock="Bottom"
+							Foreground="Gray"
+							/>
+
+				</Grid>
+
+
+			</HierarchicalDataTemplate>
+
+
+
+			<Style x:Key="TreeViewItemFocusVisual">
+				<Setter Property="Control.Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Rectangle />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="{StaticResource Deep.Orange.400}" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="{StaticResource Deep.Orange.400}" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="{StaticResource Deep.Orange.100}" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="{StaticResource Deep.Orange.100}" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill" Color="#FF27C7F7" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF27C7F7" />
+			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF27C7F7" />
+
+			<PathGeometry
+					x:Key="TreeArrow"
+					Figures="M0,0 L0,8 L8,0 z"
+					/>
+
+			<Style
+					x:Key="ExpandCollapseToggleStyle"
+					TargetType="{x:Type ToggleButton}"
+					>
+				<Setter Property="Focusable" Value="False" />
+				<Setter Property="Width" Value="16" />
+				<Setter Property="Height" Value="16" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ToggleButton}">
+							<Border
+									Width="24"
+									Height="24"
+									Padding="5,5,5,5"
+									Background="Transparent"
+									>
+								<Path
+										x:Name="ExpandPath"
+										Data="{StaticResource TreeArrow}"
+										Fill="{StaticResource TreeViewItem.TreeArrow.Static.Fill}"
+										Stroke="{StaticResource TreeViewItem.TreeArrow.Static.Stroke}"
+										StrokeThickness="1"
+										>
+									<Path.RenderTransform>
+										<RotateTransform Angle="135" CenterX="3" CenterY="3" />
+									</Path.RenderTransform>
+								</Path>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger
+										Property="IsChecked"
+										Value="true"
+										>
+									<Setter TargetName="ExpandPath" Property="RenderTransform">
+										<Setter.Value>
+											<RotateTransform Angle="180" CenterX="3" CenterY="3" />
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill}" />
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" />
+								</Trigger>
+
+								<Trigger
+										Property="IsMouseOver"
+										Value="true"
+										>
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" />
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" />
+								</Trigger>
+
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsMouseOver" Value="true" />
+										<Condition Property="IsChecked" Value="true" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}" />
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style
+					x:Key="Tv1temStyle1"
+					TargetType="{x:Type TreeViewItem}"
+					>
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+				<Setter Property="Padding" Value="1,0,0,0" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type TreeViewItem}">
+
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" MinWidth="19" />
+									<ColumnDefinition Width="*" />
+									<!-- <ColumnDefinition Width="*" /> -->
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<ToggleButton
+										x:Name="Expander"
+										VerticalAlignment="Top"
+										ClickMode="Press"
+										IsChecked="{Binding IsExpanded,
+																				RelativeSource={RelativeSource TemplatedParent}}"
+										Style="{StaticResource ExpandCollapseToggleStyle}"
+										/>
+								<Border
+										Grid.Column="1"
+										Grid.Row="0"
+										Margin="0,0.5,.5,0"
+										CornerRadius="6"
+										SnapsToDevicePixels="True"
+										BorderThickness="12,1.5,.5,5"
+										>
+									<Border.BorderBrush>
+										<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+											<GradientStop Offset="0.03" Color="#FF111132" />
+											<GradientStop Offset="0.10" Color="#FFAAEAF3" />
+										</LinearGradientBrush>
+									</Border.BorderBrush>
+									<Border
+											x:Name="BD"
+											Margin="-3.5,-.5,.5,-1"
+											CornerRadius="5"
+											BorderThickness="4,0.5,2,0.5"
+											BorderBrush="{StaticResource Brush.TreeView.Background}"
+											Background="{StaticResource Brush.TreeView.Background}"
+											>
+										<VirtualizingStackPanel
+												Grid.Column="1"
+												Grid.Row="0"
+												>
+											<Border
+													x:Name="Bd"
+													Grid.Column="1"
+													Grid.Row="0"
+													Padding="{TemplateBinding Padding}"
+													SnapsToDevicePixels="true"
+													Background="{TemplateBinding Background}"
+													BorderThickness="{TemplateBinding BorderThickness}"
+													BorderBrush="{TemplateBinding BorderBrush}"
+													>
+												<ContentPresenter
+														x:Name="PART_Header"
+														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+														ContentSource="Header"
+														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+														
+														/>
+											</Border>
+											<ItemsPresenter
+													x:Name="ItemsHost"
+													Grid.Column="1"
+													Grid.Row="1"
+													Grid.ColumnSpan="1"
+													
+													/>
+										</VirtualizingStackPanel>
+										<Border.Style>
+											<Style TargetType="Border">
+												<Setter Property="Background" Value="Transparent"/>
+											</Style>
+										</Border.Style>
+									</Border>
+								</Border>
+
+							</Grid>
+
+							<ControlTemplate.Triggers>
+								<Trigger
+										Property="IsExpanded"
+										Value="false"
+										>
+									<Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+								</Trigger>
+								<Trigger
+										Property="HasItems"
+										Value="false"
+										>
+									<Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+								</Trigger>
+								<Trigger
+										Property="IsSelected"
+										Value="true"
+										>
+									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+									<Setter TargetName="BD" Property="Background" Value="#44444444" />
+									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsSelected" Value="true" />
+										<Condition Property="IsSelectionActive" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+									<Setter TargetName="BD" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+								</MultiTrigger>
+								<Trigger
+										Property="IsEnabled"
+										Value="false"
+										>
+									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Style.Triggers>
+					<Trigger
+							Property="VirtualizingPanel.IsVirtualizing"
+							Value="true"
+							>
+						<Setter Property="ItemsPanel">
+							<Setter.Value>
+								<ItemsPanelTemplate>
+									<VirtualizingStackPanel />
+								</ItemsPanelTemplate>
+							</Setter.Value>
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+
+			<SolidColorBrush x:Key="ListBorder" Color="#828790" />
+			<Style
+					x:Key="Tv1Style1"
+					TargetType="{x:Type TreeView}"
+					>
+				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Padding" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type TreeView}">
+							<Border
+									x:Name="Bd"
+									SnapsToDevicePixels="true"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									>
+								<ScrollViewer
+										x:Name="_tv_scrollviewer_"
+										Padding="{TemplateBinding Padding}"
+										CanContentScroll="false"
+										Focusable="false"
+										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+										Background="{TemplateBinding Background}"
+										Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"
+										>
+									<ItemsPresenter />
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger
+										Property="IsEnabled"
+										Value="false"
+										>
+									<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+								</Trigger>
+								<Trigger
+										Property="VirtualizingPanel.IsVirtualizing"
+										Value="true"
+										>
+									<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="true" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Style.Triggers>
+					<Trigger
+							Property="VirtualizingPanel.IsVirtualizing"
+							Value="true"
+							>
+						<Setter Property="ItemsPanel">
+							<Setter.Value>
+								<ItemsPanelTemplate>
+									<VirtualizingStackPanel />
+								</ItemsPanelTemplate>
+							</Setter.Value>
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+			<ControlTemplate
+					x:Key="Tv1ScrollViewerControlTemplate1"
+					TargetType="ScrollViewer"
+					>
+				<Grid
+						x:Name="Grid"
+						Background="{TemplateBinding Background}"
+						>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Rectangle
+							x:Name="Corner"
+							Grid.Column="2"
+							Grid.Row="2"
+							Fill="Transparent"
+							/>
+					<ScrollContentPresenter
+							x:Name="PART_ScrollContentPresenter"
+							Content="{TemplateBinding Content}"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Margin="{TemplateBinding Padding}"
+							CanContentScroll="{TemplateBinding CanContentScroll}"
+							CanHorizontallyScroll="False"
+							CanVerticallyScroll="False"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+					<!--  <ScrollBar  -->
+					<!--  x:Name="PART_VerticalScrollBar"  -->
+					<!--  Grid.Column="1"  -->
+					<!--  Grid.Row="0"  -->
+					<!--  AutomationProperties.AutomationId="VerticalScrollBar"  -->
+					<!--  Cursor="Arrow"  -->
+					<!--  Maximum="{TemplateBinding ScrollableHeight}"  -->
+					<!--  Minimum="0"  -->
+					<!--  ViewportSize="{TemplateBinding ViewportHeight}"  -->
+					<!--  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"  -->
+					<!--  Value="{Binding VerticalOffset,  -->
+					<!--  Mode=OneWay,  -->
+					<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
+					<!--  />  -->
+					<!--  <ScrollBar  -->
+					<!--  x:Name="PART_HorizontalScrollBar"  -->
+					<!--  Grid.Column="0"  -->
+					<!--  Grid.Row="1"  -->
+					<!--  AutomationProperties.AutomationId="HorizontalScrollBar"  -->
+					<!--  Cursor="Arrow"  -->
+					<!--  Maximum="{TemplateBinding ScrollableWidth}"  -->
+					<!--  Minimum="0"  -->
+					<!--  Orientation="Horizontal"  -->
+					<!--  ViewportSize="{TemplateBinding ViewportWidth}"  -->
+					<!--  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"  -->
+					<!--  Value="{Binding HorizontalOffset,  -->
+					<!--  Mode=OneWay,  -->
+					<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
+					<!--  />  -->
+
+
+					<ScrollBar
+							x:Name="PART_VerticalScrollBar"
+							Grid.Column="2"
+							Grid.Row="1"
+							Margin="0,-1,0,0"
+							Width="{StaticResource BarSizeOutline}"
+							MinWidth="{StaticResource BarSize}"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							Style="{DynamicResource ScrollBarStyle}"
+							/>
+
+					<!--  <Grid  -->
+					<!--  Grid.Column="1"  -->
+					<!--  Grid.Row="2"  -->
+					<!--    -->
+					<!--  >  -->
+					<!-- 	<Grid.ColumnDefinitions> -->
+					<!-- 		<ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" /> -->
+					<!-- 		<ColumnDefinition Width="*" /> -->
+					<!-- 	</Grid.ColumnDefinitions> -->
+					<ScrollBar
+							x:Name="PART_HorizontalScrollBar"
+							Grid.Column="1"
+							Grid.Row="2"
+							Height="{StaticResource BarSizeOutline}"
+							MinHeight="{StaticResource BarSize}"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							Style="{DynamicResource ScrollBarStyle}"
+							/>
+					<!--  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"  -->
+
+					<!-- </Grid> -->
+
+				</Grid>
+			</ControlTemplate>
 
 
 			<!--#endregion-->
@@ -731,14 +1438,14 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition />
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition Width="90" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="60" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="3*" />
+			<RowDefinition Height="2*" />
 			<RowDefinition Height="50" />
 		</Grid.RowDefinitions>
 
@@ -751,14 +1458,10 @@
 				Click="BtnDebug_OnClick"
 				/>
 
-
-
-
-
 		<Label
-				Content="Dg1"
+				Content="Tv1"
 				Grid.Column="0"
-				Grid.Row="1"
+				Grid.Row="0"
 				Margin="5,0,0,0"
 				Padding="0"
 				HorizontalAlignment="Left"
@@ -769,7 +1472,7 @@
 		<Label
 				Content="Sheet Organization Categories"
 				Grid.Column="0"
-				Grid.Row="1"
+				Grid.Row="0"
 				Margin="5,16,0,0"
 				Padding="0"
 				HorizontalAlignment="Left"
@@ -785,6 +1488,8 @@
 				Margin="5,6,5,5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
+				DataContext="{Binding ElementName=Tv1, Path=SelectedValue}"
+				
 				>
 			<Grid.Resources>
 
@@ -796,14 +1501,14 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="30" />
 				<ColumnDefinition Width="90" />
-				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="60" />
 
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="40" />
-				<RowDefinition Height="40" />
-				<RowDefinition Height="40" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
 			</Grid.RowDefinitions>
 
 			<Label
@@ -811,7 +1516,7 @@
 					Grid.Column="0"
 					Grid.Row="0"
 					Grid.ColumnSpan="5"
-					Margin="0,0,0,12"
+					Margin="0,0,0,6"
 					Padding="2"
 					FontSize="14"
 					Background="{StaticResource Win.Title.Background}"
@@ -845,203 +1550,79 @@
 			<TextBox
 					Grid.Column="1"
 					Grid.Row="2"
-					Style="{StaticResource Style.Edit.TextBox}"
 					Text="{Binding Path=Item.Description,
 												 Mode=OneWay,
 												 FallbackValue=''}"
+					Style="{StaticResource Style.Edit.TextBox}"
 					/>
+
+			<Label
+					Content="Pattern"
+					Grid.Column="0"
+					Grid.Row="3"
+					Style="{StaticResource Style.Edit.Label}"
+					/>
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="3"
+					Text="{Binding Path=Item.Pattern,
+												 Mode=OneWay,
+												 FallbackValue=''}"
+					Style="{StaticResource Style.Edit.TextBox}"
+					/>
+
+			<!-- functions 
+			1. delete
+			2. add before
+			3. add after
+			4. add child
+			5. move after
+			6. move before
+			
+			
+			
+			-->
+
 
 		</Grid>
 
+		<TreeView x:Name="Tvx"
+				Grid.Column="1"
+				Grid.Row="1"
+				Margin="5"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"
+				DataContext="{Binding ElementName=MainWin,
+															Path=Categories.TreeBase}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				Background="{StaticResource Brush.TreeView.Background}"
+				ItemTemplate="{StaticResource Tv1DataTemplate1}"
+				ItemsSource="{Binding Children}"
+				Style="{DynamicResource Tv1Style1}"
+				></TreeView>
 
-		<DataGrid
-				x:Name="Dg1"
+
+
+		<TreeView
+				x:Name="Tv1"
 				Grid.Column="0"
 				Grid.Row="1"
-				Margin="5,35,5,5"
-				HorizontalAlignment="left"
-				VerticalAlignment="Stretch"
-				FontSize="12"
-				d:DataContext="{Binding Source={x:Static local:MainWindow.Tmx},
-																Path=TreeBase}"
-				AreRowDetailsFrozen="False"
-				AutoGenerateColumns="false"
-				CanUserAddRows="False"
-				CanUserDeleteRows="False"
-				CanUserReorderColumns="False"
-				CanUserResizeRows="False"
-				CanUserSortColumns="False"
-				CellEditEnding="DataGrid_OnCellEditEnding"
+				Margin="5"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"
 				DataContext="{Binding ElementName=MainWin,
-															Path=TreeManager.TreeBase}"
-				GridLinesVisibility="None"
-				HeadersVisibility="None"
-				HorizontalScrollBarVisibility="Visible"
-				PreparingCellForEdit="DataGrid_OnPreparingCellForEdit"
-				RowDetailsTemplateSelector="{StaticResource Drx}"
-				RowDetailsVisibilityMode="Collapsed"
-				SelectionMode="Single"
-				VerticalScrollBarVisibility="Visible"
-				VirtualizingPanel.ScrollUnit="Pixel"
-				Background="#222222"
-				Foreground="White"
-				BorderThickness="0,1,0,0"
-				HorizontalGridLinesBrush="LightSkyBlue"
-				VerticalGridLinesBrush="LightSkyBlue"
-				IsReadOnly="False"
+															Path=Categories.TreeBase}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				Background="{StaticResource Brush.TreeView.Background}"
+				ItemContainerStyle="{StaticResource Tv1temStyle1}"
+				ItemTemplate="{StaticResource Tv1DataTemplate1}"
 				ItemsSource="{Binding Children}"
-				CellStyle="{DynamicResource CellStyleBase}"
-				ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}"
-				RowStyle="{DynamicResource DataGridRowStyle}"
-				Style="{DynamicResource DataGridStyle1}"
+				Style="{DynamicResource Tv1Style1}"
 				>
-
-			<DataGrid.Resources>
-
-
-
-
-
-
-			</DataGrid.Resources>
-
-			<DataGrid.Columns>
-
-				<DataGridTemplateColumn
-						Width="32"
-						IsReadOnly="True"
-						CellStyle="{StaticResource CellStyleNarrow}"
-						>
-
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<CheckBox
-									x:Name="BtnExpander"
-									Margin="0,0,0,0"
-									Width="16"
-									Height="16"
-									MinHeight="{StaticResource Dg.Row.Height}"
-									HorizontalAlignment="Center"
-									custom:CustomProperties.GenericBoolOne="{Binding HasChildren}"
-									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
-									BorderThickness="0"
-									Click="CbxExpander_OnClick"
-									FocusVisualStyle="{x:Null}"
-									Style="{DynamicResource ChkExpander}"
-									/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-
-				</DataGridTemplateColumn>
-
-				<DataGridTextColumn
-						Width="8*"
-						Binding="{Binding Item.Title}"
-						CellStyle="{StaticResource CellStyleDiscipline}"
-						EditingElementStyle="{StaticResource EditTbxStyle1}"
-						>
-
-					<DataGridTextColumn.ElementStyle>
-						<Style TargetType="TextBlock">
-
-							<Setter Property="VerticalAlignment" Value="Center" />
-						</Style>
-					</DataGridTextColumn.ElementStyle>
-					<DataGridTextColumn.Header>
-						<DataGridColumnHeader
-								Content="Discipline"
-								Margin="0,0,10,0"
-								Padding="5,2,5,3"
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Stretch"
-								Visibility="Visible"
-								Background="Transparent"
-								BorderThickness="1,1,1,1"
-								BorderBrush="{StaticResource Grid.Line}"
-								/>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-
-				<DataGridTextColumn
-						Width="8*"
-						Binding="{Binding Item.Description}"
-						CellStyle="{StaticResource CellStyleBase}"
-						EditingElementStyle="{StaticResource EditTbxStyle1}"
-						>
-					<!-- <DataGridTextColumn.EditingElementStyle> -->
-					<!-- 	<Style TargetType="TextBox"> -->
-					<!-- 		<Setter Property="Background" Value="Blue"/> -->
-					<!-- 	</Style> -->
-					<!-- </DataGridTextColumn.EditingElementStyle> -->
-					<DataGridTextColumn.ElementStyle>
-						<Style TargetType="TextBlock">
-							<Setter Property="VerticalAlignment" Value="Center" />
-						</Style>
-					</DataGridTextColumn.ElementStyle>
-					<DataGridTextColumn.Header>
-						<DataGridColumnHeader
-								Content="Description"
-								Margin="0,0,0,0"
-								Width="Auto"
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Stretch"
-								Visibility="Visible"
-								BorderThickness="1,1,1,0"
-								BorderBrush="{StaticResource Grid.Line}"
-								/>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-
-				<DataGridTextColumn
-						Width="6*"
-						Binding="{Binding Item.Pattern}"
-						CellStyle="{StaticResource CellStyleBase}"
-						EditingElementStyle="{StaticResource EditTbxStyle1}"
-						>
-					<DataGridTextColumn.ElementStyle>
-						<Style TargetType="TextBlock">
-							<Setter Property="VerticalAlignment" Value="Center" />
-						</Style>
-					</DataGridTextColumn.ElementStyle>
-					<DataGridTextColumn.Header>
-						<DataGridColumnHeader
-								Content=""
-								Margin="0,0,0,0"
-								Width="0"
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Stretch"
-								Visibility="Visible"
-								BorderThickness="1,1,1,0"
-								BorderBrush="{StaticResource Grid.Line}"
-								/>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-
-				<DataGridTextColumn
-						Width="1*"
-						Binding="{Binding Item.KeyCode}"
-						IsReadOnly="True"
-						CellStyle="{StaticResource CellStyleBase}"
-						>
-					<DataGridTextColumn.ElementStyle>
-						<Style TargetType="TextBlock">
-							<Setter Property="VerticalAlignment" Value="Center" />
-						</Style>
-					</DataGridTextColumn.ElementStyle>
-					<DataGridTextColumn.Header>
-						<DataGridColumnHeader
-								Content=""
-								Margin="0,0,0,0"
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Stretch"
-								Visibility="Visible"
-								BorderBrush="{StaticResource Grid.Line}"
-								/>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-
-			</DataGrid.Columns>
-		</DataGrid>
+		</TreeView>
 
 
 	</Grid>

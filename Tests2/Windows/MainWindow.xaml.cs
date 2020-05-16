@@ -28,6 +28,7 @@ namespace Tests2.Windows
 		public FileItems FileList { get; private set; }
 
 		public PDFMergeTree MrgTree { get; private set; }
+		public static ObservableCollection<KeyValuePair<string,PDFMergeItem>> Mtx { get; set; } = PDFMergeTree.Instance.MergeTree;
 
 		public ObservableDictionary<string, PDFMergeItem> test { get; set; } = new ObservableDictionary<string,
 			PDFMergeItem>();
@@ -92,13 +93,11 @@ namespace Tests2.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
+
 #pragma warning disable CS0168 // The variable 'w' is declared but never used
 			WinTreeDesigns w;
 #pragma warning restore CS0168 // The variable 'w' is declared but never used
-
-#pragma warning disable CS1061 // 'PDFMergeTree' does not contain a definition for 'testevent' and no accessible extension method 'testevent' accepting a first argument of type 'PDFMergeTree' could be found (are you missing a using directive or an assembly reference?)
 			MrgTree.testevent();
-#pragma warning restore CS1061 // 'PDFMergeTree' does not contain a definition for 'testevent' and no accessible extension method 'testevent' accepting a first argument of type 'PDFMergeTree' could be found (are you missing a using directive or an assembly reference?)
 
 			Debug.WriteLine("@debug");
 		}

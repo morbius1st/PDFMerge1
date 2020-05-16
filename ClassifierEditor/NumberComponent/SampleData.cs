@@ -69,7 +69,8 @@ namespace ClassifierEditor.NumberComponent
 				}
 
 				TreeNode node = new TreeNode();
-				NumberComponentItem item = new NumberComponentItem(i.ToString(), $"node title {BRANCH}{depth}{i}", $"node desc {BRANCH}{depth}{i}", @"^pattern");
+				string key = $"{BRANCH}{depth}{i}";
+				NumberComponentItem item = new NumberComponentItem(key, $"node title {BRANCH}{depth}{i}", $"node desc {BRANCH}{depth}{i}", @"(?<=[A-Z])([ -]+)(?=[0-9])");
 
 				if (i == 1 || i == 2)
 				{

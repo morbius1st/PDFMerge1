@@ -50,6 +50,7 @@ namespace StoreAndRead.Windows
 
 			file1 = CsUtilities.AssemblyDirectory + "\\file1.xml";
 			file2 = CsUtilities.AssemblyDirectory + "\\file2.xml";
+
 		}
 
 	#endregion

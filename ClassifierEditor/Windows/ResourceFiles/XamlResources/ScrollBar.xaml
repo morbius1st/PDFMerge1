@@ -407,6 +407,7 @@
 									>
 								<Grid
 										x:Name="Bg"
+										
 										SnapsToDevicePixels="true"
 										>
 									<Grid.ColumnDefinitions>
@@ -423,6 +424,7 @@
 											BorderBrush="{TemplateBinding BorderBrush}"
 											/>
 									<RepeatButton
+											Grid.Column="0"
 											x:Name="PART_LineLeftButton"
 											Command="{x:Static ScrollBar.LineLeftCommand}"
 											IsEnabled="{TemplateBinding IsMouseOver}"

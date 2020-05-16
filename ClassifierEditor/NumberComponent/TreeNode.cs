@@ -48,7 +48,7 @@ namespace ClassifierEditor.NumberComponent
 		TRI_STATE = 3
 	}
 
-	[DataContract(Namespace = "")]
+	[DataContract(Namespace = "", IsReference = true)]
 	public class TreeNode : INotifyPropertyChanged
 	{
 	#region private fields
@@ -68,7 +68,7 @@ namespace ClassifierEditor.NumberComponent
 
 		//										mixed->checked->unchecked->mixed
 		//										  0        1        2        3 (0)
-		private readonly bool?[] _boolList = new bool?[] {null,     true,    false,   null};
+		private static readonly bool?[] _boolList = new bool?[] {null,     true,    false,   null};
 		private int depth = 0;
 		private bool mixesStateBeenTold = false;
 
@@ -210,7 +210,7 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
-		[DataMember]
+		[DataMember(Order = 10)]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
