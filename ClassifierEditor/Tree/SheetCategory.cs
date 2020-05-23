@@ -15,25 +15,27 @@ using System.Text.RegularExpressions;
 // username: jeffs
 // created:  5/2/2020 9:18:14 AM
 
-namespace ClassifierEditor.NumberComponent
+namespace ClassifierEditor.Tree
 {
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
-	public class NumberComponentItem : INotifyPropertyChanged
+	public class SheetCategory : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private string keyCode;
+//		private string keyCode;
 		private string title;
 		private string description;
 		private Regex pattern;
+
+		private static int tempIdx;
 
 	#endregion
 
 	#region ctor
 
-		public NumberComponentItem(string keyCode, string title, string description, string pattern)
+		public SheetCategory(string title, string description, string pattern)
 		{
-			this.keyCode = keyCode;
+//			this.keyCode = keyCode;
 			this.title = title;
 			this.description = description;
 			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
@@ -43,17 +45,17 @@ namespace ClassifierEditor.NumberComponent
 
 	#region public properties
 
-		[DataMember(Order = 1)]
-		public string KeyCode
-		{
-			get => keyCode;
-
-			set
-			{
-				keyCode = value;
-				OnPropertyChange();
-			}
-		}
+//		[DataMember(Order = 1)]
+//		public string KeyCode
+//		{
+//			get => keyCode;
+//
+//			set
+//			{
+//				keyCode = value;
+//				OnPropertyChange();
+//			}
+//		}
 
 		[DataMember(Order = 2)]
 		public string Title
@@ -107,9 +109,16 @@ namespace ClassifierEditor.NumberComponent
 			OnPropertyChange("Pattern");
 		}
 
+		public static SheetCategory TempSheetCategory()
+		{
+			return new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description", "");
+		}
+
 	#endregion
 
 	#region private methods
+
+
 
 	#endregion
 
@@ -132,7 +141,7 @@ namespace ClassifierEditor.NumberComponent
 
 		public override string ToString()
 		{
-			return "this is NumberComponentItem";
+			return "this is SheetCategory";
 		}
 
 	#endregion

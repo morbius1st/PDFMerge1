@@ -35,6 +35,24 @@ namespace ClassifierEditor.Windows.Support
 		}
 
 	#endregion
+		
+//	#region GenericBoolOne
+//
+//		public static readonly DependencyProperty GenericBoolTwoProperty = DependencyProperty.RegisterAttached(
+//			"GenericBoolTwo", typeof(bool), typeof(CustomProperties),
+//			new PropertyMetadata(false));
+//
+//		public static void SetGenericBoolTwo(UIElement e, bool value)
+//		{
+//			e.SetValue(GenericBoolTwoProperty, value);
+//		}
+//
+//		public static bool GetGenericBoolTwo(UIElement e)
+//		{
+//			return (bool) e.GetValue(GenericBoolTwoProperty);
+//		}
+//
+//	#endregion
 
 
 //	#region HasChildren

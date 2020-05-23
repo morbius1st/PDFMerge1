@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		mc:Ignorable="d"
 		>
 	<!--  xmlns:sys="clr-namespace:System;assembly=mscorlib"  -->
@@ -56,6 +57,20 @@
 			>
 		0, 0, 0, 4
 	</Thickness>
+
+	<!--#endregion-->
+
+	<!--#region > normal / sizes-->
+
+	<sys:Double x:Key="Normal.Button.Height"
+			>
+		28
+	</sys:Double>
+	<sys:Double x:Key="Normal.Button.Width"
+			>
+		64
+	</sys:Double>
+
 
 	<!--#endregion-->
 
@@ -193,10 +208,6 @@
 			/>
 
 	<!--#endregion-->
-
-
-
-
 
 
 	<!--#endregion-->

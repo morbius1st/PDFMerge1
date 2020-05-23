@@ -39,6 +39,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,13 +58,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataRepo\DataManagerCategories.cs" />
-    <Compile Include="DataRepo\SheetCategories.cs" />
+    <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
+    <Compile Include="DataRepo\SheetCategoryData.cs" />
     <Compile Include="DataRepo\StorageManager.cs" />
-    <Compile Include="NumberComponent\NumberComponentItem.cs" />
-    <Compile Include="NumberComponent\SampleData.cs" />
-    <Compile Include="NumberComponent\TreeManager.cs" />
-    <Compile Include="NumberComponent\TreeNode.cs" />
+    <Compile Include="Tree\SheetCategory.cs" />
+    <Compile Include="Tree\SampleData.cs" />
+    <Compile Include="Tree\TreeManager.cs" />
+    <Compile Include="Tree\TreeNode.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

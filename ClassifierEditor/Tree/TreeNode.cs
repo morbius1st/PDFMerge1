@@ -1,6 +1,7 @@
 ﻿#region using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,13 +13,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 #endregion
 
 // username: jeffs
 // created:  5/2/2020 9:28:15 AM
 
-namespace ClassifierEditor.NumberComponent
+namespace ClassifierEditor.Tree
 {
 	public enum CheckedState
 	{
@@ -48,67 +50,82 @@ namespace ClassifierEditor.NumberComponent
 		TRI_STATE = 3
 	}
 
+	public enum NodePlacement
+	{
+		BEFORE = -1,
+		AFTER = 1
+	}
+
 	[DataContract(Namespace = "", IsReference = true)]
 	public class TreeNode : INotifyPropertyChanged
 	{
 	#region private fields
 
 		// properties
-		private string key;
-		private NumberComponentItem item;
+		private float key;
+		private SheetCategory item;
 		private ObservableCollection<TreeNode> children;
+		private ListCollectionView childrenView;
 
 		private TreeNode parent;
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
 		private bool isExpanded;
+		private bool isSelected;
+		private bool isContextSelected = false;
+
 		private int checkedChildCount = 0;
+
+		private int ID = -1;
 
 		// fields
 
 		//										mixed->checked->unchecked->mixed
 		//										  0        1        2        3 (0)
 		private static readonly bool?[] _boolList = new bool?[] {null,     true,    false,   null};
-		private int depth = 0;
 		private bool mixesStateBeenTold = false;
 
+
+
+		// static
+		private static int idx = 0;
 
 	#endregion
 
 	#region ctor
 
-		public TreeNode()
+		public TreeNode(TreeNode parent, string key, SheetCategory item,
+			bool isExpanded)
 		{
 			Children = new ObservableCollection<TreeNode>();
+			this.parent = parent;
+			this.item = item;
+			this.key = -1.0f;
+			this.isExpanded = isExpanded;
 
+			ID = idx++;
+
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+			childrenView.CustomSort = new ChildrenSorter();
+
+			
 		}
 
-		public void Initialize(TreeNode parent, NumberComponentItem item,
-			int depth, bool isBranch, bool isExpanded)
-		{
-			Parent = parent;
-			Item = item;
-			Key = item.KeyCode;
-			IsExpanded = isExpanded;
+		public TreeNode() : this(null, null, null, false) { }
 
-			this.depth = depth;
-
-			if (isBranch)
-			{
-				NodeType = NodeType.BRANCH;
-			}
-		}
+		public TreeNode(TreeNode parent, SheetCategory item,
+			bool isExpanded) : this(parent, "!!", item, isExpanded) { }
 
 	#endregion
 
 	#region public properties
 
 		[DataMember(Order = 1)]
-		public string Key
+		public float Key
 		{
 			get => key;
 
-			set
+			private set
 			{
 				key = value;
 				OnPropertyChange();
@@ -117,7 +134,7 @@ namespace ClassifierEditor.NumberComponent
 
 		// the actual tree data item
 		[DataMember(Order = 2)]
-		public NumberComponentItem Item
+		public SheetCategory Item
 		{
 			get => item;
 
@@ -129,8 +146,16 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
-		[DataMember(Order = 3)]
-		public NodeType NodeType { get; private set; } = NodeType.LEAF;
+//		[DataMember(Order = 3)]
+		public NodeType NodeType
+		{
+			get
+			{
+				if (ChildCount == 0) return NodeType.LEAF;
+
+				return NodeType.BRANCH;
+			}
+		}
 
 
 		[DataMember(Order = 4)]
@@ -159,7 +184,6 @@ namespace ClassifierEditor.NumberComponent
 
 					parent?.UpdateChildCount(checkedState);
 				}
-
 			}
 		}
 
@@ -195,22 +219,7 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
-		[DataMember(Order = 8)]
-		public bool IsExpanded
-		{
-			get => isExpanded;
-
-			set
-			{
-				if (value != isExpanded)
-				{
-					isExpanded = value;
-					OnPropertyChange();
-				}
-			}
-		}
-
-		[DataMember(Order = 10)]
+		[DataMember(Order = 10, Name = "SubCategories")]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
@@ -220,12 +229,21 @@ namespace ClassifierEditor.NumberComponent
 				children = value;
 				NotifyChildrenChange();
 			}
+		}
 
+		public ICollectionView ChildrenView
+		{
+			get
+			{
+				return childrenView;
 			}
+		}
 
 		public bool HasChildren => ChildCount > 0;
 
 		public int ChildCount => Children?.Count ?? 0;
+
+		public int ExtendedChildCount => ExtendedChildrenCount(this);
 
 		public int CheckedChildCount
 		{
@@ -241,6 +259,67 @@ namespace ClassifierEditor.NumberComponent
 			}
 		}
 
+		[DataMember(Order = 8)]
+		public bool IsExpanded
+		{
+			get => isExpanded;
+
+			set
+			{
+				if (value != isExpanded)
+				{
+					isExpanded = value;
+					OnPropertyChange();
+				}
+			}
+		}
+
+		[IgnoreDataMember]
+		public bool IsSelected
+		{
+			get => isSelected;
+			set
+			{
+				isSelected = value;
+				OnPropertyChange();
+			}
+		}
+		
+		[IgnoreDataMember]
+		public bool IsContextSelected
+		{
+			get => isContextSelected;
+			set
+			{
+				isContextSelected = value;
+				OnPropertyChange();
+			}
+		}
+		
+		[IgnoreDataMember]
+		public bool IsContextHighlighted
+		{
+			get => isContextSelected;
+			set
+			{
+				isContextSelected = value;
+				OnPropertyChange();
+			}
+		}
+
+
+
+//		[IgnoreDataMember]
+//		public bool IsModified
+//		{
+//			get => isModified;
+//			set
+//			{
+//				isModified = value;
+//				OnPropertyChange();
+//			}
+//		}
+
 
 	#endregion
 
@@ -252,7 +331,7 @@ namespace ClassifierEditor.NumberComponent
 
 		public void ChildrenUpdated()
 		{
-			OnPropertyChange("Children");
+			OnPropertyChange("ChildrenView");
 		}
 
 		public void UpdateChildCount(CheckedState childState)
@@ -278,16 +357,106 @@ namespace ClassifierEditor.NumberComponent
 			CheckedChildCount--;
 		}
 
-		public void AddChild(TreeNode child)
+		// for the below
+		// i am the selected node - the basis of the adjustment
+
+		// adds a child at the end of the list of children
+		// for sample data only
+		public bool AddNode(TreeNode newNode)
 		{
-			Children.Add(child);
-			NotifyChildrenChange();
+			float idx = 0.0f;
+
+			if (children.Count == 1)
+			{
+				idx = children[0].Key;
+			}
+			else if (children.Count > 1)
+			{
+				childrenView.MoveCurrentToLast();
+
+				idx = ((TreeNode) childrenView.CurrentItem).key;
+			}
+
+			addNode(newNode, idx, NodePlacement.AFTER);
+
+			return true;
 		}
 
-		public void RemoveChild(TreeNode child)
+		public bool AddChild(TreeNode newNode)
 		{
-			Children.Remove(child);
-			NotifyChildrenChange();
+			return addNode(newNode, this.key, NodePlacement.AFTER);
+		}
+
+		public bool AddBefore(TreeNode newNode)
+		{
+			return parent.addNode(newNode, this.key, NodePlacement.BEFORE);
+		}
+		
+		public bool AddAfter(TreeNode newNode)
+		{
+			return parent.addNode(newNode, this.key, NodePlacement.AFTER);
+		}
+
+		public bool MoveBefore(TreeNode existingNode, TreeNode selectedNode)
+		{
+			return moveNode(existingNode, selectedNode, NodePlacement.BEFORE);
+		}
+		
+		public bool MoveAfter(TreeNode existingNode, TreeNode selectedNode)
+		{
+			return moveNode(existingNode, selectedNode, NodePlacement.AFTER);
+		}
+
+		public bool DeleteNode(TreeNode selectedNode)
+		{
+			TreeNode parent = selectedNode.Parent;
+
+			string childCountDesc;
+
+			int totalChildCount = selectedNode.ExtendedChildCount;
+
+			if (totalChildCount > 0)
+			{
+				childCountDesc = "a total of " + totalChildCount + " categories "
+					+ "and sub-categories.";
+			}
+			else
+			{
+				childCountDesc = "no categories or sub-categories.";
+			}
+
+			MessageBoxResult result = MessageBox.Show(
+				"You are about to delete the category\n"
+				+ selectedNode.Item.Title
+				+ "\nwith " + childCountDesc
+				+ "\nIs this correct?",
+				"Classifier Editor", MessageBoxButton.YesNo,
+				MessageBoxImage.Warning );
+
+			if (result != MessageBoxResult.Yes) return false;
+
+			return parent.RemoveChild(selectedNode);
+		}
+
+		public static TreeNode TempTreeNode(TreeNode parent)
+		{
+			return new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
+		}
+
+		private void ResequenceChildNodes()
+		{
+			object selNode = childrenView.CurrentItem;
+
+			childrenView.Refresh();
+
+			childrenView.MoveCurrentTo(selNode);
+
+			float idx = 1.0f;
+
+			foreach (TreeNode child in childrenView)
+			{
+				child.Key = idx++;
+			}
 		}
 
 		public void ResetNode()
@@ -301,7 +470,7 @@ namespace ClassifierEditor.NumberComponent
 			if (NodeType == NodeType.BRANCH)
 			{
 				// reset children then myself
-				foreach (TreeNode node in Children )
+				foreach (TreeNode node in ChildrenView )
 				{
 					node.ResetTree();
 				}
@@ -320,8 +489,8 @@ namespace ClassifierEditor.NumberComponent
 					// first time through - save current
 					triState = checkedState;
 				}
-				if (newState == CheckedState.MIXED) newState = triState;
 
+				if (newState == CheckedState.MIXED) newState = triState;
 			}
 			else
 			{
@@ -388,6 +557,7 @@ namespace ClassifierEditor.NumberComponent
 				{
 					finalState = CheckedState.MIXED;
 				}
+
 				break;
 			}
 
@@ -396,7 +566,6 @@ namespace ClassifierEditor.NumberComponent
 				CheckedState = finalState;
 				NotifyParentOfStateChange(finalState, priorState, useTristate);
 			}
-
 		}
 
 		public void TriStateReset()
@@ -408,11 +577,121 @@ namespace ClassifierEditor.NumberComponent
 
 	#region private methods
 
+		private bool RemoveChild(TreeNode existingNode)
+		{
+			if (children.Contains(existingNode))
+			{
+				children.Remove(existingNode);
+				NotifyChildrenChange();
+				return true;
+			}
+			return false;
+		}
+
+		// case where existing and selected have different parents
+		// need to add in the new location and
+		// delete the old location
+//		private bool moveNodeComplex(TreeNode existingNode, TreeNode selectedNode, NodePlacement where)
+//		{
+//			selectedNode.parent.addNodeQuite(existingNode, selectedNode.key, where);
+//
+//			TreeNode parent = existingNode.parent;
+//
+//			parent.RemoveChild(existingNode);
+//
+//			existingNode = null;
+//
+//			NotifyChildrenChange();
+//
+//			return true;
+//		}
+
+		
+		// case where both existing and selected have the same parent - just revise the index
+		// and re-sequence
+		private bool moveNode(TreeNode existingNode, TreeNode selectedNode, NodePlacement where)
+		{
+			
+			if (existingNode.parent.Equals(selectedNode.parent))
+			{
+				float idx = where == NodePlacement.AFTER ? 0.5f : -0.5f;
+
+				existingNode.key = selectedNode.key + idx;
+
+				selectedNode.parent.ResequenceChildNodes();
+			}
+			else
+			{
+				selectedNode.parent.addNodeQuite(existingNode, selectedNode.key, where);
+
+				TreeNode parent = existingNode.parent;
+
+				parent.RemoveChild(existingNode);
+			}
+
+			NotifyChildrenChange();
+
+			return true;
+		}
+
+		private bool addNode(TreeNode newNode, float selectedIdx, NodePlacement where)
+		{
+			addNodeQuite(newNode, selectedIdx, where);
+
+//			float offset = 0.5f; // place after;
+//
+//			if (where == NodePlacement.BEFORE) offset = -0.5f;
+//
+//			newNode.key = selectedIdx + offset;
+//
+//			children.Add(newNode);
+
+			
+
+			ResequenceChildNodes();
+
+			NotifyChildrenChange();
+
+			return true;
+		}
+
+		private void addNodeQuite(TreeNode newNode, float selectedIdx, NodePlacement where)
+		{
+			float offset = 0.5f; // place after;
+
+			if (where == NodePlacement.BEFORE) offset = -0.5f;
+
+			newNode.key = selectedIdx + offset;
+
+			children.Add(newNode);
+		}
+
+
+		private int ExtendedChildrenCount(TreeNode node)
+		{
+			if (node.children.Count == 0) return 0;
+
+			int count = node.children.Count;
+
+			foreach (TreeNode child in node.children)
+			{
+				if (child.children.Count > 0)
+				{
+					count += ExtendedChildrenCount(child);
+				}
+			}
+
+			return count;
+		}
+
 		private void NotifyChildrenChange()
 		{
+
+			OnPropertyChange("ChildrenView");
 			OnPropertyChange("Children");
 			OnPropertyChange("ChildCount");
 			OnPropertyChange("HasChildren");
+			OnPropertyChange("ExtendedChildCount");
 		}
 
 		private void NotifyParentOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
@@ -422,9 +701,9 @@ namespace ClassifierEditor.NumberComponent
 
 		private void NotifyChildrenOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
-			if (Children == null) return;
+			if (ChildrenView == null) return;
 
-			foreach (TreeNode node in Children)
+			foreach (TreeNode node in ChildrenView)
 			{
 				node.StateChangeFromParent(newState, oldState, useTriState);
 			}
@@ -444,7 +723,6 @@ namespace ClassifierEditor.NumberComponent
 			NotifyChildrenOfStateChange(newState, oldState, useTriState);
 			NotifyParentOfStateChange(newState, oldState, useTriState);
 		}
-
 
 		private void ProcessStateChange(CheckedState newState)
 		{
@@ -512,7 +790,6 @@ namespace ClassifierEditor.NumberComponent
 			return (CheckedState) indexInBoolList(test);
 		}
 
-
 	#endregion
 
 	#region event processing
@@ -534,9 +811,23 @@ namespace ClassifierEditor.NumberComponent
 
 		public override string ToString()
 		{
-			return NodeType + "::" + item.Title + "::" + checkedState;
+			return $"[{ID:D3}] :: " +
+				NodeType + "::" + item.Title + "::" + checkedState;
 		}
 
 	#endregion
+	}
+
+	public class ChildrenSorter : IComparer
+	{
+		public int Compare(object x, object y)
+		{
+			TreeNode a = (TreeNode) x;
+			TreeNode b = (TreeNode) y;
+
+			if (a == null || b == null) return 0;
+
+			return a.Key.CompareTo(b.Key);
+		}
 	}
 }

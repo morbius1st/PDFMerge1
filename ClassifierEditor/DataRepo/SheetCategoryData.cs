@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using ClassifierEditor.NumberComponent;
+using ClassifierEditor.Tree;
 
 #endregion
 
@@ -20,8 +20,8 @@ namespace ClassifierEditor.DataRepo
 	// this is the actual data set saved to the data file
 
 
-	[DataContract(Name = "SheetCategories", Namespace = "", IsReference = true)]
-	public class SheetCategories : INotifyPropertyChanged
+	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
+	public class SheetCategoryData : INotifyPropertyChanged
 	{
 	#region public properties
 
@@ -66,7 +66,7 @@ namespace ClassifierEditor.DataRepo
 
 		public override string ToString()
 		{
-			return "this is SheetCategories";
+			return "this is SheetCategoryData";
 		}
 
 	#endregion

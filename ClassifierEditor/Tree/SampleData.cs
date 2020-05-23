@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 // username: jeffs
 // created:  5/2/2020 2:06:09 PM
 
-namespace ClassifierEditor.NumberComponent
+namespace ClassifierEditor.Tree
 {
 	public class SampleData : INotifyPropertyChanged
 	{
@@ -39,9 +39,9 @@ namespace ClassifierEditor.NumberComponent
 
 		public void Sample(TreeNode tn)
 		{
-			NumberComponentItem item = new NumberComponentItem("!", "Tree Base", "Tree Base", null);
+			SheetCategory item = new SheetCategory("Tree Base", "Tree Base", null);
 
-			tn.Initialize(null, item, 0, true, true);
+			tn.Item = item;
 
 			MakeChildren(tn, 0);
 		}
@@ -50,9 +50,9 @@ namespace ClassifierEditor.NumberComponent
 
 	#region private methods
 
-		private static int MAX_DEPTH = 3;
+		private static int MAX_DEPTH = 4;
 		private static int TOPMAX = 15;
-		private static int CHILDMAX = 3;
+		private static int CHILDMAX = 5;
 		private static int BRANCH = 0;
 
 		private void MakeChildren(TreeNode parent, int depth)
@@ -68,25 +68,19 @@ namespace ClassifierEditor.NumberComponent
 					BRANCH = i;
 				}
 
-				TreeNode node = new TreeNode();
-				string key = $"{BRANCH}{depth}{i}";
-				NumberComponentItem item = new NumberComponentItem(key, $"node title {BRANCH}{depth}{i}", $"node desc {BRANCH}{depth}{i}", @"(?<=[A-Z])([ -]+)(?=[0-9])");
+				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description", @"(?<=[A-Z])([ -]+)(?=[0-9])");
+				TreeNode node = new TreeNode(parent, item, false);
 
-				if (i == 1 || i == 2)
+				if (i == 3 || i == 5)
 				{
 					// make a new branch
 					// this branch is still associated with the parent branch
 					// but its children are associated with the new branch
-					node.Initialize(parent, item, depth,  true, false);
 
 					MakeChildren(node, depth + 1);
 				}
-				else
-				{
-					node.Initialize(parent, item, depth,  false, false);
-				}
 
-				parent.AddChild(node);
+				parent.AddNode(node);
 			}
 		}
 
