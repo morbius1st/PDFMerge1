@@ -132,6 +132,28 @@ namespace ClassifierEditor.Tree
 			return result; 
 		}
 
+		public bool MoveNodeChild(TreeNode existingNode, TreeNode contectSelected)
+		{
+			// contextselected node is highlighted
+			// process - add node to new location
+			// delete the old node
+			// move the node as the first node
+			contectSelected.addNodeQuite(existingNode, 0.0f, NodePlacement.AFTER);
+
+			TreeNode parent = contectSelected.Parent;
+
+			existingNode.IsSelected = false;
+
+			parent.Children.Remove(existingNode);
+
+			contectSelected.ResequenceChildNodes();
+			contectSelected.NotifyChildrenChange();
+			
+			ContextDeselect();
+			return true; 
+		}
+
+
 
 	#endregion
 

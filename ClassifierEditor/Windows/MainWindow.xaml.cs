@@ -72,7 +72,6 @@ namespace ClassifierEditor.Windows
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
 		private TreeManager tm = new TreeManager();
 		private TreeNode userSelected;
-		private TreeNode contextSelected;
 
 	#endregion
 
@@ -81,6 +80,7 @@ namespace ClassifierEditor.Windows
 		static MainWindow()
 		{
 			SampleData sd = new SampleData();
+			sd.Sample(RootNode);
 
 		}
 
@@ -250,12 +250,18 @@ namespace ClassifierEditor.Windows
 		private void Tv1ContextMenuMoveAfter_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			contextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
 			tm.MoveNodeAfter(UserSelected, tm.ContextSelected);
+		}
+		
+		private void Tv1ContextMenuMoveChild_OnClick(object sender, RoutedEventArgs e)
+		{
+			// add a child to this leaf - also make a branch.
+			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-
+			tm.MoveNodeChild(UserSelected, tm.ContextSelected);
+			
 		}
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)

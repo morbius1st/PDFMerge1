@@ -280,16 +280,11 @@
 					</ControlTemplate>
 
 				</ContextMenu.Template>
-				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="delete"
-						Header="Delete This Category"
-						Click="Tv1ContextMenuDelete_OnClick"
-						/>
+
 				<MenuItem
 						HorizontalAlignment="Left"
 						CommandParameter="addChild"
-						Header="Add Child Category"
+						Header="Add Sub-Category"
 						Click="Tv1ContextMenuAddChild_OnClick"
 						/>
 				<MenuItem
@@ -307,15 +302,28 @@
 				<MenuItem
 						HorizontalAlignment="Left"
 						CommandParameter="moveToBefore"
-						Header="Move Selected Category Before"
+						Header="Move Selected as Child"
+						Click="Tv1ContextMenuMoveChild_OnClick"
+						/>
+				<MenuItem
+						HorizontalAlignment="Left"
+						CommandParameter="moveToBefore"
+						Header="Move Selected Before"
 						Click="Tv1ContextMenuMoveBefore_OnClick"
 						/>
 				<MenuItem
 						HorizontalAlignment="Left"
 						CommandParameter="moveToAfter"
-						Header="Move Selected Category After"
+						Header="Move Selected After"
 						Click="Tv1ContextMenuMoveAfter_OnClick"
 						/>
+				<MenuItem
+						HorizontalAlignment="Left"
+						CommandParameter="delete"
+						Header="Delete Category"
+						Click="Tv1ContextMenuDelete_OnClick"
+						/>
+
 			</ContextMenu>
 
 

@@ -364,20 +364,22 @@ namespace ClassifierEditor.Tree
 		// for sample data only
 		public bool AddNode(TreeNode newNode)
 		{
-			float idx = 0.0f;
+//			float idx = 0.0f;
+//
+//			if (children.Count == 1)
+//			{
+//				idx = children[0].Key;
+//			}
+//			else if (children.Count > 1)
+//			{
+//				childrenView.MoveCurrentToLast();
+//
+//				idx = ((TreeNode) childrenView.CurrentItem).key;
+//			}
 
-			if (children.Count == 1)
-			{
-				idx = children[0].Key;
-			}
-			else if (children.Count > 1)
-			{
-				childrenView.MoveCurrentToLast();
+//			addNode(newNode, idx, NodePlacement.AFTER);
 
-				idx = ((TreeNode) childrenView.CurrentItem).key;
-			}
-
-			addNode(newNode, idx, NodePlacement.AFTER);
+			children.Add(newNode);
 
 			return true;
 		}
@@ -443,7 +445,7 @@ namespace ClassifierEditor.Tree
 			return new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
 		}
 
-		private void ResequenceChildNodes()
+		public void ResequenceChildNodes()
 		{
 			object selNode = childrenView.CurrentItem;
 
@@ -655,7 +657,7 @@ namespace ClassifierEditor.Tree
 			return true;
 		}
 
-		private void addNodeQuite(TreeNode newNode, float selectedIdx, NodePlacement where)
+		public void addNodeQuite(TreeNode newNode, float selectedIdx, NodePlacement where)
 		{
 			float offset = 0.5f; // place after;
 
@@ -684,7 +686,7 @@ namespace ClassifierEditor.Tree
 			return count;
 		}
 
-		private void NotifyChildrenChange()
+		public void NotifyChildrenChange()
 		{
 
 			OnPropertyChange("ChildrenView");
