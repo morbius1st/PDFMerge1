@@ -40,17 +40,10 @@
 				Color="{DynamicResource Blue.100}"
 				/>-->
 
-			<Color x:Key="Datagrid.Row.Selected">
-				#FF003554
-			</Color>
+			<Color x:Key="Datagrid.Row.Selected">#FF003554</Color>
 
-			<Color x:Key="Window.Background.C">
-				#FF222222
-			</Color>
-			<Color x:Key="TreeView.Background.C">
-				#FF212121
-			</Color>
-
+			<Color x:Key="Window.Background.C">#FF222222</Color>
+			<Color x:Key="TreeView.Background.C">#FF212121</Color>
 
 			<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
 			<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
@@ -68,7 +61,6 @@
 			<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Blue.100}" />
 			<SolidColorBrush x:Key="TreeView.MouseOver.Background" Color="{StaticResource Blue.050}" />
 			<SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="#14eb501f" />
-			<!-- <SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="#3fffb39e" />   -->
 
 			<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
 
@@ -192,10 +184,59 @@
 			</Style>
 
 
+			<Style
+					x:Key="Tv.context.menuitem.base"
+					TargetType="MenuItem"
+					>
+				<Setter Property="Padding" Value="0,2,0,2" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+			</Style>
+
+			<Style
+					x:Key="Tv.context.menuitem.move"
+					TargetType="MenuItem"
+					BasedOn="{StaticResource Tv.context.menuitem.base}"
+					>
+				<Setter Property="IsEnabled" Value="False">
+				</Setter>
+				<Style.Triggers>
+					<MultiDataTrigger>
+						<MultiDataTrigger.Conditions>
+							<Condition Binding="{Binding Source={x:Static local:MainWindow.TreeRoot}, Path=HasSelection}" Value="true" />
+							<Condition Binding="{Binding Path=IsSelected}" Value="false" />
+						</MultiDataTrigger.Conditions>
+						<Setter Property="IsEnabled" Value="true" />
+					</MultiDataTrigger>
+				</Style.Triggers>
+			</Style>
+
+			<Style
+					x:Key="Tv.context.menuitem.clone"
+					TargetType="MenuItem"
+					BasedOn="{StaticResource Tv.context.menuitem.base}"
+					>
+				<Setter Property="IsEnabled" Value="False">
+				</Setter>
+				<Style.Triggers>
+					<DataTrigger
+							Binding="{Binding Source={x:Static local:MainWindow.TreeRoot},
+																Path=HasSelection}"
+							Value="true"
+							>
+						<Setter Property="IsEnabled" Value="true" />
+					</DataTrigger>
+
+				</Style.Triggers>
+			</Style>
+
+
+
 			<ContextMenu
 					x:Key="Tv1ContextMenu"
 					x:Name="Tv1ContextMenu"
+					Padding="0,6,0,6"
 					Closed="Tv1ContextMenu_OnClosed"
+					HasDropShadow="True"
 					Opened="Tv1ContextMenu_OnOpened"
 					Background="{StaticResource ContextMenu.Background}"
 					Foreground="White"
@@ -272,6 +313,7 @@
 						</Border>
 
 						<ControlTemplate.Triggers>
+
 							<Trigger SourceName="ContextMenuScrollViewer" Property="CanContentScroll" Value="False">
 								<Setter TargetName="OpaqueRect" Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=ContextMenuScrollViewer}" />
 								<Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=ContextMenuScrollViewer}" />
@@ -281,47 +323,153 @@
 
 				</ContextMenu.Template>
 
+				<MenuItem Click="Tv1ContextMenuExpand_OnClick">
+					<MenuItem.Style>
+						<Style
+								TargetType="MenuItem"
+								BasedOn="{StaticResource Tv.context.menuitem.base}"
+								>
+							<Setter Property="IsEnabled" Value="False" />
+							<Setter Property="Header" Value="{Binding ContextCmdExpand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Mode=OneWay}" />
+							<Setter Property="CommandParameter" Value="{Binding ContextCmdExpand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Mode=OneWay}" />
+							<Style.Triggers>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding Path=CanExpand}" Value="true" />
+										<Condition Binding="{Binding Path=IsExpanded}" Value="false" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="True" />
+								</MultiDataTrigger>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding Path=CanExpand}" Value="true" />
+										<Condition Binding="{Binding Path=IsExpanded}" Value="true" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="True" />
+									<Setter Property="Header" Value="{Binding ContextCmdCollapse, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Mode=OneWay}" />
+									<Setter Property="CommandParameter" Value="{Binding ContextCmdCollapse, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Mode=OneWay}" />
+								</MultiDataTrigger>
+
+
+								<!--  <DataTrigger  -->
+								<!--  Binding="{Binding Path=CanExpand}"  -->
+								<!--  Value="true"  -->
+								<!--  >  -->
+								<!-- 	<Setter Property="IsEnabled" Value="true" /> -->
+								<!-- </DataTrigger> -->
+							</Style.Triggers>
+						</Style>
+					</MenuItem.Style>
+				</MenuItem>
+
+				<!--  Binding="{Binding RelativeSource={RelativeSource Self},  -->
+				<!--  Path=DataContext.CanExpand}"  -->
+
+
+				<Separator Margin="6" />
+
+
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="addChild"
-						Header="Add Sub-Category"
-						Click="Tv1ContextMenuAddChild_OnClick"
-						/>
-				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="addBefore"
+						CommandParameter="{Binding Path=ContextCmdAddBefore,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
 						Header="Add Category Before"
 						Click="Tv1ContextMenuAddBefore_OnClick"
+						Style="{StaticResource Tv.context.menuitem.base}"
 						/>
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="addAfter"
+						CommandParameter="{Binding Path=ContextCmdAddAfter,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
 						Header="Add Category After"
 						Click="Tv1ContextMenuAddAfter_OnClick"
+						Style="{StaticResource Tv.context.menuitem.base}"
 						/>
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="moveToBefore"
-						Header="Move Selected as Child"
-						Click="Tv1ContextMenuMoveChild_OnClick"
+						CommandParameter="{Binding ContextCmdAddChild,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
+						Header="Add Sub-Category"
+						Click="Tv1ContextMenuAddChild_OnClick"
+						Style="{StaticResource Tv.context.menuitem.base}"
 						/>
+
+
+				<Separator Margin="6" />
+
+
+
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="moveToBefore"
+						CommandParameter="{Binding Path=ContextCmdMoveBefore,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
 						Header="Move Selected Before"
 						Click="Tv1ContextMenuMoveBefore_OnClick"
-						/>
+						Style="{StaticResource Tv.context.menuitem.move}"
+						>
+				</MenuItem>
+
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="moveToAfter"
+						CommandParameter="{Binding Path=ContextCmdMoveAfter,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
 						Header="Move Selected After"
 						Click="Tv1ContextMenuMoveAfter_OnClick"
+						Style="{StaticResource Tv.context.menuitem.move}"
+						>
+				</MenuItem>
+
+
+				<MenuItem
+						CommandParameter="{Binding Path=ContextCmdMoveAsChild,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
+						Header="Move Selected as Sub-category"
+						Click="Tv1ContextMenuMoveChild_OnClick"
+						Style="{StaticResource Tv.context.menuitem.move}"
+						/>
+
+
+				<Separator Margin="6" />
+
+
+				<MenuItem
+						CommandParameter="{Binding Path=ContextCmdCopy,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
+						Header="Duplicate Selected"
+						Click="Tv1ContextMenuSelCopy_OnClick"
+						Style="{StaticResource Tv.context.menuitem.clone}"
 						/>
 				<MenuItem
-						HorizontalAlignment="Left"
-						CommandParameter="delete"
+						CommandParameter="{Binding Path=ContextCmdCopyAsChild,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
+						Header="Duplicate Selected as a Sub-Category"
+						Click="Tv1ContextMenuCopySelAsChild_OnClick"
+						Style="{StaticResource Tv.context.menuitem.clone}"
+						/>
+
+
+				<Separator Margin="6" />
+
+
+				<MenuItem
+						CommandParameter="{Binding ContextCmdDelete,
+																			 RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType={x:Type local:MainWindow}},
+																			 Mode=OneWay}"
 						Header="Delete Category"
 						Click="Tv1ContextMenuDelete_OnClick"
+						Style="{StaticResource Tv.context.menuitem.base}"
 						/>
 
 			</ContextMenu>
@@ -331,14 +479,13 @@
 					x:Key="Tv1temContainerStyle1"
 					TargetType="{x:Type TreeViewItem}"
 					>
-				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
 				<Setter Property="ContextMenu" Value="{StaticResource Tv1ContextMenu}" />
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 				<Setter Property="Padding" Value="1,0,0,0" />
-				<Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}">
-				</Setter>
+				<Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate
@@ -364,31 +511,29 @@
 																				RelativeSource={RelativeSource TemplatedParent}}"
 										Style="{StaticResource Tv1ExpandCollapseToggleStyle}"
 										/>
-								<!--  custom:CustomProperties.GenericBoolOne="{Binding RelativeSource={RelativeSource TemplatedParent},  -->
-								<!--  Path=DataContext.IsContextHighlighted}"  -->
 								<Border
 										x:Name="Bdr"
 										Grid.Column="1"
 										Grid.Row="0"
 										Margin="0,0.5,.5,0"
-										custom:CustomProperties.GenericBoolOne="{Binding RelativeSource={RelativeSource TemplatedParent},
-																																		 Path=DataContext.IsContextHighlighted}"
 										CornerRadius="6"
 										SnapsToDevicePixels="True"
 										BorderThickness="12,1.5,.5,5"
 										>
-									<!--  Background="Transparent"  -->
+									<!--  custom:CustomProperties.GenericBoolOne="{Binding RelativeSource={RelativeSource TemplatedParent},  -->
+									<!--  Path=DataContext.IsContextHighlighted}"  -->
 									<Border.Style>
 										<Style TargetType="Border">
+											<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
 											<Style.Triggers>
-												<DataTrigger
-														Binding="{Binding RelativeSource={RelativeSource Self},
-																							Path=(custom:CustomProperties.GenericBoolOne)}"
-														Value="true"
-														>
-													<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}">
-													</Setter>
-												</DataTrigger>
+												<!--  <DataTrigger  -->
+												<!--  Binding="{Binding RelativeSource={RelativeSource Self},  -->
+												<!--  Path=(custom:CustomProperties.GenericBoolOne)}"  -->
+												<!--  Value="true"  -->
+												<!--  >  -->
+												<!-- 	<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" /> -->
+												<!-- </DataTrigger> -->
+
 											</Style.Triggers>
 										</Style>
 									</Border.Style>
@@ -405,6 +550,12 @@
 											BorderThickness="4,0.5,2,0.5"
 											BorderBrush="{StaticResource TreeView.Background}"
 											>
+										<!--  Background="{TemplateBinding Background}"  -->
+										<Border.Style>
+											<Style TargetType="Border">
+												<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
+											</Style>
+										</Border.Style>
 										<VirtualizingStackPanel
 												Grid.Column="1"
 												Grid.Row="0"
@@ -412,11 +563,31 @@
 											<Border
 													x:Name="Bd"
 													Padding="{TemplateBinding Padding}"
+													custom:CustomProperties.GenericBoolOne="{Binding Path=IsContextHighlighted}"
 													SnapsToDevicePixels="true"
-													Background="{TemplateBinding Background}"
 													BorderThickness="{TemplateBinding BorderThickness}"
 													BorderBrush="{TemplateBinding BorderBrush}"
 													>
+												<!--  custom:CustomProperties.GenericBoolOne="{Binding RelativeSource={RelativeSource TemplatedParent},  -->
+												<!--  Path=DataContext.IsContextHighlighted}"  -->
+												<Border.Style>
+													<Style TargetType="Border">
+														<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
+														<Style.Triggers>
+															<Trigger Property="IsMouseOver" Value="True">
+																<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" />
+															</Trigger>
+															<DataTrigger
+																	Binding="{Binding RelativeSource={RelativeSource Self},
+																										Path=(custom:CustomProperties.GenericBoolOne)}"
+																	Value="true"
+																	>
+																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+
 												<ContentPresenter
 														x:Name="PART_Header"
 														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -438,30 +609,25 @@
 								</Trigger>
 								<Trigger Property="IsSelected" Value="true">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-									<Setter TargetName="Bdr" Property="Background" Value="{StaticResource TreeView.Selected.Background}" />
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource TreeView.Selected.Background}" />
 								</Trigger>
-								<MultiTrigger>
-									<MultiTrigger.Conditions>
-										<Condition Property="IsSelected" Value="true" />
-										<Condition Property="IsSelectionActive" Value="false" />
-									</MultiTrigger.Conditions>
-									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
-									<Setter TargetName="BD" Property="Background" Value="#44444444" />
-								</MultiTrigger>
+								<!-- <MultiTrigger> -->
+								<!-- 	<MultiTrigger.Conditions> -->
+								<!-- 		<Condition Property="IsSelected" Value="true" /> -->
+								<!-- 		<Condition Property="IsSelectionActive" Value="false" /> -->
+								<!-- 	</MultiTrigger.Conditions> -->
+								<!-- 	<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" /> -->
+								<!-- 	<Setter TargetName="Bd" Property="Background" Value="#44444444" /> -->
+								<!-- </MultiTrigger> -->
 								<Trigger Property="IsEnabled" Value="false">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-								</Trigger>
-								<Trigger Property="IsMouseOver" Value="True">
-									<Setter TargetName="BD" Property="Background" Value="{StaticResource TreeView.MouseOver.Background}">
-									</Setter>
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
 										<Condition Property="IsMouseOver" Value="true" />
 										<Condition Property="IsSelected" Value="true" />
 									</MultiTrigger.Conditions>
-									<Setter TargetName="BD" Property="Background" Value="{StaticResource TreeView.Selected.MouseOver.Background}">
-									</Setter>
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource TreeView.Selected.MouseOver.Background}" />
 								</MultiTrigger>
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
@@ -551,6 +717,7 @@
 				<Setter Property="Focusable" Value="False" />
 				<Setter Property="Height" Value="9.5" />
 				<Setter Property="Padding" Value="0" />
+
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -616,10 +783,12 @@
 
 
 
+			<!-- <Setter Property="IsExpanded" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=DataContext.IsExpanded}"></Setter> -->
 			<Style
 					x:Key="TvxItemContainerStyle1"
-					TargetType="{x:Type TreeViewItem}"
+					TargetType="TreeViewItem"
 					>
+
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -856,13 +1025,14 @@
 								/>
 
 						<Label
-								Content="{Binding Key}"
+								Content="{Binding UniqueId}"
 								Margin="0"
-								Width="40"
-								Padding="0"
+								Width="20"
+								Padding="0,0,0,2"
 								HorizontalAlignment="Right"
 								HorizontalContentAlignment="Right"
-								FontSize="8"
+								VerticalAlignment="Bottom"
+								FontSize="6"
 								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
 								/>
 
@@ -914,11 +1084,46 @@
 			<ColumnDefinition Width="90" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="4*" />
 			<RowDefinition Height="1*" />
 			<RowDefinition Height="48" />
 		</Grid.RowDefinitions>
+
+		<!-- <StackPanel -->
+		<!-- 		Grid.Column="0" -->
+		<!-- 		Grid.Row="2" -->
+		<!-- 		Orientation="Vertical" -->
+		<!-- 		> -->
+		<!-- 	<Label -->
+		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
+		<!-- 												Path=SelectedNode.Item.Title, -->
+		<!-- 												FallbackValue='no title'}" -->
+		<!-- 			FontSize="12" -->
+		<!-- 			Foreground="White" -->
+		<!-- 			/> -->
+		<!-- -->
+		<!-- 	<Label -->
+		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
+		<!-- 												Path=HasSelection}" -->
+		<!-- 			FontSize="12" -->
+		<!-- 			Foreground="White" -->
+		<!-- 			/> -->
+		<!-- -->
+		<!-- 	<Label -->
+		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
+		<!-- 												Path=SelectedNode.IsExpanded, -->
+		<!-- 												FallbackValue='false'}" -->
+		<!-- 			FontSize="12" -->
+		<!-- 			Foreground="White" -->
+		<!-- 			> -->
+		<!-- 	</Label> -->
+		<!-- -->
+		<!-- </StackPanel> -->
+
+
+
+
 		<!--    -->
 		<!--  <Button  -->
 		<!--  x:Name="BtnFloatWin"  -->
@@ -1087,28 +1292,17 @@
 
 		</StackPanel>
 
-
-		<Label
-				Content="Tv1"
-				Grid.Column="0"
-				Grid.Row="0"
-				Margin="5,0,0,0"
-				Padding="0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Foreground="White"
-				/>
-
 		<Label
 				Content="Sheet Organization Categories"
 				Grid.Column="0"
 				Grid.Row="0"
-				Margin="5,16,0,0"
+				Grid.ColumnSpan="2"
+				Margin="5,0,5,0"
 				Padding="0,4,0,6"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
+				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
-				Background="{StaticResource TreeView.ContextSelected.Background}"
 				/>
 
 
@@ -1413,11 +1607,13 @@
 				Margin="5"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"
+				d:DataContext="{Binding Source={x:Static local:MainWindow.TreeRoot}}"
 				DataContext="{Binding Categories.TreeBase,
 															ElementName=MainWin}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				SelectedItemChanged="Tv1_OnSelectedItemChanged"
+				Tag="{Binding ElementName=MainWin,
+											Path=ContextCmdDelete}"
 				Background="{StaticResource TreeView.Background}"
 				ItemContainerStyle="{StaticResource Tv1temContainerStyle1}"
 				ItemTemplate="{StaticResource Tv1ItemTemplate1}"

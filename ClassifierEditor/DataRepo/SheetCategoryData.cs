@@ -29,7 +29,7 @@ namespace ClassifierEditor.DataRepo
 		public string Description { get; private set; } = "This is a full list of sheet organization categories";
 
 		[DataMember(Order = 2)]
-		public TreeNode TreeBase { get; set; } = new TreeNode();
+		public TreeBase TreeBase { get; set; } = new TreeBase();
 
 	#endregion
 

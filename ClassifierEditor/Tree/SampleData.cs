@@ -82,7 +82,6 @@ namespace ClassifierEditor.Tree
 
 				parent.AddNode(node);
 			}
-			parent.ResequenceChildNodes();
 		}
 
 	#endregion

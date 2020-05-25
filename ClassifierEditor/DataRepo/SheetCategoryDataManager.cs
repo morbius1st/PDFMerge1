@@ -84,7 +84,7 @@ namespace ClassifierEditor.DataRepo
 
 			if (TreeBase == null)
 			{
-				shtCategories.Data.TreeBase = new TreeNode();
+				shtCategories.Data.TreeBase = new TreeBase();
 
 				IsModified = false;
 			}

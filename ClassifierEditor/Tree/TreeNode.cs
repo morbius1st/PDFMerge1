@@ -56,13 +56,14 @@ namespace ClassifierEditor.Tree
 		AFTER = 1
 	}
 
+
 	[DataContract(Namespace = "", IsReference = true)]
-	public class TreeNode : INotifyPropertyChanged
+	public class TreeNode : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
 		// properties
-		private float key;
+//		private float key;
 		private SheetCategory item;
 		private ObservableCollection<TreeNode> children;
 		private ListCollectionView childrenView;
@@ -76,7 +77,8 @@ namespace ClassifierEditor.Tree
 
 		private int checkedChildCount = 0;
 
-		private int ID = -1;
+		private int uniqueId = -1;
+
 
 		// fields
 
@@ -86,51 +88,45 @@ namespace ClassifierEditor.Tree
 		private bool mixesStateBeenTold = false;
 
 
-
 		// static
-		private static int idx = 0;
+		private static int masterUniqueId = 0;
 
 	#endregion
 
 	#region ctor
 
-		public TreeNode(TreeNode parent, string key, SheetCategory item,
-			bool isExpanded)
+		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
+			
 			Children = new ObservableCollection<TreeNode>();
 			this.parent = parent;
 			this.item = item;
-			this.key = -1.0f;
 			this.isExpanded = isExpanded;
 
-			ID = idx++;
+			UniqueId = masterUniqueId++;
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
-			childrenView.CustomSort = new ChildrenSorter();
+//			childrenView.CustomSort = new ChildrenSorter();
 
-			
 		}
 
-		public TreeNode() : this(null, null, null, false) { }
-
-		public TreeNode(TreeNode parent, SheetCategory item,
-			bool isExpanded) : this(parent, "!!", item, isExpanded) { }
+		public TreeNode() : this(null, null, false) { }
 
 	#endregion
 
 	#region public properties
 
-		[DataMember(Order = 1)]
-		public float Key
-		{
-			get => key;
-
-			private set
-			{
-				key = value;
-				OnPropertyChange();
-			}
-		}
+//		[DataMember(Order = 1)]
+//		public float Key
+//		{
+//			get => key;
+//
+//			private set
+//			{
+//				key = value;
+//				OnPropertyChange();
+//			}
+//		}
 
 		// the actual tree data item
 		[DataMember(Order = 2)]
@@ -162,7 +158,11 @@ namespace ClassifierEditor.Tree
 		public TreeNode Parent
 		{
 			get => parent;
-			private set => parent = value;
+			set
+			{
+				parent = value;
+				OnPropertyChange();
+			}
 		}
 
 		[DataMember(Order = 5)]
@@ -231,6 +231,19 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
+
+		[IgnoreDataMember]
+		public int UniqueId
+		{
+			get => uniqueId;
+			set
+			{
+				uniqueId = value;
+				OnPropertyChange();
+			}
+		}
+
+		[IgnoreDataMember]
 		public ICollectionView ChildrenView
 		{
 			get
@@ -273,6 +286,9 @@ namespace ClassifierEditor.Tree
 				}
 			}
 		}
+
+		[IgnoreDataMember]
+		public bool CanExpand => ChildCount > 0;
 
 		[IgnoreDataMember]
 		public bool IsSelected
@@ -357,108 +373,91 @@ namespace ClassifierEditor.Tree
 			CheckedChildCount--;
 		}
 
-		// for the below
-		// i am the selected node - the basis of the adjustment
 
 		// adds a child at the end of the list of children
 		// for sample data only
-		public bool AddNode(TreeNode newNode)
+		public void AddNode(TreeNode newNode)
 		{
-//			float idx = 0.0f;
-//
-//			if (children.Count == 1)
-//			{
-//				idx = children[0].Key;
-//			}
-//			else if (children.Count > 1)
-//			{
-//				childrenView.MoveCurrentToLast();
-//
-//				idx = ((TreeNode) childrenView.CurrentItem).key;
-//			}
-
-//			addNode(newNode, idx, NodePlacement.AFTER);
-
 			children.Add(newNode);
-
-			return true;
 		}
 
-		public bool AddChild(TreeNode newNode)
-		{
-			return addNode(newNode, this.key, NodePlacement.AFTER);
-		}
-
-		public bool AddBefore(TreeNode newNode)
-		{
-			return parent.addNode(newNode, this.key, NodePlacement.BEFORE);
-		}
-		
-		public bool AddAfter(TreeNode newNode)
-		{
-			return parent.addNode(newNode, this.key, NodePlacement.AFTER);
-		}
-
-		public bool MoveBefore(TreeNode existingNode, TreeNode selectedNode)
-		{
-			return moveNode(existingNode, selectedNode, NodePlacement.BEFORE);
-		}
-		
-		public bool MoveAfter(TreeNode existingNode, TreeNode selectedNode)
-		{
-			return moveNode(existingNode, selectedNode, NodePlacement.AFTER);
-		}
-
-		public bool DeleteNode(TreeNode selectedNode)
-		{
-			TreeNode parent = selectedNode.Parent;
-
-			string childCountDesc;
-
-			int totalChildCount = selectedNode.ExtendedChildCount;
-
-			if (totalChildCount > 0)
-			{
-				childCountDesc = "a total of " + totalChildCount + " categories "
-					+ "and sub-categories.";
-			}
-			else
-			{
-				childCountDesc = "no categories or sub-categories.";
-			}
-
-			MessageBoxResult result = MessageBox.Show(
-				"You are about to delete the category\n"
-				+ selectedNode.Item.Title
-				+ "\nwith " + childCountDesc
-				+ "\nIs this correct?",
-				"Classifier Editor", MessageBoxButton.YesNo,
-				MessageBoxImage.Warning );
-
-			if (result != MessageBoxResult.Yes) return false;
-
-			return parent.RemoveChild(selectedNode);
-		}
+//		// i am the parent node 
+//		// add a node to my children collection
+//		// at the end of the collection (automatic method)
+//		public void AddNode(TreeNode newNode)
+//		{
+//			children.Add(newNode);
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		public void AddNewBefore(TreeNode contextNode)
+//		{
+//			AddBefore(TempTreeNode(this), contextNode);
+//		}
+//
+//		// i am the parent node 
+//		// add a node to my children collection
+//		// at the end of the collection (automatic method)
+//		public void AddBefore(TreeNode node, TreeNode contextNode)
+//		{
+//			AddAt(node, children.IndexOf(contextNode));
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		public void AddNewAfter(TreeNode contextNode)
+//		{
+//			AddAfter(TempTreeNode(this), contextNode);
+//		}
+//		
+//		public void AddAfter(TreeNode node, TreeNode contextNode)
+//		{
+//			AddAt(node, children.IndexOf(contextNode) + 1);
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		public void AddNewChild()
+//		{
+//			children.Add(TempTreeNode(this));
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		public void MoveBefore(TreeNode existingNode, TreeNode selectedNode)
+//		{
+//			moveNode(existingNode, selectedNode, NodePlacement.BEFORE);
+//
+//			NotifyChildrenChange();
+//		}
+//		
+//		public void MoveAfter(TreeNode existingNode, TreeNode selectedNode)
+//		{
+//			moveNode(existingNode, selectedNode, NodePlacement.AFTER);
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		public void MoveAsChild(TreeNode existingNode, TreeNode contextNode)
+//		{
+//			moveAsChild(existingNode, contextNode);
+//
+//			NotifyChildrenChange();
+//		}
+//
+//		// remove a node from my collection
+//		// i am the parent
+//		public void RemoveNode(TreeNode node)
+//		{
+//			children.Remove(node);
+//
+//			NotifyChildrenChange();
+//		}
 
 		public static TreeNode TempTreeNode(TreeNode parent)
 		{
 			return new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
-		}
-
-		public void ResequenceChildNodes()
-		{
-			object selNode = childrenView.CurrentItem;
-
-			childrenView.Refresh();
-
-			childrenView.MoveCurrentTo(selNode);
-
-			float idx = 1.0f;
-
-			foreach (TreeNode child in childrenView)
-			{
-				child.Key = idx++;
-			}
 		}
 
 		public void ResetNode()
@@ -579,67 +578,63 @@ namespace ClassifierEditor.Tree
 
 	#region private methods
 
-		private bool RemoveChild(TreeNode existingNode)
-		{
-			if (children.Contains(existingNode))
-			{
-				children.Remove(existingNode);
-				NotifyChildrenChange();
-				return true;
-			}
-			return false;
-		}
-
-		// case where existing and selected have different parents
-		// need to add in the new location and
-		// delete the old location
-//		private bool moveNodeComplex(TreeNode existingNode, TreeNode selectedNode, NodePlacement where)
+//		private void AddAt(TreeNode node, int index)
 //		{
-//			selectedNode.parent.addNodeQuite(existingNode, selectedNode.key, where);
+//			children.Insert(index, node);
+//		} 
+
+		// two types of moves - whether they have the same parent or not
+		// I am the parent of the context node
+//		private void moveNode(TreeNode existingNode, TreeNode contextNode, NodePlacement how)
+//		{
+//			int contextIdx = children.IndexOf(contextNode);
 //
-//			TreeNode parent = existingNode.parent;
+//			if (existingNode.parent.Equals(contextNode.parent))
+//			{
+//				// simple move within the same children collection
 //
-//			parent.RemoveChild(existingNode);
+//				contextIdx = how == NodePlacement.AFTER ? ++contextIdx : contextIdx;
 //
-//			existingNode = null;
+//				int existIdx = children.IndexOf(existingNode);
 //
-//			NotifyChildrenChange();
+//				children.Move(existIdx, contextIdx);
+//			}
+//			else
+//			{
+//				// complex move from one collection to another
+//				// this means, add then delete
+//				contextIdx = how == NodePlacement.AFTER ? ++contextIdx : contextIdx;
 //
-//			return true;
+//				TreeNode parent = existingNode.parent;
+//
+//				// updte the parent of the existing node
+//				existingNode.parent = contextNode.parent;
+//
+//				// add in the parent collection of the context node
+//				contextNode.parent.AddAt(existingNode, contextIdx);
+//
+//				parent.children.Remove(existingNode);
+//
+//			}
 //		}
 
-		
-		// case where both existing and selected have the same parent - just revise the index
-		// and re-sequence
-		private bool moveNode(TreeNode existingNode, TreeNode selectedNode, NodePlacement where)
-		{
-			
-			if (existingNode.parent.Equals(selectedNode.parent))
-			{
-				float idx = where == NodePlacement.AFTER ? 0.5f : -0.5f;
+//		// move to be the child of the contextNode
+//		private void moveAsChild(TreeNode existingNode, TreeNode contextNode)
+//		{
+//			TreeNode parent = existingNode.parent;
+//
+//			// update the parent of the existing node
+//			existingNode.parent = contextNode;
+//
+//			contextNode.AddAt(existingNode, 0);
+//
+//			parent.children.Remove(existingNode);
+//		}
 
-				existingNode.key = selectedNode.key + idx;
 
-				selectedNode.parent.ResequenceChildNodes();
-			}
-			else
-			{
-				selectedNode.parent.addNodeQuite(existingNode, selectedNode.key, where);
 
-				TreeNode parent = existingNode.parent;
-
-				parent.RemoveChild(existingNode);
-			}
-
-			NotifyChildrenChange();
-
-			return true;
-		}
-
-		private bool addNode(TreeNode newNode, float selectedIdx, NodePlacement where)
-		{
-			addNodeQuite(newNode, selectedIdx, where);
-
+//		public void addNodeQuite(TreeNode newNode, float selectedIdx, NodePlacement where)
+//		{
 //			float offset = 0.5f; // place after;
 //
 //			if (where == NodePlacement.BEFORE) offset = -0.5f;
@@ -647,27 +642,7 @@ namespace ClassifierEditor.Tree
 //			newNode.key = selectedIdx + offset;
 //
 //			children.Add(newNode);
-
-			
-
-			ResequenceChildNodes();
-
-			NotifyChildrenChange();
-
-			return true;
-		}
-
-		public void addNodeQuite(TreeNode newNode, float selectedIdx, NodePlacement where)
-		{
-			float offset = 0.5f; // place after;
-
-			if (where == NodePlacement.BEFORE) offset = -0.5f;
-
-			newNode.key = selectedIdx + offset;
-
-			children.Add(newNode);
-		}
-
+//		}
 
 		private int ExtendedChildrenCount(TreeNode node)
 		{
@@ -798,7 +773,7 @@ namespace ClassifierEditor.Tree
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		protected void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
@@ -811,25 +786,245 @@ namespace ClassifierEditor.Tree
 
 	#region system overrides
 
+
+		public object Clone()
+		{
+			TreeNode newNode = new TreeNode(parent, (SheetCategory) item.Clone(), false);
+
+			newNode.checkedState = checkedState;
+			newNode.triState = triState;
+
+			return newNode;
+		}
+
 		public override string ToString()
 		{
-			return $"[{ID:D3}] :: " +
+			return $"[{UniqueId:D3}] :: " +
 				NodeType + "::" + item.Title + "::" + checkedState;
+		}
+
+
+	#endregion
+	}
+
+
+//	public class ChildrenSorter : IComparer
+//	{
+//		public int Compare(object x, object y)
+//		{
+//			TreeNode a = (TreeNode) x;
+//			TreeNode b = (TreeNode) y;
+//
+//			if (a == null || b == null) return 0;
+//
+//			return a.Key.CompareTo(b.Key);
+//		}
+//	}
+
+
+
+	
+
+	[DataContract(Namespace = "", IsReference = true)]
+	public class TreeBase : TreeNode, INotifyPropertyChanged
+	{
+	#region private fields
+		private TreeNode selectedNode;
+
+	#endregion
+
+	#region ctor
+
+		public TreeBase() : base(null, new SheetCategory("TreeBase", null, null), false) { }
+
+	#endregion
+
+	#region public properties
+
+
+
+		public TreeNode SelectedNode
+		{
+			get => selectedNode;
+			set
+			{
+				selectedNode = value;
+				OnPropertyChange();
+				OnPropertyChange("HasSelection");
+			}
+		}
+
+		public bool HasSelection => SelectedNode != null;
+
+	#endregion
+
+	#region private properties
+
+
+
+	#endregion
+
+	#region public methods
+
+		public void RemoveNode2(TreeNode contextNode)
+		{
+			TreeNode parent = contextNode.Parent;
+			parent.Children.Remove(contextNode);
+
+			NotifyChildrenChange();
+		}
+
+		public void AddNewChild2(TreeNode contextNode)
+		{
+			contextNode.Children.Add(TempTreeNode(contextNode));
+
+			NotifyChildrenChange();
+		}
+
+		public void AddChild2(TreeNode contextNode, TreeNode toAddNode)
+		{
+			contextNode.Children.Add(toAddNode);
+
+			NotifyChildrenChange();
+		}
+
+		// adds a new, temp node before the selected node
+		public void AddNewBefore2(TreeNode contextNode)
+		{
+			TreeNode parent = contextNode.Parent;
+			AddAt2(parent, TempTreeNode(parent), parent.Children.IndexOf(contextNode));
+
+			NotifyChildrenChange();
+		}
+
+		// adds without notifying of the revision
+		public void AddBefore2(TreeNode contextNode, TreeNode toAddNode)
+		{
+			TreeNode parent = contextNode.Parent;
+			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode));
+		}
+
+		// adds a new, temp node before the selected node
+		public void AddNewAfter2(TreeNode contextNode)
+		{
+			TreeNode parent = contextNode.Parent;
+			AddAt2(parent, TempTreeNode(parent), parent.Children.IndexOf(contextNode) + 1);
+
+			NotifyChildrenChange();
+		}
+
+		// adds without notifying of the revision
+		public void AddAfter2(TreeNode contextNode, TreeNode toAddNode)
+		{
+			TreeNode parent = contextNode.Parent;
+			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode) + 1);
+		}
+
+		public void MoveBefore(TreeNode contextNode, TreeNode existingNode)
+		{
+			moveNode2(contextNode, existingNode, NodePlacement.BEFORE);
+
+			NotifyChildrenChange();
+		}
+
+		public void MoveAfter(TreeNode contextNode, TreeNode existingNode)
+		{
+			moveNode2(contextNode, existingNode, NodePlacement.AFTER);
+
+			NotifyChildrenChange();
+		}
+
+		public void MoveAsChild(TreeNode contextNode, TreeNode existingNode)
+		{
+			moveAsChild2(contextNode, existingNode);
+
+			NotifyChildrenChange();
+		}
+
+
+
+	#endregion
+
+	#region private methods
+
+		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
+		{
+			parent.Children.Insert(index, toAddNode);
+		}
+
+		// parent is the parent of the new location
+		private void moveNode2(TreeNode contextNode, TreeNode existingNode, NodePlacement how)
+		{
+			TreeNode parent = contextNode.Parent;
+
+			int contextIdx = parent.Children.IndexOf(contextNode);
+
+			contextIdx = how == NodePlacement.AFTER ? ++contextIdx : contextIdx;
+
+			if (existingNode.Parent.Equals(parent))
+			{
+				// simple move within the same children collection
+				int existIdx = parent.Children.IndexOf(existingNode);
+
+				parent.Children.Move(existIdx, contextIdx);
+			}
+			else
+			{
+				// complex move from one collection to another
+				// this means, add then delete
+
+				TreeNode exParent = existingNode.Parent;
+
+				// update the parent of the existing node
+				existingNode.Parent = contextNode.Parent;
+
+				// add in the parent collection of he selected node
+				AddAt2(parent, existingNode, contextIdx);
+
+				// remove from the original collection
+				exParent.Children.Remove(existingNode);
+
+			}
+		}
+
+		// move to be the child of contextNode
+		private void moveAsChild2(TreeNode contextNode, TreeNode existingNode)
+		{
+			// save the original parent for later use
+			TreeNode exParent = existingNode.Parent;
+
+			// update the parent of the existing node
+			existingNode.Parent = contextNode;
+
+			// add as first node
+			AddAt2(contextNode, existingNode, 0);
+
+			exParent.Children.Remove(existingNode);
+		}
+
+	#endregion
+
+	#region event processing
+
+
+	#endregion
+
+	#region event handeling
+
+
+
+	#endregion
+
+	#region system overrides
+
+		public override string ToString()
+		{
+			return $"[{UniqueId:D3}] :: " +
+				NodeType + ":: ** TreeBase ** ::" + CheckedState;
 		}
 
 	#endregion
 	}
 
-	public class ChildrenSorter : IComparer
-	{
-		public int Compare(object x, object y)
-		{
-			TreeNode a = (TreeNode) x;
-			TreeNode b = (TreeNode) y;
-
-			if (a == null || b == null) return 0;
-
-			return a.Key.CompareTo(b.Key);
-		}
-	}
+	
 }

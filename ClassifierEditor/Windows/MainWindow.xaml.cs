@@ -61,7 +61,6 @@ namespace ClassifierEditor.Windows
 	*/
 
 
-
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -72,6 +71,23 @@ namespace ClassifierEditor.Windows
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
 		private TreeManager tm = new TreeManager();
 		private TreeNode userSelected;
+		private TreeNode contextSelected;
+		private TreeNode contextSelectedParent;
+		private int contextSelectedIndex;
+
+		public string ContextCmdDelete {get;}            = "delete";
+		public string ContextCmdAddChild {get;}          = "addChild";
+		public string ContextCmdAddBefore {get;}         = "addBefore";
+		public string ContextCmdAddAfter {get;}          = "addAfter";
+		public string ContextCmdMoveAsChild {get;}       = "moveAsChild";
+		public string ContextCmdMoveBefore {get;}        = "moveBefore";
+		public string ContextCmdMoveAfter {get;}         = "moveAfter";
+		public string ContextCmdCopy {get;}              = "clone";
+		public string ContextCmdCopyAsChild {get;}       = "cloneAsChild";
+		public string ContextCmdExpand {get;}            = "Expand";
+		public string ContextCmdCollapse {get;}          = "Collapse";
+
+		private bool bypassContextDeHighlight = false;
 
 	#endregion
 
@@ -80,20 +96,21 @@ namespace ClassifierEditor.Windows
 		static MainWindow()
 		{
 			SampleData sd = new SampleData();
-			sd.Sample(RootNode);
-
+			sd.Sample(TreeRoot);
 		}
 
 		public MainWindow()
 		{
 			InitializeComponent();
+
 		}
 
 	#endregion
 
 	#region public properties
 
-		public static TreeNode RootNode { get; set; } = new TreeNode();
+		public static TreeBase TreeRoot { get; set; } = new TreeBase();
+//		public static TreeNode TreeRoot { get; set; } = new TreeNode();
 
 		public SheetCategoryDataManager Categories
 		{
@@ -105,29 +122,44 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
-
-
 		public TreeNode UserSelected
 		{
 			get => userSelected;
 			set
 			{
-				tm.ContextDehighlight();
+				ContextDeHighlight();
 
 				userSelected = value;
 				OnPropertyChange();
 			}
 		}
 
-//		public TreeNode ContextSelected
-//		{
-//			get => contextSelected;
-//			private set
-//			{
-//				contextSelected = value;
-//				OnPropertyChange();
-//			}
-//		}
+		public TreeNode ContextSelected
+		{
+			get => contextSelected;
+			private set
+			{
+
+				if (value == contextSelected) return;
+
+				if (contextSelected != null)
+				{
+					contextSelected.IsContextSelected = false;
+					contextSelected.IsContextHighlighted = false;
+				}
+
+				contextSelected = value;
+				contextSelectedParent = contextSelected.Parent;
+				contextSelectedIndex = contextSelectedParent.Children.IndexOf(contextSelected);
+
+				OnPropertyChange();
+
+				if (value == null) return;
+
+				contextSelected.IsContextSelected = true;
+				contextSelected.IsContextHighlighted = true;
+			}
+		}
 
 	#endregion
 
@@ -153,7 +185,7 @@ namespace ClassifierEditor.Windows
 			SampleData sd = new SampleData();
 
 			sd.Sample(categories.TreeBase);
-			
+
 			categories.Write();
 
 //			categories.Read();
@@ -175,94 +207,220 @@ namespace ClassifierEditor.Windows
 				}
 			}
 		}
-		
+
 	#endregion
 
 	#region control event methods
+
+		// when a selection has been made
+		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			UserSelected = (TreeNode) e.NewValue;
+			TreeRoot.SelectedNode = userSelected;
+		}
+
+		// context menu events
 
 		private void Tv1ContextMenu_OnOpened(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
 			// sender.datacontect is the treenode
 
-			tm.ContextSelected = (TreeNode) ((ContextMenu) sender).DataContext;
+			ContextSelected = (TreeNode) ((ContextMenu) sender).DataContext;
 		}
 
+		
 		private void Tv1ContextMenu_OnClosed(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
 			// sender.datacontect is the treenode
 
-			tm.ContextDehighlight();
+			if (!bypassContextDeHighlight) ContextDeHighlight();
 		}
 
+		// context menu commands
 
-		// when a selection has been made
-		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+
+
+		private void Tv1ContextMenuExpand_OnClick(object sender, RoutedEventArgs e)
 		{
-			UserSelected = (TreeNode) e.NewValue;
-		}
+			string command = ((MenuItem) sender).CommandParameter as string;
 
-		private void Tv1ContextMenuDelete_OnClick(object sender, RoutedEventArgs e)
-		{
-//			string command =
-//				((MenuItem) sender).CommandParameter as string;
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.DeleteNode(tm.ContextSelected);
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+
+			if (command.Equals(ContextCmdExpand))
+			{
+				contextSelected.IsExpanded = true;
+			}
+			else
+			{
+				contextSelected.IsExpanded = false;
+			}
+
 		}
 
 		private void Tv1ContextMenuAddChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-//			categories.AddChildNode(contextSelected, SheetCategory.TempSheetCategory());
+//			contextSelected.AddNewChild();
 
-//			TreeNode newNode = new TreeNode(contextSelected, SheetCategory.TempSheetCategory(), false);
+			TreeRoot.AddNewChild2(contextSelected);
 
-			tm.AddChild(tm.ContextSelected);
+			ContextDeselect();
 		}
 
 		private void Tv1ContextMenuAddBefore_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.AddNodeBefore(tm.ContextSelected);
+//			contextSelectedParent.AddNewBefore(contextSelected);
+
+			TreeRoot.AddNewBefore2(contextSelected);
+
+			ContextDeselect();
 		}
 
 		private void Tv1ContextMenuAddAfter_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.AddNodeAfter(tm.ContextSelected);
+			TreeRoot.AddNewAfter2(contextSelected);
+
+			ContextDeselect();
 		}
 
 		private void Tv1ContextMenuMoveBefore_OnClick(object sender, RoutedEventArgs e)
 		{
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.MoveNodeBefore(UserSelected, tm.ContextSelected);
+//			contextSelectedParent.MoveBefore(UserSelected, contextSelected);
+
+			TreeRoot.MoveBefore(contextSelected, userSelected);
+
+			TreeRoot.SelectedNode.IsSelected = false;
+
+			ContextDeselect();
 		}
-		
+
 		private void Tv1ContextMenuMoveAfter_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.MoveNodeAfter(UserSelected, tm.ContextSelected);
+//			contextSelectedParent.MoveAfter(UserSelected, ContextSelected);
+
+			TreeRoot.MoveAfter(contextSelected, userSelected);
+
+			TreeRoot.SelectedNode.IsSelected = false;
+
+			ContextDeselect();
 		}
-		
+
 		private void Tv1ContextMenuMoveChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			tm.ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			tm.MoveNodeChild(UserSelected, tm.ContextSelected);
-			
+			TreeRoot.MoveAsChild(contextSelected, userSelected);
+
+			TreeRoot.SelectedNode.IsSelected = false;
+
+			ContextDeselect();
 		}
+		
+		private void Tv1ContextMenuSelCopy_OnClick(object sender, RoutedEventArgs e)
+		{
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+
+			TreeNode newNode = userSelected.Clone() as TreeNode;
+
+			TreeRoot.AddAfter2(contextSelected, newNode);
+
+			ContextDeselect();
+		}
+				
+		private void Tv1ContextMenuCopySelAsChild_OnClick(object sender, RoutedEventArgs e)
+		{
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+
+			TreeNode newNode = userSelected.Clone() as TreeNode;
+
+			TreeRoot.AddChild2(contextSelected, newNode);
+
+			ContextDeselect();
+		}
+
+		private void Tv1ContextMenuDelete_OnClick(object sender, RoutedEventArgs e)
+		{
+			bypassContextDeHighlight = true;
+
+			string msg;
+
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+
+			int extChildCount = contextSelected.ExtendedChildCount;
+
+			if (extChildCount > 0)
+			{
+				msg = "a total of " + extChildCount + " categories "
+					+ "and sub-categories.";
+			}
+			else
+			{
+				msg = "no categories or sub-categories.";
+			}
+
+			string title = contextSelected.Item.Title;
+
+			MessageBoxResult result = MessageBox.Show(
+				"You are about to delete the category\n"
+				+ title + "\nwith " + msg
+				+ "\nIs this correct?",
+				"Classifier Editor", MessageBoxButton.YesNo,
+				MessageBoxImage.Warning );
+
+			if (result == MessageBoxResult.Yes)
+			{
+				TreeRoot.RemoveNode2(contextSelected);
+			}
+
+			ContextDeselect();
+		}
+
+		private void ContextHighlight()
+		{
+			contextSelected.IsContextHighlighted = true;
+
+		}
+
+		private void ContextDeHighlight()
+		{
+			if (contextSelected != null)
+				contextSelected.IsContextHighlighted = false;
+		}
+
+		private void ContextDeselect()
+		{
+			bypassContextDeHighlight = false;
+
+			if (contextSelected != null)
+			{
+				contextSelected.IsContextSelected = false;
+				contextSelected.IsContextHighlighted = false;
+
+				contextSelected = null;
+			}
+		}
+
+	#region buttons
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -276,9 +434,11 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-
 			Debug.WriteLine("at debug");
 		}
+
+	#endregion
+
 //
 //		private void BtnFloatWin_OnClick(object sender, RoutedEventArgs e)
 //		{
@@ -324,10 +484,7 @@ namespace ClassifierEditor.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-
-
-
-		#endregion
+	#endregion
 
 		//		public static readonly DependencyProperty HasChildrenProperty = DependencyProperty.RegisterAttached(
 		//			"HasChildren",
@@ -345,9 +502,6 @@ namespace ClassifierEditor.Windows
 		//		{
 		//			return (bool) element.GetValue(HasChildrenProperty);
 		//		}
-
-
-
 	}
 
 	public class DetailRowTemplateSelector : DataTemplateSelector

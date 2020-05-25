@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 namespace ClassifierEditor.Tree
 {
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
-	public class SheetCategory : INotifyPropertyChanged
+	public class SheetCategory : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
@@ -28,6 +28,7 @@ namespace ClassifierEditor.Tree
 		private Regex pattern;
 
 		private static int tempIdx;
+		private static int copyIdx;
 
 	#endregion
 
@@ -139,10 +140,23 @@ namespace ClassifierEditor.Tree
 
 	#region system overrides
 
+
+		public object Clone()
+		{
+			copyIdx++;
+
+			string t = title + $" (copy {copyIdx})";
+			string d = description + $" (copy {copyIdx})";
+			string p = pattern.ToString();
+
+			return new SheetCategory(t, d, p);
+		}
+
 		public override string ToString()
 		{
-			return "this is SheetCategory";
+			return "this is SheetCategory| " + title;
 		}
+
 
 	#endregion
 	}
