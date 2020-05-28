@@ -19,7 +19,6 @@ namespace ClassifierEditor.DataRepo
 {
 	// this is the actual data set saved to the data file
 
-
 	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
 	public class SheetCategoryData : INotifyPropertyChanged
 	{
@@ -28,8 +27,12 @@ namespace ClassifierEditor.DataRepo
 		[DataMember(Order = 1)]
 		public string Description { get; private set; } = "This is a full list of sheet organization categories";
 
-		[DataMember(Order = 2)]
-		public TreeBase TreeBase { get; set; } = new TreeBase();
+//		[DataMember(Order = 2)]
+//		public string FileNameTestFolder { get; private set; } =
+//			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
+
+		[DataMember(Order = 3)]
+		public BaseOfTree BaseOfTree { get; set; } = new BaseOfTree();
 
 	#endregion
 
@@ -40,7 +43,8 @@ namespace ClassifierEditor.DataRepo
 
 			public void NotifyUpdate()
 			{
-				OnPropertyChange("TreeBase");
+				
+				OnPropertyChange("BaseOfTree");
 			}
 
 		#endregion

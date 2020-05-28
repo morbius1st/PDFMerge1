@@ -25,6 +25,7 @@ namespace ClassifierEditor.DataRepo
 	#region private fields
 
 		private StorageManager<SheetCategoryData> shtCategories;
+		private bool isModified = false;
 
 	#endregion
 
@@ -41,12 +42,10 @@ namespace ClassifierEditor.DataRepo
 
 		public bool IsConfigured { get; private set; } = false;
 
-		private bool isModified = false;
-
 		public bool IsModified
 		{
 			get => isModified;
-			private set
+			set
 			{
 				isModified = value;
 				OnPropertyChange();
@@ -57,7 +56,7 @@ namespace ClassifierEditor.DataRepo
 		public string Description => shtCategories.Data.Description;
 
 		[DataMember(Order = 2)]
-		public TreeNode TreeBase => shtCategories.Data.TreeBase;
+		public BaseOfTree TreeBase => shtCategories.Data.BaseOfTree;
 
 	#endregion
 
@@ -84,10 +83,12 @@ namespace ClassifierEditor.DataRepo
 
 			if (TreeBase == null)
 			{
-				shtCategories.Data.TreeBase = new TreeBase();
+				shtCategories.Data.BaseOfTree = new BaseOfTree();
 
 				IsModified = false;
 			}
+
+			TreeBase.Initalize();
 
 			OnPropertyChange("TreeBase");
 		}
@@ -101,18 +102,16 @@ namespace ClassifierEditor.DataRepo
 			IsModified = false;
 		}
 
-		public void LoadSampleData()
-		{
-			if (!IsConfigured) return;
-
-			SampleData sd = new SampleData();
-
-			sd.Sample(TreeBase);
-
-//			OnPropertyChange("TreeBase");
-
-			shtCategories.Data.NotifyUpdate();
-		}
+//		public void LoadSampleData()
+//		{
+//			if (!IsConfigured) return;
+//
+//			SampleData sd = new SampleData();
+//
+//			sd.Sample(TreeBase);
+//
+//			shtCategories.Data.NotifyUpdate();
+//		}
 
 
 	#endregion

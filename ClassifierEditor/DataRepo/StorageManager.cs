@@ -43,7 +43,7 @@ namespace ClassifierEditor.DataRepo
 
 			DataStore.Admin.Read();
 
-			OnPropertyChange("Data");
+//			OnPropertyChange("Data");
 
 			return true;
 		}

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using ClassifierEditor.FilesSupport;
+using ClassifierEditor.SampleFiles;
+using UtilityLibrary;
 
 #endregion
 
@@ -20,6 +23,8 @@ namespace ClassifierEditor.Tree
 	public class SampleData : INotifyPropertyChanged
 	{
 	#region private fields
+
+		private BaseOfTree root;
 
 	#endregion
 
@@ -37,13 +42,29 @@ namespace ClassifierEditor.Tree
 
 	#region public methods
 
-		public void Sample(TreeNode tn)
+		public void Sample(BaseOfTree tn)
 		{
-			SheetCategory item = new SheetCategory("Tree Base", "Tree Base", null);
+			root = tn;
 
-			tn.Item = item;
+			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree", null);
 
-			MakeChildren(tn, 0);
+			root.Item = item;
+
+			MakeChildren(root, 0);
+		}
+
+		public void SampleFiles(SampleFileList fileList)
+		{
+			FilePath<FileNameAsSheetFile> sheet;
+
+			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+			fileList.AddPath(sheet);
+
+			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0 This is a Test A20.pdf");
+			fileList.AddPath(sheet);
+
+			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test A30.pdf");
+			fileList.AddPath(sheet);
 		}
 
 	#endregion
@@ -51,7 +72,7 @@ namespace ClassifierEditor.Tree
 	#region private methods
 
 		private static int MAX_DEPTH = 4;
-		private static int TOPMAX = 15;
+		private static int TOPMAX = 5;
 		private static int CHILDMAX = 5;
 		private static int BRANCH = 0;
 
@@ -79,10 +100,13 @@ namespace ClassifierEditor.Tree
 
 					MakeChildren(node, depth + 1);
 				}
-
-				parent.AddNode(node);
+				
+				root.AddNode(node);
 			}
 		}
+
+		
+
 
 	#endregion
 

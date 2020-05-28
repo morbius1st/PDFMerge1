@@ -10,8 +10,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ClassifierEditor.DataRepo;
+using ClassifierEditor.FilesSupport;
+using ClassifierEditor.SampleFiles;
 using ClassifierEditor.Tree;
 using ClassifierEditor.Windows.Support;
+using SettingsManager;
 
 #endregion
 
@@ -69,11 +72,9 @@ namespace ClassifierEditor.Windows
 	#region private fields
 
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
-		private TreeManager tm = new TreeManager();
 		private TreeNode userSelected;
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
-		private int contextSelectedIndex;
 
 		public string ContextCmdDelete {get;}            = "delete";
 		public string ContextCmdAddChild {get;}          = "addChild";
@@ -96,8 +97,15 @@ namespace ClassifierEditor.Windows
 		static MainWindow()
 		{
 			SampleData sd = new SampleData();
-			sd.Sample(TreeRoot);
+			sd.Sample(BaseOfTreeRoot);
+
+			sd.SampleFiles(FileList2);
+
+
+
 		}
+
+		
 
 		public MainWindow()
 		{
@@ -109,7 +117,7 @@ namespace ClassifierEditor.Windows
 
 	#region public properties
 
-		public static TreeBase TreeRoot { get; set; } = new TreeBase();
+		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
 //		public static TreeNode TreeRoot { get; set; } = new TreeNode();
 
 		public SheetCategoryDataManager Categories
@@ -150,7 +158,6 @@ namespace ClassifierEditor.Windows
 
 				contextSelected = value;
 				contextSelectedParent = contextSelected.Parent;
-				contextSelectedIndex = contextSelectedParent.Children.IndexOf(contextSelected);
 
 				OnPropertyChange();
 
@@ -160,6 +167,14 @@ namespace ClassifierEditor.Windows
 				contextSelected.IsContextHighlighted = true;
 			}
 		}
+
+		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
+//		public static SampleFileList FileList2 { get; private set; } = new SampleFileList(
+//			@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs");
+		public SampleFileList FileList { get; private set; }
+
+
+//		public string PatternHintText { get; private set; } = "Regex pattern";
 
 	#endregion
 
@@ -179,16 +194,25 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor",
-				"SheetCategories.xml");
+			UserSettings.Admin.Read();
 
-			SampleData sd = new SampleData();
+			categories.Configure(UserSettings.Data.FileNameCategoryFolder,
+				UserSettings.Data.FileNameCategoryFile);
+			
+//			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor",
+//				"SheetCategories.xml");
+//
+//			SampleData sd = new SampleData();
+//
+//			sd.Sample(categories.TreeBase);
+//
+//			categories.Write();
 
-			sd.Sample(categories.TreeBase);
+			categories.Read();
 
-			categories.Write();
+			FileList = new SampleFileList(UserSettings.Data.FileNameCategoryFolder);
 
-//			categories.Read();
+			OnPropertyChange("FileList");
 		}
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
@@ -216,8 +240,27 @@ namespace ClassifierEditor.Windows
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			UserSelected = (TreeNode) e.NewValue;
-			TreeRoot.SelectedNode = userSelected;
+			BaseOfTreeRoot.SelectedNode = userSelected;
+//			PatternHintText = "";
 		}
+
+
+		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+		{
+			categories.IsModified = true;
+		}
+
+		private void TbxPattern_OnTextChanged(object sender, TextChangedEventArgs e)
+		{
+			categories.IsModified = true;
+		}
+
+
 
 		// context menu events
 
@@ -268,7 +311,9 @@ namespace ClassifierEditor.Windows
 
 //			contextSelected.AddNewChild();
 
-			TreeRoot.AddNewChild2(contextSelected);
+			BaseOfTreeRoot.AddNewChild2(contextSelected);
+
+			contextSelected.IsExpanded = true;
 
 			ContextDeselect();
 		}
@@ -280,7 +325,7 @@ namespace ClassifierEditor.Windows
 
 //			contextSelectedParent.AddNewBefore(contextSelected);
 
-			TreeRoot.AddNewBefore2(contextSelected);
+			BaseOfTreeRoot.AddNewBefore2(contextSelected);
 
 			ContextDeselect();
 		}
@@ -290,7 +335,7 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			TreeRoot.AddNewAfter2(contextSelected);
+			BaseOfTreeRoot.AddNewAfter2(contextSelected);
 
 			ContextDeselect();
 		}
@@ -301,9 +346,9 @@ namespace ClassifierEditor.Windows
 
 //			contextSelectedParent.MoveBefore(UserSelected, contextSelected);
 
-			TreeRoot.MoveBefore(contextSelected, userSelected);
+			BaseOfTreeRoot.MoveBefore(contextSelected, userSelected);
 
-			TreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsSelected = false;
 
 			ContextDeselect();
 		}
@@ -315,9 +360,9 @@ namespace ClassifierEditor.Windows
 
 //			contextSelectedParent.MoveAfter(UserSelected, ContextSelected);
 
-			TreeRoot.MoveAfter(contextSelected, userSelected);
+			BaseOfTreeRoot.MoveAfter(contextSelected, userSelected);
 
-			TreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsSelected = false;
 
 			ContextDeselect();
 		}
@@ -327,9 +372,9 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			TreeRoot.MoveAsChild(contextSelected, userSelected);
+			BaseOfTreeRoot.MoveAsChild(contextSelected, userSelected);
 
-			TreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsSelected = false;
 
 			ContextDeselect();
 		}
@@ -341,7 +386,7 @@ namespace ClassifierEditor.Windows
 
 			TreeNode newNode = userSelected.Clone() as TreeNode;
 
-			TreeRoot.AddAfter2(contextSelected, newNode);
+			BaseOfTreeRoot.AddAfter2(contextSelected, newNode);
 
 			ContextDeselect();
 		}
@@ -353,7 +398,7 @@ namespace ClassifierEditor.Windows
 
 			TreeNode newNode = userSelected.Clone() as TreeNode;
 
-			TreeRoot.AddChild2(contextSelected, newNode);
+			BaseOfTreeRoot.AddChild2(contextSelected, newNode);
 
 			ContextDeselect();
 		}
@@ -389,7 +434,7 @@ namespace ClassifierEditor.Windows
 
 			if (result == MessageBoxResult.Yes)
 			{
-				TreeRoot.RemoveNode2(contextSelected);
+				BaseOfTreeRoot.RemoveNode2(contextSelected);
 			}
 
 			ContextDeselect();
@@ -439,34 +484,6 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-//
-//		private void BtnFloatWin_OnClick(object sender, RoutedEventArgs e)
-//		{
-//			TreeViewSelector.TreeViewSelector tvs = new TreeViewSelector.TreeViewSelector(this, BtnFloatWin);
-//			tvs.Orientation = WindowPosition.BOTTOM;
-//			tvs.Categories = Categories;
-//			tvs.ShowDialog();
-//		}
-//
-//		private void BtnPopupWin_OnClick(object sender, RoutedEventArgs e)
-//		{
-//			TvSelect.IsOpen = true;
-//		}
-//
-//		private void Tvz_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-//		{
-//			TvSelect.IsOpen = false;
-//		}
-//
-//		private void TvSelect_Opened(object sender, EventArgs e)
-//		{
-//			TbkPopupWinStatus.Text = "opened";
-//		}
-//
-//		private void TvSelect_Closed(object sender, EventArgs e)
-//		{
-//			TbkPopupWinStatus.Text = "closed";
-//		}
 
 	#endregion
 
@@ -486,22 +503,8 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-		//		public static readonly DependencyProperty HasChildrenProperty = DependencyProperty.RegisterAttached(
-		//			"HasChildren",
-		//			typeof(bool),
-		//			typeof(MainWindow),
-		//			new FrameworkPropertyMetadata(false, null)
-		//			);
-		//
-		//		public static void SetHasChildren(UIElement element, bool value)
-		//		{
-		//			element.SetValue(HasChildrenProperty, value);
-		//		}
-		//
-		//		public static bool GetHasChildren(UIElement element)
-		//		{
-		//			return (bool) element.GetValue(HasChildrenProperty);
-		//		}
+
+
 	}
 
 	public class DetailRowTemplateSelector : DataTemplateSelector

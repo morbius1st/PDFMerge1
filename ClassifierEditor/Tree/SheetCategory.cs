@@ -89,7 +89,14 @@ namespace ClassifierEditor.Tree
 
 			set
 			{
-				pattern = new Regex(value);
+				try
+				{
+					pattern = new Regex(value);
+				}
+				catch 
+				{
+					pattern = new Regex("invalid");
+				}
 				OnPropertyChange();
 			}
 		}
@@ -104,7 +111,6 @@ namespace ClassifierEditor.Tree
 
 		public void NotifyChange()
 		{
-			OnPropertyChange("keyCode");
 			OnPropertyChange("Title");
 			OnPropertyChange("Description");
 			OnPropertyChange("Pattern");

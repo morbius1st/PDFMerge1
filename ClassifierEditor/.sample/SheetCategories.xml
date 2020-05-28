@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStore xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-05-25 - 22:10 -07:00</SaveDateTime>
+    <SaveDateTime>2020-05-25 - 16:12 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <SystemVersion>6.1</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
@@ -24,8 +24,8 @@
       <SubCategories>
         <TreeNode z:Id="i4">
           <Item z:Id="i5">
-            <Title>node title 00:00:00</Title>
-            <Description>node description</Description>
+            <Title>Cover</Title>
+            <Description>Cover Sheets</Description>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
@@ -37,8 +37,8 @@
         </TreeNode>
         <TreeNode z:Id="i6">
           <Item z:Id="i7">
-            <Title>node title 01:00:01</Title>
-            <Description>node description</Description>
+            <Title>General</Title>
+            <Description>General Sheets</Description>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
@@ -50,8 +50,8 @@
         </TreeNode>
         <TreeNode z:Id="i8">
           <Item z:Id="i9">
-            <Title>node title 02:00:02</Title>
-            <Description>node description</Description>
+            <Title>Civil</Title>
+            <Description>Civil Sheets</Description>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
@@ -63,8 +63,8 @@
         </TreeNode>
         <TreeNode z:Id="i10">
           <Item z:Id="i11">
-            <Title>node title 03:00:03</Title>
-            <Description>node description</Description>
+            <Title>Architectural</Title>
+            <Description>Architectural Sheets</Description>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
@@ -76,8 +76,8 @@
         </TreeNode>
         <TreeNode z:Id="i12">
           <Item z:Id="i13">
-            <Title>node title 04:00:04</Title>
-            <Description>node description</Description>
+            <Title>Structural</Title>
+            <Description>Structural Sheets</Description>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />

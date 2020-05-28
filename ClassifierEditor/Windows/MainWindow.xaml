@@ -6,11 +6,12 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:support="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:tree="clr-namespace:ClassifierEditor.Tree"
 		x:Name="MainWin"
 		Title="MainWindow"
-		Width="1000"
+		Width="800"
 		Height="650"
 		MinWidth="900"
 		FontFamily="Tahoma"
@@ -112,7 +113,36 @@
 				<Setter Property="Padding" Value="6,2,4,2" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="IsEnabled" Value="false" />
+				<Setter Property="MaxLines" Value="1" />
+
+				<Style.Triggers>
+					<DataTrigger
+							Binding="{Binding IsSelected}"
+							Value="true"
+							>
+						<Setter Property="IsEnabled" Value="true" />
+					</DataTrigger>
+				</Style.Triggers>
 			</Style>
+
+			<Style
+					x:Key="Style.Edit.TextBox.Label"
+					TargetType="{x:Type Label}"
+					>
+				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="Foreground">
+					<Setter.Value>
+						<SolidColorBrush Color="{StaticResource Gray.400}" />
+					</Setter.Value>
+				</Setter>
+				<Setter Property="Margin" Value="4,0" />
+				<Setter Property="Padding" Value="6,2,4,2" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+			</Style>
+
 
 
 			<Style x:Key="TreeViewItemFocusVisual">
@@ -202,7 +232,7 @@
 				<Style.Triggers>
 					<MultiDataTrigger>
 						<MultiDataTrigger.Conditions>
-							<Condition Binding="{Binding Source={x:Static local:MainWindow.TreeRoot}, Path=HasSelection}" Value="true" />
+							<Condition Binding="{Binding Source={x:Static local:MainWindow.BaseOfTreeRoot}, Path=HasSelection}" Value="true" />
 							<Condition Binding="{Binding Path=IsSelected}" Value="false" />
 						</MultiDataTrigger.Conditions>
 						<Setter Property="IsEnabled" Value="true" />
@@ -219,7 +249,7 @@
 				</Setter>
 				<Style.Triggers>
 					<DataTrigger
-							Binding="{Binding Source={x:Static local:MainWindow.TreeRoot},
+							Binding="{Binding Source={x:Static local:MainWindow.BaseOfTreeRoot},
 																Path=HasSelection}"
 							Value="true"
 							>
@@ -880,6 +910,51 @@
 				</Style.Triggers>
 			</Style>
 
+			<Style
+					x:Key="Dg.Cell.Base"
+					TargetType="DataGridCell"
+					>
+				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="BorderBrush" Value="Transparent"/>
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+			</Style>
+			
+			<Style
+					x:Key="Dg.Row.Base"
+					TargetType="DataGridRow"
+					>
+				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="BorderBrush" Value="Transparent"/>
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+			</Style>
+
+
+
+
+
+			<ControlTemplate x:Key="PatternError">
+				<DockPanel>
+					<AdornedElementPlaceholder DockPanel.Dock="Top" />
+					<Border
+							CornerRadius="5"
+							DockPanel.Dock="Bottom"
+							Background="{StaticResource Edit.TextBox.Background}"
+							BorderThickness="0.5"
+							BorderBrush="Red"
+							>
+						<Label
+								Content="Not a valid pattern"
+								DockPanel.Dock="Bottom"
+								Style="{StaticResource Style.Edit.TextBox.Label}"
+								/>
+					</Border>
+				</DockPanel>
+			</ControlTemplate>
+
 
 			<ControlTemplate
 					x:Key="Tv1ScrollViewerControlTemplate1"
@@ -1030,8 +1105,8 @@
 								Width="20"
 								Padding="0,0,0,2"
 								HorizontalAlignment="Right"
-								HorizontalContentAlignment="Right"
 								VerticalAlignment="Bottom"
+								HorizontalContentAlignment="Right"
 								FontSize="6"
 								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
 								/>
@@ -1078,193 +1153,40 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" MinWidth="400" />
 			<ColumnDefinition Width="400" />
-			<ColumnDefinition Width="250" />
-			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="90" />
+			<ColumnDefinition Width="0" />
+			<ColumnDefinition Width="0" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="4*" />
-			<RowDefinition Height="1*" />
 			<RowDefinition Height="48" />
+
 		</Grid.RowDefinitions>
 
-		<!-- <StackPanel -->
-		<!-- 		Grid.Column="0" -->
-		<!-- 		Grid.Row="2" -->
-		<!-- 		Orientation="Vertical" -->
-		<!-- 		> -->
-		<!-- 	<Label -->
-		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
-		<!-- 												Path=SelectedNode.Item.Title, -->
-		<!-- 												FallbackValue='no title'}" -->
-		<!-- 			FontSize="12" -->
-		<!-- 			Foreground="White" -->
-		<!-- 			/> -->
-		<!-- -->
-		<!-- 	<Label -->
-		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
-		<!-- 												Path=HasSelection}" -->
-		<!-- 			FontSize="12" -->
-		<!-- 			Foreground="White" -->
-		<!-- 			/> -->
-		<!-- -->
-		<!-- 	<Label -->
-		<!-- 			Content="{Binding Source={x:Static local:MainWindow.TreeRoot}, -->
-		<!-- 												Path=SelectedNode.IsExpanded, -->
-		<!-- 												FallbackValue='false'}" -->
-		<!-- 			FontSize="12" -->
-		<!-- 			Foreground="White" -->
-		<!-- 			> -->
-		<!-- 	</Label> -->
-		<!-- -->
-		<!-- </StackPanel> -->
-
-
-
-
-		<!--    -->
-		<!--  <Button  -->
-		<!--  x:Name="BtnFloatWin"  -->
-		<!--  Content="Floater"  -->
-		<!--  Grid.Column="2"  -->
-		<!--  Grid.Row="2"  -->
-		<!--  Margin="10"  -->
-		<!--  Width="48"  -->
-		<!--  Height="20"  -->
-		<!--  HorizontalAlignment="Right"  -->
-		<!--  VerticalAlignment="Bottom"  -->
-		<!--  Click="BtnFloatWin_OnClick"  -->
-		<!--  />  -->
-		<!--    -->
-		<!--  <Button  -->
-		<!--  x:Name="BtnPopupWin"  -->
-		<!--  Content="Popup"  -->
-		<!--  Grid.Column="2"  -->
-		<!--  Grid.Row="2"  -->
-		<!--  Margin="10,10,10,40"  -->
-		<!--  Width="48"  -->
-		<!--  Height="20"  -->
-		<!--  HorizontalAlignment="Right"  -->
-		<!--  VerticalAlignment="Bottom"  -->
-		<!--  Click="BtnPopupWin_OnClick"  -->
-		<!--  />  -->
-		<!--    -->
-		<!--  <Label  -->
-		<!--  x:Name="LblPopupWin"  -->
-		<!--  Content="{Binding Item.Title,  -->
-		<!--  FallbackValue='nothing'}"  -->
-		<!--  Grid.Column="2"  -->
-		<!--  Grid.Row="2"  -->
-		<!--  Margin="10,10,80,40"  -->
-		<!--  Width="100"  -->
-		<!--  Height="20"  -->
-		<!--  Padding="0"  -->
-		<!--  HorizontalAlignment="Right"  -->
-		<!--  VerticalAlignment="Bottom"  -->
-		<!--  DataContext="{Binding ElementName=Tvz,  -->
-		<!--  Path=SelectedValue}"  -->
-		<!--  Foreground="White"  -->
-		<!--  />  -->
-		<!--    -->
-		<!--  <TextBlock  -->
-		<!--  x:Name="TbkPopupWinStatus"  -->
-		<!--  Grid.Column="2"  -->
-		<!--  Grid.Row="2"  -->
-		<!--  Margin="10,10,80,10"  -->
-		<!--  Width="100"  -->
-		<!--  Height="20"  -->
-		<!--  Padding="0"  -->
-		<!--  HorizontalAlignment="Right"  -->
-		<!--  VerticalAlignment="Bottom"  -->
-		<!--  DataContext="{Binding ElementName=Tvz,  -->
-		<!--  Path=SelectedValue}"  -->
-		<!--  Text="not open"  -->
-		<!--  Foreground="White"  -->
-
-		<!--  <TreeView  -->
-		<!--  x:Name="Tvx"  -->
-		<!--  Grid.Column="2"  -->
-		<!--  Grid.Row="1"  -->
-		<!--  Margin="5"  -->
-		<!--  HorizontalAlignment="Stretch"  -->
-		<!--  HorizontalContentAlignment="Stretch"  -->
-		<!--  d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"  -->
-		<!--  DataContext="{Binding ElementName=MainWin,  -->
-		<!--  Path=Categories.TreeBase}"  -->
-		<!--  ScrollViewer.HorizontalScrollBarVisibility="Visible"  -->
-		<!--  ScrollViewer.VerticalScrollBarVisibility="Visible"  -->
-		<!--  Background="{StaticResource TreeView.Background}"  -->
-		<!--  ItemContainerStyle="{DynamicResource TvxItemContainerStyle1}"  -->
-		<!--  ItemTemplate="{DynamicResource TvxItemTemplate}"  -->
-		<!--  ItemsSource="{Binding Children}"  -->
-		<!--  Style="{StaticResource Tv1Style1}"  -->
-		<!--  >  -->
-		<!--    -->
-		<!--    -->
-		<!--  <Popup  -->
-		<!--  x:Name="TvSelect"  -->
-		<!--  Grid.Column="1"  -->
-		<!--  Grid.Row="1"  -->
-		<!--  Width="100"  -->
-		<!--  Height="200"  -->
-		<!--  AllowsTransparency="True"  -->
-		<!--  Closed="TvSelect_Closed"  -->
-		<!--  HorizontalOffset="0"  -->
-		<!--  Opened="TvSelect_Opened"  -->
-		<!--  Placement="Bottom"  -->
-		<!--  PlacementTarget="{Binding ElementName=BtnPopupWin}"  -->
-		<!--  StaysOpen="False"  -->
-		<!--  VerticalOffset="0"  -->
-		<!--  Visibility="Collapsed"  -->
-		<!--  >  -->
-		<!--    -->
-		<!--  <TreeView  -->
-		<!--  x:Name="Tvz"  -->
-		<!--  Margin="0"  -->
-		<!--  HorizontalAlignment="Stretch"  -->
-		<!--  HorizontalContentAlignment="Stretch"  -->
-		<!--  d:DataContext="{Binding Source={x:Static local:MainWindow.RootNode}}"  -->
-		<!--  DataContext="{Binding ElementName=MainWin,  -->
-		<!--  Path=Categories.TreeBase}"  -->
-		<!--  MouseDoubleClick="Tvz_OnMouseDoubleClick"  -->
-		<!--  ScrollViewer.HorizontalScrollBarVisibility="Visible"  -->
-		<!--  ScrollViewer.VerticalScrollBarVisibility="Visible"  -->
-		<!--  Background="{StaticResource TreeView.Background}"  -->
-		<!--  ItemContainerStyle="{DynamicResource TvxItemContainerStyle1}"  -->
-		<!--  ItemTemplate="{DynamicResource TvxItemTemplate}"  -->
-		<!--  ItemsSource="{Binding Children}"  -->
-		<!--  Style="{StaticResource Tv1Style1}"  -->
-		<!--  >  -->
-		<!--    -->
-		<!-- 	</TreeView> -->
-		<!-- </Popup> -->
-
-		<!--  />  -->
-
-		<Button
-				x:Name="BtnDebug"
-				Content="Debug"
-				Grid.Column="1"
-				Grid.Row="2"
-				Margin="10"
-				Width="{StaticResource Normal.Button.Width}"
-				Height="{StaticResource Normal.Button.Height}"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Bottom"
-				Click="BtnDebug_OnClick"
-				Style="{StaticResource Button.Normal.Style}"
-				Template="{StaticResource Button.Normal.ControlTemplate}"
-				/>
 		<StackPanel
 				Grid.Column="1"
-				Grid.Row="3"
+				Grid.Row="2"
 				Margin="5"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Bottom"
 				Orientation="Horizontal"
 				>
+
+			<Button
+					x:Name="BtnDebug"
+					Content="Debug"
+					Margin="5"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnDebug_OnClick"
+					Style="{StaticResource Button.Normal.Style}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					/>
+
 
 			<Button
 					x:Name="BtnDSave"
@@ -1312,7 +1234,7 @@
 				Grid.Row="1"
 				Margin="5,6,5,5"
 				HorizontalAlignment="Stretch"
-				VerticalAlignment="Top"
+				VerticalAlignment="Stretch"
 				DataContext="{Binding SelectedValue,
 															ElementName=Tv1}"
 				>
@@ -1330,14 +1252,27 @@
 				<RowDefinition Height="26" />
 				<RowDefinition Height="26" />
 				<RowDefinition Height="6" />
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="36" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="36" />
-				<RowDefinition Height="36" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="36" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+
+
 			</Grid.RowDefinitions>
+
+			<Button
+					x:Name="BtnTest"
+					Content="Test Pattern"
+					Grid.Column="0"
+					Grid.Row="5"
+					Margin="5"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					FontSize="10"
+					Click="BtnTest_OnClick"
+					Style="{StaticResource Button.Normal.Style}"
+					/>
 
 			<Label
 					Content="Selected Category"
@@ -1364,7 +1299,8 @@
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Title,
 												 FallbackValue=Nothing Selected,
-												 Mode=OneWay}"
+												 Mode=TwoWay}"
+					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource Style.Edit.TextBox}"
 					/>
 
@@ -1381,7 +1317,8 @@
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Description,
 												 FallbackValue='',
-												 Mode=OneWay}"
+												 Mode=TwoWay}"
+					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource Style.Edit.TextBox}"
 					/>
 
@@ -1393,207 +1330,60 @@
 					/>
 
 			<TextBox
+					x:Name="TbxPattern"
 					Grid.Column="1"
 					Grid.Row="3"
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Pattern,
 												 FallbackValue='',
-												 Mode=OneWay}"
-					Style="{StaticResource Style.Edit.TextBox}"
-					/>
+												 Mode=TwoWay}"
+					TextChanged="TbxPattern_OnTextChanged"
+					Validation.ErrorTemplate="{StaticResource PatternError}"
+					>
 
-			<!--    -->
-			<!--  <Label  -->
-			<!--  Content="{Binding ElementName=MainWin,  -->
-			<!--  Path=ContextSelected.Item.Title,  -->
-			<!--  FallbackValue='nothing selected'}"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="6"  -->
-			<!--  Grid.ColumnSpan="2"  -->
-			<!--  Foreground="White"  -->
-			<!--  >  -->
-			<!-- </Label> -->
-			<!--    -->
-			<!--  <Label  -->
-			<!--  x:Name="commandx"  -->
-			<!--  Content="no command"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="7"  -->
-			<!--  Grid.ColumnSpan="2"  -->
-			<!--  Foreground="White"  -->
-			<!--  >  -->
-			<!-- </Label> -->
+				<TextBox.Style>
+					<Style
+							TargetType="TextBox"
+							BasedOn="{StaticResource Style.Edit.TextBox}"
+							>
+						<Setter Property="IsEnabled" Value="False" />
+						<Style.Triggers>
+							<Trigger Property="Validation.HasError" Value="True">
+								<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</TextBox.Style>
+			</TextBox>
+
+			<DataGrid
+					Grid.Column="0"
+					Grid.Row="6"
+					Grid.ColumnSpan="3"
+					AutoGenerateColumns="False"
+					GridLinesVisibility="Horizontal"
+					HorizontalGridLinesBrush="Aquamarine"
+					d:DataContext="{Binding Source={x:Static local:MainWindow.FileList2}, Path=Files}"
+					DataContext="{Binding ElementName=MainWin,
+																Path=FileList.Files}"
+					HeadersVisibility="None"
+					Background="{StaticResource Edit.TextBox.Background}"
+					ItemsSource="{Binding}"
+					CellStyle="{StaticResource Dg.Cell.Base}"
+					BorderThickness="1"
+					RowStyle="{StaticResource Dg.Row.Base}"
+					>
+				<DataGrid.Columns>
+					<DataGridTextColumn 
+							Width="*"
+							CellStyle="{StaticResource Dg.Cell.Base}"
+							Binding="{Binding Path=FilePathInfo.FileName.Name}" />
+
+				</DataGrid.Columns>
+			</DataGrid>
 
 
-			<!--    -->
-			<!--  <Label Content="Add"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="5"  -->
-			<!--  Grid.ColumnSpan="3"  -->
-			<!--  Margin="0,0,0,0"  -->
-			<!--  Padding="2,2,2,2"  -->
-			<!--  FontSize="10"  -->
-			<!--  Background="{StaticResource Win.Title.Background}"  -->
-			<!--  Foreground="White" />  -->
-			<!--    -->
-			<!--  <Button x:Name="BtnAddSubCat"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="6"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10"  -->
-			<!--  Content="Sub-Category">  -->
-			<!-- </Button> -->
-			<!--    -->
-			<!--  <Button x:Name="BtnAddCatBefore"  -->
-			<!--  Grid.Column="1"  -->
-			<!--  Grid.Row="6"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10">  -->
-			<!-- 	<Button.Content> -->
-			<!-- 		<StackPanel> -->
-			<!--  <Label Content="Category"  -->
-			<!--  Margin="0,0,0,-2"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!--  <Label Content="Before"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!-- 		</StackPanel> -->
-			<!-- 	</Button.Content> -->
-			<!-- </Button> -->
-			<!--    -->
-			<!--  <Button x:Name="BtnAddCatAfter"  -->
-			<!--  Grid.Column="2"  -->
-			<!--  Grid.Row="6"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10">  -->
-			<!-- 	<Button.Content> -->
-			<!-- 		<StackPanel> -->
-			<!--  <Label Content="Category"  -->
-			<!--  Margin="0,0,0,-2"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!--  <Label Content="After"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!-- 		</StackPanel> -->
-			<!-- 	</Button.Content> -->
-			<!-- </Button> -->
-			<!--    -->
-			<!--~1~#region > Move  @1@-->
-			<!--    -->
-			<!--  <Label Content="Move"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="7"  -->
-			<!--  Grid.ColumnSpan="3"  -->
-			<!--  Margin="0,0,0,0"  -->
-			<!--  Padding="2,1,2,1"  -->
-			<!--  FontSize="10"  -->
-			<!--  Background="{StaticResource Win.Title.Background}"  -->
-			<!--  Foreground="White" />  -->
-			<!--    -->
-			<!--  <Button x:Name="BtnMoveCatBefore"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="8"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10">  -->
-			<!-- 	<Button.Content> -->
-			<!-- 		<StackPanel> -->
-			<!--  <Label Content="Category"  -->
-			<!--  Margin="0,0,0,-2"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!--  <Label Content="Before"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!-- 		</StackPanel> -->
-			<!-- 	</Button.Content> -->
-			<!-- </Button> -->
-			<!--    -->
-			<!--  <Button x:Name="BtnMoveCatAfter"  -->
-			<!--  Grid.Column="1"  -->
-			<!--  Grid.Row="8"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10">  -->
-			<!-- 	<Button.Content> -->
-			<!-- 		<StackPanel> -->
-			<!--  <Label Content="Category"  -->
-			<!--  Margin="0,0,0,-2"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!--  <Label Content="After"  -->
-			<!--  Padding="0"  -->
-			<!--  HorizontalAlignment="Center"  -->
-			<!--  FontSize="10" />  -->
-			<!-- 		</StackPanel> -->
-			<!-- 	</Button.Content> -->
-			<!-- </Button> -->
-			<!--    -->
-			<!--  <TextBlock Foreground="white"  -->
-			<!--  Padding="0,3,0,0"  -->
-			<!--    -->
-			<!--  Background="#44444444"  -->
-			<!--  Text="Move Before or&#x0a;After Category"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="9"  -->
-			<!--  Margin="4,0,4,4"  -->
-			<!--    -->
-			<!--  FontSize="10"  -->
-			<!--  ScrollViewer.CanContentScroll="True">  -->
-			<!--    -->
-			<!-- </TextBlock> -->
-			<!--    -->
-			<!--    -->
-			<!--~1~#endregion @1@-->
-			<!--  <Label Content="Delete"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="10"  -->
-			<!--  Grid.ColumnSpan="3"  -->
-			<!--  Margin="0,0,0,0"  -->
-			<!--  Padding="2,1,2,1"  -->
-			<!--  FontSize="10"  -->
-			<!--  Background="{StaticResource Win.Title.Background}"  -->
-			<!--  Foreground="White" />  -->
-			<!--    -->
-			<!--  <Button Content="Delete"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="11"  -->
-			<!--  Margin="4"  -->
-			<!--  Height="26"  -->
-			<!--  FontSize="10" />  -->
 
-			<!--    -->
-			<!--  <Label Content="Selected Category"  -->
-			<!--  Grid.Column="0"  -->
-			<!--  Grid.Row="4"  -->
-			<!--  Grid.ColumnSpan="2"  -->
-			<!--  Margin="0,15,0,6"  -->
-			<!--  Padding="2,1,2,4"  -->
-			<!--  FontSize="11"  -->
-			<!--  Background="{StaticResource Win.Title.Background}"  -->
-			<!--  Foreground="White" />  -->
-
-			<!--
-				functions
-				1. delete
-				2. add before
-				3. add after
-				4. add child
-				5. move after
-				6. move before
-			-->
 
 
 		</Grid>
@@ -1607,7 +1397,7 @@
 				Margin="5"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				d:DataContext="{Binding Source={x:Static local:MainWindow.TreeRoot}}"
+				d:DataContext="{Binding Source={x:Static local:MainWindow.BaseOfTreeRoot}}"
 				DataContext="{Binding Categories.TreeBase,
 															ElementName=MainWin}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"

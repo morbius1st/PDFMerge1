@@ -7,8 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+
 using Tests.Debug;
 using Tests.Sequence;
+
 using UtilityLibrary;
 
 
@@ -188,15 +190,42 @@ namespace Tests
 			FilePath<FileNameAsSheetFile> fx;
 
 			// sample for documentation
-			ListFilePath(new FilePath<FileNameSimple>(@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt"));
+			ListFilePath(new FilePath<FileNameAsSheetFile>(@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt"));
+						// special - folder name looks like a file name (this is a folder)
+			fx = new FilePath<FileNameAsSheetFile>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
+			ListFilePath(fx);
+			// special - file has no extension and folder name has an extension
+			fx = new FilePath<FileNameAsSheetFile>(
+				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf");
+			ListFilePath(fx);
+			// special - file has extension but no filename and folder name has an extension
+			fx = new FilePath<FileNameAsSheetFile>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(
+				@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(
+				@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(
+				@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(
+				@"\\cs-006\OneDrive\Prior GetFolders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
+			ListFilePath(fx);
+			fx = new FilePath<FileNameAsSheetFile>(@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
+			ListFilePath(fx);
+
 
 			// special - folder name looks like a file name (this is a folder)
 			f = new FilePath<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
 			ListFilePath(f);
 			// special - file has no extension and folder name has an extension
-			fx = new FilePath<FileNameAsSheetFile>(
+			f = new FilePath<FileNameSimple>(
 				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf");
-			ListFilePath(fx);
+			ListFilePath(f);
 			// special - file has extension but no filename and folder name has an extension
 			f = new FilePath<FileNameSimple>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
 			ListFilePath(f);

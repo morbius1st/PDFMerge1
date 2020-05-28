@@ -18,6 +18,7 @@ namespace SettingsManager
 		public override string DataClassVersion => "6.0u";
 		public override string Description => "user setting file for SettingsManagerV60";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+
 	}
 
 #endregion
@@ -31,6 +32,18 @@ namespace SettingsManager
 	{
 		[DataMember(Order = 1)]
 		public int UserSettingsValue { get; set; } = 6;
+
+		[DataMember(Order = 2)]
+		public string FileNameCategoryFolder { get; private set; } =
+			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor";
+
+		[DataMember(Order = 3)]
+		public string FileNameCategoryFile { get; private set; } =
+			"SheetCategories.xml";
+
+		[DataMember(Order = 4)]
+		public string FileNameTestFolder { get; private set; } =
+			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
 	}
 
 #endregion

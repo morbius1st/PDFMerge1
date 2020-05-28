@@ -58,14 +58,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
+      <Link>.Linked\CsFilePath.cs</Link>
+    </Compile>
     <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
     <Compile Include="DataRepo\SheetCategoryData.cs" />
     <Compile Include="DataRepo\StorageManager.cs" />
+    <Compile Include="FilesSupport\SampleFileList.cs" />
     <Compile Include="Tree\SheetCategory.cs" />
-    <Compile Include="Tree\SampleData.cs" />
-    <Compile Include="Tree\TreeManager.cs" />
+    <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tree\TreeNode.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
+    <Compile Include="Windows\Support\ValidationRules.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
