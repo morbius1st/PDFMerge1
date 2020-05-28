@@ -1,19 +1,13 @@
 ﻿#region using
 
-using System;
 using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
-using ClassifierEditor.SampleFiles;
 using ClassifierEditor.Tree;
-using ClassifierEditor.Windows.Support;
 using SettingsManager;
 
 #endregion
@@ -96,7 +90,7 @@ namespace ClassifierEditor.Windows
 
 		static MainWindow()
 		{
-			SampleData sd = new SampleData();
+			SampleData.SampleData sd = new SampleData.SampleData();
 			sd.Sample(BaseOfTreeRoot);
 
 			sd.SampleFiles(FileList2);

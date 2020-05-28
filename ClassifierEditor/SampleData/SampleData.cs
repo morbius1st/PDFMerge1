@@ -1,16 +1,9 @@
 ﻿#region using
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using ClassifierEditor.FilesSupport;
-using ClassifierEditor.SampleFiles;
+using ClassifierEditor.Tree;
 using UtilityLibrary;
 
 #endregion
@@ -18,7 +11,7 @@ using UtilityLibrary;
 // username: jeffs
 // created:  5/2/2020 2:06:09 PM
 
-namespace ClassifierEditor.Tree
+namespace ClassifierEditor.SampleData
 {
 	public class SampleData : INotifyPropertyChanged
 	{
