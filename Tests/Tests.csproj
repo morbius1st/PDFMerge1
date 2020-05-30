@@ -66,6 +66,8 @@
     <Compile Include="OutlineItem.cs" />
     <Compile Include="OutlineItems.cs" />
     <Compile Include=".Debug\OutlineTestData.cs" />
+    <Compile Include="PathSupport\FileNameAsSheetPdf.cs" />
+    <Compile Include="PathSupport\FileNameParseSheet.cs" />
     <Compile Include="Sequence\SeqDiscipline.cs" />
     <Compile Include="Sequence\SeqItem.cs" />
     <Compile Include="Sequence\SeqItems.cs" />
@@ -112,8 +114,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PathSupport\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 
 using Tests.Debug;
+using Tests.PathSupport;
 using Tests.Sequence;
 
 using UtilityLibrary;
@@ -188,35 +189,38 @@ namespace Tests
 
 			FilePath<FileNameSimple> f;
 			FilePath<FileNameAsSheetFile> fx;
+			FilePath<FileNameAsSheetPdf> fp;
 
 			// sample for documentation
-			ListFilePath(new FilePath<FileNameAsSheetFile>(@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt"));
-						// special - folder name looks like a file name (this is a folder)
-			fx = new FilePath<FileNameAsSheetFile>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt");
-			ListFilePath(fx);
-			// special - file has no extension and folder name has an extension
-			fx = new FilePath<FileNameAsSheetFile>(
-				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf");
-			ListFilePath(fx);
-			// special - file has extension but no filename and folder name has an extension
-			fx = new FilePath<FileNameAsSheetFile>(@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(
-				@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(
-				@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(
-				@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(
-				@"\\cs-006\OneDrive\Prior GetFolders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf");
-			ListFilePath(fx);
-			fx = new FilePath<FileNameAsSheetFile>(@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF");
-			ListFilePath(fx);
+
+			string[] files = new []
+			{
+				@"P:\FolderName 1\FolderName 2\FolderName 3\New Text Document.txt",
+				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt",
+				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\A1.00 Text Document.pdf",
+				@"P:\2099-999 Sample Project\Publish\9999 Current\Test Folder.txt\.txt",
+				@"P:\2015-491 Centercal - Long Beach\CD\00 Primary\New folder\2015-491 Centercal Long Beach Bldg B Architectural.rvt",
+				@"P:\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf",
+				@"\\cs-006\P Drive\2099-999 Sample Project\Publish\9999 Current\A  A2.1-0  - DO NOT REMOVE.pdf",
+				@"\\cs-006\OneDrive\Prior GetFolders\Office Stuff\CAD\Copy Y Drive & Office Standards\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf",
+				@"Y:\2020-010 TEST FOLDER\Publish\.Current\A  A1.1-0  - DO NOT REMOVE.pdf",
+				@"Y:\2020-010 TEST FOLDER\Publish\.Current\A A11.11A-01A.11  - DO NOT REMOVE.pdf",
+				@"\Documents\Files\021 - Household\MicroStation\0047116612.PDF"
+			};
+
+			foreach (string file in files)
+			{
+				try
+				{
+					fp = new FilePath<FileNameAsSheetPdf>(file);
+					ListFilePath(fp);
+				}
+				catch { }
+			}
+
+
+
+
 
 
 			// special - folder name looks like a file name (this is a folder)
@@ -285,6 +289,7 @@ namespace Tests
 			Type tx = f.GetFileNameObject.GetType();
 
 			FileNameAsSheetFile sht = null;
+			FileNameAsSheetPdf pdf = null;
 
 			WriteLineToLeft("\n*******\n");
 			WriteLineToLeft("type name           | " + tx.Name);
@@ -302,7 +307,7 @@ namespace Tests
 			}
 
 
-			//               x                   |
+			//ruler          x                   |
 			WriteLineToLeft("Depth               | " + f.Depth);
 			WriteLineToLeft("Length              | " + f.Length);
 			WriteLineToLeft("GetFolderCount      | " + f.GetFolderCount);
@@ -326,11 +331,75 @@ namespace Tests
 			if (tx == typeof(FileNameAsSheetFile))
 			{
 				sht = f.GetFileNameObject as FileNameAsSheetFile;
+				WriteLineToLeft("FileNameAsSheetFile | ***************************** ");
 				WriteLineToLeft("SheetNumber         | " + sht?.SheetNumber ?? "is null");
 				WriteLineToLeft("SheetName           | " + sht?.SheetName ?? "is null");
+			} 
+			else if (tx == typeof(FileNameAsSheetPdf))
+			{
+				pdf = f.GetFileNameObject as FileNameAsSheetPdf;
+
+				WriteLineToLeft("FileNameAsSheetPdf  | ***************************** ");
+
+				if (pdf == null)
+				{ 
+					WriteLineToLeft("pdf is              | null");
+				} else
+				{
+					if (pdf.FileType == FileTypeSheetPdf.SHEET_PDF)
+					{
+						//ruler          x                   |
+						WriteLineToLeft("Pdf is              | is a sheet pdf");
+
+						if (pdf.IsValid)
+						{
+							WriteLineToLeft("Name                | " + pdf?.Name ?? "is null");
+							WriteLineToLeft("Extension           | " + pdf?.Extension ?? "is null");
+							WriteLineToLeft("FileType            | " + pdf?.FileType ?? "is null");
+							WriteLineToLeft("PhaseBldg           | " + pdf?.PhaseBldg ?? "is null");
+							WriteLineToLeft("PhaseBldgSep        | " + pdf?.PhaseBldgSep ?? "is null");
+							WriteLineToLeft("SheetId             | " + pdf?.SheetId ?? "is null");
+							WriteLineToLeft("Separator           | " + pdf?.Separator ?? "is null");
+							WriteLineToLeft("SheetNumber         | " + pdf?.SheetNumber ?? "is null");
+							WriteLineToLeft("SheetTitle          | " + pdf?.SheetTitle ?? "is null");
+							WriteLineToLeft("OriginalSheetTitle  | " + pdf?.OriginalSheetTitle ?? "is null");
+
+							if (pdf.SheetIdIdsMatch)
+							{
+								//ruler          x                   |
+								WriteLineToLeft("SheetIdByComponent  | " + pdf?.SheetIdByComponent ?? "is null");
+								WriteLineToLeft("Discipline          | " + pdf?.Discipline  ?? "is null");
+								WriteLineToLeft("Category            | " + pdf?.Category    ?? "is null");
+								WriteLineToLeft("Seperator1          | " + pdf?.Seperator1  ?? "is null");
+								WriteLineToLeft("Subcategory         | " + pdf?.Subcategory ?? "is null");
+								WriteLineToLeft("Seperator2          | " + pdf?.Seperator2  ?? "is null");
+								WriteLineToLeft("Modifier            | " + pdf?.Modifier    ?? "is null");
+								WriteLineToLeft("Seperator3          | " + pdf?.Seperator3  ?? "is null");
+								WriteLineToLeft("Submodifier         | " + pdf?.Submodifier ?? "is null");
+
+							}
+							else
+							{
+								//ruler          x                   |
+								WriteLineToLeft("SheetIdsMatch       | do not match");
+								WriteLineToLeft("SheetIdByComponent  | " + pdf?.SheetIdByComponent ?? "is null");
+							}
+						}
+						else
+						{
+							WriteLineToLeft("pdf is              | not valid");
+						}
+					}
+					else
+					{
+						//ruler          x                   |
+						WriteLineToLeft("Pdf is              | not a sheet pdf");
+					}
+				}
+
 			}
 
-			WriteLineToLeft("status              | ********* ");
+			WriteLineToLeft("status              | ***************************** ");
 			WriteLineToLeft("UseUnc              | " + f.UseUnc);
 			WriteLineToLeft("HasQualifiedPath    | " + f.HasQualifiedPath);
 			WriteLineToLeft("HasUnc              | " + f.HasUnc);

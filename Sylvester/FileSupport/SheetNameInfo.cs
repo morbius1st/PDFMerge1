@@ -50,16 +50,29 @@ namespace Sylvester.FileSupport
 		protected Regex regex = new Regex(SEARCH_PATTERN_A, RegexOptions.Compiled | RegexOptions.Singleline);
 
 		protected FilePath<FileNameSimple> fullFileRoute;
+
+		protected string fileName;
+		protected string extension;
+		protected string extensionNoSeperator;
+
 		protected string phaseBldg;
 		protected string phaseBldgSep;
-		protected string sheetID;
 		protected string separator;
-		protected string originalSheetTitle;
-		protected string sheetTitle;
+		protected string sheetID;
+
 		protected string comment;
+		protected string originalSheetTitle;
+
+
+
+
+
+		protected string sheetTitle;
 		protected string adjustedSheetID;
 		protected bool selected = false;
 		private FileType fileType;
+
+		
 
 		public SheetNameInfo()
 		{
@@ -112,6 +125,9 @@ namespace Sylvester.FileSupport
 
 		public string FilePath => fullFileRoute.GetPath;
 
+
+
+
 		public string FileName => fullFileRoute.GetFileName;
 		
 		public FileType FileType
@@ -162,16 +178,6 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public string AdjustedSheetId
-		{
-			get => adjustedSheetID;
-			set
-			{
-				adjustedSheetID = value;
-				OnPropertyChange();
-			}
-		}
-
 		public string Separator
 		{
 			get => separator;
@@ -187,6 +193,17 @@ namespace Sylvester.FileSupport
 				SheetTitle = value;
 			}
 		}
+
+		public string AdjustedSheetId
+		{
+			get => adjustedSheetID;
+			set
+			{
+				adjustedSheetID = value;
+				OnPropertyChange();
+			}
+		}
+
 
 		public abstract string SheetTitle { get; set; }
 

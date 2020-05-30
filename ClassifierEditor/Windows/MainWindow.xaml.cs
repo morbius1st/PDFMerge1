@@ -9,6 +9,7 @@ using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
 using SettingsManager;
+using UtilityLibrary;
 
 #endregion
 
@@ -95,6 +96,9 @@ namespace ClassifierEditor.Windows
 
 			sd.SampleFiles(FileList2);
 
+
+			FilePath<FileNameAsSheetPdf> sheetname = new FilePath<FileNameAsSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
 
 
 		}
