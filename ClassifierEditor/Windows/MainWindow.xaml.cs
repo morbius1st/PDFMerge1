@@ -11,6 +11,7 @@ using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
 
+
 #endregion
 
 // projname: ClassifierEditor
@@ -96,14 +97,9 @@ namespace ClassifierEditor.Windows
 
 			sd.SampleFiles(FileList2);
 
-
-			FilePath<FileNameAsSheetPdf> sheetname = new FilePath<FileNameAsSheetPdf>(
+			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
 				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
-
-
 		}
-
-		
 
 		public MainWindow()
 		{
@@ -192,6 +188,8 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			SuiteSettings.Admin.Read();
+
 			UserSettings.Admin.Read();
 
 			categories.Configure(UserSettings.Data.FileNameCategoryFolder,
@@ -200,7 +198,7 @@ namespace ClassifierEditor.Windows
 //			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor",
 //				"SheetCategories.xml");
 //
-//			SampleData sd = new SampleData();
+//			SampleData.SampleData sd = new SampleData.SampleData();
 //
 //			sd.Sample(categories.TreeBase);
 //
@@ -469,6 +467,11 @@ namespace ClassifierEditor.Windows
 		{
 			categories.Write();
 		}
+		
+		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e)
+		{
+			
+		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -499,10 +502,14 @@ namespace ClassifierEditor.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-	#endregion
 
 
+		#endregion
 
+		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
 	}
 
 	public class DetailRowTemplateSelector : DataTemplateSelector

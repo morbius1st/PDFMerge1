@@ -64,9 +64,13 @@
     <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
     <Compile Include="DataRepo\SheetCategoryData.cs" />
     <Compile Include="DataRepo\StorageManager.cs" />
-    <Compile Include="FilesSupport\FileNameAsSheetPdf.cs" />
-    <Compile Include="FilesSupport\FileNameParseSheet.cs" />
+    <Compile Include="FilesSupport\FileNameSheetComponents.cs" />
+    <Compile Include="FilesSupport\FileNameSheetPdf.cs" />
+    <Compile Include="FilesSupport\FileNameSheetParser.cs" />
     <Compile Include="FilesSupport\SampleFileList.cs" />
+    <Compile Include="Settings\SettingsMgr.-v70.cs" />
+    <Compile Include="Settings\SuiteSettings70.cs" />
+    <Compile Include="Tree\ComparisonOperation.cs" />
     <Compile Include="Tree\SheetCategory.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tree\TreeNode.cs" />
@@ -89,9 +93,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Settings\AppSettings61.cs" />
-    <Compile Include="Settings\SettingsMgr.-v61.cs" />
-    <Compile Include="Settings\UserSettings61.cs" />
+    <Compile Include="Settings\AppSettings70.cs" />
+    <Compile Include="Settings\UserSettings70.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

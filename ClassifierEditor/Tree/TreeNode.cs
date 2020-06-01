@@ -1,18 +1,10 @@
 ﻿#region using directives
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 #endregion
@@ -70,6 +62,9 @@ namespace ClassifierEditor.Tree
 		protected ListCollectionView childrenView;
 
 		protected TreeNode parent;
+		private int depth;
+
+
 		protected CheckedState checkedState = CheckedState.UNCHECKED;
 		protected CheckedState triState = CheckedState.UNSET;
 		protected bool isExpanded;
@@ -90,7 +85,7 @@ namespace ClassifierEditor.Tree
 
 
 		// static
-		private static int masterUniqueId = 0;
+		protected static int masterUniqueId = 0;
 
 	#endregion
 
@@ -101,6 +96,7 @@ namespace ClassifierEditor.Tree
 			
 			Children = new ObservableCollection<TreeNode>();
 			this.parent = parent;
+			this.depth = parent.depth + 1;
 			this.item = item;
 			this.isExpanded = isExpanded;
 
@@ -111,10 +107,21 @@ namespace ClassifierEditor.Tree
 
 		public TreeNode() : this(null, null, false) { }
 
+		protected  TreeNode(SheetCategory item, bool isExpanded)
+		{
+			Children = new ObservableCollection<TreeNode>();
+			this.item = item;
+			this.isExpanded = isExpanded;
+
+			UniqueId = masterUniqueId++;
+
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+
+		}
+
 	#endregion
 
 	#region public properties
-
 
 
 		// the actual tree data item
@@ -142,7 +149,6 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-
 		[DataMember(Order = 4)]
 		public TreeNode Parent
 		{
@@ -152,6 +158,13 @@ namespace ClassifierEditor.Tree
 				parent = value;
 				OnPropertyChange();
 			}
+		}
+
+		[DataMember(Order = 5)]
+		public int Depth
+		{
+			get => depth;
+			set => depth = value;
 		}
 
 		[DataMember(Order = 5)]
@@ -220,13 +233,11 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-
 		[IgnoreDataMember]
 		public ICollectionView ChildrenView
 		{
 			get { return childrenView; }
 		}
-
 
 		[IgnoreDataMember]
 		public int UniqueId
@@ -238,9 +249,7 @@ namespace ClassifierEditor.Tree
 				OnPropertyChange();
 			}
 		}
-
-
-
+		
 		public bool HasChildren => ChildCount > 0;
 
 		public int ChildCount => Children?.Count ?? 0;
@@ -322,11 +331,15 @@ namespace ClassifierEditor.Tree
 
 		public void InitializeAllChildrenView()
 		{
+			uniqueId = masterUniqueId++;
+
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 //			childrenView.CustomSort = new ChildrenSorter();
 
 			foreach (TreeNode node in Children)
 			{
+				
+
 				node.InitializeAllChildrenView();
 			}
 		}
@@ -678,15 +691,14 @@ namespace ClassifierEditor.Tree
 
 	#region ctor
 
-		public BaseOfTree() : base(null, new SheetCategory("BaseOfTree", null, null), false)
+		public BaseOfTree() : base(new SheetCategory("BaseOfTree", null, null), false)
 		{
-			
+			masterUniqueId = 0;
 		}
 
 		public void Initalize()
 		{
-//			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
-			
+
 			InitializeAllChildrenView();
 
 		}
@@ -725,7 +737,6 @@ namespace ClassifierEditor.Tree
 
 			NotifyChildrenChange();
 
-
 		}
 
 		public void AddNewChild2(TreeNode contextNode)
@@ -737,6 +748,7 @@ namespace ClassifierEditor.Tree
 
 		public void AddChild2(TreeNode contextNode, TreeNode toAddNode)
 		{
+			toAddNode.Depth = ++contextNode.Depth;
 			contextNode.Children.Add(toAddNode);
 
 			NotifyChildrenChange();
@@ -754,6 +766,7 @@ namespace ClassifierEditor.Tree
 		// adds without notifying of the revision
 		public void AddBefore2(TreeNode contextNode, TreeNode toAddNode)
 		{
+			toAddNode.Depth = ++contextNode.Depth;
 			TreeNode parent = contextNode.Parent;
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode));
 		}
@@ -771,28 +784,50 @@ namespace ClassifierEditor.Tree
 		public void AddAfter2(TreeNode contextNode, TreeNode toAddNode)
 		{
 			TreeNode parent = contextNode.Parent;
+			toAddNode.Depth = parent.Depth + 1;
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode) + 1);
 		}
 
 		public void AddNode(TreeNode node)
 		{
+			node.Depth = node.Parent.Depth + 1;
+
 			node.Parent.Children.Add(node);
 		}
 
+		/// <summary>
+		/// move the existing node before the context selected node
+		/// </summary>
+		/// <param name="contextNode">the selected node</param>
+		/// <param name="existingNode">the existing node being relocated</param>
 		public void MoveBefore(TreeNode contextNode, TreeNode existingNode)
 		{
+			existingNode.Depth = contextNode.Depth;
+
 			moveNode2(contextNode, existingNode, NodePlacement.BEFORE);
 
 			NotifyChildrenChange();
 		}
 
+		/// <summary>
+		/// move the existing node after the context selected node
+		/// </summary>
+		/// <param name="contextNode">the selected node</param>
+		/// <param name="existingNode">the existing node being relocated</param>
 		public void MoveAfter(TreeNode contextNode, TreeNode existingNode)
 		{
+			existingNode.Depth = contextNode.Depth;
+
 			moveNode2(contextNode, existingNode, NodePlacement.AFTER);
 
 			NotifyChildrenChange();
 		}
 
+		/// <summary>
+		/// move the existing node to be a child of the selected node
+		/// </summary>
+		/// <param name="contextNode">the selected node</param>
+		/// <param name="existingNode">the node being relocated</param>
 		public void MoveAsChild(TreeNode contextNode, TreeNode existingNode)
 		{
 			moveAsChild2(contextNode, existingNode);

@@ -1,5 +1,10 @@
 ﻿#region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
@@ -9,30 +14,34 @@ using UtilityLibrary;
 // username: jeffs
 // created:  5/27/2020 10:53:23 PM
 
-namespace Tests.PathSupport
-{
-//	public enum FileTypeSheetPdf
-//	{
-//		SHEET_PDF,
-//		NON_SHEET_PDF,
-//		OTHER
-//	}
+/*
+	path
 
-	public class FileNameAsSheetPdf : AFileName, INotifyPropertyChanged
+	FilePath<FileNameSheetPdf>
+	+-> FileNameSheetPdf
+		+-> FileNameSheetComponents (fnc)
+			+-> FileNameSheetParser(FileNameSheetComponents)
+
+*/
+
+namespace ClassifierEditor.FilesSupport
+{
+
+	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
 	{
 	#region private fields
 
-		private bool selected = false;
-		private FileNameComponentsPDF fnc;
+		private FileNameSheetComponents fnc;
 
 		// flags
 		private bool parsed = false;
+		private bool selected = false;
 
 	#endregion
 
 	#region ctor
 
-		public FileNameAsSheetPdf() { }
+		public FileNameSheetPdf() { }
 
 	#endregion
 
@@ -66,14 +75,14 @@ namespace Tests.PathSupport
 		// sheet number and name parse
 		public FileTypeSheetPdf FileType => fnc?.fileType ?? FileTypeSheetPdf.OTHER;
 
-		public string SheetName => SheetNumber + " :: " + SheetTitle;
-		public string SheetNumber => fnc.phaseBldg + fnc.phaseBldgSep + (fnc.sheetID ?? "n/a");
-		public string SheetTitle => fnc.sheetTitle;
-		public string PhaseBldg=> fnc.phaseBldg;
-		public string PhaseBldgSep=> fnc.phaseBldgSep;
-		public string SheetId => fnc.sheetID;
-		public string Separator=> fnc.separator;
-		public string OriginalSheetTitle=> fnc.originalSheetTitle;
+		public string SheetName          => SheetNumber + " :: " + SheetTitle;
+		public string SheetNumber        => fnc.phaseBldg + fnc.phaseBldgSep + (fnc.sheetID ?? "n/a");
+		public string SheetTitle         => fnc.sheetTitle;
+		public string PhaseBldg          => fnc.phaseBldg;
+		public string PhaseBldgSep       => fnc.phaseBldgSep;
+		public string SheetId            => fnc.sheetID;
+		public string Separator          => fnc.separator;
+		public string OriginalSheetTitle => fnc.originalSheetTitle;
 
 		public bool Selected
 		{
@@ -84,6 +93,7 @@ namespace Tests.PathSupport
 				OnPropertyChange();
 			}
 		}
+
 
 		public bool IsValid => !Name.IsVoid() && !Extension.IsVoid();
 
@@ -125,6 +135,7 @@ namespace Tests.PathSupport
 			}
 		}
 
+
 	#endregion
 
 	#region private properties
@@ -141,9 +152,7 @@ namespace Tests.PathSupport
 		{
 			if (parsed || filename.IsVoid() || fileextension.IsVoid()) return false;
 
-			fnc = new FileNameComponentsPDF(filename, fileextension);
-
-//			bool result = FileNameParseSheet.Instance.Parse(fnc, filename);
+			fnc = new FileNameSheetComponents(filename, fileextension);
 
 			if (fnc.success)
 			{
@@ -173,7 +182,6 @@ namespace Tests.PathSupport
 			OnPropertyChange("Modifier");
 			OnPropertyChange("Seperator3");
 			OnPropertyChange("Submodifier");
-
 		}
 
 	#endregion

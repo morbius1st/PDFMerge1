@@ -20,8 +20,8 @@ namespace ClassifierEditor.FilesSupport
 			private string fileName;
 
 
-			public ObservableCollection<FilePath<FileNameAsSheetFile>> Files { get; private set; }
-				= new ObservableCollection<FilePath<FileNameAsSheetFile>>();
+			public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
+				= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 		#endregion
 
 		#region ctor
@@ -46,7 +46,7 @@ namespace ClassifierEditor.FilesSupport
 
 		#region public properties
 
-			public void AddPath(FilePath<FileNameAsSheetFile> path)
+			public void AddPath(FilePath<FileNameSheetPdf> path)
 			{
 				Files.Add(path);
 				OnPropertyChange("Files");
@@ -74,7 +74,7 @@ namespace ClassifierEditor.FilesSupport
 					Directory.EnumerateFiles(fileName, pattern,
 						SearchOption.AllDirectories))
 				{
-					Files.Add(new FilePath<FileNameAsSheetFile>(file));
+					Files.Add(new FilePath<FileNameSheetPdf>(file));
 				}
 			}
 

@@ -1,5 +1,6 @@
 ﻿#region using
 
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ClassifierEditor.FilesSupport;
@@ -48,15 +49,15 @@ namespace ClassifierEditor.SampleData
 
 		public void SampleFiles(SampleFileList fileList)
 		{
-			FilePath<FileNameAsSheetFile> sheet;
+			FilePath<FileNameSheetPdf> sheet;
 
-			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0 This is a Test A20.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0 This is a Test A20.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameAsSheetFile>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test A30.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test A30.pdf");
 			fileList.AddPath(sheet);
 		}
 
@@ -83,6 +84,11 @@ namespace ClassifierEditor.SampleData
 				}
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description", @"(?<=[A-Z])([ -]+)(?=[0-9])");
+
+				item.CompareOps = new ObservableCollection<ComparisonOperation>();
+				item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
+				item.CompareOps.Add(new ComparisonOperation(ComparisonOp.CONTAINS, "2"));
+
 				TreeNode node = new TreeNode(parent, item, false);
 
 				if (i == 3 || i == 5)

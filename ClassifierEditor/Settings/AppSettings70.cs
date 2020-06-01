@@ -11,12 +11,12 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "AppSettingInfoInfo")]
-	public class AppSettingInfo60<T> : AppSettingInfoBase<T>
+	public class AppSettingInfo70<T> : AppSettingInfoBase<T>
 		where T : new ()
 	{
 		[DataMember]
-		public override string DataClassVersion => "6.0a";
-		public override string Description => "app setting file for SettingsManagerV60";
+		public override string DataClassVersion => "7.0a";
+		public override string Description => "app setting file for ClassifierEditor";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
@@ -27,14 +27,14 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "AppSettingData")]
-	public class AppSettingData60
+	public class AppSettingData70
 	{
 		[DataMember(Order = 1)]
 		public int AppSettingsValue { get; set; } = 6;
 		
-		[DataMember(Order = 2)]
-		public string SiteRootPath { get; set; } =
-			@"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData";
+//		[DataMember(Order = 2)]
+//		public string SiteRootPath { get; set; } =
+//			@"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData";
 
 	}
 

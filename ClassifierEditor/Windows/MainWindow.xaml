@@ -34,6 +34,9 @@
 			</ResourceDictionary.MergedDictionaries>
 			<!--#region > Settings-->
 
+
+
+
 			<!--
 			use this resource to change the item highlight color throughout the window
 			<SolidColorBrush
@@ -45,6 +48,11 @@
 
 			<Color x:Key="Window.Background.C">#FF222222</Color>
 			<Color x:Key="TreeView.Background.C">#FF212121</Color>
+
+
+			<Color x:Key="TreeViewRow.BorderBrush.Light.C">#FFAAEAF3</Color>
+			<Color x:Key="TreeViewRow.BorderBrush.Dark.C">#FF111132</Color>
+
 
 			<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
 			<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
@@ -65,6 +73,8 @@
 
 			<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
 
+			<SolidColorBrush x:Key="TreeViewRow.BorderBrush.Light" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
+
 			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="{StaticResource Deep.Orange.400}" />
 			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="{StaticResource Deep.Orange.400}" />
 			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="{StaticResource Deep.Orange.100}" />
@@ -77,6 +87,9 @@
 			<SolidColorBrush x:Key="ContextMenu.Background" Color="{StaticResource Gray.200}" />
 			<SolidColorBrush x:Key="ContextMenu.Background.Icons" Color="{StaticResource Gray.220}" />
 			<SolidColorBrush x:Key="ContextMenu.Background.Icons.Divider" Color="{StaticResource Gray.200}" />
+
+			<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.200}" />
+
 
 			<PathGeometry
 					x:Key="TreeArrow"
@@ -91,7 +104,7 @@
 			<!--#endregion-->
 
 			<Style
-					x:Key="Style.Edit.Label"
+					x:Key="Label.Selected"
 					TargetType="{x:Type Label}"
 					>
 				<Setter Property="Background" Value="Transparent" />
@@ -103,7 +116,7 @@
 			</Style>
 
 			<Style
-					x:Key="Style.Edit.TextBox"
+					x:Key="TextBox.Selected"
 					TargetType="{x:Type TextBox}"
 					>
 				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
@@ -127,7 +140,7 @@
 			</Style>
 
 			<Style
-					x:Key="Style.Edit.TextBox.Label"
+					x:Key="Label.Selected.HintText"
 					TargetType="{x:Type Label}"
 					>
 				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
@@ -144,8 +157,74 @@
 			</Style>
 
 
+			<Style
+					x:Key="Dg.Cell.Base"
+					TargetType="DataGridCell"
+					>
 
-			<Style x:Key="TreeViewItemFocusVisual">
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="BorderBrush" Value="Transparent" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			</Style>
+
+			<Style
+					x:Key="Dg.Row.Base"
+					TargetType="DataGridRow"
+					>
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="BorderBrush" Value="Transparent" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			</Style>
+
+			<Style
+					x:Key="Dg.CellLabel.Base"
+					TargetType="Label"
+					>
+				<Setter Property="Padding" Value="2" />
+				<Setter Property="Margin" Value="3,0,0,0" />
+				<Setter Property="FontSize" Value="8" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Background" Value="{StaticResource Dg.CellLabel.Background}" />
+			</Style>
+
+			<Style
+					x:Key="Dg.CellLabel.Title"
+					TargetType="Label"
+					BasedOn="{StaticResource Dg.CellLabel.Base}"
+					>
+				<Setter Property="Width" Value="36" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+			</Style>
+
+			<Style
+					x:Key="Dg.CellLabel.Data"
+					TargetType="Label"
+					BasedOn="{StaticResource Dg.CellLabel.Base}"
+					>
+				<Setter Property="Width" Value="23" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+			</Style>
+
+			<Style
+					x:Key="Dg.CellLabel.Border"
+					TargetType="Border"
+					>
+				<Setter Property="Margin" Value="0,2,0,2" />
+				<Setter Property="Padding" Value="2.0,0,4.5,0" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Stretch" />
+				<Setter Property="BorderThickness" Value="0,0,1,0" />
+				<Setter Property="BorderBrush" Value="{StaticResource TreeViewRow.BorderBrush.Light}" />
+			</Style>
+
+
+			<Style x:Key="Tv1ItemFocusVisual">
 				<Setter Property="Control.Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -511,7 +590,7 @@
 					>
 				<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
 				<Setter Property="ContextMenu" Value="{StaticResource Tv1ContextMenu}" />
-				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+				<Setter Property="FocusVisualStyle" Value="{StaticResource Tv1ItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 				<Setter Property="Padding" Value="1,0,0,0" />
@@ -569,8 +648,8 @@
 									</Border.Style>
 									<Border.BorderBrush>
 										<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
-											<GradientStop Offset="0.03" Color="#FF111132" />
-											<GradientStop Offset="0.10" Color="#FFAAEAF3" />
+											<GradientStop Offset="0.03" Color="{StaticResource TreeViewRow.BorderBrush.Dark.C}" />
+											<GradientStop Offset="0.10" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
 										</LinearGradientBrush>
 									</Border.BorderBrush>
 									<Border
@@ -812,15 +891,175 @@
 
 
 
+			<Style
+					x:Key="Dg1Style"
+					TargetType="{x:Type DataGrid}"
+					>
+				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="BorderBrush" Value="#FF688CAF" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type DataGrid}">
+							<Border
+									Padding="{TemplateBinding Padding}"
+									SnapsToDevicePixels="True"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									>
+								<ScrollViewer
+										x:Name="DG_ScrollViewer"
+										Focusable="false"
+										>
+									<ScrollViewer.Template>
+										<ControlTemplate TargetType="{x:Type ScrollViewer}">
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="*" />
+													<ColumnDefinition Width="Auto" />
+												</Grid.ColumnDefinitions>
+												<Grid.RowDefinitions>
+													<RowDefinition Height="Auto" />
+													<RowDefinition Height="*" />
+													<RowDefinition Height="Auto" />
+												</Grid.RowDefinitions>
+												<Button
+														Width="{Binding CellsPanelHorizontalOffset,
+																						RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+														Command="{x:Static DataGrid.SelectAllCommand}"
+														Focusable="false"
+														Visibility="{Binding HeadersVisibility,
+																								 ConverterParameter={x:Static DataGridHeadersVisibility.All},
+																								 Converter={x:Static DataGrid.HeadersVisibilityConverter},
+																								 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+														Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle,
+																																					TypeInTargetAssembly={x:Type DataGrid}}}"
+														/>
+												<DataGridColumnHeadersPresenter
+														x:Name="PART_ColumnHeadersPresenter"
+														Grid.Column="1"
+														Visibility="{Binding HeadersVisibility,
+																								 ConverterParameter={x:Static DataGridHeadersVisibility.Column},
+																								 Converter={x:Static DataGrid.HeadersVisibilityConverter},
+																								 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+														/>
+												<ScrollContentPresenter
+														x:Name="PART_ScrollContentPresenter"
+														Grid.Row="1"
+														Grid.ColumnSpan="2"
+														CanContentScroll="{TemplateBinding CanContentScroll}"
+														/>
+
+												<ScrollBar
+														x:Name="PART_VerticalScrollBar"
+														Grid.Column="2"
+														Grid.Row="1"
+														Margin="0,-1,0,0"
+														Width="{StaticResource BarSizeOutline}"
+														MinWidth="{StaticResource BarSize}"
+														Cursor="Arrow"
+														Maximum="{TemplateBinding ScrollableHeight}"
+														Minimum="0"
+														ViewportSize="{TemplateBinding ViewportHeight}"
+														Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+														Value="{Binding VerticalOffset,
+																						Mode=OneWay,
+																						RelativeSource={RelativeSource TemplatedParent}}"
+														Background="{StaticResource ScrollBarBkg}"
+														Style="{DynamicResource ScrollBarStyle}"
+														/>
+
+												<!--<ScrollBar
+														x:Name="PART_VerticalScrollBar"
+														Grid.Column="2"
+														Grid.Row="1"
+														Maximum="{TemplateBinding ScrollableHeight}"
+														Orientation="Vertical"
+														ViewportSize="{TemplateBinding ViewportHeight}"
+														Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+														Value="{Binding VerticalOffset,
+																						Mode=OneWay,
+																						RelativeSource={RelativeSource TemplatedParent}}"
+														/>-->
+												<Grid
+														Grid.Column="1"
+														Grid.Row="2"
+														>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+														<ColumnDefinition Width="*" />
+													</Grid.ColumnDefinitions>
+
+													<ScrollBar
+															x:Name="PART_HorizontalScrollBar"
+															Grid.Column="1"
+															Grid.Row="0"
+															Height="{StaticResource BarSizeOutline}"
+															MinHeight="{StaticResource BarSize}"
+															AutomationProperties.AutomationId="HorizontalScrollBar"
+															Cursor="Arrow"
+															Maximum="{TemplateBinding ScrollableWidth}"
+															Minimum="0"
+															Orientation="Horizontal"
+															ViewportSize="{TemplateBinding ViewportWidth}"
+															Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+															Value="{Binding HorizontalOffset,
+																							Mode=OneWay,
+																							RelativeSource={RelativeSource TemplatedParent}}"
+															Background="{StaticResource ScrollBarBkg}"
+															Style="{DynamicResource ScrollBarStyle}"
+															/>
+
+
+													<!--<ScrollBar
+															x:Name="PART_HorizontalScrollBar"
+															Grid.Column="1"
+															Maximum="{TemplateBinding ScrollableWidth}"
+															Orientation="Horizontal"
+															ViewportSize="{TemplateBinding ViewportWidth}"
+															Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+															Value="{Binding HorizontalOffset,
+																							Mode=OneWay,
+																							RelativeSource={RelativeSource TemplatedParent}}"
+															/>-->
+												</Grid>
+											</Grid>
+										</ControlTemplate>
+									</ScrollViewer.Template>
+									<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+								</ScrollViewer>
+							</Border>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Style.Triggers>
+					<MultiTrigger>
+						<MultiTrigger.Conditions>
+							<Condition Property="IsGrouping" Value="true" />
+							<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+						</MultiTrigger.Conditions>
+						<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+					</MultiTrigger>
+				</Style.Triggers>
+			</Style>
+
+
 
 			<!-- <Setter Property="IsExpanded" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=DataContext.IsExpanded}"></Setter> -->
-			<Style
+			<!--<Style
 					x:Key="TvxItemContainerStyle1"
 					TargetType="TreeViewItem"
 					>
 
 				<Setter Property="Background" Value="Transparent" />
-				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+				<Setter Property="FocusVisualStyle" Value="{StaticResource Tv1ItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 				<Setter Property="Padding" Value="1,0,0,0" />
@@ -878,7 +1117,9 @@
 								<Trigger Property="IsSelected" Value="true">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource TreeView.Popup.Selected.Background}" />
-									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
+									-->
+			<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
+			<!--
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
@@ -887,7 +1128,9 @@
 									</MultiTrigger.Conditions>
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource TreeView.Popup.Selected.Background}" />
-									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" /> -->
+									-->
+			<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" /> -->
+			<!--
 								</MultiTrigger>
 								<Trigger Property="IsEnabled" Value="false">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -908,30 +1151,7 @@
 						</Setter>
 					</Trigger>
 				</Style.Triggers>
-			</Style>
-
-			<Style
-					x:Key="Dg.Cell.Base"
-					TargetType="DataGridCell"
-					>
-				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
-				<Setter Property="Foreground" Value="White" />
-				<Setter Property="BorderBrush" Value="Transparent"/>
-				<Setter Property="HorizontalAlignment" Value="Stretch"/>
-				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-			</Style>
-			
-			<Style
-					x:Key="Dg.Row.Base"
-					TargetType="DataGridRow"
-					>
-				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
-				<Setter Property="Foreground" Value="White" />
-				<Setter Property="BorderBrush" Value="Transparent"/>
-				<Setter Property="HorizontalAlignment" Value="Stretch"/>
-				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-			</Style>
-
+			</Style>-->
 
 
 
@@ -949,7 +1169,7 @@
 						<Label
 								Content="Not a valid pattern"
 								DockPanel.Dock="Bottom"
-								Style="{StaticResource Style.Edit.TextBox.Label}"
+								Style="{StaticResource Label.Selected.HintText}"
 								/>
 					</Border>
 				</DockPanel>
@@ -1057,27 +1277,48 @@
 						<RowDefinition />
 					</Grid.RowDefinitions>
 
-					<Label
-							Content="{Binding Item.Title}"
+					<DockPanel
 							Grid.Column="0"
 							Grid.Row="0"
-							Margin="5,2,4,0"
-							MinWidth="150"
-							Padding="0"
+							Grid.ColumnSpan="2"
+							Margin="0,0,4,0"
 							HorizontalAlignment="Stretch"
-							Foreground="White"
-							/>
+							VerticalAlignment="Top"
+							>
+						<Label
+								Content="{Binding Item.Title}"
+								Margin="5,2,4,0"
+								MinWidth="150"
+								Padding="0"
+								HorizontalAlignment="Stretch"
+								DockPanel.Dock="Left"
+								Foreground="White"
+								/>
 
-					<Label
-							Content="{Binding Item.Description}"
-							Grid.Column="1"
-							Grid.Row="0"
-							Margin="5,2,4,0"
-							MinWidth="150"
-							Padding="0"
-							HorizontalAlignment="Stretch"
-							Foreground="White"
-							/>
+						<Label
+								Content="{Binding Item.Description}"
+								Margin="5,2,4,0"
+								MinWidth="150"
+								Padding="0"
+								HorizontalAlignment="Stretch"
+								DockPanel.Dock="Left"
+								Foreground="White"
+								/>
+
+						<Label 
+								DockPanel.Dock="Right"
+								Content="{Binding Depth}"
+								Margin="0"
+								Width="20"
+								Padding="0,0,0,2"
+								HorizontalAlignment="Right"
+								VerticalAlignment="top"
+								HorizontalContentAlignment="Right"
+								VerticalContentAlignment="Center"
+								FontSize="6"
+								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
+								/>
+					</DockPanel>
 
 					<DockPanel
 							Grid.Column="0"
@@ -1087,19 +1328,33 @@
 							HorizontalAlignment="Stretch"
 							>
 
+						<DataGrid DockPanel.Dock="Bottom"
+								Margin="22,5,5,5"
+								Background="Black"
+								
+								VerticalAlignment="Bottom"
+								HorizontalAlignment="Left"
+								AutoGenerateColumns="True"
+								VerticalContentAlignment="Bottom"
+								ItemsSource="{Binding Item.CompareOps}"
+								/>
+
 						<Label
+								DockPanel.Dock="Left"
 								Content="{Binding Item.Pattern}"
-								Grid.Column="0"
-								Grid.Row="1"
-								Grid.ColumnSpan="2"
+
 								Margin="22,1,4,4"
 								Padding="0"
 								HorizontalAlignment="Stretch"
+								VerticalAlignment="Top"
 								FontSize="8"
 								Foreground="{StaticResource TreeViewItem.Label.Foreground.Muted}"
 								/>
 
+
+
 						<Label
+								DockPanel.Dock="Right"
 								Content="{Binding UniqueId}"
 								Margin="0"
 								Width="20"
@@ -1110,6 +1365,8 @@
 								FontSize="6"
 								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
 								/>
+
+
 
 					</DockPanel>
 
@@ -1145,7 +1402,6 @@
 
 
 
-
 		</ResourceDictionary>
 	</Window.Resources>
 
@@ -1153,8 +1409,8 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" MinWidth="400" />
-			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="3*" MinWidth="400" />
+			<ColumnDefinition Width="2*" MinWidth="400" />
 			<ColumnDefinition Width="0" />
 			<ColumnDefinition Width="0" />
 		</Grid.ColumnDefinitions>
@@ -1183,6 +1439,19 @@
 					HorizontalAlignment="Right"
 					VerticalAlignment="Bottom"
 					Click="BtnDebug_OnClick"
+					Style="{StaticResource Button.Normal.Style}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					/>
+
+			<Button
+					x:Name="BtnTestAll"
+					Content="Test All"
+					Margin="5"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnTestAll_OnClick"
 					Style="{StaticResource Button.Normal.Style}"
 					Template="{StaticResource Button.Normal.ControlTemplate}"
 					/>
@@ -1250,11 +1519,10 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="26" />
 				<RowDefinition Height="26" />
+				<RowDefinition Height="120" />
+				<RowDefinition Height="45" />
 				<RowDefinition Height="26" />
-				<RowDefinition Height="6" />
-				<RowDefinition Height="36" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="*" />
+				<RowDefinition />
 
 
 			</Grid.RowDefinitions>
@@ -1263,24 +1531,25 @@
 					x:Name="BtnTest"
 					Content="Test Pattern"
 					Grid.Column="0"
-					Grid.Row="5"
+					Grid.Row="4"
 					Margin="5"
 					Width="{StaticResource Normal.Button.Width}"
 					Height="{StaticResource Normal.Button.Height}"
 					HorizontalAlignment="Left"
-					VerticalAlignment="Top"
+					VerticalAlignment="Center"
 					FontSize="10"
 					Click="BtnTest_OnClick"
 					Style="{StaticResource Button.Normal.Style}"
 					/>
 
 			<Label
-					Content="Selected Category"
+					Content="Edit Selected Category"
 					Grid.Column="0"
 					Grid.Row="0"
 					Grid.ColumnSpan="3"
 					Margin="0,0,0,6"
 					Padding="2,1,2,4"
+					VerticalAlignment="Center"
 					FontSize="13"
 					Background="{StaticResource Win.Title.Background}"
 					Foreground="White"
@@ -1290,7 +1559,7 @@
 					Content="Title"
 					Grid.Column="0"
 					Grid.Row="1"
-					Style="{StaticResource Style.Edit.Label}"
+					Style="{StaticResource Label.Selected}"
 					/>
 
 			<TextBox
@@ -1298,17 +1567,17 @@
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Title,
-												 FallbackValue=Nothing Selected,
+												 FallbackValue='',
 												 Mode=TwoWay}"
 					TextChanged="TextBoxBase_OnTextChanged"
-					Style="{StaticResource Style.Edit.TextBox}"
+					Style="{StaticResource TextBox.Selected}"
 					/>
 
 			<Label
 					Content="Description"
 					Grid.Column="0"
 					Grid.Row="2"
-					Style="{StaticResource Style.Edit.Label}"
+					Style="{StaticResource Label.Selected}"
 					/>
 
 			<TextBox
@@ -1319,65 +1588,183 @@
 												 FallbackValue='',
 												 Mode=TwoWay}"
 					TextChanged="TextBoxBase_OnTextChanged"
-					Style="{StaticResource Style.Edit.TextBox}"
+					Style="{StaticResource TextBox.Selected}"
 					/>
-
 			<Label
-					Content="Pattern"
+					Content="Test Sheet Files"
 					Grid.Column="0"
-					Grid.Row="3"
-					Style="{StaticResource Style.Edit.Label}"
+					Grid.Row="5"
+					Grid.ColumnSpan="3"
+					Margin="0,0,0,6"
+					Padding="2,1,2,4"
+					VerticalAlignment="Center"
+					FontSize="13"
+					Background="{StaticResource Win.Title.Background}"
+					Foreground="White"
 					/>
-
-			<TextBox
-					x:Name="TbxPattern"
-					Grid.Column="1"
-					Grid.Row="3"
-					Grid.ColumnSpan="2"
-					Text="{Binding Item.Pattern,
-												 FallbackValue='',
-												 Mode=TwoWay}"
-					TextChanged="TbxPattern_OnTextChanged"
-					Validation.ErrorTemplate="{StaticResource PatternError}"
-					>
-
-				<TextBox.Style>
-					<Style
-							TargetType="TextBox"
-							BasedOn="{StaticResource Style.Edit.TextBox}"
-							>
-						<Setter Property="IsEnabled" Value="False" />
-						<Style.Triggers>
-							<Trigger Property="Validation.HasError" Value="True">
-								<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}" />
-							</Trigger>
-						</Style.Triggers>
-					</Style>
-				</TextBox.Style>
-			</TextBox>
 
 			<DataGrid
+					x:Name="Dg1"
 					Grid.Column="0"
 					Grid.Row="6"
 					Grid.ColumnSpan="3"
+					d:DataContext="{Binding Source={x:Static local:MainWindow.FileList2},
+																	Path=Files}"
 					AutoGenerateColumns="False"
-					GridLinesVisibility="Horizontal"
-					HorizontalGridLinesBrush="Aquamarine"
-					d:DataContext="{Binding Source={x:Static local:MainWindow.FileList2}, Path=Files}"
+					CanUserAddRows="False"
 					DataContext="{Binding ElementName=MainWin,
 																Path=FileList.Files}"
+					GridLinesVisibility="Horizontal"
 					HeadersVisibility="None"
-					Background="{StaticResource Edit.TextBox.Background}"
+					HorizontalScrollBarVisibility="Visible"
+					VerticalScrollBarVisibility="Visible"
+					Background="{StaticResource TreeView.Background}"
+					BorderThickness="1"
+					HorizontalGridLinesBrush="{StaticResource TreeViewRow.BorderBrush.Light}"
 					ItemsSource="{Binding}"
 					CellStyle="{StaticResource Dg.Cell.Base}"
-					BorderThickness="1"
 					RowStyle="{StaticResource Dg.Row.Base}"
+					Style="{DynamicResource Dg1Style}"
 					>
 				<DataGrid.Columns>
-					<DataGridTextColumn 
-							Width="*"
-							CellStyle="{StaticResource Dg.Cell.Base}"
-							Binding="{Binding Path=FilePathInfo.FileName.Name}" />
+					<!--  <DataGridTextColumn  -->
+					<!--  Width="*"  -->
+					<!--  CellStyle="{StaticResource Dg.Cell.Base}"  -->
+					<!--  Binding="{Binding Path=FilePathInfo.FileName.Name}" />  -->
+
+					<DataGridTemplateColumn CellStyle="{StaticResource Dg.Cell.Base}">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Grid Margin="2">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*" />
+										<RowDefinition Height="*" />
+									</Grid.RowDefinitions>
+									<Label
+											Content="{Binding Path=FilePathInfo.FileName.Name}"
+											Grid.Column="0"
+											Grid.Row="0"
+											Margin="2"
+											Padding="0"
+											Foreground="White"
+											/>
+									<StackPanel
+											Grid.Column="0"
+											Grid.Row="1"
+											Orientation="Horizontal"
+											>
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="Phase/Bldg"
+														Width="46"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.PhaseBldg,
+																							FallbackValue='GRN'}"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="Disciplne"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.Discipline,
+																							FallbackValue='99'}"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="Category"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.Category,
+																							FallbackValue='123A'}"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="SubCategory"
+														Width="50"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.Subcategory,
+																							FallbackValue='none'}"
+														Width="30"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="Modifier"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.Modifier,
+																							FallbackValue='none'}"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+										<Border Style="{StaticResource Dg.CellLabel.Border}">
+											<StackPanel Orientation="Horizontal">
+												<Label
+														Content="SubModifier"
+														Width="50"
+														Foreground="DimGray"
+														Style="{StaticResource Dg.CellLabel.Title}"
+														/>
+												<Label
+														Content="{Binding Path=FilePathInfo.FileName.Submodifier,
+																							FallbackValue='none'}"
+														Foreground="White"
+														Style="{StaticResource Dg.CellLabel.Data}"
+														/>
+											</StackPanel>
+										</Border>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+
+					</DataGridTemplateColumn>
 
 				</DataGrid.Columns>
 			</DataGrid>

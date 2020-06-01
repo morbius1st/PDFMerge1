@@ -11,12 +11,12 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "UserSettingInfoInfo")]
-	public class UserSettingInfo60<T> : UserSettingInfoBase<T>
+	public class UserSettingInfo70<T> : UserSettingInfoBase<T>
 		where T : new ()
 	{
 		[DataMember]
-		public override string DataClassVersion => "6.0u";
-		public override string Description => "user setting file for SettingsManagerV60";
+		public override string DataClassVersion => "7.0u";
+		public override string Description => "user setting file for ClassifierEditor";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 
 	}
@@ -28,14 +28,14 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "UserSettingData")]
-	public class UserSettingData60
+	public class UserSettingData70
 	{
 		[DataMember(Order = 1)]
 		public int UserSettingsValue { get; set; } = 6;
 
 		[DataMember(Order = 2)]
 		public string FileNameCategoryFolder { get; private set; } =
-			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor";
+			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
 
 		[DataMember(Order = 3)]
 		public string FileNameCategoryFile { get; private set; } =
