@@ -164,7 +164,13 @@ namespace ClassifierEditor.Tree
 		public int Depth
 		{
 			get => depth;
-			set => depth = value;
+			set
+			{
+				depth = value;
+				OnPropertyChange();
+
+				item.Depth = value;
+			}
 		}
 
 		[DataMember(Order = 5)]

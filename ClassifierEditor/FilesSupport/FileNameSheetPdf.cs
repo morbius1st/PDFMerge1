@@ -26,7 +26,6 @@ using UtilityLibrary;
 
 namespace ClassifierEditor.FilesSupport
 {
-
 	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
 	{
 	#region private fields
@@ -36,6 +35,16 @@ namespace ClassifierEditor.FilesSupport
 		// flags
 		private bool parsed = false;
 		private bool selected = false;
+
+	#endregion
+
+	#region public fields
+
+		public static string[] SheetNumberComponentTitles { get; } =
+		new []
+		{
+			"Phase/Bldg", "Discipline", "Category", "Sub-Category", "Modifier", "sub-modifier"
+		};
 
 	#endregion
 
@@ -134,7 +143,6 @@ namespace ClassifierEditor.FilesSupport
 				return shtId;
 			}
 		}
-
 
 	#endregion
 

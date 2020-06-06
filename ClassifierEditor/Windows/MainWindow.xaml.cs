@@ -2,6 +2,7 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
 
+using static ClassifierEditor.Tree.CompareConditions;
 
 #endregion
 
@@ -68,21 +70,21 @@ namespace ClassifierEditor.Windows
 	#region private fields
 
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
-		private TreeNode userSelected;
+		private static TreeNode userSelected;
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
 
-		public string ContextCmdDelete {get;}            = "delete";
-		public string ContextCmdAddChild {get;}          = "addChild";
-		public string ContextCmdAddBefore {get;}         = "addBefore";
-		public string ContextCmdAddAfter {get;}          = "addAfter";
-		public string ContextCmdMoveAsChild {get;}       = "moveAsChild";
-		public string ContextCmdMoveBefore {get;}        = "moveBefore";
-		public string ContextCmdMoveAfter {get;}         = "moveAfter";
-		public string ContextCmdCopy {get;}              = "clone";
-		public string ContextCmdCopyAsChild {get;}       = "cloneAsChild";
-		public string ContextCmdExpand {get;}            = "Expand";
-		public string ContextCmdCollapse {get;}          = "Collapse";
+		public string ContextCmdDelete { get; }            = "delete";
+		public string ContextCmdAddChild { get; }          = "addChild";
+		public string ContextCmdAddBefore { get; }         = "addBefore";
+		public string ContextCmdAddAfter { get; }          = "addAfter";
+		public string ContextCmdMoveAsChild { get; }       = "moveAsChild";
+		public string ContextCmdMoveBefore { get; }        = "moveBefore";
+		public string ContextCmdMoveAfter { get; }         = "moveAfter";
+		public string ContextCmdCopy { get; }              = "clone";
+		public string ContextCmdCopyAsChild { get; }       = "cloneAsChild";
+		public string ContextCmdExpand { get; }            = "Expand";
+		public string ContextCmdCollapse { get; }          = "Collapse";
 
 		private bool bypassContextDeHighlight = false;
 
@@ -99,6 +101,8 @@ namespace ClassifierEditor.Windows
 
 			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
 				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+
+			
 		}
 
 		public MainWindow()
@@ -133,6 +137,7 @@ namespace ClassifierEditor.Windows
 
 				userSelected = value;
 				OnPropertyChange();
+				OnPropertyChange("HasSelection");
 			}
 		}
 
@@ -141,7 +146,6 @@ namespace ClassifierEditor.Windows
 			get => contextSelected;
 			private set
 			{
-
 				if (value == contextSelected) return;
 
 				if (contextSelected != null)
@@ -162,7 +166,11 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
+		public bool HasSelection => userSelected != null;
+
+
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
+
 //		public static SampleFileList FileList2 { get; private set; } = new SampleFileList(
 //			@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs");
 		public SampleFileList FileList { get; private set; }
@@ -188,23 +196,25 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+
+
 			SuiteSettings.Admin.Read();
 
 			UserSettings.Admin.Read();
 
 			categories.Configure(UserSettings.Data.FileNameCategoryFolder,
 				UserSettings.Data.FileNameCategoryFile);
-			
+
 //			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor",
 //				"SheetCategories.xml");
 //
-//			SampleData.SampleData sd = new SampleData.SampleData();
-//
-//			sd.Sample(categories.TreeBase);
-//
-//			categories.Write();
+			SampleData.SampleData sd = new SampleData.SampleData();
 
-			categories.Read();
+			sd.Sample(categories.TreeBase);
+
+			categories.Write();
+
+//			categories.Read();
 
 			FileList = new SampleFileList(UserSettings.Data.FileNameCategoryFolder);
 
@@ -241,11 +251,6 @@ namespace ClassifierEditor.Windows
 		}
 
 
-		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
 		{
 			categories.IsModified = true;
@@ -255,7 +260,6 @@ namespace ClassifierEditor.Windows
 		{
 			categories.IsModified = true;
 		}
-
 
 
 		// context menu events
@@ -268,7 +272,7 @@ namespace ClassifierEditor.Windows
 			ContextSelected = (TreeNode) ((ContextMenu) sender).DataContext;
 		}
 
-		
+
 		private void Tv1ContextMenu_OnClosed(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
@@ -278,7 +282,6 @@ namespace ClassifierEditor.Windows
 		}
 
 		// context menu commands
-
 
 
 		private void Tv1ContextMenuExpand_OnClick(object sender, RoutedEventArgs e)
@@ -297,7 +300,6 @@ namespace ClassifierEditor.Windows
 			{
 				contextSelected.IsExpanded = false;
 			}
-
 		}
 
 		private void Tv1ContextMenuAddChild_OnClick(object sender, RoutedEventArgs e)
@@ -374,7 +376,7 @@ namespace ClassifierEditor.Windows
 
 			ContextDeselect();
 		}
-		
+
 		private void Tv1ContextMenuSelCopy_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
@@ -386,7 +388,7 @@ namespace ClassifierEditor.Windows
 
 			ContextDeselect();
 		}
-				
+
 		private void Tv1ContextMenuCopySelAsChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
@@ -439,7 +441,6 @@ namespace ClassifierEditor.Windows
 		private void ContextHighlight()
 		{
 			contextSelected.IsContextHighlighted = true;
-
 		}
 
 		private void ContextDeHighlight()
@@ -463,15 +464,32 @@ namespace ClassifierEditor.Windows
 
 	#region buttons
 
+
+		private void AddCondition_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (HasSelection)
+			{
+				userSelected.Item.CompareOps.Add(new ComparisonOperation(EqualTo, "ABC"));
+			}
+
+		}
+
+
+
+		private void BtnDoneEditing_OnClick(object sender, RoutedEventArgs e)
+		{
+			UserSelected.IsSelected = false;
+			UserSelected = null;
+
+
+		}
+
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
 			categories.Write();
 		}
-		
-		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e)
-		{
-			
-		}
+
+		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e) { }
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -484,7 +502,6 @@ namespace ClassifierEditor.Windows
 		}
 
 	#endregion
-
 
 	#endregion
 
@@ -503,30 +520,93 @@ namespace ClassifierEditor.Windows
 		}
 
 
-
 		#endregion
 
-		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
 		}
 	}
 
-	public class DetailRowTemplateSelector : DataTemplateSelector
+	//	public class DetailRowTemplateSelector : DataTemplateSelector
+	//	{
+	//		public override DataTemplate SelectTemplate(object item, DependencyObject container)
+	//		{
+	//			FrameworkElement element = container as FrameworkElement;
+	//			if (element != null && item != null && item is TreeNode)
+	//			{
+	//				TreeNode taskitem = item as TreeNode;
+	//
+	//				if (taskitem.HasChildren)
+	//					return
+	//						element.FindResource("Dtx") as DataTemplate;
+	//				else
+	//					return
+	//						element.FindResource("Dty") as DataTemplate;
+	//			}
+	//
+	//			return null;
+	//		}
+	//	}
+
+	public class Lv1ConditionTemplateSelector : DataTemplateSelector
 	{
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			FrameworkElement element = container as FrameworkElement;
-			if (element != null && item != null && item is TreeNode)
-			{
-				TreeNode taskitem = item as TreeNode;
 
-				if (taskitem.HasChildren)
+			if (element != null && item != null && item is ComparisonOperation)
+			{
+
+				ComparisonOperation taskitem = item as ComparisonOperation;
+
+				if (taskitem.CompareCondition is LogicalCondition)
+				{
 					return
-						element.FindResource("Dtx") as DataTemplate;
+						element.FindResource("Lv1DataTemplate2") as DataTemplate;
+				}
+				else if (taskitem.CompareCondition == CompareConditions.NoOp)
+				{
+					return
+						element.FindResource("Lv1DataTemplate3") as DataTemplate;
+				}
 				else
+				{
 					return
-						element.FindResource("Dty") as DataTemplate;
+						element.FindResource("Lv1DataTemplate1") as DataTemplate;
+				}
+			}
+
+			return null;
+		}
+	}
+
+	public class Lv2ConditionTemplateSelector : DataTemplateSelector
+	{
+		public override DataTemplate SelectTemplate(object item, DependencyObject container)
+		{
+			FrameworkElement element = container as FrameworkElement;
+
+			if (element != null && item != null && item is ComparisonOperation)
+			{
+
+				ComparisonOperation taskitem = item as ComparisonOperation;
+
+				if (taskitem.CompareCondition is LogicalCondition)
+				{
+					return
+						element.FindResource("Lv2DataTemplate1") as DataTemplate;
+				}
+				else if (taskitem.CompareCondition == CompareConditions.NoOp)
+				{
+					return
+						element.FindResource("Lv2DataTemplate3") as DataTemplate;
+				}
+				else
+				{
+					return
+						element.FindResource("Lv2DataTemplate2") as DataTemplate;
+				}
 			}
 
 			return null;

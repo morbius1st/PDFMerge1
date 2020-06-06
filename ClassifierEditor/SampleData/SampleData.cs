@@ -85,9 +85,48 @@ namespace ClassifierEditor.SampleData
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description", @"(?<=[A-Z])([ -]+)(?=[0-9])");
 
-				item.CompareOps = new ObservableCollection<ComparisonOperation>();
-				item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
-				item.CompareOps.Add(new ComparisonOperation(ComparisonOp.CONTAINS, "2"));
+//				item.CompareOps = new ObservableCollection<ComparisonOperation>();
+				if (i == 1)
+				{
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalAnd));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotEq, "2"));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalOr));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotMatch,
+						@"(?<=[A-Z])([ -]+)(?=[0-9])"));
+				} 
+				else if (i == 4)
+				{
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalAnd));
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotEq, "2"));
+				} 
+				else if (i == 2)
+				{
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
+				}
+				else if (i == 3)
+				{
+					item.CompareOps.Add(new ComparisonOperation(CompareConditions.NoOp, ""));
+				}
+
+//				item.CompareOps = new ObservableCollection<ComparisonOperation>();
+//				if (i == 1 || i == 4)
+//				{
+//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
+//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.LOGICAL_AND, ""));
+//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.DOES_NOT_EQUAL, "2"));
+//				} else if (i == 2)
+//				{
+//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
+//				}
+//				else if (i == 3)
+//				{
+//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.NO_OP, ""));
+//				}
+
+				
+
 
 				TreeNode node = new TreeNode(parent, item, false);
 

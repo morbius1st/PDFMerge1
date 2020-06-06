@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
+using ClassifierEditor.FilesSupport;
 
 #endregion
 
@@ -54,10 +56,6 @@ using System.Text.RegularExpressions;
 		> evaluate resultB = next (vc)
 		> evaluate resultA = resultA (lc) resultB
 			
-
-
-
-
 */
 
 namespace ClassifierEditor.Tree
@@ -74,6 +72,7 @@ namespace ClassifierEditor.Tree
 		// not static fields
 		private string title;
 		private string description;
+		private int depth;
 		private Regex pattern;
 		private ObservableCollection<ComparisonOperation> compareOps;
 
@@ -87,6 +86,8 @@ namespace ClassifierEditor.Tree
 			this.title = title;
 			this.description = description;
 			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
+
+			CompareOps = new ObservableCollection<ComparisonOperation>();
 		}
 
 	#endregion
@@ -145,6 +146,25 @@ namespace ClassifierEditor.Tree
 				compareOps = value;
 				OnPropertyChange();
 			}
+		}
+		
+		[IgnoreDataMember]
+		public int Depth
+		{
+			get => depth;
+			set
+			{
+				depth = value;
+
+				OnPropertyChange("ComponentName");
+			}
+		}
+
+
+		[IgnoreDataMember]
+		public string ComponentName
+		{
+			get { return FileNameSheetPdf.SheetNumberComponentTitles[Depth]; }
 		}
 
 
