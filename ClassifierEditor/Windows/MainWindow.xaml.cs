@@ -1,11 +1,15 @@
 ﻿#region using
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+//using System.Windows.Forms;
 using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
@@ -13,6 +17,14 @@ using SettingsManager;
 using UtilityLibrary;
 
 using static ClassifierEditor.Tree.CompareConditions;
+using static ClassifierEditor.Tree.ComparisonOp;
+
+//using ComboBox = System.Windows.Controls.ComboBox;
+//using ContextMenu = System.Windows.Controls.ContextMenu;
+//using ListView = System.Windows.Controls.ListView;
+//using MenuItem = System.Windows.Controls.MenuItem;
+//using MessageBox = System.Windows.MessageBox;
+//using TreeNode = ClassifierEditor.Tree.TreeNode;
 
 #endregion
 
@@ -74,6 +86,8 @@ namespace ClassifierEditor.Windows
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
 
+
+
 		public string ContextCmdDelete { get; }            = "delete";
 		public string ContextCmdAddChild { get; }          = "addChild";
 		public string ContextCmdAddBefore { get; }         = "addBefore";
@@ -97,6 +111,10 @@ namespace ClassifierEditor.Windows
 			SampleData.SampleData sd = new SampleData.SampleData();
 			sd.Sample(BaseOfTreeRoot);
 
+//			SheetCategory sc = new SheetCategory("title", "description", "pattern");
+//			temp = new TreeNode(
+//				new BaseOfTree(), sc, false);
+
 			sd.SampleFiles(FileList2);
 
 			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
@@ -110,6 +128,24 @@ namespace ClassifierEditor.Windows
 			InitializeComponent();
 
 		}
+
+		public static TreeNode temp { get; set; } = new TreeNode(new BaseOfTree(), 
+			new SheetCategory("title", "description", "pattern")
+			{
+				CompareOps = new ObservableCollection<ComparisonOperation>()
+				{
+					new ComparisonOperation(ValueConditionList[(int) CONTAINS], "value"),
+					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
+					new ComparisonOperation(ValueConditionList[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
+					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
+					new ComparisonOperation(ValueConditionList[(int) EQUALTO], "1000"),
+					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
+					new ComparisonOperation(ValueConditionList[(int) MATCHES], "2000"),
+					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
+					new ComparisonOperation(ValueConditionList[(int) MATCHES], "3000"),
+				}
+			}
+			, false );
 
 	#endregion
 
@@ -175,8 +211,6 @@ namespace ClassifierEditor.Windows
 //			@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs");
 		public SampleFileList FileList { get; private set; }
 
-
-//		public string PatternHintText { get; private set; } = "Regex pattern";
 
 	#endregion
 
@@ -469,7 +503,7 @@ namespace ClassifierEditor.Windows
 		{
 			if (HasSelection)
 			{
-				userSelected.Item.CompareOps.Add(new ComparisonOperation(EqualTo, "ABC"));
+				userSelected.Item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) EQUALTO], "ABC"));
 			}
 
 		}
@@ -498,6 +532,15 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
+			List< ValueCondition > a = CompareConditions.ValueConditionList;
+			List< LogicalCondition > b = CompareConditions.LogicalConditionList;
+
+
+			ListView lv = Lv2;
+			ComboBox cbx = Lv2.ItemTemplate.
+				FindName("Cbx1", Lv2) as ComboBox;
+
+
 			Debug.WriteLine("at debug");
 		}
 
@@ -565,7 +608,7 @@ namespace ClassifierEditor.Windows
 					return
 						element.FindResource("Lv1DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareCondition == CompareConditions.NoOp)
+				else if (taskitem.CompareCondition == ValueConditionList[(int) NO_OP]) 
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
@@ -595,17 +638,19 @@ namespace ClassifierEditor.Windows
 				if (taskitem.CompareCondition is LogicalCondition)
 				{
 					return
-						element.FindResource("Lv2DataTemplate1") as DataTemplate;
+						element.FindResource("Lv2DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareCondition == CompareConditions.NoOp)
+				else if (taskitem.CompareCondition == ValueConditionList[(int) NO_OP])
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
+//						element.FindResource("Lv2DataTemplate3") as DataTemplate;
 				}
 				else
 				{
 					return
-						element.FindResource("Lv2DataTemplate2") as DataTemplate;
+						element.FindResource("Lv2DataTemplate1") as DataTemplate;
+//						element.FindResource("Lv2DataTemplate2") as DataTemplate;
 				}
 			}
 

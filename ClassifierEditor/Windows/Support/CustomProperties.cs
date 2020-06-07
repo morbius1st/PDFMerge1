@@ -35,7 +35,7 @@ namespace ClassifierEditor.Windows.Support
 		}
 
 	#endregion
-		
+
 //	#region GenericBoolOne
 //
 //		public static readonly DependencyProperty GenericBoolTwoProperty = DependencyProperty.RegisterAttached(
@@ -54,25 +54,22 @@ namespace ClassifierEditor.Windows.Support
 //
 //	#endregion
 
+	#region DropDownWidth
 
-//	#region HasChildren
-//
-//		public static readonly DependencyProperty HasChildrenProperty = DependencyProperty.Register(
-//			"HasChildren", typeof(bool), typeof(CheckBox),
-//			new PropertyMetadata(false));
-//
-//		public static void SetHasChildren(UIElement e, bool value)
-//		{
-//			e.SetValue(HasChildrenProperty, value);
-//		}
-//
-//		public static bool GetHasChildren(UIElement e)
-//		{
-//			return (bool) e.GetValue(HasChildrenProperty);
-//		}
-//
-//	#endregion
+		public static readonly DependencyProperty DropDownWidthProperty = DependencyProperty.RegisterAttached(
+			"DropDownWidth", typeof(double), typeof(CustomProperties), new PropertyMetadata(100.0));
+
+		public static void SetDropDownWidth(UIElement e, double value)
+		{
+			e.SetValue(DropDownWidthProperty, value);
+		}
+
+		public static double GetDropDownWidth(UIElement e)
+		{
+			return (double) e.GetValue(DropDownWidthProperty);
+		}
+
+	#endregion
+
 	}
-
-
 }

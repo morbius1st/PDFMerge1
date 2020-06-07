@@ -67,46 +67,46 @@ namespace ClassifierEditor.Tree
 
 	public static class CompareConditions
 	{
-		private static List<LogicalCondition> logicalConditionList;
-		private static List<ValueCondition> valueConditionList;
-
-
+		public static List<LogicalCondition> LogicalConditionList { get; private set; }
+		public static List<ValueCondition> ValueConditionList { get; private set; }
 
 		static CompareConditions()
 		{
 			defineLogicalConditions();
 			defineValueConditions();
-
-//			logicalConditionList = new List<LogicalCondition>();
-//
-//			logicalConditionList.Add(new LogicalCondition("Or", LOGICAL_OR));
-//			logicalConditionList.Add(new LogicalCondition("And", LOGICAL_AND));
-//
-//
-//			valueConditionList = new List<ValueCondition>();
-//
-//			valueConditionList.Add(new ValueCondition("No Op", NO_OP));
-
 		}
 
 		private static void defineLogicalConditions()
 		{
-			logicalConditionList = new List<LogicalCondition>();
+			LogicalConditionList = new List<LogicalCondition>();
 
-			configureConditionList(logicalConditionList, 2);
+			configureConditionList(LogicalConditionList, (int) LOGICAL_COUNT);
 
-			setLogicalCondition(logicalConditionList, "And", LOGICAL_AND);
-			setLogicalCondition(logicalConditionList, "Or", LOGICAL_OR);
+			setLogicalCondition(LogicalConditionList, "And", LOGICAL_AND);
+			setLogicalCondition(LogicalConditionList, "Or", LOGICAL_OR);
 		}
 		
 		private static void defineValueConditions()
 		{
-			valueConditionList = new List<ValueCondition>();
+			ValueConditionList = new List<ValueCondition>();
 
-			configureConditionList(valueConditionList, 2);
+			configureConditionList(ValueConditionList, (int) VALUE_COUNT);
 
-			setValueCondition(valueConditionList, "No Op", NO_OP);
-
+			setValueCondition(ValueConditionList, "No Op", NO_OP);
+			setValueCondition(ValueConditionList, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
+			setValueCondition(ValueConditionList, "Is Less Than", LESS_THAN);
+			setValueCondition(ValueConditionList, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
+			setValueCondition(ValueConditionList, "Is Greater Than", GREATER_THAN);
+			setValueCondition(ValueConditionList, "Is Exactly Equal to the Phrase", EQUALTO);
+			setValueCondition(ValueConditionList, "Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
+			setValueCondition(ValueConditionList, "Contains the Phrase", CONTAINS );
+			setValueCondition(ValueConditionList, "Does Not Contain the Phrase", DOES_NOT_CONTAIN );
+			setValueCondition(ValueConditionList, "Starts with the Phrase", STARTS_WITH );
+			setValueCondition(ValueConditionList, "Does Not Start with the Phrase", DOES_NOT_START_WITH);
+			setValueCondition(ValueConditionList, "Ends with the Phrase", ENDS_WITH);
+			setValueCondition(ValueConditionList, "Does Not End with the Phrase", DOES_NOT_END_WITH);
+			setValueCondition(ValueConditionList, "Matches this Pattern", MATCHES);
+			setValueCondition(ValueConditionList, "Does Not Match this Pattern", DOES_NOT_MATCH);
 		}
 
 		private static void setValueCondition(List<ValueCondition> list, string name, ComparisonOp op)
@@ -126,66 +126,65 @@ namespace ClassifierEditor.Tree
 				conditionList.Add(new T());
 			}
 		}
-
-
-
-		public static LogicalCondition LogicalOr     { get; set; } = new LogicalCondition("Or", LOGICAL_OR);
-		public static LogicalCondition LogicalAnd     { get; set; } = new LogicalCondition("And", LOGICAL_AND);
-
-		public static ValueCondition NoOp             { get; set; } = new ValueCondition("No Op", NO_OP);
-
-		public static ValueCondition LessThanOrEq     { get; set; } =
-			new ValueCondition("Is Less Than or Equal", LESS_THAN_OR_EQUAL);
-
-		public static ValueCondition LessThan         { get; set; } = new ValueCondition("Is Less Than", LESS_THAN);
-
-		public static ValueCondition GreaterThanOrEq  { get; set; } =
-			new ValueCondition("Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
-
-		public static ValueCondition GreaterThan      { get; set; } =
-			new ValueCondition("Is Greater Than", GREATER_THAN);
-
-		public static ValueCondition EqualTo               { get; set; } =
-			new ValueCondition("Is Exactly Equal to the Phrase", EQUALS);
-
-		public static ValueCondition DoesNotEq        { get; set; } =
-			new ValueCondition("Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
-
-		public static ValueCondition Contains         { get; set; } =
-			new ValueCondition("Contains the Phrase", CONTAINS);
-
-		public static ValueCondition DoesNotContain   { get; set; } =
-			new ValueCondition("Does Not Contain the Phrase", DOES_NOT_CONTAIN);
-
-		public static ValueCondition StartsWith       { get; set; } =
-			new ValueCondition("Starts with the Phrase", STARTS_WITH);
-
-		public static ValueCondition DoesNotStartWith { get; set; } =
-			new ValueCondition("Does Not Start with the Phrase", DOES_NOT_START_WITH);
-
-		public static ValueCondition EndsWith         { get; set; } =
-			new ValueCondition("Ends with the Phrase", ENDS_WITH);
-
-		public static ValueCondition DoesNotEndWidth  { get; set; } =
-			new ValueCondition("Does Not End with the Phrase", DOES_NOT_END_WITH);
-
-		public static ValueCondition Matches          { get; set; } =
-			new ValueCondition("Matches this Pattern", MATCHES);
-
-		public static ValueCondition DoesNotMatch     { get; set; } =
-			new ValueCondition("Does Not Match this Pattern", DOES_NOT_MATCH);
+//
+//		public static LogicalCondition LogicalOr     { get; set; } = new LogicalCondition("Or", LOGICAL_OR);
+//		public static LogicalCondition LogicalAnd     { get; set; } = new LogicalCondition("And", LOGICAL_AND);
+//
+//		public static ValueCondition NoOp             { get; set; } = new ValueCondition("No Op", NO_OP);
+//
+//		public static ValueCondition LessThanOrEq     { get; set; } =
+//			new ValueCondition("Is Less Than or Equal", LESS_THAN_OR_EQUAL);
+//
+//		public static ValueCondition LessThan         { get; set; } = new ValueCondition("Is Less Than", LESS_THAN);
+//
+//		public static ValueCondition GreaterThanOrEq  { get; set; } =
+//			new ValueCondition("Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
+//
+//		public static ValueCondition GreaterThan      { get; set; } =
+//			new ValueCondition("Is Greater Than", GREATER_THAN);
+//
+//		public static ValueCondition EqualTo               { get; set; } =
+//			new ValueCondition("Is Exactly Equal to the Phrase", EQUALTO);
+//
+//		public static ValueCondition DoesNotEq        { get; set; } =
+//			new ValueCondition("Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
+//
+//		public static ValueCondition Contains         { get; set; } =
+//			new ValueCondition("Contains the Phrase", CONTAINS);
+//
+//		public static ValueCondition DoesNotContain   { get; set; } =
+//			new ValueCondition("Does Not Contain the Phrase", DOES_NOT_CONTAIN);
+//
+//		public static ValueCondition StartsWith       { get; set; } =
+//			new ValueCondition("Starts with the Phrase", STARTS_WITH);
+//
+//		public static ValueCondition DoesNotStartWith { get; set; } =
+//			new ValueCondition("Does Not Start with the Phrase", DOES_NOT_START_WITH);
+//
+//		public static ValueCondition EndsWith         { get; set; } =
+//			new ValueCondition("Ends with the Phrase", ENDS_WITH);
+//
+//		public static ValueCondition DoesNotEndWidth  { get; set; } =
+//			new ValueCondition("Does Not End with the Phrase", DOES_NOT_END_WITH);
+//
+//		public static ValueCondition Matches          { get; set; } =
+//			new ValueCondition("Matches this Pattern", MATCHES);
+//
+//		public static ValueCondition DoesNotMatch     { get; set; } =
+//			new ValueCondition("Does Not Match this Pattern", DOES_NOT_MATCH);
 	}
 
 	public enum ComparisonOp
 	{
 		LOGICAL_OR            = 0,
 		LOGICAL_AND           ,
-		NO_OP                  = 0,
+		LOGICAL_COUNT         ,
+		NO_OP                 = 0,
 		LESS_THAN_OR_EQUAL    ,
 		LESS_THAN             ,
 		GREATER_THAN_OR_EQUAL ,
 		GREATER_THAN          ,
-		EQUALS                ,
+		EQUALTO               ,
 		DOES_NOT_EQUAL        ,
 		CONTAINS              ,
 		STARTS_WITH           ,
@@ -195,6 +194,7 @@ namespace ClassifierEditor.Tree
 		MATCHES               ,
 		DOES_NOT_MATCH        ,
 		DOES_NOT_CONTAIN      ,
+		VALUE_COUNT
 	}
 
 
@@ -203,7 +203,7 @@ namespace ClassifierEditor.Tree
 	{
 	#region private fields
 
-		private ACompareCondition coOp = CompareConditions.NoOp;
+		private ACompareCondition coOp = CompareConditions.ValueConditionList[(int) NO_OP];
 
 		private string compareValue = null;
 
@@ -231,6 +231,7 @@ namespace ClassifierEditor.Tree
 		[IgnoreDataMember]
 		public string CompareString => CompareCondition.Name;
 
+
 		[DataMember(Order = 2)]
 		public string CompareValue
 		{
@@ -253,6 +254,16 @@ namespace ClassifierEditor.Tree
 				coOp = value;
 				OnPropertyChange();
 				OnPropertyChange("CompareString");
+			}
+		}
+
+		public int CompareOpCode
+		{
+			get => CompareCondition.OpCodeValue;
+
+			set
+			{
+
 			}
 		}
 

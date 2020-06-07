@@ -8,11 +8,11 @@
 
 	<sys:Double x:Key="BarSize"
 			>
-		6
+		8
 	</sys:Double>
 	<sys:Double x:Key="BarSizeOutline"
 			>
-		8
+		10
 	</sys:Double>
 	<sys:Double x:Key="RepeatButtonLength"
 			>

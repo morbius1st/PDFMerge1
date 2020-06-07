@@ -7,6 +7,9 @@ using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
 using UtilityLibrary;
 
+using static ClassifierEditor.Tree.CompareConditions;
+using static ClassifierEditor.Tree.ComparisonOp;
+
 #endregion
 
 // username: jeffs
@@ -88,26 +91,26 @@ namespace ClassifierEditor.SampleData
 //				item.CompareOps = new ObservableCollection<ComparisonOperation>();
 				if (i == 1)
 				{
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalAnd));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotEq, "2"));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalOr));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotMatch,
-						@"(?<=[A-Z])([ -]+)(?=[0-9])"));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) EQUALTO], "1"));
+					item.CompareOps.Add(new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new ComparisonOperation(LogicalConditionList[(int) LOGICAL_OR]));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) DOES_NOT_MATCH], "@(?<=[A-Z])([ -]+)(?=[0-9])"));
+
 				} 
 				else if (i == 4)
 				{
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.LogicalAnd));
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.DoesNotEq, "2"));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) EQUALTO], "1"));
+					item.CompareOps.Add(new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) DOES_NOT_EQUAL], "2"));
 				} 
 				else if (i == 2)
 				{
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.EqualTo, "1"));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) EQUALTO], "1"));
 				}
 				else if (i == 3)
 				{
-					item.CompareOps.Add(new ComparisonOperation(CompareConditions.NoOp, ""));
+					item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) NO_OP], "1"));
 				}
 
 //				item.CompareOps = new ObservableCollection<ComparisonOperation>();
