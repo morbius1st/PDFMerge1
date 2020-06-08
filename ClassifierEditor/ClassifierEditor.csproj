@@ -75,6 +75,7 @@
     <Compile Include="Tree\SheetCategory.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tree\TreeNode.cs" />
+    <Compile Include="Windows\ResourceFiles\XamlResources\Behaviors.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
     <Page Include="Windows\MainWindow.xaml">
@@ -101,6 +102,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ResourceFiles\XamlResources\ExpanderCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ResourceFiles\XamlResources\IconResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

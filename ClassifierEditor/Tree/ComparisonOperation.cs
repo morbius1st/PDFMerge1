@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using ClassifierEditor.Windows;
+
 using static ClassifierEditor.Tree.ComparisonOp;
+using static ClassifierEditor.Tree.CompareOperations;
 
 #endregion
 
@@ -13,166 +16,6 @@ using static ClassifierEditor.Tree.ComparisonOp;
 
 namespace ClassifierEditor.Tree
 {
-	// value conditions
-	// match conditions
-	// comparison conditions
-	// logical conditions
-
-	[DataContract(Namespace = "")]
-	[KnownType(typeof(ValueCondition))]
-	[KnownType(typeof(LogicalCondition))]
-	public abstract class ACompareCondition
-	{
-		public ACompareCondition() {}
-
-		public ACompareCondition(string name, ComparisonOp op)
-		{
-			Name = name;
-			OpCode = op;
-		}
-
-		[DataMember]
-		public abstract string Name { get; set;  }
-
-		[DataMember]
-		public abstract ComparisonOp OpCode { get; set;  }
-
-		[IgnoreDataMember]
-		public int OpCodeValue => (int) OpCode;
-	}
-
-	[DataContract(Namespace = "")]
-	public class ValueCondition : ACompareCondition
-	{
-		public ValueCondition() { }
-
-		public ValueCondition(string name, ComparisonOp op) : base(name, op) { }
-
-		public override string Name { get; set; }
-
-		public override ComparisonOp OpCode { get; set; }
-	}
-
-	[DataContract(Namespace = "")]
-	public class LogicalCondition : ACompareCondition
-	{
-		public LogicalCondition() {}
-
-		public LogicalCondition(string name, ComparisonOp op) : base(name, op) { }
-
-		public override string Name { get; set;  }
-
-		public override ComparisonOp OpCode { get; set;  }
-	}
-
-	public static class CompareConditions
-	{
-		public static List<LogicalCondition> LogicalConditionList { get; private set; }
-		public static List<ValueCondition> ValueConditionList { get; private set; }
-
-		static CompareConditions()
-		{
-			defineLogicalConditions();
-			defineValueConditions();
-		}
-
-		private static void defineLogicalConditions()
-		{
-			LogicalConditionList = new List<LogicalCondition>();
-
-			configureConditionList(LogicalConditionList, (int) LOGICAL_COUNT);
-
-			setLogicalCondition(LogicalConditionList, "And", LOGICAL_AND);
-			setLogicalCondition(LogicalConditionList, "Or", LOGICAL_OR);
-		}
-		
-		private static void defineValueConditions()
-		{
-			ValueConditionList = new List<ValueCondition>();
-
-			configureConditionList(ValueConditionList, (int) VALUE_COUNT);
-
-			setValueCondition(ValueConditionList, "No Op", NO_OP);
-			setValueCondition(ValueConditionList, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
-			setValueCondition(ValueConditionList, "Is Less Than", LESS_THAN);
-			setValueCondition(ValueConditionList, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
-			setValueCondition(ValueConditionList, "Is Greater Than", GREATER_THAN);
-			setValueCondition(ValueConditionList, "Is Exactly Equal to the Phrase", EQUALTO);
-			setValueCondition(ValueConditionList, "Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
-			setValueCondition(ValueConditionList, "Contains the Phrase", CONTAINS );
-			setValueCondition(ValueConditionList, "Does Not Contain the Phrase", DOES_NOT_CONTAIN );
-			setValueCondition(ValueConditionList, "Starts with the Phrase", STARTS_WITH );
-			setValueCondition(ValueConditionList, "Does Not Start with the Phrase", DOES_NOT_START_WITH);
-			setValueCondition(ValueConditionList, "Ends with the Phrase", ENDS_WITH);
-			setValueCondition(ValueConditionList, "Does Not End with the Phrase", DOES_NOT_END_WITH);
-			setValueCondition(ValueConditionList, "Matches this Pattern", MATCHES);
-			setValueCondition(ValueConditionList, "Does Not Match this Pattern", DOES_NOT_MATCH);
-		}
-
-		private static void setValueCondition(List<ValueCondition> list, string name, ComparisonOp op)
-		{
-			list[(int) op] = new ValueCondition(name, op);
-		}
-		
-		private static void setLogicalCondition(List<LogicalCondition> list, string name, ComparisonOp op)
-		{
-			list[(int) op] = new LogicalCondition(name, op);
-		}
-
-		private static void configureConditionList<T>(List<T> conditionList, int count)  where T : new()
-		{
-			for (var i = 0; i <count; i++)
-			{
-				conditionList.Add(new T());
-			}
-		}
-//
-//		public static LogicalCondition LogicalOr     { get; set; } = new LogicalCondition("Or", LOGICAL_OR);
-//		public static LogicalCondition LogicalAnd     { get; set; } = new LogicalCondition("And", LOGICAL_AND);
-//
-//		public static ValueCondition NoOp             { get; set; } = new ValueCondition("No Op", NO_OP);
-//
-//		public static ValueCondition LessThanOrEq     { get; set; } =
-//			new ValueCondition("Is Less Than or Equal", LESS_THAN_OR_EQUAL);
-//
-//		public static ValueCondition LessThan         { get; set; } = new ValueCondition("Is Less Than", LESS_THAN);
-//
-//		public static ValueCondition GreaterThanOrEq  { get; set; } =
-//			new ValueCondition("Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
-//
-//		public static ValueCondition GreaterThan      { get; set; } =
-//			new ValueCondition("Is Greater Than", GREATER_THAN);
-//
-//		public static ValueCondition EqualTo               { get; set; } =
-//			new ValueCondition("Is Exactly Equal to the Phrase", EQUALTO);
-//
-//		public static ValueCondition DoesNotEq        { get; set; } =
-//			new ValueCondition("Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
-//
-//		public static ValueCondition Contains         { get; set; } =
-//			new ValueCondition("Contains the Phrase", CONTAINS);
-//
-//		public static ValueCondition DoesNotContain   { get; set; } =
-//			new ValueCondition("Does Not Contain the Phrase", DOES_NOT_CONTAIN);
-//
-//		public static ValueCondition StartsWith       { get; set; } =
-//			new ValueCondition("Starts with the Phrase", STARTS_WITH);
-//
-//		public static ValueCondition DoesNotStartWith { get; set; } =
-//			new ValueCondition("Does Not Start with the Phrase", DOES_NOT_START_WITH);
-//
-//		public static ValueCondition EndsWith         { get; set; } =
-//			new ValueCondition("Ends with the Phrase", ENDS_WITH);
-//
-//		public static ValueCondition DoesNotEndWidth  { get; set; } =
-//			new ValueCondition("Does Not End with the Phrase", DOES_NOT_END_WITH);
-//
-//		public static ValueCondition Matches          { get; set; } =
-//			new ValueCondition("Matches this Pattern", MATCHES);
-//
-//		public static ValueCondition DoesNotMatch     { get; set; } =
-//			new ValueCondition("Does Not Match this Pattern", DOES_NOT_MATCH);
-	}
 
 	public enum ComparisonOp
 	{
@@ -199,38 +42,44 @@ namespace ClassifierEditor.Tree
 
 
 	[DataContract(Namespace = "")]
-	public class ComparisonOperation : INotifyPropertyChanged
+	[KnownType(typeof(ValueCompOp))]
+	[KnownType(typeof(LogicalCompOp))]
+	public abstract class ComparisonOperation : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private ACompareCondition coOp = CompareConditions.ValueConditionList[(int) NO_OP];
+		protected ACompareOp coOp = ValueCompareOps[(int) NO_OP];
 
-		private string compareValue = null;
+		private string compareValue;
+		private bool isFirstCompOp = false;
+		private bool ignoreCompOp = false;
 
 
 	#endregion
 
 	#region ctor
 
-		public ComparisonOperation(ValueCondition op, string value)
-		{
-			CompareCondition = op;
-			CompareValue = value;
-		}
-		
-		public ComparisonOperation(LogicalCondition op)
-		{
-			CompareCondition = op;
-			CompareValue = null;
-		}
+		public ComparisonOperation() { }
 
 	#endregion
 
 	#region public properties
 
 		[IgnoreDataMember]
-		public string CompareString => CompareCondition.Name;
+		public string CompareString => CompareOp.Name;
 
+		[DataMember(Order = 1)]
+		public ACompareOp CompareOp
+		{
+			get => coOp;
+
+			set
+			{
+				coOp = value;
+				OnPropertyChange();
+				OnPropertyChange("CompareString");
+			}
+		}
 
 		[DataMember(Order = 2)]
 		public string CompareValue
@@ -244,28 +93,34 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 1)]
-		public ACompareCondition CompareCondition
+		[DataMember(Order = 3)]
+		public bool IsFirstCompOp
 		{
-			get => coOp;
-
+			get => isFirstCompOp;
 			set
 			{
-				coOp = value;
+				isFirstCompOp = value;
+
 				OnPropertyChange();
-				OnPropertyChange("CompareString");
 			}
 		}
 
-		public int CompareOpCode
+		[DataMember(Order = 4)]
+		public bool IgnoreCompOp
 		{
-			get => CompareCondition.OpCodeValue;
-
+			get => ignoreCompOp;
 			set
 			{
+				ignoreCompOp = value;
 
+				OnPropertyChange();
 			}
 		}
+
+
+		[IgnoreDataMember]
+		public abstract int CompareOpCode { get; set; }
+
 
 	#endregion
 
@@ -285,7 +140,7 @@ namespace ClassifierEditor.Tree
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		protected void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
 		}
@@ -305,4 +160,168 @@ namespace ClassifierEditor.Tree
 
 	#endregion
 	}
+
+	[DataContract(Namespace = "")]
+	public class ValueCompOp : ComparisonOperation
+	{
+		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false)
+		{
+			CompareOp = op;
+			CompareValue = value;
+			IsFirstCompOp = isFirst;
+		}
+
+		[IgnoreDataMember]
+		public override int CompareOpCode
+		{
+
+			get => coOp.OpCodeValue;
+			set
+			{
+				CompareOp = ValueCompareOps[value];
+
+			}
+		}
+	}
+
+	[DataContract(Namespace = "")]
+	public class LogicalCompOp : ComparisonOperation
+	{
+		public LogicalCompOp(LogicalCompareOp op)
+		{
+			CompareOp = op;
+			CompareValue = null;
+		}
+
+		[IgnoreDataMember]
+		public override int CompareOpCode
+		{
+
+			get => coOp.OpCodeValue;
+			set
+			{
+				CompareOp = LogicalCompareOps[value];
+
+			}
+		}
+	}
+
+
+
+
+	// value conditions
+	// match conditions
+	// comparison conditions
+	// logical conditions
+
+	[DataContract(Namespace = "")]
+	[KnownType(typeof(ValueCompareOp))]
+	[KnownType(typeof(LogicalCompareOp))]
+	public abstract class ACompareOp
+	{
+		public ACompareOp() {}
+
+		public ACompareOp(string name, ComparisonOp op)
+		{
+			Name = name;
+			OpCode = op;
+		}
+
+		[DataMember]
+		public abstract string Name { get; set;  }
+
+		[DataMember]
+		public abstract ComparisonOp OpCode { get; set;  }
+
+		[IgnoreDataMember]
+		public int OpCodeValue => (int) OpCode;
+	}
+
+	[DataContract(Namespace = "")]
+	public class ValueCompareOp : ACompareOp
+	{
+		public ValueCompareOp() { }
+
+		public ValueCompareOp(string name, ComparisonOp op) : base(name, op) { }
+
+		public override string Name { get; set; }
+
+		public override ComparisonOp OpCode { get; set; }
+	}
+
+	[DataContract(Namespace = "")]
+	public class LogicalCompareOp : ACompareOp
+	{
+		public LogicalCompareOp() {}
+
+		public LogicalCompareOp(string name, ComparisonOp op) : base(name, op) { }
+
+		public override string Name { get; set;  }
+
+		public override ComparisonOp OpCode { get; set;  }
+	}
+
+	public static class CompareOperations
+	{
+		public static List<LogicalCompareOp> LogicalCompareOps { get; private set; }
+		public static List<ValueCompareOp> ValueCompareOps { get; private set; }
+
+		static  CompareOperations()
+		{
+			defineLogicalCompareOps();
+			defineValueCompareOps();
+		}
+
+		private static void defineLogicalCompareOps()
+		{
+			LogicalCompareOps = new List<LogicalCompareOp>();
+
+			configureCompareOpList(LogicalCompareOps, (int) LOGICAL_COUNT);
+
+			setLogicalCompareOp(LogicalCompareOps, "And", LOGICAL_AND);
+			setLogicalCompareOp(LogicalCompareOps, "Or", LOGICAL_OR);
+		}
+		
+		private static void defineValueCompareOps()
+		{
+			ValueCompareOps = new List<ValueCompareOp>();
+
+			configureCompareOpList(ValueCompareOps, (int) VALUE_COUNT);
+
+			setValueCompareOp(ValueCompareOps, "No Op", NO_OP);
+			setValueCompareOp(ValueCompareOps, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
+			setValueCompareOp(ValueCompareOps, "Is Less Than", LESS_THAN);
+			setValueCompareOp(ValueCompareOps, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
+			setValueCompareOp(ValueCompareOps, "Is Greater Than", GREATER_THAN);
+			setValueCompareOp(ValueCompareOps, "Is Exactly Equal to the Phrase", EQUALTO);
+			setValueCompareOp(ValueCompareOps, "Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
+			setValueCompareOp(ValueCompareOps, "Contains the Phrase", CONTAINS );
+			setValueCompareOp(ValueCompareOps, "Does Not Contain the Phrase", DOES_NOT_CONTAIN );
+			setValueCompareOp(ValueCompareOps, "Starts with the Phrase", STARTS_WITH );
+			setValueCompareOp(ValueCompareOps, "Does Not Start with the Phrase", DOES_NOT_START_WITH);
+			setValueCompareOp(ValueCompareOps, "Ends with the Phrase", ENDS_WITH);
+			setValueCompareOp(ValueCompareOps, "Does Not End with the Phrase", DOES_NOT_END_WITH);
+			setValueCompareOp(ValueCompareOps, "Matches this Pattern", MATCHES);
+			setValueCompareOp(ValueCompareOps, "Does Not Match this Pattern", DOES_NOT_MATCH);
+		}
+
+		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ComparisonOp op)
+		{
+			list[(int) op] = new ValueCompareOp(name, op);
+		}
+		
+		private static void setLogicalCompareOp(List<LogicalCompareOp> list, string name, ComparisonOp op)
+		{
+			list[(int) op] = new LogicalCompareOp(name, op);
+		}
+
+		private static void configureCompareOpList<T>(List<T> conditionList, int count)  where T : new()
+		{
+			for (var i = 0; i <count; i++)
+			{
+				conditionList.Add(new T());
+			}
+		}
+	}
+
 }

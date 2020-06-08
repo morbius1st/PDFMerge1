@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-06-06 - 17:55 -07:00</SaveDateTime>
+    <SaveDateTime>2020-06-07 - 16:34 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <SystemVersion>7.0</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
@@ -44,39 +44,39 @@
             <Title>node title 01:00:01</Title>
             <Description>node description</Description>
             <CompareOps>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Is Exactly Equal to the Phrase</Name>
                   <OpCode>EQUALTO</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>1</CompareValue>
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="LogicalCondition">
+              <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                <CompareOp xmlns="" i:type="LogicalCompareOp">
                   <Name>And</Name>
                   <OpCode>LOGICAL_AND</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue i:nil="true" />
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Is Not Exactly Equal to the Phrase</Name>
                   <OpCode>DOES_NOT_EQUAL</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>2</CompareValue>
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="LogicalCondition">
+              <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                <CompareOp xmlns="" i:type="LogicalCompareOp">
                   <Name>Or</Name>
                   <OpCode>LOGICAL_OR</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue i:nil="true" />
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Does Not Match this Pattern</Name>
                   <OpCode>DOES_NOT_MATCH</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
               </ComparisonOperation>
             </CompareOps>
@@ -95,11 +95,11 @@
             <Title>node title 02:00:02</Title>
             <Description>node description</Description>
             <CompareOps>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Is Exactly Equal to the Phrase</Name>
                   <OpCode>EQUALTO</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>1</CompareValue>
               </ComparisonOperation>
             </CompareOps>
@@ -118,11 +118,11 @@
             <Title>node title 03:00:03</Title>
             <Description>node description</Description>
             <CompareOps>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>No Op</Name>
                   <OpCode>LOGICAL_OR</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>1</CompareValue>
               </ComparisonOperation>
             </CompareOps>
@@ -155,39 +155,39 @@
                 <Title>node title 03:01:01</Title>
                 <Description>node description</Description>
                 <CompareOps>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Is Exactly Equal to the Phrase</Name>
                       <OpCode>EQUALTO</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>1</CompareValue>
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="LogicalCondition">
+                  <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                    <CompareOp xmlns="" i:type="LogicalCompareOp">
                       <Name>And</Name>
                       <OpCode>LOGICAL_AND</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue i:nil="true" />
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Is Not Exactly Equal to the Phrase</Name>
                       <OpCode>DOES_NOT_EQUAL</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>2</CompareValue>
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="LogicalCondition">
+                  <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                    <CompareOp xmlns="" i:type="LogicalCompareOp">
                       <Name>Or</Name>
                       <OpCode>LOGICAL_OR</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue i:nil="true" />
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Does Not Match this Pattern</Name>
                       <OpCode>DOES_NOT_MATCH</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
                   </ComparisonOperation>
                 </CompareOps>
@@ -206,11 +206,11 @@
                 <Title>node title 03:01:02</Title>
                 <Description>node description</Description>
                 <CompareOps>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Is Exactly Equal to the Phrase</Name>
                       <OpCode>EQUALTO</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>1</CompareValue>
                   </ComparisonOperation>
                 </CompareOps>
@@ -229,11 +229,11 @@
                 <Title>node title 03:01:03</Title>
                 <Description>node description</Description>
                 <CompareOps>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>No Op</Name>
                       <OpCode>LOGICAL_OR</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>1</CompareValue>
                   </ComparisonOperation>
                 </CompareOps>
@@ -266,39 +266,39 @@
                     <Title>node title 03:02:01</Title>
                     <Description>node description</Description>
                     <CompareOps>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Is Exactly Equal to the Phrase</Name>
                           <OpCode>EQUALTO</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>1</CompareValue>
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="LogicalCondition">
+                      <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                        <CompareOp xmlns="" i:type="LogicalCompareOp">
                           <Name>And</Name>
                           <OpCode>LOGICAL_AND</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue i:nil="true" />
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Is Not Exactly Equal to the Phrase</Name>
                           <OpCode>DOES_NOT_EQUAL</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>2</CompareValue>
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="LogicalCondition">
+                      <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                        <CompareOp xmlns="" i:type="LogicalCompareOp">
                           <Name>Or</Name>
                           <OpCode>LOGICAL_OR</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue i:nil="true" />
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Does Not Match this Pattern</Name>
                           <OpCode>DOES_NOT_MATCH</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
                       </ComparisonOperation>
                     </CompareOps>
@@ -317,11 +317,11 @@
                     <Title>node title 03:02:02</Title>
                     <Description>node description</Description>
                     <CompareOps>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Is Exactly Equal to the Phrase</Name>
                           <OpCode>EQUALTO</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>1</CompareValue>
                       </ComparisonOperation>
                     </CompareOps>
@@ -340,11 +340,11 @@
                     <Title>node title 03:02:03</Title>
                     <Description>node description</Description>
                     <CompareOps>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>No Op</Name>
                           <OpCode>LOGICAL_OR</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>1</CompareValue>
                       </ComparisonOperation>
                     </CompareOps>
@@ -377,39 +377,39 @@
                         <Title>node title 03:03:01</Title>
                         <Description>node description</Description>
                         <CompareOps>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Is Exactly Equal to the Phrase</Name>
                               <OpCode>EQUALTO</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>1</CompareValue>
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="LogicalCondition">
+                          <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                            <CompareOp xmlns="" i:type="LogicalCompareOp">
                               <Name>And</Name>
                               <OpCode>LOGICAL_AND</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue i:nil="true" />
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Is Not Exactly Equal to the Phrase</Name>
                               <OpCode>DOES_NOT_EQUAL</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>2</CompareValue>
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="LogicalCondition">
+                          <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                            <CompareOp xmlns="" i:type="LogicalCompareOp">
                               <Name>Or</Name>
                               <OpCode>LOGICAL_OR</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue i:nil="true" />
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Does Not Match this Pattern</Name>
                               <OpCode>DOES_NOT_MATCH</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
                           </ComparisonOperation>
                         </CompareOps>
@@ -428,11 +428,11 @@
                         <Title>node title 03:03:02</Title>
                         <Description>node description</Description>
                         <CompareOps>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Is Exactly Equal to the Phrase</Name>
                               <OpCode>EQUALTO</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>1</CompareValue>
                           </ComparisonOperation>
                         </CompareOps>
@@ -451,11 +451,11 @@
                         <Title>node title 03:03:03</Title>
                         <Description>node description</Description>
                         <CompareOps>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>No Op</Name>
                               <OpCode>LOGICAL_OR</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>1</CompareValue>
                           </ComparisonOperation>
                         </CompareOps>
@@ -474,25 +474,25 @@
                         <Title>node title 03:03:04</Title>
                         <Description>node description</Description>
                         <CompareOps>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Is Exactly Equal to the Phrase</Name>
                               <OpCode>EQUALTO</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>1</CompareValue>
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="LogicalCondition">
+                          <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                            <CompareOp xmlns="" i:type="LogicalCompareOp">
                               <Name>And</Name>
                               <OpCode>LOGICAL_AND</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue i:nil="true" />
                           </ComparisonOperation>
-                          <ComparisonOperation>
-                            <CompareCondition xmlns="" i:type="ValueCondition">
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareOp xmlns="" i:type="ValueCompareOp">
                               <Name>Is Not Exactly Equal to the Phrase</Name>
                               <OpCode>DOES_NOT_EQUAL</OpCode>
-                            </CompareCondition>
+                            </CompareOp>
                             <CompareValue>2</CompareValue>
                           </ComparisonOperation>
                         </CompareOps>
@@ -513,25 +513,25 @@
                     <Title>node title 03:02:04</Title>
                     <Description>node description</Description>
                     <CompareOps>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Is Exactly Equal to the Phrase</Name>
                           <OpCode>EQUALTO</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>1</CompareValue>
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="LogicalCondition">
+                      <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                        <CompareOp xmlns="" i:type="LogicalCompareOp">
                           <Name>And</Name>
                           <OpCode>LOGICAL_AND</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue i:nil="true" />
                       </ComparisonOperation>
-                      <ComparisonOperation>
-                        <CompareCondition xmlns="" i:type="ValueCondition">
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareOp xmlns="" i:type="ValueCompareOp">
                           <Name>Is Not Exactly Equal to the Phrase</Name>
                           <OpCode>DOES_NOT_EQUAL</OpCode>
-                        </CompareCondition>
+                        </CompareOp>
                         <CompareValue>2</CompareValue>
                       </ComparisonOperation>
                     </CompareOps>
@@ -552,25 +552,25 @@
                 <Title>node title 03:01:04</Title>
                 <Description>node description</Description>
                 <CompareOps>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Is Exactly Equal to the Phrase</Name>
                       <OpCode>EQUALTO</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>1</CompareValue>
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="LogicalCondition">
+                  <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                    <CompareOp xmlns="" i:type="LogicalCompareOp">
                       <Name>And</Name>
                       <OpCode>LOGICAL_AND</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue i:nil="true" />
                   </ComparisonOperation>
-                  <ComparisonOperation>
-                    <CompareCondition xmlns="" i:type="ValueCondition">
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
                       <Name>Is Not Exactly Equal to the Phrase</Name>
                       <OpCode>DOES_NOT_EQUAL</OpCode>
-                    </CompareCondition>
+                    </CompareOp>
                     <CompareValue>2</CompareValue>
                   </ComparisonOperation>
                 </CompareOps>
@@ -591,25 +591,25 @@
             <Title>node title 04:00:04</Title>
             <Description>node description</Description>
             <CompareOps>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Is Exactly Equal to the Phrase</Name>
                   <OpCode>EQUALTO</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>1</CompareValue>
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="LogicalCondition">
+              <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                <CompareOp xmlns="" i:type="LogicalCompareOp">
                   <Name>And</Name>
                   <OpCode>LOGICAL_AND</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue i:nil="true" />
               </ComparisonOperation>
-              <ComparisonOperation>
-                <CompareCondition xmlns="" i:type="ValueCondition">
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Is Not Exactly Equal to the Phrase</Name>
                   <OpCode>DOES_NOT_EQUAL</OpCode>
-                </CompareCondition>
+                </CompareOp>
                 <CompareValue>2</CompareValue>
               </ComparisonOperation>
             </CompareOps>

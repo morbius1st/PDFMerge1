@@ -16,7 +16,9 @@ using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
 
-using static ClassifierEditor.Tree.CompareConditions;
+using ClassifierEditor.Windows.ResourceFiles.XamlResources;
+
+using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
 
 //using ComboBox = System.Windows.Controls.ComboBox;
@@ -86,8 +88,6 @@ namespace ClassifierEditor.Windows
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
 
-
-
 		public string ContextCmdDelete { get; }            = "delete";
 		public string ContextCmdAddChild { get; }          = "addChild";
 		public string ContextCmdAddBefore { get; }         = "addBefore";
@@ -120,7 +120,6 @@ namespace ClassifierEditor.Windows
 			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
 				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
 
-			
 		}
 
 		public MainWindow()
@@ -134,18 +133,31 @@ namespace ClassifierEditor.Windows
 			{
 				CompareOps = new ObservableCollection<ComparisonOperation>()
 				{
-					new ComparisonOperation(ValueConditionList[(int) CONTAINS], "value"),
-					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
-					new ComparisonOperation(ValueConditionList[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
-					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
-					new ComparisonOperation(ValueConditionList[(int) EQUALTO], "1000"),
-					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
-					new ComparisonOperation(ValueConditionList[(int) MATCHES], "2000"),
-					new ComparisonOperation(LogicalConditionList[(int) LOGICAL_AND]),
-					new ComparisonOperation(ValueConditionList[(int) MATCHES], "3000"),
+					new ValueCompOp(ValueCompareOps[(int) CONTAINS], "value", true),
+					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+					new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
+					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+					new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1000"),
+					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+
 				}
 			}
 			, false );
+
+		public static List<ValueCompareOp> vComps = new List<ValueCompareOp>()
+		{
+			new ValueCompareOp("Does Not Contain", DOES_NOT_CONTAIN),
+			new ValueCompareOp("Contains", CONTAINS),
+			new ValueCompareOp("Does not Match", DOES_NOT_MATCH),
+			new ValueCompareOp("Match", MATCHES),
+
+		};
+
 
 	#endregion
 
@@ -210,7 +222,6 @@ namespace ClassifierEditor.Windows
 //		public static SampleFileList FileList2 { get; private set; } = new SampleFileList(
 //			@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs");
 		public SampleFileList FileList { get; private set; }
-
 
 	#endregion
 
@@ -499,11 +510,16 @@ namespace ClassifierEditor.Windows
 	#region buttons
 
 
-		private void AddCondition_OnClick(object sender, RoutedEventArgs e)
+		private void BtnAddCondition_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (HasSelection)
 			{
-				userSelected.Item.CompareOps.Add(new ComparisonOperation(ValueConditionList[(int) EQUALTO], "ABC"));
+				if (userSelected.Item.CompareOps.Count > 0)
+				{
+					userSelected.Item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+				}
+
+				userSelected.Item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "A"));
 			}
 
 		}
@@ -532,8 +548,8 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			List< ValueCondition > a = CompareConditions.ValueConditionList;
-			List< LogicalCondition > b = CompareConditions.LogicalConditionList;
+			List< ValueCompareOp > a = ValueCompareOps;
+			List< LogicalCompareOp > b = LogicalCompareOps;
 
 
 			ListView lv = Lv2;
@@ -603,12 +619,12 @@ namespace ClassifierEditor.Windows
 
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
-				if (taskitem.CompareCondition is LogicalCondition)
+				if (taskitem.CompareOp is LogicalCompareOp)
 				{
 					return
 						element.FindResource("Lv1DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareCondition == ValueConditionList[(int) NO_OP]) 
+				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP) 
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
@@ -635,12 +651,12 @@ namespace ClassifierEditor.Windows
 
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
-				if (taskitem.CompareCondition is LogicalCondition)
+				if (taskitem.CompareOp is LogicalCompareOp)
 				{
 					return
 						element.FindResource("Lv2DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareCondition == ValueConditionList[(int) NO_OP])
+				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP)
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
