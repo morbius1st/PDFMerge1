@@ -8,7 +8,7 @@ using ClassifierEditor.Tree;
 using UtilityLibrary;
 
 using static ClassifierEditor.Tree.CompareOperations;
-using static ClassifierEditor.Tree.ComparisonOp;
+using static ClassifierEditor.Tree.EValueCompOp;
 
 #endregion
 
@@ -116,16 +116,16 @@ namespace ClassifierEditor.SampleData
 //				item.CompareOps = new ObservableCollection<ComparisonOperation>();
 //				if (i == 1 || i == 4)
 //				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.LOGICAL_AND, ""));
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.DOES_NOT_EQUAL, "2"));
+//					item.CompareOps.Add(new ComparisonOperation(EValueCompOp.EQUALS, "1"));
+//					item.CompareOps.Add(new ComparisonOperation(EValueCompOp.LOGICAL_AND, ""));
+//					item.CompareOps.Add(new ComparisonOperation(EValueCompOp.DOES_NOT_EQUAL, "2"));
 //				} else if (i == 2)
 //				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
+//					item.CompareOps.Add(new ComparisonOperation(EValueCompOp.EQUALS, "1"));
 //				}
 //				else if (i == 3)
 //				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.NO_OP, ""));
+//					item.CompareOps.Add(new ComparisonOperation(EValueCompOp.NO_OP, ""));
 //				}
 
 				

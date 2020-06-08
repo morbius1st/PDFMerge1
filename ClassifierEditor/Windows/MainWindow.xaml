@@ -2090,7 +2090,7 @@
 
 			<DataTemplate
 					x:Key="Lv1DataTemplate1"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="0"
@@ -2157,7 +2157,7 @@
 
 			<DataTemplate
 					x:Key="Lv1DataTemplate2"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="0,-3,0,-4"
@@ -2201,7 +2201,7 @@
 
 			<DataTemplate
 					x:Key="Lv1DataTemplate3"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="0"
@@ -2265,7 +2265,7 @@
 
 			<DataTemplate
 					x:Key="Lv2DataTemplate1"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="2"
@@ -2423,7 +2423,7 @@
 
 			<DataTemplate
 					x:Key="Lv2DataTemplate2"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="0,-3,0,-3"
@@ -2503,7 +2503,7 @@
 
 			<DataTemplate
 					x:Key="Lv2DataTemplate3"
-					DataType="tree:ComparisonOperation"
+					DataType="tree:CompareOperation"
 					>
 				<DockPanel
 						Margin="0"

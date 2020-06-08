@@ -19,7 +19,7 @@ using UtilityLibrary;
 using ClassifierEditor.Windows.ResourceFiles.XamlResources;
 
 using static ClassifierEditor.Tree.CompareOperations;
-using static ClassifierEditor.Tree.ComparisonOp;
+using static ClassifierEditor.Tree.EValueCompOp;
 
 //using ComboBox = System.Windows.Controls.ComboBox;
 //using ContextMenu = System.Windows.Controls.ContextMenu;
@@ -131,7 +131,7 @@ namespace ClassifierEditor.Windows
 		public static TreeNode temp { get; set; } = new TreeNode(new BaseOfTree(), 
 			new SheetCategory("title", "description", "pattern")
 			{
-				CompareOps = new ObservableCollection<ComparisonOperation>()
+				CompareOps = new ObservableCollection<CompareOperation>()
 				{
 					new ValueCompOp(ValueCompareOps[(int) CONTAINS], "value", true),
 					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
@@ -614,10 +614,10 @@ namespace ClassifierEditor.Windows
 		{
 			FrameworkElement element = container as FrameworkElement;
 
-			if (element != null && item != null && item is ComparisonOperation)
+			if (element != null && item != null && item is CompareOperation)
 			{
 
-				ComparisonOperation taskitem = item as ComparisonOperation;
+				CompareOperation taskitem = item as CompareOperation;
 
 				if (taskitem.CompareOp is LogicalCompareOp)
 				{
@@ -646,10 +646,10 @@ namespace ClassifierEditor.Windows
 		{
 			FrameworkElement element = container as FrameworkElement;
 
-			if (element != null && item != null && item is ComparisonOperation)
+			if (element != null && item != null && item is CompareOperation)
 			{
 
-				ComparisonOperation taskitem = item as ComparisonOperation;
+				CompareOperation taskitem = item as CompareOperation;
 
 				if (taskitem.CompareOp is LogicalCompareOp)
 				{

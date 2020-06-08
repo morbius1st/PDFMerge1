@@ -71,7 +71,8 @@
     <Compile Include="FilesSupport\SampleFileList.cs" />
     <Compile Include="Settings\SettingsMgr.-v70.cs" />
     <Compile Include="Settings\SuiteSettings70.cs" />
-    <Compile Include="Tree\ComparisonOperation.cs" />
+    <Compile Include="Tree\CompareOperation.cs" />
+    <Compile Include="Tree\ComparisonOperators.cs" />
     <Compile Include="Tree\SheetCategory.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tree\TreeNode.cs" />

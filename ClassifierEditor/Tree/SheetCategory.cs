@@ -13,6 +13,10 @@ using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using ClassifierEditor.FilesSupport;
 
+using static ClassifierEditor.Tree.EValueCompOp;
+using static ClassifierEditor.Tree.ELogicalCompOp;
+using static ClassifierEditor.Tree.CompareOperations;
+
 #endregion
 
 // username: jeffs
@@ -74,7 +78,7 @@ namespace ClassifierEditor.Tree
 		private string description;
 		private int depth;
 		private Regex pattern;
-		private ObservableCollection<ComparisonOperation> compareOps;
+		private ObservableCollection<CompareOperation> compareOps;
 
 	#endregion
 
@@ -87,7 +91,12 @@ namespace ClassifierEditor.Tree
 			this.description = description;
 			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
 
-			CompareOps = new ObservableCollection<ComparisonOperation>();
+			CompareOps = new ObservableCollection<CompareOperation>();
+
+			CompareOps.Add(new CompareOperation(LogicalCompareOps[(int) LOGICAL_AND], 
+					ValueCompareOps[(int) EQUALTO], "")
+				
+				));
 		}
 
 	#endregion
@@ -138,7 +147,7 @@ namespace ClassifierEditor.Tree
 		}
 
 		[DataMember(Order = 3)]
-		public ObservableCollection<ComparisonOperation> CompareOps
+		public ObservableCollection<CompareOperation> CompareOps
 		{
 			get => compareOps;
 			set
