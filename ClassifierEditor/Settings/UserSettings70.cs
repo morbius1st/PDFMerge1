@@ -18,7 +18,6 @@ namespace SettingsManager
 		public override string DataClassVersion => "7.0u";
 		public override string Description => "user setting file for ClassifierEditor";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
-
 	}
 
 #endregion
@@ -30,20 +29,26 @@ namespace SettingsManager
 	[DataContract(Name = "UserSettingData")]
 	public class UserSettingData70
 	{
-		[DataMember(Order = 1)]
-		public int UserSettingsValue { get; set; } = 6;
 
+		// the folder where the FileName config files are stored
 		[DataMember(Order = 2)]
-		public string FileNameCategoryFolder { get; private set; } =
+		public string CatConfigFolder { get; private set; } =
 			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
 
+		// the name of the FileName config file
 		[DataMember(Order = 3)]
-		public string FileNameCategoryFile { get; private set; } =
+		public string CatConfigFile { get; private set; } =
 			"SheetCategories.xml";
 
+		// the folder with the sample PDF files to categorize
 		[DataMember(Order = 4)]
-		public string FileNameTestFolder { get; private set; } =
+		public string CatConfigSampleFolder { get; private set; } =
 			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
+
+		// the folder with the sample PDF files to categorize
+		[DataMember(Order = 5)]
+		public string CatConfigSampleFile { get; private set; } =
+			@"PdfSampleFileList.dat";
 	}
 
 #endregion

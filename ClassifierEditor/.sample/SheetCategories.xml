@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-06-07 - 16:34 -07:00</SaveDateTime>
+    <SaveDateTime>2020-06-11 - 13:39 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <SystemVersion>7.0</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
@@ -50,6 +50,8 @@
                   <OpCode>EQUALTO</OpCode>
                 </CompareOp>
                 <CompareValue>1</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                 <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -57,6 +59,8 @@
                   <OpCode>LOGICAL_AND</OpCode>
                 </CompareOp>
                 <CompareValue i:nil="true" />
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -64,6 +68,8 @@
                   <OpCode>DOES_NOT_EQUAL</OpCode>
                 </CompareOp>
                 <CompareValue>2</CompareValue>
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                 <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -71,6 +77,8 @@
                   <OpCode>LOGICAL_OR</OpCode>
                 </CompareOp>
                 <CompareValue i:nil="true" />
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -78,6 +86,8 @@
                   <OpCode>DOES_NOT_MATCH</OpCode>
                 </CompareOp>
                 <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -101,6 +111,8 @@
                   <OpCode>EQUALTO</OpCode>
                 </CompareOp>
                 <CompareValue>1</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -120,10 +132,12 @@
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
-                  <Name>No Op</Name>
-                  <OpCode>LOGICAL_OR</OpCode>
+                  <Name>Is Greater Than or Equal</Name>
+                  <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
                 </CompareOp>
                 <CompareValue>1</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -161,6 +175,8 @@
                       <OpCode>EQUALTO</OpCode>
                     </CompareOp>
                     <CompareValue>1</CompareValue>
+                    <IsFirstCompOp>true</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                     <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -168,6 +184,8 @@
                       <OpCode>LOGICAL_AND</OpCode>
                     </CompareOp>
                     <CompareValue i:nil="true" />
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="ValueCompOp">
                     <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -175,6 +193,8 @@
                       <OpCode>DOES_NOT_EQUAL</OpCode>
                     </CompareOp>
                     <CompareValue>2</CompareValue>
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                     <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -182,6 +202,8 @@
                       <OpCode>LOGICAL_OR</OpCode>
                     </CompareOp>
                     <CompareValue i:nil="true" />
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="ValueCompOp">
                     <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -189,6 +211,8 @@
                       <OpCode>DOES_NOT_MATCH</OpCode>
                     </CompareOp>
                     <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
                 <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -212,6 +236,8 @@
                       <OpCode>EQUALTO</OpCode>
                     </CompareOp>
                     <CompareValue>1</CompareValue>
+                    <IsFirstCompOp>true</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
                 <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -231,10 +257,12 @@
                 <CompareOps>
                   <ComparisonOperation xmlns="" i:type="ValueCompOp">
                     <CompareOp xmlns="" i:type="ValueCompareOp">
-                      <Name>No Op</Name>
-                      <OpCode>LOGICAL_OR</OpCode>
+                      <Name>Is Greater Than or Equal</Name>
+                      <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
                     </CompareOp>
                     <CompareValue>1</CompareValue>
+                    <IsFirstCompOp>true</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
                 <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -272,6 +300,8 @@
                           <OpCode>EQUALTO</OpCode>
                         </CompareOp>
                         <CompareValue>1</CompareValue>
+                        <IsFirstCompOp>true</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                         <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -279,6 +309,8 @@
                           <OpCode>LOGICAL_AND</OpCode>
                         </CompareOp>
                         <CompareValue i:nil="true" />
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="ValueCompOp">
                         <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -286,6 +318,8 @@
                           <OpCode>DOES_NOT_EQUAL</OpCode>
                         </CompareOp>
                         <CompareValue>2</CompareValue>
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                         <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -293,6 +327,8 @@
                           <OpCode>LOGICAL_OR</OpCode>
                         </CompareOp>
                         <CompareValue i:nil="true" />
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="ValueCompOp">
                         <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -300,6 +336,8 @@
                           <OpCode>DOES_NOT_MATCH</OpCode>
                         </CompareOp>
                         <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
                     <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -323,6 +361,8 @@
                           <OpCode>EQUALTO</OpCode>
                         </CompareOp>
                         <CompareValue>1</CompareValue>
+                        <IsFirstCompOp>true</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
                     <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -342,10 +382,12 @@
                     <CompareOps>
                       <ComparisonOperation xmlns="" i:type="ValueCompOp">
                         <CompareOp xmlns="" i:type="ValueCompareOp">
-                          <Name>No Op</Name>
-                          <OpCode>LOGICAL_OR</OpCode>
+                          <Name>Is Greater Than or Equal</Name>
+                          <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
                         </CompareOp>
                         <CompareValue>1</CompareValue>
+                        <IsFirstCompOp>true</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
                     <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -383,6 +425,8 @@
                               <OpCode>EQUALTO</OpCode>
                             </CompareOp>
                             <CompareValue>1</CompareValue>
+                            <IsFirstCompOp>true</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                             <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -390,6 +434,8 @@
                               <OpCode>LOGICAL_AND</OpCode>
                             </CompareOp>
                             <CompareValue i:nil="true" />
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="ValueCompOp">
                             <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -397,6 +443,8 @@
                               <OpCode>DOES_NOT_EQUAL</OpCode>
                             </CompareOp>
                             <CompareValue>2</CompareValue>
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                             <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -404,6 +452,8 @@
                               <OpCode>LOGICAL_OR</OpCode>
                             </CompareOp>
                             <CompareValue i:nil="true" />
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="ValueCompOp">
                             <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -411,6 +461,8 @@
                               <OpCode>DOES_NOT_MATCH</OpCode>
                             </CompareOp>
                             <CompareValue>@(?&lt;=[A-Z])([ -]+)(?=[0-9])</CompareValue>
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
                         <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -434,6 +486,8 @@
                               <OpCode>EQUALTO</OpCode>
                             </CompareOp>
                             <CompareValue>1</CompareValue>
+                            <IsFirstCompOp>true</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
                         <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -453,10 +507,12 @@
                         <CompareOps>
                           <ComparisonOperation xmlns="" i:type="ValueCompOp">
                             <CompareOp xmlns="" i:type="ValueCompareOp">
-                              <Name>No Op</Name>
-                              <OpCode>LOGICAL_OR</OpCode>
+                              <Name>Is Greater Than or Equal</Name>
+                              <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
                             </CompareOp>
                             <CompareValue>1</CompareValue>
+                            <IsFirstCompOp>true</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
                         <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -480,6 +536,8 @@
                               <OpCode>EQUALTO</OpCode>
                             </CompareOp>
                             <CompareValue>1</CompareValue>
+                            <IsFirstCompOp>true</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                             <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -487,6 +545,8 @@
                               <OpCode>LOGICAL_AND</OpCode>
                             </CompareOp>
                             <CompareValue i:nil="true" />
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                           <ComparisonOperation xmlns="" i:type="ValueCompOp">
                             <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -494,6 +554,8 @@
                               <OpCode>DOES_NOT_EQUAL</OpCode>
                             </CompareOp>
                             <CompareValue>2</CompareValue>
+                            <IsFirstCompOp>false</IsFirstCompOp>
+                            <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
                         <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -519,6 +581,8 @@
                           <OpCode>EQUALTO</OpCode>
                         </CompareOp>
                         <CompareValue>1</CompareValue>
+                        <IsFirstCompOp>true</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                         <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -526,6 +590,8 @@
                           <OpCode>LOGICAL_AND</OpCode>
                         </CompareOp>
                         <CompareValue i:nil="true" />
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                       <ComparisonOperation xmlns="" i:type="ValueCompOp">
                         <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -533,6 +599,8 @@
                           <OpCode>DOES_NOT_EQUAL</OpCode>
                         </CompareOp>
                         <CompareValue>2</CompareValue>
+                        <IsFirstCompOp>false</IsFirstCompOp>
+                        <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
                     <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -558,6 +626,8 @@
                       <OpCode>EQUALTO</OpCode>
                     </CompareOp>
                     <CompareValue>1</CompareValue>
+                    <IsFirstCompOp>true</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                     <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -565,6 +635,8 @@
                       <OpCode>LOGICAL_AND</OpCode>
                     </CompareOp>
                     <CompareValue i:nil="true" />
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                   <ComparisonOperation xmlns="" i:type="ValueCompOp">
                     <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -572,6 +644,8 @@
                       <OpCode>DOES_NOT_EQUAL</OpCode>
                     </CompareOp>
                     <CompareValue>2</CompareValue>
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
                 <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
@@ -597,6 +671,8 @@
                   <OpCode>EQUALTO</OpCode>
                 </CompareOp>
                 <CompareValue>1</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="LogicalCompOp">
                 <CompareOp xmlns="" i:type="LogicalCompareOp">
@@ -604,6 +680,8 @@
                   <OpCode>LOGICAL_AND</OpCode>
                 </CompareOp>
                 <CompareValue i:nil="true" />
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -611,6 +689,8 @@
                   <OpCode>DOES_NOT_EQUAL</OpCode>
                 </CompareOp>
                 <CompareValue>2</CompareValue>
+                <IsFirstCompOp>false</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
             <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>

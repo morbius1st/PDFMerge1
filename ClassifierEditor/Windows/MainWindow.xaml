@@ -33,15 +33,17 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ExpanderCheckBox.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MainWinResources.xaml" />
 
 			</ResourceDictionary.MergedDictionaries>
 
 			<local:Lv1ConditionTemplateSelector x:Key="Lv1ConditionSelector" />
 			<local:Lv2ConditionTemplateSelector x:Key="Lv2ConditionSelector" />
+			<local:NotBoolConverter x:Key="NotBool" />
 
-
-			<sys:Double x:Key="LogicalHorizBarWidth">18</sys:Double>
-
+			<sys:Double x:Key="LogicalHorizBarWidth">
+				18
+			</sys:Double>
 
 			<PathGeometry
 					x:Key="TreeArrow"
@@ -54,203 +56,34 @@
 					/>
 
 
-			<!--
-			use this resource to change the item highlight color throughout the window
-			<SolidColorBrush
-				x:Key="{x:Static SystemColors.HighlightBrushKey}"
-				Color="{DynamicResource Blue.100}"
-				/>-->
+			<Style
+					x:Key="Border.Base"
+					TargetType="Border"
+					>
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
 
-			<Color x:Key="Datagrid.Row.Selected">#FF003554</Color>
+			<Style
+					x:Key="Control.Base"
+					TargetType="Control"
+					>
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+						<Setter Property="Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
 
-			<Color x:Key="Window.Background.C">#FF222222</Color>
-			<Color x:Key="TreeView.Background.C">#FF212121</Color>
-
-			<Color x:Key="TreeViewRow.BorderBrush.Light.C">#FFAAEAF3</Color>
-			<Color x:Key="TreeViewRow.BorderBrush.Dark.C">#FF111132</Color>
-
-
-			<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
-			<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
-			<SolidColorBrush x:Key="Grid.Line" Color="LightSkyBlue" />
-
-			<SolidColorBrush x:Key="Window.Background" Color="{StaticResource Window.Background.C}" />
-
-			<SolidColorBrush x:Key="ListBorder" Color="#828790" />
-
-			<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Muted" Color="{StaticResource Gray.500}" />
-			<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Dim" Color="{StaticResource Gray.400}" />
-
-			<SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource TreeView.Background.C}" />
-			<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Blue.100}" />
-			<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Blue.100}" />
-			<SolidColorBrush x:Key="TreeView.MouseOver.Background" Color="{StaticResource Blue.050}" />
-			<SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="#14eb501f" />
-
-			<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
-
-			<SolidColorBrush x:Key="TreeViewRow.BorderBrush.Light" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
-
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="{StaticResource Deep.Orange.400}" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="{StaticResource Deep.Orange.400}" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="{StaticResource Deep.Orange.100}" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="{StaticResource Deep.Orange.100}" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill" Color="#FF27C7F7" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF27C7F7" />
-			<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF27C7F7" />
-
-			<SolidColorBrush x:Key="ContextMenu.Background" Color="{StaticResource Gray.200}" />
-			<SolidColorBrush x:Key="ContextMenu.Background.Icons" Color="{StaticResource Gray.220}" />
-			<SolidColorBrush x:Key="ContextMenu.Background.Icons.Divider" Color="{StaticResource Gray.200}" />
-
-			<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.200}" />
-
-			<SolidColorBrush x:Key="ListView.Static.Background" Color="{StaticResource Blue.200}" />
-			<SolidColorBrush x:Key="ListView.Static.Border" Color="{StaticResource Blue.200}" />
-			<SolidColorBrush x:Key="ListView.Disabled.Background" Color="{StaticResource Blue.Gray.050}" />
-			<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="{StaticResource Blue.Gray.050}" />
-
-			<SolidColorBrush x:Key="ListView.Item.Background.NoConditions" Color="{StaticResource Deep.Purple.300}" />
-			<SolidColorBrush x:Key="ListView.Item.Background.Discipline" Color="{StaticResource Lime.200}" />
-			<SolidColorBrush x:Key="ListView.Item.Background.Logical" Color="{StaticResource Indigo.400}" />
-			<SolidColorBrush x:Key="ListView.Item.Background.Value" Color="{StaticResource Teal.500}" />
-			<SolidColorBrush x:Key="ListView.Item.Background.Error" Color="{StaticResource Red.200}" />
-			<SolidColorBrush x:Key="ListView.Item.Background" Color="{StaticResource Blue.450}" />
-
-
-			<!-- <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" /> -->
-
-			<SolidColorBrush x:Key="Button.Static.Background" Color="{StaticResource Lime.300}" />
-			<SolidColorBrush x:Key="Button.Static.Delete.Background" Color="{StaticResource Yellow.300}" />
-			<SolidColorBrush x:Key="Button.Static.Delete.Icon" Color="{StaticResource Gray.100}" />
-			<SolidColorBrush x:Key="Button.Static.Border" Color="{StaticResource Lime.300}" />
-			<SolidColorBrush x:Key="Button.MouseOver.Background" Color="{StaticResource Lime.600}" />
-			<SolidColorBrush x:Key="Button.MouseOver.Border" Color="{StaticResource Lime.600}" />
-			<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
-			<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
-			<SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
-			<SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
-			<SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
-
-			<!-- <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF" /> -->
-			<!--    -->
-			<!-- <LinearGradientBrush x:Key="ComboBox.Static.Background" StartPoint="0,0" EndPoint="0,1"> -->
-			<!-- 	<GradientStop Offset="0.0" Color="#FFF0F0F0" /> -->
-			<!-- 	<GradientStop Offset="1.0" Color="#FFE5E5E5" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFACACAC" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000" /> -->
-			<!-- <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" StartPoint="0,0" EndPoint="0,1"> -->
-			<!-- 	<GradientStop Offset="0.0" Color="#FFECF4FC" /> -->
-			<!-- 	<GradientStop Offset="1.0" Color="#FFDCECFC" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA" /> -->
-			<!-- <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1"> -->
-			<!-- 	<GradientStop Offset="0.0" Color="#FFEBF4FC" /> -->
-			<!-- 	<GradientStop Offset="1.0" Color="#FFDCECFC" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000" /> -->
-			<!-- <LinearGradientBrush x:Key="ComboBox.Pressed.Background" StartPoint="0,0" EndPoint="0,1"> -->
-			<!-- 	<GradientStop Offset="0.0" Color="#FFDAECFC" /> -->
-			<!-- 	<GradientStop Offset="1.0" Color="#FFC4E0FC" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5" /> -->
-			<!-- <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1"> -->
-			<!-- 	<GradientStop Offset="0.0" Color="#FFDAEBFC" /> -->
-			<!-- 	<GradientStop Offset="1.0" Color="#FFC4E0FC" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="Red" /> -->
-			<!-- <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060" /> -->
-
-
-			<!--  Control colors.  -->
-			<Color x:Key="DisabledForegroundColor">#FF888888</Color>
-			<Color x:Key="ControlLightColor">White</Color>
-			<Color x:Key="ControlMediumColor">#FF7381F9</Color>
-			<Color x:Key="BorderMediumColor">#FF888888</Color>
-
-			<!-- <Color x:Key="WindowColor">#FFE8EDF9</Color> -->
-			<!-- <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color> -->
-			<!-- <Color x:Key="ContentAreaColorDark">#FF7381F9</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color> -->
-			<!-- <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color> -->
-			<!--    -->
-			<!--    -->
-			<!-- <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color> -->
-			<!-- <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color> -->
-			<!--    -->
-			<!--    -->
-			<!-- <Color x:Key="ControlDarkColor">#FF211AA9</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="ControlMouseOverColor">#FF3843C4</Color> -->
-			<!-- <Color x:Key="ControlPressedColor">#FF211AA9</Color> -->
-			<!--    -->
-			<!--    -->
-			<!-- <Color x:Key="GlyphColor">#FF444444</Color> -->
-			<!-- <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color> -->
-			<!--    -->
-			<!--  ~1~  Border colors  @1@  -->
-			<!-- <Color x:Key="BorderLightColor">#FFCCCCCC</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="BorderDarkColor">#FF444444</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="PressedBorderLightColor">#FF888888</Color> -->
-			<!-- <Color x:Key="PressedBorderDarkColor">#FF444444</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color> -->
-			<!-- <Color x:Key="DisabledBorderDarkColor">#FF888888</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="DefaultBorderBrushDarkColor">Black</Color> -->
-			<!--    -->
-			<!--  ~1~  Control-specific resources.  @1@  -->
-			<!-- <Color x:Key="HeaderTopColor">#FFC5CBF9</Color> -->
-			<!-- <Color x:Key="DatagridCurrentCellBorderColor">Black</Color> -->
-			<!-- <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color> -->
-			<!--    -->
-			<!-- <Color x:Key="NavButtonFrameColor">#FF3843C4</Color> -->
-
-			<!-- <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1"> -->
-			<!-- 	<GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" /> -->
-			<!-- 	<GradientStop Offset="0.5" Color="{DynamicResource ControlMediumColor}" /> -->
-			<!-- 	<GradientStop Offset="1" Color="{DynamicResource ControlLightColor}" /> -->
-			<!-- </LinearGradientBrush> -->
-			<!--    -->
-			<!-- <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0"> -->
-			<!-- 	<LinearGradientBrush.GradientStops> -->
-			<!-- 		<GradientStopCollection> -->
-			<!-- 			<GradientStop Offset="0" Color="#000000FF" /> -->
-			<!-- 			<GradientStop Offset="0.4" Color="#600000FF" /> -->
-			<!-- 			<GradientStop Offset="0.6" Color="#600000FF" /> -->
-			<!-- 			<GradientStop Offset="1" Color="#000000FF" /> -->
-			<!-- 		</GradientStopCollection> -->
-			<!-- 	</LinearGradientBrush.GradientStops> -->
-			<!-- </LinearGradientBrush> -->
-
-
-			<!--#endregion-->
 
 			<Style
 					x:Key="Label.Base"
 					TargetType="{x:Type Label}"
+					BasedOn="{StaticResource Control.Base}"
 					>
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Foreground" Value="White" />
@@ -258,6 +91,7 @@
 				<Setter Property="Margin" Value="0" />
 				<Setter Property="Padding" Value="0" />
 				<Setter Property="VerticalAlignment" Value="Center" />
+
 			</Style>
 
 			<Style
@@ -304,23 +138,22 @@
 				</Style.Triggers>
 			</Style>
 
-			<Style
-					x:Key="Label.Selected.HintText"
-					TargetType="{x:Type Label}"
-					>
-				<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" />
-				<Setter Property="BorderThickness" Value="0" />
-				<Setter Property="Foreground">
-					<Setter.Value>
-						<SolidColorBrush Color="{StaticResource Gray.400}" />
-					</Setter.Value>
-				</Setter>
-				<Setter Property="Margin" Value="4,0" />
-				<Setter Property="Padding" Value="6,2,4,2" />
-				<Setter Property="VerticalAlignment" Value="Center" />
-				<Setter Property="VerticalContentAlignment" Value="Center" />
-			</Style>
-
+			<!--  <Style  -->
+			<!--  x:Key="Label.Selected.HintText"  -->
+			<!--  TargetType="{x:Type Label}"  -->
+			<!--  >  -->
+			<!-- 	<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" /> -->
+			<!-- 	<Setter Property="BorderThickness" Value="0" /> -->
+			<!-- 	<Setter Property="Foreground"> -->
+			<!-- 		<Setter.Value> -->
+			<!-- 			<SolidColorBrush Color="{StaticResource Gray.400}" /> -->
+			<!-- 		</Setter.Value> -->
+			<!-- 	</Setter> -->
+			<!-- 	<Setter Property="Margin" Value="4,0" /> -->
+			<!-- 	<Setter Property="Padding" Value="6,2,4,2" /> -->
+			<!-- 	<Setter Property="VerticalAlignment" Value="Center" /> -->
+			<!-- 	<Setter Property="VerticalContentAlignment" Value="Center" /> -->
+			<!-- </Style> -->
 
 			<Style
 					x:Key="Dg.Cell.Base"
@@ -749,7 +582,6 @@
 					x:Key="Tv1ItemContainerStyle1"
 					TargetType="{x:Type TreeViewItem}"
 					>
-				<Setter Property="Width" Value="{Binding ActualWidth, ElementName=Tv1}" />
 				<Setter Property="ContextMenu" Value="{StaticResource Tv1ContextMenu}" />
 				<Setter Property="FocusVisualStyle" Value="{StaticResource Tv1ItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -893,6 +725,7 @@
 					</Setter.Value>
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+				<Setter Property="Width" Value="{Binding ActualWidth, ElementName=Tv1}" />
 				<Style.Triggers>
 					<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 						<Setter Property="ItemsPanel">
@@ -1206,16 +1039,15 @@
 					x:Key="LvItemContainerStyle1"
 					TargetType="{x:Type ListViewItem}"
 					>
-				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 				<Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 				<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-				<Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
 				<!-- <Setter Property="Margin" Value="{Binding Margin, RelativeSource={RelativeSource TemplatedParent}}" /> -->
 				<Setter Property="Margin" Value="4,1,4,1" />
+				<Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -1233,6 +1065,7 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
+				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Style.Triggers>
 					<!-- <MultiTrigger> -->
 					<!-- 	<MultiTrigger.Conditions> -->
@@ -1372,13 +1205,12 @@
 					x:Key="Button.Condition.Style"
 					TargetType="{x:Type Button}"
 					>
-				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 				<Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
 				<Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
-				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
-				<Setter Property="VerticalContentAlignment" Value="Center" />
 				<Setter Property="Padding" Value="1" />
 				<Setter Property="Template">
 					<Setter.Value>
@@ -1422,6 +1254,7 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
+				<Setter Property="VerticalContentAlignment" Value="Center" />
 			</Style>
 
 
@@ -1435,7 +1268,6 @@
 				<!-- <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" /> -->
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
-				<Setter Property="VerticalContentAlignment" Value="Center" />
 				<Setter Property="Padding" Value="1" />
 				<Setter Property="Template">
 					<Setter.Value>
@@ -1479,6 +1311,7 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
+				<Setter Property="VerticalContentAlignment" Value="Center" />
 			</Style>
 
 
@@ -1518,9 +1351,7 @@
 							Grid.Column="0"
 							CornerRadius="2"
 							BorderThickness="1"
-							>
-
-					</Border>
+							/>
 					<Border
 							Grid.Column="0"
 							Grid.ColumnSpan="2"
@@ -1528,9 +1359,7 @@
 							Padding="0"
 							CornerRadius="2,0,0,2"
 							Background="Transparent"
-							>
-
-					</Border>
+							/>
 					<Path
 							x:Name="Arrow"
 							Grid.Column="0"
@@ -1565,6 +1394,7 @@
 
 			<ControlTemplate
 					x:Key="ComboBoxTextBox"
+					x:Name="ComboBoxTextBox"
 					TargetType="{x:Type TextBox}"
 					>
 				<Border
@@ -1573,6 +1403,8 @@
 						Background="{TemplateBinding Background}"
 						/>
 			</ControlTemplate>
+
+
 
 
 			<ControlTemplate
@@ -1597,8 +1429,7 @@
 								<Setter Property="Background" Value="Transparent" />
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="#55444444">
-										</Setter>
+										<Setter Property="Background" Value="#55444444" />
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -1630,7 +1461,6 @@
 									ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
 									IsHitTestVisible="False"
 									ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-
 									>
 							</ContentPresenter>
 							<TextBox
@@ -1647,6 +1477,8 @@
 									Style="{x:Null}"
 									Template="{StaticResource ComboBoxTextBox}"
 									/>
+
+
 							<Popup
 									x:Name="Popup"
 									Grid.Column="1"
@@ -1752,7 +1584,7 @@
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
 
-			<Style x:Key="CbxFocusVisual">
+			<Style x:Key="CboxFocusVisual">
 				<Setter Property="Control.Template">
 					<Setter.Value>
 						<ControlTemplate>
@@ -1794,10 +1626,10 @@
 					x:Key="ComboBoxItem1"
 					TargetType="{x:Type ComboBoxItem}"
 					>
+				<Setter Property="FocusVisualStyle" Value="{StaticResource CboxFocusVisual}" />
+				<Setter Property="OverridesDefaultStyle" Value="true" />
 
 				<Setter Property="SnapsToDevicePixels" Value="true" />
-				<Setter Property="OverridesDefaultStyle" Value="true" />
-				<Setter Property="FocusVisualStyle" Value="{StaticResource CbxFocusVisual}" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -1851,18 +1683,23 @@
 			</Style>
 
 			<Style
-					x:Key="Cbx1Style1"
+					x:Key="Cbox1Style1"
 					TargetType="{x:Type ComboBox}"
 					>
-
-				<Setter Property="SnapsToDevicePixels" Value="true" />
 				<Setter Property="OverridesDefaultStyle" Value="true" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="SnapsToDevicePixels" Value="true" />
 				<Setter Property="Template" Value="{StaticResource ComboBoxTemplate1}" />
-			</Style>
 
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+						<Setter Property="Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
 
 
 			<ControlTemplate
@@ -1900,7 +1737,6 @@
 							CanHorizontallyScroll="False"
 							CanVerticallyScroll="False"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
-
 							/>
 
 					<ScrollBar
@@ -1950,6 +1786,8 @@
 					DataType="{x:Type tree:TreeNode}"
 					ItemsSource="{Binding ChildrenView}"
 					>
+
+
 				<Grid
 						x:Name="GD1"
 						Margin="0,1,2,0"
@@ -2267,154 +2105,252 @@
 					x:Key="Lv2DataTemplate1"
 					DataType="tree:ComparisonOperation"
 					>
-				<DockPanel
-						Margin="2"
-						HorizontalAlignment="left"
+
+				<Border
+						x:Name="DtBorder1"
+						Margin="0,-28,0,6"
+						HorizontalAlignment="Stretch"
+						BorderThickness="0,.5,0,0"
+						BorderBrush="White"
 						>
-
-					<Button
-							x:Name="BtnDeleteCondition"
-							Margin="0,0,5,0"
-							Width="16"
-							Height="16"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Bottom"
-							Foreground="{StaticResource Button.Static.Delete.Icon}"
-							Background="{StaticResource Button.Static.Delete.Background}"
-							BorderThickness="0"
-							Click="BtnAddCondition_OnClick"
-							Style="{StaticResource Button.Condition.Style}"
+					<Grid
+							x:Name="DtGrid1"
+							Margin="2,2,2,2"
+							HorizontalAlignment="left"
 							>
-						<Button.Content>
-							<Grid>
-								<Viewbox 
-										x:Name="VbxNot"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										Margin="-4,-4,-4,-4"
-										Width="18"
-										Height="18"
-										Visibility="Hidden"
-										Child="{StaticResource Not2}"
-										Stretch="UniformToFill" >
-									<!-- <Viewbox.Style> -->
-									<!-- 	<Style TargetType="Viewbox"> -->
-									<!-- 		<Setter Property="Visibility" Value="Hidden"/> -->
-									<!-- 		<Style.Triggers> -->
-									<!-- 			<DataTrigger Binding="{Binding IsFirstCompOp, FallbackValue=false}" Value="true"> -->
-									<!-- 				<Setter Property="Visibility" Value="Visible"/> -->
-									<!-- 			</DataTrigger> -->
-									<!-- 		</Style.Triggers> -->
-									<!-- 	</Style> -->
-									<!-- </Viewbox.Style> -->
-								</Viewbox>
+						<Grid.RowDefinitions>
+							<RowDefinition x:Name="DtGrid1R1" Height="26" />
+							<RowDefinition Height="18" />
+						</Grid.RowDefinitions>
 
-								<Viewbox 
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="28" />
+							<ColumnDefinition Width="58" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+
+						<Button
+								x:Name="BtnDeleteCondition"
+								Grid.Column="0"
+								Grid.Row="0"
+								Grid.RowSpan="2"
+								Margin="0,0,5,0"
+								Width="20"
+								Height="20"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								BorderThickness="0"
+								Click="BtnDeleteCondition_OnClick"
+								>
+							<Button.Style>
+								<Style
+										TargetType="Button"
+										BasedOn="{StaticResource Button.Condition.Style}"
+										>
+									<Setter Property="Background" Value="{StaticResource Button.Static.Delete.Background}" />
+									<Setter Property="Foreground" Value="{StaticResource Button.Static.Delete.Icon}" />
+
+								</Style>
+							</Button.Style>
+							<Button.Content>
+								<Viewbox
 										x:Name="VbxTrash"
 										Margin="0,0,2,1"
-										Width="10"
-										Height="10"
-										Child="{StaticResource DeleteIcon}" />
-							</Grid>
-						</Button.Content>
+										Width="16"
+										Height="16"
+										Child="{StaticResource DeleteIcon}"
+										/>
+								<!-- </Grid> -->
+							</Button.Content>
+						</Button>
 
-					</Button>
 
-
-					<Border
-							x:Name="Bdr1"
-							Margin="0,0,0,0"
-							Width="100"
-							Padding="0"
-							CornerRadius="3"
-							DockPanel.Dock="Left"
-							Background="{StaticResource ListView.Item.Background.Discipline}"
-							BorderThickness="0"
-							>
-						<Label
-								x:Name="Label14"
-								Content="{Binding Item.ComponentName,
-																	FallbackValue=FallBack}"
-								HorizontalAlignment="Center"
-								DataContext="{Binding DataContext,
-																			RelativeSource={RelativeSource FindAncestor,
-																																		 AncestorType={x:Type ListView}}}"
-								Style="{StaticResource Label.Condition}"
-								/>
-					</Border>
-
-					<!--    -->
-					<!--  <Button  -->
-					<!--  x:Name="BtnX1"  -->
-					<!--  Content="{Binding CompareString}"  -->
-					<!--  Margin="5,0,0,0"  -->
-					<!--  Height="8"  -->
-					<!--  FontSize="6"  -->
-					<!--  Background="{StaticResource ListView.Item.Background}"  -->
-					<!--  BorderThickness="0"  -->
-					<!--  BorderBrush="Transparent"  -->
-					<!--  Style="{StaticResource Button.Condition.Select.Style}"  -->
-					<!--  />  -->
-
-					<ComboBox
-							x:Name="Cbx1"
-							Margin="5,0,0,0"
-							Padding="8,2,2,2"
-							HorizontalAlignment="Left"
-							FontSize="10"
-							custom:CustomProperties.DropDownWidth="180.0"
-							DisplayMemberPath="Name"
-							MaxDropDownHeight="100"
-							SelectedIndex="{Binding RelativeSource={RelativeSource FindAncestor,
-																																		 AncestorType={x:Type ListViewItem}},
-																			Path=DataContext.CompareOpCode,
-																			Mode=TwoWay}"
-							Background="{StaticResource ListView.Item.Background}"
-							Foreground="White"
-							BorderThickness="2"
-							IsEditable="False"
-							ItemContainerStyle="{DynamicResource ComboBoxItem1}"
-							ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
-							FocusVisualStyle="{x:Null}"
-							Style="{DynamicResource Cbx1Style1}"
-							>
-
-					</ComboBox>
-
-					<Border
-							Margin="5,0,0,0"
-							CornerRadius="3"
-							DockPanel.Dock="left"
-							Background="{StaticResource ListView.Item.Background.Value}"
-							BorderThickness="0"
-							>
-
-						<TextBox
-								x:Name="Tbx1"
-								MinWidth="60 "
-								Padding="8,0,16,0"
-								VerticalAlignment="Center"
-								HorizontalContentAlignment="Center"
-								FontSize="10"
-								res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
-								res:TextBoxBehavior.SelectAllTextOnFocus="True"
-								Text="{Binding CompareValue,
-															 Mode=TwoWay}"
+						<Border
+								x:Name="BorderCkBx"
+								Grid.Column="1"
+								Grid.Row="0"
+								Grid.RowSpan="2"
+								Margin="0,0,0,0"
+								Width="55"
+								Height="18"
+								Padding="0"
+								CornerRadius="3"
+								DockPanel.Dock="Left"
+								Background="{StaticResource ListView.Item.Background.Disable}"
 								BorderThickness="0"
 								>
-							<TextBox.Style>
-								<Style TargetType="TextBox">
-									<Setter Property="Background" Value="Transparent" />
-									<Setter Property="Foreground" Value="White" />
-								</Style>
-							</TextBox.Style>
-						</TextBox>
-					</Border>
-				</DockPanel>
+							<CheckBox
+									Content="Disable"
+									Margin="3,0,0,0"
+									Height="12"
+									VerticalAlignment="Center"
+									FontSize="10"
+									Background="Transparent"
+									Foreground="white"
+									BorderBrush="white"
+									IsChecked="{Binding Path=IsDisabled,
+																			Mode=TwoWay}"
+									Style="{DynamicResource Ckbx1Style}"
+									Checked="ToggleButton_OnChecked"
+									/>
+						</Border>
+
+						<DockPanel
+								x:Name="DpCompare"
+								Grid.Column="2"
+								Grid.Row="1"
+								Margin="0,0,0,0"
+								>
+
+							<!-- <Label -->
+							<!-- 		Content="{Binding Path=Id}" -->
+							<!-- 		Margin="4,0,4,0" -->
+							<!-- 		Padding="1" -->
+							<!-- 		HorizontalAlignment="Left" -->
+							<!-- 		VerticalAlignment="Center" -->
+							<!-- 		FontSize="8" -->
+							<!-- 		Background="White" -->
+							<!-- 		Foreground="Black" -->
+							<!-- 		/> -->
+							<!--  Content="{Binding Path=Row, Converter={StaticResource RowConverter},  -->
+							<!--  ConverterParameter={x:Static tree:ComparisonOperation.MasterRow}, Mode=TwoWay}"  -->
+
+
+							<Border
+									x:Name="Bdr1"
+									Margin="5,0,0,0"
+									Width="100"
+									Padding="0"
+									CornerRadius="3"
+									DockPanel.Dock="Left"
+									BorderThickness="0"
+									>
+								<Border.Style>
+									<Style
+											TargetType="Border"
+											BasedOn="{StaticResource Border.Base}"
+											>
+										<Setter Property="Background" Value="{StaticResource ListView.Item.Background.Discipline}" />
+
+									</Style>
+								</Border.Style>
+
+								<Label
+										x:Name="Label14"
+										Content="{Binding Item.ComponentName,
+																			FallbackValue=FallBack}"
+										HorizontalAlignment="Center"
+										d:DataContext="{Binding DataContext,
+																						RelativeSource={RelativeSource FindAncestor,
+																																					 AncestorType={x:Type ListView}}}"
+										DataContext="{Binding DataContext,
+																					RelativeSource={RelativeSource FindAncestor,
+																																				 AncestorType={x:Type ListView}}}"
+										>
+									<Label.Style>
+										<Style
+												TargetType="Label"
+												BasedOn="{StaticResource Label.Condition}"
+												>
+										</Style>
+									</Label.Style>
+
+								</Label>
+							</Border>
+
+							<ComboBox
+									x:Name="Cbx1"
+									Margin="5,0,0,0"
+									Padding="8,2,2,2"
+									HorizontalAlignment="Left"
+									FontSize="10"
+									custom:CustomProperties.DropDownWidth="180.0"
+									DisplayMemberPath="Name"
+									MaxDropDownHeight="100"
+									SelectedIndex="{Binding CompareOpCode}"
+									BorderThickness="2"
+									IsEditable="False"
+									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
+									ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
+									FocusVisualStyle="{x:Null}"
+									>
+								<!--  SelectedIndex="{Binding RelativeSource={RelativeSource FindAncestor,  -->
+								<!--  AncestorType={x:Type ListViewItem}},  -->
+								<!--  Path=DataContext.CompareOpCode,  -->
+								<!--  Mode=TwoWay}"  -->
+
+								<ComboBox.Style>
+									<Style
+											TargetType="ComboBox"
+											BasedOn="{StaticResource Cbox1Style1}"
+											>
+										<Setter Property="Background" Value="{StaticResource ListView.Item.Background}" />
+										<Setter Property="Foreground" Value="White" />
+									</Style>
+								</ComboBox.Style>
+							</ComboBox>
+							<!--  Background="{StaticResource ListView.Item.Background}"  -->
+
+							<Border
+									Margin="5,0,0,0"
+									CornerRadius="3"
+									DockPanel.Dock="left"
+									BorderThickness="0"
+									>
+								<Border.Style>
+									<Style
+											TargetType="Border"
+											BasedOn="{StaticResource Border.Base}"
+											>
+										<Setter Property="Background" Value="{StaticResource ListView.Item.Background.Value}" />
+									</Style>
+								</Border.Style>
+
+								<TextBox
+										x:Name="Tbx1"
+										MinWidth="60 "
+										Padding="8,0,16,0"
+										VerticalAlignment="Center"
+										HorizontalContentAlignment="Center"
+										FontSize="10"
+										res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+										res:TextBoxBehavior.SelectAllTextOnFocus="True"
+										Text="{Binding CompareValue,
+																	 Mode=TwoWay}"
+										BorderThickness="0"
+										>
+									<TextBox.Style>
+										<Style
+												TargetType="TextBox"
+												BasedOn="{StaticResource Control.Base}"
+												>
+											<Setter Property="Foreground" Value="White" />
+											<Setter Property="Background" Value="Transparent" />
+										</Style>
+									</TextBox.Style>
+								</TextBox>
+							</Border>
+						</DockPanel>
+					</Grid>
+
+				</Border>
 				<DataTemplate.Triggers>
-					<DataTrigger Binding="{Binding Path=IsFirstCompOp}" Value="true">
-						<Setter TargetName="VbxNot" Property="Visibility" Value="Visible"/>
-						<Setter TargetName="BtnDeleteCondition" Property="Margin" Value="0,0,5,0"/>
+					<DataTrigger
+							Binding="{Binding Path=IsFirstCompOp}"
+							Value="true"
+							>
+						<Setter TargetName="BorderCkBx" Property="Visibility" Value="Hidden" />
+						<Setter TargetName="BtnDeleteCondition" Property="Visibility" Value="Hidden" />
+						<Setter TargetName="DtBorder1" Property="BorderThickness" Value="0" />
+						<Setter TargetName="DtBorder1" Property="Margin" Value="0,2,0,6" />
+						<Setter TargetName="DtGrid1R1" Property="Height" Value="0" />
+					</DataTrigger>
+					<DataTrigger
+							Binding="{Binding Path=IsDisabled}"
+							Value="true"
+							>
+						<Setter TargetName="DpCompare" Property="IsEnabled" Value="false" />
 					</DataTrigger>
 				</DataTemplate.Triggers>
 			</DataTemplate>
@@ -2425,33 +2361,55 @@
 					x:Key="Lv2DataTemplate2"
 					DataType="tree:ComparisonOperation"
 					>
+				<!--  <DockPanel  -->
+				<!--  Margin="0,-3,0,-3"  -->
+				<!--  LastChildFill="False"  -->
+				<!--  >  -->
+
+				<!--  <Line  -->
+				<!--  x:Name="gridline"  -->
+				<!--  Margin="0,2,0,2"  -->
+				<!--  DockPanel.Dock="Top"  -->
+				<!--  Stroke="white"  -->
+				<!--  StrokeThickness="0.5"  -->
+				<!--  X1="0"  -->
+				<!--  X2="{Binding RelativeSource={RelativeSource FindAncestor,  -->
+				<!--  AncestorType={x:Type ListViewItem}},  -->
+				<!--  Path=ActualWidth}"  -->
+				<!--  Y1="0"  -->
+				<!--  Y2="0"  -->
+				<!--  />  -->
+
 				<DockPanel
-						Margin="0,-3,0,-3"
-						LastChildFill="False"
+						x:Name="DpLogical"
+						Margin="92,0,0,0"
+						IsEnabled="{Binding Path=IsDisabled,
+																Converter={StaticResource NotBool}}"
 						>
 
-					<Line x:Name="gridline"
-							DockPanel.Dock="Top"
-							X1="0"
-							X2="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Path=ActualWidth}"
-							Y1="0"
-							Y2="0"
-							Stroke="white"
-							StrokeThickness="0.5"
-							Margin="0,2,0,2" />
-
+					<!-- <Label -->
+					<!-- 		Content="{Binding Path=Id}" -->
+					<!-- 		Margin="4,0,4,0" -->
+					<!-- 		Padding="1" -->
+					<!-- 		HorizontalAlignment="Left" -->
+					<!-- 		VerticalAlignment="Center" -->
+					<!-- 		FontSize="8" -->
+					<!-- 		Background="White" -->
+					<!-- 		Foreground="Black" -->
+					<!-- 		/> -->
 
 					<Border
+							Margin="0,0,0,0"
 							Width="{StaticResource LogicalHorizBarWidth}"
 							Height="5"
 							Padding="0"
-							Margin="22,0,0,0"
 							HorizontalAlignment="Left"
 							CornerRadius="3"
 							DockPanel.Dock="Left"
 							Background="{StaticResource ListView.Item.Background.Logical}"
 							BorderThickness="0"
-							/>
+							>
+					</Border>
 
 					<!--  <Label  -->
 					<!--  x:Name="Label16"  -->
@@ -2465,9 +2423,9 @@
 					<ComboBox
 							x:Name="Cbx2"
 							Margin="7,2,7,2"
+							Width="50"
 							HorizontalAlignment="Left"
 							FontSize="10"
-							Width="50"
 							custom:CustomProperties.DropDownWidth="90.0"
 							DisplayMemberPath="Name"
 							MaxDropDownHeight="100"
@@ -2475,15 +2433,21 @@
 																																		 AncestorType={x:Type ListViewItem}},
 																			Path=DataContext.CompareOpCode,
 																			Mode=TwoWay}"
-							Background="{StaticResource ListView.Item.Background}"
-							Foreground="White"
 							BorderThickness="2"
 							IsEditable="False"
 							ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 							ItemsSource="{Binding Source={x:Static tree:CompareOperations.LogicalCompareOps}}"
 							FocusVisualStyle="{x:Null}"
-							Style="{DynamicResource Cbx1Style1}"
 							>
+						<ComboBox.Style>
+							<Style
+									TargetType="ComboBox"
+									BasedOn="{StaticResource Cbox1Style1}"
+									>
+								<Setter Property="Background" Value="{StaticResource ListView.Item.Background}" />
+								<Setter Property="Foreground" Value="White" />
+							</Style>
+						</ComboBox.Style>
 
 					</ComboBox>
 
@@ -2498,6 +2462,7 @@
 							BorderThickness="0"
 							/>
 				</DockPanel>
+				<!-- </DockPanel> -->
 			</DataTemplate>
 
 
@@ -2563,6 +2528,134 @@
 				</DockPanel>
 			</DataTemplate>
 
+			<!-- <Style x:Key="OptionMarkFocusVisual"> -->
+			<!-- 	<Setter Property="Control.Template"> -->
+			<!-- 		<Setter.Value> -->
+			<!-- 			<ControlTemplate> -->
+			<!-- 				<Rectangle -->
+			<!-- 						Margin="14,0,0,0" -->
+			<!-- 						SnapsToDevicePixels="true" -->
+			<!-- 						Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" -->
+			<!-- 						StrokeDashArray="1 2" -->
+			<!-- 						StrokeThickness="1" -->
+			<!-- 						/> -->
+			<!-- 			</ControlTemplate> -->
+			<!-- 		</Setter.Value> -->
+			<!-- 	</Setter> -->
+			<!-- </Style> -->
+
+
+
+			<Style
+					x:Key="Ckbx1Style"
+					TargetType="{x:Type CheckBox}"
+					>
+				<Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type CheckBox}">
+							<Grid
+									x:Name="templateRoot"
+									Margin="0"
+									SnapsToDevicePixels="True"
+									Background="Transparent"
+									>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<Border
+										Margin="0"
+										Width="{TemplateBinding Height}"
+										Height="{TemplateBinding Height}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										Background="{TemplateBinding Background}"
+										BorderThickness="1"
+										BorderBrush="Transparent"
+										>
+
+									<Grid>
+
+										<Border
+												x:Name="checkBoxBorder"
+												Margin="1.0"
+												BorderThickness="1"
+												BorderBrush="{TemplateBinding BorderBrush}"
+												/>
+										<Grid
+												x:Name="markGrid"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												>
+											<Path
+													x:Name="optionMark"
+													Margin="0"
+													Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z "
+													Fill="{StaticResource OptionMark.Static.Glyph2}"
+													Opacity="0"
+													Stretch="None"
+													/>
+											<Rectangle
+													x:Name="indeterminateMark"
+													Margin="2,1.5,2,1.5"
+													Fill="{StaticResource OptionMark.Static.Glyph2}"
+													Opacity="0"
+													/>
+										</Grid>
+
+									</Grid>
+								</Border>
+								<ContentPresenter
+										x:Name="contentPresenter"
+										Grid.Column="1"
+										Margin="{TemplateBinding Padding}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										Focusable="False"
+										RecognizesAccessKey="True"
+										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										/>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<Trigger Property="HasContent" Value="true">
+									<!-- <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" /> -->
+									<Setter Property="Padding" Value="4,-1,0,0" />
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.MouseOver.Background}" />
+									<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.MouseOver.Border}" />
+									<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.MouseOver.Glyph}" />
+									<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.MouseOver.Glyph}" />
+								</Trigger>
+								<Trigger Property="IsEnabled" Value="false">
+									<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Disabled.Background}" />
+									<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.Disabled.Border}" />
+									<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
+									<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
+								</Trigger>
+								<Trigger Property="IsPressed" Value="true">
+									<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Pressed.Background}" />
+									<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.Pressed.Border}" />
+									<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Pressed.Glyph}" />
+									<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Pressed.Glyph}" />
+								</Trigger>
+								<Trigger Property="IsChecked" Value="true">
+									<Setter TargetName="indeterminateMark" Property="Opacity" Value="0" />
+									<Setter TargetName="optionMark" Property="Opacity" Value="1" />
+								</Trigger>
+								<Trigger Property="IsChecked" Value="{x:Null}">
+									<Setter TargetName="indeterminateMark" Property="Opacity" Value="1" />
+									<Setter TargetName="optionMark" Property="Opacity" Value="0" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 
 
 
@@ -2792,8 +2885,7 @@
 																FallbackValue={x:Null}}"
 					Style="{DynamicResource Lv1StyleTv1}"
 					/>
-			<!--  ItemTemplate="{DynamicResource Lv1DataTemplate1}"  -->
-
+			<!--  d:DataContext="{x:Static local:MainWindow.temp}"  -->
 
 			<Button
 					x:Name="BtnAddCondition"
@@ -2909,7 +3001,7 @@
 					x:Name="Dg1"
 					Grid.Column="0"
 					Grid.Row="6"
-					Grid.ColumnSpan="4"
+					Grid.ColumnSpan="3"
 					d:DataContext="{Binding Files,
 																	Source={x:Static local:MainWindow.FileList2}}"
 					AutoGenerateColumns="False"
@@ -2929,10 +3021,6 @@
 					Style="{DynamicResource Dg1Style}"
 					>
 				<DataGrid.Columns>
-					<!--  <DataGridTextColumn  -->
-					<!--  Width="*"  -->
-					<!--  CellStyle="{StaticResource Dg.Cell.Base}"  -->
-					<!--  Binding="{Binding Path=FilePathInfo.FileName.Name}" />  -->
 
 					<DataGridTemplateColumn CellStyle="{StaticResource Dg.Cell.Base}">
 						<DataGridTemplateColumn.CellTemplate>
@@ -3122,17 +3210,6 @@
 				/>
 
 
-		<!--  <Border  -->
-		<!--    -->
-		<!--    -->
-		<!--  Margin="5"  -->
-		<!--  Padding="2"  -->
-		<!--  CornerRadius="4"  -->
-		<!--  Background="Aqua"  -->
-		<!--  BorderThickness="1"  -->
-		<!--  BorderBrush="Red"  -->
-		<!--    -->
-		<!--  >  -->
 		<ComboBox
 				Grid.Column="0"
 				Grid.Row="2"
@@ -3145,44 +3222,27 @@
 				DisplayMemberPath="Name"
 				MaxDropDownHeight="100"
 				SelectedIndex="2"
-				Background="DeepSkyBlue"
-				Foreground="White"
 				BorderThickness="2"
 				IsEditable="False"
 				ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 				ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
 				FocusVisualStyle="{x:Null}"
-				Style="{DynamicResource Cbx1Style1}"
 				>
-			<!--  DisplayMemberPath="Name"  -->
-
-			<!-- <ComboBoxItem Content="One One One One One One One One " /> -->
-			<!-- <ComboBoxItem Content="Two" /> -->
-			<!-- <ComboBoxItem Content="Three" /> -->
-			<!-- <ComboBoxItem Content="Four" /> -->
-			<!-- <ComboBoxItem Content="Five" /> -->
-			<!-- <ComboBoxItem Content="Six" /> -->
-			<!-- <ComboBoxItem Content="Seven" /> -->
-			<!-- <ComboBoxItem Content="Eight" /> -->
+			<ComboBox.Style>
+				<Style
+						TargetType="ComboBox"
+						BasedOn="{StaticResource Cbox1Style1}"
+						>
+					<Setter Property="Background" Value="{StaticResource ListView.Item.Background}" />
+					<Setter Property="Foreground" Value="White" />
+				</Style>
+			</ComboBox.Style>
 		</ComboBox>
 
-
-
-
-
-		<!-- <Viewbox -->
-		<!-- 		Grid.Column="0" -->
-		<!-- 		Grid.Row="2" -->
-		<!-- 		Margin="150,0,2,0" -->
-		<!-- 		Width="15" -->
-		<!-- 		Height="15" -->
-		<!-- 		HorizontalAlignment="Left" -->
-		<!-- 		/> -->
-		<!-- -->
 		<Button
 				Grid.Column="0"
 				Grid.Row="2"
-				Margin="140,0,2,0"
+				Margin="160,0,2,0"
 				Width="30"
 				Height="30"
 				Padding="0"
@@ -3191,61 +3251,53 @@
 				Style="{StaticResource Button.Condition.Style}"
 				>
 			<Button.Content>
-				<Grid
-						Margin="0"
-				>
-					<Viewbox 
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Margin="-4"
-							
-							Width="42"
-							Height="42"
-							Child="{StaticResource Not}"
-							Stretch="UniformToFill"
-							/>
-
-					<!-- <Viewbox  -->
-					<!-- 		Margin="-1,-1,0,0" -->
-					<!-- 		Width="28" -->
-					<!-- 		Height="28" -->
-					<!-- 		Child="{StaticResource DeleteIcon}" /> -->
-
-				</Grid>
-			</Button.Content>
-		</Button>
-
-		<Button Grid.Column="0"
-				Grid.Row="2"
-				Margin="200,0,2,0"
-				Width="30"
-				Height="30"
-				Padding="0"
-				HorizontalAlignment="Left"
-				Background="{StaticResource Button.Static.Delete.Background}"
-				Style="{StaticResource Button.Condition.Style}">
-			<Button.Content>
 				<Grid Margin="0">
-					<Viewbox HorizontalAlignment="Center"
-							VerticalAlignment="Center"
+					<Viewbox
 							Margin="-5,-5,-4,-4"
 							Width="31"
 							Height="31"
-							
-							
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
 							Child="{StaticResource Not2}"
-							Stretch="UniformToFill" />
+							Stretch="UniformToFill"
+							/>
 
-					<!-- <Viewbox  -->
-					<!-- 		Margin="-1,-1,0,0" -->
-					<!-- 		Width="28" -->
-					<!-- 		Height="28" -->
-					<!-- 		Child="{StaticResource DeleteIcon}" /> -->
+					<!--  <Viewbox  -->
+					<!--  Margin="-1,-1,0,0"  -->
+					<!--  Width="28"  -->
+					<!--  Height="28"  -->
+					<!--  Child="{StaticResource DeleteIcon}" />  -->
 
 				</Grid>
 			</Button.Content>
 		</Button>
 
+		<Border
+				x:Name="BdrCxb2"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="180,0,2,0"
+				Width="70"
+				Height="20"
+				Padding="0"
+				CornerRadius="3"
+				DockPanel.Dock="Left"
+				Background="{StaticResource ListView.Item.Background.Discipline}"
+				BorderThickness="0"
+				>
+			<CheckBox
+					Content="Locked"
+					Height="14"
+					Padding="2,-2.5,0,2"
+					VerticalAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="14"
+					Background="Transparent"
+					Foreground="white"
+					Style="{DynamicResource Ckbx1Style}"
+					/>
+
+		</Border>
 
 
 		<!-- </Border> -->

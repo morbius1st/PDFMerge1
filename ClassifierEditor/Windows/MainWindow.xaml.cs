@@ -1,13 +1,16 @@
 ﻿#region using
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 //using System.Windows.Forms;
 using ClassifierEditor.DataRepo;
@@ -120,6 +123,7 @@ namespace ClassifierEditor.Windows
 			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
 				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
 
+			MakeSample();
 		}
 
 		public MainWindow()
@@ -128,26 +132,33 @@ namespace ClassifierEditor.Windows
 
 		}
 
-		public static TreeNode temp { get; set; } = new TreeNode(new BaseOfTree(), 
-			new SheetCategory("title", "description", "pattern")
-			{
-				CompareOps = new ObservableCollection<ComparisonOperation>()
-				{
-					new ValueCompOp(ValueCompareOps[(int) CONTAINS], "value", true),
-					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-					new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
-					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-					new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1000"),
-					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
-					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
-					new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-					new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+		public static TreeNode temp { get; set; }
 
+		public static void MakeSample()
+		{
+			Lv2ConditionTemplateSelector.MasterIdIdx = 0;
+
+			temp = new TreeNode(new BaseOfTree(),
+				new SheetCategory("title", "description", "pattern")
+				{
+					CompareOps = new ObservableCollection<ComparisonOperation>()
+					{
+						new ValueCompOp(ValueCompareOps[(int) CONTAINS], "First", isFirst: true, ignore: false),
+						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
+						new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
+						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND], true),
+						new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1000", ignore: true),
+						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
+						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
+						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
+						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
+						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000")
+
+					}
 				}
-			}
-			, false );
+				, false );
+		}
 
 		public static List<ValueCompareOp> vComps = new List<ValueCompareOp>()
 		{
@@ -158,13 +169,11 @@ namespace ClassifierEditor.Windows
 
 		};
 
-
 	#endregion
 
 	#region public properties
 
 		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
-//		public static TreeNode TreeRoot { get; set; } = new TreeNode();
 
 		public SheetCategoryDataManager Categories
 		{
@@ -184,8 +193,11 @@ namespace ClassifierEditor.Windows
 				ContextDeHighlight();
 
 				userSelected = value;
+
 				OnPropertyChange();
 				OnPropertyChange("HasSelection");
+
+				Lv2ConditionTemplateSelector.MasterIdIdx = 0;
 			}
 		}
 
@@ -219,8 +231,6 @@ namespace ClassifierEditor.Windows
 
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
 
-//		public static SampleFileList FileList2 { get; private set; } = new SampleFileList(
-//			@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs");
 		public SampleFileList FileList { get; private set; }
 
 	#endregion
@@ -242,26 +252,22 @@ namespace ClassifierEditor.Windows
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 
-
 			SuiteSettings.Admin.Read();
 
 			UserSettings.Admin.Read();
 
-			categories.Configure(UserSettings.Data.FileNameCategoryFolder,
-				UserSettings.Data.FileNameCategoryFile);
+			categories.Configure(UserSettings.Data.CatConfigFolder,
+				UserSettings.Data.CatConfigFile);
 
-//			categories.Configure(@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor",
-//				"SheetCategories.xml");
-//
 			SampleData.SampleData sd = new SampleData.SampleData();
 
 			sd.Sample(categories.TreeBase);
 
 			categories.Write();
 
-//			categories.Read();
+			string sampleFileName = UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
 
-			FileList = new SampleFileList(UserSettings.Data.FileNameCategoryFolder);
+			FileList = new SampleFileList(sampleFileName);
 
 			OnPropertyChange("FileList");
 		}
@@ -272,11 +278,11 @@ namespace ClassifierEditor.Windows
 			{
 				MessageBoxResult result = MessageBox.Show(
 					"There are changes that have not been saved\n"
-					+ "Do you want to quit and lose your changes?",
+					+ "Do you want to save your changes?",
 					"Classifier Editor", MessageBoxButton.YesNo,
 					MessageBoxImage.Warning);
 
-				if (result != MessageBoxResult.Yes)
+				if (result == MessageBoxResult.Yes)
 				{
 					e.Cancel = true;
 				}
@@ -287,33 +293,23 @@ namespace ClassifierEditor.Windows
 
 	#region control event methods
 
-		// when a selection has been made
-		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-		{
-			UserSelected = (TreeNode) e.NewValue;
-			BaseOfTreeRoot.SelectedNode = userSelected;
-//			PatternHintText = "";
-		}
-
-
 		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
 		{
 			categories.IsModified = true;
 		}
 
-		private void TbxPattern_OnTextChanged(object sender, TextChangedEventArgs e)
+		// when a selection has been made
+		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			categories.IsModified = true;
+			UserSelected = (TreeNode) e.NewValue;
+			BaseOfTreeRoot.SelectedNode = userSelected;
 		}
 
-
 		// context menu events
-
 		private void Tv1ContextMenu_OnOpened(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
 			// sender.datacontect is the treenode
-
 			ContextSelected = (TreeNode) ((ContextMenu) sender).DataContext;
 		}
 
@@ -352,8 +348,6 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-//			contextSelected.AddNewChild();
-
 			BaseOfTreeRoot.AddNewChild2(contextSelected);
 
 			contextSelected.IsExpanded = true;
@@ -365,8 +359,6 @@ namespace ClassifierEditor.Windows
 		{
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
-
-//			contextSelectedParent.AddNewBefore(contextSelected);
 
 			BaseOfTreeRoot.AddNewBefore2(contextSelected);
 
@@ -387,8 +379,6 @@ namespace ClassifierEditor.Windows
 		{
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-//			contextSelectedParent.MoveBefore(UserSelected, contextSelected);
-
 			BaseOfTreeRoot.MoveBefore(contextSelected, userSelected);
 
 			BaseOfTreeRoot.SelectedNode.IsSelected = false;
@@ -400,8 +390,6 @@ namespace ClassifierEditor.Windows
 		{
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
-
-//			contextSelectedParent.MoveAfter(UserSelected, ContextSelected);
 
 			BaseOfTreeRoot.MoveAfter(contextSelected, userSelected);
 
@@ -483,6 +471,22 @@ namespace ClassifierEditor.Windows
 			ContextDeselect();
 		}
 
+
+		private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+		{
+			if (HasSelection)
+			{
+				int id = ((ComparisonOperation) ((CheckBox) sender).DataContext).Id;
+
+				int idx = userSelected.Item.FindCompOp(id) - 1;
+
+
+				userSelected.Item.CompareOps[idx].IsDisabled = true;
+
+			}
+		}
+
+
 		private void ContextHighlight()
 		{
 			contextSelected.IsContextHighlighted = true;
@@ -509,7 +513,6 @@ namespace ClassifierEditor.Windows
 
 	#region buttons
 
-
 		private void BtnAddCondition_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (HasSelection)
@@ -521,17 +524,26 @@ namespace ClassifierEditor.Windows
 
 				userSelected.Item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "A"));
 			}
-
 		}
 
+		private void BtnDeleteCondition_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (HasSelection)
+			{
+				int id = ((ComparisonOperation) ((Button) sender).DataContext).Id;
 
+				int idx = userSelected.Item.FindCompOp(id) ;
+
+				userSelected.Item.RemoveCompOpAt(idx--);
+				userSelected.Item.RemoveCompOpAt(idx);
+				
+			}
+		}
 
 		private void BtnDoneEditing_OnClick(object sender, RoutedEventArgs e)
 		{
 			UserSelected.IsSelected = false;
 			UserSelected = null;
-
-
 		}
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
@@ -568,7 +580,6 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-
 	#region event processing
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -581,32 +592,29 @@ namespace ClassifierEditor.Windows
 
 		#endregion
 
-		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
+	}
 
+	#region NotBool value converter
+
+	[ValueConversion(typeof(bool), typeof(bool))]
+	public class NotBoolConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType != typeof(bool))
+				throw new InvalidOperationException("The target must be a boolean");
+
+			return !(bool) value;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter,
+			System.Globalization.CultureInfo culture)
+		{
+			throw new NotSupportedException();
 		}
 	}
 
-	//	public class DetailRowTemplateSelector : DataTemplateSelector
-	//	{
-	//		public override DataTemplate SelectTemplate(object item, DependencyObject container)
-	//		{
-	//			FrameworkElement element = container as FrameworkElement;
-	//			if (element != null && item != null && item is TreeNode)
-	//			{
-	//				TreeNode taskitem = item as TreeNode;
-	//
-	//				if (taskitem.HasChildren)
-	//					return
-	//						element.FindResource("Dtx") as DataTemplate;
-	//				else
-	//					return
-	//						element.FindResource("Dty") as DataTemplate;
-	//			}
-	//
-	//			return null;
-	//		}
-	//	}
+	#endregion
 
 	public class Lv1ConditionTemplateSelector : DataTemplateSelector
 	{
@@ -616,8 +624,8 @@ namespace ClassifierEditor.Windows
 
 			if (element != null && item != null && item is ComparisonOperation)
 			{
-
 				ComparisonOperation taskitem = item as ComparisonOperation;
+
 
 				if (taskitem.CompareOp is LogicalCompareOp)
 				{
@@ -642,6 +650,8 @@ namespace ClassifierEditor.Windows
 
 	public class Lv2ConditionTemplateSelector : DataTemplateSelector
 	{
+		public static int MasterIdIdx;
+
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			FrameworkElement element = container as FrameworkElement;
@@ -650,6 +660,8 @@ namespace ClassifierEditor.Windows
 			{
 
 				ComparisonOperation taskitem = item as ComparisonOperation;
+
+				taskitem.Id = MasterIdIdx++;
 
 				if (taskitem.CompareOp is LogicalCompareOp)
 				{
@@ -660,13 +672,11 @@ namespace ClassifierEditor.Windows
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
-//						element.FindResource("Lv2DataTemplate3") as DataTemplate;
 				}
 				else
 				{
 					return
 						element.FindResource("Lv2DataTemplate1") as DataTemplate;
-//						element.FindResource("Lv2DataTemplate2") as DataTemplate;
 				}
 			}
 

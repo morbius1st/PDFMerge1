@@ -13,105 +13,114 @@ using UtilityLibrary;
 
 namespace ClassifierEditor.FilesSupport
 {
-	public class SampleFileList: INotifyPropertyChanged
+	public class SampleFileList : INotifyPropertyChanged
 	{
-		#region private fields
+	#region private fields
 
-			private string fileName;
+		private string fileName;
 
 
-			public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
-				= new ObservableCollection<FilePath<FileNameSheetPdf>>();
-		#endregion
+		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
+			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 
-		#region ctor
+	#endregion
 
-			public SampleFileList()
+	#region ctor
+
+		public SampleFileList()
+		{
+			OnPropertyChange("Files");
+		}
+
+
+		public SampleFileList(string fileName)
+		{
+			this.fileName = fileName;
+
+			GetFiles();
+
+			OnPropertyChange("Files");
+		}
+
+	#endregion
+
+	#region public properties
+
+		public void AddPath(FilePath<FileNameSheetPdf> path)
+		{
+			Files.Add(path);
+			OnPropertyChange("Files");
+		}
+
+	#endregion
+
+	#region private properties
+
+	#endregion
+
+	#region public methods
+
+//		public void GetFiles()
+//		{
+//			string pattern = "*.pdf";
+//
+//			foreach (string file in
+//				Directory.EnumerateFiles(fileName, pattern,
+//					SearchOption.AllDirectories))
+//			{
+//				Files.Add(new FilePath<FileNameSheetPdf>(file));
+//			}
+//		}
+
+		public void GetFiles()
+		{
+			if (!File.Exists(fileName))
 			{
-				OnPropertyChange("Files");
-
+				throw new FileNotFoundException();
 			}
 
-		
-			public SampleFileList(string fileName)
+			string file;
+
+			StreamReader fileStream = new StreamReader(fileName);
+
+			while ((file = fileStream.ReadLine()) != null)
 			{
-				this.fileName = fileName;
+				file = file.Trim();
 
-				GetFiles();
-				
-				OnPropertyChange("Files");
+				if (file.Length == 0 || file.Substring(0,2).Equals(@"\\")) continue;
+
+				Files.Add(new FilePath<FileNameSheetPdf>(file));
 			}
+		}
 
-		#endregion
+	#endregion
 
-		#region public properties
+	#region private methods
 
-			public void AddPath(FilePath<FileNameSheetPdf> path)
-			{
-				Files.Add(path);
-				OnPropertyChange("Files");
-			}
+	#endregion
 
+	#region event processing
 
+	#endregion
 
-		#endregion
+	#region event handeling
 
-		#region private properties
+		public event PropertyChangedEventHandler PropertyChanged;
 
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
 
+	#endregion
 
-		#endregion
-
-		#region public methods
-
-			public void GetFiles()
-			{
-//				Files = new ObservableCollection<FilePath<FileNameAsSheetFile>>();
-
-				string pattern = "*.pdf";
-
-				foreach (string file in
-					Directory.EnumerateFiles(fileName, pattern,
-						SearchOption.AllDirectories))
-				{
-					Files.Add(new FilePath<FileNameSheetPdf>(file));
-				}
-			}
-
-
-		#endregion
-
-		#region private methods
-
-
-
-		#endregion
-
-		#region event processing
-
-
-
-		#endregion
-
-		#region event handeling
-
-			public event PropertyChangedEventHandler PropertyChanged;
-
-			private void OnPropertyChange([CallerMemberName] string memberName = "")
-			{
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-			}
-
-
-		#endregion
-
-		#region system overrides
+	#region system overrides
 
 		public override string ToString()
 		{
 			return "this is SampleFileList";
 		}
 
-		#endregion
+	#endregion
 	}
 }

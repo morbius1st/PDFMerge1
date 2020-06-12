@@ -1,5 +1,6 @@
 ﻿#region using directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -50,10 +51,9 @@ namespace ClassifierEditor.Tree
 
 		protected ACompareOp coOp = ValueCompareOps[(int) NO_OP];
 
-		private string compareValue;
-		private bool isFirstCompOp = false;
-		private bool ignoreCompOp = false;
-
+		protected string compareValue;
+		protected bool isFirstCompOp = false;
+		protected bool isDsableCompOp = false;
 
 	#endregion
 
@@ -64,6 +64,9 @@ namespace ClassifierEditor.Tree
 	#endregion
 
 	#region public properties
+
+		[IgnoreDataMember]
+		public int Id { get; set; }
 
 		[IgnoreDataMember]
 		public string CompareString => CompareOp.Name;
@@ -106,17 +109,17 @@ namespace ClassifierEditor.Tree
 		}
 
 		[DataMember(Order = 4)]
-		public bool IgnoreCompOp
+		public bool IsDisabled
 		{
-			get => ignoreCompOp;
+			get => isDsableCompOp;
 			set
 			{
-				ignoreCompOp = value;
+				isDsableCompOp = value;
 
 				OnPropertyChange();
+
 			}
 		}
-
 
 		[IgnoreDataMember]
 		public abstract int CompareOpCode { get; set; }
@@ -138,16 +141,17 @@ namespace ClassifierEditor.Tree
 
 	#region event processing
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
-		}
-
 	#endregion
 
 	#region event handeling
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
 
 	#endregion
 
@@ -162,13 +166,17 @@ namespace ClassifierEditor.Tree
 	}
 
 	[DataContract(Namespace = "")]
-	public class ValueCompOp : ComparisonOperation
+	public class ValueCompOp : ComparisonOperation, ICloneable
 	{
-		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false)
+//		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false) : this(op, value, isFirst) { }
+
+		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false, bool ignore = false)
 		{
 			CompareOp = op;
 			CompareValue = value;
 			IsFirstCompOp = isFirst;
+			IsDisabled = ignore;
+//			Id = row;
 		}
 
 		[IgnoreDataMember]
@@ -182,21 +190,28 @@ namespace ClassifierEditor.Tree
 
 			}
 		}
+
+		public object Clone()
+		{
+			ValueCompOp clone = new ValueCompOp((ValueCompareOp) coOp, compareValue, isFirst: isFirstCompOp, ignore: isDsableCompOp);
+
+			return clone;
+		}
 	}
 
 	[DataContract(Namespace = "")]
-	public class LogicalCompOp : ComparisonOperation
+	public class LogicalCompOp : ComparisonOperation, ICloneable
 	{
-		public LogicalCompOp(LogicalCompareOp op)
+		public LogicalCompOp(LogicalCompareOp op, bool ignore = false)
 		{
 			CompareOp = op;
 			CompareValue = null;
+			IsDisabled = ignore;
 		}
 
 		[IgnoreDataMember]
 		public override int CompareOpCode
 		{
-
 			get => coOp.OpCodeValue;
 			set
 			{
@@ -204,9 +219,14 @@ namespace ClassifierEditor.Tree
 
 			}
 		}
+
+		public object Clone()
+		{
+			LogicalCompOp clone = new LogicalCompOp((LogicalCompareOp) coOp, isDsableCompOp);
+
+			return clone;
+		}
 	}
-
-
 
 
 	// value conditions

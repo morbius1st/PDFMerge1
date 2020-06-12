@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
 using ClassifierEditor.FilesSupport;
+
 
 #endregion
 
@@ -60,6 +64,12 @@ using ClassifierEditor.FilesSupport;
 
 namespace ClassifierEditor.Tree
 {
+//	public class MasterRow
+//	{
+//		public int MasterRowIdx { get; set; } = 0;
+//	}
+
+
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	public class SheetCategory : INotifyPropertyChanged, ICloneable
 	{
@@ -82,7 +92,6 @@ namespace ClassifierEditor.Tree
 
 		public SheetCategory(string title, string description, string pattern)
 		{
-//			this.keyCode = keyCode;
 			this.title = title;
 			this.description = description;
 			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
@@ -168,9 +177,6 @@ namespace ClassifierEditor.Tree
 		}
 
 
-
-
-
 	#endregion
 
 	#region private properties
@@ -178,6 +184,22 @@ namespace ClassifierEditor.Tree
 	#endregion
 
 	#region public methods
+
+		public int FindCompOp(int findId)
+		{
+			for (var i = 0; i < compareOps.Count; i++)
+			{
+				if (compareOps[i].Id == findId) return i;
+			}
+
+			return -1;
+		}
+
+		public void RemoveCompOpAt(int idx)
+		{
+			compareOps.RemoveAt(idx);
+			OnPropertyChange("CompareOps");
+		}
 
 		public void NotifyChange()
 		{
@@ -196,21 +218,27 @@ namespace ClassifierEditor.Tree
 	#region private methods
 
 
-
 	#endregion
 
 	#region event processing
+
+		private void OnIsDisabledChanged(object sender)
+		{
+			Debug.WriteLine("at event");
+		}
 
 	#endregion
 
 	#region event handeling
 
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		protected void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
 		}
+
 
 	#endregion
 
@@ -225,7 +253,9 @@ namespace ClassifierEditor.Tree
 			string d = description + $" (copy {copyIdx})";
 			string p = pattern.ToString();
 
-			return new SheetCategory(t, d, p);
+			SheetCategory clone = new SheetCategory(t, d, p);
+
+			return clone;
 		}
 
 		public override string ToString()
@@ -235,5 +265,8 @@ namespace ClassifierEditor.Tree
 
 
 	#endregion
+
 	}
+
+
 }
