@@ -139,7 +139,7 @@ namespace ClassifierEditor.Windows
 			Lv2ConditionTemplateSelector.MasterIdIdx = 0;
 
 			temp = new TreeNode(new BaseOfTree(),
-				new SheetCategory("title", "description", "pattern")
+				new SheetCategory("title", "description")
 				{
 					CompareOps = new ObservableCollection<ComparisonOperation>()
 					{

@@ -43,7 +43,7 @@ namespace ClassifierEditor.SampleData
 		{
 			root = tn;
 
-			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree", null);
+			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
 
 			root.Item = item;
 
@@ -86,7 +86,7 @@ namespace ClassifierEditor.SampleData
 					BRANCH = i;
 				}
 
-				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description", @"(?<=[A-Z])([ -]+)(?=[0-9])");
+				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
 
 //				item.CompareOps = new ObservableCollection<ComparisonOperation>();
 				if (i == 1)

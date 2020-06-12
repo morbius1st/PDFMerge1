@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-06-11 - 13:39 -07:00</SaveDateTime>
+    <SaveDateTime>2020-06-11 - 21:34 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <SystemVersion>7.0</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
@@ -15,7 +15,6 @@
         <Title>Base of Tree</Title>
         <Description>Base of Tree</Description>
         <CompareOps />
-        <Pattern></Pattern>
       </Item>
       <Parent i:nil="true" />
       <CheckedState>UNCHECKED</CheckedState>
@@ -29,7 +28,6 @@
             <Title>node title 00:00:00</Title>
             <Description>node description</Description>
             <CompareOps />
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
           <CheckedState>UNCHECKED</CheckedState>
@@ -90,7 +88,6 @@
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
           <CheckedState>UNCHECKED</CheckedState>
@@ -115,7 +112,6 @@
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
           <CheckedState>UNCHECKED</CheckedState>
@@ -140,7 +136,6 @@
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
           <CheckedState>UNCHECKED</CheckedState>
@@ -154,7 +149,6 @@
                 <Title>node title 03:01:00</Title>
                 <Description>node description</Description>
                 <CompareOps />
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
               </Item>
               <Parent z:Ref="i10" />
               <CheckedState>UNCHECKED</CheckedState>
@@ -215,7 +209,6 @@
                     <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
               </Item>
               <Parent z:Ref="i10" />
               <CheckedState>UNCHECKED</CheckedState>
@@ -240,7 +233,6 @@
                     <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
               </Item>
               <Parent z:Ref="i10" />
               <CheckedState>UNCHECKED</CheckedState>
@@ -265,7 +257,6 @@
                     <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
               </Item>
               <Parent z:Ref="i10" />
               <CheckedState>UNCHECKED</CheckedState>
@@ -279,7 +270,6 @@
                     <Title>node title 03:02:00</Title>
                     <Description>node description</Description>
                     <CompareOps />
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                   </Item>
                   <Parent z:Ref="i18" />
                   <CheckedState>UNCHECKED</CheckedState>
@@ -340,7 +330,6 @@
                         <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                   </Item>
                   <Parent z:Ref="i18" />
                   <CheckedState>UNCHECKED</CheckedState>
@@ -365,7 +354,6 @@
                         <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                   </Item>
                   <Parent z:Ref="i18" />
                   <CheckedState>UNCHECKED</CheckedState>
@@ -390,7 +378,6 @@
                         <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                   </Item>
                   <Parent z:Ref="i18" />
                   <CheckedState>UNCHECKED</CheckedState>
@@ -404,7 +391,6 @@
                         <Title>node title 03:03:00</Title>
                         <Description>node description</Description>
                         <CompareOps />
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                       </Item>
                       <Parent z:Ref="i26" />
                       <CheckedState>UNCHECKED</CheckedState>
@@ -465,7 +451,6 @@
                             <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                       </Item>
                       <Parent z:Ref="i26" />
                       <CheckedState>UNCHECKED</CheckedState>
@@ -490,7 +475,6 @@
                             <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                       </Item>
                       <Parent z:Ref="i26" />
                       <CheckedState>UNCHECKED</CheckedState>
@@ -515,7 +499,6 @@
                             <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                       </Item>
                       <Parent z:Ref="i26" />
                       <CheckedState>UNCHECKED</CheckedState>
@@ -558,7 +541,6 @@
                             <IsDisabled>false</IsDisabled>
                           </ComparisonOperation>
                         </CompareOps>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                       </Item>
                       <Parent z:Ref="i26" />
                       <CheckedState>UNCHECKED</CheckedState>
@@ -603,7 +585,6 @@
                         <IsDisabled>false</IsDisabled>
                       </ComparisonOperation>
                     </CompareOps>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
                   </Item>
                   <Parent z:Ref="i18" />
                   <CheckedState>UNCHECKED</CheckedState>
@@ -648,7 +629,6 @@
                     <IsDisabled>false</IsDisabled>
                   </ComparisonOperation>
                 </CompareOps>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
               </Item>
               <Parent z:Ref="i10" />
               <CheckedState>UNCHECKED</CheckedState>
@@ -693,7 +673,6 @@
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
             </CompareOps>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
           </Item>
           <Parent z:Ref="i2" />
           <CheckedState>UNCHECKED</CheckedState>

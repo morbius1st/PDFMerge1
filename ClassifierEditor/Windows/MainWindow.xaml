@@ -1313,30 +1313,6 @@
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 			</Style>
-
-
-
-			<!-- <ControlTemplate x:Key="PatternError"> -->
-			<!-- 	<DockPanel> -->
-			<!-- 		<AdornedElementPlaceholder DockPanel.Dock="Top" /> -->
-			<!--  <Border  -->
-			<!--  CornerRadius="5"  -->
-			<!--  DockPanel.Dock="Bottom"  -->
-			<!--  Background="{StaticResource Edit.TextBox.Background}"  -->
-			<!--  BorderThickness="0.5"  -->
-			<!--  BorderBrush="Red"  -->
-			<!--  >  -->
-			<!--  <Label  -->
-			<!--  Content="Not a valid pattern"  -->
-			<!--  DockPanel.Dock="Bottom"  -->
-			<!--  Style="{StaticResource Label.Selected.HintText}"  -->
-			<!--  />  -->
-			<!-- 		</Border> -->
-			<!-- 	</DockPanel> -->
-			<!-- </ControlTemplate> -->
-
-
-
 			<ControlTemplate
 					x:Key="ComboBoxToggleButton1"
 					TargetType="{x:Type ToggleButton}"
@@ -2676,7 +2652,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="4*" />
-			<RowDefinition Height="48" />
+			<RowDefinition Height="96" />
 
 		</Grid.RowDefinitions>
 
@@ -3209,98 +3185,6 @@
 				Style="{StaticResource Tv1Style1}"
 				/>
 
-
-		<ComboBox
-				Grid.Column="0"
-				Grid.Row="2"
-				Margin="15,0,2,0"
-				Height="20"
-				Padding="8,2,2,2"
-				HorizontalAlignment="Left"
-				FontSize="12"
-				custom:CustomProperties.DropDownWidth="150.0"
-				DisplayMemberPath="Name"
-				MaxDropDownHeight="100"
-				SelectedIndex="2"
-				BorderThickness="2"
-				IsEditable="False"
-				ItemContainerStyle="{DynamicResource ComboBoxItem1}"
-				ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
-				FocusVisualStyle="{x:Null}"
-				>
-			<ComboBox.Style>
-				<Style
-						TargetType="ComboBox"
-						BasedOn="{StaticResource Cbox1Style1}"
-						>
-					<Setter Property="Background" Value="{StaticResource ListView.Item.Background}" />
-					<Setter Property="Foreground" Value="White" />
-				</Style>
-			</ComboBox.Style>
-		</ComboBox>
-
-		<Button
-				Grid.Column="0"
-				Grid.Row="2"
-				Margin="160,0,2,0"
-				Width="30"
-				Height="30"
-				Padding="0"
-				HorizontalAlignment="Left"
-				Background="{StaticResource Button.Static.Delete.Background}"
-				Style="{StaticResource Button.Condition.Style}"
-				>
-			<Button.Content>
-				<Grid Margin="0">
-					<Viewbox
-							Margin="-5,-5,-4,-4"
-							Width="31"
-							Height="31"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Child="{StaticResource Not2}"
-							Stretch="UniformToFill"
-							/>
-
-					<!--  <Viewbox  -->
-					<!--  Margin="-1,-1,0,0"  -->
-					<!--  Width="28"  -->
-					<!--  Height="28"  -->
-					<!--  Child="{StaticResource DeleteIcon}" />  -->
-
-				</Grid>
-			</Button.Content>
-		</Button>
-
-		<Border
-				x:Name="BdrCxb2"
-				Grid.Column="0"
-				Grid.Row="2"
-				Margin="180,0,2,0"
-				Width="70"
-				Height="20"
-				Padding="0"
-				CornerRadius="3"
-				DockPanel.Dock="Left"
-				Background="{StaticResource ListView.Item.Background.Discipline}"
-				BorderThickness="0"
-				>
-			<CheckBox
-					Content="Locked"
-					Height="14"
-					Padding="2,-2.5,0,2"
-					VerticalAlignment="Center"
-					VerticalContentAlignment="Center"
-					FontSize="14"
-					Background="Transparent"
-					Foreground="white"
-					Style="{DynamicResource Ckbx1Style}"
-					/>
-
-		</Border>
-
-
-		<!-- </Border> -->
 
 	</Grid>
 </Window>

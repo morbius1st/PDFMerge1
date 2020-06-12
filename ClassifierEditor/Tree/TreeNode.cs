@@ -697,7 +697,7 @@ namespace ClassifierEditor.Tree
 
 	#region ctor
 
-		public BaseOfTree() : base(new SheetCategory("BaseOfTree", null, null), false)
+		public BaseOfTree() : base(new SheetCategory("BaseOfTree", null), false)
 		{
 			masterUniqueId = 0;
 		}

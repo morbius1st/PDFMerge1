@@ -83,18 +83,16 @@ namespace ClassifierEditor.Tree
 		private string title;
 		private string description;
 		private int depth;
-		private Regex pattern;
 		private ObservableCollection<ComparisonOperation> compareOps;
 
 	#endregion
 
 	#region ctor
 
-		public SheetCategory(string title, string description, string pattern)
+		public SheetCategory(string title, string description)
 		{
 			this.title = title;
 			this.description = description;
-			this.pattern = pattern == null ? new Regex("") : new Regex(pattern);
 
 			CompareOps = new ObservableCollection<ComparisonOperation>();
 		}
@@ -123,25 +121,6 @@ namespace ClassifierEditor.Tree
 			set
 			{
 				description = value;
-				OnPropertyChange();
-			}
-		}
-
-		[DataMember(Order = 3)]
-		public string Pattern
-		{
-			get => pattern.ToString();
-
-			set
-			{
-				try
-				{
-					pattern = new Regex(value);
-				}
-				catch 
-				{
-					pattern = new Regex("invalid");
-				}
 				OnPropertyChange();
 			}
 		}
@@ -210,7 +189,7 @@ namespace ClassifierEditor.Tree
 
 		public static SheetCategory TempSheetCategory()
 		{
-			return new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description", "");
+			return new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description");
 		}
 
 	#endregion
@@ -251,9 +230,8 @@ namespace ClassifierEditor.Tree
 
 			string t = title + $" (copy {copyIdx})";
 			string d = description + $" (copy {copyIdx})";
-			string p = pattern.ToString();
 
-			SheetCategory clone = new SheetCategory(t, d, p);
+			SheetCategory clone = new SheetCategory(t, d);
 
 			return clone;
 		}
