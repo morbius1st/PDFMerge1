@@ -86,7 +86,7 @@ namespace ClassifierEditor.Windows
 	{
 	#region private fields
 
-		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
+//		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
 		private static TreeNode userSelected;
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
@@ -175,15 +175,15 @@ namespace ClassifierEditor.Windows
 
 		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
 
-		public SheetCategoryDataManager Categories
-		{
-			get => categories;
-			private set
-			{
-				categories = value;
-				OnPropertyChange();
-			}
-		}
+//		public SheetCategoryDataManager Categories
+//		{
+//			get => categories;
+//			private set
+//			{
+//				categories = value;
+//				OnPropertyChange();
+//			}
+//		}
 
 		public TreeNode UserSelected
 		{
@@ -256,8 +256,8 @@ namespace ClassifierEditor.Windows
 
 			UserSettings.Admin.Read();
 
-			categories.Configure(UserSettings.Data.CatConfigFolder,
-				UserSettings.Data.CatConfigFile);
+//			categories.Configure(UserSettings.Data.CatConfigFolder,
+//				UserSettings.Data.CatConfigFile);
 
 //			SampleData.SampleData sd = new SampleData.SampleData();
 //
@@ -265,7 +265,7 @@ namespace ClassifierEditor.Windows
 //
 //			categories.Write();
 
-			categories.Read();
+//			categories.Read();
 
 			string sampleFileName = UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
 
@@ -276,19 +276,19 @@ namespace ClassifierEditor.Windows
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
-			if (categories.IsModified == true)
-			{
-				MessageBoxResult result = MessageBox.Show(
-					"There are changes that have not been saved\n"
-					+ "Do you want to save your changes?",
-					"Classifier Editor", MessageBoxButton.YesNo,
-					MessageBoxImage.Warning);
-
-				if (result == MessageBoxResult.Yes)
-				{
-					e.Cancel = true;
-				}
-			}
+//			if (categories.IsModified == true)
+//			{
+//				MessageBoxResult result = MessageBox.Show(
+//					"There are changes that have not been saved\n"
+//					+ "Do you want to save your changes?",
+//					"Classifier Editor", MessageBoxButton.YesNo,
+//					MessageBoxImage.Warning);
+//
+//				if (result == MessageBoxResult.Yes)
+//				{
+//					e.Cancel = true;
+//				}
+//			}
 		}
 
 	#endregion
@@ -297,7 +297,7 @@ namespace ClassifierEditor.Windows
 
 		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
 		{
-			categories.IsModified = true;
+//			categories.IsModified = true;
 		}
 
 		// when a selection has been made
@@ -577,7 +577,7 @@ namespace ClassifierEditor.Windows
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
-			categories.Write();
+//			categories.Write();
 		}
 
 		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e) { }
