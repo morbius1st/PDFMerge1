@@ -259,11 +259,13 @@ namespace ClassifierEditor.Windows
 			categories.Configure(UserSettings.Data.CatConfigFolder,
 				UserSettings.Data.CatConfigFile);
 
-			SampleData.SampleData sd = new SampleData.SampleData();
+//			SampleData.SampleData sd = new SampleData.SampleData();
+//
+//			sd.Sample(categories.TreeBase);
+//
+//			categories.Write();
 
-			sd.Sample(categories.TreeBase);
-
-			categories.Write();
+			categories.Read();
 
 			string sampleFileName = UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
 
@@ -301,7 +303,16 @@ namespace ClassifierEditor.Windows
 		// when a selection has been made
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			UserSelected = (TreeNode) e.NewValue;
+			TreeNode selected = (TreeNode) e.NewValue;
+
+			if (selected!=null && selected.IsFixed || selected.IsLocked)
+			{
+				e.Handled = true;
+				UserSelected = null;
+				return;
+			}
+
+			UserSelected = selected;
 			BaseOfTreeRoot.SelectedNode = userSelected;
 		}
 
@@ -372,6 +383,8 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTreeRoot.AddNewAfter2(contextSelected);
 
+			
+
 			ContextDeselect();
 		}
 
@@ -381,7 +394,7 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTreeRoot.MoveBefore(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
@@ -393,7 +406,7 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTreeRoot.MoveAfter(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
@@ -405,17 +418,17 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTreeRoot.MoveAsChild(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsSelected = false;
+			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
 
 		private void Tv1ContextMenuSelCopy_OnClick(object sender, RoutedEventArgs e)
 		{
-			// add a child to this leaf - also make a branch.
+			// add contextselected after this leaf
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			TreeNode newNode = userSelected.Clone() as TreeNode;
+			TreeNode newNode = contextSelected.Clone() as TreeNode;
 
 			BaseOfTreeRoot.AddAfter2(contextSelected, newNode);
 
@@ -472,7 +485,7 @@ namespace ClassifierEditor.Windows
 		}
 
 
-		private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+		private void CkbxDisable_OnChecked(object sender, RoutedEventArgs e)
 		{
 			if (HasSelection)
 			{
@@ -484,6 +497,22 @@ namespace ClassifierEditor.Windows
 				userSelected.Item.CompareOps[idx].IsDisabled = true;
 
 			}
+		}
+
+		private void CkbxLocked_OnChecked(object sender, RoutedEventArgs e)
+		{
+			CheckBox ckbx = (CheckBox) sender;
+
+			if (ckbx.IsChecked.Value != true) return;
+
+			TreeNode selected = ckbx.DataContext as TreeNode;
+
+			if (selected == null) return;
+
+			// has been checked
+
+			selected.IsNodeSelected = false;
+
 		}
 
 
@@ -542,7 +571,7 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDoneEditing_OnClick(object sender, RoutedEventArgs e)
 		{
-			UserSelected.IsSelected = false;
+			UserSelected.IsNodeSelected = false;
 			UserSelected = null;
 		}
 
@@ -591,6 +620,7 @@ namespace ClassifierEditor.Windows
 
 
 		#endregion
+
 
 	}
 

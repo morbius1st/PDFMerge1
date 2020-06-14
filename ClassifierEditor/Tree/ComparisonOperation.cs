@@ -45,7 +45,7 @@ namespace ClassifierEditor.Tree
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ValueCompOp))]
 	[KnownType(typeof(LogicalCompOp))]
-	public abstract class ComparisonOperation : INotifyPropertyChanged
+	public abstract class ComparisonOperation : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
@@ -162,11 +162,14 @@ namespace ClassifierEditor.Tree
 			return "this is ComparisonOperation";
 		}
 
+		public abstract object Clone();
+
+
 	#endregion
 	}
 
 	[DataContract(Namespace = "")]
-	public class ValueCompOp : ComparisonOperation, ICloneable
+	public class ValueCompOp : ComparisonOperation
 	{
 //		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false) : this(op, value, isFirst) { }
 
@@ -191,16 +194,16 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		public object Clone()
+		public override object Clone()
 		{
-			ValueCompOp clone = new ValueCompOp((ValueCompareOp) coOp, compareValue, isFirst: isFirstCompOp, ignore: isDsableCompOp);
+			ValueCompOp clone = new ValueCompOp((ValueCompareOp) coOp, compareValue, isFirstCompOp, isDsableCompOp);
 
 			return clone;
 		}
 	}
 
 	[DataContract(Namespace = "")]
-	public class LogicalCompOp : ComparisonOperation, ICloneable
+	public class LogicalCompOp : ComparisonOperation
 	{
 		public LogicalCompOp(LogicalCompareOp op, bool ignore = false)
 		{
@@ -220,7 +223,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		public object Clone()
+		public override object Clone()
 		{
 			LogicalCompOp clone = new LogicalCompOp((LogicalCompareOp) coOp, isDsableCompOp);
 
@@ -313,16 +316,16 @@ namespace ClassifierEditor.Tree
 			setValueCompareOp(ValueCompareOps, "Is Less Than", LESS_THAN);
 			setValueCompareOp(ValueCompareOps, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
 			setValueCompareOp(ValueCompareOps, "Is Greater Than", GREATER_THAN);
-			setValueCompareOp(ValueCompareOps, "Is Exactly Equal to the Phrase", EQUALTO);
-			setValueCompareOp(ValueCompareOps, "Is Not Exactly Equal to the Phrase", DOES_NOT_EQUAL);
-			setValueCompareOp(ValueCompareOps, "Contains the Phrase", CONTAINS );
-			setValueCompareOp(ValueCompareOps, "Does Not Contain the Phrase", DOES_NOT_CONTAIN );
-			setValueCompareOp(ValueCompareOps, "Starts with the Phrase", STARTS_WITH );
-			setValueCompareOp(ValueCompareOps, "Does Not Start with the Phrase", DOES_NOT_START_WITH);
-			setValueCompareOp(ValueCompareOps, "Ends with the Phrase", ENDS_WITH);
-			setValueCompareOp(ValueCompareOps, "Does Not End with the Phrase", DOES_NOT_END_WITH);
-			setValueCompareOp(ValueCompareOps, "Matches this Pattern", MATCHES);
-			setValueCompareOp(ValueCompareOps, "Does Not Match this Pattern", DOES_NOT_MATCH);
+			setValueCompareOp(ValueCompareOps, "Is Exactly Equal", EQUALTO);
+			setValueCompareOp(ValueCompareOps, "Is Not Exactly Equal", DOES_NOT_EQUAL);
+			setValueCompareOp(ValueCompareOps, "Contains", CONTAINS );
+			setValueCompareOp(ValueCompareOps, "Does Not Contain", DOES_NOT_CONTAIN );
+			setValueCompareOp(ValueCompareOps, "Starts with", STARTS_WITH );
+			setValueCompareOp(ValueCompareOps, "Does Not Start with", DOES_NOT_START_WITH);
+			setValueCompareOp(ValueCompareOps, "Ends with", ENDS_WITH);
+			setValueCompareOp(ValueCompareOps, "Does Not End with", DOES_NOT_END_WITH);
+			setValueCompareOp(ValueCompareOps, "Matches the Pattern", MATCHES);
+			setValueCompareOp(ValueCompareOps, "Does Not Match the Pattern", DOES_NOT_MATCH);
 		}
 
 		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ComparisonOp op)

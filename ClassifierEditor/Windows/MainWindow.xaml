@@ -62,7 +62,7 @@
 					>
 				<Style.Triggers>
 					<Trigger Property="IsEnabled" Value="False">
-						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+						<Setter Property="Background" Value="{StaticResource Control.Disabled.Background}" />
 					</Trigger>
 				</Style.Triggers>
 			</Style>
@@ -73,7 +73,7 @@
 					>
 				<Style.Triggers>
 					<Trigger Property="IsEnabled" Value="False">
-						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+						<Setter Property="Background" Value="{StaticResource Control.Disabled.Background}" />
 						<Setter Property="Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
 					</Trigger>
 				</Style.Triggers>
@@ -129,10 +129,7 @@
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 
 				<Style.Triggers>
-					<DataTrigger
-							Binding="{Binding IsSelected}"
-							Value="true"
-							>
+					<DataTrigger Binding="{Binding IsSelected}" Value="true">
 						<Setter Property="IsEnabled" Value="true" />
 					</DataTrigger>
 				</Style.Triggers>
@@ -323,11 +320,7 @@
 					>
 				<Setter Property="IsEnabled" Value="False" />
 				<Style.Triggers>
-					<DataTrigger
-							Binding="{Binding HasSelection,
-																Source={x:Static local:MainWindow.BaseOfTreeRoot}}"
-							Value="true"
-							>
+					<DataTrigger Binding="{Binding HasSelection, Source={x:Static local:MainWindow.BaseOfTreeRoot}}" Value="true">
 						<Setter Property="IsEnabled" Value="true" />
 					</DataTrigger>
 
@@ -335,6 +328,30 @@
 			</Style>
 
 
+
+			<!--
+				options
+				WHEN	          default     IsFixed			  Isfixed      IsLocked
+				.               state       == true       == false     == true
+				
+				expand          disabled    either        either       either
+				spacer
+				add before      enabled     either        either       either
+				add after       enabled     either        either       either
+				add child       enabled     either        either       disable
+				spacer
+				move before     disabled    either        either       either
+				move after      disabled    either        either       either
+				move as child   disabled    either        either       disable
+				spacer
+				clone           disabled    either        either       either
+				.                           (remove				(remove      (remove
+				.							              lock/ fixed)	lock/ fixed) lock / fixed)
+				clone as child  disabled    either        either       disable
+				.                           (remove				(remove      (remove
+				. 						              lock / fixed)	lock/ fixed) lock/ fixed)
+				delete          disabled    disable				either       disable
+			-->
 
 			<ContextMenu
 					x:Key="Tv1ContextMenu"
@@ -467,12 +484,7 @@
 					</MenuItem.Style>
 				</MenuItem>
 
-				<!--  Binding="{Binding RelativeSource={RelativeSource Self},  -->
-				<!--  Path=DataContext.CanExpand}"  -->
-
-
 				<Separator Margin="6" />
-
 
 				<MenuItem
 						CommandParameter="{Binding ContextCmdAddBefore,
@@ -483,6 +495,7 @@
 						Click="Tv1ContextMenuAddBefore_OnClick"
 						Style="{StaticResource Tv.context.menuitem.base}"
 						/>
+
 				<MenuItem
 						CommandParameter="{Binding ContextCmdAddAfter,
 																			 Mode=OneWay,
@@ -499,13 +512,23 @@
 																																			AncestorType={x:Type local:MainWindow}}}"
 						Header="Add Sub-Category"
 						Click="Tv1ContextMenuAddChild_OnClick"
-						Style="{StaticResource Tv.context.menuitem.base}"
-						/>
-
+						>
+					<MenuItem.Style>
+						<Style
+								TargetType="MenuItem"
+								BasedOn="{StaticResource Tv.context.menuitem.base}"
+								>
+							<Setter Property="IsEnabled" Value="true" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</MenuItem.Style>
+				</MenuItem>
 
 				<Separator Margin="6" />
-
-
 
 				<MenuItem
 						CommandParameter="{Binding ContextCmdMoveBefore,
@@ -535,8 +558,26 @@
 																																			AncestorType={x:Type local:MainWindow}}}"
 						Header="Move Selected as Sub-category"
 						Click="Tv1ContextMenuMoveChild_OnClick"
-						Style="{StaticResource Tv.context.menuitem.move}"
-						/>
+						>
+					<MenuItem.Style>
+						<Style
+								TargetType="MenuItem"
+								BasedOn="{StaticResource Tv.context.menuitem.base}"
+								>
+							<Setter Property="IsEnabled" Value="False" />
+							<Style.Triggers>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding HasSelection, Source={x:Static local:MainWindow.BaseOfTreeRoot}}" Value="true" />
+										<Condition Binding="{Binding IsSelected}" Value="false" />
+										<Condition Binding="{Binding IsLocked}" Value="false" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="true" />
+								</MultiDataTrigger>
+							</Style.Triggers>
+						</Style>
+					</MenuItem.Style>
+				</MenuItem>
 
 
 				<Separator Margin="6" />
@@ -547,10 +588,32 @@
 																			 Mode=OneWay,
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindow}}}"
-						Header="Duplicate Selected"
+						Header="Duplicate"
 						Click="Tv1ContextMenuSelCopy_OnClick"
-						Style="{StaticResource Tv.context.menuitem.clone}"
-						/>
+						>
+					<MenuItem.Style>
+						<Style
+								TargetType="MenuItem"
+								BasedOn="{StaticResource Tv.context.menuitem.base}"
+								>
+							<Setter Property="IsEnabled" Value="True" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsFixed}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</MenuItem.Style>
+				</MenuItem>
+
+
+
+
+
+
 				<MenuItem
 						CommandParameter="{Binding ContextCmdCopyAsChild,
 																			 Mode=OneWay,
@@ -572,8 +635,26 @@
 																																			AncestorType={x:Type local:MainWindow}}}"
 						Header="Delete Category"
 						Click="Tv1ContextMenuDelete_OnClick"
-						Style="{StaticResource Tv.context.menuitem.base}"
-						/>
+						>
+					<MenuItem.Style>
+						<Style
+								TargetType="MenuItem"
+								BasedOn="{StaticResource Tv.context.menuitem.base}"
+								>
+							<Setter Property="IsEnabled" Value="true" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding IsFixed}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</MenuItem.Style>
+				</MenuItem>
+
+
 
 			</ContextMenu>
 
@@ -582,13 +663,15 @@
 					x:Key="Tv1ItemContainerStyle1"
 					TargetType="{x:Type TreeViewItem}"
 					>
+				<Setter Property="Width" Value="Auto" />
 				<Setter Property="ContextMenu" Value="{StaticResource Tv1ContextMenu}" />
 				<Setter Property="FocusVisualStyle" Value="{StaticResource Tv1ItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 				<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-				<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+				<Setter Property="IsSelected" Value="{Binding IsNodeSelected, Mode=TwoWay}" />
 				<Setter Property="Padding" Value="1,0,0,0" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<!-- <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate
@@ -606,6 +689,7 @@
 									<RowDefinition Height="Auto" />
 									<RowDefinition />
 								</Grid.RowDefinitions>
+
 								<ToggleButton
 										x:Name="Expander"
 										VerticalAlignment="Top"
@@ -619,6 +703,7 @@
 										Grid.Column="1"
 										Grid.Row="0"
 										Margin="0,0.5,4.5,0"
+										Width="Auto"
 										CornerRadius="6"
 										SnapsToDevicePixels="True"
 										BorderThickness="12,1.5,.5,6"
@@ -660,8 +745,6 @@
 													BorderThickness="{TemplateBinding BorderThickness}"
 													BorderBrush="{TemplateBinding BorderBrush}"
 													>
-												<!--  custom:CustomProperties.GenericBoolOne="{Binding RelativeSource={RelativeSource TemplatedParent},  -->
-												<!--  Path=DataContext.IsContextHighlighted}"  -->
 												<Border.Style>
 													<Style TargetType="{x:Type Border}">
 														<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
@@ -669,27 +752,15 @@
 															<Trigger Property="IsMouseOver" Value="True">
 																<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" />
 															</Trigger>
-															<DataTrigger
-																	Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne),
-																										RelativeSource={RelativeSource Self}}"
-																	Value="true"
-																	>
+															<DataTrigger Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}" Value="true">
 																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
 															</DataTrigger>
 														</Style.Triggers>
 													</Style>
 												</Border.Style>
-												<!--    -->
-												<!--  <DataTrigger Binding="{Binding (custom:CustomProperties.GenericBoolOne),  -->
-												<!--  RelativeSource={RelativeSource Self}}"  -->
-												<!--  Value="true">  -->
-												<!--  <Setter Property="Background"  -->
-												<!--  Value="{StaticResource TreeView.ContextSelected.Background}" />  -->
-												<!-- </DataTrigger> -->
-
+												<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
 												<ContentPresenter
 														x:Name="PART_Header"
-														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 														ContentSource="Header"
 														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 														/>
@@ -698,6 +769,7 @@
 										</VirtualizingStackPanel>
 									</Border>
 								</Border>
+
 							</Grid>
 							<ControlTemplate.Triggers>
 								<Trigger Property="IsExpanded" Value="false">
@@ -722,10 +794,13 @@
 								</MultiTrigger>
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
+
+
 					</Setter.Value>
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-				<Setter Property="Width" Value="{Binding ActualWidth, ElementName=Tv1}" />
+				<!-- <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" /> -->
+
 				<Style.Triggers>
 					<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 						<Setter Property="ItemsPanel">
@@ -773,6 +848,7 @@
 										Background="{TemplateBinding Background}"
 										Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"
 										>
+									<!--  Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"  -->
 									<ItemsPresenter />
 								</ScrollViewer>
 							</Border>
@@ -1085,9 +1161,6 @@
 			</Style>
 
 
-
-
-
 			<Style
 					x:Key="Lv1StyleTv1"
 					TargetType="{x:Type ListView}"
@@ -1144,16 +1217,10 @@
 													<Setter Property="Background" Value="{StaticResource ListView.Item.Background.NoConditions}" />
 													<Setter Property="Visibility" Value="Collapsed" />
 													<Style.Triggers>
-														<DataTrigger
-																Binding="{Binding Item.CompareOps.Count}"
-																Value="0"
-																>
+														<DataTrigger Binding="{Binding Item.CompareOps.Count}" Value="0">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
-														<DataTrigger
-																Binding="{Binding Item.CompareOps}"
-																Value="{x:Null}"
-																>
+														<DataTrigger Binding="{Binding Item.CompareOps}" Value="{x:Null}">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
 
@@ -1246,7 +1313,7 @@
 									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
 								</Trigger>
 								<Trigger Property="IsEnabled" Value="false">
-									<Setter TargetName="Bd" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource Control.Disabled.Background}" />
 									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
 									<Setter TargetName="contentPresenterBtn" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
 								</Trigger>
@@ -1303,7 +1370,7 @@
 									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
 								</Trigger>
 								<Trigger Property="IsEnabled" Value="false">
-									<Setter TargetName="Bd" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource Control.Disabled.Background}" />
 									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
 									<Setter TargetName="contentPresenterBtn2" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
 								</Trigger>
@@ -1671,11 +1738,80 @@
 
 				<Style.Triggers>
 					<Trigger Property="IsEnabled" Value="False">
-						<Setter Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+						<Setter Property="Background" Value="{StaticResource Control.Disabled.Background}" />
 						<Setter Property="Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
 					</Trigger>
 				</Style.Triggers>
 			</Style>
+
+
+
+			<ControlTemplate
+					x:Key="ScrollViewerControlTemplate1"
+					TargetType="{x:Type ScrollViewer}"
+					>
+				<Grid
+						x:Name="Grid"
+						Background="{TemplateBinding Background}"
+						>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Rectangle
+							x:Name="Corner"
+							Grid.Column="1"
+							Grid.Row="1"
+							Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+							/>
+					<ScrollContentPresenter
+							x:Name="PART_ScrollContentPresenter"
+							Content="{TemplateBinding Content}"
+							Grid.Column="0"
+							Grid.Row="0"
+							Margin="{TemplateBinding Padding}"
+							CanContentScroll="{TemplateBinding CanContentScroll}"
+							CanHorizontallyScroll="False"
+							CanVerticallyScroll="False"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+					<ScrollBar
+							x:Name="PART_VerticalScrollBar"
+							Grid.Column="1"
+							Grid.Row="0"
+							AutomationProperties.AutomationId="VerticalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							/>
+					<ScrollBar
+							x:Name="PART_HorizontalScrollBar"
+							Grid.Column="0"
+							Grid.Row="1"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							/>
+				</Grid>
+			</ControlTemplate>
+
+
 
 
 			<ControlTemplate
@@ -1741,6 +1877,7 @@
 							Height="{StaticResource BarSizeOutline}"
 							MinHeight="{StaticResource BarSize}"
 							AutomationProperties.AutomationId="HorizontalScrollBar"
+							ClipToBounds="True"
 							Cursor="Arrow"
 							Maximum="{TemplateBinding ScrollableWidth}"
 							Minimum="0"
@@ -1762,7 +1899,6 @@
 					DataType="{x:Type tree:TreeNode}"
 					ItemsSource="{Binding ChildrenView}"
 					>
-
 
 				<Grid
 						x:Name="GD1"
@@ -1786,6 +1922,7 @@
 							Grid.Row="0"
 							Grid.ColumnSpan="2"
 							Margin="0,2,0,0"
+							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							>
 						<!--  HorizontalAlignment="Stretch"  -->
@@ -1793,7 +1930,7 @@
 								x:Name="Label2"
 								Content="{Binding Item.Title}"
 								Margin="15,2,4,0"
-								MinWidth="150"
+								MinWidth="140"
 								Padding="0"
 								HorizontalAlignment="Stretch"
 								DockPanel.Dock="Left"
@@ -1804,41 +1941,131 @@
 								x:Name="Label3"
 								Content="{Binding Item.Description}"
 								Margin="5,2,4,0"
-								MinWidth="150"
+								MinWidth="140"
 								Padding="0"
 								HorizontalAlignment="Stretch"
 								DockPanel.Dock="Left"
 								Foreground="White"
 								/>
 
-						<Label
-								x:Name="Label4"
-								Content="{Binding Depth}"
-								Margin="0,0,11,0"
-								Width="20"
-								Padding="0,0,0,2"
-								HorizontalAlignment="Right"
-								VerticalAlignment="top"
-								HorizontalContentAlignment="Right"
-								VerticalContentAlignment="Center"
-								FontSize="6"
-								DockPanel.Dock="top"
-								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
-								/>
+						<Border
+								
+								Margin="0,0,5,0"
+								Width="55"
+								Height="18"
+								Padding="0"
+								HorizontalAlignment="right"
+								CornerRadius="3"
+								DockPanel.Dock="Right"
+								BorderThickness="0"
+								IsEnabled="{Binding IsFixed,
+																		Converter={StaticResource NotBool}}"
+								>
+							<Border.Style>
+								<Style
+										TargetType="Border"
+										BasedOn="{StaticResource Border.Base}"
+										>
+									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
+									<Setter Property="Visibility" Value="Visible"/>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsFixed}" Value="true">
+											<Setter Property="Visibility" Value="Collapsed"/>
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+							<CheckBox
+									x:Name="CkbxLocked"
+									Content="Locked"
+									Margin="3,0,0,0"
+									Height="12"
+									VerticalAlignment="Center"
+									FontSize="10"
+									Background="Transparent"
+									Foreground="white"
+									BorderBrush="white"
+									Checked="CkbxLocked_OnChecked"
+									IsChecked="{Binding Path=IsLocked,
+																			Mode=TwoWay}"
+									Style="{DynamicResource Ckbx1Style}"
+									/>
+						</Border>
+						
+						<Border
+								x:Name="CkbxFixed"
+								Margin="0,0,5,0"
+								Width="55"
+								Height="18"
+								Padding="0"
+								HorizontalAlignment="right"
+								CornerRadius="3"
+								DockPanel.Dock="Right"
+								BorderThickness="0"
+								IsEnabled="{Binding IsFixed,
+																		Converter={StaticResource NotBool}}"
+						>
+							<Border.Style>
+								<Style
+										TargetType="Border"
+										BasedOn="{StaticResource Border.Base}"
+										>
+									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
+									<Setter Property="Visibility" Value="Collapsed"/>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsFixed}" Value="true">
+											<Setter Property="Visibility" Value="Visible"/>
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+							<CheckBox
 
-						<Label
-								x:Name="Label5"
-								Content="{Binding UniqueId}"
-								Margin="0,0,11,0"
-								Width="20"
-								Padding="0,0,0,2"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Center"
-								HorizontalContentAlignment="Right"
-								FontSize="6"
-								DockPanel.Dock="Bottom"
-								Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"
-								/>
+									Content="Fixed"
+									Margin="3,0,0,0"
+									Height="12"
+									VerticalAlignment="Center"
+									FontSize="10"
+									Background="Transparent"
+									Foreground="white"
+									BorderBrush="white"
+									IsChecked="{Binding Path=IsFixed,
+																			Mode=OneWay}"
+									Style="{DynamicResource Ckbx1Style}"
+									/>
+						</Border>
+
+
+
+
+						<!--  <Label  -->
+						<!--  x:Name="Label4"  -->
+						<!--  Content="{Binding Depth}"  -->
+						<!--  Margin="0,0,11,0"  -->
+						<!--  Width="20"  -->
+						<!--  Padding="0,0,0,2"  -->
+						<!--  HorizontalAlignment="Right"  -->
+						<!--  VerticalAlignment="top"  -->
+						<!--  HorizontalContentAlignment="Right"  -->
+						<!--  VerticalContentAlignment="Center"  -->
+						<!--  FontSize="6"  -->
+						<!--  DockPanel.Dock="top"  -->
+						<!--  Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"  -->
+						<!--  />  -->
+
+						<!--  <Label  -->
+						<!--  x:Name="Label5"  -->
+						<!--  Content="{Binding UniqueId}"  -->
+						<!--  Margin="0,0,11,0"  -->
+						<!--  Width="20"  -->
+						<!--  Padding="0,0,0,2"  -->
+						<!--  HorizontalAlignment="Right"  -->
+						<!--  VerticalAlignment="Center"  -->
+						<!--  HorizontalContentAlignment="Right"  -->
+						<!--  FontSize="6"  -->
+						<!--  DockPanel.Dock="Bottom"  -->
+						<!--  Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"  -->
+						<!--  />  -->
 
 					</DockPanel>
 
@@ -1848,7 +2075,6 @@
 							Grid.ColumnSpan="2"
 							Margin="0"
 							>
-						<!--  HorizontalAlignment="Stretch"  -->
 
 						<ListView
 								x:Name="Lv1"
@@ -2153,22 +2379,23 @@
 								Padding="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
-								Background="{StaticResource ListView.Item.Background.Disable}"
+								Background="{StaticResource CheckBox.Background}"
 								BorderThickness="0"
 								>
 							<CheckBox
+									x:Name="CkbxDisable"
 									Content="Disable"
 									Margin="3,0,0,0"
 									Height="12"
 									VerticalAlignment="Center"
 									FontSize="10"
+									Checked="CkbxDisable_OnChecked"
 									Background="Transparent"
 									Foreground="white"
 									BorderBrush="white"
 									IsChecked="{Binding Path=IsDisabled,
 																			Mode=TwoWay}"
 									Style="{DynamicResource Ckbx1Style}"
-									Checked="ToggleButton_OnChecked"
 									/>
 						</Border>
 
@@ -2179,16 +2406,16 @@
 								Margin="0,0,0,0"
 								>
 
-							<!-- <Label -->
-							<!-- 		Content="{Binding Path=Id}" -->
-							<!-- 		Margin="4,0,4,0" -->
-							<!-- 		Padding="1" -->
-							<!-- 		HorizontalAlignment="Left" -->
-							<!-- 		VerticalAlignment="Center" -->
-							<!-- 		FontSize="8" -->
-							<!-- 		Background="White" -->
-							<!-- 		Foreground="Black" -->
-							<!-- 		/> -->
+							<!--  <Label  -->
+							<!--  Content="{Binding Path=Id}"  -->
+							<!--  Margin="4,0,4,0"  -->
+							<!--  Padding="1"  -->
+							<!--  HorizontalAlignment="Left"  -->
+							<!--  VerticalAlignment="Center"  -->
+							<!--  FontSize="8"  -->
+							<!--  Background="White"  -->
+							<!--  Foreground="Black"  -->
+							<!--  />  -->
 							<!--  Content="{Binding Path=Row, Converter={StaticResource RowConverter},  -->
 							<!--  ConverterParameter={x:Static tree:ComparisonOperation.MasterRow}, Mode=TwoWay}"  -->
 
@@ -2208,7 +2435,6 @@
 											BasedOn="{StaticResource Border.Base}"
 											>
 										<Setter Property="Background" Value="{StaticResource ListView.Item.Background.Discipline}" />
-
 									</Style>
 								</Border.Style>
 
@@ -2312,20 +2538,14 @@
 
 				</Border>
 				<DataTemplate.Triggers>
-					<DataTrigger
-							Binding="{Binding Path=IsFirstCompOp}"
-							Value="true"
-							>
+					<DataTrigger Binding="{Binding Path=IsFirstCompOp}" Value="true">
 						<Setter TargetName="BorderCkBx" Property="Visibility" Value="Hidden" />
 						<Setter TargetName="BtnDeleteCondition" Property="Visibility" Value="Hidden" />
 						<Setter TargetName="DtBorder1" Property="BorderThickness" Value="0" />
 						<Setter TargetName="DtBorder1" Property="Margin" Value="0,2,0,6" />
 						<Setter TargetName="DtGrid1R1" Property="Height" Value="0" />
 					</DataTrigger>
-					<DataTrigger
-							Binding="{Binding Path=IsDisabled}"
-							Value="true"
-							>
+					<DataTrigger Binding="{Binding Path=IsDisabled}" Value="true">
 						<Setter TargetName="DpCompare" Property="IsEnabled" Value="false" />
 					</DataTrigger>
 				</DataTemplate.Triggers>
@@ -2363,16 +2583,16 @@
 																Converter={StaticResource NotBool}}"
 						>
 
-					<!-- <Label -->
-					<!-- 		Content="{Binding Path=Id}" -->
-					<!-- 		Margin="4,0,4,0" -->
-					<!-- 		Padding="1" -->
-					<!-- 		HorizontalAlignment="Left" -->
-					<!-- 		VerticalAlignment="Center" -->
-					<!-- 		FontSize="8" -->
-					<!-- 		Background="White" -->
-					<!-- 		Foreground="Black" -->
-					<!-- 		/> -->
+					<!--  <Label  -->
+					<!--  Content="{Binding Path=Id}"  -->
+					<!--  Margin="4,0,4,0"  -->
+					<!--  Padding="1"  -->
+					<!--  HorizontalAlignment="Left"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  FontSize="8"  -->
+					<!--  Background="White"  -->
+					<!--  Foreground="Black"  -->
+					<!--  />  -->
 
 					<Border
 							Margin="0,0,0,0"
@@ -2508,13 +2728,13 @@
 			<!-- 	<Setter Property="Control.Template"> -->
 			<!-- 		<Setter.Value> -->
 			<!-- 			<ControlTemplate> -->
-			<!-- 				<Rectangle -->
-			<!-- 						Margin="14,0,0,0" -->
-			<!-- 						SnapsToDevicePixels="true" -->
-			<!-- 						Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" -->
-			<!-- 						StrokeDashArray="1 2" -->
-			<!-- 						StrokeThickness="1" -->
-			<!-- 						/> -->
+			<!--  <Rectangle  -->
+			<!--  Margin="14,0,0,0"  -->
+			<!--  SnapsToDevicePixels="true"  -->
+			<!--  Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"  -->
+			<!--  StrokeDashArray="1 2"  -->
+			<!--  StrokeThickness="1"  -->
+			<!--  />  -->
 			<!-- 			</ControlTemplate> -->
 			<!-- 		</Setter.Value> -->
 			<!-- 	</Setter> -->
@@ -2634,13 +2854,8 @@
 			</Style>
 
 
-
-
-
 		</ResourceDictionary>
 	</Window.Resources>
-
-
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -2740,9 +2955,11 @@
 				Margin="5,6,5,5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
-				DataContext="{Binding SelectedValue,
-															ElementName=Tv1}"
+				DataContext="{Binding ElementName=MainWin, Path=UserSelected }"
+				
 				>
+				<!-- DataContext="{Binding SelectedValue, -->
+				<!-- 											ElementName=Tv1}" -->
 
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="80" />
@@ -2889,11 +3106,7 @@
 							>
 						<Setter Property="IsEnabled" Value="False" />
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding HasSelection,
-																		ElementName=MainWin}"
-									Value="true"
-									>
+							<DataTrigger Binding="{Binding HasSelection, ElementName=MainWin}" Value="true">
 								<Setter Property="IsEnabled" Value="True" />
 							</DataTrigger>
 						</Style.Triggers>

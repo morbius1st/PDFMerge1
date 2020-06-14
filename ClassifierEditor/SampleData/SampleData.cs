@@ -47,7 +47,8 @@ namespace ClassifierEditor.SampleData
 
 			root.Item = item;
 
-			MakeChildren(root, 0);
+//			MakeChildren(root, 0);
+			MakeChildren2(root);
 		}
 
 		public void SampleFiles(SampleFileList fileList)
@@ -75,6 +76,8 @@ namespace ClassifierEditor.SampleData
 
 		private void MakeChildren(TreeNode parent, int depth)
 		{
+			TreeNode node;
+
 			int max = depth == 0 ? TOPMAX : CHILDMAX;
 
 			if (depth >= MAX_DEPTH) return;
@@ -87,56 +90,53 @@ namespace ClassifierEditor.SampleData
 				}
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
+				node = new TreeNode(parent, item, false);
 
-//				item.CompareOps = new ObservableCollection<ComparisonOperation>();
-				if (i == 1)
+				if (i == 0)
 				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_MATCH], "@(?<=[A-Z])([ -]+)(?=[0-9])"));
-				} 
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					node = new TreeNode(parent, item, false);
+					node.IsFixed = true;
+				}
+				else if (i == 2)
+				{
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					node = new TreeNode(parent, item, false);
+					node.IsLocked = true;
+				}
+				else if (i == 3)
+				{
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", isFirst: true, ignore: false));
+					node = new TreeNode(parent, item, false);
+				}
 				else if (i == 4)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
 					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					node = new TreeNode(parent, item, false);
 				} 
-				else if (i == 2)
+				else if (i == 1)
 				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
-				}
-				else if (i == 3)
-				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", isFirst: true, ignore: false));
-				}
-
-//				item.CompareOps = new ObservableCollection<ComparisonOperation>();
-//				if (i == 1 || i == 4)
-//				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.LOGICAL_AND, ""));
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.DOES_NOT_EQUAL, "2"));
-//				} else if (i == 2)
-//				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.EQUALS, "1"));
-//				}
-//				else if (i == 3)
-//				{
-//					item.CompareOps.Add(new ComparisonOperation(ComparisonOp.NO_OP, ""));
-//				}
-
-				
-
-
-				TreeNode node = new TreeNode(parent, item, false);
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					node = new TreeNode(parent, item, false);
+				} 
 
 				if (i == 3 || i == 5)
 				{
 					// make a new branch
 					// this branch is still associated with the parent branch
 					// but its children are associated with the new branch
+
+//					node.IsExpanded = true;
 
 					MakeChildren(node, depth + 1);
 				}
@@ -146,6 +146,23 @@ namespace ClassifierEditor.SampleData
 		}
 
 		
+		private void MakeChildren2(TreeNode parent)
+		{
+			TreeNode node;
+
+			for (int i = 0; i < 5; i++)
+			{
+				SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
+
+				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+					char.ConvertFromUtf32(65 + i), true));
+				node = new TreeNode(parent, item, false);
+				node.IsFixed = true;
+
+				root.AddNode(node);
+			}
+		}
+
 
 
 	#endregion

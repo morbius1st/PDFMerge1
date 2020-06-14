@@ -15,7 +15,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using ClassifierEditor.FilesSupport;
-
+using static ClassifierEditor.Tree.CompareOperations;
+using static ClassifierEditor.Tree.ComparisonOp;
 
 #endregion
 
@@ -189,7 +190,10 @@ namespace ClassifierEditor.Tree
 
 		public static SheetCategory TempSheetCategory()
 		{
-			return new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description");
+			SheetCategory temp = new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description");
+			temp.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", true));
+
+			return temp;
 		}
 
 	#endregion
@@ -232,6 +236,21 @@ namespace ClassifierEditor.Tree
 			string d = description + $" (copy {copyIdx})";
 
 			SheetCategory clone = new SheetCategory(t, d);
+
+			clone.depth = depth;
+
+			foreach (ComparisonOperation compOp in compareOps)
+			{
+				if (compOp.GetType() == typeof(ValueCompOp))
+				{
+					clone.compareOps.Add((ValueCompOp) compOp.Clone());
+				}
+				else
+				{
+					clone.compareOps.Add((LogicalCompOp) compOp.Clone());
+				}
+
+			}
 
 			return clone;
 		}

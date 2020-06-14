@@ -1,34 +1,47 @@
 ﻿<Window
-	x:Class="Test3.MainWindow"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:Test3"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	x:Name="mainWin"
-	Title="MainWindow"
-	Width="1700"
-	Height="850"
-	Background="#444444"
-	FontFamily="MS Gothic"
-	mc:Ignorable="d">
+		x:Class="Test3.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:Test3"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		x:Name="mainWin"
+		Title="MainWindow"
+		Width="1700"
+		Height="850"
+		FontFamily="MS Gothic"
+		mc:Ignorable="d"
+		Background="#444444"
+		>
 	<Window.Resources>
 
-		<Style x:Key="lblStyle" TargetType="Label">
+		<Style
+				x:Key="lblStyle"
+				TargetType="Label"
+				>
 			<Setter Property="Foreground" Value="White" />
 			<Setter Property="Margin" Value="0,0,3,0" />
 			<Setter Property="Padding" Value="0" />
 			<Style.Triggers>
-				<DataTrigger Binding="{Binding CheckedStatus}" Value="True">
+				<DataTrigger
+						Binding="{Binding CheckedStatus}"
+						Value="True"
+						>
 					<Setter Property="Foreground" Value="White" />
 				</DataTrigger>
-				<DataTrigger Binding="{Binding CheckedStatus}" Value="False">
+				<DataTrigger
+						Binding="{Binding CheckedStatus}"
+						Value="False"
+						>
 					<Setter Property="Foreground" Value="#aaaaaa" />
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 
-		<Style x:Key="lblStyle5" TargetType="Label">
+		<Style
+				x:Key="lblStyle5"
+				TargetType="Label"
+				>
 			<!-- <Setter Property="Foreground" Value="White" /> -->
 			<Setter Property="Margin" Value="0,0,3,0" />
 			<Setter Property="Padding" Value="0,0,0,0" />
@@ -38,10 +51,16 @@
 				<!-- 	<Setter Property="Foreground" Value="White" /> -->
 				<!-- </DataTrigger> -->
 
-				<DataTrigger Binding="{Binding Checked}" Value="{x:Null}">
+				<DataTrigger
+						Binding="{Binding Checked}"
+						Value="{x:Null}"
+						>
 					<Setter Property="Foreground" Value="#bbbbbb" />
 				</DataTrigger>
-				<DataTrigger Binding="{Binding Checked}" Value="False">
+				<DataTrigger
+						Binding="{Binding Checked}"
+						Value="False"
+						>
 					<Setter Property="Foreground" Value="#999999" />
 				</DataTrigger>
 			</Style.Triggers>
@@ -50,32 +69,43 @@
 
 
 
-		<Style x:Key="bdrStyle5.1" TargetType="Border">
+		<Style
+				x:Key="bdrStyle5.1"
+				TargetType="Border"
+				>
 			<Setter Property="BorderBrush" Value="DimGray" />
 			<Setter Property="BorderThickness" Value="1,0,0,0" />
 			<Setter Property="Padding" Value="3,0,0,0" />
 		</Style>
 
 		<Style
-			x:Key="bdrStyle5.0"
-			BasedOn="{StaticResource bdrStyle5.1}"
-			TargetType="Border">
+				x:Key="bdrStyle5.0"
+				TargetType="Border"
+				BasedOn="{StaticResource bdrStyle5.1}"
+				>
 			<Setter Property="BorderThickness" Value="0,0,0,0" />
 		</Style>
 
 		<Style
-			x:Key="bdrStyle5.2"
-			BasedOn="{StaticResource bdrStyle5.1}"
-			TargetType="Border">
+				x:Key="bdrStyle5.2"
+				TargetType="Border"
+				BasedOn="{StaticResource bdrStyle5.1}"
+				>
 			<Setter Property="BorderThickness" Value="1,0,1,0" />
 		</Style>
 
 
 
-		<Style x:Key="tblkStyle" TargetType="TextBlock">
+		<Style
+				x:Key="tblkStyle"
+				TargetType="TextBlock"
+				>
 			<Setter Property="HorizontalAlignment" Value="Center" />
 		</Style>
-		<Style x:Key="btnStyle" TargetType="Button">
+		<Style
+				x:Key="btnStyle"
+				TargetType="Button"
+				>
 
 			<Setter Property="FontSize" Value="10" />
 			<Setter Property="FontWeight" Value="Bold" />
@@ -93,88 +123,177 @@
 		<ContentControl x:Key="control1">
 			<ContentControl.Content>
 				<StackPanel
-					Width="500"
-					Margin="3,5,0,5"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
-					Orientation="Horizontal">
-					<CheckBox
-						Name="control1Cbx"
-						Foreground="White"
-						IsChecked="{Binding CheckedStatus}"
-						IsThreeState="false"
-						LostFocus="CheckBox_LostFocus" />
-					<StackPanel
+						Margin="3,5,0,5"
 						Width="500"
-						Margin="10,0,0,0"
-						Orientation="Vertical">
-						<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Orientation="Horizontal"
+						>
+					<CheckBox
+							Name="control1Cbx"
+							LostFocus="CheckBox_LostFocus"
+							Foreground="White"
+							IsChecked="{Binding CheckedStatus}"
+							IsThreeState="false"
+							/>
+					<StackPanel
+							Margin="10,0,0,0"
+							Width="500"
+							Orientation="Vertical"
+							>
+						<StackPanel
+								Margin="0,0,0,3"
+								Orientation="Horizontal"
+								>
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding NodeType, FallbackValue=BRANCH}"
-								ContentStringFormat="{}{0,-7}|"
-								Foreground="White" />
+									Content="{Binding NodeType,
+																		FallbackValue=BRANCH}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-7}|"
+									Foreground="White"
+									/>
 							<Label
-								Width="256"
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding Name, FallbackValue='Br# 0 :ParentBr# 0 :Depth 0 :Unique 0'}"
-								ContentStringFormat="{}{0,-15} "
-								Foreground="White" />
+									Content="{Binding Name,
+																		FallbackValue='Br# 0 :ParentBr# 0 :Depth 0 :Unique 0'}"
+									Margin="0,0,5,0"
+									Width="256"
+									Padding="0"
+									ContentStringFormat="{}{0,-15} "
+									Foreground="White"
+									/>
 
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="| children |"
-								ContentStringFormat="{}{0,-10} "
-								Foreground="White" />
+									Content="| children |"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-10} "
+									Foreground="White"
+									/>
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding childList.Count, FallbackValue='3 '}"
-								ContentStringFormat="{}{0,2}| "
-								Foreground="White" />
+									Content="{Binding childList.Count,
+																		FallbackValue='3 '}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,2}| "
+									Foreground="White"
+									/>
 						</StackPanel>
-						<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+						<StackPanel
+								Margin="0,0,0,3"
+								Orientation="Horizontal"
+								>
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content=" "
-								ContentStringFormat="{}{0,-7}| "
-								Foreground="White" />
+									Content=" "
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-7}| "
+									Foreground="White"
+									/>
 							<Label
-								Width="78"
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding SelectState, FallbackValue='CHECKED'}"
-								ContentStringFormat="{}{0,-8}| "
-								Foreground="White" />
+									Content="{Binding SelectState,
+																		FallbackValue='CHECKED'}"
+									Margin="0,0,5,0"
+									Width="78"
+									Padding="0"
+									ContentStringFormat="{}{0,-8}| "
+									Foreground="White"
+									/>
 
 							<Label
-								Width="78"
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding SelectStateOriginal, FallbackValue='UNSET'}"
-								ContentStringFormat="{}{0,-8}| "
-								Foreground="White" />
+									Content="{Binding SelectStateOriginal,
+																		FallbackValue='UNSET'}"
+									Margin="0,0,5,0"
+									Width="78"
+									Padding="0"
+									ContentStringFormat="{}{0,-8}| "
+									Foreground="White"
+									/>
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="chk count"
-								ContentStringFormat="{}{0,-5}| "
-								Foreground="White" />
+									Content="chk count"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,-5}| "
+									Foreground="White"
+									/>
 							<Label
-								Margin="0,0,5,0"
-								Padding="0"
-								Content="{Binding CheckedCount, FallbackValue='0'}"
-								ContentStringFormat="{}{0,2} | "
-								Foreground="White" />
+									Content="{Binding CheckedCount,
+																		FallbackValue='0'}"
+									Margin="0,0,5,0"
+									Padding="0"
+									ContentStringFormat="{}{0,2} | "
+									Foreground="White"
+									/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</ContentControl.Content>
 		</ContentControl>
+
+		<ControlTemplate
+				x:Key="ScrollViewerControlTemplate1"
+				TargetType="{x:Type ScrollViewer}"
+				>
+			<Grid
+					x:Name="Grid"
+					Background="{TemplateBinding Background}"
+					>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Rectangle
+						x:Name="Corner"
+						Grid.Column="1"
+						Grid.Row="1"
+						Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+						/>
+				<ScrollContentPresenter
+						x:Name="PART_ScrollContentPresenter"
+						Content="{TemplateBinding Content}"
+						Grid.Column="0"
+						Grid.Row="0"
+						Margin="{TemplateBinding Padding}"
+						CanContentScroll="{TemplateBinding CanContentScroll}"
+						CanHorizontallyScroll="False"
+						CanVerticallyScroll="False"
+						ContentTemplate="{TemplateBinding ContentTemplate}"
+						/>
+				<ScrollBar
+						x:Name="PART_VerticalScrollBar"
+						Grid.Column="1"
+						Grid.Row="0"
+						AutomationProperties.AutomationId="VerticalScrollBar"
+						Cursor="Arrow"
+						Maximum="{TemplateBinding ScrollableHeight}"
+						Minimum="0"
+						ViewportSize="{TemplateBinding ViewportHeight}"
+						Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+						Value="{Binding VerticalOffset,
+														Mode=OneWay,
+														RelativeSource={RelativeSource TemplatedParent}}"
+						/>
+				<ScrollBar
+						x:Name="PART_HorizontalScrollBar"
+						Grid.Column="0"
+						Grid.Row="1"
+						AutomationProperties.AutomationId="HorizontalScrollBar"
+						Cursor="Arrow"
+						Maximum="{TemplateBinding ScrollableWidth}"
+						Minimum="0"
+						Orientation="Horizontal"
+						ViewportSize="{TemplateBinding ViewportWidth}"
+						Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+						Value="{Binding HorizontalOffset,
+														Mode=OneWay,
+														RelativeSource={RelativeSource TemplatedParent}}"
+						/>
+			</Grid>
+		</ControlTemplate>
 
 	</Window.Resources>
 	<Grid>
@@ -193,145 +312,171 @@
 		</Grid.RowDefinitions>
 
 		<TextBox
-			Name="tbk1"
-			Grid.Row="0"
-			Grid.Column="2"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="Black"
-			Foreground="White"
-			HorizontalScrollBarVisibility="Visible"
-			Text="hello&#x0a;"
-			VerticalScrollBarVisibility="Visible" />
+				Name="tbk1"
+				Grid.Column="2"
+				Grid.Row="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalScrollBarVisibility="Visible"
+				Text="hello&#x0a;"
+				VerticalScrollBarVisibility="Visible"
+				Background="Black"
+				Foreground="White"
+				/>
 
 		<TextBox
-			Name="tbk2"
-			Grid.Row="0"
-			Grid.Column="4"
-			Margin="0,0,0,60"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="Black"
-			FontFamily="MS Gothic"
-			Foreground="White"
-			HorizontalScrollBarVisibility="Visible"
-			Text="hello&#x0a;"
-			VerticalScrollBarVisibility="Visible" />
+				Name="tbk2"
+				Grid.Column="4"
+				Grid.Row="0"
+				Margin="0,0,0,60"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				FontFamily="MS Gothic"
+				HorizontalScrollBarVisibility="Visible"
+				Text="hello&#x0a;"
+				VerticalScrollBarVisibility="Visible"
+				Background="Black"
+				Foreground="White"
+				/>
 
 		<StackPanel
-			Grid.Row="0"
-			Grid.Column="4"
-			Height="50"
-			Margin="0,5"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Bottom"
-			Background="Black">
+				Grid.Column="4"
+				Grid.Row="0"
+				Margin="0,5"
+				Height="50"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Bottom"
+				Background="Black"
+				>
 			<ContentControl Content="{StaticResource control1}" />
 		</StackPanel>
 
 		<!--  does not show - hidden  -->
 		<Label
-			Grid.Row="1"
-			Grid.Column="2"
-			Height="20"
-			Padding="0,5,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Content="Tv1"
-			Foreground="White"
-			Visibility="Collapsed" />
+				Content="Tv1"
+				Grid.Column="2"
+				Grid.Row="1"
+				Height="20"
+				Padding="0,5,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Visibility="Collapsed"
+				Foreground="White"
+				/>
 
 		<!--  does not show - hidden  -->
 		<TreeView
-			Name="tv1"
-			Grid.Row="1"
-			Grid.Column="2"
-			Margin="0,20,0,0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="#000000"
-			DataContext="{Binding ElementName=mainWin, Path=evMgr.Root}"
-			FontFamily="MS Gothic"
-			Foreground="White"
-			ItemsSource="{Binding childList}"
-			ScrollViewer.HorizontalScrollBarVisibility="Visible"
-			ScrollViewer.VerticalScrollBarVisibility="Visible"
-			Style="{DynamicResource TreeViewStyle1}"
-			Visibility="Collapsed">
+				Name="tv1"
+				Grid.Column="2"
+				Grid.Row="1"
+				Margin="0,20,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				FontFamily="MS Gothic"
+				DataContext="{Binding ElementName=mainWin,
+															Path=evMgr.Root}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				Visibility="Collapsed"
+				Background="#000000"
+				Foreground="White"
+				ItemsSource="{Binding childList}"
+				Style="{DynamicResource TreeViewStyle1}"
+				>
 
 			<TreeView.Resources>
 
 				<ContentControl x:Key="control1">
 					<ContentControl.Content>
 						<StackPanel
-							Margin="3,5,0,5"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							Orientation="Horizontal">
+								Margin="3,5,0,5"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Orientation="Horizontal"
+								>
 							<CheckBox
-								Foreground="White"
-								IsChecked="{Binding CheckedStatus}"
-								IsThreeState="false" />
-							<StackPanel Margin="10,0,0,0" Orientation="Vertical">
-								<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+									Foreground="White"
+									IsChecked="{Binding CheckedStatus}"
+									IsThreeState="false"
+									/>
+							<StackPanel
+									Margin="10,0,0,0"
+									Orientation="Vertical"
+									>
+								<StackPanel
+										Margin="0,0,0,3"
+										Orientation="Horizontal"
+										>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding NodeType}"
-										ContentStringFormat="{}{0,-7}|"
-										Foreground="White" />
+											Content="{Binding NodeType}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-7}|"
+											Foreground="White"
+											/>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding Name}"
-										ContentStringFormat="{}{0,-15}| "
-										Foreground="White" />
+											Content="{Binding Name}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-15}| "
+											Foreground="White"
+											/>
 
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="children"
-										ContentStringFormat="{}{0,-10}| "
-										Foreground="White" />
+											Content="children"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-10}| "
+											Foreground="White"
+											/>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding childList.Count}"
-										ContentStringFormat="{}{0,2}| "
-										Foreground="White" />
+											Content="{Binding childList.Count}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,2}| "
+											Foreground="White"
+											/>
 								</StackPanel>
-								<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+								<StackPanel
+										Margin="0,0,0,3"
+										Orientation="Horizontal"
+										>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content=" "
-										ContentStringFormat="{}{0,-7}| "
-										Foreground="White" />
+											Content=" "
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-7}| "
+											Foreground="White"
+											/>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding SelectState}"
-										ContentStringFormat="{}{0,-14}| "
-										Foreground="White" />
+											Content="{Binding SelectState}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-14}| "
+											Foreground="White"
+											/>
 
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding SelectStateOriginal}"
-										ContentStringFormat="{}{0,-15}| "
-										Foreground="White" />
+											Content="{Binding SelectStateOriginal}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-15}| "
+											Foreground="White"
+											/>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="chk count"
-										ContentStringFormat="{}{0,-5}| "
-										Foreground="White" />
+											Content="chk count"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,-5}| "
+											Foreground="White"
+											/>
 									<Label
-										Margin="0,0,5,0"
-										Padding="0"
-										Content="{Binding CheckedCount}"
-										ContentStringFormat="{}{0,2}| "
-										Foreground="White" />
+											Content="{Binding CheckedCount}"
+											Margin="0,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}{0,2}| "
+											Foreground="White"
+											/>
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
@@ -340,7 +485,10 @@
 				</ContentControl>
 
 				<SolidColorBrush x:Key="ListBorder" Color="#828790" />
-				<Style x:Key="TreeViewStyle1" TargetType="{x:Type TreeView}">
+				<Style
+						x:Key="TreeViewStyle1"
+						TargetType="{x:Type TreeView}"
+						>
 					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 					<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
 					<Setter Property="BorderThickness" Value="1" />
@@ -354,19 +502,21 @@
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type TreeView}">
 								<Border
-									x:Name="Bd"
-									BorderBrush="{TemplateBinding BorderBrush}"
-									BorderThickness="{TemplateBinding BorderThickness}"
-									SnapsToDevicePixels="true">
+										x:Name="Bd"
+										SnapsToDevicePixels="true"
+										BorderThickness="{TemplateBinding BorderThickness}"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										>
 									<ScrollViewer
-										x:Name="_tv_scrollviewer_"
-										Padding="{TemplateBinding Padding}"
-										Background="{TemplateBinding Background}"
-										CanContentScroll="false"
-										Focusable="false"
-										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+											x:Name="_tv_scrollviewer_"
+											Padding="{TemplateBinding Padding}"
+											CanContentScroll="false"
+											Focusable="false"
+											HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+											VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+											Background="{TemplateBinding Background}"
+											>
 										<StackPanel Orientation="Vertical">
 											<ContentControl Content="{StaticResource control1}" />
 											<ItemsPresenter />
@@ -404,77 +554,98 @@
 				<HierarchicalDataTemplate ItemsSource="{Binding childList}">
 
 					<ContentControl
-						x:Name="PART_ContentControl"
-						Margin="0"
-						Padding="0"
-						Content="{Binding}"
-						Foreground="White">
+							x:Name="PART_ContentControl"
+							Content="{Binding}"
+							Margin="0"
+							Padding="0"
+							Foreground="White"
+							>
 
 						<ContentControl.ContentTemplate>
 							<DataTemplate>
 
 								<StackPanel
-									Margin="3,5,0,5"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Orientation="Horizontal">
+										Margin="3,5,0,5"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										Orientation="Horizontal"
+										>
 
 									<CheckBox
-										Foreground="White"
-										IsChecked="{Binding CheckedStatus}"
-										IsThreeState="false" />
-									<StackPanel Margin="10,0,0,0" Orientation="Vertical">
-										<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+											Foreground="White"
+											IsChecked="{Binding CheckedStatus}"
+											IsThreeState="false"
+											/>
+									<StackPanel
+											Margin="10,0,0,0"
+											Orientation="Vertical"
+											>
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
 											<Label
-												Content="{Binding NodeType}"
-												ContentStringFormat="{}{0,-7}|"
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding NodeType}"
+													ContentStringFormat="{}{0,-7}|"
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding Name}"
-												ContentStringFormat="{}{0,-15}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding Name}"
+													ContentStringFormat="{}{0,-15}| "
+													Style="{StaticResource lblStyle}"
+													/>
 
 											<Label
-												Content="children"
-												ContentStringFormat="{}{0,10}| "
-												Style="{StaticResource lblStyle}" />
+													Content="children"
+													ContentStringFormat="{}{0,10}| "
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding childList.Count}"
-												ContentStringFormat="{}{0,2}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding childList.Count}"
+													ContentStringFormat="{}{0,2}| "
+													Style="{StaticResource lblStyle}"
+													/>
 										</StackPanel>
-										<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
 											<Label
-												Margin="0,0,5,0"
-												Padding="0"
-												Content=" "
-												ContentStringFormat="{}{0,-7}| "
-												Foreground="White" />
+													Content=" "
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-7}| "
+													Foreground="White"
+													/>
 											<Label
-												Margin="0,0,5,0"
-												Padding="0"
-												Content="{Binding SelectState}"
-												ContentStringFormat="{}{0,-14}| "
-												Foreground="White" />
+													Content="{Binding SelectState}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-14}| "
+													Foreground="White"
+													/>
 
 											<Label
-												Margin="0,0,5,0"
-												Padding="0"
-												Content="{Binding SelectStateOriginal}"
-												ContentStringFormat="{}{0,-15}| "
-												Foreground="White" />
+													Content="{Binding SelectStateOriginal}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,-15}| "
+													Foreground="White"
+													/>
 											<Label
-												Margin="0,0,5,0"
-												Padding="0"
-												Content="chk count"
-												ContentStringFormat="{}{0,5}| "
-												Foreground="White" />
+													Content="chk count"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,5}| "
+													Foreground="White"
+													/>
 											<Label
-												Margin="0,0,5,0"
-												Padding="0"
-												Content="{Binding CheckedCount}"
-												ContentStringFormat="{}{0,2}| "
-												Foreground="White" />
+													Content="{Binding CheckedCount}"
+													Margin="0,0,5,0"
+													Padding="0"
+													ContentStringFormat="{}{0,2}| "
+													Foreground="White"
+													/>
 										</StackPanel>
 									</StackPanel>
 								</StackPanel>
@@ -488,36 +659,42 @@
 
 
 		<Label
-			Grid.Row="1"
-			Grid.Column="4"
-			Height="20"
-			Padding="0,5,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Content="Tv2"
-			Foreground="White" />
+				Content="Tv2"
+				Grid.Column="4"
+				Grid.Row="1"
+				Height="20"
+				Padding="0,5,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Foreground="White"
+				/>
 
 		<TreeView
-			Name="tv2"
-			Grid.Row="1"
-			Grid.Column="4"
-			Margin="0,20,0,0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="#000000"
-			DataContext="{Binding ElementName=mainWin, Path=evMgr.First}"
-			FontFamily="MS Gothic"
-			Foreground="White"
-			ItemsSource="{Binding childList}"
-			ScrollViewer.HorizontalScrollBarVisibility="Visible"
-			ScrollViewer.VerticalScrollBarVisibility="Visible"
-			Style="{DynamicResource TreeViewStyle1}">
+				Name="tv2"
+				Grid.Column="4"
+				Grid.Row="1"
+				Margin="0,20,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				FontFamily="MS Gothic"
+				DataContext="{Binding ElementName=mainWin,
+															Path=evMgr.First}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				Background="#000000"
+				Foreground="White"
+				ItemsSource="{Binding childList}"
+				Style="{DynamicResource TreeViewStyle1}"
+				>
 
 			<TreeView.Resources>
 
 				<SolidColorBrush x:Key="ListBorder" Color="#828790" />
 
-				<Style x:Key="TreeViewStyle1" TargetType="{x:Type TreeView}">
+				<Style
+						x:Key="TreeViewStyle1"
+						TargetType="{x:Type TreeView}"
+						>
 					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 					<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
 					<Setter Property="BorderThickness" Value="1" />
@@ -531,19 +708,22 @@
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type TreeView}">
 								<Border
-									x:Name="Bd"
-									BorderBrush="{TemplateBinding BorderBrush}"
-									BorderThickness="{TemplateBinding BorderThickness}"
-									SnapsToDevicePixels="true">
+										x:Name="Bd"
+										SnapsToDevicePixels="true"
+										BorderThickness="{TemplateBinding BorderThickness}"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										>
 									<ScrollViewer
-										x:Name="_tv_scrollviewer_"
-										Padding="{TemplateBinding Padding}"
-										Background="{TemplateBinding Background}"
-										CanContentScroll="false"
-										Focusable="false"
-										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+											x:Name="_tv_scrollviewer_"
+											Padding="{TemplateBinding Padding}"
+											CanContentScroll="false"
+											Focusable="false"
+											HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+											VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+											Background="{TemplateBinding Background}"
+											Template="{DynamicResource ScrollViewerControlTemplate1}"
+											>
 										<StackPanel Orientation="Vertical">
 											<ContentControl Content="{StaticResource control1}" />
 											<ItemsPresenter />
@@ -551,10 +731,8 @@
 									</ScrollViewer>
 								</Border>
 								<ControlTemplate.Triggers>
-
 									<Trigger Property="IsEnabled" Value="false">
 										<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-
 									</Trigger>
 									<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 										<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="true" />
@@ -565,7 +743,6 @@
 					</Setter>
 					<Setter Property="VerticalContentAlignment" Value="Center" />
 					<Style.Triggers>
-
 						<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 							<Setter Property="ItemsPanel">
 								<Setter.Value>
@@ -587,68 +764,89 @@
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding childList}">
 					<ContentControl
-						x:Name="PART_ContentControl"
-						Margin="0"
-						Padding="0"
-						Content="{Binding}"
-						Foreground="White">
+							x:Name="PART_ContentControl"
+							Content="{Binding}"
+							Margin="0"
+							Padding="0"
+							Foreground="White"
+							>
 						<ContentControl.ContentTemplate>
 							<DataTemplate>
 								<StackPanel
-									Name="Sp"
-									Margin="3,5,0,5"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Orientation="Horizontal">
+										Name="Sp"
+										Margin="3,5,0,5"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										Orientation="Horizontal"
+										>
 
 									<CheckBox
-										Name="item_cbx"
-										Foreground="White"
-										IsChecked="{Binding CheckedStatus}"
-										IsThreeState="false"
-										LostFocus="CheckBox_LostFocus" />
-									<StackPanel Margin="10,0,0,0" Orientation="Vertical">
-										<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+											Name="item_cbx"
+											LostFocus="CheckBox_LostFocus"
+											Foreground="White"
+											IsChecked="{Binding CheckedStatus}"
+											IsThreeState="false"
+											/>
+									<StackPanel
+											Margin="10,0,0,0"
+											Orientation="Vertical"
+											>
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
 											<Label
-												Content="{Binding NodeType}"
-												ContentStringFormat="{}{0,-7}|"
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding NodeType}"
+													ContentStringFormat="{}{0,-7}|"
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding Name}"
-												ContentStringFormat="{}{0,-15}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding Name}"
+													ContentStringFormat="{}{0,-15}| "
+													Style="{StaticResource lblStyle}"
+													/>
 
 											<Label
-												Content="children"
-												ContentStringFormat="{}{0,10}| "
-												Style="{StaticResource lblStyle}" />
+													Content="children"
+													ContentStringFormat="{}{0,10}| "
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding childList.Count}"
-												ContentStringFormat="{}{0,2}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding childList.Count}"
+													ContentStringFormat="{}{0,2}| "
+													Style="{StaticResource lblStyle}"
+													/>
 										</StackPanel>
-										<StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+										<StackPanel
+												Margin="0,0,0,3"
+												Orientation="Horizontal"
+												>
 											<Label
-												Content=" "
-												ContentStringFormat="{}{0,-7}| "
-												Style="{StaticResource lblStyle}" />
+													Content=" "
+													ContentStringFormat="{}{0,-7}| "
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding SelectState}"
-												ContentStringFormat="{}{0,-14}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding SelectState}"
+													ContentStringFormat="{}{0,-14}| "
+													Style="{StaticResource lblStyle}"
+													/>
 
 											<Label
-												Content="{Binding SelectStateOriginal}"
-												ContentStringFormat="{}{0,-15}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding SelectStateOriginal}"
+													ContentStringFormat="{}{0,-15}| "
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="chk count"
-												ContentStringFormat="{}{0,5}| "
-												Style="{StaticResource lblStyle}" />
+													Content="chk count"
+													ContentStringFormat="{}{0,5}| "
+													Style="{StaticResource lblStyle}"
+													/>
 											<Label
-												Content="{Binding CheckedCount}"
-												ContentStringFormat="{}{0,2}| "
-												Style="{StaticResource lblStyle}" />
+													Content="{Binding CheckedCount}"
+													ContentStringFormat="{}{0,2}| "
+													Style="{StaticResource lblStyle}"
+													/>
 										</StackPanel>
 									</StackPanel>
 								</StackPanel>
@@ -660,34 +858,40 @@
 		</TreeView>
 
 		<Label
-			Grid.Row="1"
-			Grid.Column="2"
-			Height="20"
-			Padding="0,5,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Content="Tv5"
-			Foreground="White" />
+				Content="Tv5"
+				Grid.Column="2"
+				Grid.Row="1"
+				Height="20"
+				Padding="0,5,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Foreground="White"
+				/>
 
 		<TreeView
-			Name="tv5"
-			Grid.Row="1"
-			Grid.Column="2"
-			Margin="0,20,0,0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			HorizontalContentAlignment="Stretch"
-			Background="#222222"
-			DataContext="{Binding ElementName=mainWin, Path=evMgr.Origin}"
-			FontFamily="MS Gothic"
-			Foreground="White"
-			ItemContainerStyle="{DynamicResource TreeViewItemStyle1}"
-			ItemsSource="{Binding Children}"
-			ScrollViewer.HorizontalScrollBarVisibility="Visible"
-			ScrollViewer.VerticalScrollBarVisibility="Visible">
+				Name="tv5"
+				Grid.Column="2"
+				Grid.Row="1"
+				Margin="0,20,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				FontFamily="MS Gothic"
+				DataContext="{Binding ElementName=mainWin,
+															Path=evMgr.Origin}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				Background="#222222"
+				Foreground="White"
+				ItemContainerStyle="{DynamicResource TreeViewItemStyle1}"
+				ItemsSource="{Binding Children}"
+				>
 			<TreeView.Resources>
 
-				<Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+				<Style
+						x:Key="{x:Type Label}"
+						TargetType="{x:Type Label}"
+						>
 					<Setter Property="Foreground" Value="White" />
 				</Style>
 
@@ -715,26 +919,34 @@
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill" Color="#FFCCEEFB" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF1CC4F7" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF82DFFB" />
-				<PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,7 L7,0 z" />
+				<PathGeometry
+						x:Key="TreeArrow"
+						Figures="M0,0 L0,7 L7,0 z"
+						/>
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="#FFFFFFFF" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="#FF818181" />
 
-				<Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+				<Style
+						x:Key="ExpandCollapseToggleStyle"
+						TargetType="{x:Type ToggleButton}"
+						>
 					<Setter Property="Focusable" Value="False" />
 					<Setter Property="Height" Value="16" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type ToggleButton}">
 								<Border
-									Width="17"
-									Height="17"
-									Padding="5"
-									Background="Transparent">
+										Width="17"
+										Height="17"
+										Padding="5"
+										Background="Transparent"
+										>
 									<Path
-										x:Name="ExpandPath"
-										Data="{StaticResource TreeArrow}"
-										Fill="{StaticResource TreeViewItem.TreeArrow.Static.Fill}"
-										Stroke="{StaticResource TreeViewItem.TreeArrow.Static.Stroke}">
+											x:Name="ExpandPath"
+											Data="{StaticResource TreeArrow}"
+											Fill="{StaticResource TreeViewItem.TreeArrow.Static.Fill}"
+											Stroke="{StaticResource TreeViewItem.TreeArrow.Static.Stroke}"
+											>
 										<Path.RenderTransform>
 											<RotateTransform Angle="135" CenterX="3" CenterY="3" />
 										</Path.RenderTransform>
@@ -769,7 +981,10 @@
 					<Setter Property="Width" Value="16" />
 				</Style>
 
-				<Style x:Key="TreeViewItemStyle1" TargetType="{x:Type TreeViewItem}">
+				<Style
+						x:Key="TreeViewItemStyle1"
+						TargetType="{x:Type TreeViewItem}"
+						>
 					<Setter Property="Background" Value="Transparent" />
 					<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -778,7 +993,10 @@
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type TreeViewItem}">
-								<Grid x:Name="Gd" Margin="3,0,0,0">
+								<Grid
+										x:Name="Gd"
+										Margin="3,0,0,0"
+										>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" MinWidth="19" />
 										<ColumnDefinition Width="*" />
@@ -790,31 +1008,36 @@
 										<RowDefinition />
 									</Grid.RowDefinitions>
 									<ToggleButton
-										x:Name="Expander"
-										ClickMode="Press"
-										IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-										Style="{StaticResource ExpandCollapseToggleStyle}" />
+											x:Name="Expander"
+											ClickMode="Press"
+											IsChecked="{Binding IsExpanded,
+																					RelativeSource={RelativeSource TemplatedParent}}"
+											Style="{StaticResource ExpandCollapseToggleStyle}"
+											/>
 									<Border
-										x:Name="Bd"
-										Grid.Row="0"
-										Grid.Column="1"
-										Padding="{TemplateBinding Padding}"
-										Background="{TemplateBinding Background}"
-										BorderBrush="{TemplateBinding BorderBrush}"
-										BorderThickness="{TemplateBinding BorderThickness}"
-										SnapsToDevicePixels="true">
+											x:Name="Bd"
+											Grid.Column="1"
+											Grid.Row="0"
+											Padding="{TemplateBinding Padding}"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
+											>
 
 										<ContentPresenter
-											x:Name="PART_Header"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											ContentSource="Header"
-											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+												x:Name="PART_Header"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												ContentSource="Header"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
 									</Border>
 									<ItemsPresenter
-										x:Name="ItemsHost"
-										Grid.Row="1"
-										Grid.Column="1"
-										Grid.ColumnSpan="1" />
+											x:Name="ItemsHost"
+											Grid.Column="1"
+											Grid.Row="1"
+											Grid.ColumnSpan="1"
+											/>
 								</Grid>
 								<ControlTemplate.Triggers>
 									<Trigger Property="IsExpanded" Value="false">
@@ -838,10 +1061,16 @@
 									<Trigger Property="IsEnabled" Value="false">
 										<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
 									</Trigger>
-									<DataTrigger Binding="{Binding Checked}" Value="{x:Null}">
+									<DataTrigger
+											Binding="{Binding Checked}"
+											Value="{x:Null}"
+											>
 										<Setter TargetName="Bd" Property="Background" Value="#303030" />
 									</DataTrigger>
-									<DataTrigger Binding="{Binding Checked}" Value="false">
+									<DataTrigger
+											Binding="{Binding Checked}"
+											Value="false"
+											>
 										<Setter TargetName="Bd" Property="Background" Value="#303030" />
 									</DataTrigger>
 								</ControlTemplate.Triggers>
@@ -870,17 +1099,19 @@
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
 					<ContentControl
-						x:Name="PART_ContentControl"
-						Padding="0"
-						Content="{Binding}"
-						Foreground="White">
+							x:Name="PART_ContentControl"
+							Content="{Binding}"
+							Padding="0"
+							Foreground="White"
+							>
 						<ContentControl.ContentTemplate>
 							<DataTemplate DataType="{x:Type local:TreeNode5}">
 								<Grid
-									Name="Sp"
-									Margin="3,5,0,5"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center">
+										Name="Sp"
+										Margin="3,5,0,5"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										>
 
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
@@ -889,43 +1120,53 @@
 									</Grid.ColumnDefinitions>
 
 									<StackPanel
-										Grid.Column="0"
-										Width="76"
-										Margin="-2,0,0,0"
-										Orientation="Horizontal">
+											Grid.Column="0"
+											Margin="-2,0,0,0"
+											Width="76"
+											Orientation="Horizontal"
+											>
 										<CheckBox
-											Name="item_cbx"
-											Margin="3,0,8,0"
-											Foreground="White"
-											IsChecked="{Binding Checked}"
-											IsThreeState="False"
-											LostFocus="CheckBox_LostFocus5" />
-										<Label Content="{Binding NodeType, FallbackValue=BRANCH}" Style="{StaticResource lblStyle5}" />
+												Name="item_cbx"
+												Margin="3,0,8,0"
+												LostFocus="CheckBox_LostFocus5"
+												Foreground="White"
+												IsChecked="{Binding Checked}"
+												IsThreeState="False"
+												/>
+										<Label
+												Content="{Binding NodeType,
+																					FallbackValue=BRANCH}"
+												Style="{StaticResource lblStyle5}"
+												/>
 									</StackPanel>
 
 									<StackPanel
-										x:Name="filler"
-										Grid.Column="1"
-										MinWidth="15"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch">
-										<Border
-											Margin="0,8,-4,0"
+											x:Name="filler"
+											Grid.Column="1"
+											MinWidth="15"
+											HorizontalAlignment="Stretch"
 											VerticalAlignment="Stretch"
-											BorderBrush="White"
-											BorderThickness="0,.5,0,0" />
+											>
+										<Border
+												Margin="0,8,-4,0"
+												VerticalAlignment="Stretch"
+												BorderThickness="0,.5,0,0"
+												BorderBrush="White"
+												/>
 
 									</StackPanel>
 
 									<Border
-										Grid.Column="2"
-										Margin="0,0,3,0"
-										BorderBrush="White"
-										BorderThickness="1,0,1,0">
+											Grid.Column="2"
+											Margin="0,0,3,0"
+											BorderThickness="1,0,1,0"
+											BorderBrush="White"
+											>
 										<StackPanel
-											Margin="3,0,0,0"
-											HorizontalAlignment="Right"
-											Orientation="Vertical">
+												Margin="3,0,0,0"
+												HorizontalAlignment="Right"
+												Orientation="Vertical"
+												>
 
 											<Grid Margin="0,0,3,3">
 												<Grid.ColumnDefinitions>
@@ -933,41 +1174,62 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<Border Grid.Column="0" Style="{StaticResource bdrStyle5.0}">
+												<Border
+														Grid.Column="0"
+														Style="{StaticResource bdrStyle5.0}"
+														>
 													<Label
-														Width="40"
-														Content="Name"
-														Style="{StaticResource lblStyle5}" />
+															Content="Name"
+															Width="40"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="130"
-														Content="{Binding Name, FallbackValue='Name :: name :: name'}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Name,
+																								FallbackValue='Name :: name :: name'}"
+															MinWidth="130"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 											</Grid>
 
 
-											<Grid Margin="0,0,3,3" HorizontalAlignment="Stretch">
+											<Grid
+													Margin="0,0,3,3"
+													HorizontalAlignment="Stretch"
+													>
 												<Grid.ColumnDefinitions>
 													<ColumnDefinition Width="Auto" />
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<Border Grid.Column="0" Style="{StaticResource bdrStyle5.0}">
+												<Border
+														Grid.Column="0"
+														Style="{StaticResource bdrStyle5.0}"
+														>
 													<Label
-														Width="40"
-														Content="Parent"
-														Style="{StaticResource lblStyle5}" />
+															Content="Parent"
+															Width="40"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="130"
-														HorizontalAlignment="Stretch"
-														HorizontalContentAlignment="Stretch"
-														Content="{Binding Parent.Name, FallbackValue='Name :: name :: name'}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Parent.Name,
+																								FallbackValue='Name :: name :: name'}"
+															MinWidth="130"
+															HorizontalAlignment="Stretch"
+															HorizontalContentAlignment="Stretch"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
 											</Grid>
@@ -979,36 +1241,48 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<StackPanel Grid.Column="0" Orientation="Horizontal">
+												<StackPanel
+														Grid.Column="0"
+														Orientation="Horizontal"
+														>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="40"
-															Content="child#"
-															Style="{StaticResource lblStyle5}" />
+																Content="child#"
+																Width="40"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.1}">
 														<Label
-															Width="23"
-															Content="{Binding ChildCount, FallbackValue=0}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding ChildCount,
+																									FallbackValue=0}"
+																Width="23"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.1}">
 														<Label
-															Width="50"
-															Content="sel child"
-															Style="{StaticResource lblStyle5}" />
+																Content="sel child"
+																Width="50"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 												</StackPanel>
 
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														Width="21"
-														Content="{Binding CheckedChildrenCount, FallbackValue=0}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding CheckedChildrenCount,
+																								FallbackValue=0}"
+															Width="21"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
 											</Grid>
@@ -1020,35 +1294,48 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<StackPanel Grid.Column="0" Orientation="Horizontal">
+												<StackPanel
+														Grid.Column="0"
+														Orientation="Horizontal"
+														>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="70"
-															Content="{Binding CheckState, FallbackValue=CHECKED}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding CheckState,
+																									FallbackValue=CHECKED}"
+																Width="70"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.2}">
 														<Label
-															Width="70"
-															Content="{Binding TriState, FallbackValue=UNSET}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding TriState,
+																									FallbackValue=UNSET}"
+																Width="70"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="30"
-															Content="isChk"
-															Style="{StaticResource lblStyle5}" />
+																Content="isChk"
+																Width="30"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 												</StackPanel>
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="30"
-														Content="{Binding Checked, FallbackValue=false}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Checked,
+																								FallbackValue=false}"
+															MinWidth="30"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 											</Grid>
 
@@ -1066,34 +1353,40 @@
 
 
 		<Label
-			Grid.Row="1"
-			Grid.Column="0"
-			Height="20"
-			Padding="0,5,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Content="Tv6"
-			Foreground="White" />
+				Content="Tv6"
+				Grid.Column="0"
+				Grid.Row="1"
+				Height="20"
+				Padding="0,5,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Foreground="White"
+				/>
 
 		<TreeView
-			Name="tv6"
-			Grid.Row="1"
-			Grid.Column="0"
-			Margin="0,20,0,0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			HorizontalContentAlignment="Stretch"
-			Background="#111111"
-			DataContext="{Binding ElementName=mainWin, Path=evMgr.Origin}"
-			FontFamily="MS Gothic"
-			Foreground="White"
-			ItemContainerStyle="{DynamicResource TreeViewItemStyle1}"
-			ItemsSource="{Binding Children}"
-			ScrollViewer.HorizontalScrollBarVisibility="Visible"
-			ScrollViewer.VerticalScrollBarVisibility="Visible">
+				Name="tv6"
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="0,20,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				FontFamily="MS Gothic"
+				DataContext="{Binding ElementName=mainWin,
+															Path=evMgr.Origin}"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				Background="#111111"
+				Foreground="White"
+				ItemContainerStyle="{DynamicResource TreeViewItemStyle1}"
+				ItemsSource="{Binding Children}"
+				>
 			<TreeView.Resources>
 
-				<Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+				<Style
+						x:Key="{x:Type Label}"
+						TargetType="{x:Type Label}"
+						>
 					<Setter Property="Foreground" Value="White" />
 				</Style>
 
@@ -1121,26 +1414,34 @@
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill" Color="#FFCCEEFB" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF1CC4F7" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF82DFFB" />
-				<PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,7 L7,0 z" />
+				<PathGeometry
+						x:Key="TreeArrow"
+						Figures="M0,0 L0,7 L7,0 z"
+						/>
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="#FFFFFFFF" />
 				<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="#FF818181" />
 
-				<Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+				<Style
+						x:Key="ExpandCollapseToggleStyle"
+						TargetType="{x:Type ToggleButton}"
+						>
 					<Setter Property="Focusable" Value="False" />
 					<Setter Property="Height" Value="16" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type ToggleButton}">
 								<Border
-									Width="17"
-									Height="17"
-									Padding="5"
-									Background="Transparent">
+										Width="17"
+										Height="17"
+										Padding="5"
+										Background="Transparent"
+										>
 									<Path
-										x:Name="ExpandPath"
-										Data="{StaticResource TreeArrow}"
-										Fill="{StaticResource TreeViewItem.TreeArrow.Static.Fill}"
-										Stroke="{StaticResource TreeViewItem.TreeArrow.Static.Stroke}">
+											x:Name="ExpandPath"
+											Data="{StaticResource TreeArrow}"
+											Fill="{StaticResource TreeViewItem.TreeArrow.Static.Fill}"
+											Stroke="{StaticResource TreeViewItem.TreeArrow.Static.Stroke}"
+											>
 										<Path.RenderTransform>
 											<RotateTransform Angle="135" CenterX="3" CenterY="3" />
 										</Path.RenderTransform>
@@ -1175,7 +1476,10 @@
 					<Setter Property="Width" Value="16" />
 				</Style>
 
-				<Style x:Key="TreeViewItemStyle1" TargetType="{x:Type TreeViewItem}">
+				<Style
+						x:Key="TreeViewItemStyle1"
+						TargetType="{x:Type TreeViewItem}"
+						>
 					<Setter Property="Background" Value="Transparent" />
 					<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -1184,7 +1488,10 @@
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type TreeViewItem}">
-								<Grid x:Name="Gd" Margin="3,0,0,0">
+								<Grid
+										x:Name="Gd"
+										Margin="3,0,0,0"
+										>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" MinWidth="19" />
 										<ColumnDefinition Width="*" />
@@ -1196,31 +1503,36 @@
 										<RowDefinition />
 									</Grid.RowDefinitions>
 									<ToggleButton
-										x:Name="Expander"
-										ClickMode="Press"
-										IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-										Style="{StaticResource ExpandCollapseToggleStyle}" />
+											x:Name="Expander"
+											ClickMode="Press"
+											IsChecked="{Binding IsExpanded,
+																					RelativeSource={RelativeSource TemplatedParent}}"
+											Style="{StaticResource ExpandCollapseToggleStyle}"
+											/>
 									<Border
-										x:Name="Bd"
-										Grid.Row="0"
-										Grid.Column="1"
-										Padding="{TemplateBinding Padding}"
-										Background="{TemplateBinding Background}"
-										BorderBrush="{TemplateBinding BorderBrush}"
-										BorderThickness="{TemplateBinding BorderThickness}"
-										SnapsToDevicePixels="true">
+											x:Name="Bd"
+											Grid.Column="1"
+											Grid.Row="0"
+											Padding="{TemplateBinding Padding}"
+											SnapsToDevicePixels="true"
+											Background="{TemplateBinding Background}"
+											BorderThickness="{TemplateBinding BorderThickness}"
+											BorderBrush="{TemplateBinding BorderBrush}"
+											>
 
 										<ContentPresenter
-											x:Name="PART_Header"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											ContentSource="Header"
-											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+												x:Name="PART_Header"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												ContentSource="Header"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												/>
 									</Border>
 									<ItemsPresenter
-										x:Name="ItemsHost"
-										Grid.Row="1"
-										Grid.Column="1"
-										Grid.ColumnSpan="1" />
+											x:Name="ItemsHost"
+											Grid.Column="1"
+											Grid.Row="1"
+											Grid.ColumnSpan="1"
+											/>
 								</Grid>
 								<ControlTemplate.Triggers>
 									<Trigger Property="IsExpanded" Value="false">
@@ -1244,10 +1556,16 @@
 									<Trigger Property="IsEnabled" Value="false">
 										<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
 									</Trigger>
-									<DataTrigger Binding="{Binding Checked}" Value="{x:Null}">
+									<DataTrigger
+											Binding="{Binding Checked}"
+											Value="{x:Null}"
+											>
 										<Setter TargetName="Bd" Property="Background" Value="#303030" />
 									</DataTrigger>
-									<DataTrigger Binding="{Binding Checked}" Value="false">
+									<DataTrigger
+											Binding="{Binding Checked}"
+											Value="false"
+											>
 										<Setter TargetName="Bd" Property="Background" Value="#303030" />
 									</DataTrigger>
 								</ControlTemplate.Triggers>
@@ -1276,17 +1594,19 @@
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
 					<ContentControl
-						x:Name="PART_ContentControl"
-						Padding="0"
-						Content="{Binding}"
-						Foreground="White">
+							x:Name="PART_ContentControl"
+							Content="{Binding}"
+							Padding="0"
+							Foreground="White"
+							>
 						<ContentControl.ContentTemplate>
 							<DataTemplate DataType="{x:Type local:TreeNode5}">
 								<Grid
-									Name="Sp"
-									Margin="3,5,0,5"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center">
+										Name="Sp"
+										Margin="3,5,0,5"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										>
 
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
@@ -1295,43 +1615,53 @@
 									</Grid.ColumnDefinitions>
 
 									<StackPanel
-										Grid.Column="0"
-										Width="76"
-										Margin="-2,0,0,0"
-										Orientation="Horizontal">
+											Grid.Column="0"
+											Margin="-2,0,0,0"
+											Width="76"
+											Orientation="Horizontal"
+											>
 										<CheckBox
-											Name="item_cbx"
-											Margin="3,0,8,0"
-											Foreground="White"
-											IsChecked="{Binding Checked}"
-											IsThreeState="False"
-											LostFocus="CheckBox_LostFocus5" />
-										<Label Content="{Binding NodeType, FallbackValue=BRANCH}" Style="{StaticResource lblStyle5}" />
+												Name="item_cbx"
+												Margin="3,0,8,0"
+												LostFocus="CheckBox_LostFocus5"
+												Foreground="White"
+												IsChecked="{Binding Checked}"
+												IsThreeState="False"
+												/>
+										<Label
+												Content="{Binding NodeType,
+																					FallbackValue=BRANCH}"
+												Style="{StaticResource lblStyle5}"
+												/>
 									</StackPanel>
 
 									<StackPanel
-										x:Name="filler"
-										Grid.Column="1"
-										MinWidth="15"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch">
-										<Border
-											Margin="0,8,-4,0"
+											x:Name="filler"
+											Grid.Column="1"
+											MinWidth="15"
+											HorizontalAlignment="Stretch"
 											VerticalAlignment="Stretch"
-											BorderBrush="White"
-											BorderThickness="0,.5,0,0" />
+											>
+										<Border
+												Margin="0,8,-4,0"
+												VerticalAlignment="Stretch"
+												BorderThickness="0,.5,0,0"
+												BorderBrush="White"
+												/>
 
 									</StackPanel>
 
 									<Border
-										Grid.Column="2"
-										Margin="0,0,3,0"
-										BorderBrush="White"
-										BorderThickness="1,0,1,0">
+											Grid.Column="2"
+											Margin="0,0,3,0"
+											BorderThickness="1,0,1,0"
+											BorderBrush="White"
+											>
 										<StackPanel
-											Margin="3,0,0,0"
-											HorizontalAlignment="Right"
-											Orientation="Vertical">
+												Margin="3,0,0,0"
+												HorizontalAlignment="Right"
+												Orientation="Vertical"
+												>
 
 											<Grid Margin="0,0,3,3">
 												<Grid.ColumnDefinitions>
@@ -1339,41 +1669,62 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<Border Grid.Column="0" Style="{StaticResource bdrStyle5.0}">
+												<Border
+														Grid.Column="0"
+														Style="{StaticResource bdrStyle5.0}"
+														>
 													<Label
-														Width="40"
-														Content="Name"
-														Style="{StaticResource lblStyle5}" />
+															Content="Name"
+															Width="40"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="130"
-														Content="{Binding Name, FallbackValue='Name :: name :: name'}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Name,
+																								FallbackValue='Name :: name :: name'}"
+															MinWidth="130"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 											</Grid>
 
 
-											<Grid Margin="0,0,3,3" HorizontalAlignment="Stretch">
+											<Grid
+													Margin="0,0,3,3"
+													HorizontalAlignment="Stretch"
+													>
 												<Grid.ColumnDefinitions>
 													<ColumnDefinition Width="Auto" />
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<Border Grid.Column="0" Style="{StaticResource bdrStyle5.0}">
+												<Border
+														Grid.Column="0"
+														Style="{StaticResource bdrStyle5.0}"
+														>
 													<Label
-														Width="40"
-														Content="Parent"
-														Style="{StaticResource lblStyle5}" />
+															Content="Parent"
+															Width="40"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="130"
-														HorizontalAlignment="Stretch"
-														HorizontalContentAlignment="Stretch"
-														Content="{Binding Parent.Name, FallbackValue='Name :: name :: name'}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Parent.Name,
+																								FallbackValue='Name :: name :: name'}"
+															MinWidth="130"
+															HorizontalAlignment="Stretch"
+															HorizontalContentAlignment="Stretch"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
 											</Grid>
@@ -1385,36 +1736,48 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<StackPanel Grid.Column="0" Orientation="Horizontal">
+												<StackPanel
+														Grid.Column="0"
+														Orientation="Horizontal"
+														>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="40"
-															Content="child#"
-															Style="{StaticResource lblStyle5}" />
+																Content="child#"
+																Width="40"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.1}">
 														<Label
-															Width="23"
-															Content="{Binding ChildCount, FallbackValue=0}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding ChildCount,
+																									FallbackValue=0}"
+																Width="23"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.1}">
 														<Label
-															Width="50"
-															Content="sel child"
-															Style="{StaticResource lblStyle5}" />
+																Content="sel child"
+																Width="50"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 												</StackPanel>
 
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														Width="21"
-														Content="{Binding CheckedChildrenCount, FallbackValue=0}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding CheckedChildrenCount,
+																								FallbackValue=0}"
+															Width="21"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 
 											</Grid>
@@ -1426,35 +1789,48 @@
 													<ColumnDefinition Width="*" />
 												</Grid.ColumnDefinitions>
 
-												<StackPanel Grid.Column="0" Orientation="Horizontal">
+												<StackPanel
+														Grid.Column="0"
+														Orientation="Horizontal"
+														>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="70"
-															Content="{Binding CheckState, FallbackValue=CHECKED}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding CheckState,
+																									FallbackValue=CHECKED}"
+																Width="70"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.2}">
 														<Label
-															Width="70"
-															Content="{Binding TriState, FallbackValue=UNSET}"
-															Style="{StaticResource lblStyle5}" />
+																Content="{Binding TriState,
+																									FallbackValue=UNSET}"
+																Width="70"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 													<Border Style="{StaticResource bdrStyle5.0}">
 														<Label
-															Width="30"
-															Content="isChk"
-															Style="{StaticResource lblStyle5}" />
+																Content="isChk"
+																Width="30"
+																Style="{StaticResource lblStyle5}"
+																/>
 													</Border>
 
 												</StackPanel>
-												<Border Grid.Column="1" Style="{StaticResource bdrStyle5.1}">
+												<Border
+														Grid.Column="1"
+														Style="{StaticResource bdrStyle5.1}"
+														>
 													<Label
-														MinWidth="30"
-														Content="{Binding Checked, FallbackValue=false}"
-														Style="{StaticResource lblStyle5}" />
+															Content="{Binding Checked,
+																								FallbackValue=false}"
+															MinWidth="30"
+															Style="{StaticResource lblStyle5}"
+															/>
 												</Border>
 											</Grid>
 
@@ -1473,71 +1849,49 @@
 
 
 		<StackPanel
-			Name="spTv1"
-			Grid.Row="1"
-			Grid.Column="3"
-			VerticalAlignment="Bottom"
-			Orientation="Vertical">
+				Name="spTv1"
+				Grid.Column="3"
+				Grid.Row="1"
+				VerticalAlignment="Bottom"
+				Orientation="Vertical"
+				>
 			<Button
-				Name="btnCheckOneOne"
-				Click="BtnCheckOneOne_OnClick"
-				Style="{StaticResource btnStyle}">
+					Name="btnCheckOneOne"
+					Click="BtnCheckOneOne_OnClick"
+					Style="{StaticResource btnStyle}"
+					>
 				<Button.ContentTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Vertical">
-							<TextBlock Style="{StaticResource tblkStyle}" Text="Check Tv1" />
-							<TextBlock Style="{StaticResource tblkStyle}" Text="[1][1]" />
+							<TextBlock
+									Text="Check Tv1"
+									Style="{StaticResource tblkStyle}"
+									/>
+							<TextBlock
+									Text="[1][1]"
+									Style="{StaticResource tblkStyle}"
+									/>
 						</StackPanel>
 					</DataTemplate>
 				</Button.ContentTemplate>
 			</Button>
 
 			<Button
-				Name="btnUnCheckOneOne"
-				Click="BtnUnCheckOneOne_OnClick"
-				Style="{StaticResource btnStyle}">
+					Name="btnUnCheckOneOne"
+					Click="BtnUnCheckOneOne_OnClick"
+					Style="{StaticResource btnStyle}"
+					>
 				<Button.ContentTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Vertical">
-							<TextBlock Style="{StaticResource tblkStyle}" Text="UnCheck Tv1" />
-							<TextBlock Style="{StaticResource tblkStyle}" Text="[1][1]" />
-						</StackPanel>
-					</DataTemplate>
-				</Button.ContentTemplate>
-			</Button>
-
-		</StackPanel>
-
-		<StackPanel
-			Name="spTv2"
-			Grid.Row="1"
-			Grid.Column="5"
-			VerticalAlignment="Bottom"
-			Orientation="Vertical">
-			<Button
-				Name="btnCheckTwo"
-				Click="BtnCheckOneOneTv2_OnClick"
-				Content="Check [1][1] tv2"
-				Style="{StaticResource btnStyle}">
-				<Button.ContentTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Style="{StaticResource tblkStyle}" Text="Check Tv2" />
-							<TextBlock Style="{StaticResource tblkStyle}" Text="[1][1]" />
-						</StackPanel>
-					</DataTemplate>
-				</Button.ContentTemplate>
-			</Button>
-
-			<Button
-				Name="btnUnCheckTwo"
-				Click="BtnUnCheckOneOneTv2_OnClick"
-				Style="{StaticResource btnStyle}">
-				<Button.ContentTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Style="{StaticResource tblkStyle}" Text="UnCheck Tv2" />
-							<TextBlock Style="{StaticResource tblkStyle}" Text="[1][1]" />
+							<TextBlock
+									Text="UnCheck Tv1"
+									Style="{StaticResource tblkStyle}"
+									/>
+							<TextBlock
+									Text="[1][1]"
+									Style="{StaticResource tblkStyle}"
+									/>
 						</StackPanel>
 					</DataTemplate>
 				</Button.ContentTemplate>
@@ -1546,102 +1900,169 @@
 		</StackPanel>
 
 		<StackPanel
-			Grid.Row="2"
-			Grid.Column="2"
-			Grid.ColumnSpan="3"
-			Orientation="Vertical">
-			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+				Name="spTv2"
+				Grid.Column="5"
+				Grid.Row="1"
+				VerticalAlignment="Bottom"
+				Orientation="Vertical"
+				>
+			<Button
+					Name="btnCheckTwo"
+					Content="Check [1][1] tv2"
+					Click="BtnCheckOneOneTv2_OnClick"
+					Style="{StaticResource btnStyle}"
+					>
+				<Button.ContentTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Vertical">
+							<TextBlock
+									Text="Check Tv2"
+									Style="{StaticResource tblkStyle}"
+									/>
+							<TextBlock
+									Text="[1][1]"
+									Style="{StaticResource tblkStyle}"
+									/>
+						</StackPanel>
+					</DataTemplate>
+				</Button.ContentTemplate>
+			</Button>
+
+			<Button
+					Name="btnUnCheckTwo"
+					Click="BtnUnCheckOneOneTv2_OnClick"
+					Style="{StaticResource btnStyle}"
+					>
+				<Button.ContentTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Vertical">
+							<TextBlock
+									Text="UnCheck Tv2"
+									Style="{StaticResource tblkStyle}"
+									/>
+							<TextBlock
+									Text="[1][1]"
+									Style="{StaticResource tblkStyle}"
+									/>
+						</StackPanel>
+					</DataTemplate>
+				</Button.ContentTemplate>
+			</Button>
+
+		</StackPanel>
+
+		<StackPanel
+				Grid.Column="2"
+				Grid.Row="2"
+				Grid.ColumnSpan="3"
+				Orientation="Vertical"
+				>
+			<StackPanel
+					HorizontalAlignment="Right"
+					Orientation="Horizontal"
+					>
 
 				<Button
-					Name="btnCheckOne"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnCheckOne_OnClick"
-					Content="Check[1]" />
+						Name="btnCheckOne"
+						Content="Check[1]"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnCheckOne_OnClick"
+						/>
 
 				<Button
-					Name="btnListTree"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnListTree_OnClick"
-					Content="List Tree" />
+						Name="btnListTree"
+						Content="List Tree"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnListTree_OnClick"
+						/>
 
 				<Button
-					Name="btnResetTree"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnResetTree_OnClick"
-					Content="Reset Tree" />
+						Name="btnResetTree"
+						Content="Reset Tree"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnResetTree_OnClick"
+						/>
 
 				<Button
-					Name="btnMakeTree"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnMakeTree_OnClick"
-					Content="Make Tree" />
+						Name="btnMakeTree"
+						Content="Make Tree"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnMakeTree_OnClick"
+						/>
 
 				<Button
-					Name="btnClearScreen"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnClearScreen_OnClick"
-					Content="Clear Screen" />
+						Name="btnClearScreen"
+						Content="Clear Screen"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnClearScreen_OnClick"
+						/>
 
 			</StackPanel>
-			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-				<Button
-					Name="btnTest1"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
+			<StackPanel
 					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnTest1_OnClick"
-					Content="Test1" />
+					Orientation="Horizontal"
+					>
+				<Button
+						Name="btnTest1"
+						Content="Test1"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnTest1_OnClick"
+						/>
 
 
 				<Button
-					Name="btnDebug"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnDebug_OnClick"
-					Content="Debug" />
+						Name="btnDebug"
+						Content="Debug"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnDebug_OnClick"
+						/>
 
 				<Button
-					Name="btnDone"
-					Width="80"
-					Height="30"
-					MaxHeight="60"
-					Margin="5"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					Click="BtnDone_OnClick"
-					Content="Done" />
+						Name="btnDone"
+						Content="Done"
+						Margin="5"
+						Width="80"
+						Height="30"
+						MaxHeight="60"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnDone_OnClick"
+						/>
 
 			</StackPanel>
 		</StackPanel>

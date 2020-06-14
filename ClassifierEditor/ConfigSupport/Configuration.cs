@@ -18,11 +18,19 @@ namespace ClassifierEditor.ConfigSupport
 	{
 		#region private fields
 
+#pragma warning disable CS0169 // The field 'Configuration.classificationFile' is never used
 			private string classificationFile;
+#pragma warning restore CS0169 // The field 'Configuration.classificationFile' is never used
+#pragma warning disable CS0169 // The field 'Configuration.masterClassificationFile' is never used
 			private string masterClassificationFile;
+#pragma warning restore CS0169 // The field 'Configuration.masterClassificationFile' is never used
 
+#pragma warning disable CS0169 // The field 'Configuration.sampleFile' is never used
 			private string sampleFile;
+#pragma warning restore CS0169 // The field 'Configuration.sampleFile' is never used
+#pragma warning disable CS0169 // The field 'Configuration.masterSampleFile' is never used
 			private string masterSampleFile;
+#pragma warning restore CS0169 // The field 'Configuration.masterSampleFile' is never used
 
 		#endregion
 

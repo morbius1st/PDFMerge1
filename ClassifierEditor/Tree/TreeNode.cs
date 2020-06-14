@@ -56,24 +56,24 @@ namespace ClassifierEditor.Tree
 	#region private fields
 
 		// properties
-//		private float key;
-		protected SheetCategory item;
-		protected ObservableCollection<TreeNode> children;
-		protected ListCollectionView childrenView;
+		private SheetCategory item;
+		private ObservableCollection<TreeNode> children;
+		private ListCollectionView childrenView;
 
-		protected TreeNode parent;
+		private TreeNode parent;
 		private int depth;
 
+		private CheckedState checkedState = CheckedState.UNCHECKED;
+		private CheckedState triState = CheckedState.UNSET;
 
-		protected CheckedState checkedState = CheckedState.UNCHECKED;
-		protected CheckedState triState = CheckedState.UNSET;
-		protected bool isExpanded;
-		protected bool isSelected;
-		protected bool isContextSelected = false;
+		private bool isLocked = false;
+		private bool isFixed = false;
+		private bool isExpanded;
+		private bool isNodeSelected;
+		private bool isContextSelected = false;
+		private int checkedChildCount = 0;
 
-		protected int checkedChildCount = 0;
-
-		protected int uniqueId = -1;
+//		protected int uniqueId = -1;
 
 
 		// fields
@@ -96,11 +96,11 @@ namespace ClassifierEditor.Tree
 			
 			Children = new ObservableCollection<TreeNode>();
 			this.parent = parent;
-			this.depth = parent.depth + 1;
 			this.item = item;
+			Depth = parent.depth + 1;
 			this.isExpanded = isExpanded;
 
-			UniqueId = masterUniqueId++;
+//			UniqueId = masterUniqueId++;
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
@@ -113,7 +113,7 @@ namespace ClassifierEditor.Tree
 			this.item = item;
 			this.isExpanded = isExpanded;
 
-			UniqueId = masterUniqueId++;
+//			UniqueId = masterUniqueId++;
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 
@@ -125,7 +125,7 @@ namespace ClassifierEditor.Tree
 
 
 		// the actual tree data item
-		[DataMember(Order = 2)]
+		[DataMember(Order = 1)]
 		public SheetCategory Item
 		{
 			get => item;
@@ -138,7 +138,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-//		[DataMember(Order = 3)]
+		[IgnoreDataMember]
 		public NodeType NodeType
 		{
 			get
@@ -149,7 +149,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 4)]
+		[DataMember(Order = 2)]
 		public TreeNode Parent
 		{
 			get => parent;
@@ -160,7 +160,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 5)]
+		[DataMember(Order = 3)]
 		public int Depth
 		{
 			get => depth;
@@ -195,7 +195,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 6)]
+		[IgnoreDataMember]
 		public bool? Checked
 		{
 			get
@@ -227,7 +227,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 10, Name = "SubCategories")]
+		[DataMember(Order = 8, Name = "SubCategories")]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
@@ -245,38 +245,55 @@ namespace ClassifierEditor.Tree
 			get { return childrenView; }
 		}
 
-		[IgnoreDataMember]
-		public int UniqueId
+	#region status properties
+
+		/// <summary>
+		///  means this is item is a root node and cannot be<br/>
+		/// deleted or unlocked
+		/// </summary>
+		[DataMember(Order = 10)]
+		public bool IsFixed
 		{
-			get => uniqueId;
+			get => isFixed;
+
 			set
 			{
-				uniqueId = value;
-				OnPropertyChange();
+				if (value != isFixed)
+				{
+					isFixed = value;
+					OnPropertyChange();
+
+					// if fixed, not locked
+					IsLocked = false;
+				}
 			}
 		}
-		
-		public bool HasChildren => ChildCount > 0;
 
-		public int ChildCount => Children?.Count ?? 0;
-
-		public int ExtendedChildCount => ExtendedChildrenCount(this);
-
-		public int CheckedChildCount
+		/// <summary>
+		///  the user can lock to prevent accidental deleting
+		/// </summary>
+		[DataMember(Order = 11)]
+		public bool IsLocked
 		{
-			get => checkedChildCount;
+			get => isLocked;
 
 			set
 			{
-				if (value != checkedChildCount)
+				if (value != isLocked)
 				{
-					checkedChildCount = value;
+					// disallow fixed from being locked
+					if (isFixed) return;
+
+					isLocked = value;
 					OnPropertyChange();
 				}
 			}
 		}
 
-		[DataMember(Order = 8)]
+		/// <summary>
+		/// controls whether the node is expanded or not
+		/// </summary>
+		[DataMember(Order = 15)]
 		public bool IsExpanded
 		{
 			get => isExpanded;
@@ -294,13 +311,22 @@ namespace ClassifierEditor.Tree
 		[IgnoreDataMember]
 		public bool CanExpand => ChildCount > 0;
 
+
 		[IgnoreDataMember]
-		public bool IsSelected
+		public bool IsNodeSelected
 		{
-			get => isSelected;
+			get => isNodeSelected;
 			set
 			{
-				isSelected = value;
+				if (isFixed || isLocked)
+				{
+					isNodeSelected = false;
+					OnPropertyChange();
+					return;
+				}
+
+
+				isNodeSelected = value;
 				OnPropertyChange();
 			}
 		}
@@ -329,6 +355,30 @@ namespace ClassifierEditor.Tree
 
 	#endregion
 
+		public bool HasChildren => ChildCount > 0;
+
+		public int ChildCount => Children?.Count ?? 0;
+
+		public int ExtendedChildCount => ExtendedChildrenCount(this);
+
+		public int CheckedChildCount
+		{
+			get => checkedChildCount;
+
+			set
+			{
+				if (value != checkedChildCount)
+				{
+					checkedChildCount = value;
+					OnPropertyChange();
+				}
+			}
+		}
+
+
+
+	#endregion
+
 	#region private properties
 
 	#endregion
@@ -337,7 +387,7 @@ namespace ClassifierEditor.Tree
 
 		public void InitializeAllChildrenView()
 		{
-			uniqueId = masterUniqueId++;
+//			uniqueId = masterUniqueId++;
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 //			childrenView.CustomSort = new ChildrenSorter();
@@ -382,7 +432,9 @@ namespace ClassifierEditor.Tree
 
 		public static TreeNode TempTreeNode(TreeNode parent)
 		{
-			return new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
+			TreeNode temp = new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
+
+			return temp;
 		}
 
 		public void ResetNode()
@@ -645,21 +697,29 @@ namespace ClassifierEditor.Tree
 
 	#region system overrides
 
-
+		// creates a partial clone - does not clone the children
 		public object Clone()
 		{
 			TreeNode newNode = new TreeNode(parent, (SheetCategory) item.Clone(), false);
 
 			newNode.checkedState = checkedState;
+			newNode.isExpanded = isExpanded;
 			newNode.triState = triState;
+			newNode.isLocked = false;
+			newNode.isFixed = false;
+			newNode.isContextSelected = false;
+
+			newNode.depth = depth;
 
 			return newNode;
 		}
 
 		public override string ToString()
 		{
-			return $"[{UniqueId:D3}] :: " +
-				NodeType + "::" + item.Title + "::" + checkedState;
+			return NodeType + "::" + item.Title + "::" + checkedState;
+			
+//			return $"[{UniqueId:D3}] :: " +
+//				NodeType + "::" + item.Title + "::" + checkedState;
 		}
 
 
@@ -667,21 +727,6 @@ namespace ClassifierEditor.Tree
 	}
 
 #endregion
-
-
-//	public class ChildrenSorter : IComparer
-//	{
-//		public int Compare(object x, object y)
-//		{
-//			TreeNode a = (TreeNode) x;
-//			TreeNode b = (TreeNode) y;
-//
-//			if (a == null || b == null) return 0;
-//
-//			return a.Key.CompareTo(b.Key);
-//		}
-//	}
-
 
 
 
@@ -729,8 +774,6 @@ namespace ClassifierEditor.Tree
 	#endregion
 
 	#region private properties
-
-
 
 	#endregion
 
@@ -781,7 +824,10 @@ namespace ClassifierEditor.Tree
 		public void AddNewAfter2(TreeNode contextNode)
 		{
 			TreeNode parent = contextNode.Parent;
-			AddAt2(parent, TempTreeNode(parent), parent.Children.IndexOf(contextNode) + 1);
+
+			TreeNode temp = TempTreeNode(parent);
+
+			AddAt2(parent, temp, parent.Children.IndexOf(contextNode) + 1);
 
 			NotifyChildrenChange();
 		}
@@ -850,6 +896,7 @@ namespace ClassifierEditor.Tree
 		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
 		{
 			parent.Children.Insert(index, toAddNode);
+			
 		}
 
 		// parent is the parent of the new location
@@ -919,8 +966,10 @@ namespace ClassifierEditor.Tree
 
 		public override string ToString()
 		{
-			return $"[{UniqueId:D3}] :: " +
-				NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
+			return NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
+//
+//			return $"[{UniqueId:D3}] :: " +
+//				NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
 		}
 
 	#endregion
