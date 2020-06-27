@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9db459f6-2625-4296-9e1a-04297c76893a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AndyShared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HeadingSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings70.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory).Linked\" />
+  </ItemGroup>
+</Project>

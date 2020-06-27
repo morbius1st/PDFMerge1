@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DataStore xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-05-25 - 22:28 -07:00</SaveDateTime>
+    <SaveDateTime>2020-06-13 - 07:47 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <SystemVersion>6.1</SystemVersion>
+    <SystemVersion>7.0</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
     <Notes>Created in Version 1.0</Notes>
     <Description>Data Storage</Description>
@@ -14,387 +14,142 @@
       <Item z:Id="i3">
         <Title>Base of Tree</Title>
         <Description>Base of Tree</Description>
-        <Pattern></Pattern>
+        <CompareOps />
       </Item>
       <Parent i:nil="true" />
+      <Depth>0</Depth>
       <CheckedState>UNCHECKED</CheckedState>
-      <Checked>false</Checked>
       <TriState>UNSET</TriState>
-      <IsExpanded>false</IsExpanded>
       <SubCategories>
         <TreeNode z:Id="i4">
           <Item z:Id="i5">
-            <Title>node title 00:00:00</Title>
-            <Description>node description</Description>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
+            <Title>Cover Sheet</Title>
+            <Description>Cover Sheet</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>CS</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
           </Item>
           <Parent z:Ref="i2" />
+          <Depth>1</Depth>
           <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
           <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
           <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
         </TreeNode>
         <TreeNode z:Id="i6">
           <Item z:Id="i7">
-            <Title>node title 02:00:02</Title>
-            <Description>node description</Description>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
+            <Title>Title Sheets</Title>
+            <Description>Title Sheets</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>T</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
           </Item>
           <Parent z:Ref="i2" />
+          <Depth>1</Depth>
           <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
           <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
-          <SubCategories>
-            <TreeNode z:Id="i8">
-              <Item z:Id="i9">
-                <Title>01 New Node Title</Title>
-                <Description>New Node Description</Description>
-                <Pattern></Pattern>
-              </Item>
-              <Parent z:Ref="i6" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>true</IsExpanded>
-              <SubCategories>
-                <TreeNode z:Id="i10">
-                  <Item z:Id="i11">
-                    <Title>02 New Node Title</Title>
-                    <Description>New Node Description</Description>
-                    <Pattern></Pattern>
-                  </Item>
-                  <Parent z:Ref="i8" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>true</IsExpanded>
-                  <SubCategories>
-                    <TreeNode z:Id="i12">
-                      <Item z:Id="i13">
-                        <Title>03 New Node Title</Title>
-                        <Description>New Node Description</Description>
-                        <Pattern></Pattern>
-                      </Item>
-                      <Parent z:Ref="i10" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                  </SubCategories>
-                </TreeNode>
-              </SubCategories>
-            </TreeNode>
-          </SubCategories>
-        </TreeNode>
-        <TreeNode z:Id="i14">
-          <Item z:Id="i15">
-            <Title>node title 03:00:03</Title>
-            <Description>node description</Description>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-          </Item>
-          <Parent z:Ref="i2" />
-          <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
-          <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
-          <SubCategories>
-            <TreeNode z:Id="i16">
-              <Item z:Id="i17">
-                <Title>node title 03:01:00</Title>
-                <Description>node description</Description>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-              </Item>
-              <Parent z:Ref="i14" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-            <TreeNode z:Id="i18">
-              <Item z:Id="i19">
-                <Title>node title 03:01:01</Title>
-                <Description>node description</Description>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-              </Item>
-              <Parent z:Ref="i14" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-            <TreeNode z:Id="i20">
-              <Item z:Id="i21">
-                <Title>node title 03:01:02</Title>
-                <Description>node description</Description>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-              </Item>
-              <Parent z:Ref="i14" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-            <TreeNode z:Id="i22">
-              <Item z:Id="i23">
-                <Title>node title 03:01:03</Title>
-                <Description>node description</Description>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-              </Item>
-              <Parent z:Ref="i14" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories>
-                <TreeNode z:Id="i24">
-                  <Item z:Id="i25">
-                    <Title>node title 03:02:00</Title>
-                    <Description>node description</Description>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                  </Item>
-                  <Parent z:Ref="i22" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>false</IsExpanded>
-                  <SubCategories />
-                </TreeNode>
-                <TreeNode z:Id="i26">
-                  <Item z:Id="i27">
-                    <Title>node title 03:02:01</Title>
-                    <Description>node description</Description>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                  </Item>
-                  <Parent z:Ref="i22" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>false</IsExpanded>
-                  <SubCategories />
-                </TreeNode>
-                <TreeNode z:Id="i28">
-                  <Item z:Id="i29">
-                    <Title>node title 03:02:02</Title>
-                    <Description>node description</Description>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                  </Item>
-                  <Parent z:Ref="i22" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>false</IsExpanded>
-                  <SubCategories />
-                </TreeNode>
-                <TreeNode z:Id="i30">
-                  <Item z:Id="i31">
-                    <Title>node title 03:02:03</Title>
-                    <Description>node description</Description>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                  </Item>
-                  <Parent z:Ref="i22" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>false</IsExpanded>
-                  <SubCategories>
-                    <TreeNode z:Id="i32">
-                      <Item z:Id="i33">
-                        <Title>node title 03:03:00</Title>
-                        <Description>node description</Description>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                      </Item>
-                      <Parent z:Ref="i30" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                    <TreeNode z:Id="i34">
-                      <Item z:Id="i35">
-                        <Title>node title 03:03:01</Title>
-                        <Description>node description</Description>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                      </Item>
-                      <Parent z:Ref="i30" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                    <TreeNode z:Id="i36">
-                      <Item z:Id="i37">
-                        <Title>node title 03:03:02</Title>
-                        <Description>node description</Description>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                      </Item>
-                      <Parent z:Ref="i30" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                    <TreeNode z:Id="i38">
-                      <Item z:Id="i39">
-                        <Title>node title 03:03:03</Title>
-                        <Description>node description</Description>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                      </Item>
-                      <Parent z:Ref="i30" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                    <TreeNode z:Id="i40">
-                      <Item z:Id="i41">
-                        <Title>node title 03:03:04</Title>
-                        <Description>node description</Description>
-                        <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                      </Item>
-                      <Parent z:Ref="i30" />
-                      <CheckedState>UNCHECKED</CheckedState>
-                      <Checked>false</Checked>
-                      <TriState>UNSET</TriState>
-                      <IsExpanded>false</IsExpanded>
-                      <SubCategories />
-                    </TreeNode>
-                  </SubCategories>
-                </TreeNode>
-                <TreeNode z:Id="i42">
-                  <Item z:Id="i43">
-                    <Title>node title 03:02:04</Title>
-                    <Description>node description</Description>
-                    <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-                  </Item>
-                  <Parent z:Ref="i22" />
-                  <CheckedState>UNCHECKED</CheckedState>
-                  <Checked>false</Checked>
-                  <TriState>UNSET</TriState>
-                  <IsExpanded>false</IsExpanded>
-                  <SubCategories />
-                </TreeNode>
-              </SubCategories>
-            </TreeNode>
-            <TreeNode z:Id="i44">
-              <Item z:Id="i45">
-                <Title>node title 03:01:04</Title>
-                <Description>node description</Description>
-                <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
-              </Item>
-              <Parent z:Ref="i14" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-          </SubCategories>
-        </TreeNode>
-        <TreeNode z:Id="i46">
-          <Item z:Id="i47">
-            <Title>04 New Node Title</Title>
-            <Description>New Node Description</Description>
-            <Pattern></Pattern>
-          </Item>
-          <Parent z:Ref="i2" />
-          <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
-          <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
           <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
         </TreeNode>
-        <TreeNode z:Id="i48">
-          <Item z:Id="i49">
-            <Title>node title 04:00:04</Title>
-            <Description>node description</Description>
-            <Pattern>(?&lt;=[A-Z])([ -]+)(?=[0-9])</Pattern>
+        <TreeNode z:Id="i8">
+          <Item z:Id="i9">
+            <Title>Civil Sheets</Title>
+            <Description>Civil Sheets</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>C</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
           </Item>
           <Parent z:Ref="i2" />
+          <Depth>1</Depth>
           <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
           <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
-          <SubCategories>
-            <TreeNode z:Id="i50">
-              <Item z:Id="i51">
-                <Title>05 New Node Title</Title>
-                <Description>New Node Description</Description>
-                <Pattern></Pattern>
-              </Item>
-              <Parent z:Ref="i48" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-          </SubCategories>
-        </TreeNode>
-        <TreeNode z:Id="i52">
-          <Item z:Id="i53">
-            <Title>00 New Node Title</Title>
-            <Description>New Node Description</Description>
-            <Pattern></Pattern>
-          </Item>
-          <Parent z:Ref="i2" />
-          <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
-          <TriState>UNSET</TriState>
-          <IsExpanded>false</IsExpanded>
           <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
         </TreeNode>
-        <TreeNode z:Id="i54">
-          <Item z:Id="i55">
-            <Title>01 New Node Title</Title>
-            <Description>New Node Description</Description>
-            <Pattern></Pattern>
+        <TreeNode z:Id="i10">
+          <Item z:Id="i11">
+            <Title>Landscape Sheets</Title>
+            <Description>Landscape Sheets</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>LS</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
           </Item>
           <Parent z:Ref="i2" />
+          <Depth>1</Depth>
           <CheckedState>UNCHECKED</CheckedState>
-          <Checked>false</Checked>
           <TriState>UNSET</TriState>
-          <IsExpanded>true</IsExpanded>
-          <SubCategories>
-            <TreeNode z:Id="i56">
-              <Item z:Id="i57">
-                <Title>03 New Node Title</Title>
-                <Description>New Node Description</Description>
-                <Pattern></Pattern>
-              </Item>
-              <Parent z:Ref="i54" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-            <TreeNode z:Id="i58">
-              <Item z:Id="i59">
-                <Title>02 New Node Title</Title>
-                <Description>New Node Description</Description>
-                <Pattern></Pattern>
-              </Item>
-              <Parent z:Ref="i54" />
-              <CheckedState>UNCHECKED</CheckedState>
-              <Checked>false</Checked>
-              <TriState>UNSET</TriState>
-              <IsExpanded>false</IsExpanded>
-              <SubCategories />
-            </TreeNode>
-          </SubCategories>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i12">
+          <Item z:Id="i13">
+            <Title>Architectural Sheets</Title>
+            <Description>Architectural Sheets</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>A</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
         </TreeNode>
       </SubCategories>
+      <IsFixed>false</IsFixed>
+      <IsLocked>false</IsLocked>
+      <IsExpanded>false</IsExpanded>
     </BaseOfTree>
   </Data>
-</DataStore>
+</DataStorage>

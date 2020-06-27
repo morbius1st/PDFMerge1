@@ -1,0 +1,1914 @@
+﻿<Window
+		x:Class="AndyConfig.Windows.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:config="clr-namespace:AndyConfig.ConfigMgr"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:filesSupport="clr-namespace:AndyShared.FilesSupport"
+		xmlns:local="clr-namespace:AndyConfig.Windows"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:utilityLibrary="clr-namespace:UtilityLibrary"
+		x:Name="mainWin"
+		Title="MainWindow"
+		Width="900"
+		Height="750"
+		Loaded="MainWindow_OnLoaded"
+		mc:Ignorable="d"
+		Background="{StaticResource Normal.Window.Background}"
+		>
+	<Window.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceFiles/XamlResources/Andy.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/SVG/SVGResources.xaml" />
+
+			</ResourceDictionary.MergedDictionaries>
+
+			<!-- <local:BoolToFileFoundConverter x:Key="BoolToFileFoundConverter"/> -->
+			<local:BoolToMessage x:Key="BoolToMessage" />
+
+			<sys:Double x:Key="Label.Section.Title.FontSize">14</sys:Double>
+
+			<sys:Double x:Key="Label.Settings.Id.Size">65</sys:Double>
+
+			<GridLength x:Key="Grid.Settings.Col.Id">80</GridLength>
+			<GridLength x:Key="Grid.Settings.Col.Control">30</GridLength>
+			<GridLength x:Key="Grid.Settings.Col.Title">180</GridLength>
+
+			<GridLength x:Key="Grid.Settings.Row.Typ">24</GridLength>
+
+			<SolidColorBrush x:Key="Label.Settings.Id" Color="{StaticResource Gray.800}" />
+			<SolidColorBrush x:Key="Label.Foreground.Disabled" Color="{StaticResource Gray.600}" />
+
+			<SolidColorBrush x:Key="Details.Background" Color="{StaticResource Blue.300}" />
+
+			<SolidColorBrush x:Key="DataGrid.Background" Color="{StaticResource Blue.500}" />
+
+			<SolidColorBrush x:Key="Button.Apply.Background" Color="{StaticResource Blue.500}" />
+
+			<PathGeometry
+					x:Key="Direction.Arrow.Geom"
+					Figures="M 0,0 5,10 0,20 2,20 7,10 2,0  z"
+					FillRule="EvenOdd"
+					>
+			</PathGeometry>
+
+
+			<Style
+					x:Key="Border.Setting.Id"
+					TargetType="Border"
+					>
+				<Setter Property="Margin" Value="0,5,0,0" />
+				<Setter Property="Width" Value="{StaticResource Label.Settings.Id.Size}" />
+				<Setter Property="Height" Value="{StaticResource Label.Settings.Id.Size}" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="HorizontalAlignment" Value="Center" />
+				<Setter Property="VerticalAlignment" Value="Top" />
+				<Setter Property="CornerRadius" Value="4" />
+				<Setter Property="Background" Value="DimGray" />
+			</Style>
+
+			<Style
+					x:Key="Label.Base"
+					TargetType="Label"
+					>
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Foreground" Value="White" />
+			</Style>
+
+			<Style
+					x:Key="Label.Setting.Id"
+					TargetType="Label"
+					BasedOn="{StaticResource Label.Base}"
+					>
+				<Setter Property="HorizontalAlignment" Value="Center" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="FontSize" Value="48" />
+				<Setter Property="FontWeight" Value="Bold" />
+				<Setter Property="Foreground" Value="{StaticResource Label.Settings.Id}" />
+
+			</Style>
+
+			<Style
+					x:Key="Label.Setting.Base"
+					TargetType="Label"
+					BasedOn="{StaticResource Label.Base}"
+					>
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="Padding" Value="5,0,0,2" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{StaticResource Label.Foreground.Disabled}">
+
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+
+			<Style
+					x:Key="Label.Setting.Found"
+					TargetType="Label"
+					BasedOn="{StaticResource Label.Setting.Base}"
+					>
+				<Style.Triggers>
+					<Trigger Property="Content" Value="Undetermined">
+						<Setter Property="Foreground" Value="{StaticResource Label.Foreground.Disabled}">
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+
+			</Style>
+
+
+			<Style
+					x:Key="Dg1CellStyleBase"
+					TargetType="DataGridCell"
+					>
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template" Value="{DynamicResource Dg1CellTemplate1}" />
+				<Setter Property="Margin" Value="8,0,0,3" />
+				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+			</Style>
+
+			<Style
+					x:Key="Dg1CellStyleName"
+					TargetType="DataGridCell"
+					BasedOn="{StaticResource Dg1CellStyleBase}"
+					>
+				<Setter Property="Margin" Value="5,0,0,3" />
+			</Style>
+
+
+
+
+			<ControlTemplate
+					x:Key="Dg1CellTemplate1"
+					TargetType="DataGridCell"
+					>
+				<Border
+						x:Name="Bd"
+						SnapsToDevicePixels="True"
+						Background="{TemplateBinding Background}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						>
+					<ContentPresenter
+							Content="{TemplateBinding Content}"
+							ContentStringFormat="{TemplateBinding ContentStringFormat}"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+				</Border>
+				<ControlTemplate.Triggers>
+					<DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value=" true">
+						<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
+						<Setter TargetName="Bd" Property="BorderThickness" Value="1" />
+					</DataTrigger>
+					<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="true">
+						<Setter Property="BorderThickness" Value="1" />
+						<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
+					</DataTrigger>
+					<!-- </ControlTemplate.Triggers> -->
+					<!-- <ControlTemplate.Triggers> -->
+					<!-- <MultiDataTrigger> -->
+					<!-- 	<MultiDataTrigger.Conditions> -->
+					<!-- 		~1~ <Condition Binding="{Binding (0)}" Value="false" /> @1@ -->
+					<!-- 		~1~ <Condition Binding="{Binding (0)}" Value="true" /> @1@ -->
+					<!-- 		<Condition Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="true" /> -->
+					<!-- 	</MultiDataTrigger.Conditions> -->
+					<!-- 	<Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" /> -->
+					<!-- 	<Setter TargetName="Bd" Property="BorderThickness" Value="1.5" /> -->
+					<!-- </MultiDataTrigger> -->
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+			<ControlTemplate
+					x:Key="Btn1Template1"
+					TargetType="{x:Type Button}"
+					>
+				<Border
+						x:Name="border"
+						CornerRadius="4"
+						SnapsToDevicePixels="True"
+						Background="{TemplateBinding Background}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						>
+					<ContentPresenter
+							x:Name="contentPresenter"
+							Content="{TemplateBinding Content}"
+							Margin="{TemplateBinding Padding}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							ContentStringFormat="{TemplateBinding ContentStringFormat}"
+							Focusable="False"
+							RecognizesAccessKey="True"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+				</Border>
+				<ControlTemplate.Triggers>
+					<Trigger Property="IsDefaulted" Value="True">
+						<!-- <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
+					</Trigger>
+					<Trigger Property="IsMouseOver" Value="True">
+						<!-- <Setter TargetName="border" Property="Background" Value="#FFBEE6FD" /> -->
+						<!-- <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" /> -->
+					</Trigger>
+					<Trigger Property="IsPressed" Value="true">
+						<Setter TargetName="border" Property="Background" Value="#88C4E5F6" />
+						<Setter TargetName="border" Property="BorderBrush" Value="#FF174FA5" />
+					</Trigger>
+
+					<Trigger Property="IsEnabled" Value="false">
+						<Setter Property="Foreground" Value="#FF444444" />
+						<Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
+						<Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
+					</Trigger>
+
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+
+		</ResourceDictionary>
+
+	</Window.Resources>
+	<DockPanel>
+		<StackPanel
+				HorizontalAlignment="Right"
+				DockPanel.Dock="Bottom"
+				Orientation="Horizontal"
+				>
+			<Button
+					Content="Debug"
+					Margin="5"
+					Width="90"
+					Height="30"
+					HorizontalAlignment="Right"
+					Click="BtnDebug_OnClick"
+					Style="{StaticResource Button.Normal.Style}"
+					/>
+
+			<Button
+					Content="Done"
+					Margin="5"
+					Width="90"
+					Height="30"
+					HorizontalAlignment="Right"
+					Click="BtnDone_OnClick"
+					Style="{StaticResource Button.Normal.Style}"
+					/>
+		</StackPanel>
+
+		<ScrollViewer
+				x:Name="SvMain"
+				Margin="0,0,5,0"
+				VerticalContentAlignment="Bottom"
+				HorizontalScrollBarVisibility="Hidden"
+				VerticalScrollBarVisibility="Auto"
+				>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Id}" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="45" />
+				</Grid.RowDefinitions>
+
+				<!--#region > one-->
+
+				<Border
+						Grid.Column="0"
+						Grid.Row="0"
+						Style="{StaticResource Border.Setting.Id}"
+						>
+					<Label
+							Content="1"
+							Margin="0,-4,0,0"
+							VerticalAlignment="Top"
+							Style="{StaticResource Label.Setting.Id}"
+							/>
+
+				</Border>
+
+				<Grid
+						Grid.Column="1"
+						Grid.Row="0"
+						Margin="5"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="*" />
+
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Suite Settings File"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="3"
+							Margin="0,0,0,3"
+							Padding="5,0,0,3"
+							HorizontalAlignment="Stretch"
+							FontSize="{StaticResource Label.Section.Title.FontSize}"
+							Background="{StaticResource Win.Title.Background}"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+
+					<Label
+							Content="File Found"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<!--  Content="{Binding ElementName=mainWin,  -->
+					<!--  Path=Suite.SuiteSettingsFileExists,  -->
+					<!--  FallbackValue=False,  -->
+					<!--  Converter={StaticResource BoolToFileFoundConverter},  -->
+					<!--  ConverterParameter='Suite Settings file',  -->
+					<!--  Mode=OneWay}"  -->
+					<Label
+							Grid.Column="2"
+							Grid.Row="1"
+							Style="{StaticResource Label.Setting.Base}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="False"
+									Mode="OneWay"
+									Path="Suite.SuiteSettingsFileExists"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>Suite Setting file has been found</sys:String>
+										<sys:String>Suite Setting file has not been found</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+					<Label
+							Content="Site Settings File's Root Path"
+							Grid.Column="0"
+							Grid.Row="2"
+							Grid.ColumnSpan="2"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Button
+							x:Name="BtnSelectSiteFolder"
+							Grid.Column="1"
+							Grid.Row="2"
+							Margin="0,-2,0,3"
+							Width="22"
+							Height="22"
+							HorizontalAlignment="Center"
+							ToolTip="Select Site Settings File's Root Path"
+							Background="Transparent"
+							BorderThickness="0"
+							Click="BtnSelectSiteFolder_OnClick"
+							FocusVisualStyle="{x:Null}"
+							>
+						<Button.Content>
+							<Viewbox Child="{StaticResource File-Open-00}" />
+						</Button.Content>
+					</Button>
+
+					<Label
+							x:Name="RootPathHint"
+							Grid.Column="2"
+							Grid.Row="2"
+							Foreground="{StaticResource Label.Foreground.Disabled}"
+							>
+						<Label.Style>
+							<Style
+									TargetType="Label"
+									BasedOn="{StaticResource Label.Setting.Base}"
+									>
+								<Setter Property="Content" Value="Select Location" />
+								<Setter Property="Visibility" Value="Collapsed" />
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding ElementName=mainWin, Path=Suite.SiteRootPath}" Value="{x:Null}">
+										<Setter Property="Visibility" Value="Visible" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Label.Style>
+					</Label>
+
+
+					<Label
+							Grid.Column="2"
+							Grid.Row="2"
+							>
+						<Label.Content>
+							<Binding
+									ElementName="mainWin"
+									FallbackValue=""
+									Mode="OneWay"
+									Path="Suite.SiteRootPath"
+									>
+
+							</Binding>
+						</Label.Content>
+						<Label.Style>
+							<Style
+									TargetType="Label"
+									BasedOn="{StaticResource Label.Setting.Base}"
+									>
+							</Style>
+						</Label.Style>
+					</Label>
+
+					<Border
+							x:Name="BdrSuite1"
+							Grid.Column="0"
+							Grid.Row="3"
+							Grid.ColumnSpan="3"
+							Margin="5,5,0,0"
+							Padding="0"
+							CornerRadius="5"
+							Background="{StaticResource Details.Background}"
+							>
+
+						<StackPanel
+								Margin="5,0,0,0"
+								Orientation="Vertical"
+								IsEnabled="{Binding ElementName=mainWin,
+																		Path=Suite.SuiteSettingsFileExists}"
+								>
+
+
+							<StackPanel Orientation="Horizontal">
+								<ToggleButton
+										x:Name="SuiteDetailsToggleButton"
+										Width="15"
+										Height="15"
+										IsChecked="false"
+										FocusVisualStyle="{x:Null}"
+										Template="{StaticResource ToggleButton.Details}"
+										>
+								</ToggleButton>
+
+								<Label
+										Content="Suite Setting File Details"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+							</StackPanel>
+
+
+							<!--#region > 1 Details-->
+
+							<Grid Margin="15,5,0,0">
+								<Grid.Style>
+									<Style TargetType="Grid">
+										<Setter Property="Visibility" Value="Collapsed" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding ElementName=SuiteDetailsToggleButton, Path=IsChecked}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Grid.Style>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+								</Grid.RowDefinitions>
+
+								<Label
+										Content="File Name"
+										Grid.Column="0"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Suite.SiteSettingFileName,
+																			FallbackValue='Not Found',
+																			Mode=OneWay}"
+										Grid.Column="1"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="Info: Data Class Version"
+										Grid.Column="0"
+										Grid.Row="1"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Suite.Info.DataClassVersion,
+																			FallbackValue='Not Found',
+																			Mode=OneWay}"
+										Grid.Column="1"
+										Grid.Row="1"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="Info: Description"
+										Grid.Column="0"
+										Grid.Row="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Suite.Info.Description,
+																			FallbackValue='Not Found',
+																			Mode=OneWay}"
+										Grid.Column="1"
+										Grid.Row="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+							</Grid>
+						</StackPanel>
+					</Border>
+					<!--#endregion-->
+
+				</Grid>
+
+				<!--#endregion-->
+
+				<!--#region > two-->
+
+				<Border
+						Grid.Column="0"
+						Grid.Row="1"
+						Style="{StaticResource Border.Setting.Id}"
+						Margin="0,10,0,0"
+						>
+					<Label
+							Content="2"
+							Margin="0,-4,0,0"
+							VerticalAlignment="Top"
+							Style="{StaticResource Label.Setting.Id}"
+							/>
+
+				</Border>
+
+				<Grid
+						Grid.Column="1"
+						Grid.Row="1"
+						Margin="5,10,5,5"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="*" />
+
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Site Settings File &amp; Seed Folder Settings"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="3"
+							Margin="0,0,0,3"
+							Padding="5,0,0,3"
+							HorizontalAlignment="Stretch"
+							FontSize="{StaticResource Label.Section.Title.FontSize}"
+							Background="{StaticResource Win.Title.Background}"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+
+					<Label
+							Content="File Found"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<!--  Content="{Binding ElementName=mainWin,  -->
+					<!--  Path=Site.SiteSettingsFileExists,  -->
+					<!--  FallbackValue=False,  -->
+					<!--  Converter={StaticResource BoolToFileFoundConverter},  -->
+					<!--  ConverterParameter='Site Settings file',  -->
+					<!--  Mode=OneWay}"  -->
+					<Label
+							Grid.Column="2"
+							Grid.Row="1"
+							Style="{StaticResource Label.Setting.Found}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="Undetermined"
+									Mode="OneWay"
+									Path="Site.SiteSettingsFileExists"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>Site Setting file has been found</sys:String>
+										<sys:String>Site Setting file has not been found</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+					<Label
+							Content="Seed Folder Found"
+							Grid.Column="0"
+							Grid.Row="2"
+							Margin="0,0,0,3"
+							VerticalAlignment="Bottom"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Label
+							Grid.Column="2"
+							Grid.Row="2"
+							Style="{StaticResource Label.Setting.Found}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="Undetermined"
+									Mode="OneWay"
+									Path="Seed.SiteSettingsSeedFolderExists"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>Seed Folder not exist</sys:String>
+										<sys:String>Seed Folder does not exist</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+					<Border
+							x:Name="BdrSite1"
+							Grid.Column="0"
+							Grid.Row="3"
+							Grid.ColumnSpan="3"
+							Margin="5,5,0,0"
+							CornerRadius="5"
+							Background="{StaticResource Details.Background}"
+							>
+
+						<StackPanel
+								Margin="5,0,0,0"
+								Orientation="Vertical"
+								>
+							<!--  IsEnabled="{Binding ElementName=mainWin,  -->
+							<!--  FallbackValue=false,  -->
+							<!--  Path=Site.SiteSettingsFileExists}"  -->
+
+							<StackPanel Orientation="Horizontal">
+
+								<ToggleButton
+										x:Name="SiteDetailsToggleButton"
+										Width="15"
+										Height="15"
+										IsChecked="false"
+										FocusVisualStyle="{x:Null}"
+										Template="{StaticResource ToggleButton.Details}"
+										>
+								</ToggleButton>
+
+								<Label
+										Content="Site Setting File Details"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+							</StackPanel>
+
+							<!--#region > 2 Details-->
+
+							<Grid Margin="15,5,0,0">
+								<Grid.Style>
+									<Style TargetType="Grid">
+										<Setter Property="Visibility" Value="Collapsed" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding ElementName=SiteDetailsToggleButton, Path=IsChecked}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Grid.Style>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+								</Grid.RowDefinitions>
+
+								<Label
+										Content="File Name"
+										Grid.Column="0"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Site.SiteSettingsFileName,
+																			FallbackValue='Not Found',
+																			Mode=OneWay}"
+										Grid.Column="1"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="Setting File's Root Path"
+										Grid.Column="0"
+										Grid.Row="1"
+										Grid.ColumnSpan="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										x:Name="RootPathHint2"
+										Grid.Column="1"
+										Grid.Row="1"
+										Foreground="{StaticResource Label.Foreground.Disabled}"
+										>
+									<Label.Style>
+										<Style
+												TargetType="Label"
+												BasedOn="{StaticResource Label.Setting.Base}"
+												>
+											<Setter Property="Content" Value="Net Yet Selected" />
+											<Setter Property="Visibility" Value="Collapsed" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ElementName=mainWin, Path=Suite.SiteRootPath}" Value="{x:Null}">
+													<Setter Property="Visibility" Value="Visible" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</Label.Style>
+								</Label>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Site.SiteSettingsRootPath,
+																			Mode=OneWay,
+																			FallbackValue=''}"
+										Grid.Column="1"
+										Grid.Row="1"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="Seed Folder Name"
+										Grid.Column="0"
+										Grid.Row="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{x:Static config:ConfigSeed.SEED_FOLDER}"
+										Grid.Column="1"
+										Grid.Row="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+
+								<Label
+										Content="Seed Folder Path"
+										Grid.Column="0"
+										Grid.Row="3"
+										Grid.ColumnSpan="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<!--  <Label  -->
+								<!--  x:Name="Hint3"  -->
+								<!--  Grid.Column="1"  -->
+								<!--  Grid.Row="3"  -->
+								<!--  Foreground="{StaticResource Label.Foreground.Disabled}">  -->
+								<!-- 	<Label.Style> -->
+								<!--  <Style  -->
+								<!--  TargetType="Label"  -->
+								<!--  BasedOn="{StaticResource Label.Setting.Base}">  -->
+								<!-- 			<Setter Property="Content" Value="Undetermined" /> -->
+								<!-- 			<Setter Property="Visibility" Value="Collapsed" /> -->
+								<!-- 			<Style.Triggers> -->
+								<!-- 				<DataTrigger Binding="{Binding ElementName=mainWin, Path=Seed.SiteSettingsSeedFolderPath}" Value="{x:Null}"> -->
+								<!-- 					<Setter Property="Visibility" Value="Visible" /> -->
+								<!-- 				</DataTrigger> -->
+								<!-- 			</Style.Triggers> -->
+								<!-- 		</Style> -->
+								<!-- 	</Label.Style> -->
+								<!-- </Label> -->
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Seed.SiteSettingsSeedFolderPath,
+																			Mode=OneWay,
+																			FallbackValue='Undetermined'}"
+										Grid.Column="1"
+										Grid.Row="3"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+
+								<!--  <Label  -->
+								<!--  Content="Info: Data Class Version"  -->
+								<!--  Grid.Column="0"  -->
+								<!--  Grid.Row="2"  -->
+								<!--  Style="{StaticResource Label.Setting.Base}"  -->
+								<!--  />  -->
+								<!--    -->
+								<!--  <Label  -->
+								<!--  Content="{Binding ElementName=mainWin,  -->
+								<!--  Path=Site.Info.DataClassVersion,  -->
+								<!--  FallbackValue='Not Found',  -->
+								<!--  Mode=OneWay}"  -->
+								<!--  Grid.Column="1"  -->
+								<!--  Grid.Row="2"  -->
+								<!--  Style="{StaticResource Label.Setting.Base}"  -->
+								<!--  />  -->
+								<!--    -->
+								<!--  <Label  -->
+								<!--  Content="Info: Description"  -->
+								<!--  Grid.Column="0"  -->
+								<!--  Grid.Row="3"  -->
+								<!--  Style="{StaticResource Label.Setting.Base}"  -->
+								<!--  />  -->
+								<!--    -->
+								<!--  <Label  -->
+								<!--  Content="{Binding ElementName=mainWin,  -->
+								<!--  Path=Site.Info.Description,  -->
+								<!--  FallbackValue='Not Found',  -->
+								<!--  Mode=OneWay}"  -->
+								<!--  Grid.Column="1"  -->
+								<!--  Grid.Row="3"  -->
+								<!--  Style="{StaticResource Label.Setting.Base}"  -->
+								<!--  />  -->
+
+							</Grid>
+
+						</StackPanel>
+					</Border>
+					<!--#endregion-->
+
+				</Grid>
+
+				<!--#endregion-->
+
+				<!--#region > three-->
+
+				<Border
+						Grid.Column="0"
+						Grid.Row="2"
+						Margin="0,10,0,0"
+						Style="{StaticResource Border.Setting.Id}"
+						>
+					<Label
+							Content="3"
+							Margin="0,-4,0,0"
+							VerticalAlignment="Top"
+							Style="{StaticResource Label.Setting.Id}"
+							/>
+
+				</Border>
+
+				<Grid
+						Grid.Column="1"
+						Grid.Row="2"
+						Margin="5,10,5,5"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+						<RowDefinition Height="*" />
+
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Seed Files Settings"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="3"
+							Margin="0,0,0,3"
+							Padding="5,0,0,3"
+							HorizontalAlignment="Stretch"
+							FontSize="{StaticResource Label.Section.Title.FontSize}"
+							Background="{StaticResource Win.Title.Background}"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+
+					<Label
+							Content="Site Settings File Configured"
+							Grid.Column="0"
+							Grid.Row="1"
+							Margin="0,0,0,3"
+							VerticalAlignment="Bottom"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Label
+							Grid.Column="2"
+							Grid.Row="1"
+							Style="{StaticResource Label.Setting.Found}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="Undetermined"
+									Mode="OneWay"
+									Path="Seed.HasSeedFileSetting"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>List of Seed Files is configured</sys:String>
+										<sys:String>List of Seed Files is not configured</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+
+					<Label
+							Content="Installed Seed Files Folder Found"
+							Grid.Column="0"
+							Grid.Row="2"
+							Margin="0,0,0,3"
+							VerticalAlignment="Bottom"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Label
+							Grid.Column="2"
+							Grid.Row="2"
+							Style="{StaticResource Label.Setting.Found}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="Undetermined"
+									Mode="OneWay"
+									Path="SeedInstalled.InstalledFolderExists"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>List of Seed Files is configured</sys:String>
+										<sys:String>List of Seed Files is not configured</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+
+					<Label
+							Content="Installed Seed Files Found"
+							Grid.Column="0"
+							Grid.Row="3"
+							Margin="0,0,0,3"
+							VerticalAlignment="Bottom"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Label
+							Grid.Column="2"
+							Grid.Row="3"
+							Style="{StaticResource Label.Setting.Found}"
+							>
+						<Label.Content>
+							<Binding
+									Converter="{StaticResource BoolToMessage}"
+									ElementName="mainWin"
+									FallbackValue="Undetermined"
+									Mode="OneWay"
+									Path="SeedInstalled.InstalledSeedFilesExist"
+									>
+								<Binding.ConverterParameter>
+									<specialized:StringCollection>
+										<sys:String>Installed Seed Files have been found</sys:String>
+										<sys:String>Installed Seed Files have not been found</sys:String>
+									</specialized:StringCollection>
+								</Binding.ConverterParameter>
+							</Binding>
+						</Label.Content>
+					</Label>
+
+					<!--  <Label  -->
+					<!--  Content="Seed Files Exists"  -->
+					<!--  Grid.Column="0"  -->
+					<!--  Grid.Row="7"  -->
+					<!--  Grid.ColumnSpan="2"  -->
+					<!--  Style="{StaticResource Label.Setting.Base}" />  -->
+					<!--    -->
+					<!--  <Label  -->
+					<!--  Content="Seed Files Base"  -->
+					<!--  Grid.Column="0"  -->
+					<!--  Grid.Row="8"  -->
+					<!--  Grid.ColumnSpan="2"  -->
+					<!--  Style="{StaticResource Label.Setting.Base}" />  -->
+
+					<Border
+							Grid.Column="0"
+							Grid.Row="4"
+							Grid.ColumnSpan="3"
+							Margin="5,5,0,0"
+							CornerRadius="5"
+							Background="{StaticResource Details.Background}"
+							>
+
+						<StackPanel
+								Margin="5,0,0,0"
+								Orientation="Vertical"
+								>
+							<!--  IsEnabled="{Binding ElementName=mainWin,  -->
+							<!--  FallbackValue=false,  -->
+							<!--  Path=Seed.HasSeedFileSetting}"  -->
+
+							<StackPanel Orientation="Horizontal">
+
+								<ToggleButton
+										x:Name="SeedFilesDetailsToggleButton"
+										Width="15"
+										Height="15"
+										IsChecked="false"
+										FocusVisualStyle="{x:Null}"
+										Template="{StaticResource ToggleButton.Details}"
+										>
+								</ToggleButton>
+
+								<Label
+										Content="Seed File Settings Details"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+							</StackPanel>
+
+							<!--#region > Details-->
+
+							<Grid Margin="15,3,0,0">
+								<Grid.Style>
+									<Style TargetType="Grid">
+										<Setter Property="Visibility" Value="Collapsed" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding ElementName=SeedFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Grid.Style>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+									<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+								</Grid.RowDefinitions>
+
+								<Label
+										Content="Seed Folder Name"
+										Grid.Column="0"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{x:Static config:ConfigSeed.SEED_FOLDER}"
+										Grid.Column="1"
+										Grid.Row="0"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+
+								<Label
+										Content="Seed Folder Path"
+										Grid.Column="0"
+										Grid.Row="1"
+										Grid.ColumnSpan="2"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										x:Name="Hint4"
+										Grid.Column="1"
+										Grid.Row="1"
+										Foreground="{StaticResource Label.Foreground.Disabled}"
+										>
+									<Label.Style>
+										<Style
+												TargetType="Label"
+												BasedOn="{StaticResource Label.Setting.Base}"
+												>
+											<Setter Property="Content" Value="Undetermined" />
+											<Setter Property="Visibility" Value="Collapsed" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ElementName=mainWin, Path=Seed.SiteSettingsSeedFolderPath}" Value="{x:Null}">
+													<Setter Property="Visibility" Value="Visible" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</Label.Style>
+								</Label>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=Seed.SiteSettingsSeedFolderPath,
+																			Mode=OneWay,
+																			FallbackValue=''}"
+										Grid.Column="1"
+										Grid.Row="1"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+
+								<Label
+										Content="Installed Seed Folder Path"
+										Grid.Column="0"
+										Grid.Row="3"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			FallbackValue='Undetermined',
+																			Path=SeedInstalled.InstallSeedFileFolder}"
+										Grid.Column="1"
+										Grid.Row="3"
+										Style="{StaticResource Label.Setting.Found}"
+										/>
+
+								<Label
+										Content="Installed Seed Files Count"
+										Grid.Column="0"
+										Grid.Row="2"
+										Margin="0,0,0,3"
+										VerticalAlignment="Bottom"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+								<Label
+										Content="{Binding ElementName=mainWin,
+																			Path=SeedInstalled.InstalledSeedFilesCount,
+																			FallbackValue='Undetermined',
+																			Mode=OneWay}"
+										Grid.Column="1"
+										Grid.Row="2"
+										Style="{StaticResource Label.Setting.Found}"
+										/>
+
+
+
+
+							</Grid>
+
+						</StackPanel>
+					</Border>
+					<!--#endregion-->
+
+				</Grid>
+
+				<!--#endregion-->
+
+				<!--#region > four-->
+
+				<Border
+						Grid.Column="0"
+						Grid.Row="3"
+						Margin="0,10,0,0"
+						Style="{StaticResource Border.Setting.Id}"
+						>
+					<Label
+							Content="4"
+							Margin="0,-4,0,0"
+							VerticalAlignment="Top"
+							Style="{StaticResource Label.Setting.Id}"
+							/>
+
+				</Border>
+
+				<Grid
+						Grid.Column="1"
+						Grid.Row="3"
+						Margin="5,10,5,5"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+						<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+						<RowDefinition Height="*" />
+
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Installed Seed Files Configuration"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="3"
+							Margin="0,0,0,3"
+							Padding="5,0,0,3"
+							HorizontalAlignment="Stretch"
+							FontSize="{StaticResource Label.Section.Title.FontSize}"
+							Background="{StaticResource Win.Title.Background}"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+
+
+					<Border
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="3"
+							Margin="5,5,0,10"
+							CornerRadius="5"
+							Background="{StaticResource Details.Background}"
+							>
+
+						<StackPanel
+								Margin="5,0,0,0"
+								Orientation="Vertical"
+								IsEnabled="{Binding ElementName=mainWin,
+																		FallbackValue=false,
+																		Path=SeedInstalled.InstalledFolderExists}"
+								>
+
+							<StackPanel Orientation="Horizontal">
+								
+								 <ToggleButton
+								 x:Name="SeedInstalledFilesDetailsToggleButton"
+								 Width="15"
+								 Height="15"
+								 IsChecked="false"
+								 FocusVisualStyle="{x:Null}"
+								 Template="{StaticResource ToggleButton.Details}"
+								 >
+								</ToggleButton>
+
+								<Label
+										Content="Installed Seed File Details"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+							</StackPanel>
+
+							<!--#region > Details-->
+
+							<Grid
+									Margin="5,3,0,0"
+									HorizontalAlignment="Stretch"
+									>
+								<Grid.Style>
+									<Style TargetType="Grid">
+										<Setter Property="Visibility" Value="Collapsed" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding ElementName=SeedInstalledFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Grid.Style>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="350" />
+									<ColumnDefinition Width="*" MinWidth="5" />
+									<ColumnDefinition Width="90" />
+									<ColumnDefinition Width="*" MinWidth="5" />
+									<ColumnDefinition Width="350" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<!-- <Label -->
+								<!-- 		Content="Installed Seed File" -->
+								<!-- 		Grid.Column="0" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		Padding="0" -->
+								<!-- 		Style="{StaticResource Label.Setting.Base}" -->
+								<!-- 		/> -->
+
+								<Border
+										x:Name="BdrDg"
+										Grid.Column="0"
+										Grid.Row="0"
+										Margin="0,5,5,8"
+										HorizontalAlignment="Stretch"
+										CornerRadius="5"
+										Background="{StaticResource DataGrid.Background}"
+										BorderThickness="1"
+										BorderBrush="{StaticResource DataGrid.Background}"
+										>
+
+									<DataGrid
+											x:Name="Dg1"
+											Margin="5,3,5,3"
+											MinHeight="30"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Stretch"
+											AutoGenerateColumns="false"
+											CanUserAddRows="False"
+											GridLinesVisibility="None"
+											HeadersVisibility="Column"
+											SelectionChanged="Dg1SelectionChanged"
+											SelectionMode="Single"
+											Background="Transparent"
+											BorderThickness="0"
+											HorizontalGridLinesBrush="Black"
+											PreviewMouseLeftButtonUp="Dg1_OnPreviewMouseLeftButtonUp"
+											ItemsSource="{Binding ElementName=mainWin,
+																						Path=SeedInstalled.InstalledSeedFiles.FoundFiles}"
+											>
+
+										<DataGrid.ColumnHeaderStyle>
+											<Style TargetType="DataGridColumnHeader">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="Foreground" Value="White" />
+												<Setter Property="Margin" Value="5,0,0,3" />
+												<Setter Property="BorderThickness" Value="0,0,0,1" />
+												<Setter Property="BorderBrush" Value="Blue" />
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+											</Style>
+										</DataGrid.ColumnHeaderStyle>
+
+										<DataGrid.RowStyle>
+											<Style TargetType="DataGridRow">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Style.Triggers>
+													<Trigger Property="IsSelected" Value="True">
+														<Setter Property="Background" Value="#6687ceeb">
+														</Setter>
+													</Trigger>
+												</Style.Triggers>
+											</Style>
+										</DataGrid.RowStyle>
+
+										<DataGrid.Columns>
+
+											<DataGridTemplateColumn
+													Width="40"
+													CellStyle="{StaticResource Dg1CellStyleBase}"
+													>
+												<DataGridTemplateColumn.HeaderTemplate>
+													<DataTemplate>
+														<Label
+																Content="Use"
+																Margin="0,0,10,-1.5"
+																Padding="0,0,0,2"
+																HorizontalAlignment="Stretch"
+																HorizontalContentAlignment="Center"
+																Foreground="White"
+																BorderThickness="0,0,0,2.5"
+																BorderBrush="Blue"
+																/>
+													</DataTemplate>
+												</DataGridTemplateColumn.HeaderTemplate>
+												<DataGridTemplateColumn.CellTemplate>
+													<DataTemplate DataType="{x:Type filesSupport:FileNameSimpleSelectable}">
+														<CheckBox
+																x:Name="ckbx"
+																DataContext="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},
+																											Path=DataContext}"
+																IsChecked="{Binding GetFileNameObject.Selected,
+																										Mode=TwoWay}"
+																FocusVisualStyle="{x:Null}"
+																/>
+													</DataTemplate>
+												</DataGridTemplateColumn.CellTemplate>
+											</DataGridTemplateColumn>
+
+											<DataGridTextColumn
+													Width="*"
+													Binding="{Binding GetFileName,
+																						Mode=OneWay,
+																						FallbackValue='name'}"
+													Header="File Name"
+													CellStyle="{StaticResource Dg1CellStyleName}"
+													>
+												<DataGridTextColumn.HeaderTemplate>
+													<DataTemplate>
+														<Label
+																Content="File Name"
+																Margin="0,0,10,-1.5"
+																Padding="0,0,0,2"
+																HorizontalAlignment="Stretch"
+																HorizontalContentAlignment="Stretch"
+																Foreground="White"
+																BorderThickness="0,0,0,2.5"
+																BorderBrush="Blue"
+																/>
+													</DataTemplate>
+												</DataGridTextColumn.HeaderTemplate>
+											</DataGridTextColumn>
+										</DataGrid.Columns>
+									</DataGrid>
+								</Border>
+
+								<!--  Content="Save &amp; Apply"  -->
+								<Button
+										x:Name="BtnSeedSaveApply"
+										Grid.Column="2"
+										Grid.Row="1"
+										Margin="0,5,5,8"
+										Height="40"
+										VerticalAlignment="Top"
+										Background="{StaticResource Button.Apply.Background}"
+										Foreground="White"
+										BorderThickness="2"
+										BorderBrush="DeepSkyBlue"
+										IsEnabled="true"
+										FocusVisualStyle="{x:Null}"
+										Template="{StaticResource Btn1Template1}"
+										Click="BtnSeedSaveApply_OnClick"
+										>
+									<Button.Content>
+										<Grid
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												
+												>
+											<!-- <Grid.ColumnDefinitions> -->
+											<!-- 	<ColumnDefinition Width="15" /> -->
+											<!-- 	<ColumnDefinition Width="*" /> -->
+											<!-- 	<ColumnDefinition Width="15" /> -->
+											<!-- </Grid.ColumnDefinitions> -->
+											<!-- -->
+											<!-- <Canvas -->
+											<!-- 		Grid.Column="0" -->
+											<!-- 		Margin="0,0,8,0" -->
+											<!-- 		Height="24" -->
+											<!-- 		HorizontalAlignment="Center" -->
+											<!-- 		VerticalAlignment="Center" -->
+											<!-- 		> -->
+											<!-- 	<Path -->
+											<!-- 			Width="8" -->
+											<!-- 			Height="24" -->
+											<!-- 			Data="{StaticResource Direction.Arrow.Geom}" -->
+											<!-- 			Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stretch="Fill" -->
+											<!-- 			StrokeThickness="0.5" -->
+											<!-- 			/> -->
+											<!-- </Canvas> -->
+											<TextBlock
+													VerticalAlignment="Center"
+													Grid.Column="0"
+													Margin="5,0,5,0"
+													Padding="0"
+													Text="Apply"
+													TextWrapping="Wrap"
+													/>
+													<!-- Text="Save &amp; Apply" -->
+
+											<!-- <Canvas -->
+											<!-- 		Grid.Column="2" -->
+											<!-- 		Margin="0,0,8,0" -->
+											<!-- 		Height="24" -->
+											<!-- 		HorizontalAlignment="Center" -->
+											<!-- 		VerticalAlignment="Center"> -->
+											<!-- 	<Path -->
+											<!-- 			Width="8" -->
+											<!-- 			Height="24" -->
+											<!-- 			Data="{StaticResource Direction.Arrow.Geom}" -->
+											<!-- 			Stretch="Fill" -->
+											<!-- 			Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			StrokeThickness="0.5" /> -->
+											<!-- </Canvas> -->
+
+
+										</Grid>
+									</Button.Content>
+								</Button>
+							</Grid>
+						</StackPanel>
+					</Border>
+					<!--#endregion-->
+				</Grid>
+				<!--#endregion-->
+
+
+
+				<!--#region > five-->
+
+				<Border
+						Grid.Column="0"
+						Grid.Row="4"
+						Margin="0,10,0,0"
+						Style="{StaticResource Border.Setting.Id}"
+						>
+					<Label
+							Content="5"
+							Margin="0,-4,0,0"
+							VerticalAlignment="Top"
+							Style="{StaticResource Label.Setting.Id}"
+							/>
+
+				</Border>
+
+				<Grid
+						Grid.Column="1"
+						Grid.Row="4"
+						Margin="5,10,5,5"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+						<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+						<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+						<RowDefinition Height="*" />
+
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Local Seed Files Configuration"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="3"
+							Margin="0,0,0,3"
+							Padding="5,0,0,3"
+							HorizontalAlignment="Stretch"
+							FontSize="{StaticResource Label.Section.Title.FontSize}"
+							Background="{StaticResource Win.Title.Background}"
+							Style="{StaticResource Label.Setting.Base}"
+							/>
+
+					<Border
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="3"
+							Margin="5,5,0,10"
+							CornerRadius="5"
+							Background="{StaticResource Details.Background}"
+							>
+
+						<StackPanel
+								Margin="5,0,0,0"
+								Orientation="Vertical"
+								IsEnabled="{Binding ElementName=mainWin,
+																		FallbackValue=false,
+																		Path=SeedInstalled.InstalledFolderExists}"
+								>
+
+							<StackPanel Orientation="Horizontal">
+								
+								 <ToggleButton
+								 x:Name="LocalSeedFilesDetailsToggleButton"
+								 Width="15"
+								 Height="15"
+								 IsChecked="false"
+								 FocusVisualStyle="{x:Null}"
+								 Template="{StaticResource ToggleButton.Details}"
+								 >
+								</ToggleButton>
+
+								<Label
+										Content="Installed Seed File Details"
+										Style="{StaticResource Label.Setting.Base}"
+										/>
+
+							</StackPanel>
+
+							<!--#region > Details-->
+
+							<Grid
+									Margin="5,3,0,0"
+									HorizontalAlignment="Stretch"
+									>
+								<Grid.Style>
+									<Style TargetType="Grid">
+										<Setter Property="Visibility" Value="Collapsed" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding ElementName=SeedInstalledFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Grid.Style>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="350" />
+									<ColumnDefinition Width="*" MinWidth="5" />
+									<ColumnDefinition Width="90" />
+									<ColumnDefinition Width="*" MinWidth="5" />
+									<ColumnDefinition Width="350" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<!-- <Label -->
+								<!-- 		Content="Installed Seed File" -->
+								<!-- 		Grid.Column="0" -->
+								<!-- 		Grid.Row="0" -->
+								<!-- 		Padding="0" -->
+								<!-- 		Style="{StaticResource Label.Setting.Base}" -->
+								<!-- 		/> -->
+
+								<Border
+										x:Name="BdrDg5"
+										Grid.Column="0"
+										Grid.Row="0"
+										Margin="0,5,5,8"
+										HorizontalAlignment="Stretch"
+										CornerRadius="5"
+										Background="{StaticResource DataGrid.Background}"
+										BorderThickness="1"
+										BorderBrush="{StaticResource DataGrid.Background}"
+										>
+
+									<DataGrid
+											x:Name="Dg5"
+											Margin="5,3,5,3"
+											MinHeight="30"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Stretch"
+											AutoGenerateColumns="false"
+											CanUserAddRows="False"
+											GridLinesVisibility="None"
+											HeadersVisibility="Column"
+											SelectionChanged="Dg1SelectionChanged"
+											SelectionMode="Single"
+											Background="Transparent"
+											BorderThickness="0"
+											HorizontalGridLinesBrush="Black"
+											PreviewMouseLeftButtonUp="Dg1_OnPreviewMouseLeftButtonUp"
+											ItemsSource="{Binding ElementName=mainWin,
+																						Path=SeedInstalled.InstalledSeedFiles.FoundFiles}"
+											>
+
+										<DataGrid.ColumnHeaderStyle>
+											<Style TargetType="DataGridColumnHeader">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="Foreground" Value="White" />
+												<Setter Property="Margin" Value="5,0,0,3" />
+												<Setter Property="BorderThickness" Value="0,0,0,1" />
+												<Setter Property="BorderBrush" Value="Blue" />
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+											</Style>
+										</DataGrid.ColumnHeaderStyle>
+
+										<DataGrid.RowStyle>
+											<Style TargetType="DataGridRow">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Style.Triggers>
+													<Trigger Property="IsSelected" Value="True">
+														<Setter Property="Background" Value="#6687ceeb">
+														</Setter>
+													</Trigger>
+												</Style.Triggers>
+											</Style>
+										</DataGrid.RowStyle>
+
+										<DataGrid.Columns>
+
+											<DataGridTemplateColumn
+													Width="40"
+													CellStyle="{StaticResource Dg1CellStyleBase}"
+													>
+												<DataGridTemplateColumn.HeaderTemplate>
+													<DataTemplate>
+														<Label
+																Content="Use"
+																Margin="0,0,10,-1.5"
+																Padding="0,0,0,2"
+																HorizontalAlignment="Stretch"
+																HorizontalContentAlignment="Center"
+																Foreground="White"
+																BorderThickness="0,0,0,2.5"
+																BorderBrush="Blue"
+																/>
+													</DataTemplate>
+												</DataGridTemplateColumn.HeaderTemplate>
+												<DataGridTemplateColumn.CellTemplate>
+													<DataTemplate DataType="{x:Type filesSupport:FileNameSimpleSelectable}">
+														<CheckBox
+																x:Name="ckbx"
+																DataContext="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},
+																											Path=DataContext}"
+																IsChecked="{Binding GetFileNameObject.Selected,
+																										Mode=TwoWay}"
+																FocusVisualStyle="{x:Null}"
+																/>
+													</DataTemplate>
+												</DataGridTemplateColumn.CellTemplate>
+											</DataGridTemplateColumn>
+
+											<DataGridTextColumn
+													Width="*"
+													Binding="{Binding GetFileName,
+																						Mode=OneWay,
+																						FallbackValue='name'}"
+													Header="File Name"
+													CellStyle="{StaticResource Dg1CellStyleName}"
+													>
+												<DataGridTextColumn.HeaderTemplate>
+													<DataTemplate>
+														<Label
+																Content="File Name"
+																Margin="0,0,10,-1.5"
+																Padding="0,0,0,2"
+																HorizontalAlignment="Stretch"
+																HorizontalContentAlignment="Stretch"
+																Foreground="White"
+																BorderThickness="0,0,0,2.5"
+																BorderBrush="Blue"
+																/>
+													</DataTemplate>
+												</DataGridTextColumn.HeaderTemplate>
+											</DataGridTextColumn>
+										</DataGrid.Columns>
+									</DataGrid>
+								</Border>
+
+								<!--  Content="Save &amp; Apply"  -->
+								<Button
+										x:Name="BtnSeedSave5"
+										Grid.Column="2"
+										Grid.Row="1"
+										Margin="0,5,5,8"
+										Height="40"
+										VerticalAlignment="Top"
+										Background="{StaticResource Button.Apply.Background}"
+										Foreground="White"
+										BorderThickness="2"
+										BorderBrush="DeepSkyBlue"
+										IsEnabled="true"
+										FocusVisualStyle="{x:Null}"
+										Template="{StaticResource Btn1Template1}"
+										Click="BtnSeedSaveApply_OnClick"
+										>
+									<Button.Content>
+										<Grid
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												
+												>
+											<!-- <Grid.ColumnDefinitions> -->
+											<!-- 	<ColumnDefinition Width="15" /> -->
+											<!-- 	<ColumnDefinition Width="*" /> -->
+											<!-- 	<ColumnDefinition Width="15" /> -->
+											<!-- </Grid.ColumnDefinitions> -->
+											<!-- -->
+											<!-- <Canvas -->
+											<!-- 		Grid.Column="0" -->
+											<!-- 		Margin="0,0,8,0" -->
+											<!-- 		Height="24" -->
+											<!-- 		HorizontalAlignment="Center" -->
+											<!-- 		VerticalAlignment="Center" -->
+											<!-- 		> -->
+											<!-- 	<Path -->
+											<!-- 			Width="8" -->
+											<!-- 			Height="24" -->
+											<!-- 			Data="{StaticResource Direction.Arrow.Geom}" -->
+											<!-- 			Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stretch="Fill" -->
+											<!-- 			StrokeThickness="0.5" -->
+											<!-- 			/> -->
+											<!-- </Canvas> -->
+											<TextBlock
+													VerticalAlignment="Center"
+													Grid.Column="0"
+													Margin="5,0,5,0"
+													Padding="0"
+													Text="Apply"
+													TextWrapping="Wrap"
+													/>
+													<!-- Text="Save &amp; Apply" -->
+
+											<!-- <Canvas -->
+											<!-- 		Grid.Column="2" -->
+											<!-- 		Margin="0,0,8,0" -->
+											<!-- 		Height="24" -->
+											<!-- 		HorizontalAlignment="Center" -->
+											<!-- 		VerticalAlignment="Center"> -->
+											<!-- 	<Path -->
+											<!-- 			Width="8" -->
+											<!-- 			Height="24" -->
+											<!-- 			Data="{StaticResource Direction.Arrow.Geom}" -->
+											<!-- 			Stretch="Fill" -->
+											<!-- 			Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" -->
+											<!-- 			StrokeThickness="0.5" /> -->
+											<!-- </Canvas> -->
+
+
+										</Grid>
+									</Button.Content>
+								</Button>
+							</Grid>
+						</StackPanel>
+					</Border>
+					<!--#endregion-->
+
+
+
+				</Grid>
+
+				<!--#endregion-->
+
+
+
+			</Grid>
+		</ScrollViewer>
+	</DockPanel>
+</Window>

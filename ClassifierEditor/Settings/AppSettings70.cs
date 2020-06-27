@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using ClassifierEditor.ConfigSupport;
 
 // projname: SettingsManagerV40
 // itemname: AppSettingInfo60
@@ -29,12 +31,8 @@ namespace SettingsManager
 	[DataContract(Name = "AppSettingData")]
 	public class AppSettingData70
 	{
-		[DataMember(Order = 1)]
-		public int AppSettingsValue { get; set; } = 6;
-		
-//		[DataMember(Order = 2)]
-//		public string SiteRootPath { get; set; } =
-//			@"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData";
+		[DataMember]
+		public string Name { get; set; } = "Andy";
 
 	}
 

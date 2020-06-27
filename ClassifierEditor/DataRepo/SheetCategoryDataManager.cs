@@ -19,12 +19,12 @@ using ClassifierEditor.Tree;
 
 namespace ClassifierEditor.DataRepo
 {
-	[DataContract(Name = "Categories", Namespace = "")]
+//	[DataContract(Name = "Categories", Namespace = "")]
 	public class SheetCategoryDataManager : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private StorageManager<SheetCategoryData> shtCategories;
+		private StorageManager<SheetCategoryData> storageMgr;
 		private bool isModified = false;
 
 	#endregion
@@ -33,7 +33,7 @@ namespace ClassifierEditor.DataRepo
 
 		public SheetCategoryDataManager()
 		{
-			shtCategories = new StorageManager<SheetCategoryData>();
+			storageMgr = new StorageManager<SheetCategoryData>();
 		}
 
 	#endregion
@@ -52,11 +52,13 @@ namespace ClassifierEditor.DataRepo
 			}
 		}
 
-		[DataMember(Order = 1)]
-		public string Description => shtCategories.Data.Description;
+//		[DataMember(Order = 1)]
+		public string Description => storageMgr.Data.Description;
 
-		[DataMember(Order = 2)]
-		public BaseOfTree TreeBase => shtCategories.Data.BaseOfTree;
+//		[DataMember(Order = 2)]
+		public BaseOfTree TreeBase => storageMgr.Data.BaseOfTree;
+
+		public bool UsePhaseBldg => storageMgr.Data.UsePhaseBldg;
 
 	#endregion
 
@@ -68,9 +70,9 @@ namespace ClassifierEditor.DataRepo
 
 		public void Configure(string rootPath, string filename)
 		{
-			if (shtCategories == null) return;
+			if (storageMgr == null) return;
 
-			shtCategories.Configure(rootPath, filename);
+			storageMgr.Configure(rootPath, filename);
 
 			IsConfigured = true;
 		}
@@ -79,11 +81,11 @@ namespace ClassifierEditor.DataRepo
 		{
 			if (!IsConfigured) return;
 
-			shtCategories.Read();
+			storageMgr.Read();
 
 			if (TreeBase == null)
 			{
-				shtCategories.Data.BaseOfTree = new BaseOfTree();
+				storageMgr.Data.BaseOfTree = new BaseOfTree();
 
 				IsModified = false;
 			}
@@ -97,7 +99,7 @@ namespace ClassifierEditor.DataRepo
 		{
 			if (!IsConfigured) return;
 
-			shtCategories.Write();
+			storageMgr.Write();
 
 			IsModified = false;
 		}
@@ -110,7 +112,7 @@ namespace ClassifierEditor.DataRepo
 //
 //			sd.Sample(TreeBase);
 //
-//			shtCategories.Data.NotifyUpdate();
+//			storageMgr.Data.NotifyUpdate();
 //		}
 
 

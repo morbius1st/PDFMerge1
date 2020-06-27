@@ -206,7 +206,9 @@
 							BorderThickness="3"
 							BorderBrush="SpringGreen"
 							>
-						<StackPanel Orientation="Vertical">
+						<StackPanel 
+								x:Name="Panel1"
+								Orientation="Vertical">
 							<Label Content="A File Item"
 									Padding="3,0,0,0"
 									Style="{StaticResource lblTitle}"

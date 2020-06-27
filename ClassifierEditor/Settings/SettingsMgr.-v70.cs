@@ -101,6 +101,7 @@ namespace SettingsManager
 
 	public delegate void RstData();
 
+	
 	public class SettingsMgr<Tpath, Tinfo, Tdata>
 		where Tpath : PathAndFileBase, new()
 		where Tinfo : SettingInfoBase<Tdata>, new()
@@ -576,6 +577,8 @@ namespace SettingsManager
 			CsUtilities.ScanXmlForElementValue(SettingPathAndFile, elementName);
 	}
 
+	// level 1 setting file
+	// user specific data is stored in this file
 	public class UserSettingPath70 : PathAndFileBase
 	{
 		public override void Configure()
@@ -593,6 +596,10 @@ namespace SettingsManager
 		}
 	}
 
+	// level 2 setting file
+	// app specific data is stored in this file
+	// this file will provide the locations for the 
+	// the site setting file
 	public class AppSettingPath70 : PathAndFileBase
 	{
 		public override void Configure()
@@ -611,11 +618,14 @@ namespace SettingsManager
 		}
 	}
 
+	// level 3 setting file
+	// suite specific data is stored in this file
+	// i.e. information to be used by all programs in a suite
 	public class SuiteSettingPath70 : PathAndFileBase
 	{
 		public override void Configure()
 		{
-			FileName = CsUtilities.AssemblyName + ".suite" + SETTINGFILEBASE;
+			FileName = Heading.SuiteName + ".suite" + SETTINGFILEBASE;
 			RootPath =  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			SubFolders = new []
 			{
@@ -627,6 +637,10 @@ namespace SettingsManager
 		}
 	}
 
+	// level 4a setting file
+	// machine specific data is stored in this file
+	// i.e. information to be used by all programs by a
+	// software developer on the machine (e.g. license info / contact info / web site info)
 	public class MachSettingPath70 : PathAndFileBase
 	{
 		public override void Configure()
@@ -643,12 +657,21 @@ namespace SettingsManager
 		}
 	}
 
+	// level 4b setting file
+	// site & suite specific data is stored in this file
+	// i.e. information used by multiple programs / suites on
+	// multiple machines or multiple sites and machines
 	public class SiteSettingPath70 : PathAndFileBase
 	{
 		public override void Configure()
 		{
-			FileName = CsUtilities.AssemblyName + ".Site" + SETTINGFILEBASE;
-			IsReadOnly = true;
+			FileName = Heading.SuiteName + ".Site" + SETTINGFILEBASE;
+			SubFolders = new []
+			{
+				CsUtilities.CompanyName,
+				Heading.SuiteName
+			};
+			IsReadOnly = false;
 			IsSettingFile = true;
 		}
 	}
@@ -698,6 +721,7 @@ namespace SettingsManager
 		}
 	}
 
+
 	public class BaseSettings<Tpath, Tinfo, Tdata>
 		where Tpath : PathAndFileBase, new()
 		where Tinfo : SettingInfoBase<Tdata>, new()
@@ -722,7 +746,7 @@ namespace SettingsManager
 		}
 	}
 
-	[DataContract]
+	[DataContract(Namespace = "")]
 	// define file type specific information: User
 	public abstract class UserSettingInfoBase<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new()
@@ -730,7 +754,7 @@ namespace SettingsManager
 		public override SettingFileType FileType => SettingFileType.USER;
 	}
 
-	[DataContract]
+	[DataContract(Namespace = "")]
 	// define file type specific information: app
 	public abstract class AppSettingInfoBase<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new()
@@ -738,7 +762,7 @@ namespace SettingsManager
 		public override SettingFileType FileType => SettingFileType.APP;
 	}
 
-	[DataContract]
+	[DataContract(Namespace = "")]
 	// define file type specific information: app
 	public abstract class SuiteSettingInfoBase<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new()
@@ -746,7 +770,7 @@ namespace SettingsManager
 		public override SettingFileType FileType => SettingFileType.SUITE;
 	}
 
-	[DataContract]
+	[DataContract(Namespace = "")]
 	// define file type specific information: machine
 	public abstract class MachSettingInfoBase<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new()
@@ -754,7 +778,7 @@ namespace SettingsManager
 		public override SettingFileType FileType => SettingFileType.MACH;
 	}
 
-	[DataContract]
+	[DataContract(Namespace = "")]
 	// define file type specific information: site
 	public abstract class SiteSettingInfoBase<Tdata> : SettingInfoBase<Tdata>
 		where Tdata : new()
@@ -763,11 +787,13 @@ namespace SettingsManager
 	}
 
 
+	[DataContract(Namespace = "")]
 	public class UserSettings :
 		BaseSettings<UserSettingPath70,
 		UserSettingInfo70<UserSettingData70>,
 		UserSettingData70> { }
 
+	[DataContract(Namespace = "")]
 	public class AppSettings :
 		BaseSettings<AppSettingPath70,
 		AppSettingInfo70<AppSettingData70>,
@@ -778,6 +804,7 @@ namespace SettingsManager
 //
 //	}
 
+	[DataContract(Namespace = "")]
 	public class SuiteSettings :
 		BaseSettings<SuiteSettingPath70,
 		SuiteSettingInfo70<SuiteSettingData70>,
@@ -791,10 +818,10 @@ namespace SettingsManager
 //		MachSettingInfo70<MachSettingData70>,
 //		MachSettingData70> { }
 //
-//	public class SiteSettings :
-//		BaseSettings<SiteSettingPath70,
-//		SiteSettingInfo70<SiteSettingData70>,
-//		SiteSettingData70> { }
+	public class SiteSettings :
+		BaseSettings<SiteSettingPath70,
+		SiteSettingInfo70<SiteSettingData70>,
+		SiteSettingData70> { }
 
 #endregion
 

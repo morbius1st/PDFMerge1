@@ -2,6 +2,8 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ClassifierEditor.DataRepo;
+using SettingsManager;
 
 #endregion
 
@@ -10,61 +12,75 @@ using System.Runtime.CompilerServices;
 
 namespace ClassifierEditor.ConfigSupport
 {
-
 	// configures the location of the information (folders and file names)
 	// and handles creating a default setup
 
 	public class Configuration : INotifyPropertyChanged
 	{
-		#region private fields
+	#region private fields
 
-#pragma warning disable CS0169 // The field 'Configuration.classificationFile' is never used
-			private string classificationFile;
-#pragma warning restore CS0169 // The field 'Configuration.classificationFile' is never used
-#pragma warning disable CS0169 // The field 'Configuration.masterClassificationFile' is never used
-			private string masterClassificationFile;
-#pragma warning restore CS0169 // The field 'Configuration.masterClassificationFile' is never used
+	#endregion
 
-#pragma warning disable CS0169 // The field 'Configuration.sampleFile' is never used
-			private string sampleFile;
-#pragma warning restore CS0169 // The field 'Configuration.sampleFile' is never used
-#pragma warning disable CS0169 // The field 'Configuration.masterSampleFile' is never used
-			private string masterSampleFile;
-#pragma warning restore CS0169 // The field 'Configuration.masterSampleFile' is never used
+	#region ctor
 
-		#endregion
+		public Configuration()
+		{
+			SuiteSettings.Admin.Read();
 
-		#region ctor
+			SiteSettings.Path.RootPath = SuiteSettings.Data.SiteRootPath;
+//			SiteSettings.Path.SubFolders = new [] {"CyberStudio", "Andy"};
+//			SiteSettings.Path.FileName = "Andy.site.settings";
 
-		public Configuration() { }
+			SiteSettings.Admin.Read();
 
-		#endregion
+			AppSettings.Admin.Read();
 
-		#region public properties
+			UserSettings.Admin.Read();
 
+			AddUserOrgFile("Test File 1", "jeffs");
 
+		}
 
-		#endregion
+	#endregion
 
-		#region private properties
+	#region public properties
 
+	#endregion
 
+	#region private properties
 
-		#endregion
+	#endregion
 
-		#region public methods
+	#region public methods
 
+		public void AddUserOrgFile(string name, string user)
+		{
+			string file = name + " :: " + user;
 
+			ConfigFileSetting cfs =
+				new ConfigFileSetting(
+					name,
+					user,
+					SuiteSettings.Admin.Path.RootPath,
+					file);
 
-		#endregion
+			SuiteSettings.Data.UsersOrganizationFiles.Add(cfs);
+			SuiteSettings.Admin.Write();
+		}
 
-		#region private methods
+		public void ConfigureCategories( SheetCategoryDataManager dm)
+		{
+			dm.Configure(UserSettings.Data.CatConfigFolder,
+				UserSettings.Data.CatConfigFile);
+		}
 
+	#endregion
 
+	#region private methods
 
-		#endregion
+	#endregion
 
-		#region event processing
+	#region event processing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -73,21 +89,19 @@ namespace ClassifierEditor.ConfigSupport
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		#endregion
+	#endregion
 
-		#region event handeling
+	#region event handeling
 
+	#endregion
 
+	#region system overrides
 
-		#endregion
-
-		#region system overrides
 		public override string ToString()
 		{
 			return "this is Configuration";
 		}
 
-		#endregion
-
+	#endregion
 	}
 }

@@ -745,6 +745,7 @@ namespace ClassifierEditor.Tree
 		public BaseOfTree() : base(new SheetCategory("BaseOfTree", null), false)
 		{
 			masterUniqueId = 0;
+			Depth = 0;
 		}
 
 		public void Initalize()

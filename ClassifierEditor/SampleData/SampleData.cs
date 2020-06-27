@@ -44,11 +44,12 @@ namespace ClassifierEditor.SampleData
 			root = tn;
 
 			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
-
+			
 			root.Item = item;
 
 //			MakeChildren(root, 0);
 			MakeChildren2(root);
+//			MakeChildren3();
 		}
 
 		public void SampleFiles(SampleFileList fileList)
@@ -161,6 +162,29 @@ namespace ClassifierEditor.SampleData
 
 				root.AddNode(node);
 			}
+		}
+		
+		private void MakeChildren3()
+		{
+			SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{0:D2}", $"node description");
+			item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH],"A", true));
+
+			TreeNode rootNode = new TreeNode(root, item, false);
+
+			TreeNode node;
+
+			for (int i = 0; i < 5; i++)
+			{
+				item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
+
+				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+					char.ConvertFromUtf32(65 + i), true));
+				node = new TreeNode(rootNode, item, false);
+				node.IsFixed = true;
+
+				root.AddNode(node);
+			}
+			root.AddNode(rootNode);
 		}
 
 

@@ -1,0 +1,91 @@
+﻿<ResourceDictionary
+		x:Class="AndyShared.Resources.XamlResources.Suite"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		>
+
+	<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
+
+	<SolidColorBrush x:Key="ToggleButton.TreeArrow.Fill" Color="{StaticResource Deep.Orange.400}" />
+	<SolidColorBrush x:Key="ToggleButton.TreeArrow.Stroke" Color="{StaticResource Deep.Orange.400}" />
+
+	<SolidColorBrush x:Key="MouseOver.Background" Color="#FF27C7F7" />
+
+
+	<PathGeometry
+			x:Key="arrLeft"
+			Figures="M 2,4 6,6 6,2  z"
+			FillRule="Nonzero"
+			/>
+
+	<PathGeometry
+			x:Key="arrDown"
+			Figures="M 0,0 4,8 8,0 z"
+			FillRule="Nonzero"
+			/>
+
+	<PathGeometry
+			x:Key="TreeArrow"
+			Figures="M0,0 L0,8 L8,0 z"
+			/>
+
+	<PathGeometry
+			x:Key="TreeArrow2"
+			Figures="M3.5,3.5 L3.5,8 L8,3.5 z"
+			/>
+
+
+	<Style
+			x:Key="Path.ToggleButton.Arrow"
+			TargetType="Path"
+			>
+		<Setter Property="Data" Value="{StaticResource arrDown}" />
+		<Setter Property="Fill" Value="{StaticResource ToggleButton.TreeArrow.Fill}" />
+		<Setter Property="Stroke" Value="{StaticResource ToggleButton.TreeArrow.Stroke}" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
+		<Setter Property="StrokeThickness" Value="0" />
+		<Setter Property="FocusVisualStyle" Value="{x:Null}">
+		</Setter>
+	</Style>
+
+	<ControlTemplate
+			x:Key="ToggleButton.Details"
+			TargetType="ToggleButton"
+			>
+		<Border
+				x:Name="SuiteDetailsToggleButtonBorder"
+				Margin="0,1,0,1"
+				Padding="0"
+				Background="Transparent"
+				>
+			<Path
+					x:Name="SuiteDetailsToggleButtonPath"
+					RenderTransformOrigin="0.45, 0.45"
+					Style="{StaticResource Path.ToggleButton.Arrow}"
+					FocusVisualStyle="{x:Null}"
+					>
+				<Path.RenderTransform>
+					<TransformGroup>
+						<!-- <ScaleTransform ScaleX="0.62" ScaleY="0.62"/> -->
+						<RotateTransform Angle="-90" />
+					</TransformGroup>
+				</Path.RenderTransform>
+			</Path>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsChecked" Value="True">
+				<Setter TargetName="SuiteDetailsToggleButtonPath" Property="RenderTransform">
+					<Setter.Value>
+						<RotateTransform Angle="0" />
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter TargetName="SuiteDetailsToggleButtonBorder" Property="Background" Value="{StaticResource MouseOver.Background}" />
+			</Trigger>
+
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+
+</ResourceDictionary>

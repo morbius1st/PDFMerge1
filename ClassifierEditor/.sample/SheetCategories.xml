@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <Header>
-    <SaveDateTime>2020-06-13 - 07:47 -07:00</SaveDateTime>
+    <SaveDateTime>2020-06-14 - 10:57 -07:00</SaveDateTime>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <SystemVersion>7.0</SystemVersion>
     <DataClassVersion>1.0</DataClassVersion>
@@ -10,6 +10,7 @@
   </Header>
   <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
     <Description>This is a full list of sheet organization categories</Description>
+    <UsePhaseBldg>false</UsePhaseBldg>
     <BaseOfTree z:Id="i2">
       <Item z:Id="i3">
         <Title>Base of Tree</Title>
@@ -23,15 +24,15 @@
       <SubCategories>
         <TreeNode z:Id="i4">
           <Item z:Id="i5">
-            <Title>Cover Sheet</Title>
-            <Description>Cover Sheet</Description>
+            <Title>node title 00:00:00</Title>
+            <Description>node description</Description>
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Starts with</Name>
                   <OpCode>STARTS_WITH</OpCode>
                 </CompareOp>
-                <CompareValue>CS</CompareValue>
+                <CompareValue>A</CompareValue>
                 <IsFirstCompOp>true</IsFirstCompOp>
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
@@ -48,15 +49,15 @@
         </TreeNode>
         <TreeNode z:Id="i6">
           <Item z:Id="i7">
-            <Title>Title Sheets</Title>
-            <Description>Title Sheets</Description>
+            <Title>node title 00:00:01</Title>
+            <Description>node description</Description>
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Starts with</Name>
                   <OpCode>STARTS_WITH</OpCode>
                 </CompareOp>
-                <CompareValue>T</CompareValue>
+                <CompareValue>B</CompareValue>
                 <IsFirstCompOp>true</IsFirstCompOp>
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
@@ -73,8 +74,8 @@
         </TreeNode>
         <TreeNode z:Id="i8">
           <Item z:Id="i9">
-            <Title>Civil Sheets</Title>
-            <Description>Civil Sheets</Description>
+            <Title>node title 00:00:02</Title>
+            <Description>node description</Description>
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
@@ -98,15 +99,15 @@
         </TreeNode>
         <TreeNode z:Id="i10">
           <Item z:Id="i11">
-            <Title>Landscape Sheets</Title>
-            <Description>Landscape Sheets</Description>
+            <Title>node title 00:00:03</Title>
+            <Description>node description</Description>
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Starts with</Name>
                   <OpCode>STARTS_WITH</OpCode>
                 </CompareOp>
-                <CompareValue>LS</CompareValue>
+                <CompareValue>D</CompareValue>
                 <IsFirstCompOp>true</IsFirstCompOp>
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>
@@ -123,15 +124,15 @@
         </TreeNode>
         <TreeNode z:Id="i12">
           <Item z:Id="i13">
-            <Title>Architectural Sheets</Title>
-            <Description>Architectural Sheets</Description>
+            <Title>node title 00:00:04</Title>
+            <Description>node description</Description>
             <CompareOps>
               <ComparisonOperation xmlns="" i:type="ValueCompOp">
                 <CompareOp xmlns="" i:type="ValueCompareOp">
                   <Name>Starts with</Name>
                   <OpCode>STARTS_WITH</OpCode>
                 </CompareOp>
-                <CompareValue>A</CompareValue>
+                <CompareValue>E</CompareValue>
                 <IsFirstCompOp>true</IsFirstCompOp>
                 <IsDisabled>false</IsDisabled>
               </ComparisonOperation>

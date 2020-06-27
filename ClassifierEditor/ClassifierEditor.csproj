@@ -79,6 +79,7 @@
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
     <Compile Include="ConfigSupport\Configuration.cs" />
+    <Compile Include="ConfigSupport\ConfigFileSetting.cs" />
     <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
     <Compile Include="DataRepo\SheetCategoryData.cs" />
     <Compile Include="DataRepo\StorageManager.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="FilesSupport\FileNameSheetParser.cs" />
     <Compile Include="FilesSupport\SampleFileList.cs" />
     <Compile Include="Settings\SettingsMgr.-v70.cs" />
+    <Compile Include="Settings\SiteSettings70.cs" />
     <Compile Include="Settings\SuiteSettings70.cs" />
     <Compile Include="Tree\ComparisonOperation.cs" />
     <Compile Include="Tree\SheetCategory.cs" />

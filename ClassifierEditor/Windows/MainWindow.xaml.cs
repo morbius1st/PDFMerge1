@@ -12,15 +12,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using ClassifierEditor.ConfigSupport;
 //using System.Windows.Forms;
 using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
-
 using ClassifierEditor.Windows.ResourceFiles.XamlResources;
-
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
 
@@ -56,9 +55,6 @@ namespace ClassifierEditor.Windows
 		TreeNode (TreeBase)				  |
 
 
-		TreeManager
-			- provides routines to manipulate the tree and elements
-		^
 		SheetCategoryDataManager
 			- holds one or more storage managers
 		^
@@ -76,6 +72,60 @@ namespace ClassifierEditor.Windows
 		^
 		datafile.xml
 
+	file usage
+
+		stored: site settings 
+			organization base files     | seed files to set up an initial organization configuration
+										| needs name for identification / selection
+										| needs to identify associated seed file
+			sample file                 | file with folder / file name samples for testing
+
+		stored: suite settings to allow other suite programs to use
+			SiteRootPath				| the location of the site setting file
+			Organization setting file	| the user's organization configuration
+										| needs to have a name + user's name to allow identification
+
+		stored: in app settings
+
+		stored: in user's settings
+			personal sample files		| ditto except personal
+
+	example (in order)
+
+	read suite:
+		has site setting file location
+		has all organization config files: "OrgConfigFiles"
+
+	set site path
+	read site
+		has see files location
+
+	read app
+		? nothing
+
+	read user
+		has the name of the organization config file being used: "OrgConfigFileName"
+
+	use "OrgConfigFileName" + user's name to get the 
+		correct entry in "OrgConfigFiles" => "UserOrgConfigFile"
+
+	configure "categories" with the "UserOrgConfigFile"
+
+	initial setup:
+	required:
+	suite setting file in place with the site location set
+	site setting file in place with the seed files set
+	seed files in place
+
+
+
+
+	start process:
+		all empty / has list of organization base files / has list of organization setting files
+		user selects a organization base file
+		user provides location to save organization setting file
+
+
 	*/
 
 
@@ -86,6 +136,7 @@ namespace ClassifierEditor.Windows
 	{
 	#region private fields
 
+		private Configuration config;
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
 		private static TreeNode userSelected;
 		private TreeNode contextSelected;
@@ -129,7 +180,6 @@ namespace ClassifierEditor.Windows
 		public MainWindow()
 		{
 			InitializeComponent();
-
 		}
 
 		public static TreeNode temp { get; set; }
@@ -154,7 +204,6 @@ namespace ClassifierEditor.Windows
 						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
 						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
 						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000")
-
 					}
 				}
 				, false );
@@ -166,15 +215,17 @@ namespace ClassifierEditor.Windows
 			new ValueCompareOp("Contains", CONTAINS),
 			new ValueCompareOp("Does not Match", DOES_NOT_MATCH),
 			new ValueCompareOp("Match", MATCHES),
-
 		};
 
 	#endregion
 
 	#region public properties
 
+		// this is only for design time sample data
 		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
 
+
+		// this is the live data store
 		public SheetCategoryDataManager Categories
 		{
 			get => categories;
@@ -251,23 +302,32 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			config = new Configuration();
 
-			SuiteSettings.Admin.Read();
+			config.ConfigureCategories(categories);
 
-			UserSettings.Admin.Read();
+//			categories.Configure(UserSettings.Data.CatConfigFolder,
+//				UserSettings.Data.CatConfigFile);
 
-			categories.Configure(UserSettings.Data.CatConfigFolder,
-				UserSettings.Data.CatConfigFile);
 
-//			SampleData.SampleData sd = new SampleData.SampleData();
-//
-//			sd.Sample(categories.TreeBase);
-//
-//			categories.Write();
+			// true to create sample data and save to disk
+			// false to read existing data
+			if (true)
+			{
+				SampleData.SampleData sd = new SampleData.SampleData();
+				sd.Sample(categories.TreeBase);
+				categories.Write();
+			}
+			else
+			{
+			#pragma warning disable CS0162 // Unreachable code detected
+				categories.Read();
+			#pragma warning restore CS0162 // Unreachable code detected
+			}
 
-			categories.Read();
 
-			string sampleFileName = UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
+			string sampleFileName =
+				UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
 
 			FileList = new SampleFileList(sampleFileName);
 
@@ -305,7 +365,7 @@ namespace ClassifierEditor.Windows
 		{
 			TreeNode selected = (TreeNode) e.NewValue;
 
-			if (selected!=null && selected.IsFixed || selected.IsLocked)
+			if (selected != null && selected.IsFixed || selected.IsLocked)
 			{
 				e.Handled = true;
 				UserSelected = null;
@@ -383,7 +443,6 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTreeRoot.AddNewAfter2(contextSelected);
 
-			
 
 			ContextDeselect();
 		}
@@ -495,7 +554,6 @@ namespace ClassifierEditor.Windows
 
 
 				userSelected.Item.CompareOps[idx].IsDisabled = true;
-
 			}
 		}
 
@@ -512,7 +570,6 @@ namespace ClassifierEditor.Windows
 			// has been checked
 
 			selected.IsNodeSelected = false;
-
 		}
 
 
@@ -565,7 +622,6 @@ namespace ClassifierEditor.Windows
 
 				userSelected.Item.RemoveCompOpAt(idx--);
 				userSelected.Item.RemoveCompOpAt(idx);
-				
 			}
 		}
 
@@ -594,8 +650,7 @@ namespace ClassifierEditor.Windows
 
 
 			ListView lv = Lv2;
-			ComboBox cbx = Lv2.ItemTemplate.
-				FindName("Cbx1", Lv2) as ComboBox;
+			ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
 
 
 			Debug.WriteLine("at debug");
@@ -618,13 +673,10 @@ namespace ClassifierEditor.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-
-		#endregion
-
-
+	#endregion
 	}
 
-	#region NotBool value converter
+#region NotBool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class NotBoolConverter : IValueConverter
@@ -644,7 +696,34 @@ namespace ClassifierEditor.Windows
 		}
 	}
 
-	#endregion
+#endregion
+
+#region bool to string value converter
+
+	[ValueConversion(typeof(bool), typeof(string))]
+	public class BoolToOnOffConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType != typeof(object))
+				throw new InvalidOperationException("The target must be a object");
+
+			if ((bool) value)
+			{
+				return "On";
+			}
+
+			return "Off";
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter,
+			System.Globalization.CultureInfo culture)
+		{
+			throw new NotSupportedException();
+		}
+	}
+
+#endregion
 
 	public class Lv1ConditionTemplateSelector : DataTemplateSelector
 	{
@@ -662,7 +741,7 @@ namespace ClassifierEditor.Windows
 					return
 						element.FindResource("Lv1DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP) 
+				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP)
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
@@ -688,7 +767,6 @@ namespace ClassifierEditor.Windows
 
 			if (element != null && item != null && item is ComparisonOperation)
 			{
-
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
 				taskitem.Id = MasterIdIdx++;

@@ -31,6 +31,10 @@ namespace ClassifierEditor.DataRepo
 //		public string FileNameTestFolder { get; private set; } =
 //			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
 
+
+		[DataMember(Order = 2)]
+		public bool UsePhaseBldg { get; set; }
+		
 		[DataMember(Order = 3)]
 		public BaseOfTree BaseOfTree { get; set; } = new BaseOfTree();
 

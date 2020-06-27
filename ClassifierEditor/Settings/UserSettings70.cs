@@ -29,6 +29,12 @@ namespace SettingsManager
 	[DataContract(Name = "UserSettingData")]
 	public class UserSettingData70
 	{
+		// the name of the organization configuration file
+		[DataMember(Order = 1)]
+		public string OrgConfigFileName { get; private set; } =
+			"Test File 1 :: jeffs";
+
+
 
 		// the folder where the FileName config files are stored
 		[DataMember(Order = 2)]
