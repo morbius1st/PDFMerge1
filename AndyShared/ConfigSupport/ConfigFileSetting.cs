@@ -121,7 +121,7 @@ namespace AndyShared.ConfigSupport
 		private FilePath<FileNameSimple> assocSampleFile;
 		private bool local;
 		private bool selected;
-		private bool remove;
+		private bool keep;
 
 		public ConfigSeedFileSetting() { }
 
@@ -151,12 +151,12 @@ namespace AndyShared.ConfigSupport
 		}
 
 		[IgnoreDataMember]
-		public bool Remove
+		public bool Keep
 		{
-			get => remove;
+			get => keep;
 			set
 			{
-				remove = value;
+				keep = value;
 				OnPropertyChange();
 			}
 		}
@@ -210,7 +210,7 @@ namespace AndyShared.ConfigSupport
 				UserName,
 				Local,
 				Selected,
-				Remove,
+				Keep,
 				Folder,
 				FileName,
 				AssociatedSamplePathAndFile);

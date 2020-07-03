@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
+using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
 using AndyShared.FilesSupport;
 using AndyShared.Resources.XamlResources;
@@ -52,7 +53,9 @@ namespace AndyShared.ConfigSupport
 
 		public bool Initialized { get; set; }
 
-		public string LocalSeedFileFolder => SuiteSettings.Path.SettingPath + ConfigSeed.SEED_FOLDER;
+		public string LocalSeedFileFolder => SuiteSettings.Path.SettingPath + ConfigSeedSite.SEED_FOLDER;
+
+		public bool LocalSeedFolderExists => LocalSeedFilesList?.FolderExists ?? false;
 
 		public FolderAndFileSupport LocalSeedFilesList { get; private set; }
 
@@ -111,6 +114,7 @@ namespace AndyShared.ConfigSupport
 		{
 			OnPropertyChange("Initialized");
 			OnPropertyChange("LocalSeedFileFolder");
+			OnPropertyChange("LocalSeedFolderExists");
 			OnPropertyChange("LocalSeedFilesList");
 			OnPropertyChange("LocalSeedFiles");
 		}
@@ -118,7 +122,7 @@ namespace AndyShared.ConfigSupport
 		private void GetLocalSeedFiles()
 		{
 			LocalSeedFilesList =
-				new FolderAndFileSupport(LocalSeedFileFolder, ConfigSeed.SEED_PATTERN);
+				new FolderAndFileSupport(LocalSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
 
 			LocalSeedFilesList.GetFiles();
 

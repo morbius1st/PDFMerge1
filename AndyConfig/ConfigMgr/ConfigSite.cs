@@ -57,8 +57,6 @@ namespace AndyShared.ConfigMgr
 
 		public string SiteSettingsFilePath => SiteSettings.Path.SettingPath;
 
-		// private SortedDictionary<string, ConfigSeedFileSetting> SiteInstSeedFiles => SiteSettings.Data.InstalledSeedFiles;
-
 		public SiteSettingInfo70<SiteSettingData70> Info => SiteSettings.Info;
 
 		public ConfigSeed Seed { get; private set; } = new ConfigSeed();

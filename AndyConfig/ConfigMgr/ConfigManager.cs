@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyConfig.ConfigMgr;
 using AndyShared.ConfigSupport;
 using SettingsManager;
 
@@ -58,7 +59,7 @@ namespace AndyShared.ConfigMgr
 
 		/// <summary>
 		/// <c>ConfigSeed</c><br/>
-		/// SiteSettingsSeedFolderPath: string  : site seed folder path<br/>
+		/// SiteSeedFolderPath: string  : site seed folder path<br/>
 		/// HasSeedFileSetting        : bool    : has site installed seed files<br/>
 		/// SeedInstalled             : ConfigSeedInstalled: config installed seed file object<br/>
 		/// </summary>
@@ -73,6 +74,11 @@ namespace AndyShared.ConfigMgr
 		/// InstalledSeedFilesCount   : int     : count of installed seed files<br/>
 		/// </summary>
 		public ConfigSeedInstalled SeedInstalled => Seed?.SeedInstalled ?? null;
+
+
+		
+		
+		public ConfigSeedSite SeedSite => Seed?.SeedSite ?? null;
 
 		/// <summary>
 		/// <c>ConfigSeedLocal</c><br/>

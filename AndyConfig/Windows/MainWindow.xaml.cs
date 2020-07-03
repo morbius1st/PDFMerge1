@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
 using AndyShared.ConfigSupport;
 using AndyShared.FilesSupport;
@@ -96,15 +97,11 @@ namespace AndyShared.Windows
 
 		private const string SEED_PATTERN = @"*.seed.xml";
 
-#pragma warning disable CS0414 // The field 'MainWindow.seedFiles' is assigned but its value is never used
-		private FolderAndFileSupport seedFiles = null;
-#pragma warning restore CS0414 // The field 'MainWindow.seedFiles' is assigned but its value is never used
+		// private FolderAndFileSupport seedFiles = null;
 
 		private ConfigManager cfgMgr = new ConfigManager();
 
-#pragma warning disable CS0169 // The field 'MainWindow.selectedInstalledSeedFile' is never used
-		private FilePath<FileNameSimpleSelectable> selectedInstalledSeedFile;
-#pragma warning restore CS0169 // The field 'MainWindow.selectedInstalledSeedFile' is never used
+		// private FilePath<FileNameSimpleSelectable> selectedInstalledSeedFile;
 
 		private ConfigSeedFileSetting selInstalledSeedFile;
 
@@ -125,6 +122,7 @@ namespace AndyShared.Windows
 		public ConfigSite Site => cfgMgr.Site;
 		public ConfigSeed Seed => cfgMgr.Seed;
 		public ConfigSeedInstalled SeedInstalled => cfgMgr.SeedInstalled;
+		public ConfigSeedSite SeedSite => cfgMgr.SeedSite;
 		public ConfigSeedLocal SeedLocal => cfgMgr.SeedLocal;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;

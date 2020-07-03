@@ -96,6 +96,7 @@
     <Compile Include="ConfigMgr\ConfigManager.cs" />
     <Compile Include="ConfigMgr\ConfigSeed.cs" />
     <Compile Include="ConfigMgr\ConfigSeedInstalled.cs" />
+    <Compile Include="ConfigMgr\ConfigSeedSite.cs" />
     <Compile Include="ConfigMgr\ConfigSite.cs" />
     <Compile Include="ConfigMgr\ConfigSuite.cs" />
     <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">

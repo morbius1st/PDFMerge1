@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
+using AndyConfig.ConfigMgr;
 using AndyShared.FilesSupport;
 using SettingsManager;
 using UtilityLibrary;
@@ -27,9 +28,6 @@ namespace AndyShared.ConfigMgr
 	public class ConfigSeedInstalled : INotifyPropertyChanged
 	{
 	#region private fields
-
-		private ICollectionView installedSeedFileView;
-
 
 	#endregion
 
@@ -54,14 +52,9 @@ namespace AndyShared.ConfigMgr
 
 		public ObservableCollection<ConfigSeedFileSetting> InstalledSeedFiles => SiteSettings.Data.InstalledSeedFiles;
 
-		public ICollectionView View 
-		{
-			get => installedSeedFileView;
-			set => installedSeedFileView = value;
+		public ICollectionView View { get; private set; }
 
-		}
-
-		public string InstallSeedFileFolder => InstallFolder + ConfigSeed.SEED_FOLDER;
+		public string InstallSeedFileFolder => InstallFolder + ConfigSeedSite.SEED_FOLDER;
 
 		public bool InstalledFolderExists => InstalledSeedFileList?.FolderExists ?? false;
 
@@ -81,14 +74,16 @@ namespace AndyShared.ConfigMgr
 		{
 			Initialized = true;
 
-			installedSeedFileView = CollectionViewSource.GetDefaultView(SiteSettings.Data.InstalledSeedFiles);
+			View = CollectionViewSource.GetDefaultView(SiteSettings.Data.InstalledSeedFiles);
 
 			InstalledSeedFileList =
-				new FolderAndFileSupport(InstallSeedFileFolder, ConfigSeed.SEED_PATTERN);
+				new FolderAndFileSupport(InstallSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
 
 			InstalledSeedFileList.GetFiles();
 
-			UpdateInstalledSeedFileDict();
+			UpdateInstalledSeedFileList();
+
+			Update();
 
 			UpdateProperties();
 		}
@@ -116,11 +111,11 @@ namespace AndyShared.ConfigMgr
 
 
 		// adjust the config file's list based on the actual list in
-		// the folder and remove from the list any that no longer exist
+		// the folder and keep from the list any that no longer exist
 		// and add any new files
 		// cross reference with current list to determine which
 		// files are selected
-		private void UpdateInstalledSeedFileDict()
+		private void UpdateInstalledSeedFileList()
 		{
 			if (InstalledSeedFileList.Folder == FilePath<FileNameSimpleSelectable>.Invalid
 				|| InstalledSeedFileList.Count == 0)
@@ -138,8 +133,8 @@ namespace AndyShared.ConfigMgr
 					SiteSettings.Data.InstalledSeedFiles = new ObservableCollection<ConfigSeedFileSetting>();
 				}
 
-				// flag to remove all entries - then, un-flag below
-				FlagRemoveSeedFileDict();
+				// flag to keep all entries - then, un-flag below
+				// FlagRemoveSeedFiles();
 
 				// scan through the list of found files and configure
 				// the list
@@ -152,8 +147,8 @@ namespace AndyShared.ConfigMgr
 					if (found != null)
 					{
 						// existing entry found
-						// un-flag remove
-						found.Remove = false;
+						// un-flag keep
+						found.Keep = true;
 					}
 					else
 					{
@@ -167,10 +162,8 @@ namespace AndyShared.ConfigMgr
 					}
 				}
 
-				ProcessRemovedSeedFileDict();
+				ProcessNotKeptSeedFiles();
 			}
-
-			SiteSettings.Admin.Write();
 		}
 
 		private string GetInstalledSampleFile(FilePath<FileNameSimpleSelectable> file)
@@ -188,47 +181,27 @@ namespace AndyShared.ConfigMgr
 			return sampleFile;
 		}
 
-		private void FlagRemoveSeedFileDict()
+		private void FlagRemoveSeedFiles()
 		{
 			if (SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
 
 			foreach (ConfigSeedFileSetting fileSetting in SiteSettings.Data.InstalledSeedFiles)
 			{
-				fileSetting.Remove = true;
+				fileSetting.Keep = true;
 			}
 		}
 
-		private void ProcessRemovedSeedFileDict()
+		private void ProcessNotKeptSeedFiles()
 		{
 			for (var i = SiteSettings.Data.InstalledSeedFiles.Count - 1; i >= 0; i--)
 			{
-				if (SiteSettings.Data.InstalledSeedFiles[i].Remove == true)
+				if (SiteSettings.Data.InstalledSeedFiles[i].Keep == false)
 				{
 					SiteSettings.Data.InstalledSeedFiles.RemoveAt(i);
 				}
+
+				SiteSettings.Data.InstalledSeedFiles[i].Keep = false;
 			}
-
-
-			// foreach (ConfigSeedFileSetting fileSetting in SiteSettings.Data.InstalledSeedFiles)
-			// {
-			// 	if (fileSetting.Remove == true)
-			// 	{
-			// 		keysToRemove.Add(fileSetting.Key);
-			// 	}
-			// }
-			//
-			// if (keysToRemove.Count != 0 )
-			// {
-			// 	foreach (string key in keysToRemove)
-			// 	{
-			// 		ConfigSeedFileSetting fileSetting =
-			// 			SiteSettings.Data.InstalledSeedFiles.Find(key);
-			//
-			// 		SiteSettings.Data.InstalledSeedFiles.Remove(fileSetting);
-			//
-			// 		SiteSettings.Data.InstalledSeedFiles.
-			// 	}
-			// }
 		}
 
 	#endregion
