@@ -14,7 +14,7 @@ using System.Windows;
 // username: jeffs
 // created:  6/14/2020 5:30:07 PM
 
-namespace AndyConfig
+namespace AndyShared
 {
 	public partial class App : Application
 	{

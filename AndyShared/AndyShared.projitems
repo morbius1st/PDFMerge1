@@ -10,11 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigSeedLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FolderAndFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HeadingSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory).Linked\" />

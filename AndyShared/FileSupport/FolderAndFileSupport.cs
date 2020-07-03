@@ -102,7 +102,7 @@ namespace AndyShared.FilesSupport
 
 		public override string ToString()
 		{
-			return "this is GetSiteFiles";
+			return "this is FolderAndFileSupport";
 		}
 
 	#endregion

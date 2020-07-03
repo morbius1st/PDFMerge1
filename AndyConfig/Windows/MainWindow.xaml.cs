@@ -15,10 +15,9 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using AndyConfig.ConfigMgr;
-using AndyConfig.FilesSupport;
+using AndyShared.ConfigMgr;
+using AndyShared.ConfigSupport;
 using AndyShared.FilesSupport;
-using ClassifierEditor.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -42,7 +41,7 @@ using UtilityLibrary;
  * 1. create the SuiteSettings file
  * 2. get the path to the SiteSettings file from the user
  * 3. save the path to the setting file
- * 4. setup the LocalSeedFiles variable
+ * 4. setup the LocalSeedFilesList variable
  *		+-> use bogus info for first element
  * 5. save the path to the setting file
  * 6. verify that path for the SiteSettings is configured
@@ -87,7 +86,7 @@ using UtilityLibrary;
 */
 
 
-namespace AndyConfig.Windows
+namespace AndyShared.Windows
 {
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
@@ -97,11 +96,17 @@ namespace AndyConfig.Windows
 
 		private const string SEED_PATTERN = @"*.seed.xml";
 
+#pragma warning disable CS0414 // The field 'MainWindow.seedFiles' is assigned but its value is never used
 		private FolderAndFileSupport seedFiles = null;
+#pragma warning restore CS0414 // The field 'MainWindow.seedFiles' is assigned but its value is never used
 
 		private ConfigManager cfgMgr = new ConfigManager();
 
+#pragma warning disable CS0169 // The field 'MainWindow.selectedInstalledSeedFile' is never used
 		private FilePath<FileNameSimpleSelectable> selectedInstalledSeedFile;
+#pragma warning restore CS0169 // The field 'MainWindow.selectedInstalledSeedFile' is never used
+
+		private ConfigSeedFileSetting selInstalledSeedFile;
 
 	#endregion
 
@@ -120,6 +125,7 @@ namespace AndyConfig.Windows
 		public ConfigSite Site => cfgMgr.Site;
 		public ConfigSeed Seed => cfgMgr.Seed;
 		public ConfigSeedInstalled SeedInstalled => cfgMgr.SeedInstalled;
+		public ConfigSeedLocal SeedLocal => cfgMgr.SeedLocal;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
 
@@ -137,248 +143,254 @@ namespace AndyConfig.Windows
 
 	#region private methods
 
-		private bool Initalize()
-		{
-			SuiteSettings.Admin.Read();
+		// private bool Initalize()
+		// {
+		// 	SuiteSettings.Admin.Read();
+		//
+		// 	if (SuiteSettings.Data.SiteRootPath.IsVoid()) return false;
+		//
+		// 	SiteSettings.Path.RootPath = SuiteSettings.Data.SiteRootPath;
+		//
+		// 	SiteSettings.Admin.Read();
+		//
+		// 	return true;
+		// }
 
-			if (SuiteSettings.Data.SiteRootPath.IsVoid()) return false;
+		// private bool SetupConfiguration()
+		// {
+		// 	// step 1: request site setting folder
+		// 	string siteSettingFolder = GetSiteSettingFolder();
+		//
+		// 	if (siteSettingFolder == null)
+		// 	{
+		// 		CannotProceed("Without a folder for the site\n" +
+		// 			"settings, I cannot proceed.\n"
+		// 			+ "Exiting");
+		// 		return false;
+		// 	}
+		//
+		// 	// step 2: save the folder to the SuiteSettings file
+		// 	SuiteSettings.Data.SiteRootPath = siteSettingFolder;
+		// 	SuiteSettings.Admin.Write();
+		//
+		// 	// step 3: assign the SiteSetting file location
+		// 	SiteSettings.Path.RootPath = siteSettingFolder;
+		//
+		// 	// step 4: read (create) the SiteSetting file
+		// 	SiteSettings.Admin.Read();
+		//
+		// 	if (SiteSettings.Data.InstalledSeedFiles == null ||
+		// 		SiteSettings.Data.InstalledSeedFiles.Count == 0)
+		// 	{
+		// 		// step 5: setup the SiteSetting file / Seed File sub-folder / etc.
+		// 		if (!SetupSeedFiles()) return false;
+		// 	}
+		//
+		// 	return true;
+		// }
 
-			SiteSettings.Path.RootPath = SuiteSettings.Data.SiteRootPath;
+		// // need to configure the SiteSetting file
+		// private bool SetupSeedFiles()
+		// {
+		// 	// initialize 
+		// 	if (SiteSettings.Data.InstalledSeedFiles == null)
+		// 	{
+		// 		SiteSettings.Data.InstalledSeedFiles = new SortedDictionary<string, ConfigSeedFileSetting>();
+		// 		SiteSettings.Admin.Write();
+		// 	}
+		//
+		// 	// configure
+		// 	seedFiles.Folder = new FilePath<FileNameSimpleSelectable>(SiteSettings.Path.SettingPath +
+		// 		ConfigSeed.SEED_FOLDER);
+		//
+		// 	// step 6 does the seed directory exist?
+		// 	if (!seedFiles.FolderExists)
+		// 	{
+		// 		// folder does not exist
+		// 		// create folder and copy files from install
+		// 		// folder
+		//
+		// 		if (!MakeSeedFolder())
+		// 		{
+		// 			CannotProceed("Unable to create the seed folder. \n "
+		// 				+ "Without a folder for the seed\n" +
+		// 				"files, I cannot proceed.\n"
+		// 				+ "Exiting");
+		// 			return false;
+		// 		}
+		// 	}
+		//
+		// 	// seed older exists
+		//
+		// 	// step 7: check for files
+		//
+		// 	seedFiles.GetFiles();
+		//
+		// 	// step 8: does it have any seed files
+		// 	if (!seedFiles.HasFiles)
+		// 	{
+		// 		// nope - copy from install folder
+		// 		if (loadSeedFilesFromInstall() == -1)
+		// 		{
+		// 			CannotProceed("Unable to copy the seed files. \n "
+		// 				+ "into the seed folder in the Site\n" +
+		// 				"Settings folder. I cannot proceed.\n"
+		// 				+ "Exiting");
+		// 			return false;
+		// 		}
+		//
+		// 		StoreSeedFilesInSiteSettings();
+		// 		SiteSettings.Admin.Write();
+		// 	}
+		//
+		// 	return true;
+		// }
+		//
+		// private bool MakeSeedFolder()
+		// {
+		// 	DirectoryInfo di = Directory.CreateDirectory(seedFiles.Folder.GetFullPath);
+		//
+		// 	return di.Exists;
+		// }
+		//
+		// private bool StoreSeedFilesInSiteSettings()
+		// {
+		// 	seedFiles.GetFiles();
+		//
+		// 	foreach (FilePath<FileNameSimpleSelectable> file in seedFiles.FoundFiles)
+		// 	{
+		// 		string filename = file.GetFileNameWithoutExtension;
+		// 		string path = file.GetPath;
+		//
+		// 		string seedFile = file.GetFullPath;
+		// 		string datFile = path + @"\" + filename + ".dat";
+		//
+		// 		ConfigSeedFileSetting config =
+		// 			new ConfigSeedFileSetting(
+		// 				file.GetFileNameWithoutExtension, Heading.SuiteName,
+		// 				false, false, true, file.GetPath, file.GetFileNameWithoutExtension, "");
+		//
+		// 		string key = SiteSettings.Data.MakeKey(Heading.SuiteName, file.GetFileNameWithoutExtension);
+		//
+		// 		SiteSettings.Data.InstalledSeedFiles.Add(key, config);
+		// 	}
+		//
+		// 	return true;
+		// }
+		//
+		// private int loadSeedFilesFromInstall()
+		// {
+		// #if DEBUG
+		// 	string installSourceFolder =
+		// 		@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\Seed Files";
+		// #else
+		// 	string sourceFolder = Assembly.GetExecutingAssembly().Location + @"\Seed Files";
+		// #endif
+		//
+		// 	FolderAndFileSupport installSourceSeedFiles = new FolderAndFileSupport(installSourceFolder, SEED_PATTERN);
+		//
+		// 	if (!installSourceSeedFiles.FolderExists) return -1;
+		//
+		// 	installSourceSeedFiles.GetFiles();
+		//
+		// 	if (!installSourceSeedFiles.HasFiles) return -1;
+		//
+		// 	// gotten here:
+		// 	// the local seed folder exists
+		// 	// this folder has some files of the correct extension
+		// 	// need to copy files from install folder to seed folder
+		// 	// that is, from installFolder to seedFiles.Folder
+		//
+		// 	// source folder:
+		// 	// sourceFolder
+		// 	// destination folder:
+		// 	// seedfiles.folder.getfullpath
+		//
+		// 	return CopySeedFiles(installSourceSeedFiles);
+		// }
 
-			SiteSettings.Admin.Read();
+		// private int CopySeedFiles(FolderAndFileSupport sourceSeedFiles)
+		// {
+		// 	// source folder:
+		// 	// sourceFolder
+		// 	// destination folder:
+		// 	// seedfiles.folder.getfullpath
+		//
+		// 	int count = 0;
+		//
+		// 	try
+		// 	{
+		// 		foreach (FilePath<FileNameSimpleSelectable> file in sourceSeedFiles.FoundFiles)
+		// 		{
+		// 			string sourceSeed = file.GetFullPath;
+		// 			string destSeed = seedFiles.Folder.GetFullPath + @"\" + file.GetFileName;
+		//
+		// 			string sourceDat = file.GetPath + @"\" + file.GetFileNameWithoutExtension + ".dat";
+		//
+		// 			string destDat = seedFiles.Folder.GetFullPath + @"\" + file.GetFileNameWithoutExtension + ".dat";
+		//
+		// 			if (!File.Exists(destSeed) && !File.Exists(destDat))
+		// 			{
+		// 				File.Copy(sourceSeed, destSeed);
+		// 				File.Copy(sourceDat, destDat);
+		//
+		// 				count++;
+		// 			}
+		// 		}
+		// 	}
+		// 	catch
+		// 	{
+		// 		// file processing error
+		// 		// failed
+		// 		return -1;
+		// 	}
+		//
+		// 	return count;
+		// }
+		//
+		//
+		// private string GetSiteSettingFolder()
+		// {
+		// 	using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select Site Setting Folder - "
+		// 		+ TITLE))
+		// 	{
+		// 		cfd.IsFolderPicker = true;
+		// 		cfd.Multiselect = false;
+		// 		cfd.ShowPlacesList = true;
+		// 		cfd.AllowNonFileSystemItems = false;
+		//
+		// 		cfd.AllowPropertyEditing = false;
+		//
+		// 		CommonFileDialogResult	result = cfd.ShowDialog();
+		//
+		// 		if (result != CommonFileDialogResult.Ok)
+		// 		{
+		// 			return null;
+		// 		}
+		//
+		// 		return cfd.FileName;
+		// 	}
+		//
+		// }
+		//
+		// private void CannotProceed(string message)
+		// {
+		// 	MessageBoxResult result = MessageBox.Show(message,
+		// 		"Setup Cannot Proceed",
+		// 		MessageBoxButton.OK,
+		// 		MessageBoxImage.Error);
+		//
+		// 	this.Close();
+		// }
 
-			return true;
-		}
-
-		private bool SetupConfiguration()
-		{
-			// step 1: request site setting folder
-			string siteSettingFolder = GetSiteSettingFolder();
-
-			if (siteSettingFolder == null)
-			{
-				CannotProceed("Without a folder for the site\n" +
-					"settings, I cannot proceed.\n"
-					+ "Exiting");
-				return false;
-			}
-
-			// step 2: save the folder to the SuiteSettings file
-			SuiteSettings.Data.SiteRootPath = siteSettingFolder;
-			SuiteSettings.Admin.Write();
-
-			// step 3: assign the SiteSetting file location
-			SiteSettings.Path.RootPath = siteSettingFolder;
-
-			// step 4: read (create) the SiteSetting file
-			SiteSettings.Admin.Read();
-
-			if (SiteSettings.Data.InstSeedFiles == null ||
-				SiteSettings.Data.InstSeedFiles.Count == 0)
-			{
-				// step 5: setup the SiteSetting file / Seed File sub-folder / etc.
-				if (!SetupSeedFiles()) return false;
-			}
-
-			return true;
-		}
-
-		// need to configure the SiteSetting file
-		private bool SetupSeedFiles()
-		{
-			// initialize 
-			if (SiteSettings.Data.InstSeedFiles == null)
-			{
-				SiteSettings.Data.InstSeedFiles = new Dictionary<string, ConfigSeedFileSetting>();
-				SiteSettings.Admin.Write();
-			}
-
-			// configure
-			seedFiles.Folder = new FilePath<FileNameSimpleSelectable>(SiteSettings.Path.SettingPath +
-				@"\Seed Files");
-
-			// step 6 does the seed directory exist?
-			if (!seedFiles.FolderExists)
-			{
-				// folder does not exist
-				// create folder and copy files from install
-				// folder
-
-				if (!MakeSeedFolder())
-				{
-					CannotProceed("Unable to create the seed folder. \n "
-						+ "Without a folder for the seed\n" +
-						"files, I cannot proceed.\n"
-						+ "Exiting");
-					return false;
-				}
-			}
-
-			// seed older exists
-
-			// step 7: check for files
-
-			seedFiles.GetFiles();
-
-			// step 8: does it have any seed files
-			if (!seedFiles.HasFiles)
-			{
-				// nope - copy from install folder
-				if (loadSeedFilesFromInstall() == -1)
-				{
-					CannotProceed("Unable to copy the seed files. \n "
-						+ "into the seed folder in the Site\n" +
-						"Settings folder. I cannot proceed.\n"
-						+ "Exiting");
-					return false;
-				}
-
-				StoreSeedFilesInSiteSettings();
-				SiteSettings.Admin.Write();
-			}
-
-			return true;
-		}
-
-		private bool MakeSeedFolder()
-		{
-			DirectoryInfo di = Directory.CreateDirectory(seedFiles.Folder.GetFullPath);
-
-			return di.Exists;
-		}
-
-		private bool StoreSeedFilesInSiteSettings()
-		{
-			seedFiles.GetFiles();
-
-			foreach (FilePath<FileNameSimpleSelectable> file in seedFiles.FoundFiles)
-			{
-				string filename = file.GetFileNameWithoutExtension;
-				string path = file.GetPath;
-
-				string seedFile = file.GetFullPath;
-				string datFile = path + @"\" + filename + ".dat";
-
-				ConfigSeedFileSetting config =
-					new ConfigSeedFileSetting(
-						file.GetFileNameWithoutExtension, Heading.SuiteName,
-						false, true, file.GetPath, file.GetFileNameWithoutExtension, "");
-
-				string key = SiteSettings.Data.MakeKey(Heading.SuiteName, file.GetFileNameWithoutExtension);
-
-				SiteSettings.Data.InstSeedFiles.Add(key, config);
-			}
-
-			return true;
-		}
-
-		private int loadSeedFilesFromInstall()
-		{
-		#if DEBUG
-			string installSourceFolder =
-				@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\Seed Files";
-		#else
-			string sourceFolder = Assembly.GetExecutingAssembly().Location + @"\Seed Files";
-		#endif
-
-			FolderAndFileSupport installSourceSeedFiles = new FolderAndFileSupport(installSourceFolder, SEED_PATTERN);
-
-			if (!installSourceSeedFiles.FolderExists) return -1;
-
-			installSourceSeedFiles.GetFiles();
-
-			if (!installSourceSeedFiles.HasFiles) return -1;
-
-			// gotten here:
-			// the local seed folder exists
-			// this folder has some files of the correct extension
-			// need to copy files from install folder to seed folder
-			// that is, from installFolder to seedFiles.Folder
-
-			// source folder:
-			// sourceFolder
-			// destination folder:
-			// seedfiles.folder.getfullpath
-
-			return CopySeedFiles(installSourceSeedFiles);
-		}
-
-		private int CopySeedFiles(FolderAndFileSupport sourceSeedFiles)
-		{
-			// source folder:
-			// sourceFolder
-			// destination folder:
-			// seedfiles.folder.getfullpath
-
-			int count = 0;
-
-			try
-			{
-				foreach (FilePath<FileNameSimpleSelectable> file in sourceSeedFiles.FoundFiles)
-				{
-					string sourceSeed = file.GetFullPath;
-					string destSeed = seedFiles.Folder.GetFullPath + @"\" + file.GetFileName;
-
-					string sourceDat = file.GetPath + @"\" + file.GetFileNameWithoutExtension + ".dat";
-
-					string destDat = seedFiles.Folder.GetFullPath + @"\" + file.GetFileNameWithoutExtension + ".dat";
-
-					if (!File.Exists(destSeed) && !File.Exists(destDat))
-					{
-						File.Copy(sourceSeed, destSeed);
-						File.Copy(sourceDat, destDat);
-
-						count++;
-					}
-				}
-			}
-			catch
-			{
-				// file processing error
-				// failed
-				return -1;
-			}
-
-			return count;
-		}
-
-
-		private string GetSiteSettingFolder()
-		{
-			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select Site Setting Folder - "
-				+ TITLE))
-			{
-				cfd.IsFolderPicker = true;
-				cfd.Multiselect = false;
-				cfd.ShowPlacesList = true;
-				cfd.AllowNonFileSystemItems = false;
-
-				cfd.AllowPropertyEditing = false;
-
-				CommonFileDialogResult	result = cfd.ShowDialog();
-
-				if (result != CommonFileDialogResult.Ok)
-				{
-					return null;
-				}
-
-				return cfd.FileName;
-			}
-
-		#pragma warning disable CS0162 // Unreachable code detected
-			return null;
-		#pragma warning restore CS0162 // Unreachable code detected
-		}
-
-		private void CannotProceed(string message)
-		{
-			MessageBoxResult result = MessageBox.Show(message,
-				"Setup Cannot Proceed",
-				MessageBoxButton.OK,
-				MessageBoxImage.Error);
-
-			this.Close();
-		}
+		// private void ConfigFileVars()
+		// {
+		// 	ConfigSuite su = cfgMgr.Suite;
+		// 	ConfigSite si = cfgMgr.Site;
+		// 	ConfigSeed se = cfgMgr.Seed;
+		// 	ConfigSeedInstalled sei = cfgMgr.SeedInstalled;
+		//
+		// }
 
 	#endregion
 
@@ -393,19 +405,24 @@ namespace AndyConfig.Windows
 			// 3. configure local, suite config file (keep local)
 
 			// take the selected files from this list and...
-			// cfgMgr.SeedInstalled.InstalledSeedFiles.FoundFiles
+			// cfgMgr.SeedInstalled.InstalledSeedFileList.FoundFiles
 
 			// and place the configuration settings into this config file
 			// and copy them into this folder
 			// which will allow local seed files
 			// cfgMgr.Suite.
 
-			cfgMgr.Seed.SaveSeedFileList();
+
+			// cfgMgr.Seed.SaveSeedFileList();
+
+			cfgMgr.SeedInstalled.Update();
+
+			cfgMgr.SeedLocal.GetSeedFileList();
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			// Debug.WriteLine("At Debug");
+			Debug.WriteLine("At Debug");
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -421,20 +438,26 @@ namespace AndyConfig.Windows
 		private void Dg1_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 
-			if (e.OriginalSource.GetType() == typeof(CheckBox)) return;
+			if (e.OriginalSource.GetType() == typeof(CheckBox)
+				|| selInstalledSeedFile == null ) return;
 
-			selectedInstalledSeedFile.GetFileNameObject.Selected =
-				!selectedInstalledSeedFile.GetFileNameObject.Selected;
+			// selectedInstalledSeedFile.GetFileNameObject.Selected =
+			// 	!selectedInstalledSeedFile.GetFileNameObject.Selected;
+
+			selInstalledSeedFile.Selected =
+				!selInstalledSeedFile.Selected;
+
+
 		}
 
-		private void Dg1SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void Dg1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
 		{
 			Debug.WriteLine("at Selected Changed");
 
-			selectedInstalledSeedFile = 
-				Dg1.Items[Dg1.SelectedIndex] as FilePath<FileNameSimpleSelectable>;
+			selInstalledSeedFile = 
+				Dg1.Items[Dg1.SelectedIndex] as ConfigSeedFileSetting;
 
-			Dg1.CurrentCell = new DataGridCellInfo(selectedInstalledSeedFile, Dg1.Columns[0]);
+			Dg1.CurrentCell = new DataGridCellInfo(selInstalledSeedFile, Dg1.Columns[0]);
 			Dg1.BeginEdit();
 		}
 
@@ -450,6 +473,8 @@ namespace AndyConfig.Windows
 //			catch { }
 
 			Suite.Read();
+
+			// ConfigFileVars();
 
 //			seedFiles = new FolderAndFileSupport(null, SEED_PATTERN);
 //
@@ -517,4 +542,20 @@ namespace AndyConfig.Windows
 			return null;
 		}
 	}
+
+	// [ValueConversion(typeof(bool), typeof(string))]
+	// public class BoolToString : IValueConverter
+	// {
+	// 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	// 	{
+	// 		return (bool) value ? "True" : "False";
+	// 	}
+	//
+	// 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+	// 	{
+	// 		return null;
+	// 	}
+	// }
+
+
 }

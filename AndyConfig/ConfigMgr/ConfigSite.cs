@@ -9,13 +9,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using SettingsManager;
+using AndyShared.ConfigSupport;
 
 #endregion
 
 // username: jeffs
 // created:  6/20/2020 9:46:37 PM
 
-namespace AndyConfig.ConfigMgr
+namespace AndyShared.ConfigMgr
 {
 	public class ConfigSite : INotifyPropertyChanged
 	{
@@ -56,6 +57,8 @@ namespace AndyConfig.ConfigMgr
 
 		public string SiteSettingsFilePath => SiteSettings.Path.SettingPath;
 
+		// private SortedDictionary<string, ConfigSeedFileSetting> SiteInstSeedFiles => SiteSettings.Data.InstalledSeedFiles;
+
 		public SiteSettingInfo70<SiteSettingData70> Info => SiteSettings.Info;
 
 		public ConfigSeed Seed { get; private set; } = new ConfigSeed();
@@ -77,11 +80,6 @@ namespace AndyConfig.ConfigMgr
 			UpdateProperties();
 
 			Seed.Initialize();
-		}
-
-		public void UpdateSeedFileList()
-		{
-
 		}
 
 	#endregion

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using ClassifierEditor.ConfigSupport;
+
+using AndyShared.ConfigSupport;
 
 // Solution:     SettingsManager
 // Project:       SettingsManagerV70
@@ -10,7 +12,7 @@ using ClassifierEditor.ConfigSupport;
 namespace SettingsManager
 {
 
-#region info class
+	#region info class
 
 	[DataContract(Name = "SiteSettingInfo", Namespace = "")]
 	public class SiteSettingInfo70<T> : SiteSettingInfoBase<T>
@@ -33,7 +35,8 @@ namespace SettingsManager
 	public class SiteSettingData70
 	{
 		[DataMember(Order = 1)]
-		public Dictionary<string, ConfigSeedFileSetting> InstSeedFiles { get; set; }
+		public ObservableCollection<ConfigSeedFileSetting> InstalledSeedFiles { get; set; }
+		// public SortedDictionary<string, ConfigSeedFileSetting> InstalledSeedFiles { get; set; }
 //			= new Dictionary<string, ConfigSeedFileSetting>()
 //			{
 //				{"Andy :: No User",  new ConfigSeedFileSetting("Andy", "No User", "Seed Files", "Basic", "")}

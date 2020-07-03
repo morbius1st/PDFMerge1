@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using AndyConfig.Windows;
+using AndyShared.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
@@ -19,7 +19,7 @@ using UtilityLibrary;
 // username: jeffs
 // created:  6/19/2020 7:09:57 PM
 
-namespace AndyConfig.ConfigMgr
+namespace AndyShared.ConfigMgr
 {
 	public class ConfigSuite : INotifyPropertyChanged
 	{
@@ -39,11 +39,11 @@ namespace AndyConfig.ConfigMgr
 
 		public bool SuiteSettingsFileExists => SuiteSettings.Path.Exists;
 
-		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
+		public string SiteSettingsRootPath => SuiteSettings.Data.SiteRootPath;
 
-		public bool SiteRootPathIsValid => !SiteRootPath.IsVoid();
+		public bool SiteSettingsRootPathIsValid => !SiteSettingsRootPath.IsVoid();
 
-		public string SiteSettingFileName => SiteSettings.Path.FileName;
+		public string SuiteSettingFileName => SuiteSettings.Path.FileName;
 
 		public SuiteSettingInfo70<SuiteSettingData70> Info => SuiteSettings.Info;
 
@@ -128,7 +128,7 @@ namespace AndyConfig.ConfigMgr
 			OnPropertyChange("Initalized");
 			OnPropertyChange("SuiteSettingsFileExists");
 			OnPropertyChange("SiteRootPath");
-			OnPropertyChange("SiteRootPathIsValid");
+			OnPropertyChange("SiteSettingsRootPathIsValid");
 		}
 	#endregion
 

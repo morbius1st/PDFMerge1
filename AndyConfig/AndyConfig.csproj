@@ -111,7 +111,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FilesSupport\FolderAndFileSupport.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -156,15 +155,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FilesSupport\" />
     <Folder Include="Settings\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\StoreAndRead2\StoreAndRead2.csproj">
-      <Project>{17F95F93-00E8-48C9-8554-A9FB8E84F57F}</Project>
-      <Name>StoreAndRead2</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

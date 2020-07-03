@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using AndyShared.ConfigSupport;
 using AndyShared.FilesSupport;
-using ClassifierEditor.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -18,19 +18,26 @@ using UtilityLibrary;
 // username: jeffs
 // created:  6/21/2020 6:34:39 AM
 
-namespace AndyConfig.ConfigMgr
+namespace AndyShared.ConfigMgr
 {
 	public class ConfigSeed : INotifyPropertyChanged
 	{
 	#region private fields
 
-		public const string SEED_FOLDER = @"Seed Files";
+		public static string SEED_PATTERN = @"*.seed.xml";
+		public static string SEED_FOLDER_NAME = @"Seed Files";
+		public static string SEED_FOLDER = @"\"+ SEED_FOLDER_NAME;
 
 	#endregion
 
 	#region ctor
 
-		public ConfigSeed() { }
+		public ConfigSeed()
+		{
+			SeedInstalled = new ConfigSeedInstalled();
+
+			SeedLocal = new ConfigSeedLocal();
+		}
 
 	#endregion
 
@@ -45,18 +52,16 @@ namespace AndyConfig.ConfigMgr
 			get => Directory.Exists(SiteSettingsSeedFolderPath);
 		}
 
-		public string SiteSettingsSeedFolderPath => SiteSettings.Path.SettingPath + "\\" + SEED_FOLDER;
-
+		public string SiteSettingsSeedFolderPath => SiteSettings.Path.SettingPath + SEED_FOLDER;
 
 		// seed files
-
-		public bool HasSeedFileSetting => (SiteSettings.Data.InstSeedFiles != null &&
-			SiteSettings.Data.InstSeedFiles.Count > 0);
-
+		public bool HasSeedFileSetting => (SiteSettings.Data.InstalledSeedFiles != null &&
+			SiteSettings.Data.InstalledSeedFiles.Count > 0);
 
 		// seed files installed
-		public ConfigSeedInstalled SeedInstalled {get; private set; } = new ConfigSeedInstalled();
+		public ConfigSeedInstalled SeedInstalled {get; private set; } 
 
+		public ConfigSeedLocal SeedLocal { get; private set; }
 
 	#endregion
 
@@ -68,49 +73,54 @@ namespace AndyConfig.ConfigMgr
 
 		public void Initialize()
 		{
+			if (Initialized) return;
+
 			Initialized = true;
 
 			SeedInstalled.Initialize();
 
+			SeedLocal.Initialize();
+
 			UpdateProperties();
 
-			UpdateSelectedSeedFile();
+			// UpdateSelectedSeedFile();
 		}
 
-		public void SaveSeedFileList()
-		{
-			SiteSettings.Data.InstSeedFiles = new Dictionary<string, ConfigSeedFileSetting>();
-
-			foreach (FilePath<FileNameSimpleSelectable> file in 
-				SeedInstalled.InstalledSeedFiles.FoundFiles)
-			{
-				string sampleFile =
-					file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
-
-				bool exists = File.Exists(sampleFile);
-
-				string key = makeKey(file);
-
-				if (!exists)
-				{
-					sampleFile = null;
-				}
-
-				ConfigSeedFileSetting seedFile =
-					new ConfigSeedFileSetting(
-						file.GetFileNameWithoutExtension,
-						Heading.SuiteName,
-						false, 
-						file.GetFileNameObject.Selected,
-						file.GetPath,
-						file.GetFileName,
-						sampleFile);
-
-				SiteSettings.Data.InstSeedFiles.Add(key, seedFile);
-			}
-
-			SiteSettings.Admin.Write();
-		}
+		// public void SaveSeedFileList()
+		// {
+		// 	SiteSettings.Data.InstalledSeedFiles = new SortedDictionary<string, ConfigSeedFileSetting>();
+		//
+		// 	foreach (FilePath<FileNameSimpleSelectable> file in 
+		// 		SeedInstalled.InstalledSeedFileList.FoundFiles)
+		// 	{
+		// 		string sampleFile =
+		// 			file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
+		//
+		// 		bool exists = File.Exists(sampleFile);
+		//
+		// 		string key = makeKey(file);
+		//
+		// 		if (!exists)
+		// 		{
+		// 			sampleFile = null;
+		// 		}
+		//
+		// 		ConfigSeedFileSetting seedFile =
+		// 			new ConfigSeedFileSetting(
+		// 				file.GetFileNameWithoutExtension,
+		// 				Heading.SuiteName,
+		// 				false, 
+		// 				false,
+		// 				file.GetFileNameObject.Selected,
+		// 				file.GetPath,
+		// 				file.GetFileName,
+		// 				sampleFile);
+		//
+		// 		SiteSettings.Data.InstalledSeedFiles.Add(key, seedFile);
+		// 	}
+		//
+		// 	SiteSettings.Admin.Write();
+		// }
 
 	#endregion
 
@@ -125,30 +135,37 @@ namespace AndyConfig.ConfigMgr
 		private void UpdateProperties()
 		{
 			OnPropertyChange("Initialized");
+			OnPropertyChange("SeedInstalled");
+			OnPropertyChange("SeedLocal");
 			OnPropertyChange("SiteSettingsSeedFolderExists");
 			OnPropertyChange("SiteSettingsSeedFolderPath");
 			OnPropertyChange("HasSeedFileSetting");
 		}
 
-		private void UpdateSelectedSeedFile()
-		{
-			if (SiteSettings.Data.InstSeedFiles == null ||
-				SiteSettings.Data.InstSeedFiles.Count == 0) return;
-
-			foreach (FilePath<FileNameSimpleSelectable> file in
-				SeedInstalled.InstalledSeedFiles.FoundFiles)
-			{
-				string key = makeKey(file);
-
-				ConfigSeedFileSetting seed =
-					SiteSettings.Data.InstSeedFiles[key];
-
-				if (seed == null) continue;
-
-				file.GetFileNameObject.Selected =
-					seed.Selected;
-			}
-		}
+		// read the files found in the folder and update the
+		// list in the config file
+		// cross ref with current config file list to determine
+		// if a file is selected
+		// this updates with any added
+		// private void UpdateSelectedSeedFile()
+		// {
+		// 	if (SiteSettings.Data.InstalledSeedFiles == null ||
+		// 		SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
+		//
+		// 	foreach (FilePath<FileNameSimpleSelectable> file in
+		// 		SeedInstalled.InstalledSeedFileList.FoundFiles)
+		// 	{
+		// 		string key = makeKey(file);
+		//
+		// 		ConfigSeedFileSetting seed =
+		// 			SiteSettings.Data.InstalledSeedFiles[key];
+		//
+		// 		if (seed == null) continue;
+		//
+		// 		file.GetFileNameObject.Selected =
+		// 			seed.Selected;
+		// 	}
+		// }
 
 	#endregion
 

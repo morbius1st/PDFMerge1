@@ -1,11 +1,15 @@
 ﻿#region + Using Directives
+
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security;
+using AndyShared.FilesSupport;
+using AndyShared.Support;
+using SettingsManager;
 using UtilityLibrary;
-
-
 
 #endregion
 
@@ -13,17 +17,17 @@ using UtilityLibrary;
 // created:   6/14/2020 7:35:44 AM
 
 
-namespace ClassifierEditor.ConfigSupport
+namespace AndyShared.ConfigSupport
 {
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ConfigSeedFileSetting))]
-	public class ConfigFileSetting : INotifyPropertyChanged
+	public class ConfigFileSetting : INotifyPropertyChanged, IObservCollMember
 	{
 		private FilePath<FileNameSimple> filePath;
 		private string fileName;
 		private string folder;
 
-		public ConfigFileSetting() {}
+		public ConfigFileSetting() { }
 
 		public ConfigFileSetting(string name,
 			string username,
@@ -37,7 +41,7 @@ namespace ClassifierEditor.ConfigSupport
 		}
 
 		[IgnoreDataMember]
-		public string Key => UserName + " :: " + Name;
+		public string Key => MakeKey();
 
 		// identification name
 		[DataMember(Order = 1)]
@@ -85,6 +89,11 @@ namespace ClassifierEditor.ConfigSupport
 		}
 
 
+		public string MakeKey()
+		{
+			return SiteSettings.Data.MakeKey(UserName, Name);
+		}
+
 		private void AssignFilePath()
 		{
 			if (fileName != null && folder != null)
@@ -93,7 +102,7 @@ namespace ClassifierEditor.ConfigSupport
 			}
 			else
 			{
-				FilePath =FilePath<FileNameSimple>.Invalid;
+				FilePath = FilePath<FileNameSimple>.Invalid;
 			}
 		}
 
@@ -106,18 +115,21 @@ namespace ClassifierEditor.ConfigSupport
 	}
 
 	[DataContract(Namespace = "")]
-	public class ConfigSeedFileSetting : ConfigFileSetting
+	public class ConfigSeedFileSetting : ConfigFileSetting, ICloneable
 	{
 		private string assocSamplePathAndFile;
 		private FilePath<FileNameSimple> assocSampleFile;
 		private bool local;
 		private bool selected;
+		private bool remove;
 
+		public ConfigSeedFileSetting() { }
 
 		public ConfigSeedFileSetting(string name,
 			string username,
 			bool local,
 			bool selected,
+			bool remove,
 			string folder,
 			string fileName,
 			string samplePathAndFile) : base(name, username, folder, fileName)
@@ -138,7 +150,18 @@ namespace ClassifierEditor.ConfigSupport
 			}
 		}
 
-		[DataMember(Order = 11)]
+		[IgnoreDataMember]
+		public bool Remove
+		{
+			get => remove;
+			set
+			{
+				remove = value;
+				OnPropertyChange();
+			}
+		}
+
+		[DataMember(Order = 12)]
 		public bool Selected
 		{
 			get => selected;
@@ -149,7 +172,7 @@ namespace ClassifierEditor.ConfigSupport
 			}
 		}
 
-		[DataMember(Order = 12)]
+		[DataMember(Order = 15)]
 		public string AssociatedSamplePathAndFile
 		{
 			get => assocSamplePathAndFile;
@@ -180,8 +203,65 @@ namespace ClassifierEditor.ConfigSupport
 			}
 		}
 
+		public object Clone()
+		{
+			return new ConfigSeedFileSetting(
+				Name,
+				UserName,
+				Local,
+				Selected,
+				Remove,
+				Folder,
+				FileName,
+				AssociatedSamplePathAndFile);
+		}
+
+	#region public static methods
+
+
+		public static string MakeKey(FilePath<FileNameSimpleSelectable> file)
+		{
+			return SiteSettings.Data.MakeKey(Heading.SuiteName,
+				file.GetFileNameWithoutExtension);
+		}
+
+
+		public static ConfigSeedFileSetting MakeSeedItem(
+			FilePath<FileNameSimpleSelectable> file, string suiteName,
+			string sampleFile)
+		{
+			string key = MakeKey(file);
+
+			return new ConfigSeedFileSetting(
+				file.GetFileNameWithoutExtension,
+				suiteName,
+				false,
+				false,
+				file.GetFileNameObject.Selected,
+				file.GetPath,
+				file.GetFileName,
+				sampleFile);
+		}
+
+	#endregion
+
 	}
 
-
-
+	// public class ConfigSeedFileComparer : IEqualityComparer<ConfigSeedFileSetting>
+	// {
+	// 	public bool Equals(ConfigSeedFileSetting x, string y)
+	// 	{
+	// 		return x.MakeKey().Equals(y);
+	// 	}
+	//
+	// 	public bool Equals(ConfigSeedFileSetting x, ConfigSeedFileSetting y)
+	// 	{
+	// 		return false;
+	// 	}
+	//
+	// 	public int GetHashCode(ConfigSeedFileSetting obj)
+	// 	{
+	// 		return 0;
+	// 	}
+	// }
 }
