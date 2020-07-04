@@ -19,23 +19,50 @@ using UtilityLibrary;
 // username: jeffs
 // created:  6/19/2020 7:09:57 PM
 
+// ConfigSuite - the SuiteSettingFile configuration routines
+// (as a  static instances)
+// properties
+//  initialized
+//  the root path to the site file (stored)
+//  the name of the site setting file (stored)
+//  flag: suite setting file exists
+//  SuiteSettingsFile's info
+// methods
+//  initialize
+//  read()
+//  write()
+//  GetSiteSeedFolderPath
+// event
+//  site folder changed
+// ** move select folder to shared
+// ** remove configsite
+
+
 namespace AndyShared.ConfigMgr
 {
 	public class ConfigSuite : INotifyPropertyChanged
 	{
 	#region private fields
 
+		private static readonly Lazy<ConfigSuite> instance =
+			new Lazy<ConfigSuite>(() => new ConfigSuite());
+
 	#endregion
 
 	#region ctor
 
-//		public ConfigSuite() { }
+		private ConfigSuite() { }
 
 	#endregion
 
 	#region public properties
 
+		public static ConfigSuite Instance => instance.Value;
+
 		public static bool Initalized { get; private set; }
+
+		public string SuiteSettingPath => SuiteSettings.Path.SettingPath;
+		public string SuiteSettingFileName => SuiteSettings.Path.FileName;
 
 		public bool SuiteSettingsFileExists => SuiteSettings.Path.Exists;
 
@@ -43,11 +70,7 @@ namespace AndyShared.ConfigMgr
 
 		public bool SiteSettingsRootPathIsValid => !SiteSettingsRootPath.IsVoid();
 
-		public string SuiteSettingFileName => SuiteSettings.Path.FileName;
-
 		public SuiteSettingInfo70<SuiteSettingData70> Info => SuiteSettings.Info;
-
-		public ConfigSite Site { get; private set; } = new ConfigSite();
 
 	#endregion
 
@@ -57,20 +80,13 @@ namespace AndyShared.ConfigMgr
 
 	#region public methods
 
-		public void Read()
+		public void Initialize()
 		{
-			SuiteSettings.Admin.Read();
-
 			Initalized = true;
 
-			updateProperties();
+			UpdateProperties();
 
-			if (!SuiteSettings.Data.SiteRootPath.IsVoid())
-			{
-				Site.SiteSettingsRootPath = SuiteSettings.Data.SiteRootPath;
-
-				Site.Read();
-			}
+			SuiteSettings.Admin.Read();
 		}
 
 		public void Write()
@@ -80,24 +96,29 @@ namespace AndyShared.ConfigMgr
 
 		public void GetSiteSettingFolder()
 		{
-			string selected = SelectSettingFolder();
+			string siteSettingFolder = SelectSettingFolder();
 
-			if (selected.IsVoid()) return;
+			if (siteSettingFolder.IsVoid()) return;
 
-			SuiteSettings.Data.SiteRootPath = selected;
+			SuiteSettings.Data.SiteRootPath = siteSettingFolder;
 
 			Write();
 
-			Site.SiteSettingsRootPath = selected;
+			IssuePathChangeEvent();
 
-			Site.Read();
+			UpdateProperties();
 
-			updateProperties();
+			// bool isFilePath;
+			// bool isFolderPath;
+			//
+			// bool exists = FilePathUtil.Exists(siteSettingFolder, out isFolderPath, out isFilePath);
+			//
+			// Site.SiteSettingsRootPath = siteSettingFolder;
 		}
 
 		public string SelectSettingFolder()
 		{
-			string selected; 
+			string siteSettingFolder;
 
 			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select Site Setting Folder - "
 				+ MainWindow.TITLE))
@@ -113,23 +134,34 @@ namespace AndyShared.ConfigMgr
 
 				if (result != CommonFileDialogResult.Ok) return null;
 
-				selected = cfd.FileName;
+				siteSettingFolder = cfd.FileName;
 			}
 
-			return selected;
+			return siteSettingFolder;
 		}
+
+		
 
 	#endregion
 
 	#region private methods
 
-		private void updateProperties()
+		private void UpdateProperties()
 		{
 			OnPropertyChange("Initalized");
+			OnPropertyChange("SuiteSettingPath");
 			OnPropertyChange("SuiteSettingsFileExists");
 			OnPropertyChange("SiteRootPath");
 			OnPropertyChange("SiteSettingsRootPathIsValid");
 		}
+
+		private void IssuePathChangeEvent()
+		{
+			PathChangedEventArgs e = new PathChangedEventArgs() {Path = SiteSettingsRootPath};
+
+			RaiseOnSiteRootPathChangedEvent(e);
+		}
+
 	#endregion
 
 	#region event processing
@@ -139,6 +171,15 @@ namespace AndyShared.ConfigMgr
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+		public delegate void OnSiteRootPathChangedEventHandler(object sender, PathChangedEventArgs e);
+
+		public event OnSiteRootPathChangedEventHandler OnSiteRootPathChanged;
+
+		protected virtual void RaiseOnSiteRootPathChangedEvent(PathChangedEventArgs e)
+		{
+			OnSiteRootPathChanged?.Invoke(this, e);
 		}
 
 	#endregion
@@ -170,5 +211,12 @@ namespace AndyShared.ConfigMgr
 
 			return ValidationResult.ValidResult;
 		}
+	}
+
+	public class PathChangedEventArgs : EventArgs
+	{
+		public  bool HasFileName { get; set; }
+		public string Path { get; set; }
+		public string FileName { get; set; }
 	}
 }

@@ -23,21 +23,53 @@ using AndyShared.Support;
 // username: jeffs
 // created:  6/21/2020 3:18:01 PM
 
+// ConfigInstalledSeedFiles - the Installed Seed Folder and Files
+// (as a  static instances)
+// properties
+//  initialized
+//  list of files found in the seed installed folder
+//  the collection of files found in the seed installed folder (need to combine with the above)
+//  the view of the collection
+//  the install folder path
+//  the installed seed folder name
+//  the installed seed folder exists
+//  the count of installed seed files
+// methods
+//  initialize
+//  Read folder
+//  filter collection
+// events
+//  installed seed file Collection updated
+//  installed seed file collection view updated
+
+
 namespace AndyShared.ConfigMgr
 {
 	public class ConfigSeedInstalled : INotifyPropertyChanged
 	{
 	#region private fields
 
+		private static readonly Lazy<ConfigSeedInstalled> instance =
+			new Lazy<ConfigSeedInstalled>(() => new ConfigSeedInstalled());
+
+		private  ObservableCollection<ConfigSeedFile> installedSeedFiles =
+			new ObservableCollection<ConfigSeedFile>();
+
+		private ICollectionView installedSeedFileView;
+
+		private FilePath<FileNameSimpleSelectable> installedSeedFilePath;
+
 	#endregion
 
 	#region ctor
 
-		public ConfigSeedInstalled() { }
+		private ConfigSeedInstalled() { }
 
 	#endregion
 
 	#region public properties
+
+		public static ConfigSeedInstalled Instance => instance.Value;
 
 		public bool Initialized { get; set; }
 
@@ -48,19 +80,31 @@ namespace AndyShared.ConfigMgr
 			Assembly.GetExecutingAssembly().Location;
 	#endif
 
-		public FolderAndFileSupport InstalledSeedFileList { get; private set; }
+		public string InstallSeedFileFolder => installedSeedFilePath.GetPath;
 
-		public ObservableCollection<ConfigSeedFileSetting> InstalledSeedFiles => SiteSettings.Data.InstalledSeedFiles;
+		public bool InstalledFolderExists => installedSeedFilePath.IsFound;
 
-		public ICollectionView View { get; private set; }
+		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles 
+		{
+			get => installedSeedFiles;
+			private set
+			{
+				installedSeedFiles = value;
+				OnPropertyChange();
+			}
+	}
 
-		public string InstallSeedFileFolder => InstallFolder + ConfigSeedSite.SEED_FOLDER;
+		public ICollectionView View
+		{
+			get => installedSeedFileView;
 
-		public bool InstalledFolderExists => InstalledSeedFileList?.FolderExists ?? false;
+			private set
+			{
+				installedSeedFileView = value;
 
-		public bool InstalledSeedFilesExist => InstalledSeedFilesCount > 0;
-
-		public int InstalledSeedFilesCount => InstalledSeedFileList?.Count ?? 0;
+				OnPropertyChange();
+			}
+		}
 
 	#endregion
 
@@ -72,27 +116,25 @@ namespace AndyShared.ConfigMgr
 
 		public void Initialize()
 		{
+			if (Initialized) return;
+
 			Initialized = true;
 
-			View = CollectionViewSource.GetDefaultView(SiteSettings.Data.InstalledSeedFiles);
+			installedSeedFilePath = new FilePath<FileNameSimpleSelectable>(
+				InstallFolder + ConfigSeedFileSupport.SEED_FOLDER);
 
-			InstalledSeedFileList =
-				new FolderAndFileSupport(InstallSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
-
-			InstalledSeedFileList.GetFiles();
-
+			// update the seed file list held by the site setting folder
 			UpdateInstalledSeedFileList();
 
-			Update();
+			UpdateView();
 
 			UpdateProperties();
 		}
 
-		public void Update()
+		public void Apply()
 		{
-			SiteSettings.Admin.Write();
+			RaiseOnInstalledSeedCollectionUpdatedEvent();
 		}
-
 
 	#endregion
 
@@ -101,14 +143,15 @@ namespace AndyShared.ConfigMgr
 		private void UpdateProperties()
 		{
 			OnPropertyChange("Initialized");
-			OnPropertyChange("View");
+			OnPropertyChange("InstallSeedFileFolder");
 			OnPropertyChange("InstalledFolderExists");
-			OnPropertyChange("InstalledSeedFilesExist");
-			OnPropertyChange("InstalledSeedFilesCount");
-			OnPropertyChange("InstalledSeedFileList");
 			OnPropertyChange("InstalledSeedFiles");
 		}
 
+		private void UpdateView()
+		{
+			View = CollectionViewSource.GetDefaultView(installedSeedFiles);
+		}
 
 		// adjust the config file's list based on the actual list in
 		// the folder and keep from the list any that no longer exist
@@ -117,90 +160,55 @@ namespace AndyShared.ConfigMgr
 		// files are selected
 		private void UpdateInstalledSeedFileList()
 		{
-			if (InstalledSeedFileList.Folder == FilePath<FileNameSimpleSelectable>.Invalid
-				|| InstalledSeedFileList.Count == 0)
+			if (InstallSeedFileFolder.IsVoid()) return;
+
+			if (installedSeedFiles == null)
 			{
 				// empty the list - if found files is none, the
 				// actual list will be empty
-				SiteSettings.Data.InstalledSeedFiles = new ObservableCollection<ConfigSeedFileSetting>();
-				
-				OnPropertyChange("InstalledSeedFiles");
+				installedSeedFiles = new ObservableCollection<ConfigSeedFile>();
 			}
-			else
+
+			foreach (string file in Directory.EnumerateFiles(InstallSeedFileFolder,
+				ConfigSeedFileSupport.SEED_PATTERN, SearchOption.AllDirectories))
 			{
-				if (SiteSettings.Data.InstalledSeedFiles == null)
+				FilePath < FileNameSimpleSelectable > seedFile =
+					new FilePath<FileNameSimpleSelectable>(file);
+
+				string key = ConfigFile.MakeKey(Heading.SuiteName,
+					seedFile.GetFileNameWithoutExtension);
+
+				ConfigSeedFile found = SiteSettings.Data.InstalledSeedFiles.Find(key);
+
+				if (found != null)
 				{
-					SiteSettings.Data.InstalledSeedFiles = new ObservableCollection<ConfigSeedFileSetting>();
+					found.Keep = true;
 				}
-
-				// flag to keep all entries - then, un-flag below
-				// FlagRemoveSeedFiles();
-
-				// scan through the list of found files and configure
-				// the list
-				foreach (FilePath<FileNameSimpleSelectable> file in InstalledSeedFileList.FoundFiles)
+				else
 				{
-					string key = ConfigSeedFileSetting.MakeKey(file);
+					ConfigSeedFile seed =
+						ConfigSeedFileSupport.MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
+							ConfigSeedFileSupport.GetSampleFile(seedFile));
 
-					ConfigSeedFileSetting found = SiteSettings.Data.InstalledSeedFiles.Find(key);
-
-					if (found != null)
-					{
-						// existing entry found
-						// un-flag keep
-						found.Keep = true;
-					}
-					else
-					{
-						// existing entry not found
-						// add item
-						SiteSettings.Data.InstalledSeedFiles.Add(
-							ConfigSeedFileSetting.MakeSeedItem(
-								file,
-								Heading.SuiteName,
-								GetInstalledSampleFile(file)));
-					}
+					installedSeedFiles.Add(seed);
 				}
-
-				ProcessNotKeptSeedFiles();
-			}
-		}
-
-		private string GetInstalledSampleFile(FilePath<FileNameSimpleSelectable> file)
-		{
-			string sampleFile =
-				file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
-
-			bool exists = File.Exists(sampleFile);
-
-			if (!exists)
-			{
-				sampleFile = null;
 			}
 
-			return sampleFile;
-		}
+			ProcessNotKeptSeedFiles();
 
-		private void FlagRemoveSeedFiles()
-		{
-			if (SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
-
-			foreach (ConfigSeedFileSetting fileSetting in SiteSettings.Data.InstalledSeedFiles)
-			{
-				fileSetting.Keep = true;
-			}
+			RaiseOnInstalledSeedCollectionUpdatedEvent();
 		}
 
 		private void ProcessNotKeptSeedFiles()
 		{
-			for (var i = SiteSettings.Data.InstalledSeedFiles.Count - 1; i >= 0; i--)
+			for (int i = installedSeedFiles.Count - 1; i >= 0; i--)
 			{
-				if (SiteSettings.Data.InstalledSeedFiles[i].Keep == false)
+				if (installedSeedFiles[i].Keep == false)
 				{
-					SiteSettings.Data.InstalledSeedFiles.RemoveAt(i);
+					installedSeedFiles.RemoveAt(i);
 				}
 
-				SiteSettings.Data.InstalledSeedFiles[i].Keep = false;
+				installedSeedFiles[i].Keep = false;
 			}
 		}
 
@@ -214,6 +222,16 @@ namespace AndyShared.ConfigMgr
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+		public delegate void OnInstalledSeedCollectionUpdatedEventHandler(object sender);
+
+		public event OnInstalledSeedCollectionUpdatedEventHandler OnInstalledSeedCollectionUpdated;
+
+		protected virtual void RaiseOnInstalledSeedCollectionUpdatedEvent()
+		{
+			OnInstalledSeedCollectionUpdated?.Invoke(this);
+		}
+
 
 	#endregion
 

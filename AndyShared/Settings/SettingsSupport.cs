@@ -8,14 +8,6 @@ namespace AndyShared.Settings
 {
 	class SettingsSupport
 	{
-		public static void SettingsInit()
-		{
-			SuiteSettings.Admin.Read();
-
-			SiteSettings.Path.RootPath = SuiteSettings.Data.SiteRootPath;
-
-			SiteSettings.Admin.Read();
-		}
 
 		public static List<FilePath<FileNameSimpleSelectable>>
 			GetSiteFiles( FilePath<FileNameSimpleSelectable> folder,

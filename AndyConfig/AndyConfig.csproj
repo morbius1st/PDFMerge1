@@ -156,8 +156,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FilesSupport\" />
-    <Folder Include="Settings\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>

@@ -16,6 +16,9 @@ using SettingsManager;
 // username: jeffs
 // created:  6/19/2020 7:08:28 PM
 
+
+
+
 namespace AndyShared.ConfigMgr
 {
 	public class ConfigManager : INotifyPropertyChanged
@@ -26,15 +29,13 @@ namespace AndyShared.ConfigMgr
 
 	#region ctor
 
-		public ConfigManager()
-		{
-			Suite = new ConfigSuite();
-
-		}
+		public ConfigManager() { }
 
 	#endregion
 
 	#region public properties
+
+		public bool Initalized { get; private set; }
 
 		/// <summary>
 		/// <c>ConfigSuite</c><br/>
@@ -55,15 +56,15 @@ namespace AndyShared.ConfigMgr
 		/// SiteSettingsFilePath      : string  : site setting file path (not used)<br/>
 		/// Seed                      : ConfigSeed: config seed file object<br/>
 		/// </summary>
-		public ConfigSite Site => Suite?.Site ?? null;
+		public ConfigSite Site { get; private set; }
 
-		/// <summary>
-		/// <c>ConfigSeed</c><br/>
-		/// SiteSeedFolderPath: string  : site seed folder path<br/>
-		/// HasSeedFileSetting        : bool    : has site installed seed files<br/>
-		/// SeedInstalled             : ConfigSeedInstalled: config installed seed file object<br/>
-		/// </summary>
-		public ConfigSeed Seed => Site?.Seed ?? null;
+		// /// <summary>
+		// /// <c>ConfigSeed</c><br/>
+		// /// SiteSeedFolderPath: string  : site seed folder path<br/>
+		// /// HasSeedFileSetting        : bool    : has site installed seed files<br/>
+		// /// SeedInstalled             : ConfigSeedInstalled: config installed seed file object<br/>
+		// /// </summary>
+		// public ConfigSeed Seed { get; private set; }
 
 		/// <summary>
 		/// <c>ConfigSeedInstalled</c><br/>
@@ -73,18 +74,15 @@ namespace AndyShared.ConfigMgr
 		/// InstalledFolderExists     : bool    : site seed folder exists<br/>
 		/// InstalledSeedFilesCount   : int     : count of installed seed files<br/>
 		/// </summary>
-		public ConfigSeedInstalled SeedInstalled => Seed?.SeedInstalled ?? null;
+		public ConfigSeedInstalled SeedInstalled { get; private set; }
 
-
-		
-		
-		public ConfigSeedSite SeedSite => Seed?.SeedSite ?? null;
+		public ConfigSeedSite SeedSite { get; private set; }
 
 		/// <summary>
 		/// <c>ConfigSeedLocal</c><br/>
 		/// LocalSeedFileFolder        : FolderAndFileSupport  : folder for the local seed files<br/>
 		/// </summary>
-		public ConfigSeedLocal SeedLocal => Seed?.SeedLocal ?? null;
+		public ConfigSeedLocal SeedLocal { get; private set; }
 
 	#endregion
 
@@ -93,6 +91,34 @@ namespace AndyShared.ConfigMgr
 	#endregion
 
 	#region public methods
+
+		public void Initialize()
+		{
+			if (Initalized) return;
+
+			Initalized = true;
+
+			Suite = ConfigSuite.Instance;
+			Suite.Initialize();
+
+			Site = ConfigSite.Instance;
+			Site.Initialize(Suite.SiteSettingsRootPath);
+
+			Suite.OnSiteRootPathChanged += Site.SuiteOnOnSiteRootPathChanged;
+
+			SeedInstalled = ConfigSeedInstalled.Instance;
+			SeedInstalled.Initialize();
+
+			SeedInstalled.OnInstalledSeedCollectionUpdated += Site.OnInstalledSeedCollectionUpdated;
+			// Seed = ConfigSeed.Instance;
+
+			SeedInstalled = ConfigSeedInstalled.Instance;
+
+			SeedSite = ConfigSeedSite.Instance;
+
+			SeedLocal = ConfigSeedLocal.Instance;
+
+		}
 
 	#endregion
 

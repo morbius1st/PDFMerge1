@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -19,17 +20,18 @@ using UtilityLibrary;
 
 namespace AndyShared.ConfigSupport
 {
+
 	[DataContract(Namespace = "")]
-	[KnownType(typeof(ConfigSeedFileSetting))]
-	public class ConfigFileSetting : INotifyPropertyChanged, IObservCollMember
+	[KnownType(typeof(ConfigSeedFile))]
+	public class ConfigFile : INotifyPropertyChanged, IObservCollMember
 	{
 		private FilePath<FileNameSimple> filePath;
 		private string fileName;
 		private string folder;
 
-		public ConfigFileSetting() { }
+		public ConfigFile() { }
 
-		public ConfigFileSetting(string name,
+		public ConfigFile(string name,
 			string username,
 			string folder,
 			string fileName)
@@ -41,7 +43,7 @@ namespace AndyShared.ConfigSupport
 		}
 
 		[IgnoreDataMember]
-		public string Key => MakeKey();
+		public string Key => MakeKey(UserName, Name);
 
 		// identification name
 		[DataMember(Order = 1)]
@@ -88,10 +90,10 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
-
-		public string MakeKey()
+		public static string MakeKey(string userName, string id)
 		{
-			return SiteSettings.Data.MakeKey(UserName, Name);
+			return userName + " :: " + id;
+
 		}
 
 		private void AssignFilePath()
@@ -115,7 +117,7 @@ namespace AndyShared.ConfigSupport
 	}
 
 	[DataContract(Namespace = "")]
-	public class ConfigSeedFileSetting : ConfigFileSetting, ICloneable
+	public class ConfigSeedFile : ConfigFile, ICloneable
 	{
 		private string assocSamplePathAndFile;
 		private FilePath<FileNameSimple> assocSampleFile;
@@ -123,9 +125,9 @@ namespace AndyShared.ConfigSupport
 		private bool selected;
 		private bool keep;
 
-		public ConfigSeedFileSetting() { }
+		public ConfigSeedFile() { }
 
-		public ConfigSeedFileSetting(string name,
+		public ConfigSeedFile(string name,
 			string username,
 			bool local,
 			bool selected,
@@ -205,7 +207,7 @@ namespace AndyShared.ConfigSupport
 
 		public object Clone()
 		{
-			return new ConfigSeedFileSetting(
+			return new ConfigSeedFile(
 				Name,
 				UserName,
 				Local,
@@ -218,48 +220,23 @@ namespace AndyShared.ConfigSupport
 
 	#region public static methods
 
-
-		public static string MakeKey(FilePath<FileNameSimpleSelectable> file)
-		{
-			return SiteSettings.Data.MakeKey(Heading.SuiteName,
-				file.GetFileNameWithoutExtension);
-		}
-
-
-		public static ConfigSeedFileSetting MakeSeedItem(
-			FilePath<FileNameSimpleSelectable> file, string suiteName,
-			string sampleFile)
-		{
-			string key = MakeKey(file);
-
-			return new ConfigSeedFileSetting(
-				file.GetFileNameWithoutExtension,
-				suiteName,
-				false,
-				false,
-				file.GetFileNameObject.Selected,
-				file.GetPath,
-				file.GetFileName,
-				sampleFile);
-		}
-
 	#endregion
 
 	}
 
-	// public class ConfigSeedFileComparer : IEqualityComparer<ConfigSeedFileSetting>
+	// public class ConfigSeedFileComparer : IEqualityComparer<ConfigSeedFile>
 	// {
-	// 	public bool Equals(ConfigSeedFileSetting x, string y)
+	// 	public bool Equals(ConfigSeedFile x, string y)
 	// 	{
 	// 		return x.MakeKey().Equals(y);
 	// 	}
 	//
-	// 	public bool Equals(ConfigSeedFileSetting x, ConfigSeedFileSetting y)
+	// 	public bool Equals(ConfigSeedFile x, ConfigSeedFile y)
 	// 	{
 	// 		return false;
 	// 	}
 	//
-	// 	public int GetHashCode(ConfigSeedFileSetting obj)
+	// 	public int GetHashCode(ConfigSeedFile obj)
 	// 	{
 	// 		return 0;
 	// 	}

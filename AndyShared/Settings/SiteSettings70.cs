@@ -35,18 +35,18 @@ namespace SettingsManager
 	public class SiteSettingData70
 	{
 		[DataMember(Order = 1)]
-		public ObservableCollection<ConfigSeedFileSetting> InstalledSeedFiles { get; set; }
-		// public SortedDictionary<string, ConfigSeedFileSetting> InstalledSeedFiles { get; set; }
-//			= new Dictionary<string, ConfigSeedFileSetting>()
+		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles { get; set; }
+		// public SortedDictionary<string, ConfigSeedFile> InstalledSeedFiles { get; set; }
+//			= new Dictionary<string, ConfigSeedFile>()
 //			{
-//				{"Andy :: No User",  new ConfigSeedFileSetting("Andy", "No User", "Seed Files", "Basic", "")}
+//				{"Andy :: No User",  new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "")}
 //			};
-
-
-		public string MakeKey(string userName, string id)
-		{
-			return userName + " :: " + id;
-		}
+		//
+		//
+		// public string MakeKey(string userName, string id)
+		// {
+		// 	return userName + " :: " + id;
+		// }
 	}
 
 #endregion

@@ -2,12 +2,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using AndyConfig.ConfigMgr;
 using SettingsManager;
 using AndyShared.ConfigSupport;
 
@@ -16,26 +18,50 @@ using AndyShared.ConfigSupport;
 // username: jeffs
 // created:  6/20/2020 9:46:37 PM
 
+// ConfigSite - the SiteSettingsFile configuration routines
+// (as a  static instances)
+// properties
+//  initialized
+//  the name of the site setting file (actual)
+//  the root path to the site setting file (actual)
+//  the full path to the site setting file (actual)
+//  flag: the site settings file exists
+//  SiteSettingsFile.Info
+// methods
+//  initialize
+//  read()
+//  write()
+//  Write seed file list (** add)
+// subscribed event
+//  from suite: site folder changed
+//
+// ** do not include the seed object(s) (remove)
+// 
+
+
 namespace AndyShared.ConfigMgr
 {
 	public class ConfigSite : INotifyPropertyChanged
 	{
 	#region private fields
 
+		private static readonly Lazy<ConfigSite> instance =
+			new Lazy<ConfigSite>(() => new ConfigSite());
+
 	#endregion
 
 	#region ctor
 
-		public ConfigSite() { }
+		private ConfigSite() { }
 
 	#endregion
 
 	#region public properties
 
+		public static ConfigSite Instance => instance.Value;
+
 		// site
 		public static bool Initalized { get; private set; }
-
-		public bool SiteSettingsFileExists => SiteSettings.Path.Exists;
 
 		public string SiteSettingsRootPath
 		{
@@ -57,9 +83,11 @@ namespace AndyShared.ConfigMgr
 
 		public string SiteSettingsFilePath => SiteSettings.Path.SettingPath;
 
+		public bool SiteSettingsFileExists => SiteSettings.Path.Exists;
+
 		public SiteSettingInfo70<SiteSettingData70> Info => SiteSettings.Info;
 
-		public ConfigSeed Seed { get; private set; } = new ConfigSeed();
+		// public ConfigSeed Seed { get; private set; } = new ConfigSeed();
 
 	#endregion
 
@@ -69,16 +97,32 @@ namespace AndyShared.ConfigMgr
 
 	#region public methods
 
-		public void Read()
+		public void Initialize(string rootPath)
 		{
-			SiteSettings.Admin.Read();
+			if (Initalized) return;
 
 			Initalized = true;
 
-			UpdateProperties();
+			RootPathChanged(rootPath);
 
-			Seed.Initialize();
+			OnPropertyChange("Initalized");
 		}
+
+		public void SuiteOnOnSiteRootPathChanged(object sender, PathChangedEventArgs e)
+		{
+			RootPathChanged(e.Path);
+		}
+
+		public void Read()
+		{
+			SiteSettings.Admin.Read();
+		}
+
+		public void Write()
+		{
+			SiteSettings.Admin.Write();
+		}
+
 
 	#endregion
 
@@ -86,15 +130,39 @@ namespace AndyShared.ConfigMgr
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("Initalized");
 			OnPropertyChange("SiteSettingsFileExists");
 			OnPropertyChange("SiteSettingsRootPath");
 			OnPropertyChange("SiteSettingsFileName");
 			OnPropertyChange("SiteSettingsFilePath");
 			OnPropertyChange("Info");
+		}
+
+
+		private void RootPathChanged(string rootPath)
+		{
+			SiteSettings.Path.RootPath = rootPath;
+
+			if (!SiteSettings.Path.SettingPathIsValid) return;
+
+			Read();
+
+			UpdateProperties();
 
 		}
 
+		private void InstalledSeedCollectionChanged()
+		{
+			SiteSettings.Data.InstalledSeedFiles = new ObservableCollection<ConfigSeedFile>();
+
+			foreach (ConfigSeedFile SeedFile in ConfigSeedInstalled.Instance.InstalledSeedFiles)
+			{
+				SiteSettings.Data.InstalledSeedFiles.Add(SeedFile);
+			}
+
+			Write();
+		}
+
+		
 	#endregion
 
 	#region event processing
@@ -106,9 +174,16 @@ namespace AndyShared.ConfigMgr
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
+		public void OnInstalledSeedCollectionUpdated(object sender)
+		{
+			InstalledSeedCollectionChanged();
+		}
+
 	#endregion
 
 	#region event handeling
+
+		
 
 	#endregion
 

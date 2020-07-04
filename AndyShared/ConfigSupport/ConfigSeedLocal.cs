@@ -10,14 +10,11 @@ using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
 using AndyShared.FilesSupport;
 using AndyShared.Resources.XamlResources;
-
 using SettingsManager;
-
 using UtilityLibrary;
 
 namespace AndyShared.ConfigSupport
 {
-
 	// manages the local seed file configuration
 	// provides a list of seed files available to the
 	// local user via the suite file / suite seed folder
@@ -31,38 +28,65 @@ namespace AndyShared.ConfigSupport
 	// locally is available
 
 
+// ConfigLocalSeedFiles - the Local Seed Folder and Files + 
+//	the composite list of seed files (site + local)
+// (as a  static instances)
+// properties
+//  initialized
+//  the list of files found in the local seed folder
+//  the collection of files in the local seed folder + the selected (and found) site seed file
+//  the view of the collection (all files) 
+//  the local seed folder path
+//  the local seed seed folder name
+//  the local seed seed folder exists
+//  the count of local seed files 
+// methods
+//  initialize
+//  Read folder
+//  GetItem(key)
+//  ItemExists(key)
+// subscribe events
+//  site seed: collection updated
+
+
 	public class ConfigSeedLocal : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private static int idx;
+		private static readonly Lazy<ConfigSeedLocal> instance =
+			new Lazy<ConfigSeedLocal>(() => new ConfigSeedLocal());
 
-		private  ObservableCollection<ConfigSeedFileSetting> seedFiles = new ObservableCollection<ConfigSeedFileSetting>();
+		private  ObservableCollection<ConfigSeedFile> seedFiles =
+			new ObservableCollection<ConfigSeedFile>();
 
 		private ICollectionView localSeedFileView;
 
+		private FilePath<FileNameSimpleSelectable> localSeedFilePath;
 
-		public int index { get; set; }
 	#endregion
 
 	#region ctor
+
+		private ConfigSeedLocal() {}
 
 	#endregion
 
 	#region public properties
 
+		public static ConfigSeedLocal Instance => instance.Value;
+
 		public bool Initialized { get; set; }
 
-		public string LocalSeedFileFolder => SuiteSettings.Path.SettingPath + ConfigSeedSite.SEED_FOLDER;
+		public string LocalSeedFileFolder => localSeedFilePath.GetPath;
 
-		public bool LocalSeedFolderExists => LocalSeedFilesList?.FolderExists ?? false;
+		public bool LocalSeedFolderExists => localSeedFilePath?.IsFound ?? false;
 
 		public FolderAndFileSupport LocalSeedFilesList { get; private set; }
 
-		public  ObservableCollection<ConfigSeedFileSetting> LocalSeedFiles
+		public  ObservableCollection<ConfigSeedFile> SeedFiles
 		{
 			get => seedFiles;
-			set
+			private set
 			{
 				seedFiles = value;
 				OnPropertyChange();
@@ -72,13 +96,12 @@ namespace AndyShared.ConfigSupport
 		public ICollectionView View
 		{
 			get => localSeedFileView;
-			set
+			private set
 			{
 				localSeedFileView = value;
 
 				OnPropertyChange();
 			}
-
 		}
 
 	#endregion
@@ -93,17 +116,24 @@ namespace AndyShared.ConfigSupport
 		{
 			Initialized = true;
 
+			// localSeedFilePath = new FilePath<FileNameSimpleSelectable>(
+			// 	SuiteSettings.Path.SettingPath + ConfigSeedFileSupport.SEED_FOLDER);
+
 			GetSeedFileList();
+
+			OnPropertyChange("Initialized");
 		}
 
 		public void GetSeedFileList()
 		{
+
 			GetInstalledSeedFiles();
 			GetLocalSeedFiles();
 
-			View = CollectionViewSource.GetDefaultView(LocalSeedFiles);
+			UpdateView();
 
-			UpdateProperties();
+			UpdateViewProperties();
+
 		}
 
 	#endregion
@@ -112,78 +142,78 @@ namespace AndyShared.ConfigSupport
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("Initialized");
 			OnPropertyChange("LocalSeedFileFolder");
 			OnPropertyChange("LocalSeedFolderExists");
-			OnPropertyChange("LocalSeedFilesList");
-			OnPropertyChange("LocalSeedFiles");
+		}
+
+		private void UpdateViewProperties()
+		{
+			seedFiles = new ObservableCollection<ConfigSeedFile>();
+
+			OnPropertyChange("SeedFiles");
+			OnPropertyChange("View");
+		}
+
+		private void UpdateView()
+		{
+			View = CollectionViewSource.GetDefaultView(SeedFiles);
 		}
 
 		private void GetLocalSeedFiles()
 		{
-			LocalSeedFilesList =
-				new FolderAndFileSupport(LocalSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
+			bool result = ConfigSeedFileSupport.GetFiles(seedFiles,
+				LocalSeedFileFolder, ConfigSeedFileSupport.SEED_PATTERN, SearchOption.AllDirectories);
 
-			LocalSeedFilesList.GetFiles();
+			// LocalSeedFilesList =
+			// 	new FolderAndFileSupport(LocalSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
+			//
+			// LocalSeedFilesList.GetFiles();
 
-			if (LocalSeedFilesList.Count == 0) return;
-
-			foreach (FilePath<FileNameSimpleSelectable> file in LocalSeedFilesList.FoundFiles)
-			{
-				string key = ConfigSeedFileSetting.MakeKey(file);
-
-				ConfigSeedFileSetting seed = 
-					ConfigSeedFileSetting.MakeSeedItem(file, Heading.SuiteName,
-						getLocalSampleFile(file));
-
-				seed.Local = true;
-
-				seedFiles.Add(seed);
-			}
-
+			// if (!result) return;
+			//
+			// foreach (FilePath<FileNameSimpleSelectable> file in LocalSeedFilesList.FoundFiles)
+			// {
+			// 	ConfigSeedFile seed =
+			// 		ConfigSeedFileSupport.MakeConfigSeedFileItem(file, Heading.SuiteName,
+			// 			getLocalSampleFile(file));
+			//
+			// 	seed.Local = true;
+			//
+			// 	seedFiles.Add(seed);
+			// }
 		}
 
 		private void GetInstalledSeedFiles()
 		{
 			if (SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
 
-			foreach (ConfigSeedFileSetting installedFile in SiteSettings.Data.InstalledSeedFiles)
+			foreach (ConfigSeedFile installedFile in SiteSettings.Data.InstalledSeedFiles)
 			{
 				if (installedFile.Selected)
 				{
-					// ConfigSeedFileSetting copy = installedFile.Clone() as ConfigSeedFileSetting;
-
 					seedFiles.Add(installedFile);
 				}
 			}
 		}
 
-		private string getLocalSampleFile(FilePath<FileNameSimpleSelectable> file)
-		{
-			string sampleFile =
-				file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
-
-			bool exists = File.Exists(sampleFile);
-
-			if (!exists)
-			{
-				sampleFile = null;
-			}
-
-			return sampleFile;
-		}
-
+		// private string getLocalSampleFile(FilePath<FileNameSimpleSelectable> file)
+		// {
+		// 	string sampleFile =
+		// 		file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
+		//
+		// 	bool exists = File.Exists(sampleFile);
+		//
+		// 	if (!exists)
+		// 	{
+		// 		sampleFile = null;
+		// 	}
+		//
+		// 	return sampleFile;
+		// }
 
 	#endregion
 
 	#region event processing
-
-		public ConfigSeedLocal()
-		{
-			index = idx++;
-
-
-		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

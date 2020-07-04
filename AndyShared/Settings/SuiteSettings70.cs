@@ -40,11 +40,11 @@ namespace SettingsManager
 //			= @"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData" ;
 
 		// [DataMember(Order = 1)]
-		// public List<ConfigFileSetting> LocalSeedFiles { get; set; }
+		// public List<ConfigFile> SeedFiles { get; set; }
 
-//			= new List<ConfigFileSetting>()
+//			= new List<ConfigFile>()
 //			{
-//				new ConfigFileSetting("UnNamed", "No User", 
+//				new ConfigFile("UnNamed", "No User", 
 //					@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample", 
 //					@"SheetCategories.xml")
 //			};

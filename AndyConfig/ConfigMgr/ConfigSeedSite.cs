@@ -18,25 +18,46 @@ using SettingsManager;
 // username: jeffs
 // created:  7/3/2020 8:21:22 AM
 
+// ConfigSite - the SiteSettingsFile
+// (as a  static instances)
+// properties
+//  initialized
+//  the list of files found in the site seed folder
+//  the collection of files in the site seed folder (need combine with the above)
+//  the view of the collection (all files)
+//  the site seed folder path
+//  the site seed seed folder name
+//  the site seed seed folder exists
+//  the count of site seed files
+// methods
+//  initialize
+//  Read folder
+//  filter collection
+// events
+//  site seed file Collection updated
+
+
 namespace AndyConfig.ConfigMgr
 {
 	public class ConfigSeedSite : INotifyPropertyChanged
 	{
 	#region private fields
 
-		public static string SEED_PATTERN = @"*.seed.xml";
-		public static string SEED_FOLDER_NAME = @"Seed Files";
-		public static string SEED_FOLDER = @"\" + SEED_FOLDER_NAME;
+
+		private static readonly Lazy<ConfigSeedSite> instance =
+			new Lazy<ConfigSeedSite>(() => new ConfigSeedSite());
 
 	#endregion
 
 	#region ctor
 
-		public ConfigSeedSite() { }
+		private ConfigSeedSite() { }
 
 	#endregion
 
 	#region public properties
+
+		public static ConfigSeedSite Instance => instance.Value;
 
 		public bool Initialized { get; set; }
 
@@ -45,7 +66,7 @@ namespace AndyConfig.ConfigMgr
 			get => Directory.Exists(SiteSeedFolderPath);
 		}
 
-		public string SiteSeedFolderPath => SiteSettings.Path.SettingPath + SEED_FOLDER;
+		public string SiteSeedFolderPath => SiteSettings.Path.SettingPath + ConfigSeedFileSupport.SEED_FOLDER;
 
 		public bool HasSeedFileSetting => (SiteSettings.Data.InstalledSeedFiles != null &&
 			SiteSettings.Data.InstalledSeedFiles.Count > 0);
@@ -75,7 +96,7 @@ namespace AndyConfig.ConfigMgr
 			View = CollectionViewSource.GetDefaultView(SiteSettings.Data.InstalledSeedFiles);
 
 			SiteSeedFileList =
-				new FolderAndFileSupport(SiteSeedFolderPath, ConfigSeedSite.SEED_PATTERN);
+				new FolderAndFileSupport(SiteSeedFolderPath, ConfigSeedFileSupport.SEED_PATTERN);
 
 			UpdateProperties();
 		}
@@ -96,7 +117,7 @@ namespace AndyConfig.ConfigMgr
 
 		private bool ValidateSiteSeedFileExist()
 		{
-			foreach (ConfigSeedFileSetting file in SiteSettings.Data.InstalledSeedFiles)
+			foreach (ConfigSeedFile file in SiteSettings.Data.InstalledSeedFiles)
 			{
 				if (!file.FilePath.IsFound) return false;
 			}
