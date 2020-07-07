@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security;
@@ -38,8 +39,8 @@ namespace AndyShared.ConfigSupport
 		{
 			Name = name;
 			UserName = username;
-			this.fileName = fileName;
-			this.folder = folder;
+			Folder = folder;
+			FileName = fileName;
 		}
 
 		[IgnoreDataMember]
@@ -62,10 +63,13 @@ namespace AndyShared.ConfigSupport
 				folder = value;
 				OnPropertyChange();
 
-				AssignFilePath();
+				UpdateFilePath();
 			}
 		}
 
+		/// <summary>
+		/// The file's name + extension
+		/// </summary>
 		[DataMember(Order = 4)]
 		public string FileName
 		{
@@ -75,7 +79,7 @@ namespace AndyShared.ConfigSupport
 				fileName = value;
 				OnPropertyChange();
 
-				AssignFilePath();
+				UpdateFilePath();
 			}
 		}
 
@@ -90,22 +94,30 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
+		public void UpdateFilePath()
+		{
+			string fp = "";
+
+			if (fileName != null && folder != null)
+			{
+				fp = folder + FilePathUtil.PATH_SEPARATOR + fileName;
+			} 
+			else if (folder != null)
+			{
+				fp = folder;
+			} 
+			else if (fileName != null)
+			{
+				fp = fileName;
+			}
+
+			filePath = new FilePath<FileNameSimple>(fp);
+		}
+
 		public static string MakeKey(string userName, string id)
 		{
 			return userName + " :: " + id;
 
-		}
-
-		private void AssignFilePath()
-		{
-			if (fileName != null && folder != null)
-			{
-				FilePath = new FilePath<FileNameSimple>(folder + @"\" + fileName);
-			}
-			else
-			{
-				FilePath = FilePath<FileNameSimple>.Invalid;
-			}
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -116,6 +128,16 @@ namespace AndyShared.ConfigSupport
 		}
 	}
 
+	// note that the value is also an index in
+	// a string array
+	public enum SeedFileStatus
+	{
+		IGNORE = -1,
+		OK_AS_IS = 0,
+		COPY = 1,
+		REMOVE = 2
+	}
+
 	[DataContract(Namespace = "")]
 	public class ConfigSeedFile : ConfigFile, ICloneable
 	{
@@ -124,21 +146,26 @@ namespace AndyShared.ConfigSupport
 		private bool local;
 		private bool selected;
 		private bool keep;
+		private SeedFileStatus status;
+
 
 		public ConfigSeedFile() { }
 
 		public ConfigSeedFile(string name,
 			string username,
-			bool local,
-			bool selected,
-			bool remove,
 			string folder,
 			string fileName,
-			string samplePathAndFile) : base(name, username, folder, fileName)
+			string samplePathAndFile,
+			bool   local,
+			bool   selected,
+			bool   keep,
+			SeedFileStatus status) : base(name, username, folder, fileName)
 		{
-			assocSamplePathAndFile = samplePathAndFile;
+			AssociatedSamplePathAndFile = samplePathAndFile;
 			this.local = local;
 			this.selected = selected;
+			this.keep = keep;
+			this.status = status;
 		}
 
 		[DataMember(Order = 10)]
@@ -163,6 +190,37 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
+		/// <summary>
+		/// flag to copy this item in to the folder<br/>
+		/// this is a re-purpose of selected
+		/// </summary>
+		[IgnoreDataMember]
+		public bool Copy
+		{
+			get => selected;
+			set
+			{
+				selected = value;
+				OnPropertyChange();
+			}
+		}
+
+		[IgnoreDataMember]
+		public SeedFileStatus Status
+		{
+			get => status;
+			set
+			{
+				status = value;
+				OnPropertyChange();
+			}
+		}
+
+		/// <summary>
+		/// flag that this is has been selected<br/>
+		/// this flag and copy use the same underlying
+		/// data item
+		/// </summary>
 		[DataMember(Order = 12)]
 		public bool Selected
 		{
@@ -210,12 +268,11 @@ namespace AndyShared.ConfigSupport
 			return new ConfigSeedFile(
 				Name,
 				UserName,
-				Local,
-				Selected,
-				Keep,
 				Folder,
 				FileName,
-				AssociatedSamplePathAndFile);
+				AssociatedSamplePathAndFile, 
+				Local, Selected, Keep, 
+				SeedFileStatus.IGNORE);
 		}
 
 	#region public static methods

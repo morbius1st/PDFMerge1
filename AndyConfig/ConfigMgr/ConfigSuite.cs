@@ -61,7 +61,7 @@ namespace AndyShared.ConfigMgr
 
 		public static bool Initalized { get; private set; }
 
-		public string SuiteSettingPath => SuiteSettings.Path.SettingPath;
+		public string SuiteSettingPath => SuiteSettings.Path.SettingFolderPath;
 		public string SuiteSettingFileName => SuiteSettings.Path.FileName;
 
 		public bool SuiteSettingsFileExists => SuiteSettings.Path.Exists;
@@ -84,8 +84,14 @@ namespace AndyShared.ConfigMgr
 		{
 			Initalized = true;
 
+			Read();
+
 			UpdateProperties();
 
+		}
+
+		public void Read()
+		{
 			SuiteSettings.Admin.Read();
 		}
 

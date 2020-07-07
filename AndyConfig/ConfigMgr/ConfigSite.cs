@@ -67,11 +67,11 @@ namespace AndyShared.ConfigMgr
 		{
 			get
 			{
-				return SiteSettings.Path.RootPath;
+				return SiteSettings.Path.RootFolderPath;
 			}
 			set
 			{
-				SiteSettings.Path.RootPath = value;
+				SiteSettings.Path.RootFolderPath = value;
 				OnPropertyChange();
 
 				SiteSettings.Admin.Read();
@@ -81,13 +81,21 @@ namespace AndyShared.ConfigMgr
 
 		public string SiteSettingsFileName => SiteSettings.Path.FileName;
 
-		public string SiteSettingsFilePath => SiteSettings.Path.SettingPath;
+		public string SiteSettingsFolderPath => SiteSettings.Path.SettingFolderPath;
 
 		public bool SiteSettingsFileExists => SiteSettings.Path.Exists;
 
 		public SiteSettingInfo70<SiteSettingData70> Info => SiteSettings.Info;
 
-		// public ConfigSeed Seed { get; private set; } = new ConfigSeed();
+		public ObservableCollection<ConfigSeedFile> SiteInstalledSeedFiles {
+			get => SiteSettings.Data.InstalledSeedFiles;
+
+			set
+			{
+				SiteSettings.Data.InstalledSeedFiles = value;
+				OnPropertyChange();
+			}
+	}
 
 	#endregion
 
@@ -140,7 +148,7 @@ namespace AndyShared.ConfigMgr
 
 		private void RootPathChanged(string rootPath)
 		{
-			SiteSettings.Path.RootPath = rootPath;
+			SiteSettings.Path.RootFolderPath = rootPath;
 
 			if (!SiteSettings.Path.SettingPathIsValid) return;
 
@@ -150,19 +158,6 @@ namespace AndyShared.ConfigMgr
 
 		}
 
-		private void InstalledSeedCollectionChanged()
-		{
-			SiteSettings.Data.InstalledSeedFiles = new ObservableCollection<ConfigSeedFile>();
-
-			foreach (ConfigSeedFile SeedFile in ConfigSeedInstalled.Instance.InstalledSeedFiles)
-			{
-				SiteSettings.Data.InstalledSeedFiles.Add(SeedFile);
-			}
-
-			Write();
-		}
-
-		
 	#endregion
 
 	#region event processing
@@ -174,15 +169,28 @@ namespace AndyShared.ConfigMgr
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		public void OnInstalledSeedCollectionUpdated(object sender)
+		public delegate void OnInstalledSeedFileCollectionChangedEventHandler(object sender);
+		
+		public event ConfigSite.OnInstalledSeedFileCollectionChangedEventHandler OnInstalledSeedFileCollectionChanged;
+		
+		protected virtual void RaiseOnInstalledSeedFileCollectionChangedEvent()
 		{
-			InstalledSeedCollectionChanged();
+			OnInstalledSeedFileCollectionChanged?.Invoke(this);
 		}
+
 
 	#endregion
 
 	#region event handeling
 
+		public void OnInstalledSeedCollectionUpdated(object sender)
+		{
+			OnPropertyChange("SiteInstalledSeedFiles");
+
+			Write();
+
+			RaiseOnInstalledSeedFileCollectionChangedEvent();
+		}
 		
 
 	#endregion

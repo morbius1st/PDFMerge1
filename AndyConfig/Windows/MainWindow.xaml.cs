@@ -1,27 +1,19 @@
 ﻿#region using
 
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 using System.Collections.Specialized;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
 using AndyShared.ConfigSupport;
-using AndyShared.FilesSupport;
 using SettingsManager;
-using UtilityLibrary;
 
 #endregion
 
@@ -180,14 +172,22 @@ namespace AndyShared.Windows
 			// cfgMgr.Seed.SaveSeedFileList();
 
 			SeedInstalled.Apply();
+		}
 
+		private void Btn_SiteSeedApply_OnClick(object sender, RoutedEventArgs e)
+		{
+			// ConfigSeedSite a =
+			// 	ConfigSeedSite.Instance;
+			//
+			// ICollectionView v = a.View;
 
+			SeedSite.Apply();
+
+			Debug.WriteLine("At Debug");
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-
-			SettingsManager.SuiteSettingPath70 s = SuiteSettings.Path;
 
 			Debug.WriteLine("At Debug");
 		}
@@ -204,17 +204,17 @@ namespace AndyShared.Windows
 
 		private void Dg1_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
+			// ObservableCollection<ConfigSeedFile> a
+			// 	= SiteSettings.Data.InstalledSeedFiles;
+			//
+			// ICollectionView v = ConfigSeedInstalled.Instance.View;
+			//
 
-			if (e.OriginalSource.GetType() == typeof(CheckBox)
-				|| selInstalledSeedFile == null ) return;
-
-			// selectedInstalledSeedFile.GetFileNameObject.Selected =
-			// 	!selectedInstalledSeedFile.GetFileNameObject.Selected;
-
+			if (selInstalledSeedFile == null ||
+				e.OriginalSource.GetType() == typeof(CheckBox)) return;
+			
 			selInstalledSeedFile.Selected =
 				!selInstalledSeedFile.Selected;
-
-
 		}
 
 		private void Dg1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -253,6 +253,9 @@ namespace AndyShared.Windows
 
 			OnPropertyChange("Suite");
 			OnPropertyChange("Site");
+			OnPropertyChange("SeedInstalled");
+			OnPropertyChange("SeedSite");
+			OnPropertyChange("SeedLocal");
 
 			// Suite.Read();
 
@@ -287,6 +290,10 @@ namespace AndyShared.Windows
 
 		#endregion
 
+		private void Dg4_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
 	}
 
 	[ValueConversion(typeof(bool), typeof(string))]
@@ -307,6 +314,32 @@ namespace AndyShared.Windows
 			return null;
 		}
 	}
+
+	[ValueConversion(typeof(bool), typeof(string))]
+	public class EnumToMessage : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (parameter == null || value == null) return "";
+
+			string[] p = new string[((StringCollection) parameter).Count];
+			((StringCollection) parameter).CopyTo(p, 0);
+
+			SeedFileStatus status = (SeedFileStatus) value;
+
+			if (status == SeedFileStatus.IGNORE) return "";
+
+			return p[(int) status];
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+
+
 
 	//	[ValueConversion(typeof(bool), typeof(string))]
 	//	public class BoolToFileFoundConverter : IValueConverter

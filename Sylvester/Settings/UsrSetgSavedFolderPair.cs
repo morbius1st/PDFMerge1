@@ -155,7 +155,7 @@ namespace Sylvester.SavedFolders
 			string result;
 
 			if (currentRootFolder == null || revisionRootFolder == null || sf == null ||
-				currentRootFolder.GetFullPath.IsVoid() || revisionRootFolder.GetFullPath.IsVoid())
+				currentRootFolder.GetFullFilePath.IsVoid() || revisionRootFolder.GetFullFilePath.IsVoid())
 			{
 				result = CreateName(sf);
 			}

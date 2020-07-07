@@ -10,6 +10,8 @@
           <ResourceDictionary Source="Windows/ResourceFiles/XamlResources/MasterColorList.xaml"/>
           <ResourceDictionary Source="Windows/ResourceFiles/XamlResources/VisualStates.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
+
+
 			</ResourceDictionary>
          
 		</Application.Resources>

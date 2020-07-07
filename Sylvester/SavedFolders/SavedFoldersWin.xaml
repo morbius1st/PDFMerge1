@@ -2155,7 +2155,7 @@
 										<TextBlock
 												x:Name="Tbx1"
 												HorizontalAlignment="Right"
-												Text="{Binding Current.GetFullPath,
+												Text="{Binding Current.GetFullFilePath,
 																			 TargetNullValue='No Path Saved',
 																			 FallbackValue='No Path Saved'}"
 												Style="{StaticResource TextBlock.Path}"
@@ -2168,7 +2168,7 @@
 										<TextBlock
 												x:Name="Tbx2"
 												HorizontalAlignment="Right"
-												Text="{Binding Revision.GetFullPath,
+												Text="{Binding Revision.GetFullFilePath,
 																			 FallbackValue='No Path Saved',
 																			 TargetNullValue='No Path Saved'}"
 												Style="{StaticResource TextBlock.Path}"

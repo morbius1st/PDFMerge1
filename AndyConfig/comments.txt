@@ -1,0 +1,35 @@
+done 0. All detail bars - add 3 to 5 margin to top & bottom
+done 1. make dialog 150 wider 
+
+1. ok
+
+2.  make just site settings
+done  a. site folder found
+done b. remove seed folder found - move to 3
+done c. details
+done i. eliminate seed folder name
+done ii. seed folder path - adjust name to note that this is stored in the site file
+
+3.  make just seed file settings
+done a. rename section to site seed file settings
+done b. remove installed seed files - move to 4
+done c. eliminate seed folder name
+done d. rename label 1: seed file list in site config file
+
+
+4.  
+done a.  remove configuration from title
+b. upon apply
+i. tell (3) that it needs to update the seed files in the site folder
+ii. update (3), (4), & (5)
+done c.  add margin to the left of the button
+
+5. 
+done a.  remove configuration from title
+b.  provide update from exterior source
+
+
+hold:
+e. validate that there are the expected seed files exist
+f. provide mechanism to cause an update from an external source
+g. provide mechanism to update the site seed files / copy or remove.

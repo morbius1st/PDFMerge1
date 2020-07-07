@@ -69,7 +69,7 @@ namespace AndyShared.FilesSupport
 
 		public bool HasFiles => foundFiles.Count > 0;
 
-		public bool FolderExists => Directory.Exists(folder.GetFullPath);
+		public bool FolderExists => Directory.Exists(folder.GetFullFilePath);
 
 	#endregion
 

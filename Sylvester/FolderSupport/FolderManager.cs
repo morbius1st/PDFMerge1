@@ -170,7 +170,7 @@ namespace Sylvester.FolderSupport
 			Debug.WriteLine("folderManager, path changed");
 			Debug.WriteLine("folderManager| index     | " + e.Index);
 			Debug.WriteLine("folderManager| sel folder| " + e.SelectedFolder);
-			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullPath);
+			Debug.WriteLine("folderManager| sel path  | " + e.SelectedPath.GetFullFilePath);
 
 //			hcPath.Folder = e.SelectedPath;
 			Folder = hcPath.Folder;

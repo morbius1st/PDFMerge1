@@ -1,17 +1,11 @@
 ﻿#region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using AndyConfig.ConfigMgr;
 using AndyShared.FilesSupport;
 using SettingsManager;
 using UtilityLibrary;
@@ -86,10 +80,10 @@ namespace AndyShared.ConfigMgr
 
 		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles 
 		{
-			get => installedSeedFiles;
+			get => ConfigSite.Instance.SiteInstalledSeedFiles;
 			private set
 			{
-				installedSeedFiles = value;
+				ConfigSite.Instance.SiteInstalledSeedFiles = value;
 				OnPropertyChange();
 			}
 	}
@@ -97,14 +91,16 @@ namespace AndyShared.ConfigMgr
 		public ICollectionView View
 		{
 			get => installedSeedFileView;
-
-			private set
+			// must be public
+			set
 			{
 				installedSeedFileView = value;
 
 				OnPropertyChange();
 			}
 		}
+
+		public int InstalledSeedFilesCount => InstalledSeedFiles.Count;
 
 	#endregion
 
@@ -121,19 +117,15 @@ namespace AndyShared.ConfigMgr
 			Initialized = true;
 
 			installedSeedFilePath = new FilePath<FileNameSimpleSelectable>(
-				InstallFolder + ConfigSeedFileSupport.SEED_FOLDER);
+				InstallFolder + ConfigSeedFileSupport.SEED_FOLDER_INSTALLED);
 
-			// update the seed file list held by the site setting folder
-			UpdateInstalledSeedFileList();
-
-			UpdateView();
-
-			UpdateProperties();
+			UpdateCollection();
 		}
 
 		public void Apply()
 		{
 			RaiseOnInstalledSeedCollectionUpdatedEvent();
+
 		}
 
 	#endregion
@@ -148,9 +140,23 @@ namespace AndyShared.ConfigMgr
 			OnPropertyChange("InstalledSeedFiles");
 		}
 
+		private void UpdateCollection()
+		{
+			// update the seed file list held by the site setting folder
+			UpdateInstalledSeedFileCollection();
+
+			UpdateView();
+
+			UpdateProperties();
+		}
+
 		private void UpdateView()
 		{
-			View = CollectionViewSource.GetDefaultView(installedSeedFiles);
+			View = CollectionViewSource.GetDefaultView(InstalledSeedFiles);
+
+			View.SortDescriptions.Clear();
+			View.SortDescriptions.Add(new SortDescription("FileName", ListSortDirection.Ascending));
+
 		}
 
 		// adjust the config file's list based on the actual list in
@@ -158,16 +164,21 @@ namespace AndyShared.ConfigMgr
 		// and add any new files
 		// cross reference with current list to determine which
 		// files are selected
-		private void UpdateInstalledSeedFileList()
+		private void UpdateInstalledSeedFileCollection()
 		{
+			bool bypass = true;
+			ConfigSeedFile found = null;
+
 			if (InstallSeedFileFolder.IsVoid()) return;
 
-			if (installedSeedFiles == null)
+			if (InstalledSeedFiles == null)
 			{
 				// empty the list - if found files is none, the
 				// actual list will be empty
-				installedSeedFiles = new ObservableCollection<ConfigSeedFile>();
+				InstalledSeedFiles = new ObservableCollection<ConfigSeedFile>();
 			}
+
+			if (InstalledSeedFiles.Count > 0) bypass = false;
 
 			foreach (string file in Directory.EnumerateFiles(InstallSeedFileFolder,
 				ConfigSeedFileSupport.SEED_PATTERN, SearchOption.AllDirectories))
@@ -175,12 +186,15 @@ namespace AndyShared.ConfigMgr
 				FilePath < FileNameSimpleSelectable > seedFile =
 					new FilePath<FileNameSimpleSelectable>(file);
 
-				string key = ConfigFile.MakeKey(Heading.SuiteName,
-					seedFile.GetFileNameWithoutExtension);
+				if (!bypass)
+				{
+					string key = ConfigFile.MakeKey(Heading.SuiteName,
+						seedFile.GetFileNameWithoutExtension);
 
-				ConfigSeedFile found = SiteSettings.Data.InstalledSeedFiles.Find(key);
+					found = InstalledSeedFiles.Find(key);
+				}
 
-				if (found != null)
+				if (!bypass && found != null)
 				{
 					found.Keep = true;
 				}
@@ -190,7 +204,9 @@ namespace AndyShared.ConfigMgr
 						ConfigSeedFileSupport.MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
 							ConfigSeedFileSupport.GetSampleFile(seedFile));
 
-					installedSeedFiles.Add(seed);
+					seed.Keep = true;
+
+					InstalledSeedFiles.Add(seed);
 				}
 			}
 
@@ -201,14 +217,17 @@ namespace AndyShared.ConfigMgr
 
 		private void ProcessNotKeptSeedFiles()
 		{
-			for (int i = installedSeedFiles.Count - 1; i >= 0; i--)
+			for (int i = (InstalledSeedFiles.Count - 1); i >= 0; i--)
 			{
-				if (installedSeedFiles[i].Keep == false)
+				if (InstalledSeedFiles[i].Keep == false)
 				{
-					installedSeedFiles.RemoveAt(i);
+					InstalledSeedFiles.RemoveAt(i);
+				} 
+				else
+				{
+					InstalledSeedFiles[i].Keep = false;
 				}
 
-				installedSeedFiles[i].Keep = false;
 			}
 		}
 
@@ -236,6 +255,8 @@ namespace AndyShared.ConfigMgr
 	#endregion
 
 	#region event handeling
+
+
 
 	#endregion
 

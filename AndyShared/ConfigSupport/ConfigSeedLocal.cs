@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows.Data;
-using AndyConfig.ConfigMgr;
-using AndyShared.ConfigMgr;
 using AndyShared.FilesSupport;
-using AndyShared.Resources.XamlResources;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -61,7 +56,7 @@ namespace AndyShared.ConfigSupport
 
 		private ICollectionView localSeedFileView;
 
-		private FilePath<FileNameSimpleSelectable> localSeedFilePath;
+		private FilePath<FileNameSimple> localSeedFolderPath;
 
 	#endregion
 
@@ -77,11 +72,12 @@ namespace AndyShared.ConfigSupport
 
 		public bool Initialized { get; set; }
 
-		public string LocalSeedFileFolder => localSeedFilePath.GetPath;
+		/// <summary>
+		/// path to the local seed folder
+		/// </summary>
+		public string LocalSeedFolderPath => localSeedFolderPath.GetPath;
 
-		public bool LocalSeedFolderExists => localSeedFilePath?.IsFound ?? false;
-
-		public FolderAndFileSupport LocalSeedFilesList { get; private set; }
+		public bool LocalSeedFolderPathExists => Directory.Exists(LocalSeedFolderPath);
 
 		public  ObservableCollection<ConfigSeedFile> SeedFiles
 		{
@@ -96,7 +92,8 @@ namespace AndyShared.ConfigSupport
 		public ICollectionView View
 		{
 			get => localSeedFileView;
-			private set
+			// mst be public
+			set
 			{
 				localSeedFileView = value;
 
@@ -116,24 +113,26 @@ namespace AndyShared.ConfigSupport
 		{
 			Initialized = true;
 
-			// localSeedFilePath = new FilePath<FileNameSimpleSelectable>(
-			// 	SuiteSettings.Path.SettingPath + ConfigSeedFileSupport.SEED_FOLDER);
+			localSeedFolderPath = new FilePath<FileNameSimple>(
+				SuiteSettings.Path.SettingFolderPath + ConfigSeedFileSupport.SEED_FOLDER_SUITE);
 
-			GetSeedFileList();
+			UpdateCollection();
 
 			OnPropertyChange("Initialized");
+
+			UpdateProperties();
 		}
 
-		public void GetSeedFileList()
+		public void UpdateCollection()
 		{
 
-			GetInstalledSeedFiles();
+			// GetInstalledSeedFiles();
+			GetSiteSeedFiles();
 			GetLocalSeedFiles();
 
 			UpdateView();
 
 			UpdateViewProperties();
-
 		}
 
 	#endregion
@@ -142,8 +141,8 @@ namespace AndyShared.ConfigSupport
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("LocalSeedFileFolder");
-			OnPropertyChange("LocalSeedFolderExists");
+			OnPropertyChange("LocalSeedFolderPath");
+			OnPropertyChange("LocalSeedFolderPathExists");
 		}
 
 		private void UpdateViewProperties()
@@ -157,30 +156,16 @@ namespace AndyShared.ConfigSupport
 		private void UpdateView()
 		{
 			View = CollectionViewSource.GetDefaultView(SeedFiles);
+
+			View.SortDescriptions.Clear();
+			View.SortDescriptions.Add(new SortDescription("FileName", ListSortDirection.Ascending));
 		}
 
 		private void GetLocalSeedFiles()
 		{
 			bool result = ConfigSeedFileSupport.GetFiles(seedFiles,
-				LocalSeedFileFolder, ConfigSeedFileSupport.SEED_PATTERN, SearchOption.AllDirectories);
-
-			// LocalSeedFilesList =
-			// 	new FolderAndFileSupport(LocalSeedFileFolder, ConfigSeedSite.SEED_PATTERN);
-			//
-			// LocalSeedFilesList.GetFiles();
-
-			// if (!result) return;
-			//
-			// foreach (FilePath<FileNameSimpleSelectable> file in LocalSeedFilesList.FoundFiles)
-			// {
-			// 	ConfigSeedFile seed =
-			// 		ConfigSeedFileSupport.MakeConfigSeedFileItem(file, Heading.SuiteName,
-			// 			getLocalSampleFile(file));
-			//
-			// 	seed.Local = true;
-			//
-			// 	seedFiles.Add(seed);
-			// }
+				localSeedFolderPath.GetPath, ConfigSeedFileSupport.SEED_PATTERN, 
+				SearchOption.AllDirectories, false, true);
 		}
 
 		private void GetInstalledSeedFiles()
@@ -196,20 +181,14 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
-		// private string getLocalSampleFile(FilePath<FileNameSimpleSelectable> file)
-		// {
-		// 	string sampleFile =
-		// 		file.GetPath + @"\" + file.GetFileNameObject.Name + @".dat";
-		//
-		// 	bool exists = File.Exists(sampleFile);
-		//
-		// 	if (!exists)
-		// 	{
-		// 		sampleFile = null;
-		// 	}
-		//
-		// 	return sampleFile;
-		// }
+		private void GetSiteSeedFiles()
+		{
+			string siteSeedFilesFolderpath =
+				SiteSettings.Path.SettingFolderPath + FilePathUtil.PATH_SEPARATOR
+				+ ConfigSeedFileSupport.SEED_FOLDER_SITE;
+
+			bool result = ConfigSeedFileSupport.GetFiles(seedFiles, siteSeedFilesFolderpath);
+		}
 
 	#endregion
 
@@ -225,6 +204,11 @@ namespace AndyShared.ConfigSupport
 	#endregion
 
 	#region event handeling
+
+		public void OnSeedSiteCollectionUpdated(object sender)
+		{
+			UpdateCollection();
+		}
 
 	#endregion
 

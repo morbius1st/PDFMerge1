@@ -1,10 +1,5 @@
 ﻿#region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyConfig.ConfigMgr;
@@ -110,13 +105,16 @@ namespace AndyShared.ConfigMgr
 			SeedInstalled.Initialize();
 
 			SeedInstalled.OnInstalledSeedCollectionUpdated += Site.OnInstalledSeedCollectionUpdated;
-			// Seed = ConfigSeed.Instance;
-
-			SeedInstalled = ConfigSeedInstalled.Instance;
 
 			SeedSite = ConfigSeedSite.Instance;
+			SeedSite.Initialize();
+
+			Site.OnInstalledSeedFileCollectionChanged += SeedSite.OnInstalledSeedFileCollectionChanged;
 
 			SeedLocal = ConfigSeedLocal.Instance;
+			SeedLocal.Initialize();
+
+			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
 
 		}
 
@@ -134,6 +132,8 @@ namespace AndyShared.ConfigMgr
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+		
 
 	#endregion
 

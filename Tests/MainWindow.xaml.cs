@@ -293,7 +293,7 @@ namespace Tests
 
 			WriteLineToLeft("\n*******\n");
 			WriteLineToLeft("type name           | " + tx.Name);
-			WriteLineToLeft("GetFullPath         | " + f.GetFullPath);
+			WriteLineToLeft("GetFullFilePath         | " + f.GetFullFilePath);
 			WriteLineToLeft("isvalid             | " + f.IsValid);
 
 
@@ -301,7 +301,7 @@ namespace Tests
 			{
 				//                                   |
 				WriteLineToLeft("init filepath       | " + "** is invalid (" +
-					f.GetFullPath + ")**");
+					f.GetFullFilePath + ")**");
 				WriteLineToLeft("---------------------\n\n\n");
 				return;
 			}
@@ -508,13 +508,13 @@ namespace Tests
 
 			if (!r.IsValid) return;
 
-			string p = r.GetFullPath;
+			string p = r.GetFullFilePath;
 
 
 			// note - cannot use system Path class - it does not get file names / file extensions
 			// correct when a folder name includes a period '.'
-			WriteLineToLeft("GetFullPath        (FilePath) | " + r.GetFullPath);
-			WriteLineToLeft("GetFullPath            (Path) | " + Path.GetFullPath(p));
+			WriteLineToLeft("GetFullFilePath        (FilePath) | " + r.GetFullFilePath);
+			WriteLineToLeft("GetFullFilePath            (Path) | " + Path.GetFullPath(p));
 			WriteLineToLeft("GetDriveRoot       (FilePath) | " + (r.GetDriveRoot ?? "is null"));
 			WriteLineToLeft("GetPathRoot            (Path) | " + Path.GetPathRoot(p));
 
