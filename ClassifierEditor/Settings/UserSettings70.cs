@@ -34,8 +34,6 @@ namespace SettingsManager
 		public string OrgConfigFileName { get; private set; } =
 			"Test File 1 :: jeffs";
 
-
-
 		// the folder where the FileName config files are stored
 		[DataMember(Order = 2)]
 		public string CatConfigFolder { get; private set; } =

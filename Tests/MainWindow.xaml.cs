@@ -353,7 +353,7 @@ namespace Tests
 
 						if (pdf.IsValid)
 						{
-							WriteLineToLeft("Name                | " + pdf?.Name ?? "is null");
+							WriteLineToLeft("Name                | " + pdf?.FileNameNoExt ?? "is null");
 							WriteLineToLeft("Extension           | " + pdf?.Extension ?? "is null");
 							WriteLineToLeft("FileType            | " + pdf?.FileType ?? "is null");
 							WriteLineToLeft("PhaseBldg           | " + pdf?.PhaseBldg ?? "is null");

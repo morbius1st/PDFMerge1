@@ -2,8 +2,11 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyShared.ConfigSupport;
 using ClassifierEditor.DataRepo;
+using UtilityLibrary;
 using SettingsManager;
+
 
 #endregion
 
@@ -27,9 +30,7 @@ namespace ClassifierEditor.ConfigSupport
 		{
 			SuiteSettings.Admin.Read();
 
-			SiteSettings.Path.RootPath = SuiteSettings.Data.SiteRootPath;
-//			SiteSettings.Path.SubFolders = new [] {"CyberStudio", "Andy"};
-//			SiteSettings.Path.FileName = "Andy.site.settings";
+			SiteSettings.Path.RootFolderPath = SuiteSettings.Data.SiteRootPath;
 
 			SiteSettings.Admin.Read();
 
@@ -37,8 +38,7 @@ namespace ClassifierEditor.ConfigSupport
 
 			UserSettings.Admin.Read();
 
-			AddUserOrgFile("Test File 1", "jeffs");
-
+			AddUserOrgFile("PdfSample", "jeffs");
 		}
 
 	#endregion
@@ -53,15 +53,16 @@ namespace ClassifierEditor.ConfigSupport
 
 	#region public methods
 
-		public void AddUserOrgFile(string name, string user)
+		public void AddUserOrgFile(string id, string username)
 		{
-			string file = name + " :: " + user;
 
-			ConfigFileSetting cfs =
-				new ConfigFileSetting(
-					name,
-					user,
-					SuiteSettings.Admin.Path.RootPath,
+			string file = ConfigFileSupport.MakeClassificationFileName(id, username);
+
+			ConfigFile<FileNameSimple> cfs =
+				new ConfigFile<FileNameSimple>(
+					id,
+					username,
+					ConfigFileSupport.UserClassificationFolderPath,
 					file);
 
 			SuiteSettings.Data.UsersOrganizationFiles.Add(cfs);

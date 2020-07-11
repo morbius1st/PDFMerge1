@@ -106,7 +106,7 @@ namespace AndyShared.Windows
 
 		// private FolderAndFileSupport seedFiles = null;
 
-		private ConfigManager cfgMgr;
+		private ConfigManager cfgMgr = new ConfigManager();
 
 		// private FilePath<FileNameSimpleSelectable> selectedInstalledSeedFile;
 
@@ -127,10 +127,10 @@ namespace AndyShared.Windows
 
 		public ConfigSuite Suite => cfgMgr?.Suite ?? null;
 		public ConfigSite Site => cfgMgr?.Site ?? null;
-		// public ConfigSeed Seed => cfgMgr?.Seed ?? null;
 		public ConfigSeedInstalled SeedInstalled => cfgMgr?.SeedInstalled ?? null;
 		public ConfigSeedSite SeedSite => cfgMgr?.SeedSite ?? null;
 		public ConfigSeedLocal SeedLocal => cfgMgr?.SeedLocal ?? null;
+		public ConfigClassificationUser User => cfgMgr?.User ?? null;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
 
@@ -172,6 +172,7 @@ namespace AndyShared.Windows
 			// cfgMgr.Seed.SaveSeedFileList();
 
 			SeedInstalled.Apply();
+			
 		}
 
 		private void Btn_SiteSeedApply_OnClick(object sender, RoutedEventArgs e)
@@ -188,6 +189,8 @@ namespace AndyShared.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
+			Debug.WriteLine("user classification config file| " +
+				User.Find("jeffs", "PdfSample 2") ?? "is null");
 
 			Debug.WriteLine("At Debug");
 		}
@@ -213,8 +216,8 @@ namespace AndyShared.Windows
 			if (selInstalledSeedFile == null ||
 				e.OriginalSource.GetType() == typeof(CheckBox)) return;
 			
-			selInstalledSeedFile.Selected =
-				!selInstalledSeedFile.Selected;
+			selInstalledSeedFile.SelectedSeed =
+				!selInstalledSeedFile.SelectedSeed;
 		}
 
 		private void Dg1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -256,6 +259,7 @@ namespace AndyShared.Windows
 			OnPropertyChange("SeedInstalled");
 			OnPropertyChange("SeedSite");
 			OnPropertyChange("SeedLocal");
+			OnPropertyChange("User");
 
 			// Suite.Read();
 

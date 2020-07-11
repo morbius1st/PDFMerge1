@@ -41,7 +41,7 @@ namespace AndyShared.ConfigMgr
 		/// SuiteSettingFileName      : string  : site settings file name<br/>
 		/// Site                      : ConfigSite: config site file object<br/>
 		/// </summary>
-		public ConfigSuite Suite { get; private set; } 
+		public ConfigSuite Suite { get; private set; } = ConfigSuite.Instance;
 
 		/// <summary>
 		/// <c>ConfigSite</c><br/>
@@ -51,7 +51,7 @@ namespace AndyShared.ConfigMgr
 		/// SiteSettingsFilePath      : string  : site setting file path (not used)<br/>
 		/// Seed                      : ConfigSeed: config seed file object<br/>
 		/// </summary>
-		public ConfigSite Site { get; private set; }
+		public ConfigSite Site { get; private set; } = ConfigSite.Instance;
 
 		// /// <summary>
 		// /// <c>ConfigSeed</c><br/>
@@ -69,15 +69,17 @@ namespace AndyShared.ConfigMgr
 		/// InstalledFolderExists     : bool    : site seed folder exists<br/>
 		/// InstalledSeedFilesCount   : int     : count of installed seed files<br/>
 		/// </summary>
-		public ConfigSeedInstalled SeedInstalled { get; private set; }
+		public ConfigSeedInstalled SeedInstalled { get; private set; } = ConfigSeedInstalled.Instance;
 
-		public ConfigSeedSite SeedSite { get; private set; }
+		public ConfigSeedSite SeedSite { get; private set; } = ConfigSeedSite.Instance;
 
 		/// <summary>
 		/// <c>ConfigSeedLocal</c><br/>
 		/// LocalSeedFileFolder        : FolderAndFileSupport  : folder for the local seed files<br/>
 		/// </summary>
-		public ConfigSeedLocal SeedLocal { get; private set; }
+		public ConfigSeedLocal SeedLocal { get; private set; } = ConfigSeedLocal.Instance;
+
+		public ConfigClassificationUser User { get; private set; } = ConfigClassificationUser.Instance;
 
 	#endregion
 
@@ -89,32 +91,40 @@ namespace AndyShared.ConfigMgr
 
 		public void Initialize()
 		{
+
 			if (Initalized) return;
 
 			Initalized = true;
 
-			Suite = ConfigSuite.Instance;
+			// User = ConfigClassificationUser.Instance;
+			User.Initialize();
+
+			// Suite = ConfigSuite.Instance;
 			Suite.Initialize();
 
-			Site = ConfigSite.Instance;
+			// Site = ConfigSite.Instance;
 			Site.Initialize(Suite.SiteSettingsRootPath);
 
 			Suite.OnSiteRootPathChanged += Site.SuiteOnOnSiteRootPathChanged;
 
-			SeedInstalled = ConfigSeedInstalled.Instance;
+			// SeedInstalled = ConfigSeedInstalled.Instance;
 			SeedInstalled.Initialize();
 
 			SeedInstalled.OnInstalledSeedCollectionUpdated += Site.OnInstalledSeedCollectionUpdated;
 
-			SeedSite = ConfigSeedSite.Instance;
+			// SeedSite = ConfigSeedSite.Instance;
 			SeedSite.Initialize();
 
 			Site.OnInstalledSeedFileCollectionChanged += SeedSite.OnInstalledSeedFileCollectionChanged;
 
-			SeedLocal = ConfigSeedLocal.Instance;
+			// SeedLocal = ConfigSeedLocal.Instance;
 			SeedLocal.Initialize();
 
 			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
+
+			// User = ConfigClassificationUser.Instance;
+			// User.Initialize();
+
 
 		}
 

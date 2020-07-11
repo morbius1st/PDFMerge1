@@ -204,20 +204,20 @@ namespace AndyShared.ConfigMgr
 	#endregion
 	}
 
-	public class RootPathValidator : ValidationRule
-	{
-		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-		{
-			string info = (string) value;
-
-			if (info.IsVoid())
-			{
-				new ValidationResult(false, "cannot be empty");
-			}
-
-			return ValidationResult.ValidResult;
-		}
-	}
+	// public class RootPathValidator : ValidationRule
+	// {
+	// 	public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+	// 	{
+	// 		string info = (string) value;
+	//
+	// 		if (info.IsVoid())
+	// 		{
+	// 			new ValidationResult(false, "cannot be empty");
+	// 		}
+	//
+	// 		return ValidationResult.ValidResult;
+	// 	}
+	// }
 
 	public class PathChangedEventArgs : EventArgs
 	{

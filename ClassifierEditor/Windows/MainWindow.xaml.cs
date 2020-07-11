@@ -162,6 +162,7 @@ namespace ClassifierEditor.Windows
 
 		static MainWindow()
 		{
+
 			SampleData.SampleData sd = new SampleData.SampleData();
 			sd.Sample(BaseOfTreeRoot);
 

@@ -8,6 +8,7 @@
 
 	<SolidColorBrush x:Key="ToggleButton.TreeArrow.Fill" Color="{StaticResource Deep.Orange.400}" />
 	<SolidColorBrush x:Key="ToggleButton.TreeArrow.Stroke" Color="{StaticResource Deep.Orange.400}" />
+	<SolidColorBrush x:Key="ToggleButton.TreeArrow.Stroke.MouseOver" Color="{StaticResource Deep.Orange.400}" />
 
 	<SolidColorBrush x:Key="MouseOver.Background" Color="#FF27C7F7" />
 
@@ -21,6 +22,18 @@
 	<PathGeometry
 			x:Key="arrDown"
 			Figures="M 0,0 4,8 8,0 z"
+			FillRule="Nonzero"
+			/>
+
+	<PathGeometry
+			x:Key="arrUp"
+			Figures="M 0,8 4,0 8,8 z"
+			FillRule="Nonzero"
+			/>
+
+	<PathGeometry
+			x:Key="arrRight"
+			Figures="M 0,0 0,8 8,4 z"
 			FillRule="Nonzero"
 			/>
 
@@ -77,7 +90,7 @@
 			<Trigger Property="IsChecked" Value="True">
 				<Setter TargetName="SuiteDetailsToggleButtonPath" Property="RenderTransform">
 					<Setter.Value>
-						<RotateTransform Angle="0" />
+						<RotateTransform Angle="-180" />
 					</Setter.Value>
 				</Setter>
 			</Trigger>

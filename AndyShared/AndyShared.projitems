@@ -9,9 +9,12 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigClassificationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigSeedFileSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileClassificationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigSeedLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FolderAndFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings70.cs" />

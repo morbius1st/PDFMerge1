@@ -24,31 +24,32 @@ namespace AndyShared.ConfigSupport
 
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ConfigSeedFile))]
-	public class ConfigFile : INotifyPropertyChanged, IObservCollMember
+	[KnownType(typeof(ConfigFileClassificationUser))]
+	public class ConfigFile<T> : INotifyPropertyChanged, IObservCollMember  where T : AFileName,  new()  
 	{
-		private FilePath<FileNameSimple> filePath;
+		private FilePath<T> filePath;
 		private string fileName;
 		private string folder;
 
 		public ConfigFile() { }
 
-		public ConfigFile(string name,
+		public ConfigFile(string fileId,
 			string username,
 			string folder,
 			string fileName)
 		{
-			Name = name;
+			FileId = fileId;
 			UserName = username;
 			Folder = folder;
 			FileName = fileName;
 		}
 
 		[IgnoreDataMember]
-		public string Key => MakeKey(UserName, Name);
+		public string Key => MakeKey(UserName, FileId);
 
 		// identification name
 		[DataMember(Order = 1)]
-		public string Name { get; set; }
+		public string FileId { get; set; }
 
 		// who created the entry
 		[DataMember(Order = 2)]
@@ -84,7 +85,7 @@ namespace AndyShared.ConfigSupport
 		}
 
 		[IgnoreDataMember]
-		public FilePath<FileNameSimple> FilePath
+		public FilePath<T> FilePath
 		{
 			get => filePath;
 			set
@@ -98,20 +99,23 @@ namespace AndyShared.ConfigSupport
 		{
 			string fp = "";
 
-			if (fileName != null && folder != null)
+			if (fileName.IsVoid() || folder.IsVoid())
 			{
-				fp = folder + FilePathUtil.PATH_SEPARATOR + fileName;
+				return;
+				// fp = folder + FilePathUtil.PATH_SEPARATOR + fileName;
 			} 
-			else if (folder != null)
-			{
-				fp = folder;
-			} 
-			else if (fileName != null)
-			{
-				fp = fileName;
-			}
+			// else if (folder != null)
+			// {
+			// 	fp = folder;
+			// } 
+			// else if (fileName != null)
+			// {
+			// 	fp = fileName;
+			// }
 
-			filePath = new FilePath<FileNameSimple>(fp);
+			fp = folder + FilePathUtil.PATH_SEPARATOR + fileName;
+
+			filePath = new FilePath<T>(fp);
 		}
 
 		public static string MakeKey(string userName, string id)
@@ -139,31 +143,32 @@ namespace AndyShared.ConfigSupport
 	}
 
 	[DataContract(Namespace = "")]
-	public class ConfigSeedFile : ConfigFile, ICloneable
+	public class ConfigSeedFile : ConfigFile<FileNameSimple>, ICloneable
 	{
 		private string assocSamplePathAndFile;
 		private FilePath<FileNameSimple> assocSampleFile;
 		private bool local;
-		private bool selected;
+		private bool selectedSeedSeed;
 		private bool keep;
 		private SeedFileStatus status;
 
 
 		public ConfigSeedFile() { }
 
-		public ConfigSeedFile(string name,
+		public ConfigSeedFile(
+			string fileId,
 			string username,
 			string folder,
 			string fileName,
 			string samplePathAndFile,
 			bool   local,
-			bool   selected,
+			bool   selectedSeedSeed,
 			bool   keep,
-			SeedFileStatus status) : base(name, username, folder, fileName)
+			SeedFileStatus status) : base(fileId, username, folder, fileName)
 		{
 			AssociatedSamplePathAndFile = samplePathAndFile;
 			this.local = local;
-			this.selected = selected;
+			this.selectedSeedSeed = selectedSeedSeed;
 			this.keep = keep;
 			this.status = status;
 		}
@@ -174,6 +179,7 @@ namespace AndyShared.ConfigSupport
 			get => local;
 			set
 			{
+
 				local = value;
 				OnPropertyChange();
 			}
@@ -197,10 +203,10 @@ namespace AndyShared.ConfigSupport
 		[IgnoreDataMember]
 		public bool Copy
 		{
-			get => selected;
+			get => selectedSeedSeed;
 			set
 			{
-				selected = value;
+				selectedSeedSeed = value;
 				OnPropertyChange();
 			}
 		}
@@ -222,12 +228,12 @@ namespace AndyShared.ConfigSupport
 		/// data item
 		/// </summary>
 		[DataMember(Order = 12)]
-		public bool Selected
+		public bool SelectedSeed
 		{
-			get => selected;
+			get => selectedSeedSeed;
 			set
 			{
-				selected = value;
+				selectedSeedSeed = value;
 				OnPropertyChange();
 			}
 		}
@@ -266,12 +272,12 @@ namespace AndyShared.ConfigSupport
 		public object Clone()
 		{
 			return new ConfigSeedFile(
-				Name,
+				FileId,
 				UserName,
 				Folder,
 				FileName,
 				AssociatedSamplePathAndFile, 
-				Local, Selected, Keep, 
+				Local, SelectedSeed, Keep, 
 				SeedFileStatus.IGNORE);
 		}
 

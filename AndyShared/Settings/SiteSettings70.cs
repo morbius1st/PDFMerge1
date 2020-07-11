@@ -36,6 +36,10 @@ namespace SettingsManager
 	{
 		[DataMember(Order = 1)]
 		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles { get; set; }
+			= new ObservableCollection<ConfigSeedFile>()
+			{
+				{new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "", false, false, false, SeedFileStatus.IGNORE) }
+			};
 		// public SortedDictionary<string, ConfigSeedFile> InstalledSeedFiles { get; set; }
 //			= new Dictionary<string, ConfigSeedFile>()
 //			{

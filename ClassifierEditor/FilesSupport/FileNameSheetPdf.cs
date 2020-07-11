@@ -56,13 +56,13 @@ namespace ClassifierEditor.FilesSupport
 
 	#region public properties
 
-		public override string Name
+		public override string FileNameNoExt
 		{
-			get => filename;
+			get => fileNameNoExt;
 
 			set
 			{
-				filename = value;
+				fileNameNoExt = value;
 				OnPropertyChange();
 
 				parsed = parse();
@@ -104,7 +104,7 @@ namespace ClassifierEditor.FilesSupport
 		}
 
 
-		public bool IsValid => !Name.IsVoid() && !Extension.IsVoid();
+		public bool IsValid => !FileNameNoExt.IsVoid() && !Extension.IsVoid();
 
 		public bool SheetIdIdsMatch => SheetId.Equals(SheetIdByComponent);
 
@@ -158,9 +158,9 @@ namespace ClassifierEditor.FilesSupport
 
 		private bool parse()
 		{
-			if (parsed || filename.IsVoid() || fileextension.IsVoid()) return false;
+			if (parsed || fileNameNoExt.IsVoid() || fileextension.IsVoid()) return false;
 
-			fnc = new FileNameSheetComponents(filename, fileextension);
+			fnc = new FileNameSheetComponents(fileNameNoExt, fileextension);
 
 			if (fnc.success)
 			{

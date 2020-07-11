@@ -75,7 +75,7 @@ namespace AndyShared.ConfigSupport
 		/// <summary>
 		/// path to the local seed folder
 		/// </summary>
-		public string LocalSeedFolderPath => localSeedFolderPath.GetPath;
+		public string LocalSeedFolderPath => localSeedFolderPath?.GetPath ?? null;
 
 		public bool LocalSeedFolderPathExists => Directory.Exists(LocalSeedFolderPath);
 
@@ -174,7 +174,7 @@ namespace AndyShared.ConfigSupport
 
 			foreach (ConfigSeedFile installedFile in SiteSettings.Data.InstalledSeedFiles)
 			{
-				if (installedFile.Selected)
+				if (installedFile.SelectedSeed)
 				{
 					seedFiles.Add(installedFile);
 				}

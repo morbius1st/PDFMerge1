@@ -37,7 +37,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -78,8 +78,10 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.0\SettingsMgr.-v70.cs">
+      <Link>.Linked\SettingsMgr.-v70.cs</Link>
+    </Compile>
     <Compile Include="ConfigSupport\Configuration.cs" />
-    <Compile Include="ConfigSupport\ConfigFileSetting.cs" />
     <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
     <Compile Include="DataRepo\SheetCategoryData.cs" />
     <Compile Include="DataRepo\StorageManager.cs" />
@@ -87,9 +89,6 @@
     <Compile Include="FilesSupport\FileNameSheetPdf.cs" />
     <Compile Include="FilesSupport\FileNameSheetParser.cs" />
     <Compile Include="FilesSupport\SampleFileList.cs" />
-    <Compile Include="Settings\SettingsMgr.-v70.cs" />
-    <Compile Include="Settings\SiteSettings70.cs" />
-    <Compile Include="Settings\SuiteSettings70.cs" />
     <Compile Include="Tree\ComparisonOperation.cs" />
     <Compile Include="Tree\SheetCategory.cs" />
     <Compile Include="SampleData\SampleData.cs" />
@@ -184,5 +183,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyResources\AndyResources.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

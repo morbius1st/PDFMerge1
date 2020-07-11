@@ -955,7 +955,6 @@
 									Background="Transparent"
 									>
 								<Path
-										
 										x:Name="ExpandPath"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
@@ -2390,8 +2389,8 @@
 
 						<Button
 								x:Name="BtnDeleteCondition"
-							Grid.Column="0"
-								Grid.Row="0"	
+								Grid.Column="0"
+								Grid.Row="0"
 								Grid.RowSpan="2"
 								Margin="0,0,5,0"
 								Width="20"
@@ -2978,8 +2977,9 @@
 							/>
 				</Border>
 
-				<Border Style="{StaticResource Border.Settings.Value}">
+				<Border>
 					<Label
+							x:Name="SettingPhaseBuilding"
 							Content="{Binding ElementName=MainWin,
 																Path=Categories.UsePhaseBldg,
 																Converter={StaticResource OnOffBool},
@@ -2987,6 +2987,19 @@
 																FallbackValue='Off'}"
 							Style="{StaticResource Label.Settings.Value}"
 							/>
+					<Border.Style>
+						<Style
+								TargetType="Border"
+								BasedOn="{StaticResource Border.Settings.Value}"
+								>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=MainWin, Path=Categories.UsePhaseBldg, Mode=OneWay, FallbackValue=False}" Value="False">
+									<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" />
+								</DataTrigger>
+							</Style.Triggers>
+
+						</Style>
+					</Border.Style>
 				</Border>
 
 			</StackPanel>
@@ -3011,7 +3024,7 @@
 																Path=Categories.UsePhaseBldg,
 																Converter={StaticResource OnOffBool},
 																Mode=OneWay,
-																FallbackValue='Off'}"
+																FallbackValue='need to fix'}"
 							Style="{StaticResource Label.Settings.Value}"
 							/>
 				</Border>
@@ -3039,7 +3052,7 @@
 																Path=Categories.UsePhaseBldg,
 																Converter={StaticResource OnOffBool},
 																Mode=OneWay,
-																FallbackValue='Off'}"
+																FallbackValue='need to fix'}"
 							Style="{StaticResource Label.Settings.Value}"
 							/>
 				</Border>
@@ -3408,7 +3421,7 @@
 									</Grid.RowDefinitions>
 									<Label
 											x:Name="Label26"
-											Content="{Binding FilePathInfo.FileName.Name}"
+											Content="{Binding FilePathInfo.FileName.FileNameNoExt}"
 											Grid.Column="0"
 											Grid.Row="0"
 											Margin="2"

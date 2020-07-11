@@ -60,7 +60,7 @@ namespace ClassifierEditor.DataRepo
 		public void Configure(string rootPath, string filename)
 		{
 			DataStore.Admin.Path.SubFolders = null;
-			DataStore.Admin.Path.RootPath = rootPath;
+			DataStore.Admin.Path.RootFolderPath = rootPath;
 			DataStore.Admin.Path.FileName = filename;
 
 			DataStore.Admin.Path.ConfigurePathAndFile();

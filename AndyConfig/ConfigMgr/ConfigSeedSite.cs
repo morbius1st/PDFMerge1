@@ -89,7 +89,7 @@ namespace AndyConfig.ConfigMgr
 		/// <summary>
 		/// path of the site seed folder
 		/// </summary>
-		public string SiteSeedFolderPath => siteSeedFolderPath.GetPath;
+		public string SiteSeedFolderPath => siteSeedFolderPath?.GetPath ?? null;
 
 		/// <summary>
 		/// verify that the site seed folder exists
@@ -278,7 +278,7 @@ namespace AndyConfig.ConfigMgr
 				found = siteSeedFiles.Find(seed.Key, last);
 
 				// if installed is selected
-				if (seed.Selected)
+				if (seed.SelectedSeed)
 				{
 					if (found == null)
 					{
@@ -287,7 +287,7 @@ namespace AndyConfig.ConfigMgr
 
 						// allow the user to make the final determination
 						// found.Copy = true;
-						found.Selected = true;
+						found.SelectedSeed = true;
 						found.Status = SeedFileStatus.COPY;
 
 						siteSeedFiles.Add(found);
@@ -309,7 +309,7 @@ namespace AndyConfig.ConfigMgr
 						// but it is in the folder
 						// need to flag remove
 						// found.Keep = false;
-						found.Selected = true;
+						found.SelectedSeed = true;
 						found.Status = SeedFileStatus.REMOVE;
 						// found.Copy = false; // redundant - flagged below
 					}
@@ -340,7 +340,7 @@ namespace AndyConfig.ConfigMgr
 				// so all of these are false
 				// seed.Copy = false;
 
-				seed.Selected = false;
+				seed.SelectedSeed = false;
 				seed.Local = true;
 				seed.Status = SeedFileStatus.OK_AS_IS;
 

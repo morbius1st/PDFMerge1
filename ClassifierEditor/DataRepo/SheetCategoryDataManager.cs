@@ -34,6 +34,7 @@ namespace ClassifierEditor.DataRepo
 		public SheetCategoryDataManager()
 		{
 			storageMgr = new StorageManager<SheetCategoryData>();
+
 		}
 
 	#endregion

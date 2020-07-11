@@ -134,7 +134,7 @@
 					BasedOn="{StaticResource Label.Setting.Base}"
 					>
 				<Style.Triggers>
-					<Trigger Property="Content" Value="Undetermined">
+					<Trigger Property="Content" Value="False">
 						<Setter Property="Foreground" Value="{StaticResource Label.Foreground.Disabled}">
 						</Setter>
 					</Trigger>
@@ -164,9 +164,9 @@
 					TargetType="DataGridCell"
 					BasedOn="{StaticResource Dg1CellStyleBase}"
 					>
+				<Setter Property="HorizontalContentAlignment" Value="Left" />
 				<Setter Property="Margin" Value="8,0,8,3" />
-				<Setter Property="Padding" Value="0,0,0,0">
-				</Setter>
+				<Setter Property="Padding" Value="0,0,0,0" />
 			</Style>
 
 			<Style
@@ -184,7 +184,7 @@
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Margin" Value="5,0,0,3" />
-				<Setter Property="Padding" Value="0,0,0,0"/>
+				<Setter Property="Padding" Value="0,0,0,0" />
 				<Setter Property="BorderThickness" Value="0,0,0,1" />
 				<Setter Property="BorderBrush" Value="Blue" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -306,6 +306,448 @@
 			</Style>
 
 
+			<ControlTemplate
+					x:Key="Dg6ExpanderTemplate1"
+					TargetType="{x:Type Expander}"
+					>
+				<Border
+						CornerRadius="3"
+						SnapsToDevicePixels="True"
+						Background="{TemplateBinding Background}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						>
+					<DockPanel>
+						<ToggleButton
+								x:Name="HeaderSite"
+								Content="{TemplateBinding Header}"
+								Margin="1"
+								MinWidth="0"
+								MinHeight="0"
+								Padding="{TemplateBinding Padding}"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								FontFamily="{TemplateBinding FontFamily}"
+								FontSize="{TemplateBinding FontSize}"
+								FontStretch="{TemplateBinding FontStretch}"
+								FontStyle="{TemplateBinding FontStyle}"
+								FontWeight="{TemplateBinding FontWeight}"
+								DockPanel.Dock="Top"
+								Foreground="{TemplateBinding Foreground}"
+								IsChecked="{Binding IsExpanded,
+																		Mode=TwoWay,
+																		RelativeSource={RelativeSource TemplatedParent}}"
+								FocusVisualStyle="{x:Null}"
+								ContentTemplate="{TemplateBinding HeaderTemplate}"
+								>
+							<!-- <ToggleButton.FocusVisualStyle> -->
+							<!-- 	<Style> -->
+							<!-- 		<Setter Property="Control.Template"> -->
+							<!-- 			<Setter.Value> -->
+							<!-- 				<ControlTemplate> -->
+							<!-- 					<Border> -->
+							<!--  <Rectangle  -->
+							<!--  Margin="0"  -->
+							<!--  SnapsToDevicePixels="True"  -->
+							<!--  Stroke="Black"  -->
+							<!--  StrokeDashArray="1 2"  -->
+							<!--  StrokeThickness="1"  -->
+							<!--  />  -->
+							<!-- 					</Border> -->
+							<!-- 				</ControlTemplate> -->
+							<!-- 			</Setter.Value> -->
+							<!-- 		</Setter> -->
+							<!-- 	</Style> -->
+							<!-- </ToggleButton.FocusVisualStyle> -->
+							<ToggleButton.Style>
+								<Style TargetType="{x:Type ToggleButton}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type ToggleButton}">
+												<Border Padding="{TemplateBinding Padding}">
+													<Grid
+															x:Name="Grd"
+															SnapsToDevicePixels="False"
+															>
+														<Grid.Style>
+															<Style TargetType="Grid">
+																<Setter Property="Background" Value="Transparent" />
+															</Style>
+														</Grid.Style>
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="19" />
+															<ColumnDefinition Width="*" />
+														</Grid.ColumnDefinitions>
+														<!--  <Ellipse  -->
+														<!--  x:Name="circle"  -->
+														<!--  Width="19"  -->
+														<!--  Height="19"  -->
+														<!--  HorizontalAlignment="Center"  -->
+														<!--  VerticalAlignment="Center"  -->
+														<!--  Fill="White"  -->
+														<!--  Stroke="#FF333333"  -->
+														<!--  />  -->
+														<Rectangle
+																x:Name="Rect"
+																Width="15"
+																Height="15"
+																HorizontalAlignment="Center"
+																VerticalAlignment="Center"
+																Fill="Transparent"
+																StrokeThickness="0"
+																/>
+														<Path
+																x:Name="arrow"
+																Margin="0,0,0,0"
+																HorizontalAlignment="Center"
+																VerticalAlignment="Center"
+																Data="{StaticResource arrRight}"
+																SnapsToDevicePixels="False"
+																StrokeThickness="0"
+																Style="{StaticResource Path.ToggleButton.Arrow}"
+																/>
+														<!--  Data="M1,1.5L4.5,5 8,1.5"  -->
+														<ContentPresenter
+																Content="{TemplateBinding Content}"
+																Grid.Column="1"
+																Margin="4,0,0,0"
+																HorizontalAlignment="Left"
+																VerticalAlignment="Center"
+																ContentStringFormat="{TemplateBinding ContentStringFormat}"
+																RecognizesAccessKey="True"
+																SnapsToDevicePixels="True"
+																ContentTemplate="{TemplateBinding ContentTemplate}"
+																/>
+													</Grid>
+												</Border>
+												<ControlTemplate.Triggers>
+													<Trigger Property="IsChecked" Value="true">
+														<Setter TargetName="arrow" Property="Data" Value="{StaticResource arrUp}" />
+														<!-- <Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" /> -->
+													</Trigger>
+													<Trigger Property="IsMouseOver" Value="True">
+														<Setter TargetName="Rect" Property="Fill" Value="{StaticResource MouseOver.Background}" />
+														<Setter TargetName="arrow" Property="Stroke" Value="{StaticResource ToggleButton.TreeArrow.Stroke.MouseOver}" />
+														<!-- <Setter TargetName="circle" Property="Stroke" Value="#FF5593FF" /> -->
+														<!-- <Setter TargetName="circle" Property="Fill" Value="#FFF3F9FF" /> -->
+													</Trigger>
+													<Trigger Property="IsPressed" Value="True">
+														<Setter TargetName="arrow" Property="Stroke" Value="{StaticResource ToggleButton.TreeArrow.Stroke.MouseOver}" />
+														<!-- <Setter TargetName="circle" Property="Stroke" Value="#FF3C77DD" /> -->
+														<!-- <Setter TargetName="circle" Property="StrokeThickness" Value="1.5" /> -->
+														<!-- <Setter TargetName="circle" Property="Fill" Value="#FFD9ECFF" /> -->
+													</Trigger>
+													<Trigger Property="IsEnabled" Value="False">
+														<Setter TargetName="arrow" Property="Stroke" Value="#FF707070" />
+														<!-- <Setter TargetName="circle" Property="Stroke" Value="#FFBCBCBC" /> -->
+														<!-- <Setter TargetName="circle" Property="Fill" Value="#FFE6E6E6" /> -->
+													</Trigger>
+												</ControlTemplate.Triggers>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ToggleButton.Style>
+						</ToggleButton>
+						<ContentPresenter
+								x:Name="ExpandSite"
+								Content="{TemplateBinding Content}"
+								Margin="{TemplateBinding Padding}"
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								ContentStringFormat="{TemplateBinding ContentStringFormat}"
+								DockPanel.Dock="Bottom"
+								Focusable="False"
+								Visibility="Collapsed"
+								ContentTemplate="{TemplateBinding ContentTemplate}"
+								/>
+					</DockPanel>
+				</Border>
+				<ControlTemplate.Triggers>
+					<Trigger Property="IsExpanded" Value="True">
+						<Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
+					</Trigger>
+					<!--    -->
+					<!--  ~1~ right @1@  -->
+					<!-- <Trigger Property="ExpandDirection" Value="Right"> -->
+					<!-- 	<Setter TargetName="ExpandSite" Property="DockPanel.Dock" Value="Right" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="DockPanel.Dock" Value="Left" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="Style"> -->
+					<!-- 		<Setter.Value> -->
+					<!-- 			<Style TargetType="{x:Type ToggleButton}"> -->
+					<!-- 				<Setter Property="Template"> -->
+					<!-- 					<Setter.Value> -->
+					<!-- 						<ControlTemplate TargetType="{x:Type ToggleButton}"> -->
+					<!-- 							<Border Padding="{TemplateBinding Padding}"> -->
+					<!--  <Grid  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--  Background="Transparent"  -->
+					<!--  >  -->
+					<!-- 									<Grid.RowDefinitions> -->
+					<!-- 										<RowDefinition Height="19" /> -->
+					<!-- 										<RowDefinition Height="*" /> -->
+					<!-- 									</Grid.RowDefinitions> -->
+					<!-- 									<Grid> -->
+					<!-- 										<Grid.LayoutTransform> -->
+					<!-- 											<TransformGroup> -->
+					<!-- 												<RotateTransform Angle="-90" /> -->
+					<!-- 											</TransformGroup> -->
+					<!-- 										</Grid.LayoutTransform> -->
+					<!--  <Ellipse  -->
+					<!--  x:Name="circle"  -->
+					<!--  Width="19"  -->
+					<!--  Height="19"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  Fill="White"  -->
+					<!--  Stroke="#FF333333"  -->
+					<!--  />  -->
+					<!--  <Path  -->
+					<!--  x:Name="arrow"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--  Stroke="LawnGreen"  -->
+					<!--  Margin="1,3,0,0"  -->
+					<!--  StrokeThickness="1"  -->
+					<!--  Style="{StaticResource Path.ToggleButton.Arrow}"  -->
+					<!--  Data="{StaticResource arrDown}"  -->
+					<!--  />  -->
+					<!--  ~1~ Data="M1,1.5L4.5,5 8,1.5" @1@  -->
+					<!--  ~1~ Stroke="#FF333333" @1@  -->
+					<!--  ~1~ StrokeThickness="2" @1@  -->
+					<!-- 									</Grid> -->
+					<!--  <ContentPresenter  -->
+					<!--  Content="{TemplateBinding Content}"  -->
+					<!--  Grid.Row="1"  -->
+					<!--  Margin="0,4,0,0"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Top"  -->
+					<!--  ContentStringFormat="{TemplateBinding ContentStringFormat}"  -->
+					<!--  RecognizesAccessKey="True"  -->
+					<!--  SnapsToDevicePixels="True"  -->
+					<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
+					<!--  />  -->
+					<!-- 								</Grid> -->
+					<!-- 							</Border> -->
+					<!-- 							<ControlTemplate.Triggers> -->
+					<!-- 								<Trigger Property="IsChecked" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsMouseOver" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF5593FF" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFF3F9FF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsPressed" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF3C77DD" /> -->
+					<!-- 									<Setter TargetName="circle" Property="StrokeThickness" Value="1.5" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFD9ECFF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsEnabled" Value="False"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="#FF707070" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FFBCBCBC" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFE6E6E6" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 							</ControlTemplate.Triggers> -->
+					<!-- 						</ControlTemplate> -->
+					<!-- 					</Setter.Value> -->
+					<!-- 				</Setter> -->
+					<!-- 			</Style> -->
+					<!-- 		</Setter.Value> -->
+					<!-- 	</Setter> -->
+					<!-- </Trigger> -->
+					<!--    -->
+					<!-- <Trigger Property="ExpandDirection" Value="Up"> -->
+					<!-- 	<Setter TargetName="ExpandSite" Property="DockPanel.Dock" Value="Top" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="DockPanel.Dock" Value="Bottom" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="Style"> -->
+					<!-- 		<Setter.Value> -->
+					<!-- 			<Style TargetType="{x:Type ToggleButton}"> -->
+					<!-- 				<Setter Property="Template"> -->
+					<!-- 					<Setter.Value> -->
+					<!-- 						<ControlTemplate TargetType="{x:Type ToggleButton}"> -->
+					<!-- 							<Border Padding="{TemplateBinding Padding}"> -->
+					<!--  <Grid  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--  Background="Transparent"  -->
+					<!--  >  -->
+					<!-- 									<Grid.ColumnDefinitions> -->
+					<!-- 										<ColumnDefinition Width="19" /> -->
+					<!-- 										<ColumnDefinition Width="*" /> -->
+					<!-- 									</Grid.ColumnDefinitions> -->
+					<!-- 									<Grid> -->
+					<!-- 										<Grid.LayoutTransform> -->
+					<!-- 											<TransformGroup> -->
+					<!-- 												<RotateTransform Angle="180" /> -->
+					<!-- 											</TransformGroup> -->
+					<!-- 										</Grid.LayoutTransform> -->
+					<!--  <Ellipse  -->
+					<!--  x:Name="circle"  -->
+					<!--  Width="19"  -->
+					<!--  Height="19"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  Fill="White"  -->
+					<!--  Stroke="#FF333333"  -->
+					<!--  />  -->
+					<!--  <Path  -->
+					<!--  x:Name="arrow"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  Stroke="Red"  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--  Margin="1,3,0,0"  -->
+					<!--  StrokeThickness="1"  -->
+					<!--  Style="{StaticResource Path.ToggleButton.Arrow}"  -->
+					<!--  Data="{StaticResource arrDown}"  -->
+					<!--    -->
+					<!--  />  -->
+					<!--  ~1~ Stroke="#FF333333" @1@  -->
+					<!--  ~1~ Data="M1,1.5L4.5,5 8,1.5" @1@  -->
+					<!--  ~1~ StrokeThickness="2" @1@  -->
+					<!-- 									</Grid> -->
+					<!--  <ContentPresenter  -->
+					<!--  Content="{TemplateBinding Content}"  -->
+					<!--  Grid.Column="1"  -->
+					<!--  Margin="4,0,0,0"  -->
+					<!--  HorizontalAlignment="Left"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  ContentStringFormat="{TemplateBinding ContentStringFormat}"  -->
+					<!--  RecognizesAccessKey="True"  -->
+					<!--  SnapsToDevicePixels="True"  -->
+					<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
+					<!--  />  -->
+					<!-- 								</Grid> -->
+					<!-- 							</Border> -->
+					<!-- 							<ControlTemplate.Triggers> -->
+					<!-- 								<Trigger Property="IsChecked" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsMouseOver" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF5593FF" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFF3F9FF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsPressed" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF3C77DD" /> -->
+					<!-- 									<Setter TargetName="circle" Property="StrokeThickness" Value="1.5" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFD9ECFF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsEnabled" Value="False"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="#FF707070" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FFBCBCBC" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFE6E6E6" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 							</ControlTemplate.Triggers> -->
+					<!-- 						</ControlTemplate> -->
+					<!-- 					</Setter.Value> -->
+					<!-- 				</Setter> -->
+					<!-- 			</Style> -->
+					<!-- 		</Setter.Value> -->
+					<!-- 	</Setter> -->
+					<!-- </Trigger> -->
+					<!-- <Trigger Property="ExpandDirection" Value="Left"> -->
+					<!-- 	<Setter TargetName="ExpandSite" Property="DockPanel.Dock" Value="Left" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="DockPanel.Dock" Value="Right" /> -->
+					<!-- 	<Setter TargetName="HeaderSite" Property="Style"> -->
+					<!-- 		<Setter.Value> -->
+					<!-- 			<Style TargetType="{x:Type ToggleButton}"> -->
+					<!-- 				<Setter Property="Template"> -->
+					<!-- 					<Setter.Value> -->
+					<!-- 						<ControlTemplate TargetType="{x:Type ToggleButton}"> -->
+					<!-- 							<Border Padding="{TemplateBinding Padding}"> -->
+					<!--  <Grid  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--  Background="Transparent"  -->
+					<!--  >  -->
+					<!-- 									<Grid.RowDefinitions> -->
+					<!-- 										<RowDefinition Height="19" /> -->
+					<!-- 										<RowDefinition Height="*" /> -->
+					<!-- 									</Grid.RowDefinitions> -->
+					<!-- 									<Grid> -->
+					<!-- 										<Grid.LayoutTransform> -->
+					<!-- 											<TransformGroup> -->
+					<!-- 												<RotateTransform Angle="90" /> -->
+					<!-- 											</TransformGroup> -->
+					<!-- 										</Grid.LayoutTransform> -->
+					<!--  <Ellipse  -->
+					<!--  x:Name="circle"  -->
+					<!--  Width="19"  -->
+					<!--  Height="19"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  Fill="White"  -->
+					<!--  Stroke="#FF333333"  -->
+					<!--  />  -->
+					<!--  <Path  -->
+					<!--  x:Name="arrow"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  SnapsToDevicePixels="False"  -->
+					<!--    -->
+					<!--  Margin="1,3,0,0"  -->
+					<!--  StrokeThickness="1"  -->
+					<!--  Stroke="Blue"  -->
+					<!--  Style="{StaticResource Path.ToggleButton.Arrow}"  -->
+					<!--  Data="{StaticResource arrDown}"  -->
+					<!--  />  -->
+					<!--  ~1~ Data="M1,1.5L4.5,5 8,1.5" @1@  -->
+					<!--  ~1~ Stroke="#FF333333" @1@  -->
+					<!--  ~1~ StrokeThickness="2" @1@  -->
+					<!-- 									</Grid> -->
+					<!--  <ContentPresenter  -->
+					<!--  Content="{TemplateBinding Content}"  -->
+					<!--  Grid.Row="1"  -->
+					<!--  Margin="0,4,0,0"  -->
+					<!--  HorizontalAlignment="Center"  -->
+					<!--  VerticalAlignment="Top"  -->
+					<!--  ContentStringFormat="{TemplateBinding ContentStringFormat}"  -->
+					<!--  RecognizesAccessKey="True"  -->
+					<!--  SnapsToDevicePixels="True"  -->
+					<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
+					<!--  />  -->
+					<!-- 								</Grid> -->
+					<!-- 							</Border> -->
+					<!-- 							<ControlTemplate.Triggers> -->
+					<!-- 								<Trigger Property="IsChecked" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsMouseOver" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF5593FF" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFF3F9FF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsPressed" Value="True"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="Black" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FF3C77DD" /> -->
+					<!-- 									<Setter TargetName="circle" Property="StrokeThickness" Value="1.5" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFD9ECFF" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 								<Trigger Property="IsEnabled" Value="False"> -->
+					<!-- 									<Setter TargetName="arrow" Property="Stroke" Value="#FF707070" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Stroke" Value="#FFBCBCBC" /> -->
+					<!-- 									<Setter TargetName="circle" Property="Fill" Value="#FFE6E6E6" /> -->
+					<!-- 								</Trigger> -->
+					<!-- 							</ControlTemplate.Triggers> -->
+					<!-- 						</ControlTemplate> -->
+					<!-- 					</Setter.Value> -->
+					<!-- 				</Setter> -->
+					<!-- 			</Style> -->
+					<!-- 		</Setter.Value> -->
+					<!-- 	</Setter> -->
+					<!-- </Trigger> -->
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+					</Trigger>
+				</ControlTemplate.Triggers>
+			</ControlTemplate>
+
+
+
+
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -351,6 +793,7 @@
 				</Grid.ColumnDefinitions>
 
 				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -486,6 +929,7 @@
 								>
 							<Label.Style>
 								<Style
+										x:Name="lblStyle1"
 										TargetType="Label"
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
@@ -563,7 +1007,10 @@
 
 								<Grid Margin="15,5,0,0">
 									<Grid.Style>
-										<Style TargetType="Grid">
+										<Style
+												x:Name="grdStyle1"
+												TargetType="Grid"
+												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ElementName=SuiteDetailsToggleButton, Path=IsChecked}" Value="True">
@@ -726,7 +1173,7 @@
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
 										ElementName="mainWin"
-										FallbackValue="Undetermined"
+										FallbackValue="False"
 										Mode="OneWay"
 										Path="Site.SiteSettingsFileExists"
 										>
@@ -780,7 +1227,10 @@
 
 								<Grid Margin="15,5,0,0">
 									<Grid.Style>
-										<Style TargetType="Grid">
+										<Style
+												x:Name="GrdStyle2"
+												TargetType="Grid"
+												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ElementName=SiteDetailsToggleButton, Path=IsChecked}" Value="True">
@@ -833,6 +1283,7 @@
 											>
 										<Label.Style>
 											<Style
+													x:Name="lblStyle2"
 													TargetType="Label"
 													BasedOn="{StaticResource Label.Setting.Base}"
 													>
@@ -966,7 +1417,7 @@
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
 										ElementName="mainWin"
-										FallbackValue="Undetermined"
+										FallbackValue="False"
 										Mode="OneWay"
 										Path="SeedInstalled.InstalledFolderExists"
 										>
@@ -1019,7 +1470,10 @@
 
 								<Grid Margin="15,3,0,0">
 									<Grid.Style>
-										<Style TargetType="Grid">
+										<Style
+												x:Name="grdStyle3"
+												TargetType="Grid"
+												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ElementName=SeedInstalledFilesDetailsToggleButton, Path=IsChecked}" Value="True">
@@ -1061,17 +1515,18 @@
 											Grid.Column="0"
 											Grid.Row="1"
 											Grid.ColumnSpan="2"
-											Margin="15,5,5,8"
+											Margin="5,5,5,8"
 											Padding="0"
 											>
 										<Label.Style>
 											<Style
+													x:Name="lblStyle4"
 													TargetType="Label"
 													BasedOn="{StaticResource Label.Setting.Base}"
 													>
 												<Setter Property="Visibility" Value="Collapsed" />
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount}" Value="0">
+													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
 														<Setter Property="Visibility" Value="Visible" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1087,9 +1542,12 @@
 											Orientation="Horizontal"
 											>
 										<StackPanel.Style>
-											<Style TargetType="StackPanel">
+											<Style
+													x:Name="spStyle1"
+													TargetType="StackPanel"
+													>
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount}" Value="0">
+													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
 														<Setter Property="Visibility" Value="Collapsed" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1110,12 +1568,16 @@
 											<DataGrid
 													x:Name="Dg1"
 													Margin="5,3,5,3"
-													Width="350"
+													Width="450"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
+													DataContext="{Binding ElementName=mainWin,
+																								Mode=TwoWay,
+																								FallbackValue={x:Null},
+																								Path=SeedInstalled.View}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													PreviewMouseLeftButtonUp="Dg1_OnPreviewMouseLeftButtonUp"
@@ -1124,11 +1586,9 @@
 													Background="Transparent"
 													BorderThickness="0"
 													HorizontalGridLinesBrush="Black"
-													ItemsSource="{Binding ElementName=mainWin,
-																								Mode=TwoWay,
-																								Path=SeedInstalled.View}"
-													RowStyle="{StaticResource Dg1RowStyle}"
+													ItemsSource="{Binding}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
+													RowStyle="{StaticResource Dg1RowStyle}"
 													>
 
 												<DataGrid.Columns>
@@ -1140,9 +1600,9 @@
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
 																<Label
-																		Width="54"
 																		Content="Use"
 																		Margin="0,0,0,-1.5"
+																		Width="54"
 																		Padding="6,0,6,2"
 																		HorizontalAlignment="Center"
 																		HorizontalContentAlignment="Center"
@@ -1154,17 +1614,19 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 
 														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate>
+															<DataTemplate DataType="{x:Type configSupport:ConfigSeedFile}">
 																<CheckBox
 																		x:Name="ckbx"
 																		Margin="0"
 																		Padding="0"
 																		HorizontalAlignment="Center"
-																		DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
-																		IsChecked="{Binding Path=DataContext.Selected,
+																		IsChecked="{Binding Path=SelectedSeed,
+																												UpdateSourceTrigger=PropertyChanged,
+																												FallbackValue='False',
 																												Mode=TwoWay}"
 																		FocusVisualStyle="{x:Null}"
 																		/>
+
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
@@ -1323,7 +1785,7 @@
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
 										ElementName="mainWin"
-										FallbackValue="Undetermined"
+										FallbackValue="False"
 										Mode="OneWay"
 										Path="SeedSite.HasSeedFileSetting"
 										>
@@ -1355,14 +1817,14 @@
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
 										ElementName="mainWin"
-										FallbackValue="Undetermined"
+										FallbackValue="False"
 										Mode="OneWay"
 										Path="SeedSite.SiteSeedFolderPathExists"
 										>
 									<Binding.ConverterParameter>
 										<specialized:StringCollection>
-											<sys:String>Seed Folder not exist</sys:String>
-											<sys:String>Seed Folder does not exist</sys:String>
+											<sys:String>Seed Folder was found</sys:String>
+											<sys:String>Seed Folder was not found</sys:String>
 										</specialized:StringCollection>
 									</Binding.ConverterParameter>
 								</Binding>
@@ -1443,7 +1905,10 @@
 
 								<Grid Margin="15,3,0,0">
 									<Grid.Style>
-										<Style TargetType="Grid">
+										<Style
+												x:Name="grdStyle4"
+												TargetType="Grid"
+												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ElementName=SeedFilesDetailsToggleButton, Path=IsChecked}" Value="True">
@@ -1480,10 +1945,11 @@
 											>
 										<Label.Style>
 											<Style
+													x:Name="lblStyle5"
 													TargetType="Label"
 													BasedOn="{StaticResource Label.Setting.Base}"
 													>
-												<Setter Property="Content" Value="Undetermined" />
+												<Setter Property="Content" Value="False" />
 												<Setter Property="Visibility" Value="Collapsed" />
 												<Style.Triggers>
 													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedSite.SiteSeedFolderPath}" Value="{x:Null}">
@@ -1529,6 +1995,8 @@
 													HorizontalContentAlignment="Stretch"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
+													DataContext="{Binding ElementName=mainWin,
+																								Path=SeedSite.View}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													SelectionChanged="Dg4_SelectionChanged"
@@ -1536,11 +2004,9 @@
 													Background="Transparent"
 													BorderThickness="0"
 													HorizontalGridLinesBrush="Black"
-													DataContext="{Binding ElementName=mainWin, Path=SeedSite.View}"
 													ItemsSource="{Binding}"
-													RowStyle="{StaticResource Dg1RowStyle}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
-													
+													RowStyle="{StaticResource Dg1RowStyle}"
 													>
 
 												<!--
@@ -1558,14 +2024,13 @@
 													<DataGridTemplateColumn
 															Width="70"
 															CellStyle="{StaticResource Dg1CellStyleBase}"
-															
 															>
 														<DataGridTemplateColumn.HeaderTemplate>
 															<DataTemplate>
 																<Label
-																		Width="54"
 																		Content="Proceed"
 																		Margin="0,0,0,-1.5"
+																		Width="54"
 																		Padding="6,0,6,2"
 																		HorizontalAlignment="Center"
 																		HorizontalContentAlignment="Center"
@@ -1577,40 +2042,37 @@
 														</DataGridTemplateColumn.HeaderTemplate>
 
 														<DataGridTemplateColumn.CellTemplate>
-															<DataTemplate
-																	
-																	DataType="{x:Type configSupport:ConfigSeedFile}"
-																	>
+															<DataTemplate DataType="{x:Type configSupport:ConfigSeedFile}">
 																<CheckBox
 																		x:Name="ckbx"
 																		Margin="0"
 																		Padding="0"
 																		HorizontalAlignment="Center"
-																		DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
-																		IsChecked="{Binding Path=DataContext.Selected,
+																		IsChecked="{Binding Path=SelectedSeed,
+																												UpdateSourceTrigger=PropertyChanged,
+																												FallbackValue='False',
 																												Mode=TwoWay}"
 																		FocusVisualStyle="{x:Null}"
 																		>
-																		<CheckBox.Style>
-																			<Style TargetType="CheckBox">
-																				<Setter Property="IsEnabled" Value="True"/>
-																				<Style.Triggers>
-																					<DataTrigger Binding="{Binding DataContext.Status, Mode=OneWay, FallbackValue={x:Null}}"
-																										 Value="{StaticResource OK}">
-																						<Setter Property="IsEnabled" Value="False"/>
-																					</DataTrigger>
-																				</Style.Triggers>
-																			</Style>
-																		</CheckBox.Style>
+																	<!--  DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, FallbackValue={x:Null}}"  -->
+																	<CheckBox.Style>
+																		<Style TargetType="CheckBox">
+																			<Setter Property="IsEnabled" Value="True" />
+																			<Style.Triggers>
+																				<DataTrigger Binding="{Binding Status, Mode=OneWay, FallbackValue={x:Null}}" Value="{StaticResource OK}">
+																					<Setter Property="IsEnabled" Value="False" />
+																				</DataTrigger>
+																			</Style.Triggers>
+																		</Style>
+																	</CheckBox.Style>
 																</CheckBox>
 															</DataTemplate>
 														</DataGridTemplateColumn.CellTemplate>
 													</DataGridTemplateColumn>
-											
+
 													<DataGridTextColumn
 															Width="120"
 															Header="Status"
-															
 															CellStyle="{StaticResource Dg1CellStyleFound}"
 															>
 
@@ -1801,7 +2263,7 @@
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
 										ElementName="mainWin"
-										FallbackValue="Undetermined"
+										FallbackValue="False"
 										Mode="OneWay"
 										Path="SeedLocal.LocalSeedFolderPathExists"
 										>
@@ -1837,7 +2299,7 @@
 											x:Name="LocalSeedFilesDetailsToggleButton"
 											Width="15"
 											Height="15"
-											IsChecked="false"
+											IsChecked="False"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ToggleButton.Details}"
 											>
@@ -1857,7 +2319,10 @@
 										HorizontalAlignment="Stretch"
 										>
 									<Grid.Style>
-										<Style TargetType="Grid">
+										<Style
+												x:Name="grdStyle5"
+												TargetType="Grid"
+												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ElementName=LocalSeedFilesDetailsToggleButton, Path=IsChecked}" Value="True">
@@ -1914,7 +2379,7 @@
 											<DataGrid
 													x:Name="Dg5"
 													Margin="5,3,5,3"
-													Width="350"
+													Width="450"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
@@ -1957,9 +2422,9 @@
 														<DataGridTextColumn.HeaderTemplate>
 															<DataTemplate>
 																<Label
-																		Width="54"
 																		Content="Source"
 																		Margin="0,0,0,-1.5"
+																		Width="54"
 																		Padding="4,0,4,2"
 																		HorizontalAlignment="Center"
 																		HorizontalContentAlignment="Center"
@@ -2005,16 +2470,370 @@
 							</StackPanel>
 						</Border>
 						<!--#endregion-->
-
-
-
 					</Grid>
-
 					<!--#endregion-->
-
 				</DockPanel>
 
+				<!--#region > six-->
+				<DockPanel
+						Grid.Column="0"
+						Grid.Row="5"
+						Margin="15,0,0,10"
+						HorizontalAlignment="Stretch"
+						IsEnabled="{Binding ElementName=mainWin,
+																FallbackValue=false,
+																Path=User.UserClassificationFolderPathExists}"
+						>
+					<Border
+							Margin="0,0,0,20"
+							Width="65"
+							Style="{StaticResource Border.Setting.Id}"
+							>
+						<Label
+								Content="6"
+								Margin="0,-4,0,0"
+								VerticalAlignment="Top"
+								Style="{StaticResource Label.Setting.Id}"
+								/>
 
+					</Border>
+
+					<Grid
+							Margin="15,0,0,0"
+							VerticalAlignment="Top"
+							>
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+							<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Control}" MaxWidth="30" />
+
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+							<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+							<RowDefinition Height="*" />
+
+						</Grid.RowDefinitions>
+
+						<Label
+								Content="User Classification Files"
+								Grid.Column="0"
+								Grid.Row="0"
+								Grid.ColumnSpan="3"
+								Margin="0,0,0,3"
+								Padding="5,0,0,3"
+								HorizontalAlignment="Stretch"
+								FontSize="{StaticResource Label.Section.Title.FontSize}"
+								Background="{StaticResource Win.Title.Background}"
+								Style="{StaticResource Label.Setting.Base}"
+								/>
+
+
+						<Label
+								Content="User Classif. Files Folder Found"
+								Grid.Column="0"
+								Grid.Row="1"
+								Margin="0,0,0,3"
+								VerticalAlignment="Bottom"
+								Style="{StaticResource Label.Setting.Base}"
+								/>
+
+						<Label
+								Grid.Column="2"
+								Grid.Row="1"
+								Style="{StaticResource Label.Setting.Found}"
+								>
+							<Label.Content>
+								<Binding
+										Converter="{StaticResource BoolToMessage}"
+										ElementName="mainWin"
+										FallbackValue="False"
+										Mode="OneWay"
+										Path="User.UserClassificationFolderPathExists"
+										>
+									<Binding.ConverterParameter>
+										<specialized:StringCollection>
+											<sys:String>User Classification Folder Was Found</sys:String>
+											<sys:String>User Classification Folder Not Was Found</sys:String>
+										</specialized:StringCollection>
+									</Binding.ConverterParameter>
+								</Binding>
+							</Label.Content>
+						</Label>
+
+						<Border
+								Grid.Column="0"
+								Grid.Row="2"
+								Grid.ColumnSpan="3"
+								Background="{StaticResource Details.Background}"
+								Style="{StaticResource Border.DetailBar}"
+								>
+
+							<StackPanel
+									Margin="5,0,0,0"
+									Orientation="Vertical"
+									>
+								<!--  IsEnabled="{Binding ElementName=mainWin,  -->
+								<!--  FallbackValue=false,  -->
+								<!--  Path=SeedInstalled.InstalledFolderExists}"  -->
+
+								<StackPanel Orientation="Horizontal">
+
+									<ToggleButton
+											x:Name="FilesDetailsToggleButton"
+											Width="15"
+											Height="15"
+											IsChecked="false"
+											FocusVisualStyle="{x:Null}"
+											Template="{StaticResource ToggleButton.Details}"
+											>
+									</ToggleButton>
+
+									<Label
+											Content="User Classification File Details"
+											Style="{StaticResource Label.Setting.Base}"
+											/>
+
+								</StackPanel>
+
+								<!--#region > Details-->
+
+								<Grid
+										x:Name="grid6"
+										Margin="15,3,0,0"
+										HorizontalAlignment="Stretch"
+										>
+									<Grid.Style>
+										<Style
+												x:Name="grdStyle6"
+												TargetType="Grid"
+												>
+											<Setter Property="Visibility" Value="Collapsed" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ElementName=FilesDetailsToggleButton, Path=IsChecked}" Value="True">
+													<Setter Property="Visibility" Value="Visible" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</Grid.Style>
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="180" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+
+									<Grid.RowDefinitions>
+										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+										<RowDefinition Height="*" />
+									</Grid.RowDefinitions>
+
+
+									<Label
+											Content="User Classification Files Folder"
+											Grid.Column="0"
+											Grid.Row="0"
+											Style="{StaticResource Label.Setting.Base}"
+											/>
+
+									<Label
+											Content="{Binding FallbackValue='Undetermined',
+																				ElementName=mainWin,
+																				Path=User.UserClassificationFolderPath}"
+											Grid.Column="1"
+											Grid.Row="0"
+											Style="{StaticResource Label.Setting.Found}"
+											/>
+
+									<StackPanel
+											Grid.Column="0"
+											Grid.Row="1"
+											Grid.ColumnSpan="2"
+											Margin="5,5,5,8"
+											Orientation="Horizontal"
+											>
+										<Border
+												x:Name="BdrDg6"
+												Margin="0,5,5,0"
+												HorizontalAlignment="Stretch"
+												CornerRadius="5"
+												Background="{StaticResource DataGrid.Background}"
+												BorderThickness="1"
+												BorderBrush="{StaticResource DataGrid.Background}"
+												>
+
+											<DataGrid
+													x:Name="Dg6"
+													Margin="5,3,5,3"
+													Width="550"
+													MinHeight="30"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Stretch"
+													AutoGenerateColumns="false"
+													CanUserAddRows="False"
+													DataContext="{Binding ElementName=mainWin,
+																								Path=User}"
+													GridLinesVisibility="None"
+													HeadersVisibility="Column"
+													RowDetailsVisibilityMode="Visible"
+													SelectionMode="Single"
+													Background="Transparent"
+													BorderThickness="0"
+													HorizontalGridLinesBrush="Black"
+													ItemsSource="{Binding Path=View}"
+													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
+													RowStyle="{StaticResource Dg1RowStyle}"
+													>
+
+												<DataGrid.GroupStyle>
+													<GroupStyle>
+														<!-- <GroupStyle.HeaderTemplate> -->
+														<!-- 	<DataTemplate> -->
+														<!-- 		<DockPanel> -->
+														<!--    -->
+														<!--  <Label  -->
+														<!--  Content="{Binding Path=Name}"  -->
+														<!--  Width="100"  -->
+														<!--  HorizontalAlignment="Left"  -->
+														<!--  DockPanel.Dock="top"  -->
+														<!--  Foreground="White"  -->
+														<!--  />  -->
+														<!--    -->
+														<!-- 		</DockPanel> -->
+														<!-- 	</DataTemplate> -->
+														<!-- </GroupStyle.HeaderTemplate> -->
+														<GroupStyle.ContainerStyle>
+															<Style TargetType="GroupItem">
+																<Setter Property="Template">
+																	<Setter.Value>
+																		<ControlTemplate TargetType="GroupItem">
+																			<Expander
+																					HorizontalAlignment="Stretch"
+																					HorizontalContentAlignment="Stretch"
+																					Background="Transparent"
+																					Template="{StaticResource Dg6ExpanderTemplate1}"
+																					>
+																				<Expander.Header>
+																					<DockPanel HorizontalAlignment="Stretch">
+																						<TextBlock
+																								Padding="5,0,0,0"
+																								Text="{Binding Path=Name}"
+																								Foreground="Black"
+																								/>
+																						<TextBlock
+																								Padding="5,0,0,0"
+																								Text="{Binding Path=ItemCount}"
+																								Foreground="Black"
+																								/>
+																						<TextBlock
+																								Padding="5,0,0,0"
+																								Text="Items"
+																								Foreground="Black"
+																								/>
+																					</DockPanel>
+																				</Expander.Header>
+																				<ItemsPresenter Visibility="Visible" />
+																			</Expander>
+																		</ControlTemplate>
+																	</Setter.Value>
+																</Setter>
+															</Style>
+														</GroupStyle.ContainerStyle>
+													</GroupStyle>
+												</DataGrid.GroupStyle>
+
+
+												<DataGrid.Columns>
+													<DataGridTextColumn
+															Width="140"
+															MinWidth="140"
+															Binding="{Binding UserName,
+																								Mode=OneWay,
+																								FallbackValue='name'}"
+															CellStyle="{StaticResource Dg1CellStyleFound}"
+															>
+														<DataGridTextColumn.HeaderTemplate>
+															<DataTemplate>
+																<Label
+																		Content="User Name"
+																		Margin="0,0,0,-1.5"
+																		Width="110"
+																		Padding="4,0,4,2"
+																		HorizontalAlignment="Center"
+																		HorizontalContentAlignment="Center"
+																		Foreground="White"
+																		BorderThickness="0,0,0,2.5"
+																		BorderBrush="Blue"
+																		/>
+															</DataTemplate>
+														</DataGridTextColumn.HeaderTemplate>
+													</DataGridTextColumn>
+
+													<DataGridTextColumn
+															Width="140"
+															MinWidth="140"
+															Binding="{Binding FileId,
+																								Mode=OneWay,
+																								FallbackValue='name'}"
+															CellStyle="{StaticResource Dg1CellStyleFound}"
+															>
+														<DataGridTextColumn.HeaderTemplate>
+															<DataTemplate>
+																<Label
+																		Content="File Id"
+																		Margin="0,0,0,-1.5"
+																		Width="110"
+																		Padding="4,0,4,2"
+																		HorizontalAlignment="Center"
+																		HorizontalContentAlignment="Center"
+																		Foreground="White"
+																		BorderThickness="0,0,0,2.5"
+																		BorderBrush="Blue"
+																		/>
+															</DataTemplate>
+														</DataGridTextColumn.HeaderTemplate>
+													</DataGridTextColumn>
+
+															<!-- MinWidth="140" -->
+													<DataGridTextColumn
+															Width="260"
+															
+															Binding="{Binding FileName,
+																								Mode=OneWay,
+																								FallbackValue='name'}"
+															Header="File Name"
+															CellStyle="{StaticResource Dg1CellStyleName}"
+															>
+														<DataGridTextColumn.HeaderTemplate>
+															<DataTemplate>
+																<Label
+																		Content="File Name"
+																		Margin="0,0,10,-1.5"
+																		Padding="5,0,0,2"
+																		HorizontalAlignment="Stretch"
+																		HorizontalContentAlignment="left"
+																		Foreground="White"
+																		BorderThickness="0,0,0,2.5"
+																		BorderBrush="Blue"
+																		/>
+															</DataTemplate>
+														</DataGridTextColumn.HeaderTemplate>
+													</DataGridTextColumn>
+
+												</DataGrid.Columns>
+											</DataGrid>
+										</Border>
+
+									</StackPanel>
+								</Grid>
+							</StackPanel>
+						</Border>
+						<!--#endregion-->
+					</Grid>
+				</DockPanel>
+				<!--#endregion-->
 			</Grid>
 		</ScrollViewer>
 	</DockPanel>
