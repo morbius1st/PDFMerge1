@@ -10,8 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigClassificationUser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigLocalUser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\LocalUserList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileClassificationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />

@@ -122,7 +122,6 @@ namespace AndyShared.Windows
 		{
 			InitializeComponent();
 
-			
 		}
 
 	#endregion
