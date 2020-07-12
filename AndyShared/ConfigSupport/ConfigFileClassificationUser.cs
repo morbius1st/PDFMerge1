@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
 using UtilityLibrary;
 
@@ -25,6 +26,8 @@ namespace AndyShared.ConfigSupport
 
 		private FilePath<FileNameSimple> assocSampleFile;
 
+		private bool selectedFile;
+
 	#endregion
 
 	#region ctor
@@ -34,7 +37,7 @@ namespace AndyShared.ConfigSupport
 			string folder,
 			string fileName) : base(fileId, username, folder, fileName) { }
 
-		public ConfigFileClassificationUser(string filePath)
+		public ConfigFileClassificationUser(string filePath, bool selectedFile = false)
 		{
 			FilePath = new FilePath<FileNameUserAndId>(filePath);
 
@@ -54,6 +57,7 @@ namespace AndyShared.ConfigSupport
 			this.UserName = FilePath.GetFileNameObject.UserName;
 			this.Folder = FilePath.GetPath;
 			this.FileName = FilePath.GetFileNameObject.FileName;
+			this.SelectedFile = selectedFile;
 
 			GetAssociatedSamplePathAndFile(Folder, FileNameNoExt);
 
@@ -73,6 +77,17 @@ namespace AndyShared.ConfigSupport
 		public string GetFullFilePath => FilePath.GetFullFilePath;
 
 		public string AssocSampleFilePath => assocSampleFile.GetFullFilePath;
+
+		public bool SelectedFile
+		{
+			get => selectedFile;
+			set
+			{
+				selectedFile = value;
+
+				OnPropertyChange();
+			}
+		}
 
 	#endregion
 

@@ -2482,7 +2482,7 @@
 						HorizontalAlignment="Stretch"
 						IsEnabled="{Binding ElementName=mainWin,
 																FallbackValue=false,
-																Path=User.UserClassificationFolderPathExists}"
+																Path=ClassificationUser.UserClassificationFolderPathExists}"
 						>
 					<Border
 							Margin="0,0,0,20"
@@ -2552,7 +2552,7 @@
 										ElementName="mainWin"
 										FallbackValue="False"
 										Mode="OneWay"
-										Path="User.UserClassificationFolderPathExists"
+										Path="ClassificationUser.UserClassificationFolderPathExists"
 										>
 									<Binding.ConverterParameter>
 										<specialized:StringCollection>
@@ -2641,7 +2641,7 @@
 									<Label
 											Content="{Binding FallbackValue='Undetermined',
 																				ElementName=mainWin,
-																				Path=User.UserClassificationFolderPath}"
+																				Path=ClassificationUser.UserClassificationFolderPath}"
 											Grid.Column="1"
 											Grid.Row="0"
 											Style="{StaticResource Label.Setting.Found}"
@@ -2674,7 +2674,7 @@
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
 													DataContext="{Binding ElementName=mainWin,
-																								Path=User}"
+																								Path=ClassificationUser}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													RowDetailsVisibilityMode="Visible"

@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using AndyShared.FilesSupport;
+using AndyShared.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
 
-namespace AndyShared.ConfigSupport
+namespace AndyShared.ConfigMgrShared
 {
 	// manages the local seed file configuration
 	// provides a list of seed files available to the

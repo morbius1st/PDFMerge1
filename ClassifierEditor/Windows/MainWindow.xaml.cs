@@ -305,7 +305,8 @@ namespace ClassifierEditor.Windows
 		{
 			config = new Configuration();
 
-			config.ConfigureCategories(categories);
+			//todo: fix
+			// config.ConfigureCategories(categories);
 
 //			categories.Configure(UserSettings.Data.CatConfigFolder,
 //				UserSettings.Data.CatConfigFile);
@@ -326,9 +327,11 @@ namespace ClassifierEditor.Windows
 			#pragma warning restore CS0162 // Unreachable code detected
 			}
 
+			string sampleFileName = "";
 
-			string sampleFileName =
-				UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
+			// todo: fix
+			// sampleFileName =
+			// 	UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
 
 			FileList = new SampleFileList(sampleFileName);
 

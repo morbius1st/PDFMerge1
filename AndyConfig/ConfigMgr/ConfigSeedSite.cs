@@ -13,6 +13,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using AndyShared.ConfigMgr;
+using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
 using AndyShared.FilesSupport;
 using AndyShared.Support;

@@ -6,10 +6,12 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
+
+using AndyShared.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
 
-namespace AndyShared.ConfigSupport
+namespace AndyShared.ConfigMgrShared
 {
 	public class ConfigClassificationUser : INotifyPropertyChanged
 	{
@@ -118,7 +120,6 @@ namespace AndyShared.ConfigSupport
 			return null;
 		}
 
-
 	#endregion
 
 	#region private methods
@@ -135,7 +136,6 @@ namespace AndyShared.ConfigSupport
 
 				userClassificationFiles.Add(userFile);
 			}
-
 
 			return userClassificationFiles.Count > 0;
 		}

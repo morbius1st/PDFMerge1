@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUITE_SETTINGS, SITE_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SUITE_SETTINGS, SITE_SETTINGS, USER_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -115,6 +116,7 @@
     <Compile Include="ConfigMgr\ConfigSeedSite.cs" />
     <Compile Include="ConfigMgr\ConfigSite.cs" />
     <Compile Include="ConfigMgr\ConfigSuite.cs" />
+    <Compile Include="ConfigMgr\LocalUsers.cs" />
     <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.Linked\CsExtensions.cs</Link>
     </Compile>
@@ -128,6 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Settings\UserSettings71.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

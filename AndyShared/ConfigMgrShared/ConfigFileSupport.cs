@@ -8,7 +8,7 @@ using AndyShared.FilesSupport;
 using SettingsManager;
 using UtilityLibrary;
 
-namespace AndyShared.ConfigSupport
+namespace AndyShared.ConfigMgrShared
 {
 	public static class ConfigFileSupport
 	{

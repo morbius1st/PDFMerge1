@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
+using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
 using SettingsManager;
 using UtilityLibrary;

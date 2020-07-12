@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyConfig.ConfigMgr;
+using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
 using SettingsManager;
 
@@ -79,7 +80,7 @@ namespace AndyShared.ConfigMgr
 		/// </summary>
 		public ConfigSeedLocal SeedLocal { get; private set; } = ConfigSeedLocal.Instance;
 
-		public ConfigClassificationUser User { get; private set; } = ConfigClassificationUser.Instance;
+		public ConfigClassificationUser ClassificationUser { get; private set; } = ConfigClassificationUser.Instance;
 
 	#endregion
 
@@ -97,7 +98,7 @@ namespace AndyShared.ConfigMgr
 			Initalized = true;
 
 			// User = ConfigClassificationUser.Instance;
-			User.Initialize();
+			ClassificationUser.Initialize();
 
 			// Suite = ConfigSuite.Instance;
 			Suite.Initialize();

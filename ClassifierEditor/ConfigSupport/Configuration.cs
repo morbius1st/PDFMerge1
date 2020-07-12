@@ -2,6 +2,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
 using ClassifierEditor.DataRepo;
 using UtilityLibrary;
@@ -69,11 +70,12 @@ namespace ClassifierEditor.ConfigSupport
 			SuiteSettings.Admin.Write();
 		}
 
-		public void ConfigureCategories( SheetCategoryDataManager dm)
-		{
-			dm.Configure(UserSettings.Data.CatConfigFolder,
-				UserSettings.Data.CatConfigFile);
-		}
+		// todo: fix
+		// public void ConfigureCategories( SheetCategoryDataManager dm)
+		// {
+		// 	dm.Configure(UserSettings.Data.CatConfigFolder,
+		// 		UserSettings.Data.CatConfigFile);
+		// }
 
 	#endregion
 

@@ -1,6 +1,7 @@
 ﻿#region using
 
 using System;
+using System.Management;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -12,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
+using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
 using SettingsManager;
 
@@ -119,6 +121,8 @@ namespace AndyShared.Windows
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			
 		}
 
 	#endregion
@@ -130,7 +134,7 @@ namespace AndyShared.Windows
 		public ConfigSeedInstalled SeedInstalled => cfgMgr?.SeedInstalled ?? null;
 		public ConfigSeedSite SeedSite => cfgMgr?.SeedSite ?? null;
 		public ConfigSeedLocal SeedLocal => cfgMgr?.SeedLocal ?? null;
-		public ConfigClassificationUser User => cfgMgr?.User ?? null;
+		public ConfigClassificationUser ClassificationUser => cfgMgr?.ClassificationUser ?? null;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
 
@@ -190,7 +194,7 @@ namespace AndyShared.Windows
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("user classification config file| " +
-				User.Find("jeffs", "PdfSample 2") ?? "is null");
+				ClassificationUser.Find("jeffs", "PdfSample 2") ?? "is null");
 
 			Debug.WriteLine("At Debug");
 		}
