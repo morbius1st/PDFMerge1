@@ -15,7 +15,6 @@ using Tests.Sequence;
 using UtilityLibrary;
 
 
-
 // a hierarchical sequence and associated tree view - but using single level codes
 
 
@@ -558,5 +557,7 @@ namespace Tests
 		{
 			dataGridB.SelectedIndex = -1;
 		}
+
+		public void Connect(int connectionId, object target) { }
 	}
 }

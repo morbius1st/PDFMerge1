@@ -22,9 +22,39 @@ namespace AndyShared.ConfigMgrShared
 
 	#region public methods
 
-		public static string MakeClassificationFileName(string id, string username)
+		public static string MakeClassificationFileName( string username, string id)
 		{
 			return $"{id} ({username})" + ConfigSeedFileSupport.INFO_FILE_EXT;
+		}
+
+
+		public static ConfigSeedFile MakeConfigSeedFileItem(
+			FilePath<FileNameSimpleSelectable> file, string suiteName,
+			string sampleFile)
+		{
+			return new ConfigSeedFile(
+				file.GetFileNameWithoutExtension,
+				suiteName,
+				file.GetPath,
+				file.GetFileName,
+				sampleFile, false, false, file.GetFileNameObject.Selected, SeedFileStatus.IGNORE);
+		}
+
+		public static string GetSampleFile(FilePath<FileNameSimpleSelectable> file)
+		{
+			return GetSampleFile(file.GetPath, file.GetFileNameObject.FileNameNoExt);
+		}
+
+		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
+		{
+			string sampleFile = path + @"\" + fileNameNoExt + ConfigSeedFileSupport.SAMPLE_FILE_EXT;
+
+			if (!isTarget && !File.Exists(sampleFile))
+			{
+				sampleFile = null;
+			}
+
+			return sampleFile;
 		}
 
 	#endregion
@@ -34,7 +64,7 @@ namespace AndyShared.ConfigMgrShared
 	public static class ConfigSeedFileSupport
 	{
 		public const string INFO_FILE_EXT = ".xml";
-		public const string ASSOC_FILE_EXT = ".dat";
+		public const string SAMPLE_FILE_EXT = ".dat";
 
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";
@@ -56,7 +86,7 @@ namespace AndyShared.ConfigMgrShared
 				FilePath < FileNameSimpleSelectable > seedFile =
 					new FilePath<FileNameSimpleSelectable>(file);
 
-				string sampleFile = GetSampleFile(seedFile);
+				string sampleFile = ConfigFileSupport.GetSampleFile(seedFile);
 
 				ConfigSeedFile seed =
 					MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
@@ -84,24 +114,6 @@ namespace AndyShared.ConfigMgrShared
 				file.GetFileName,
 				sampleFile, false, false, file.GetFileNameObject.Selected, SeedFileStatus.IGNORE);
 		}
-
-		public static string GetSampleFile(FilePath<FileNameSimpleSelectable> file)
-		{
-			return GetSampleFile(file.GetPath, file.GetFileNameObject.FileNameNoExt);
-		}
-
-		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
-		{
-			string sampleFile = path + @"\" + fileNameNoExt + ASSOC_FILE_EXT;
-
-			if (!isTarget && !File.Exists(sampleFile))
-			{
-				sampleFile = null;
-			}
-
-			return sampleFile;
-		}
-
 	}
 }
 

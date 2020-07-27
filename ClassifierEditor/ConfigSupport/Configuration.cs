@@ -1,5 +1,6 @@
 ﻿#region using directives
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyShared.ConfigMgrShared;
@@ -7,7 +8,6 @@ using AndyShared.ConfigSupport;
 using ClassifierEditor.DataRepo;
 using UtilityLibrary;
 using SettingsManager;
-
 
 #endregion
 
@@ -23,28 +23,59 @@ namespace ClassifierEditor.ConfigSupport
 	{
 	#region private fields
 
+		private ConfigClassificationUser classificationUser = ConfigClassificationUser.Instance;
+
+		private ConfigFileClassificationUser classificationFile;
+
 	#endregion
 
 	#region ctor
 
 		public Configuration()
 		{
-			SuiteSettings.Admin.Read();
-
-			SiteSettings.Path.RootFolderPath = SuiteSettings.Data.SiteRootPath;
-
-			SiteSettings.Admin.Read();
-
-			AppSettings.Admin.Read();
-
 			UserSettings.Admin.Read();
+			UserSettings.Admin.Write();
 
-			AddUserOrgFile("PdfSample", "jeffs");
+			MachSettings.Admin.Read();
+			MachSettings.Admin.Write();
+
+			string n = MachSettings.Data.LastClassificationFileId;
+			string rp = MachSettings.Path.RootFolderPath;
+			string sp = MachSettings.Path.SettingFolderPath;
+
+			classificationUser.Initialize();
+
+			getLastClassificationFile(UserSettings.Data.LastClassificationFileId);
+
+			// SuiteSettings.Admin.Read();
+			//
+			// SiteSettings.Path.RootFolderPath = SuiteSettings.Data.SiteRootPath;
+			//
+			// SiteSettings.Admin.Read();
+			//
+			// AppSettings.Admin.Read();
+
+
+			// AddUserOrgFile("PdfSample", "jeffs");
 		}
 
 	#endregion
 
 	#region public properties
+
+		public string LastEditedClassificationFilePath => classificationFile.GetFullFilePath;
+		// ConfigFileSupport.MakeClassificationFileName(
+		// Environment.UserName, UserSettings.Data.LastClassificationFileId);
+
+		public string LastEditedSampleFilePath => classificationFile.SampleFilePath;
+		// ConfigFileSupport.GetSampleFile(LastEditedClassificationFolderPath, LastEditedClassificationFilePath, false);
+
+		public string LastEditedClassificationFolderPath => classificationFile.GetPath;
+		// classificationUser.Find(Environment.UserName, UserSettings.Data.LastClassificationFileId);
+
+		public string LastEditedClassificationFileName => classificationFile.FileName;
+
+		public string LastEditedClassificationFileDescription => classificationFile.DescriptionFromFile;
 
 	#endregion
 
@@ -54,21 +85,21 @@ namespace ClassifierEditor.ConfigSupport
 
 	#region public methods
 
-		public void AddUserOrgFile(string id, string username)
-		{
-
-			string file = ConfigFileSupport.MakeClassificationFileName(id, username);
-
-			ConfigFile<FileNameSimple> cfs =
-				new ConfigFile<FileNameSimple>(
-					id,
-					username,
-					ConfigFileSupport.UserClassificationFolderPath,
-					file);
-
-			SuiteSettings.Data.UsersOrganizationFiles.Add(cfs);
-			SuiteSettings.Admin.Write();
-		}
+		// public void AddUserOrgFile(string id, string username)
+		// {
+		//
+		// 	string file = ConfigFileSupport.MakeClassificationFileName(id, username);
+		//
+		// 	ConfigFile<FileNameSimple> cfs =
+		// 		new ConfigFile<FileNameSimple>(
+		// 			id,
+		// 			username,
+		// 			ConfigFileSupport.UserClassificationFolderPath,
+		// 			file);
+		//
+		// 	SuiteSettings.Data.UsersOrganizationFiles.Add(cfs);
+		// 	SuiteSettings.Admin.Write();
+		// }
 
 		// todo: fix
 		// public void ConfigureCategories( SheetCategoryDataManager dm)
@@ -80,6 +111,11 @@ namespace ClassifierEditor.ConfigSupport
 	#endregion
 
 	#region private methods
+
+		private void getLastClassificationFile(string fieldId)
+		{
+			classificationFile = classificationUser.Find(Environment.UserName, fieldId);
+		}
 
 	#endregion
 

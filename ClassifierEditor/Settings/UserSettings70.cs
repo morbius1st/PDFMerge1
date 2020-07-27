@@ -32,11 +32,13 @@ namespace SettingsManager
 	public class UserSettingData70
 	{
 		[DataMember(Order = 1)]
-		public Dictionary<string, string>
-			UserClassfigCfg { get; set; } = new Dictionary<string, string>()
-		{
-			{"jeffs", "PdfSample 2"}
-		};
+		public string LastClassificationFileId { get; set; } = "PdfSample 1";
+
+		// public Dictionary<string, string>
+		// 	UserClassfigCfg { get; set; } = new Dictionary<string, string>()
+		// {
+		// 	{"jeffs", "PdfSample 2"}
+		// };
 
 		// // the name of the organization configuration file
 		// [DataMember(Order = 1)]

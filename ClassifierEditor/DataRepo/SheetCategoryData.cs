@@ -27,11 +27,6 @@ namespace ClassifierEditor.DataRepo
 		[DataMember(Order = 1)]
 		public string Description { get; private set; } = "This is a full list of sheet organization categories";
 
-//		[DataMember(Order = 2)]
-//		public string FileNameTestFolder { get; private set; } =
-//			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
-
-
 		[DataMember(Order = 2)]
 		public bool UsePhaseBldg { get; set; }
 		
@@ -47,12 +42,11 @@ namespace ClassifierEditor.DataRepo
 
 			public void NotifyUpdate()
 			{
-				
 				OnPropertyChange("BaseOfTree");
 			}
 
 		#endregion
-//
+
 //		#region private methods
 //		#endregion
 

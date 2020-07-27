@@ -1,7 +1,6 @@
 ﻿#region using
 
 using System;
-using System.Management;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -106,13 +105,11 @@ namespace AndyShared.Windows
 
 		private const string SEED_PATTERN = @"*.seed.xml";
 
-		// private FolderAndFileSupport seedFiles = null;
-
 		private ConfigManager cfgMgr = new ConfigManager();
 
-		// private FilePath<FileNameSimpleSelectable> selectedInstalledSeedFile;
-
 		private ConfigSeedFile selInstalledSeedFile;
+
+		private string userNameSelected;
 
 	#endregion
 
@@ -139,21 +136,31 @@ namespace AndyShared.Windows
 
 		public string SiteSettingFile => SiteSettings.Path.FileName;
 
-	#endregion
+		public string UserNameSelected
+		{
+			get => userNameSelected;
+			private set
+			{
+				userNameSelected = value;
+				OnPropertyChange();
+			}
+		}
 
-	#region private properties
+		#endregion
 
-	#endregion
+		#region private properties
 
-	#region public methods
+		#endregion
 
-	#endregion
+		#region public methods
 
-	#region private methods
+		#endregion
 
-	#endregion
+		#region private methods
 
-	#region event processing
+		#endregion
+
+		#region event processing
 
 		private void BtnSeedSaveApply_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -192,8 +199,8 @@ namespace AndyShared.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			Debug.WriteLine("user classification config file| " +
-				ClassificationUser.Find("jeffs", "PdfSample 2") ?? "is null");
+			// Debug.WriteLine("user classification config file| " +
+			// 	ClassificationUser.Find("jeffs", "PdfSample 2") ?? "is null");
 
 			Debug.WriteLine("At Debug");
 		}
@@ -210,12 +217,6 @@ namespace AndyShared.Windows
 
 		private void Dg1_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			// ObservableCollection<ConfigSeedFile> a
-			// 	= SiteSettings.Data.InstalledSeedFiles;
-			//
-			// ICollectionView v = ConfigSeedInstalled.Instance.View;
-			//
-
 			if (selInstalledSeedFile == null ||
 				e.OriginalSource.GetType() == typeof(CheckBox)) return;
 			
@@ -235,24 +236,18 @@ namespace AndyShared.Windows
 		}
 
 
+		private void expdr06_Expanded(object sender, RoutedEventArgs e)
+		{
+			UserNameSelected = (string) ((Expander) sender).Tag;
+
+			// if want to get the child textblock with the user name:
+			// TextBlock tbk = (TextBlock) ((Expander) sender).FindName("tbkUsrName");
+		}
+
+
+
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
-
-			// ObservableCollection<ConfigSeedFile> col = new ObservableCollection<ConfigSeedFile>();
-			//
-			// string folder = @"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\Seed Files";
-			//
-			// bool result =
-			// 	ConfigSeedFileSupport.GetFiles(col, folder, "*.seed.xml", SearchOption.TopDirectoryOnly);
-
-//			try
-//			{
-//				File.Delete(
-//					@"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData\CyberStudio\Andy\Andy.Site.setting.xml");
-//			File.Delete(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Andy\Andy.suite.setting.xml");
-//			}
-//			catch { }
-
 			cfgMgr = new ConfigManager();
 
 			cfgMgr.Initialize();
@@ -263,27 +258,6 @@ namespace AndyShared.Windows
 			OnPropertyChange("SeedSite");
 			OnPropertyChange("SeedLocal");
 			OnPropertyChange("User");
-
-			// Suite.Read();
-
-			// ConfigFileVars();
-
-//			seedFiles = new FolderAndFileSupport(null, SEED_PATTERN);
-//
-//			if (!Initalize())
-//			{
-//				// no site path file in SuiteSettings
-//				if (!SetupConfiguration())
-//				{
-//					CannotProceed("Critical information cannot be located.\n" +
-//						"I cannot proceed without this information.");
-//
-//					this.Close();
-//				}
-//
-//				MessageBox.Show("Success!", TITLE, MessageBoxButton.OK, MessageBoxImage.Asterisk);
-//
-//			}
 		}
 
 
@@ -301,6 +275,7 @@ namespace AndyShared.Windows
 		{
 
 		}
+
 	}
 
 	[ValueConversion(typeof(bool), typeof(string))]

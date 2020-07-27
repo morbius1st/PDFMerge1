@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndyConfig", "AndyConfig\An
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AndyResources", "AndyResources\AndyResources.shproj", "{B413F196-575D-4AE0-9C4A-D81082F67B94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfShared", "WpfShared\WpfShared.csproj", "{C4CF3E3E-620E-400C-BC59-B701E5C2E637}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AndyShared\AndyShared.projitems*{0ebf6960-80c0-4acc-973d-873d7c0c2d00}*SharedItemsImports = 4
@@ -44,6 +46,7 @@ Global
 		AndyResources\AndyResources.projitems*{b413f196-575d-4ae0-9c4a-d81082f67b94}*SharedItemsImports = 13
 		AndyResources\AndyResources.projitems*{b6cb8c1e-d565-48ee-a16b-223cafbcda9c}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{b6cb8c1e-d565-48ee-a16b-223cafbcda9c}*SharedItemsImports = 4
+		AndyShared\AndyShared.projitems*{c4cf3e3e-620e-400c-bc59-b701e5c2e637}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -123,6 +126,12 @@ Global
 		{0EBF6960-80C0-4ACC-973D-873D7C0C2D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EBF6960-80C0-4ACC-973D-873D7C0C2D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EBF6960-80C0-4ACC-973D-873D7C0C2D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.All|Any CPU.Build.0 = Release|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CF3E3E-620E-400C-BC59-B701E5C2E637}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

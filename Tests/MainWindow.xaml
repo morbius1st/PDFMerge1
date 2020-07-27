@@ -1,248 +1,253 @@
-﻿<Window x:Name="mainWin"
-				Title="MainWindow"
-				x:Class="Tests.MainWindow"
-				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:Seq="clr-namespace:Tests.Sequence"
-				xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				xmlns:local="clr-namespace:Tests"
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:sys="clr-namespace:System;assembly=mscorlib"
-				Width="1500"
-				Height="900"
-				DataContext="{Binding ElementName=mainWin}"
-				Loaded="MainWin_Loaded"
-				mc:Ignorable="d"
-				Background="#444444">
+﻿<Window
+		x:Class="Tests.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:Seq="clr-namespace:Tests.Sequence"
+		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:Tests"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		x:Name="mainWin"
+		Title="MainWindow"
+		Width="1500"
+		Height="900"
+		DataContext="{Binding ElementName=mainWin}"
+		Loaded="MainWin_Loaded"
+		mc:Ignorable="d"
+		Background="#444444"
+		>
 	<Window.Resources>
 
-		<Style x:Key="tbx"
-					 TargetType="{x:Type TextBox}">
-			<Setter Property="Background"
-							Value="#333333" />
-			<Setter Property="FontFamily"
-							Value="Droid Sans Mono" />
-			<Setter Property="FontSize"
-							Value="12" />
-			<Setter Property="Foreground"
-							Value="White" />
-			<Setter Property="HorizontalScrollBarVisibility"
-							Value="Visible" />
-			<Setter Property="Padding"
-							Value="8" />
-			<Setter Property="TextWrapping"
-							Value="NoWrap" />
-			<Setter Property="VerticalScrollBarVisibility"
-							Value="Visible" />
+		<Style
+				x:Key="tbx"
+				TargetType="{x:Type TextBox}"
+				>
+			<Setter Property="Background" Value="#333333" />
+			<Setter Property="FontFamily" Value="Droid Sans Mono" />
+			<Setter Property="FontSize" Value="12" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="HorizontalScrollBarVisibility" Value="Visible" />
+			<Setter Property="Padding" Value="8" />
+			<Setter Property="TextWrapping" Value="NoWrap" />
+			<Setter Property="VerticalScrollBarVisibility" Value="Visible" />
 		</Style>
 
-		<x:Static x:Key="mx"
-							Member="local:MainWindow.Items2" />
-		<x:Static x:Key="px"
-							Member="local:MainWindow.Parts2" />
-		<x:Static x:Key="dx"
-							Member="local:MainWindow.Disciplines2" />
+		<x:Static
+				x:Key="mx"
+				Member="local:MainWindow.Items2"
+				/>
+		<x:Static
+				x:Key="px"
+				Member="local:MainWindow.Parts2"
+				/>
+		<x:Static
+				x:Key="dx"
+				Member="local:MainWindow.Disciplines2"
+				/>
 		<sys:Double x:Key="NaN">
 			NaN
 		</sys:Double>
 
-		<ControlTemplate x:Key="item1"
-										 TargetType="{x:Type TreeViewItem}">
+		<ControlTemplate
+				x:Key="item1"
+				TargetType="{x:Type TreeViewItem}"
+				>
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="250" />
 					<ColumnDefinition Width="150" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<TextBox x:Name="tbx1"
-								 Grid.Column="0"
-								 HorizontalAlignment="Stretch"
-								 Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" />
-				<TextBox x:Name="tbx2"
-								 Grid.Column="1"
-								 Width="120"
-								 Text="textbox 2" />
-				<TextBox x:Name="tbx3"
-								 Grid.Column="2"
-								 Width="120"
-								 Text="textbox 3" />
+				<TextBox
+						x:Name="tbx1"
+						Grid.Column="0"
+						HorizontalAlignment="Stretch"
+						Text="{Binding Header,
+													 RelativeSource={RelativeSource TemplatedParent}}"
+						/>
+				<TextBox
+						x:Name="tbx2"
+						Grid.Column="1"
+						Width="120"
+						Text="textbox 2"
+						/>
+				<TextBox
+						x:Name="tbx3"
+						Grid.Column="2"
+						Width="120"
+						Text="textbox 3"
+						/>
 			</Grid>
 		</ControlTemplate>
 
-		<Style x:Key="dgIdHdr"
-					 TargetType="{x:Type DataGridColumnHeader}">
-			<Setter Property="BorderBrush"
-							Value="LightSkyBlue" />
-			<Setter Property="Margin"
-							Value="0" />
+		<Style
+				x:Key="dgIdHdr"
+				TargetType="{x:Type DataGridColumnHeader}"
+				>
+			<Setter Property="BorderBrush" Value="LightSkyBlue" />
+			<Setter Property="Margin" Value="0" />
 		</Style>
 
-		<Style x:Key="dgIdHdrBeg"
-					 TargetType="{x:Type DataGridColumnHeader}"
-					 BasedOn="{StaticResource dgIdHdr}">
-			<Setter Property="BorderThickness"
-							Value="1,0,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
+		<Style
+				x:Key="dgIdHdrBeg"
+				TargetType="{x:Type DataGridColumnHeader}"
+				BasedOn="{StaticResource dgIdHdr}"
+				>
+			<Setter Property="BorderThickness" Value="1,0,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style x:Key="dgIdHdrMid"
-					 TargetType="{x:Type DataGridColumnHeader}"
-					 BasedOn="{StaticResource dgIdHdr}">
-			<Setter Property="BorderThickness"
-							Value="0,0,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
+		<Style
+				x:Key="dgIdHdrMid"
+				TargetType="{x:Type DataGridColumnHeader}"
+				BasedOn="{StaticResource dgIdHdr}"
+				>
+			<Setter Property="BorderThickness" Value="0,0,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style x:Key="dgIdHdrEnd"
-					 TargetType="{x:Type DataGridColumnHeader}"
-					 BasedOn="{StaticResource dgIdHdr}">
-			<Setter Property="BorderThickness"
-							Value="0,0,1,1" />
-			<Setter Property="HorizontalAlignment"
-							Value="Stretch" />
+		<Style
+				x:Key="dgIdHdrEnd"
+				TargetType="{x:Type DataGridColumnHeader}"
+				BasedOn="{StaticResource dgIdHdr}"
+				>
+			<Setter Property="BorderThickness" Value="0,0,1,1" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
 		</Style>
 
-		<Style x:Key="dgHeader2"
-					 TargetType="{x:Type DataGridColumnHeader}">
-			<Setter Property="Height"
-							Value="0" />
+		<Style
+				x:Key="dgHeader2"
+				TargetType="{x:Type DataGridColumnHeader}"
+				>
+			<Setter Property="Height" Value="0" />
 
-		</Style>
-
-
-		<Style x:Key="dgIdCel"
-					 TargetType="{x:Type DataGridCell}">
-			<Setter Property="BorderBrush"
-							Value="LightSkyBlue" />
-			<Setter Property="BorderThickness"
-							Value="0" />
-		</Style>
-
-		<Style x:Key="dgIdCelBeg"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgIdCel}">
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
-		</Style>
-
-		<Style x:Key="dgRowHdr"
-					 TargetType="{x:Type DataGridRowHeader}">
-			<Setter Property="BorderBrush"
-							Value="Blue" />
-			<Setter Property="BorderThickness"
-							Value="0" />
-			<Setter Property="Width"
-							Value="20" />
 		</Style>
 
 
-		<Style x:Key="dgCel"
-					 TargetType="{x:Type DataGridCell}">
-			<Setter Property="Background"
-							Value="White" />
-			<Setter Property="BorderBrush"
-							Value="LightSkyBlue" />
+		<Style
+				x:Key="dgIdCel"
+				TargetType="{x:Type DataGridCell}"
+				>
+			<Setter Property="BorderBrush" Value="LightSkyBlue" />
+			<Setter Property="BorderThickness" Value="0" />
+		</Style>
+
+		<Style
+				x:Key="dgIdCelBeg"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgIdCel}"
+				>
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+		</Style>
+
+		<Style
+				x:Key="dgRowHdr"
+				TargetType="{x:Type DataGridRowHeader}"
+				>
+			<Setter Property="BorderBrush" Value="Blue" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Width" Value="20" />
+		</Style>
+
+
+		<Style
+				x:Key="dgCel"
+				TargetType="{x:Type DataGridCell}"
+				>
+			<Setter Property="Background" Value="White" />
+			<Setter Property="BorderBrush" Value="LightSkyBlue" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type DataGridCell}">
-						<Border SnapsToDevicePixels="True"
-										Background="{TemplateBinding Background}"
-										BorderThickness="{TemplateBinding BorderThickness}"
-										BorderBrush="{TemplateBinding BorderBrush}">
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-																SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<Border
+								SnapsToDevicePixels="True"
+								Background="{TemplateBinding Background}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								>
+							<ContentPresenter
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									/>
 						</Border>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
 			<Style.Triggers>
-				<Trigger Property="IsSelected"
-								 Value="True">
-					<Setter Property="Background"
-									Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+				<Trigger Property="IsSelected" Value="True">
+					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 					<!-- <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
-					<Setter Property="Foreground"
-									Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
 				</Trigger>
-				<Trigger Property="IsKeyboardFocusWithin"
-								 Value="True">
-					<Setter Property="BorderBrush"
-									Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
+				<Trigger Property="IsKeyboardFocusWithin" Value="True">
+					<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
 				</Trigger>
 				<MultiTrigger>
 					<MultiTrigger.Conditions>
-						<Condition Property="IsSelected"
-											 Value="true" />
-						<Condition Property="Selector.IsSelectionActive"
-											 Value="false" />
+						<Condition Property="IsSelected" Value="true" />
+						<Condition Property="Selector.IsSelectionActive" Value="false" />
 					</MultiTrigger.Conditions>
-					<Setter Property="Background"
-									Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
 					<!-- <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" /> -->
-					<Setter Property="Foreground"
-									Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
 				</MultiTrigger>
-				<Trigger Property="IsEnabled"
-								 Value="false">
-					<Setter Property="Foreground"
-									Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
 
-		<Style x:Key="dgCelBeg"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgCel}">
-			<Setter Property="BorderThickness"
-							Value="1,1,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
+		<Style
+				x:Key="dgCelBeg"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgCel}"
+				>
+			<Setter Property="BorderThickness" Value="1,1,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style x:Key="dgCelEnd"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgCel}">
-			<Setter Property="BorderThickness"
-							Value="0,1,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Left" />
+		<Style
+				x:Key="dgCelEnd"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgCel}"
+				>
+			<Setter Property="BorderThickness" Value="0,1,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Left" />
 		</Style>
 
-		<Style x:Key="dgCelDetBeg"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgCel}">
-			<Setter Property="BorderThickness"
-							Value="1,0,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
+		<Style
+				x:Key="dgCelDetBeg"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgCel}"
+				>
+			<Setter Property="BorderThickness" Value="1,0,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style x:Key="dgCelDetMid"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgCel}">
-			<Setter Property="BorderThickness"
-							Value="0,0,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Center" />
+		<Style
+				x:Key="dgCelDetMid"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgCel}"
+				>
+			<Setter Property="BorderThickness" Value="0,0,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
 		</Style>
 
-		<Style x:Key="dgCelDetEnd"
-					 TargetType="{x:Type DataGridCell}"
-					 BasedOn="{StaticResource dgCel}">
-			<Setter Property="BorderThickness"
-							Value="0,0,1,1" />
-			<Setter Property="HorizontalContentAlignment"
-							Value="Left" />
+		<Style
+				x:Key="dgCelDetEnd"
+				TargetType="{x:Type DataGridCell}"
+				BasedOn="{StaticResource dgCel}"
+				>
+			<Setter Property="BorderThickness" Value="0,0,1,1" />
+			<Setter Property="HorizontalContentAlignment" Value="Left" />
 		</Style>
 
 
 		<!--#region > datagrid sample-->
 
-		  <!--Control colors.-->  
-		
+		<!--  Control colors.  -->
+
 		<Color x:Key="WindowColor">#FFE8EDF9</Color>
 		<Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
 		<Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
@@ -265,9 +270,9 @@
 		<Color x:Key="GlyphColor">#FF444444</Color>
 		<Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
 
-		
-		  <!--Border colors-->  
-		
+
+		<!--  Border colors  -->
+
 		<Color x:Key="BorderLightColor">#FFCCCCCC</Color>
 		<Color x:Key="BorderMediumColor">#FF888888</Color>
 		<Color x:Key="BorderDarkColor">#FF444444</Color>
@@ -280,9 +285,9 @@
 
 		<Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
 
-		
-		  <!--Control-specific resources.-->  
-		
+
+		<!--  Control-specific resources.  -->
+
 		<Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
 		<Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
 		<Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
@@ -309,9 +314,9 @@
 
 		<BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
 
-		
-		  <!--Style and template for the button in the upper left corner of the DataGrid.-->  
-		
+
+		<!--  Style and template for the button in the upper left corner of the DataGrid.  -->
+
 		<Style
 				x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle,
 																		 TypeInTargetAssembly={x:Type DataGrid}}"
@@ -401,9 +406,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the DataGrid.-->  
-		
+
+		<!--  Style and template for the DataGrid.  -->
+
 		<Style TargetType="{x:Type DataGrid}">
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 			<Setter Property="BorderBrush">
@@ -542,18 +547,15 @@
 				</Setter.Value>
 			</Setter>
 			<Style.Triggers>
-				<Trigger
-						Property="IsGrouping"
-						Value="true"
-						>
+				<Trigger Property="IsGrouping" Value="true">
 					<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
 
-		
-		  <!--Style and template for the DataGridCell.-->  
-		
+
+		<!--  Style and template for the DataGridCell.  -->
+
 		<Style TargetType="{x:Type DataGridCell}">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -594,9 +596,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the DataGridRow.-->  
-		
+
+		<!--  Style and template for the DataGridRow.  -->
+
 		<Style TargetType="{x:Type DataGridRow}">
 			<Setter Property="Background">
 				<Setter.Value>
@@ -669,9 +671,9 @@
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
 
-									
-		  <!--Provide a different appearance for every other row.-->  
-		
+
+									<!--  Provide a different appearance for every other row.  -->
+
 									<VisualState x:Name="Normal_AlternatingRow">
 										<Storyboard>
 											<ColorAnimationUsingKeyFrames
@@ -696,15 +698,17 @@
 										</Storyboard>
 									</VisualState>
 
-									
-		
-			<!--In this example, a row in Editing or selected mode has an
-			identical appearances. In other words, the states
-			Normal_Selected, Unfocused_Selected, Normal_Editing,
-			MouseOver_Editing, MouseOver_Unfocused_Editing,
-			and Unfocused_Editing are identical.-->
-		
-		
+
+
+									<!--
+										In this example, a row in Editing or selected mode has an
+										identical appearances. In other words, the states
+										Normal_Selected, Unfocused_Selected, Normal_Editing,
+										MouseOver_Editing, MouseOver_Unfocused_Editing,
+										and Unfocused_Editing are identical.
+									-->
+
+
 									<VisualState x:Name="Normal_Selected">
 										<Storyboard>
 											<ColorAnimationUsingKeyFrames
@@ -866,14 +870,16 @@
 										</Storyboard>
 									</VisualState>
 
-									
-		
-			<!--In this example, the appearance of a selected row
-			that has the mouse over it is the same regardless of
-			whether the row is selected.  In other words, the states
-			MouseOver_Editing and MouseOver_Unfocused_Editing are identical.-->
-		
-		
+
+
+									<!--
+										In this example, the appearance of a selected row
+										that has the mouse over it is the same regardless of
+										whether the row is selected.  In other words, the states
+										MouseOver_Editing and MouseOver_Unfocused_Editing are identical.
+									-->
+
+
 									<VisualState x:Name="MouseOver_Selected">
 										<Storyboard>
 											<ColorAnimationUsingKeyFrames
@@ -927,9 +933,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the resize control on the DataGridRowHeader.-->  
-		
+
+		<!--  Style and template for the resize control on the DataGridRowHeader.  -->
+
 		<Style
 				x:Key="RowHeaderGripperStyle"
 				TargetType="{x:Type Thumb}"
@@ -949,9 +955,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the DataGridRowHeader.-->  
-		
+
+		<!--  Style and template for the DataGridRowHeader.  -->
+
 		<Style TargetType="{x:Type DataGridRowHeader}">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -1001,14 +1007,16 @@
 									Style="{StaticResource RowHeaderGripperStyle}"
 									/>
 							<VisualStateManager.VisualStateGroups>
-								
-		
-			<!--This example does not specify an appearance for every
-			state.  You can add storyboard to the states that are listed
-			to change the appearance of the DataGridRowHeader when it is
-			in a specific state.-->
-		
-		
+
+
+								<!--
+									This example does not specify an appearance for every
+									state.  You can add storyboard to the states that are listed
+									to change the appearance of the DataGridRowHeader when it is
+									in a specific state.
+								-->
+
+
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
 									<VisualState x:Name="Normal_CurrentRow" />
@@ -1046,9 +1054,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the resize control on the DataGridColumnHeader.-->  
-		
+
+		<!--  Style and template for the resize control on the DataGridColumnHeader.  -->
+
 		<Style
 				x:Key="ColumnHeaderGripperStyle"
 				TargetType="{x:Type Thumb}"
@@ -1068,9 +1076,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the DataGridColumnHeader.-->  
-		
+
+		<!--  Style and template for the DataGridColumnHeader.  -->
+
 		<Style TargetType="{x:Type DataGridColumnHeader}">
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 			<Setter Property="Template">
@@ -1125,9 +1133,9 @@
 			</Setter>
 		</Style>
 
-		
-		  <!--Style and template for the DataGridColumnHeadersPresenter.-->  
-		
+
+		<!--  Style and template for the DataGridColumnHeadersPresenter.  -->
+
 		<Style TargetType="{x:Type DataGridColumnHeadersPresenter}">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -1145,7 +1153,7 @@
 		</Style>
 
 
-		
+
 		<!--#endregion-->
 
 
@@ -1163,123 +1171,160 @@
 			<RowDefinition Height="90" />
 		</Grid.RowDefinitions>
 
-		<TextBox x:Name="tbxLeft"
-						 Grid.Row="0"
-						 Grid.Column="0"
-						 Height="100"
-						 HorizontalAlignment="Stretch"
-						 VerticalAlignment="top"
-						 Text="TextBlock"
-						 TextWrapping="Wrap"
-						 Style="{StaticResource tbx}" />
-		<DataGrid Grid.Row="0"
-							Grid.Column="0"
-							Margin="0,100,0,0"
-							Width="480"
-							Height="200"
-							HorizontalAlignment="Left"
-							VerticalAlignment="top"
-							d:DataContext="{Binding DisciplineVue, Mode=OneWay, Source={StaticResource dx}}"
-							AutoGenerateColumns="True"
-							DataContext="{Binding Disciplines.DisciplineVue, ElementName=mainWin, Mode=OneWay}"
-							ItemsSource="{Binding}" />
+		<TextBox
+				x:Name="tbxLeft"
+				Grid.Column="0"
+				Grid.Row="0"
+				Height="100"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="top"
+				Text="TextBlock"
+				TextWrapping="Wrap"
+				Style="{StaticResource tbx}"
+				/>
+		<DataGrid
+				Grid.Column="0"
+				Grid.Row="0"
+				Margin="0,100,0,0"
+				Width="480"
+				Height="200"
+				HorizontalAlignment="Left"
+				VerticalAlignment="top"
+				d:DataContext="{Binding DisciplineVue,
+																Mode=OneWay,
+																Source={StaticResource dx}}"
+				AutoGenerateColumns="True"
+				DataContext="{Binding Disciplines.DisciplineVue,
+															ElementName=mainWin,
+															Mode=OneWay}"
+				ItemsSource="{Binding}"
+				/>
 		<!--  d:DataContext="{Binding DisciplineVue,  -->
 		<!--  Mode=OneWay,  -->
 		<!--  Source={StaticResource dx}}"  -->
 		<!--  DataContext="{Binding ElementName=mainWin, Path=Disciplines, Mode=OneWay}"  -->
 
-		<TreeView x:Name="tv01"
-							Grid.Row="0"
-							Grid.Column="1"
-							Height="300"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="top"
-							HorizontalContentAlignment="Stretch"
-							VerticalContentAlignment="Stretch"
-							FontSize="12"
-							Background="#333333"
-							Foreground="White">
-			<TreeViewItem x:Name="item1"
-										Header="xaml item 1"
-										Foreground="White">
-				<TreeViewItem Header="xaml sub-item"
-											Foreground="White"
-											Template="{StaticResource item1}" />
+		<TreeView
+				x:Name="tv01"
+				Grid.Column="1"
+				Grid.Row="0"
+				Height="300"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="top"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				FontSize="12"
+				Background="#333333"
+				Foreground="White"
+				>
+			<TreeViewItem
+					x:Name="item1"
+					Header="xaml item 1"
+					Foreground="White"
+					>
+				<TreeViewItem
+						Header="xaml sub-item"
+						Foreground="White"
+						Template="{StaticResource item1}"
+						/>
 			</TreeViewItem>
-			<TreeViewItem x:Name="Item2"
-										Header="xaml item 2"
-										Foreground="White"
-										IsExpanded="True">
-				<TreeViewItem Header="xaml sub-item"
-											Foreground="White"
-											Template="{StaticResource item1}" />
+			<TreeViewItem
+					x:Name="Item2"
+					Header="xaml item 2"
+					Foreground="White"
+					IsExpanded="True"
+					>
+				<TreeViewItem
+						Header="xaml sub-item"
+						Foreground="White"
+						Template="{StaticResource item1}"
+						/>
 			</TreeViewItem>
 
 		</TreeView>
 
-		<Label Content="SeqItems"
-					 Grid.Row="1"
-					 Grid.Column="0"
-					 Foreground="White" />
+		<Label
+				Content="SeqItems"
+				Grid.Column="0"
+				Grid.Row="1"
+				Foreground="White"
+				/>
 
 
-		<DataGrid x:Name="dgId"
-							Grid.Row="1"
-							Grid.Column="0"
-							Margin="0,25,0,0"
-							Width="480"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Stretch"
-							d:DataContext="{Binding Items, Mode=OneWay, Source={StaticResource mx}}"
-							AutoGenerateColumns="False"
-							DataContext="{Binding SqItems.Items, ElementName=mainWin, Mode=OneWay}"
-							GridLinesVisibility="None"
-							HeadersVisibility="None"
-							RowDetailsVisibilityMode="VisibleWhenSelected"
-							RowHeaderStyle="{StaticResource dgRowHdr}"
-							BorderThickness="1"
-							IsReadOnly="True"
-
-							IsSynchronizedWithCurrentItem="True"
-							ItemsSource="{Binding}">
+		<DataGrid
+				x:Name="dgId"
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="0,25,0,0"
+				Width="480"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Stretch"
+				d:DataContext="{Binding Items,
+																Mode=OneWay,
+																Source={StaticResource mx}}"
+				AutoGenerateColumns="False"
+				DataContext="{Binding SqItems.Items,
+															ElementName=mainWin,
+															Mode=OneWay}"
+				GridLinesVisibility="None"
+				HeadersVisibility="None"
+				RowDetailsVisibilityMode="VisibleWhenSelected"
+				BorderThickness="1"
+				IsReadOnly="True"
+				IsSynchronizedWithCurrentItem="True"
+				ItemsSource="{Binding}"
+				RowHeaderStyle="{StaticResource dgRowHdr}"
+				>
 			<DataGrid.Columns>
-				<DataGridTextColumn Width="40"
-														Binding="{Binding Key}"
-														CellStyle="{StaticResource dgCelBeg}"
-														Visibility="Visible" />
-				<DataGridTextColumn Width="*"
-														Binding="{Binding Value.Description}"
-														CellStyle="{StaticResource dgCelEnd}"
-														Visibility="Visible" />
+				<DataGridTextColumn
+						Width="40"
+						Binding="{Binding Key}"
+						Visibility="Visible"
+						CellStyle="{StaticResource dgCelBeg}"
+						/>
+				<DataGridTextColumn
+						Width="*"
+						Binding="{Binding Value.Description}"
+						Visibility="Visible"
+						CellStyle="{StaticResource dgCelEnd}"
+						/>
 			</DataGrid.Columns>
 			<DataGrid.RowDetailsTemplate>
 				<DataTemplate>
 					<Border Height="Auto">
-						<DataGrid x:Name="dgIdDetail"
-											Margin="0,0,0,5"
-											Height="auto"
-											AutoGenerateColumns="False"
-											GridLinesVisibility="None"
-											RowHeaderStyle="{StaticResource dgRowHdr}"
-											BorderThickness="0"
-											HorizontalGridLinesBrush="Transparent"
-											ItemsSource="{Binding Value.Parts}">
+						<DataGrid
+								x:Name="dgIdDetail"
+								Margin="0,0,0,5"
+								Height="auto"
+								AutoGenerateColumns="False"
+								GridLinesVisibility="None"
+								BorderThickness="0"
+								HorizontalGridLinesBrush="Transparent"
+								ItemsSource="{Binding Value.Parts}"
+								RowHeaderStyle="{StaticResource dgRowHdr}"
+								>
 							<DataGrid.Columns>
-								<DataGridTextColumn Width="80"
-																		Binding="{Binding Code}"
-																		CellStyle="{StaticResource dgCelDetBeg}"
-																		Header="Code"
-																		HeaderStyle="{StaticResource dgIdHdrBeg}" />
-								<DataGridTextColumn Width="120"
-																		Binding="{Binding Title}"
-																		CellStyle="{StaticResource dgCelDetMid}"
-																		Header="Title"
-																		HeaderStyle="{StaticResource dgIdHdrMid}" />
-								<DataGridTextColumn Width="250"
-																		Binding="{Binding Description}"
-																		CellStyle="{StaticResource dgCelDetEnd}"
-																		Header="Description"
-																		HeaderStyle="{StaticResource dgIdHdrEnd}" />
+								<DataGridTextColumn
+										Width="80"
+										Binding="{Binding Code}"
+										Header="Code"
+										CellStyle="{StaticResource dgCelDetBeg}"
+										HeaderStyle="{StaticResource dgIdHdrBeg}"
+										/>
+								<DataGridTextColumn
+										Width="120"
+										Binding="{Binding Title}"
+										Header="Title"
+										CellStyle="{StaticResource dgCelDetMid}"
+										HeaderStyle="{StaticResource dgIdHdrMid}"
+										/>
+								<DataGridTextColumn
+										Width="250"
+										Binding="{Binding Description}"
+										Header="Description"
+										CellStyle="{StaticResource dgCelDetEnd}"
+										HeaderStyle="{StaticResource dgIdHdrEnd}"
+										/>
 							</DataGrid.Columns>
 						</DataGrid>
 					</Border>
@@ -1288,85 +1333,107 @@
 
 		</DataGrid>
 
-		<Label Content="PartsList"
-					 Grid.Row="2"
-					 Grid.Column="0"
-					 Foreground="White" />
+		<Label
+				Content="PartsList"
+				Grid.Column="0"
+				Grid.Row="2"
+				Foreground="White"
+				/>
 
-		<DataGrid x:Name="dataGridB"
-							Grid.Row="2"
-							Grid.Column="0"
-							Margin="0,25,0,0"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							HorizontalContentAlignment="Stretch"
-							d:DataContext="{Binding PartsList, Mode=OneWay, Source={StaticResource px}}"
-							AreRowDetailsFrozen="False"
-							AutoGenerateColumns="False"
-							DataContext="{Binding Parts.PartsList, ElementName=mainWin, Mode=OneWay}"
-							RowDetailsVisibilityMode="VisibleWhenSelected"
-							SelectionMode="Single"
-							VerticalScrollBarVisibility="Visible"
-							HorizontalGridLinesBrush="LightSkyBlue"
-							VerticalGridLinesBrush="LightSkyBlue"
-							IsReadOnly="True"
-							IsSynchronizedWithCurrentItem="True"
-							ItemsSource="{Binding}">
+		<DataGrid
+				x:Name="dataGridB"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0,25,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				d:DataContext="{Binding PartsList,
+																Mode=OneWay,
+																Source={StaticResource px}}"
+				AreRowDetailsFrozen="False"
+				AutoGenerateColumns="False"
+				DataContext="{Binding Parts.PartsList,
+															ElementName=mainWin,
+															Mode=OneWay}"
+				RowDetailsVisibilityMode="VisibleWhenSelected"
+				SelectionMode="Single"
+				VerticalScrollBarVisibility="Visible"
+				HorizontalGridLinesBrush="LightSkyBlue"
+				VerticalGridLinesBrush="LightSkyBlue"
+				IsReadOnly="True"
+				IsSynchronizedWithCurrentItem="True"
+				ItemsSource="{Binding}"
+				>
 			<DataGrid.Columns>
 				<DataGridTextColumn Binding="{Binding Key}">
 					<DataGridTextColumn.Header>
-						<DataGridColumnHeader Content="Discipline"
-																	Width="150"
-																	HorizontalAlignment="Stretch"
-																	Visibility="Visible" />
+						<DataGridColumnHeader
+								Content="Discipline"
+								Width="150"
+								HorizontalAlignment="Stretch"
+								Visibility="Visible"
+								/>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 			<!--  RowStyle="{DynamicResource DataGridRowStyle1}"  -->
 			<DataGrid.RowDetailsTemplate>
 				<DataTemplate>
-					<Border BorderThickness="1"
-									BorderBrush="Red">
+					<Border
+							BorderThickness="1"
+							BorderBrush="Red"
+							>
 
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="120" />
 							</Grid.RowDefinitions>
-							<Button Content="Done"
-											Grid.Row="0"
-											Margin="6,2,0,2"
-											Width="45"
-											Height="15"
-											Padding="0"
-											HorizontalAlignment="Left"
-											FontSize="10"
-											Visibility="Visible"
-											Click="BtnRowDone_OnClick" />
-							<DataGrid Grid.Row="1"
-												HorizontalAlignment="Stretch"
-												AutoGenerateColumns="False"
-												HorizontalScrollBarVisibility="Visible"
-												VerticalScrollBarVisibility="Visible"
-												HorizontalGridLinesBrush="LightSkyBlue"
-												VerticalGridLinesBrush="LightSkyBlue"
-												IsReadOnly="True"
-												ItemsSource="{Binding Value.Parts}">
+							<Button
+									Content="Done"
+									Grid.Row="0"
+									Margin="6,2,0,2"
+									Width="45"
+									Height="15"
+									Padding="0"
+									HorizontalAlignment="Left"
+									FontSize="10"
+									Visibility="Visible"
+									Click="BtnRowDone_OnClick"
+									/>
+							<DataGrid
+									Grid.Row="1"
+									HorizontalAlignment="Stretch"
+									AutoGenerateColumns="False"
+									HorizontalScrollBarVisibility="Visible"
+									VerticalScrollBarVisibility="Visible"
+									HorizontalGridLinesBrush="LightSkyBlue"
+									VerticalGridLinesBrush="LightSkyBlue"
+									IsReadOnly="True"
+									ItemsSource="{Binding Value.Parts}"
+									>
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="80"
-																			Binding="{Binding Value.Code}"
-																			CellStyle="{StaticResource dgCel}"
-																			Header="Code"
-																			HeaderStyle="{StaticResource dgIdHdrBeg}" />
-									<DataGridTextColumn Width="120"
-																			Binding="{Binding Value.Title}"
-																			CellStyle="{StaticResource dgIdCelBeg}"
-																			Header="Title"
-																			HeaderStyle="{StaticResource dgIdHdrMid}" />
-									<DataGridTextColumn Binding="{Binding Value.Description}"
-																			CellStyle="{StaticResource dgIdCelBeg}"
-																			Header="Description"
-																			HeaderStyle="{StaticResource dgIdHdrMid}" />
+									<DataGridTextColumn
+											Width="80"
+											Binding="{Binding Value.Code}"
+											Header="Code"
+											CellStyle="{StaticResource dgCel}"
+											HeaderStyle="{StaticResource dgIdHdrBeg}"
+											/>
+									<DataGridTextColumn
+											Width="120"
+											Binding="{Binding Value.Title}"
+											Header="Title"
+											CellStyle="{StaticResource dgIdCelBeg}"
+											HeaderStyle="{StaticResource dgIdHdrMid}"
+											/>
+									<DataGridTextColumn
+											Binding="{Binding Value.Description}"
+											Header="Description"
+											CellStyle="{StaticResource dgIdCelBeg}"
+											HeaderStyle="{StaticResource dgIdHdrMid}"
+											/>
 								</DataGrid.Columns>
 							</DataGrid>
 						</Grid>
@@ -1376,100 +1443,114 @@
 		</DataGrid>
 
 
-		<Button x:Name="btnFilter1"
-						Content="Filter Arch"
-						Grid.Row="3"
-						Grid.Column="1"
-						Margin="0,0,120,47.4"
-						Width="96"
-						Height="32"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnSelectArch_Click" />
+		<Button
+				x:Name="btnFilter1"
+				Content="Filter Arch"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,120,47.4"
+				Width="96"
+				Height="32"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Click="BtnSelectArch_Click"
+				/>
 
-		<Button x:Name="btnDebug_Copy"
-						Content="Debug"
-						Grid.Row="3"
-						Grid.Column="1"
-						Margin="0,0,9.6,47.4"
-						Width="96"
-						Height="32"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnDebug_Click" />
-
-
-		<Button x:Name="btnGo"
-						Content="Go"
-						Grid.Row="3"
-						Grid.Column="1"
-						Margin="0,0,120,10"
-						Width="96"
-						Height="32"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnGo_Click" />
-		<Button x:Name="btnDone"
-						Content="Done"
-						Grid.Row="3"
-						Grid.Column="1"
-						Margin="0,0,10,10"
-						Width="96"
-						Height="32"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnDone_Click" />
-		<Button x:Name="btnFilter1_Copy"
-						Content="Filter Clear"
-						Grid.Row="3"
-						Grid.Column="1"
-						Margin="0,0,228.6,47.4"
-						Width="96"
-						Height="32"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnFilterClr_Click" />
+		<Button
+				x:Name="btnDebug_Copy"
+				Content="Debug"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,9.6,47.4"
+				Width="96"
+				Height="32"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Click="BtnDebug_Click"
+				/>
 
 
+		<Button
+				x:Name="btnGo"
+				Content="Go"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,120,10"
+				Width="96"
+				Height="32"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Click="BtnGo_Click"
+				/>
+		<Button
+				x:Name="btnDone"
+				Content="Done"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,10,10"
+				Width="96"
+				Height="32"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Click="BtnDone_Click"
+				/>
+		<Button
+				x:Name="btnFilter1_Copy"
+				Content="Filter Clear"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,228.6,47.4"
+				Width="96"
+				Height="32"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Click="BtnFilterClr_Click"
+				/>
 
 
-		<DataGrid x:Name="DG1"
-							Grid.Row="1"
-							Grid.Column="1"
-							Margin="0,25,0,0"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							HorizontalContentAlignment="Stretch"
-							AreRowDetailsFrozen="False"
-							AutoGenerateColumns="False"
-							DataContext="{Binding Parts.PartsList, ElementName=mainWin, Mode=OneWay}"
-							RowDetailsVisibilityMode="VisibleWhenSelected"
-							SelectionMode="Single"
-							VerticalScrollBarVisibility="Visible"
-							Background="Blue"
-							HorizontalGridLinesBrush="LightSkyBlue"
-							VerticalGridLinesBrush="LightSkyBlue"
-							IsReadOnly="True"
-							IsSynchronizedWithCurrentItem="True"
 
-							ItemsSource="{Binding}"
-							CellStyle="{DynamicResource DataGridCellStyle1}"
-			  RowStyle="{DynamicResource DataGridRowStyle1}"  
-							>
+
+		<DataGrid
+				x:Name="DG1"
+				Grid.Column="1"
+				Grid.Row="1"
+				Margin="0,25,0,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				AreRowDetailsFrozen="False"
+				AutoGenerateColumns="False"
+				DataContext="{Binding Parts.PartsList,
+															ElementName=mainWin,
+															Mode=OneWay}"
+				RowDetailsVisibilityMode="VisibleWhenSelected"
+				SelectionMode="Single"
+				VerticalScrollBarVisibility="Visible"
+				Background="Blue"
+				HorizontalGridLinesBrush="LightSkyBlue"
+				VerticalGridLinesBrush="LightSkyBlue"
+				IsReadOnly="True"
+				IsSynchronizedWithCurrentItem="True"
+				ItemsSource="{Binding}"
+				CellStyle="{DynamicResource DataGridCellStyle1}"
+				RowStyle="{DynamicResource DataGridRowStyle1}"
+				>
 			<DataGrid.Resources>
 
-				<Style x:Key="DataGridRowStyle1"
-							 TargetType="{x:Type DataGridRow}">
-					<Setter Property="Background"
-									Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-					<Setter Property="SnapsToDevicePixels"
-									Value="true" />
+				<Style
+						x:Key="DataGridRowStyle1"
+						TargetType="{x:Type DataGridRow}"
+						>
+					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+					<Setter Property="SnapsToDevicePixels" Value="true" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type DataGridRow}">
-								<Border x:Name="DGR_Border"
-												SnapsToDevicePixels="True"
-												BorderBrush="{TemplateBinding BorderBrush}">
+								<Border
+										x:Name="DGR_Border"
+										SnapsToDevicePixels="True"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										>
 									<SelectiveScrollingGrid x:Name="selectiveScrollingGrid">
 										<SelectiveScrollingGrid.ColumnDefinitions>
 											<ColumnDefinition Width="Auto" />
@@ -1479,16 +1560,28 @@
 											<RowDefinition Height="*" />
 											<RowDefinition Height="Auto" />
 										</SelectiveScrollingGrid.RowDefinitions>
-										<DataGridCellsPresenter Grid.Column="1"
-																						SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-																						ItemsPanel="{TemplateBinding ItemsPanel}" />
-										<DataGridDetailsPresenter Grid.Row="1"
-																							Grid.Column="1"
-																							SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-																							Visibility="{TemplateBinding DetailsVisibility}" />
-										<DataGridRowHeader Grid.RowSpan="2"
-																			 SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-																			 Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+										<DataGridCellsPresenter
+												Grid.Column="1"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+												ItemsPanel="{TemplateBinding ItemsPanel}"
+												/>
+										<DataGridDetailsPresenter
+												Grid.Column="1"
+												Grid.Row="1"
+												SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen,
+																																											 ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical},
+																																											 Converter={x:Static DataGrid.RowDetailsScrollingConverter},
+																																											 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+												Visibility="{TemplateBinding DetailsVisibility}"
+												/>
+										<DataGridRowHeader
+												Grid.RowSpan="2"
+												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+												Visibility="{Binding HeadersVisibility,
+																						 ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+																						 Converter={x:Static DataGrid.HeadersVisibilityConverter},
+																						 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+												/>
 									</SelectiveScrollingGrid>
 
 									<VisualStateManager.VisualStateGroups>
@@ -1500,8 +1593,10 @@
 											<VisualState x:Name="Unfocused_Selected" />
 											<VisualState x:Name="Normal_Selected">
 												<Storyboard>
-													<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-																												 Storyboard.TargetProperty="(Panel.Background)">
+													<ObjectAnimationUsingKeyFrames
+															Storyboard.TargetName="DGR_Border"
+															Storyboard.TargetProperty="(Panel.Background)"
+															>
 														<DiscreteObjectKeyFrame KeyTime="0">
 															<DiscreteObjectKeyFrame.Value>
 																<SolidColorBrush Color="#FF51FF59" />
@@ -1512,8 +1607,10 @@
 											</VisualState>
 											<VisualState x:Name="MouseOver">
 												<Storyboard>
-													<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-																												 Storyboard.TargetProperty="(Panel.Background)">
+													<ObjectAnimationUsingKeyFrames
+															Storyboard.TargetName="DGR_Border"
+															Storyboard.TargetProperty="(Panel.Background)"
+															>
 														<DiscreteObjectKeyFrame KeyTime="0">
 															<DiscreteObjectKeyFrame.Value>
 																<SolidColorBrush Color="#FFBBEFFF" />
@@ -1527,8 +1624,10 @@
 											<VisualState x:Name="MouseOver_Unfocused_Selected" />
 											<VisualState x:Name="MouseOver_Selected">
 												<Storyboard>
-													<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-																												 Storyboard.TargetProperty="(Panel.Background)">
+													<ObjectAnimationUsingKeyFrames
+															Storyboard.TargetName="DGR_Border"
+															Storyboard.TargetProperty="(Panel.Background)"
+															>
 														<DiscreteObjectKeyFrame KeyTime="0">
 															<DiscreteObjectKeyFrame.Value>
 																<SolidColorBrush Color="#FF60FFBD" />
@@ -1543,61 +1642,62 @@
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
-					<Setter Property="Validation.ErrorTemplate"
-									Value="{x:Null}" />
+					<Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
 					<Setter Property="ValidationErrorTemplate">
 						<Setter.Value>
 							<ControlTemplate>
-								<TextBlock Margin="2,0,0,0"
-													 VerticalAlignment="Center"
-													 Text="!"
-													 Foreground="Red" />
+								<TextBlock
+										Margin="2,0,0,0"
+										VerticalAlignment="Center"
+										Text="!"
+										Foreground="Red"
+										/>
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
 					<Style.Triggers>
-						<Trigger Property="IsNewItem"
-										 Value="True">
-							<Setter Property="Margin"
-											Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+						<Trigger Property="IsNewItem" Value="True">
+							<Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
 						</Trigger>
 					</Style.Triggers>
 				</Style>
 
 
-				<Style x:Key="ColumnHeaderGripperStyle"
-							 TargetType="{x:Type Thumb}">
-					<Setter Property="Background"
-									Value="Transparent" />
-					<Setter Property="Cursor"
-									Value="SizeWE" />
+				<Style
+						x:Key="ColumnHeaderGripperStyle"
+						TargetType="{x:Type Thumb}"
+						>
+					<Setter Property="Background" Value="Transparent" />
+					<Setter Property="Cursor" Value="SizeWE" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type Thumb}">
-								<Border Padding="{TemplateBinding Padding}"
-												Background="{TemplateBinding Background}" />
+								<Border
+										Padding="{TemplateBinding Padding}"
+										Background="{TemplateBinding Background}"
+										/>
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
-					<Setter Property="Width"
-									Value="8" />
+					<Setter Property="Width" Value="8" />
 				</Style>
 
-				<Style x:Key="DataGridCellStyle1"
-							 TargetType="{x:Type DataGridCell}">
-					<Setter Property="Background"
-									Value="Transparent" />
-					<Setter Property="BorderBrush"
-									Value="Transparent" />
-					<Setter Property="BorderThickness"
-									Value="1" />
+				<Style
+						x:Key="DataGridCellStyle1"
+						TargetType="{x:Type DataGridCell}"
+						>
+					<Setter Property="Background" Value="Transparent" />
+					<Setter Property="BorderBrush" Value="Transparent" />
+					<Setter Property="BorderThickness" Value="1" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="{x:Type DataGridCell}">
-								<Border x:Name="border"
-												BorderBrush="{TemplateBinding BorderBrush}"
-												BorderThickness="{TemplateBinding BorderThickness}"
-												SnapsToDevicePixels="True">
+								<Border
+										x:Name="border"
+										SnapsToDevicePixels="True"
+										BorderThickness="{TemplateBinding BorderThickness}"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										>
 
 									<ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 								</Border>
@@ -1645,59 +1745,75 @@
 			</DataGrid.Resources>
 
 			<d:DataContext>
-				<Binding Mode="OneWay"
-								 Path="PartsList"
-								 Source="{StaticResource px}" />
+				<Binding
+						Mode="OneWay"
+						Path="PartsList"
+						Source="{StaticResource px}"
+						/>
 			</d:DataContext>
 
 			<DataGrid.Columns>
 				<DataGridTextColumn Binding="{Binding Key}">
 					<DataGridTextColumn.Header>
-						<DataGridColumnHeader Content="Discipline"
-																	Width="150"
-																	HorizontalAlignment="Stretch"
-																	Visibility="Visible" />
+						<DataGridColumnHeader
+								Content="Discipline"
+								Width="150"
+								HorizontalAlignment="Stretch"
+								Visibility="Visible"
+								/>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 
 			<DataGrid.RowDetailsTemplate>
 				<DataTemplate>
-					<Border BorderThickness="1"
-									BorderBrush="Red">
+					<Border
+							BorderThickness="1"
+							BorderBrush="Red"
+							>
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="120" />
 							</Grid.RowDefinitions>
-							<Button Content="Done"
-											Grid.Row="0"
-											Margin="6,2,0,2"
-											Width="45"
-											Height="15"
-											Padding="0"
-											HorizontalAlignment="Left"
-											FontSize="10"
-											Visibility="Visible"
-											Click="BtnRowDone_OnClick" />
-							<DataGrid Grid.Row="1"
-												HorizontalAlignment="Stretch"
-												AutoGenerateColumns="False"
-												HorizontalScrollBarVisibility="Visible"
-												VerticalScrollBarVisibility="Visible"
-												HorizontalGridLinesBrush="LightSkyBlue"
-												VerticalGridLinesBrush="LightSkyBlue"
-												IsReadOnly="True"
-												ItemsSource="{Binding Value.Parts}">
+							<Button
+									Content="Done"
+									Grid.Row="0"
+									Margin="6,2,0,2"
+									Width="45"
+									Height="15"
+									Padding="0"
+									HorizontalAlignment="Left"
+									FontSize="10"
+									Visibility="Visible"
+									Click="BtnRowDone_OnClick"
+									/>
+							<DataGrid
+									Grid.Row="1"
+									HorizontalAlignment="Stretch"
+									AutoGenerateColumns="False"
+									HorizontalScrollBarVisibility="Visible"
+									VerticalScrollBarVisibility="Visible"
+									HorizontalGridLinesBrush="LightSkyBlue"
+									VerticalGridLinesBrush="LightSkyBlue"
+									IsReadOnly="True"
+									ItemsSource="{Binding Value.Parts}"
+									>
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="80"
-																			Binding="{Binding Value.Code}"
-																			Header="Code" />
-									<DataGridTextColumn Width="120"
-																			Binding="{Binding Value.Title}"
-																			Header="Title" />
-									<DataGridTextColumn Binding="{Binding Value.Description}"
-																			Header="Description" />
+									<DataGridTextColumn
+											Width="80"
+											Binding="{Binding Value.Code}"
+											Header="Code"
+											/>
+									<DataGridTextColumn
+											Width="120"
+											Binding="{Binding Value.Title}"
+											Header="Title"
+											/>
+									<DataGridTextColumn
+											Binding="{Binding Value.Description}"
+											Header="Description"
+											/>
 								</DataGrid.Columns>
 							</DataGrid>
 						</Grid>

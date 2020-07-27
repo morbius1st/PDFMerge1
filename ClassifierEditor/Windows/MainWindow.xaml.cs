@@ -5,30 +5,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using ClassifierEditor.ConfigSupport;
-//using System.Windows.Forms;
+
 using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
-using SettingsManager;
 using UtilityLibrary;
-using ClassifierEditor.Windows.ResourceFiles.XamlResources;
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
-
-//using ComboBox = System.Windows.Controls.ComboBox;
-//using ContextMenu = System.Windows.Controls.ContextMenu;
-//using ListView = System.Windows.Controls.ListView;
-//using MenuItem = System.Windows.Controls.MenuItem;
-//using MessageBox = System.Windows.MessageBox;
-//using TreeNode = ClassifierEditor.Tree.TreeNode;
 
 #endregion
 
@@ -136,8 +125,8 @@ namespace ClassifierEditor.Windows
 	{
 	#region private fields
 
-		private Configuration config;
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
+		private Configuration config;
 		private static TreeNode userSelected;
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
@@ -162,7 +151,6 @@ namespace ClassifierEditor.Windows
 
 		static MainWindow()
 		{
-
 			SampleData.SampleData sd = new SampleData.SampleData();
 			sd.Sample(BaseOfTreeRoot);
 
@@ -305,29 +293,31 @@ namespace ClassifierEditor.Windows
 		{
 			config = new Configuration();
 
-			//todo: fix
-			// config.ConfigureCategories(categories);
-
-//			categories.Configure(UserSettings.Data.CatConfigFolder,
-//				UserSettings.Data.CatConfigFile);
-
+			string sampleFileName;
 
 			// true to create sample data and save to disk
 			// false to read existing data
-			if (true)
+			if (false)
 			{
 				SampleData.SampleData sd = new SampleData.SampleData();
 				sd.Sample(categories.TreeBase);
 				categories.Write();
+
+				sampleFileName = "";
 			}
 			else
 			{
-			#pragma warning disable CS0162 // Unreachable code detected
-				categories.Read();
-			#pragma warning restore CS0162 // Unreachable code detected
-			}
+				//todo: fix
+				// config.ConfigureCategories(categories);
 
-			string sampleFileName = "";
+				categories.Configure(config.LastEditedClassificationFolderPath,
+					config.LastEditedClassificationFileName);
+				categories.Read();
+
+				sampleFileName = config.LastEditedSampleFilePath;
+
+				string desc = config.LastEditedClassificationFileDescription;
+			}
 
 			// todo: fix
 			// sampleFileName =

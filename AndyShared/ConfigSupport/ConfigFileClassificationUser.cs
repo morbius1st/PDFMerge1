@@ -24,7 +24,7 @@ namespace AndyShared.ConfigSupport
 	{
 	#region private fields
 
-		private FilePath<FileNameSimple> assocSampleFile;
+		private FilePath<FileNameSimple> sampleFile;
 
 		private bool selectedFile;
 
@@ -59,7 +59,7 @@ namespace AndyShared.ConfigSupport
 			this.FileName = FilePath.GetFileNameObject.FileName;
 			this.SelectedFile = selectedFile;
 
-			GetAssociatedSamplePathAndFile(Folder, FileNameNoExt);
+			GetSamplePathAndFile(Folder, FileNameNoExt);
 
 			UpdateProperties();
 		}
@@ -70,13 +70,15 @@ namespace AndyShared.ConfigSupport
 
 		public bool IsValid => FilePath?.GetFileNameObject?.IsValid ?? false;
 
-		public bool HasSampleFile => assocSampleFile.IsValid;
+		public bool HasSampleFile => sampleFile.IsValid;
 
 		public string FileNameNoExt => FilePath.GetFileNameObject.FileNameNoExt;
 
 		public string GetFullFilePath => FilePath.GetFullFilePath;
 
-		public string AssocSampleFilePath => assocSampleFile.GetFullFilePath;
+		public string GetPath => FilePath.GetPath;
+
+		public string SampleFilePath => sampleFile.GetFullFilePath;
 
 		public bool SelectedFile
 		{
@@ -89,9 +91,15 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
+		
+
 	#endregion
 
 	#region private properties
+
+		public string DescriptionFromFile =>
+			CsUtilities.ScanXmlForElementValue(GetFullFilePath, "Description", 1);
+
 
 	#endregion
 
@@ -108,13 +116,13 @@ namespace AndyShared.ConfigSupport
 			OnPropertyChange("FileName");
 			OnPropertyChange("FileNameNoExt");
 			OnPropertyChange("GetFullFilePath");
-			OnPropertyChange("AssocSampleFilePath");
+			OnPropertyChange("SampleFilePath");
 		}
 
-		private void GetAssociatedSamplePathAndFile(string folder, string fileNameNoExt)
+		private void GetSamplePathAndFile(string folder, string fileNameNoExt)
 		{
-			assocSampleFile = new FilePath<FileNameSimple>(
-				ConfigSeedFileSupport.GetSampleFile(folder, fileNameNoExt, true));
+			sampleFile = new FilePath<FileNameSimple>(
+				ConfigFileSupport.GetSampleFile(folder, fileNameNoExt, true));
 		}
 
 	#endregion

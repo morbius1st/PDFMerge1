@@ -145,8 +145,8 @@ namespace AndyShared.ConfigSupport
 	[DataContract(Namespace = "")]
 	public class ConfigSeedFile : ConfigFile<FileNameSimple>, ICloneable
 	{
-		private string assocSamplePathAndFile;
-		private FilePath<FileNameSimple> assocSampleFile;
+		private string sampleFilePath;
+		private FilePath<FileNameSimple> sampleFile;
 		private bool local;
 		private bool selectedSeedSeed;
 		private bool keep;
@@ -160,13 +160,13 @@ namespace AndyShared.ConfigSupport
 			string username,
 			string folder,
 			string fileName,
-			string samplePathAndFile,
+			string sampleFilePath,
 			bool   local,
 			bool   selectedSeedSeed,
 			bool   keep,
 			SeedFileStatus status) : base(fileId, username, folder, fileName)
 		{
-			AssociatedSamplePathAndFile = samplePathAndFile;
+			SampleFilePath = sampleFilePath;
 			this.local = local;
 			this.selectedSeedSeed = selectedSeedSeed;
 			this.keep = keep;
@@ -239,32 +239,32 @@ namespace AndyShared.ConfigSupport
 		}
 
 		[DataMember(Order = 15)]
-		public string AssociatedSamplePathAndFile
+		public string SampleFilePath
 		{
-			get => assocSamplePathAndFile;
+			get => sampleFilePath;
 			set
 			{
-				assocSamplePathAndFile = value;
+				sampleFilePath = value;
 				OnPropertyChange();
 
 				if (!value.IsVoid())
 				{
-					AssocSampleFile = new FilePath<FileNameSimple>(value);
+					SampleFile = new FilePath<FileNameSimple>(value);
 				}
 				else
 				{
-					AssocSampleFile = FilePath<FileNameSimple>.Invalid;
+					SampleFile = FilePath<FileNameSimple>.Invalid;
 				}
 			}
 		}
 
 		[IgnoreDataMember]
-		public FilePath<FileNameSimple> AssocSampleFile
+		public FilePath<FileNameSimple> SampleFile
 		{
-			get => assocSampleFile;
+			get => sampleFile;
 			set
 			{
-				assocSampleFile = value;
+				sampleFile = value;
 				OnPropertyChange();
 			}
 		}
@@ -276,7 +276,7 @@ namespace AndyShared.ConfigSupport
 				UserName,
 				Folder,
 				FileName,
-				AssociatedSamplePathAndFile, 
+				SampleFilePath, 
 				Local, SelectedSeed, Keep, 
 				SeedFileStatus.IGNORE);
 		}

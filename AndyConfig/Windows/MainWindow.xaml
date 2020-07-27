@@ -1210,7 +1210,7 @@
 											x:Name="SiteDetailsToggleButton"
 											Width="15"
 											Height="15"
-											IsChecked="false"
+											IsChecked="true"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ToggleButton.Details}"
 											>
@@ -2689,35 +2689,24 @@
 
 												<DataGrid.GroupStyle>
 													<GroupStyle>
-														<!-- <GroupStyle.HeaderTemplate> -->
-														<!-- 	<DataTemplate> -->
-														<!-- 		<DockPanel> -->
-														<!--    -->
-														<!--  <Label  -->
-														<!--  Content="{Binding Path=Name}"  -->
-														<!--  Width="100"  -->
-														<!--  HorizontalAlignment="Left"  -->
-														<!--  DockPanel.Dock="top"  -->
-														<!--  Foreground="White"  -->
-														<!--  />  -->
-														<!--    -->
-														<!-- 		</DockPanel> -->
-														<!-- 	</DataTemplate> -->
-														<!-- </GroupStyle.HeaderTemplate> -->
 														<GroupStyle.ContainerStyle>
 															<Style TargetType="GroupItem">
 																<Setter Property="Template">
 																	<Setter.Value>
 																		<ControlTemplate TargetType="GroupItem">
 																			<Expander
+																					x:Name="expdr06"
 																					HorizontalAlignment="Stretch"
 																					HorizontalContentAlignment="Stretch"
+																					Expanded="expdr06_Expanded"
 																					Background="Transparent"
 																					Template="{StaticResource Dg6ExpanderTemplate1}"
+																					Tag="{Binding Path=Name}"
 																					>
 																				<Expander.Header>
 																					<DockPanel HorizontalAlignment="Stretch">
 																						<TextBlock
+																								x:Name="tbkUsrName"
 																								Padding="5,0,0,0"
 																								Text="{Binding Path=Name}"
 																								Foreground="Black"
@@ -2796,10 +2785,9 @@
 														</DataGridTextColumn.HeaderTemplate>
 													</DataGridTextColumn>
 
-															<!-- MinWidth="140" -->
+													<!--  MinWidth="140"  -->
 													<DataGridTextColumn
 															Width="260"
-															
 															Binding="{Binding FileName,
 																								Mode=OneWay,
 																								FallbackValue='name'}"

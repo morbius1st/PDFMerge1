@@ -86,7 +86,6 @@ namespace AndyShared.FilesSupport
 			return $"({UserName}) {FileId}";
 		}
 
-
 		private void parseFileName()
 		{
 			

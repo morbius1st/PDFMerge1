@@ -35,7 +35,7 @@ namespace AndyShared.ConfigMgr
 
 		/// <summary>
 		/// <c>ConfigSuite</c><br/>
-		/// SuiteSettingsFileExists   : bool    : does the suite settings file exist<br/>
+		/// SuiteSettingsFileExists   : bool    : &#160;&#160;&#160;does the suite settings file exist<br/>
 		/// (rename the below)
 		/// SiteSettingsRootPath      : string  : site setting root folder path (from the suite setting file)<br/>
 		/// SiteSettingsRootPathIsValid: bool   : (not) is 'SiteRootPath' null or empty<br/>
@@ -53,14 +53,6 @@ namespace AndyShared.ConfigMgr
 		/// Seed                      : ConfigSeed: config seed file object<br/>
 		/// </summary>
 		public ConfigSite Site { get; private set; } = ConfigSite.Instance;
-
-		// /// <summary>
-		// /// <c>ConfigSeed</c><br/>
-		// /// SiteSeedFolderPath: string  : site seed folder path<br/>
-		// /// HasSeedFileSetting        : bool    : has site installed seed files<br/>
-		// /// SeedInstalled             : ConfigSeedInstalled: config installed seed file object<br/>
-		// /// </summary>
-		// public ConfigSeed Seed { get; private set; }
 
 		/// <summary>
 		/// <c>ConfigSeedInstalled</c><br/>
@@ -98,7 +90,10 @@ namespace AndyShared.ConfigMgr
 			Initalized = true;
 
 			// User = ConfigClassificationUser.Instance;
+			// this class is independent / stand alone
 			ClassificationUser.Initialize();
+
+			// the below are interrelated to each other
 
 			// Suite = ConfigSuite.Instance;
 			Suite.Initialize();
@@ -123,9 +118,6 @@ namespace AndyShared.ConfigMgr
 
 			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
 
-			// User = ConfigClassificationUser.Instance;
-			// User.Initialize();
-
 
 		}
 
@@ -143,8 +135,6 @@ namespace AndyShared.ConfigMgr
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
-		
 
 	#endregion
 

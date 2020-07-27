@@ -42,14 +42,14 @@ namespace SettingsManager
 		// [DataMember(Order = 1)]
 		// public List<ConfigFile> SeedFiles { get; set; }
 
-		[DataMember(Order = 2)]
-		public List<ConfigFile<FileNameSimple>> UsersOrganizationFiles { get; set; } =
-			new List<ConfigFile<FileNameSimple>>()
-			{
-				new ConfigFile<FileNameSimple>("UnNamed", "No User",
-					@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample",
-					@"SheetCategories.xml")
-			};
+		// [DataMember(Order = 2)]
+		// public List<ConfigFile<FileNameSimple>> UsersOrganizationFiles { get; set; } =
+		// 	new List<ConfigFile<FileNameSimple>>()
+		// 	{
+		// 		new ConfigFile<FileNameSimple>("UnNamed", "No User",
+		// 			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample",
+		// 			@"SheetCategories.xml")
+		// 	};
 	}
 
 #endregion

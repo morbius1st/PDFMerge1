@@ -203,7 +203,7 @@ namespace AndyShared.ConfigMgr
 				{
 					ConfigSeedFile seed =
 						ConfigSeedFileSupport.MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
-							ConfigSeedFileSupport.GetSampleFile(seedFile));
+							ConfigFileSupport.GetSampleFile(seedFile));
 
 					seed.Keep = true;
 

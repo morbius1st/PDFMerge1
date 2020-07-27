@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FolderAndFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings70.cs" />

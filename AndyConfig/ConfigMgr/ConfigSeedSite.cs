@@ -165,7 +165,7 @@ namespace AndyConfig.ConfigMgr
 					seed.FilePath.GetFileName;
 
 				string target2 =
-					ConfigSeedFileSupport.GetSampleFile(SiteSeedFolderPath,
+					ConfigFileSupport.GetSampleFile(SiteSeedFolderPath,
 						seed.FilePath.GetFileNameWithoutExtension, true);
 
 				if (seed.Status == SeedFileStatus.COPY)
@@ -173,7 +173,7 @@ namespace AndyConfig.ConfigMgr
 					File.Copy(seed.FilePath.GetFullFilePath, target1);
 					if (target2 != null)
 					{
-						File.Copy(seed.AssocSampleFile.GetFullFilePath, target2);
+						File.Copy(seed.SampleFile.GetFullFilePath, target2);
 					}
 
 					// #if DEBUG
@@ -184,7 +184,7 @@ namespace AndyConfig.ConfigMgr
 					// 		"  > to > " + target1);
 					// 	Debug.WriteLine(
 					// 		"copy | " +
-					// 		seed.AssocSampleFile.GetFullFilePath +
+					// 		seed.SampleFile.GetFullFilePath +
 					// 		"  > to > " + target2 ?? "is null");
 					// 	Debug.WriteLine("<<<\n");
 					// #endif
@@ -332,7 +332,7 @@ namespace AndyConfig.ConfigMgr
 					new FilePath<FileNameSimpleSelectable>(file);
 
 				ConfigSeedFile seed  = ConfigSeedFileSupport.MakeConfigSeedFileItem(
-					filePath, Heading.SuiteName, ConfigSeedFileSupport.GetSampleFile(filePath));
+					filePath, Heading.SuiteName, ConfigFileSupport.GetSampleFile(filePath));
 
 				// changes to these means the above must be adjusted
 				// pre-select to keep

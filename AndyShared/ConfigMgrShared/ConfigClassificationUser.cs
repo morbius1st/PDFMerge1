@@ -41,7 +41,7 @@ namespace AndyShared.ConfigMgrShared
 		public bool Initialized { get; set; }
 
 		/// <summary>
-		/// path to the local seed folder
+		/// folder path to the local classification file
 		/// </summary>
 		public string UserClassificationFolderPath => ConfigFileSupport.UserClassificationFolderPath;
 
@@ -99,11 +99,10 @@ namespace AndyShared.ConfigMgrShared
 			UpdateViewProperties();
 		}
 
-		// return the full filepath to the requested 
+		// return the folderpath to the requested 
 		// classification file
-		public string Find(string userName, string fileId)
+		public ConfigFileClassificationUser Find(string userName, string fileId)
 		{
-
 			foreach (CollectionViewGroup viewGroup in View.Groups)
 			{
 				if (((ConfigFileClassificationUser)viewGroup.Items[0]).UserName.Equals(userName))
@@ -112,13 +111,18 @@ namespace AndyShared.ConfigMgrShared
 					{
 						if (userCfg.FileId.Equals(fileId))
 						{
-							return userCfg.GetFullFilePath;
+							return userCfg;
 						}
 					}
 				}
 			}
 			return null;
 		}
+
+		// public string sampleFile(string userName, string fileId)
+		// {
+		// 	ConfigFileSupport.
+		// }
 
 	#endregion
 
