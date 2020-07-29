@@ -9,12 +9,21 @@
 		Name="clsFileMgr"
 		Title="ClassificationFileSelector"
 		Width="500"
-		Height="450"
+		Height="500"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
 		>
 	<Window.Resources>
 
+		<!-- <SolidColorBrush x:Key="x" Color="{StaticResource Gray.650}"></SolidColorBrush> -->
+
+			<Style x:Key="Label.Base" TargetType="Label">
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="Foreground" Value="{StaticResource Label.Title.Foreground.Subdued}" />
+			</Style>
+
+		
 
 
 	</Window.Resources>
@@ -26,7 +35,7 @@
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
-			<RowDefinition Height="80" />
+			<RowDefinition Height="85" />
 			<RowDefinition Height="50" />
 		</Grid.RowDefinitions>
 
@@ -37,21 +46,21 @@
 				VerticalAlignment="Stretch"
 				>
 
-			<Label
-					x:Name="Label10"
-					Content="{Binding ElementName=clsFileMgr,
-														Path=ListViewTitle,
-														FallbackValue='Classification Files'}"
-					Margin="5,0,5,0"
-					Padding="5,4,0,6"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Top"
-					FontSize="14"
-					DockPanel.Dock="Top"
-					Background="{StaticResource Win.Title.Background}"
-					Foreground="White"
-					/>
-					
+			<!-- <Label -->
+			<!-- 		x:Name="Label10" -->
+			<!-- 		Content="{Binding ElementName=clsFileMgr, -->
+			<!-- 											Path=ListViewTitle, -->
+			<!-- 											FallbackValue='Classification Files'}" -->
+			<!-- 		Margin="5,0,5,0" -->
+			<!-- 		Padding="5,4,0,6" -->
+			<!-- 		HorizontalAlignment="Stretch" -->
+			<!-- 		VerticalAlignment="Top" -->
+			<!-- 		FontSize="14" -->
+			<!-- 		DockPanel.Dock="Top" -->
+			<!-- 		Background="{StaticResource Win.Title.Background}" -->
+			<!-- 		Foreground="White" -->
+			<!-- 		/> -->
+
 			<Label
 					x:Name="Label20"
 					Content="Select a Classification File to use"
@@ -59,7 +68,7 @@
 					Padding="5,4,0,6"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Top"
-					FontSize="12"
+					FontSize="14"
 					DockPanel.Dock="Top"
 					Background="{StaticResource Win.Title.Background}"
 					Foreground="White"
@@ -83,13 +92,11 @@
 				<ListBox.ItemTemplate>
 					<DataTemplate DataType="configSupport:ConfigFileClassificationUser">
 						<StackPanel Orientation="Vertical">
-							<TextBlock
-									Text="{Binding FileName}"
-							/>
+							<TextBlock Text="{Binding FileName}" />
 							<TextBlock
 									Margin="5,0,0,5"
 									Text="{Binding DescriptionFromFile}"
-							/>
+									/>
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
@@ -100,27 +107,92 @@
 				Grid.Column="0"
 				Grid.Row="1"
 				>
-			<StackPanel
+			<Label
+					x:Name="Label21"
+					Content="Selected Classification File"
+					Margin="5,0,5,0"
+					Padding="5,4,0,6"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Top"
 					DockPanel.Dock="Top"
-					Orientation="Horizontal"
+					Background="{StaticResource Win.Title.Background}"
+					Foreground="White"
+					/>
+			<Grid
+					Margin="10,5,5,0"
+					DockPanel.Dock="Left"
 					>
+
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="80" />
+					<ColumnDefinition Width="100" />
+					<ColumnDefinition Width="70" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
 				<Label
-						Content="Selected"
-						Foreground="White"
+						Content="User Id"
+						Grid.Column="0"
+						Grid.Row="0" 
+						Style="{StaticResource Label.Base}" 
 						/>
+				<!--  Foreground="{StaticResource Label.Title.Foreground.Subdued}"  -->
+
 				<Label
 						Content="{Binding ElementName=clsFileMgr,
-															Path=Selected.FileName,
-															FallbackValue='Name'}"
+															Path=Selected.UserName,
+															FallbackValue='User Id'}"
+						Grid.Column="1"
+						Grid.Row="0"
+						Padding="0"
+						VerticalAlignment="Center"
 						Foreground="White"
+						/>
+
+				<Label
+						Content="File Id"
+						Grid.Column="2"
+						Grid.Row="0"
+						Style="{StaticResource Label.Base}" 
+						/>
+
+				<Label
+						Content="{Binding ElementName=clsFileMgr,
+															Path=Selected.FileId,
+															FallbackValue='File Id'}"
+						Grid.Column="3"
+						Grid.Row="0"
+						Padding="0"
+						VerticalAlignment="Center"
+						Foreground="White"
+						/>
+
+
+
+				<Label
+						Content="Description"
+						Grid.Column="0"
+						Grid.Row="1"
+						Style="{StaticResource Label.Base}" 
 						/>
 				<Label
 						Content="{Binding ElementName=clsFileMgr,
 															Path=Selected.DescriptionFromFile,
 															FallbackValue='Desc'}"
+						Grid.Column="1"
+						Grid.Row="1"
+						Grid.ColumnSpan="3"
+						Padding="0"
+						VerticalAlignment="Center"
 						Foreground="White"
 						/>
-			</StackPanel>
+			</Grid>
 		</DockPanel>
 
 	</Grid>

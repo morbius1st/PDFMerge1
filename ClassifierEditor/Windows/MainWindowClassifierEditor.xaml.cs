@@ -22,7 +22,7 @@ using static ClassifierEditor.Tree.ComparisonOp;
 #endregion
 
 // projname: ClassifierEditor
-// itemname: MainWindow
+// itemname: MainWindowClassifierEditor
 // username: jeffs
 // created:  5/2/2020 9:16:20 AM
 
@@ -33,7 +33,7 @@ namespace ClassifierEditor.Windows
 	/*
 	 data chain
 
-		MainWindow				(SheetCategoryDataManager  Categories)
+		MainWindowClassifierEditor				(SheetCategoryDataManager  Categories)
 		V
 		SheetCategoryDataManager	(TreeNode TreeBase)
 		V								  | ^
@@ -119,9 +119,9 @@ namespace ClassifierEditor.Windows
 
 
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for MainWindowClassifierEditor.xaml
 	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged
+	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
 	#region private fields
 
@@ -149,7 +149,7 @@ namespace ClassifierEditor.Windows
 
 	#region ctor
 
-		static MainWindow()
+		static MainWindowClassifierEditor()
 		{
 			SampleData.SampleData sd = new SampleData.SampleData();
 			sd.Sample(BaseOfTreeRoot);
@@ -166,7 +166,7 @@ namespace ClassifierEditor.Windows
 			MakeSample();
 		}
 
-		public MainWindow()
+		public MainWindowClassifierEditor()
 		{
 			InitializeComponent();
 		}
@@ -299,7 +299,9 @@ namespace ClassifierEditor.Windows
 			// false to read existing data
 			if (false)
 			{
+#pragma warning disable CS0162 // Unreachable code detected
 				SampleData.SampleData sd = new SampleData.SampleData();
+#pragma warning restore CS0162 // Unreachable code detected
 				sd.Sample(categories.TreeBase);
 				categories.Write();
 

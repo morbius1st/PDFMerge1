@@ -1,16 +1,16 @@
 ﻿<Window
-		x:Class="AndyShared.Windows.MainWindow"
+		x:Class="AndyConfig.Windows.MainWindowAndyCfg"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:config="clr-namespace:AndyShared.ConfigMgr"
 		xmlns:configSupport="clr-namespace:AndyShared.ConfigSupport"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:local="clr-namespace:AndyShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		x:Name="mainWin"
-		Title="MainWindow"
+		xmlns:windows="clr-namespace:AndyConfig.Windows"
+		x:Name="MainWinAndyCfg"
+		Title="MainWindowAndyCfg"
 		Width="950"
 		Height="850"
 		Loaded="MainWindow_OnLoaded"
@@ -27,15 +27,17 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<!-- <local:BoolToFileFoundConverter x:Key="BoolToFileFoundConverter"/> -->
-			<local:BoolToMessage x:Key="BoolToMessage" />
-			<local:EnumToMessage x:Key="EnumToMessage" />
+			<windows:BoolToMessage x:Key="BoolToMessage" />
+			<windows:EnumToMessage x:Key="EnumToMessage" />
+			<windows:NullStringToMessage x:Key="NullStrToMessage" />
 			<!-- <local:BoolToString x:Key="BoolToString"/> -->
 
 			<configSupport:SeedFileStatus x:Key="OK">OK_AS_IS</configSupport:SeedFileStatus>
 
-			<sys:Double x:Key="Label.Section.Title.FontSize">14</sys:Double>
-
+			<sys:Double x:Key="Label.Section.Title.FontSize">16</sys:Double>
 			<sys:Double x:Key="Label.Settings.Id.Size">65</sys:Double>
+
+			<sys:Int32 x:Key="Zero">0</sys:Int32>
 
 			<GridLength x:Key="Grid.Settings.Col.Id">80</GridLength>
 			<GridLength x:Key="Grid.Settings.Col.Control">30</GridLength>
@@ -248,6 +250,7 @@
 			<ControlTemplate
 					x:Key="Btn1Template1"
 					TargetType="{x:Type Button}"
+					
 					>
 				<Border
 						x:Name="border"
@@ -268,6 +271,7 @@
 							RecognizesAccessKey="True"
 							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
+							
 							/>
 				</Border>
 				<ControlTemplate.Triggers>
@@ -291,10 +295,12 @@
 
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
+
 			<Style
 					x:Key="Dg1RowStyle"
 					TargetType="DataGridRow"
 					>
+				
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 				<Style.Triggers>
@@ -309,7 +315,9 @@
 			<ControlTemplate
 					x:Key="Dg6ExpanderTemplate1"
 					TargetType="{x:Type Expander}"
+					
 					>
+				
 				<Border
 						CornerRadius="3"
 						SnapsToDevicePixels="True"
@@ -417,6 +425,7 @@
 																RecognizesAccessKey="True"
 																SnapsToDevicePixels="True"
 																ContentTemplate="{TemplateBinding ContentTemplate}"
+																
 																/>
 													</Grid>
 												</Border>
@@ -805,7 +814,6 @@
 				<DockPanel
 						Grid.Column="0"
 						Grid.Row="0"
-						Grid.ColumnSpan="2"
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
 						>
@@ -839,7 +847,7 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
 							<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-							<RowDefinition Height="*" />
+							<RowDefinition />
 
 						</Grid.RowDefinitions>
 
@@ -858,41 +866,54 @@
 
 
 						<Label
-								Content="File Found"
+								Content="Suite Settings Folder Path"
 								Grid.Column="0"
 								Grid.Row="1"
-								Grid.ColumnSpan="2"
 								Style="{StaticResource Label.Setting.Base}"
 								/>
 
-						<!--  Content="{Binding ElementName=mainWin,  -->
-						<!--  Path=Suite.SuiteSettingsFileExists,  -->
-						<!--  FallbackValue=False,  -->
-						<!--  Converter={StaticResource BoolToFileFoundConverter},  -->
-						<!--  ConverterParameter='Suite Settings file',  -->
-						<!--  Mode=OneWay}"  -->
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=Suite.SuiteSettingPath,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
-								Style="{StaticResource Label.Setting.Base}"
 								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="Suite.SuiteSettingsFileExists"
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
 										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>Suite Setting file has been found</sys:String>
-											<sys:String>Suite Setting file has not been found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SuiteSettingPath}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
 						</Label>
+
+						<!--  <Label Grid.Column="2"  -->
+						<!--  Grid.Row="1"  -->
+						<!--  Style="{StaticResource Label.Setting.Base}">  -->
+						<!-- 	<Label.Content> -->
+						<!--  <Binding Converter="{StaticResource BoolToMessage}"  -->
+						<!--  ElementName="MainWinAndyCfg"  -->
+						<!--  FallbackValue="False"  -->
+						<!--  Mode="OneWay"  -->
+						<!--  Path="Suite.SuiteSettingsFileExists">  -->
+						<!-- 			<Binding.ConverterParameter> -->
+						<!-- 				<specialized:StringCollection> -->
+						<!-- 					<sys:String>Suite Setting file has been found</sys:String> -->
+						<!-- 					<sys:String>Suite Setting file has not been found</sys:String> -->
+						<!-- 				</specialized:StringCollection> -->
+						<!-- 			</Binding.ConverterParameter> -->
+						<!-- 		</Binding> -->
+						<!-- 	</Label.Content> -->
+						<!-- </Label> -->
 
 						<Label
 								Content="Site Settings File's Root Path"
@@ -936,7 +957,7 @@
 									<Setter Property="Content" Value="Location has not been chosen.  Please select a location" />
 									<Setter Property="Visibility" Value="Collapsed" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=mainWin, Path=Suite.SiteSettingsRootPath}" Value="{x:Null}">
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SiteSettingsRootPath}" Value="{x:Null}">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -951,7 +972,7 @@
 								>
 							<Label.Content>
 								<Binding
-										ElementName="mainWin"
+										ElementName="MainWinAndyCfg"
 										FallbackValue=""
 										Mode="OneWay"
 										Path="Suite.SiteSettingsRootPath"
@@ -968,6 +989,10 @@
 							</Label.Style>
 						</Label>
 
+
+
+
+
 						<Border
 								x:Name="BdrSuite1"
 								Grid.Column="0"
@@ -980,7 +1005,7 @@
 							<StackPanel
 									Margin="5,0,0,0"
 									Orientation="Vertical"
-									IsEnabled="{Binding ElementName=mainWin,
+									IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																			Path=Suite.SuiteSettingsFileExists}"
 									>
 
@@ -1038,7 +1063,7 @@
 											/>
 
 									<Label
-											Content="{Binding ElementName=mainWin,
+											Content="{Binding ElementName=MainWinAndyCfg,
 																				Path=Suite.SuiteSettingFileName,
 																				FallbackValue='Not Found',
 																				Mode=OneWay}"
@@ -1055,7 +1080,7 @@
 											/>
 
 									<Label
-											Content="{Binding ElementName=mainWin,
+											Content="{Binding ElementName=MainWinAndyCfg,
 																				Path=Suite.Info.DataClassVersion,
 																				FallbackValue='Not Found',
 																				Mode=OneWay}"
@@ -1072,7 +1097,7 @@
 											/>
 
 									<Label
-											Content="{Binding ElementName=mainWin,
+											Content="{Binding ElementName=MainWinAndyCfg,
 																				Path=Suite.Info.Description,
 																				FallbackValue='Not Found',
 																				Mode=OneWay}"
@@ -1097,7 +1122,7 @@
 						Grid.Row="1"
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
-						IsEnabled="{Binding ElementName=mainWin,
+						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																Path=Site.SiteSettingsFileExists,
 																Mode=OneWay,
 																FallbackValue=false}"
@@ -1151,7 +1176,7 @@
 
 
 						<Label
-								Content="Site Settings File Found"
+								Content="Site Setting Folder Path"
 								Grid.Column="0"
 								Grid.Row="1"
 								Grid.ColumnSpan="2"
@@ -1164,27 +1189,51 @@
 						<!--  Converter={StaticResource BoolToFileFoundConverter},  -->
 						<!--  ConverterParameter='Site Settings file',  -->
 						<!--  Mode=OneWay}"  -->
+						<!--  <Label  -->
+						<!--  Grid.Column="2"  -->
+						<!--  Grid.Row="1"  -->
+						<!--  Style="{StaticResource Label.Setting.Found}"  -->
+						<!--  >  -->
+						<!-- 	<Label.Content> -->
+						<!--  <Binding  -->
+						<!--  Converter="{StaticResource BoolToMessage}"  -->
+						<!--  ElementName="MainWinAndyCfg"  -->
+						<!--  FallbackValue="False"  -->
+						<!--  Mode="OneWay"  -->
+						<!--  Path="Site.SiteSettingsFileExists"  -->
+						<!--  >  -->
+						<!-- 			<Binding.ConverterParameter> -->
+						<!-- 				<specialized:StringCollection> -->
+						<!-- 					<sys:String>Site Setting file has been found</sys:String> -->
+						<!-- 					<sys:String>Site Setting file has not been found</sys:String> -->
+						<!-- 				</specialized:StringCollection> -->
+						<!-- 			</Binding.ConverterParameter> -->
+						<!-- 		</Binding> -->
+						<!-- 	</Label.Content> -->
+						<!-- </Label> -->
+
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=Site.SiteSettingsFolderPath,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
-								Style="{StaticResource Label.Setting.Found}"
 								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="Site.SiteSettingsFileExists"
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
 										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>Site Setting file has been found</sys:String>
-											<sys:String>Site Setting file has not been found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Site.SiteSettingsFolderPath}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
 						</Label>
 
 						<Border
@@ -1199,7 +1248,7 @@
 							<StackPanel
 									Margin="5,0,0,0"
 									Orientation="Vertical"
-									IsEnabled="{Binding ElementName=mainWin,
+									IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																			FallbackValue=false,
 																			Path=Site.SiteSettingsFileExists}"
 									>
@@ -1210,7 +1259,7 @@
 											x:Name="SiteDetailsToggleButton"
 											Width="15"
 											Height="15"
-											IsChecked="true"
+											IsChecked="false"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ToggleButton.Details}"
 											>
@@ -1246,8 +1295,8 @@
 
 									<Grid.RowDefinitions>
 										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
+										<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
+										<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
 									</Grid.RowDefinitions>
 
 									<Label
@@ -1258,7 +1307,7 @@
 											/>
 
 									<Label
-											Content="{Binding ElementName=mainWin,
+											Content="{Binding ElementName=MainWinAndyCfg,
 																				Path=Site.SiteSettingsFileName,
 																				FallbackValue='Not Found',
 																				Mode=OneWay}"
@@ -1267,64 +1316,60 @@
 											Style="{StaticResource Label.Setting.Base}"
 											/>
 
-									<Label
-											Content="Site Setting Root Path"
-											Grid.Column="0"
-											Grid.Row="1"
-											Grid.ColumnSpan="2"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
+									<!--  <Label Content="Site Setting Root Path"  -->
+									<!--  Grid.Column="0"  -->
+									<!--  Grid.Row="1"  -->
+									<!--  Grid.ColumnSpan="2"  -->
+									<!--  Style="{StaticResource Label.Setting.Base}" />  -->
+									<!--    -->
+									<!--  <Label x:Name="RootPathHint2"  -->
+									<!--  Grid.Column="1"  -->
+									<!--  Grid.Row="1"  -->
+									<!--  Foreground="{StaticResource Label.Foreground.Disabled}">  -->
+									<!-- 	<Label.Style> -->
+									<!--  <Style x:Name="lblStyle2"  -->
+									<!--  TargetType="Label"  -->
+									<!--  BasedOn="{StaticResource Label.Setting.Base}">  -->
+									<!--  <Setter Property="Content"  -->
+									<!--  Value="Net Yet Selected" />  -->
+									<!--  <Setter Property="Visibility"  -->
+									<!--  Value="Collapsed" />  -->
+									<!-- 			<Style.Triggers> -->
+									<!--  <DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SiteSettingsRootPath}"  -->
+									<!--  Value="{x:Null}">  -->
+									<!--  <Setter Property="Visibility"  -->
+									<!--  Value="Visible" />  -->
+									<!-- 				</DataTrigger> -->
+									<!-- 			</Style.Triggers> -->
+									<!-- 		</Style> -->
+									<!-- 	</Label.Style> -->
+									<!-- </Label> -->
+									<!--    -->
+									<!--  <Label Content="{Binding ElementName=MainWinAndyCfg,  -->
+									<!--  Path=Site.SiteSettingsRootPath,  -->
+									<!--  Mode=OneWay,  -->
+									<!--  FallbackValue=''}"  -->
+									<!--  Grid.Column="1"  -->
+									<!--  Grid.Row="1"  -->
+									<!--  Style="{StaticResource Label.Setting.Base}" />  -->
 
-									<Label
-											x:Name="RootPathHint2"
-											Grid.Column="1"
-											Grid.Row="1"
-											Foreground="{StaticResource Label.Foreground.Disabled}"
-											>
-										<Label.Style>
-											<Style
-													x:Name="lblStyle2"
-													TargetType="Label"
-													BasedOn="{StaticResource Label.Setting.Base}"
-													>
-												<Setter Property="Content" Value="Net Yet Selected" />
-												<Setter Property="Visibility" Value="Collapsed" />
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=Suite.SiteSettingsRootPath}" Value="{x:Null}">
-														<Setter Property="Visibility" Value="Visible" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</Label.Style>
-									</Label>
-
-									<Label
-											Content="{Binding ElementName=mainWin,
-																				Path=Site.SiteSettingsRootPath,
-																				Mode=OneWay,
-																				FallbackValue=''}"
-											Grid.Column="1"
-											Grid.Row="1"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											Content="Site Settings: Seed Folder Path"
-											Grid.Column="0"
-											Grid.Row="2"
-											Grid.ColumnSpan="2"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											Content="{Binding ElementName=mainWin,
-																				Path=SeedSite.SiteSeedFolderPath,
-																				Mode=OneWay,
-																				FallbackValue='Undetermined'}"
-											Grid.Column="1"
-											Grid.Row="2"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
+									<!--  <Label  -->
+									<!--  Content="Site Settings: Seed Folder Path"  -->
+									<!--  Grid.Column="0"  -->
+									<!--  Grid.Row="2"  -->
+									<!--  Grid.ColumnSpan="2"  -->
+									<!--  Style="{StaticResource Label.Setting.Base}"  -->
+									<!--  />  -->
+									<!--    -->
+									<!--  <Label  -->
+									<!--  Content="{Binding ElementName=MainWinAndyCfg,  -->
+									<!--  Path=SeedSite.SiteSeedFolderPath,  -->
+									<!--  Mode=OneWay,  -->
+									<!--  FallbackValue='Undetermined'}"  -->
+									<!--  Grid.Column="1"  -->
+									<!--  Grid.Row="2"  -->
+									<!--  Style="{StaticResource Label.Setting.Base}"  -->
+									<!--  />  -->
 
 								</Grid>
 
@@ -1346,7 +1391,7 @@
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Top"
-						IsEnabled="{Binding ElementName=mainWin,
+						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																FallbackValue=false,
 																Path=Site.SiteSettingsFileExists}"
 						>
@@ -1400,7 +1445,7 @@
 
 
 						<Label
-								Content="Installed Seed Files Folder Found"
+								Content="Installed Seed Folder Path"
 								Grid.Column="0"
 								Grid.Row="1"
 								Margin="0,0,0,3"
@@ -1409,27 +1454,52 @@
 								/>
 
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=SeedInstalled.InstallSeedFileFolder,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
-								Style="{StaticResource Label.Setting.Found}"
 								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="SeedInstalled.InstalledFolderExists"
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
 										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>Installed Seed Folder Was Found</sys:String>
-											<sys:String>Installed Seed Folder Not Was Found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstallSeedFileFolder}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
 						</Label>
+
+
+						<!--  <Label  -->
+						<!--  Grid.Column="2"  -->
+						<!--  Grid.Row="1"  -->
+						<!--  Style="{StaticResource Label.Setting.Found}"  -->
+						<!--  >  -->
+						<!-- 	<Label.Content> -->
+						<!--  <Binding  -->
+						<!--  Converter="{StaticResource BoolToMessage}"  -->
+						<!--  ElementName="MainWinAndyCfg"  -->
+						<!--  FallbackValue="False"  -->
+						<!--  Mode="OneWay"  -->
+						<!--  Path="SeedInstalled.InstalledFolderExists"  -->
+						<!--  >  -->
+						<!-- 			<Binding.ConverterParameter> -->
+						<!-- 				<specialized:StringCollection> -->
+						<!-- 					<sys:String>Installed Seed Folder Was Found</sys:String> -->
+						<!-- 					<sys:String>Installed Seed Folder Not Was Found</sys:String> -->
+						<!-- 				</specialized:StringCollection> -->
+						<!-- 			</Binding.ConverterParameter> -->
+						<!-- 		</Binding> -->
+						<!-- 	</Label.Content> -->
+						<!-- </Label> -->
 
 						<Border
 								Grid.Column="0"
@@ -1489,31 +1559,14 @@
 									</Grid.ColumnDefinitions>
 
 									<Grid.RowDefinitions>
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
 
-										<RowDefinition Height="*" />
+										<RowDefinition />
 									</Grid.RowDefinitions>
-
-									<Label
-											Content="Installed Seed Folder Path"
-											Grid.Column="0"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											Content="{Binding ElementName=mainWin,
-																				FallbackValue='Undetermined',
-																				Path=SeedInstalled.InstallSeedFileFolder}"
-											Grid.Column="1"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Found}"
-											/>
 
 									<Label
 											Content="Installed Seed Files have not been found"
 											Grid.Column="0"
-											Grid.Row="1"
+											Grid.Row="0"
 											Grid.ColumnSpan="2"
 											Margin="5,5,5,8"
 											Padding="0"
@@ -1526,7 +1579,7 @@
 													>
 												<Setter Property="Visibility" Value="Collapsed" />
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
+													<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
 														<Setter Property="Visibility" Value="Visible" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1536,7 +1589,7 @@
 
 									<StackPanel
 											Grid.Column="0"
-											Grid.Row="1"
+											Grid.Row="0"
 											Grid.ColumnSpan="2"
 											Margin="5,5,5,8"
 											Orientation="Horizontal"
@@ -1547,7 +1600,7 @@
 													TargetType="StackPanel"
 													>
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
+													<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
 														<Setter Property="Visibility" Value="Collapsed" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1574,7 +1627,7 @@
 													HorizontalContentAlignment="Stretch"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
-													DataContext="{Binding ElementName=mainWin,
+													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Mode=TwoWay,
 																								FallbackValue={x:Null},
 																								Path=SeedInstalled.View}"
@@ -1714,7 +1767,7 @@
 						Grid.Row="3"
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
-						IsEnabled="{Binding ElementName=mainWin,
+						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																FallbackValue=false,
 																Path=Site.SiteSettingsFileExists}"
 						>
@@ -1768,7 +1821,7 @@
 
 
 						<Label
-								Content="Site Seed File List"
+								Content="Site Seed Files Folder Path"
 								Grid.Column="0"
 								Grid.Row="1"
 								Margin="0,0,0,3"
@@ -1777,14 +1830,46 @@
 								/>
 
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=SeedSite.SiteSeedFolderPath,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
+								>
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
+										>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedSite.SiteSeedFolderPath}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
+						</Label>
+						<Label
+								Content="Site Seed File List"
+								Grid.Column="0"
+								Grid.Row="2"
+								Margin="0,0,0,3"
+								VerticalAlignment="Bottom"
+								Style="{StaticResource Label.Setting.Base}"
+								/>
+
+						<Label
+								Grid.Column="2"
+								Grid.Row="2"
 								Style="{StaticResource Label.Setting.Found}"
 								>
 							<Label.Content>
 								<Binding
 										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
+										ElementName="MainWinAndyCfg"
 										FallbackValue="False"
 										Mode="OneWay"
 										Path="SeedSite.HasSeedFileSetting"
@@ -1799,37 +1884,26 @@
 							</Label.Content>
 						</Label>
 
-						<Label
-								Content="Site Seed Files Folder Found"
-								Grid.Column="0"
-								Grid.Row="2"
-								Margin="0,0,0,3"
-								VerticalAlignment="Bottom"
-								Style="{StaticResource Label.Setting.Base}"
-								/>
 
-						<Label
-								Grid.Column="2"
-								Grid.Row="2"
-								Style="{StaticResource Label.Setting.Found}"
-								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="SeedSite.SiteSeedFolderPathExists"
-										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>Seed Folder was found</sys:String>
-											<sys:String>Seed Folder was not found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
-						</Label>
+						<!--    -->
+						<!--  <Label Grid.Column="2"  -->
+						<!--  Grid.Row="2"  -->
+						<!--  Style="{StaticResource Label.Setting.Found}">  -->
+						<!-- 	<Label.Content> -->
+						<!--  <Binding Converter="{StaticResource BoolToMessage}"  -->
+						<!--  ElementName="MainWinAndyCfg"  -->
+						<!--  FallbackValue="False"  -->
+						<!--  Mode="OneWay"  -->
+						<!--  Path="SeedSite.SiteSeedFolderPathExists">  -->
+						<!-- 			<Binding.ConverterParameter> -->
+						<!-- 				<specialized:StringCollection> -->
+						<!-- 					<sys:String>Seed Folder was found</sys:String> -->
+						<!-- 					<sys:String>Seed Folder was not found</sys:String> -->
+						<!-- 				</specialized:StringCollection> -->
+						<!-- 			</Binding.ConverterParameter> -->
+						<!-- 		</Binding> -->
+						<!-- 	</Label.Content> -->
+						<!-- </Label> -->
 
 
 
@@ -1918,60 +1992,18 @@
 										</Style>
 									</Grid.Style>
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" />
+										<ColumnDefinition Width="{StaticResource Grid.Settings.Col.Title}" MaxWidth="{Binding Source={StaticResource Grid.Settings.Col.Title}, Path=Value, Mode=OneTime}" />
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 
 									<Grid.RowDefinitions>
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-										<RowDefinition Height="*" />
+										<RowDefinition />
 										<!-- <RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" /> -->
 
 									</Grid.RowDefinitions>
-
-									<Label
-											Content="Site Seed Files Folder Path"
-											Grid.Column="0"
-											Grid.Row="0"
-											Grid.ColumnSpan="2"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											x:Name="Hint4"
-											Grid.Column="1"
-											Grid.Row="0"
-											Foreground="{StaticResource Label.Foreground.Disabled}"
-											>
-										<Label.Style>
-											<Style
-													x:Name="lblStyle5"
-													TargetType="Label"
-													BasedOn="{StaticResource Label.Setting.Base}"
-													>
-												<Setter Property="Content" Value="False" />
-												<Setter Property="Visibility" Value="Collapsed" />
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=mainWin, Path=SeedSite.SiteSeedFolderPath}" Value="{x:Null}">
-														<Setter Property="Visibility" Value="Visible" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</Label.Style>
-									</Label>
-
-									<Label
-											Content="{Binding ElementName=mainWin,
-																				Path=SeedSite.SiteSeedFolderPath,
-																				Mode=OneWay,
-																				FallbackValue=''}"
-											Grid.Column="1"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
 									<StackPanel
 											Grid.Column="0"
-											Grid.Row="1"
+											Grid.Row="0"
 											Grid.ColumnSpan="2"
 											Margin="5,5,5,8"
 											Orientation="Horizontal"
@@ -1995,7 +2027,7 @@
 													HorizontalContentAlignment="Stretch"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
-													DataContext="{Binding ElementName=mainWin,
+													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Path=SeedSite.View}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
@@ -2193,7 +2225,7 @@
 						Grid.Row="4"
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
-						IsEnabled="{Binding ElementName=mainWin,
+						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																FallbackValue=false,
 																Path=Site.SiteSettingsFileExists}"
 						>
@@ -2246,7 +2278,7 @@
 
 
 						<Label
-								Content="Local Seed Files Folder Found"
+								Content="Local Seed Folder Path"
 								Grid.Column="0"
 								Grid.Row="1"
 								Margin="0,0,0,3"
@@ -2255,27 +2287,47 @@
 								/>
 
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=SeedLocal.LocalSeedFolderPath,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
-								Style="{StaticResource Label.Setting.Found}"
 								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="SeedLocal.LocalSeedFolderPathExists"
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
 										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>Local Seed Folder Was Found</sys:String>
-											<sys:String>Local Seed Folder Not Was Found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedLocal.LocalSeedFolderPath}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
 						</Label>
+
+						<!--  <Label Grid.Column="2"  -->
+						<!--  Grid.Row="1"  -->
+						<!--  Style="{StaticResource Label.Setting.Found}">  -->
+						<!-- 	<Label.Content> -->
+						<!--  <Binding Converter="{StaticResource BoolToMessage}"  -->
+						<!--  ElementName="MainWinAndyCfg"  -->
+						<!--  FallbackValue="False"  -->
+						<!--  Mode="OneWay"  -->
+						<!--  Path="SeedLocal.LocalSeedFolderPathExists">  -->
+						<!-- 			<Binding.ConverterParameter> -->
+						<!-- 				<specialized:StringCollection> -->
+						<!-- 					<sys:String>Local Seed Folder Was Found</sys:String> -->
+						<!-- 					<sys:String>Local Seed Folder Not Was Found</sys:String> -->
+						<!-- 				</specialized:StringCollection> -->
+						<!-- 			</Binding.ConverterParameter> -->
+						<!-- 		</Binding> -->
+						<!-- 	</Label.Content> -->
+						<!-- </Label> -->
 
 						<Border
 								Grid.Column="0"
@@ -2299,7 +2351,7 @@
 											x:Name="LocalSeedFilesDetailsToggleButton"
 											Width="15"
 											Height="15"
-											IsChecked="False"
+											IsChecked="false"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ToggleButton.Details}"
 											>
@@ -2338,30 +2390,12 @@
 									</Grid.ColumnDefinitions>
 
 									<Grid.RowDefinitions>
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-										<RowDefinition Height="*" />
+										<RowDefinition />
 									</Grid.RowDefinitions>
-
-
-									<Label
-											Content="Local Seed Folder Path"
-											Grid.Column="0"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											Content="{Binding ElementName=mainWin,
-																				FallbackValue='Undetermined',
-																				Path=SeedLocal.LocalSeedFolderPath}"
-											Grid.Column="1"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Found}"
-											/>
 
 									<StackPanel
 											Grid.Column="0"
-											Grid.Row="1"
+											Grid.Row="0"
 											Grid.ColumnSpan="2"
 											Margin="5,5,5,8"
 											Orientation="Horizontal"
@@ -2391,13 +2425,15 @@
 													Background="Transparent"
 													BorderThickness="0"
 													HorizontalGridLinesBrush="Black"
-													ItemsSource="{Binding ElementName=mainWin,
+													ItemsSource="{Binding ElementName=MainWinAndyCfg,
 																								Path=SeedLocal.View}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
 													RowStyle="{StaticResource Dg1RowStyle}"
 													>
 
+
 												<DataGrid.Columns>
+
 
 													<DataGridTextColumn
 															Width="70"
@@ -2412,7 +2448,7 @@
 																	>
 																<Binding.ConverterParameter>
 																	<specialized:StringCollection>
-																		<sys:String>Suite</sys:String>
+																		<sys:String>Local</sys:String>
 																		<sys:String>Site</sys:String>
 																	</specialized:StringCollection>
 																</Binding.ConverterParameter>
@@ -2480,7 +2516,7 @@
 						Grid.Row="5"
 						Margin="15,0,0,10"
 						HorizontalAlignment="Stretch"
-						IsEnabled="{Binding ElementName=mainWin,
+						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																FallbackValue=false,
 																Path=ClassificationUser.UserClassificationFolderPathExists}"
 						>
@@ -2531,9 +2567,8 @@
 								Style="{StaticResource Label.Setting.Base}"
 								/>
 
-
 						<Label
-								Content="User Classif. Files Folder Found"
+								Content="User Classification Files Folder"
 								Grid.Column="0"
 								Grid.Row="1"
 								Margin="0,0,0,3"
@@ -2542,26 +2577,27 @@
 								/>
 
 						<Label
+								Content="{Binding ElementName=MainWinAndyCfg,
+																	Path=ClassificationUser.UserClassificationFolderPath,
+																	Mode=OneWay,
+																	FallbackValue='Not Found',
+																	Converter={StaticResource NullStrToMessage},
+																	ConverterParameter='Not Found'}"
 								Grid.Column="2"
 								Grid.Row="1"
-								Style="{StaticResource Label.Setting.Found}"
 								>
-							<Label.Content>
-								<Binding
-										Converter="{StaticResource BoolToMessage}"
-										ElementName="mainWin"
-										FallbackValue="False"
-										Mode="OneWay"
-										Path="ClassificationUser.UserClassificationFolderPathExists"
+							<Label.Style>
+								<Style
+										TargetType="Label"
+										BasedOn="{StaticResource Label.Setting.Base}"
 										>
-									<Binding.ConverterParameter>
-										<specialized:StringCollection>
-											<sys:String>User Classification Folder Was Found</sys:String>
-											<sys:String>User Classification Folder Not Was Found</sys:String>
-										</specialized:StringCollection>
-									</Binding.ConverterParameter>
-								</Binding>
-							</Label.Content>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationUser.UserClassificationFolderPath}" Value="{x:Null}">
+											<Setter Property="IsEnabled" Value="False" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Label.Style>
 						</Label>
 
 						<Border
@@ -2626,32 +2662,48 @@
 									</Grid.ColumnDefinitions>
 
 									<Grid.RowDefinitions>
-										<RowDefinition Height="{StaticResource Grid.Settings.Row.Typ}" />
-										<RowDefinition Height="*" />
+										<RowDefinition Height="Auto"/>
+										<!-- <RowDefinition Height="*" /> -->
 									</Grid.RowDefinitions>
+									<!-- -->
+									<!-- <Label -->
+									<!-- 		Content="Selected User Name" -->
+									<!-- 		Grid.Column="0" -->
+									<!-- 		Grid.Row="1" -->
+									<!-- 		Margin="5,5,5,8" -->
+									<!-- 		Padding="0" -->
+									<!-- 		Style="{StaticResource Label.Setting.Base}" /> -->
+									<!-- -->
+									<!-- <Label -->
+									<!-- 		Content="{Binding ElementName=MainWinAndyCfg, -->
+									<!-- 								Path=UserNameSelected, -->
+									<!-- 								Mode=OneWay, -->
+									<!-- 								FallbackValue='None Selected', -->
+									<!-- 								Converter={StaticResource NullStrToMessage}, -->
+									<!-- 								ConverterParameter='None Selected'}" -->
+									<!-- 		Grid.Column="1" -->
+									<!-- 		Grid.Row="1"> -->
+									<!-- 	<Label.Style> -->
+									<!-- 		<Style -->
+									<!-- 				TargetType="Label" -->
+									<!-- 				BasedOn="{StaticResource Label.Setting.Base}"> -->
+									<!-- 			<Style.Triggers> -->
+									<!-- 				<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg,  -->
+									<!-- 				Path=UserNameSelected}" Value="{x:Null}"> -->
+									<!-- 					<Setter Property="IsEnabled" Value="False" /> -->
+									<!-- 				</DataTrigger> -->
+									<!-- 			</Style.Triggers> -->
+									<!-- 		</Style> -->
+									<!-- 	</Label.Style> -->
+									<!-- </Label> -->
 
 
-									<Label
-											Content="User Classification Files Folder"
-											Grid.Column="0"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Base}"
-											/>
-
-									<Label
-											Content="{Binding FallbackValue='Undetermined',
-																				ElementName=mainWin,
-																				Path=ClassificationUser.UserClassificationFolderPath}"
-											Grid.Column="1"
-											Grid.Row="0"
-											Style="{StaticResource Label.Setting.Found}"
-											/>
 
 									<StackPanel
 											Grid.Column="0"
-											Grid.Row="1"
+											Grid.Row="0"
 											Grid.ColumnSpan="2"
-											Margin="5,5,5,8"
+											Margin="5,5,5,5"
 											Orientation="Horizontal"
 											>
 										<Border
@@ -2673,7 +2725,7 @@
 													HorizontalContentAlignment="Stretch"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
-													DataContext="{Binding ElementName=mainWin,
+													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Path=ClassificationUser}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
@@ -2683,6 +2735,7 @@
 													BorderThickness="0"
 													HorizontalGridLinesBrush="Black"
 													ItemsSource="{Binding Path=View}"
+													
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
 													RowStyle="{StaticResource Dg1RowStyle}"
 													>
@@ -2695,15 +2748,18 @@
 																	<Setter.Value>
 																		<ControlTemplate TargetType="GroupItem">
 																			<Expander
+																					
 																					x:Name="expdr06"
 																					HorizontalAlignment="Stretch"
 																					HorizontalContentAlignment="Stretch"
 																					Expanded="expdr06_Expanded"
+																					Tag="{Binding Path=Name}"
 																					Background="Transparent"
 																					Template="{StaticResource Dg6ExpanderTemplate1}"
-																					Tag="{Binding Path=Name}"
-																					>
-																				<Expander.Header>
+																								Collapsed="expdr06_Collapsed">
+																				<Expander.Header
+																						
+																						>
 																					<DockPanel HorizontalAlignment="Stretch">
 																						<TextBlock
 																								x:Name="tbkUsrName"
@@ -2734,7 +2790,7 @@
 												</DataGrid.GroupStyle>
 
 
-												<DataGrid.Columns>
+												<DataGrid.Columns >
 													<DataGridTextColumn
 															Width="140"
 															MinWidth="140"

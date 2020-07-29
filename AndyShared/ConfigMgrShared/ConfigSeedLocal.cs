@@ -114,7 +114,7 @@ namespace AndyShared.ConfigMgrShared
 			Initialized = true;
 
 			localSeedFolderPath = new FilePath<FileNameSimple>(
-				SuiteSettings.Path.SettingFolderPath + ConfigSeedFileSupport.SEED_FOLDER_SUITE);
+				SuiteSettings.Path.SettingFolderPath + ConfigSeedFileSupport.SEED_FOLDER_LOCAL);
 
 			UpdateCollection();
 

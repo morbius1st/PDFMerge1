@@ -1,15 +1,9 @@
 ﻿#region using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
-using AndyShared.Windows;
+using AndyConfig.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
@@ -127,7 +121,7 @@ namespace AndyShared.ConfigMgr
 			string siteSettingFolder;
 
 			using (CommonOpenFileDialog cfd = new CommonOpenFileDialog("Select Site Setting Folder - "
-				+ MainWindow.TITLE))
+				+ MainWindowAndyCfg.TITLE))
 			{
 				cfd.IsFolderPicker = true;
 				cfd.Multiselect = false;

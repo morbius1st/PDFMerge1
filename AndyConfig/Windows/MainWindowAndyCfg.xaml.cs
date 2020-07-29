@@ -1,14 +1,14 @@
 ﻿#region using
 
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Data;
-using System.Collections.Specialized;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using AndyConfig.ConfigMgr;
 using AndyShared.ConfigMgr;
@@ -19,7 +19,7 @@ using SettingsManager;
 #endregion
 
 // projname: AndyConfig
-// itemname: MainWindow
+// itemname: MainWindowAndyCfg
 // username: jeffs
 // created:  6/14/2020 5:30:07 PM
 
@@ -94,10 +94,9 @@ using SettingsManager;
  *
 */
 
-
-namespace AndyShared.Windows
+namespace AndyConfig.Windows
 {
-	public partial class MainWindow : Window, INotifyPropertyChanged
+	public partial class MainWindowAndyCfg : Window, INotifyPropertyChanged
 	{
 		public static string TITLE = "Andy Configurator";
 
@@ -115,7 +114,7 @@ namespace AndyShared.Windows
 
 	#region ctor
 
-		public MainWindow()
+		public MainWindowAndyCfg()
 		{
 			InitializeComponent();
 
@@ -242,9 +241,15 @@ namespace AndyShared.Windows
 
 			// if want to get the child textblock with the user name:
 			// TextBlock tbk = (TextBlock) ((Expander) sender).FindName("tbkUsrName");
+
+
+			string path = UserSettings.Path.SettingFolderPath;
 		}
 
-
+		private void expdr06_Collapsed(object sender, RoutedEventArgs e)
+		{
+			UserNameSelected = null;
+		}
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
@@ -289,6 +294,22 @@ namespace AndyShared.Windows
 			((StringCollection) parameter).CopyTo(p, 0);
 
 			return (bool) value ? p[0] : p[1];
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+	[ValueConversion(typeof(string), typeof(string))]
+	public class NullStringToMessage : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (parameter == null) parameter = "is null";
+
+			return (string) value ?? (string) parameter;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

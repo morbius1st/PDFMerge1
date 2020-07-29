@@ -6,10 +6,16 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
-
 using AndyShared.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
+
+
+// all user classification files
+// all stored on the local machine in
+// a common folder which is a sub-folder
+// of the machine setting file
+
 
 namespace AndyShared.ConfigMgrShared
 {
@@ -29,21 +35,22 @@ namespace AndyShared.ConfigMgrShared
 
 	#region ctor
 
-		private ConfigClassificationUser() {}
+		private ConfigClassificationUser() { }
 
 	#endregion
 
 	#region public properties
 
 		public static ConfigClassificationUser Instance => instance.Value;
-		
+
 
 		public bool Initialized { get; set; }
 
 		/// <summary>
 		/// folder path to the local classification file
 		/// </summary>
-		public string UserClassificationFolderPath => ConfigFileSupport.UserClassificationFolderPath;
+		// public string UserClassificationFolderPath => ConfigFileSupport.UserClassificationFolderPath;
+		public string UserClassificationFolderPath => UserClassfFolderPath;
 
 		public bool UserClassificationFolderPathExists => Directory.Exists(UserClassificationFolderPath);
 
@@ -72,6 +79,9 @@ namespace AndyShared.ConfigMgrShared
 	#endregion
 
 	#region private properties
+
+		private string UserClassfFolderPath => MachSettings.Path.SettingFolderPath +
+			ConfigFileSupport.USER_STORAGE_FOLDER;
 
 	#endregion
 
@@ -105,7 +115,7 @@ namespace AndyShared.ConfigMgrShared
 		{
 			foreach (CollectionViewGroup viewGroup in View.Groups)
 			{
-				if (((ConfigFileClassificationUser)viewGroup.Items[0]).UserName.Equals(userName))
+				if (((ConfigFileClassificationUser) viewGroup.Items[0]).UserName.Equals(userName))
 				{
 					foreach (ConfigFileClassificationUser userCfg in viewGroup.Items)
 					{
@@ -116,13 +126,9 @@ namespace AndyShared.ConfigMgrShared
 					}
 				}
 			}
+
 			return null;
 		}
-
-		// public string sampleFile(string userName, string fileId)
-		// {
-		// 	ConfigFileSupport.
-		// }
 
 	#endregion
 
@@ -133,7 +139,7 @@ namespace AndyShared.ConfigMgrShared
 			foreach (string file in Directory.EnumerateFiles(UserClassificationFolderPath,
 				ConfigFileSupport.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
 			{
-				ConfigFileClassificationUser userFile = 
+				ConfigFileClassificationUser userFile =
 					new ConfigFileClassificationUser(file);
 
 				if (!userFile.IsValid) continue;
@@ -143,7 +149,7 @@ namespace AndyShared.ConfigMgrShared
 
 			return userClassificationFiles.Count > 0;
 		}
-		
+
 		private void UpdateProperties()
 		{
 			OnPropertyChange("UserClassificationFolderPath");
@@ -152,7 +158,6 @@ namespace AndyShared.ConfigMgrShared
 
 		private void UpdateViewProperties()
 		{
-
 			OnPropertyChange("UserClassificationFiles");
 			OnPropertyChange("View");
 		}

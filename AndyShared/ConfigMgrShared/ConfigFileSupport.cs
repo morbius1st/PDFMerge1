@@ -16,8 +16,11 @@ namespace AndyShared.ConfigMgrShared
 		public const string USER_STORAGE_PATTERN = @"*.xml";
 		public const string USER_STORAGE_FOLDER = FilePathUtil.PATH_SEPARATOR + USER_STORAGE_FOLDER_NAME;
 
-		public static string UserClassificationFolderPath => 
-			SuiteSettings.Path.SettingFolderPath + USER_STORAGE_FOLDER;
+		// public static string UserClassificationFolderPath => 
+		// 	SuiteSettings.Path.SettingFolderPath + USER_STORAGE_FOLDER;
+		//
+		// public static string UserClassificationFolderPath => 
+		// 	MachSettings.Path.SettingFolderPath + USER_STORAGE_FOLDER;
 
 
 	#region public methods
@@ -69,7 +72,7 @@ namespace AndyShared.ConfigMgrShared
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";
 		public const string SEED_FOLDER_SITE = @"\Site " + SEED_FOLDER_NAME;
-		public const string SEED_FOLDER_SUITE = @"\Suite " + SEED_FOLDER_NAME;
+		public const string SEED_FOLDER_LOCAL = @"\Local " + SEED_FOLDER_NAME;
 		public const string SEED_FOLDER_INSTALLED = @"\Installed " + SEED_FOLDER_NAME;
 
 		public static bool GetFiles(ObservableCollection<ConfigSeedFile> collection,

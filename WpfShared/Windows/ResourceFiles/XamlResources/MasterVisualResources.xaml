@@ -21,13 +21,18 @@
 	<Color x:Key="BorderMediumColor">#FF888888</Color>
 
 	<DynamicResource x:Key="Control.View.Background" ResourceKey="Gray.250"/>
+
+	<DynamicResource x:Key="Title.Subdued" ResourceKey="Gray.650"/>
+
+
 	
 	<!--#endregion-->
 
 
+	<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
 
 	<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
-	<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
+
 	<SolidColorBrush x:Key="Grid.Line" Color="LightSkyBlue" />
 
 	<SolidColorBrush x:Key="Window.Background" Color="{StaticResource Window.Background.C}" />
@@ -100,6 +105,8 @@
 	<SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121" />
 	<SolidColorBrush x:Key="OptionMark.Static.Glyph2" Color="#FF212121" />
 	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF" />
+
+	<SolidColorBrush x:Key="Label.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}"></SolidColorBrush>
 
 	<SolidColorBrush x:Key="Label.Status.Title.Background" Color="{StaticResource Dark.Blue.400}"></SolidColorBrush>
 	<SolidColorBrush x:Key="Label.Status.Value.Background" Color="{StaticResource Lime.200}"></SolidColorBrush>

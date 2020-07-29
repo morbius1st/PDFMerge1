@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigClassificationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileClassificationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
@@ -22,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings70.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
   </ItemGroup>

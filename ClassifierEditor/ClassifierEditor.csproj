@@ -96,7 +96,7 @@
     <Compile Include="Windows\ResourceFiles\XamlResources\Behaviors.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="Windows\MainWindowClassifierEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -114,9 +114,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Settings\AppSettings70.cs" />
-    <Compile Include="Settings\UserSettings70.cs" />
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Windows\MainWindowClassifierEditor.xaml.cs">
+      <DependentUpon>MainWindowClassifierEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ResourceFiles\XamlResources\MainWinResources.xaml">
