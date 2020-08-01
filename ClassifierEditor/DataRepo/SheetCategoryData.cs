@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using ClassifierEditor.Tree;
+using SettingsManager;
 
 #endregion
 
@@ -17,8 +18,56 @@ using ClassifierEditor.Tree;
 
 namespace ClassifierEditor.DataRepo
 {
-	// this is the actual data set saved to the data file
+	// // this is the actual & un-configured datastore 
+	// public class ClassfDataFile :
+	// 	BaseSettings<StorageMgrPath,
+	// 	StorageMgrInfo<SheetCategoryData>, SheetCategoryData>, INotifyPropertyChanged
+	// {
+	//
+	// #region public properties
+	//
+	// 	public bool Initialized => Path.HasPathAndFile;
+	//
+	// #endregion
+	//
+	// #region public methods
+	//
+	// 	public void Configure(string rootPath, string filename)
+	// 	{
+	// 		Path.SubFolders = null;
+	// 		Path.RootFolderPath = rootPath;
+	// 		Path.FileName = filename;
+	//
+	// 		Path.ConfigurePathAndFile();
+	//
+	// 		OnPropertyChange("Initialized");
+	// 	}
+	//
+	// #endregion
+	//
+	// #region event processing
+	//
+	// 	public event PropertyChangedEventHandler PropertyChanged;
+	//
+	// 	private void OnPropertyChange([CallerMemberName] string memberName = "")
+	// 	{
+	// 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+	// 	}
+	//
+	// #endregion
+	//
+	// #region system overrides
+	//
+	// 	public override string ToString()
+	// 	{
+	// 		return "this is ClassfDataFile";
+	// 	}
+	//
+	// #endregion
+	// }
 
+
+	// this is the actual data set saved to the data file
 	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
 	public class SheetCategoryData : INotifyPropertyChanged
 	{

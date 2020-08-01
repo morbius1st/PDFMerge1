@@ -19,12 +19,12 @@ using UtilityLibrary;
 
 namespace AndyShared.ConfigMgrShared
 {
-	public class ConfigClassificationUser : INotifyPropertyChanged
+	public class ConfigClassificationFiles : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private static readonly Lazy<ConfigClassificationUser> instance =
-			new Lazy<ConfigClassificationUser>(() => new ConfigClassificationUser());
+		private static readonly Lazy<ConfigClassificationFiles> instance =
+			new Lazy<ConfigClassificationFiles>(() => new ConfigClassificationFiles());
 
 		private  ObservableCollection<ConfigFileClassificationUser> userClassificationFiles =
 			new ObservableCollection<ConfigFileClassificationUser>();
@@ -35,13 +35,13 @@ namespace AndyShared.ConfigMgrShared
 
 	#region ctor
 
-		private ConfigClassificationUser() { }
+		private ConfigClassificationFiles() { }
 
 	#endregion
 
 	#region public properties
 
-		public static ConfigClassificationUser Instance => instance.Value;
+		public static ConfigClassificationFiles Instance => instance.Value;
 
 
 		public bool Initialized { get; set; }

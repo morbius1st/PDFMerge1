@@ -1,15 +1,7 @@
 ﻿#region using
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Windows;
 using ClassifierEditor.Tree;
 
 #endregion
@@ -19,6 +11,7 @@ using ClassifierEditor.Tree;
 
 namespace ClassifierEditor.DataRepo
 {
+
 //	[DataContract(Name = "Categories", Namespace = "")]
 	public class SheetCategoryDataManager : INotifyPropertyChanged
 	{
@@ -34,6 +27,8 @@ namespace ClassifierEditor.DataRepo
 		public SheetCategoryDataManager()
 		{
 			storageMgr = new StorageManager<SheetCategoryData>();
+
+			
 
 		}
 
@@ -54,12 +49,12 @@ namespace ClassifierEditor.DataRepo
 		}
 
 //		[DataMember(Order = 1)]
-		public string Description => storageMgr.Data.Description;
+		public string Description => StorageManager<SheetCategoryData>.Data.Description;
 
 //		[DataMember(Order = 2)]
-		public BaseOfTree TreeBase => storageMgr.Data.BaseOfTree;
+		public BaseOfTree TreeBase => StorageManager<SheetCategoryData>.Data.BaseOfTree;
 
-		public bool UsePhaseBldg => storageMgr.Data.UsePhaseBldg;
+		public bool UsePhaseBldg => StorageManager<SheetCategoryData>.Data.UsePhaseBldg;
 
 	#endregion
 
@@ -86,7 +81,7 @@ namespace ClassifierEditor.DataRepo
 
 			if (TreeBase == null)
 			{
-				storageMgr.Data.BaseOfTree = new BaseOfTree();
+				StorageManager<SheetCategoryData>.Data.BaseOfTree = new BaseOfTree();
 
 				IsModified = false;
 			}

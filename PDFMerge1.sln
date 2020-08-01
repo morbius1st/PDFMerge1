@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D6D8A33-2943-4C44-B585-D0CD8234C61E}"
 	ProjectSection(SolutionItems) = preProject
 		Categorization System.txt = Categorization System.txt
+		ClassificationFilleDataStorageSystem.txt = ClassificationFilleDataStorageSystem.txt
 		Project Descriptions.txt = Project Descriptions.txt
 	EndProjectSection
 EndProject

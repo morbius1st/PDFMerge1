@@ -2518,7 +2518,7 @@
 						HorizontalAlignment="Stretch"
 						IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																FallbackValue=false,
-																Path=ClassificationUser.UserClassificationFolderPathExists}"
+																Path=ClassificationFiles.UserClassificationFolderPathExists}"
 						>
 					<Border
 							Margin="0,0,0,20"
@@ -2578,7 +2578,7 @@
 
 						<Label
 								Content="{Binding ElementName=MainWinAndyCfg,
-																	Path=ClassificationUser.UserClassificationFolderPath,
+																	Path=ClassificationFiles.UserClassificationFolderPath,
 																	Mode=OneWay,
 																	FallbackValue='Not Found',
 																	Converter={StaticResource NullStrToMessage},
@@ -2592,7 +2592,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationUser.UserClassificationFolderPath}" Value="{x:Null}">
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationFiles.UserClassificationFolderPath}" Value="{x:Null}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2726,7 +2726,7 @@
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
 													DataContext="{Binding ElementName=MainWinAndyCfg,
-																								Path=ClassificationUser}"
+																								Path=ClassificationFiles}"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													RowDetailsVisibilityMode="Visible"

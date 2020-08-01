@@ -72,7 +72,7 @@ namespace AndyShared.ConfigMgr
 		/// </summary>
 		public ConfigSeedLocal SeedLocal { get; private set; } = ConfigSeedLocal.Instance;
 
-		public ConfigClassificationUser ClassificationUser { get; private set; } = ConfigClassificationUser.Instance;
+		public ConfigClassificationFiles ClassificationFiles { get; private set; } = ConfigClassificationFiles.Instance;
 
 	#endregion
 
@@ -89,9 +89,8 @@ namespace AndyShared.ConfigMgr
 
 			Initalized = true;
 
-			// User = ConfigClassificationUser.Instance;
 			// this class is independent / stand alone
-			ClassificationUser.Initialize();
+			ClassificationFiles.Initialize();
 
 			// the below are interrelated to each other
 

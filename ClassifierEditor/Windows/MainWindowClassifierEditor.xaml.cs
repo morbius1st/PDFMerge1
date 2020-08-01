@@ -15,6 +15,7 @@ using ClassifierEditor.ConfigSupport;
 using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
+using SettingsManager;
 using UtilityLibrary;
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
@@ -299,9 +300,9 @@ namespace ClassifierEditor.Windows
 			// false to read existing data
 			if (false)
 			{
-#pragma warning disable CS0162 // Unreachable code detected
+
 				SampleData.SampleData sd = new SampleData.SampleData();
-#pragma warning restore CS0162 // Unreachable code detected
+
 				sd.Sample(categories.TreeBase);
 				categories.Write();
 

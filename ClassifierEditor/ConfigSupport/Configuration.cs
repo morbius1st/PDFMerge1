@@ -9,6 +9,8 @@ using ClassifierEditor.DataRepo;
 using UtilityLibrary;
 using SettingsManager;
 
+using ClassifierEditor.DataRepo;
+
 #endregion
 
 // username: jeffs
@@ -23,7 +25,7 @@ namespace ClassifierEditor.ConfigSupport
 	{
 	#region private fields
 
-		private ConfigClassificationUser classificationUser = ConfigClassificationUser.Instance;
+		private ConfigClassificationFiles classificationFiles = ConfigClassificationFiles.Instance;
 
 		private ConfigFileClassificationUser classificationFile;
 
@@ -33,6 +35,7 @@ namespace ClassifierEditor.ConfigSupport
 
 		public Configuration()
 		{
+
 			UserSettings.Admin.Read();
 			UserSettings.Admin.Write();
 
@@ -43,7 +46,7 @@ namespace ClassifierEditor.ConfigSupport
 			string rp = MachSettings.Path.RootFolderPath;
 			string sp = MachSettings.Path.SettingFolderPath;
 
-			classificationUser.Initialize();
+			classificationFiles.Initialize();
 
 			getLastClassificationFile(UserSettings.Data.LastClassificationFileId);
 
@@ -114,7 +117,7 @@ namespace ClassifierEditor.ConfigSupport
 
 		private void getLastClassificationFile(string fieldId)
 		{
-			classificationFile = classificationUser.Find(Environment.UserName, fieldId);
+			classificationFile = classificationFiles.Find(Environment.UserName, fieldId);
 		}
 
 	#endregion

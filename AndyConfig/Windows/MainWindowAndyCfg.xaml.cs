@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using AndyConfig.ConfigMgr;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgr;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
@@ -118,6 +119,13 @@ namespace AndyConfig.Windows
 		{
 			InitializeComponent();
 
+
+			ClassfFile<ClassificationFileData>
+				ClsFile1 = new ClassfFile<ClassificationFileData>();
+
+			ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1.xml");
+
+
 		}
 
 	#endregion
@@ -129,7 +137,7 @@ namespace AndyConfig.Windows
 		public ConfigSeedInstalled SeedInstalled => cfgMgr?.SeedInstalled ?? null;
 		public ConfigSeedSite SeedSite => cfgMgr?.SeedSite ?? null;
 		public ConfigSeedLocal SeedLocal => cfgMgr?.SeedLocal ?? null;
-		public ConfigClassificationUser ClassificationUser => cfgMgr?.ClassificationUser ?? null;
+		public ConfigClassificationFiles ClassificationFiles => cfgMgr?.ClassificationFiles ?? null;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
 

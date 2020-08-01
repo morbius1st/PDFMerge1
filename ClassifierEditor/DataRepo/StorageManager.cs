@@ -11,6 +11,8 @@ using SettingsManager;
 
 namespace ClassifierEditor.DataRepo
 {
+
+
 	[DataContract(Name = "DataStore", Namespace = "", IsReference = true)]
 	public class StorageManager<T> : INotifyPropertyChanged
 		where T : class, new ()
@@ -27,10 +29,11 @@ namespace ClassifierEditor.DataRepo
 	#region public properties
 
 		[DataMember(Order = 1)]
-		public T Data => DataStore.Data;
+		public static T Data => DataStore.Data;
 		public bool Initialized => DataStore.Admin.Path.HasPathAndFile;
-		public  SettingsMgr<StorageMgrPath, StorageMgrInfo<T>, T> Admin => DataStore.Admin;
-		public StorageMgrInfo<T> Info => DataStore.Info;
+		public static SettingsMgr<StorageMgrPath, StorageMgrInfo<T>, T> Admin => DataStore.Admin;
+		public static StorageMgrInfo<T> Info => DataStore.Info;
+		public static StorageMgrPath Path => Admin.Path;
 
 	#endregion
 

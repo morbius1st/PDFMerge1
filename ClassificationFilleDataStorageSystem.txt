@@ -1,0 +1,27 @@
+
+currently in ClassifierEditor
+in folder DataRepo
+
+// The actual data elements / properties saved to
+// a classification file
+SheetCategoryData.cs
+
+// a generic class that can hold any type of 
+// data class
+StorageManager.cs
+// provides the basic routines to setup and  
+// access a saved data file of type 'T'
+
+
+// a concrete class of 'StorageManager' of
+// type "SheetCategoryData""
+SheetCategoryDataManager.cs
+
+
+
+
+SheetCategoryData => rename to => ClassificationData
+
+SheetCategoryDataManager => eliminate?? 
+
+StorageManager => eliminate??

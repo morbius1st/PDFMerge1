@@ -9,7 +9,11 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigClassificationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigClassificationFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileClassificationUser.cs" />
@@ -29,5 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory).Linked\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\" />
   </ItemGroup>
 </Project>

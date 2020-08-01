@@ -15,7 +15,7 @@ namespace WpfShared.Windows
 	{
 	#region private fields
 
-		private ConfigClassificationUser cfgClsUser = null;
+		private ConfigClassificationFiles cfgClsFiles = null;
 
 		private ConfigFileClassificationUser selected;
 
@@ -36,7 +36,7 @@ namespace WpfShared.Windows
 
 	#region public properties
 
-		public ConfigClassificationUser User => cfgClsUser;
+		public ConfigClassificationFiles CfgClsFiles => cfgClsFiles;
 
 		public ICollectionView View => view;
 
@@ -73,16 +73,16 @@ namespace WpfShared.Windows
 
 		private void initialize()
 		{
-			cfgClsUser = ConfigClassificationUser.Instance;
+			cfgClsFiles = ConfigClassificationFiles.Instance;
 
-			cfgClsUser.Initialize();
+			cfgClsFiles.Initialize();
 
 			initializeView();
 		}
 
 		private void initializeView()
 		{
-			view = CollectionViewSource.GetDefaultView(cfgClsUser.UserClassificationFiles);
+			view = CollectionViewSource.GetDefaultView(cfgClsFiles.UserClassificationFiles);
 
 			view.Filter = new Predicate<object>(MatchUser);
 

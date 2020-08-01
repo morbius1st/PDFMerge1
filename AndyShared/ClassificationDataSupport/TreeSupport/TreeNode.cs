@@ -12,7 +12,7 @@ using System.Windows.Data;
 // username: jeffs
 // created:  5/2/2020 9:28:15 AM
 
-namespace ClassifierEditor.Tree
+namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
 	public enum CheckedState
 	{
@@ -887,6 +887,8 @@ namespace ClassifierEditor.Tree
 
 			NotifyChildrenChange();
 		}
+
+
 
 	#endregion
 
