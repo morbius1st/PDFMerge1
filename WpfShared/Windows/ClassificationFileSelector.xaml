@@ -6,7 +6,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		Name="clsFileMgr"
+		Name="winClsFileMgr"
 		Title="ClassificationFileSelector"
 		Width="500"
 		Height="500"
@@ -22,8 +22,6 @@
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="Foreground" Value="{StaticResource Label.Title.Foreground.Subdued}" />
 			</Style>
-
-		
 
 
 	</Window.Resources>
@@ -78,10 +76,10 @@
 					x:Name="Lb1"
 					Margin="5"
 					VerticalAlignment="Stretch"
-					DataContext="{Binding ElementName=clsFileMgr,
+					DataContext="{Binding ElementName=winClsFileMgr,
 																Path=View}"
 					DockPanel.Dock="Top"
-					SelectedItem="{Binding ElementName=clsFileMgr,
+					SelectedItem="{Binding ElementName=winClsFileMgr,
 																 Path=Selected,
 																 Mode=TwoWay,
 																 FallbackValue={x:Null}}"
@@ -145,14 +143,12 @@
 				<!--  Foreground="{StaticResource Label.Title.Foreground.Subdued}"  -->
 
 				<Label
-						Content="{Binding ElementName=clsFileMgr,
+						Content="{Binding ElementName=winClsFileMgr,
 															Path=Selected.UserName,
 															FallbackValue='User Id'}"
 						Grid.Column="1"
 						Grid.Row="0"
-						Padding="0"
-						VerticalAlignment="Center"
-						Foreground="White"
+						Style="{StaticResource Label.Base}" 
 						/>
 
 				<Label
@@ -163,14 +159,13 @@
 						/>
 
 				<Label
-						Content="{Binding ElementName=clsFileMgr,
+						Content="{Binding ElementName=winClsFileMgr,
 															Path=Selected.FileId,
 															FallbackValue='File Id'}"
 						Grid.Column="3"
 						Grid.Row="0"
-						Padding="0"
-						VerticalAlignment="Center"
 						Foreground="White"
+						Style="{StaticResource Label.Base}" 
 						/>
 
 
@@ -182,7 +177,7 @@
 						Style="{StaticResource Label.Base}" 
 						/>
 				<Label
-						Content="{Binding ElementName=clsFileMgr,
+						Content="{Binding ElementName=winClsFileMgr,
 															Path=Selected.DescriptionFromFile,
 															FallbackValue='Desc'}"
 						Grid.Column="1"

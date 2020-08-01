@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
+using SettingsManager;
 using UtilityLibrary;
 
 #endregion
@@ -17,6 +18,8 @@ using UtilityLibrary;
 // username: jeffs
 // created:  7/8/2020 1:09:18 PM
 
+
+// represents a single classification configuration file
 namespace AndyShared.ConfigSupport
 {
 	[DataContract(Namespace = "")]
@@ -27,6 +30,8 @@ namespace AndyShared.ConfigSupport
 		private FilePath<FileNameSimple> sampleFile;
 
 		private bool selectedFile;
+
+		private BaseDataFile<UserSettingData> dataStore = new BaseDataFile<UserSettingData>();
 
 	#endregion
 
@@ -91,8 +96,6 @@ namespace AndyShared.ConfigSupport
 			}
 		}
 
-		
-
 	#endregion
 
 	#region private properties
@@ -124,6 +127,13 @@ namespace AndyShared.ConfigSupport
 			sampleFile = new FilePath<FileNameSimple>(
 				ConfigFileSupport.GetSampleFile(folder, fileNameNoExt, true));
 		}
+
+		private void read()
+		{
+			dataStore.Admin.Read();
+		}
+
+
 
 	#endregion
 
