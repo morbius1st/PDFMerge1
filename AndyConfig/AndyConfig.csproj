@@ -108,9 +108,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.0\SettingsMgr.-v70.cs">
-      <Link>.Linked\SettingsMgr.-v70.cs</Link>
-    </Compile>
     <Compile Include="ConfigMgr\ConfigManager.cs" />
     <Compile Include="ConfigMgr\ConfigSeedInstalled.cs" />
     <Compile Include="ConfigMgr\ConfigSeedSite.cs" />
@@ -164,9 +161,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -189,6 +183,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
+      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
+      <Name>WpfShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

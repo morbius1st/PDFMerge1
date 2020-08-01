@@ -44,6 +44,8 @@ using UtilityLibrary;
 
 namespace SettingsManager
 {
+	class Aav61 { }
+
 #region + Header
 
 	[DataContract(Namespace =  N_SPACE)]

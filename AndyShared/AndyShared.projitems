@@ -22,17 +22,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FolderAndFileSupport.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings70.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings70.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings70.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings70.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory).Linked\" />
     <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\" />
     <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\" />
   </ItemGroup>

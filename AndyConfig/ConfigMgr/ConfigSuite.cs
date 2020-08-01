@@ -64,7 +64,7 @@ namespace AndyShared.ConfigMgr
 
 		public bool SiteSettingsRootPathIsValid => !SiteSettingsRootPath.IsVoid();
 
-		public SuiteSettingInfo70<SuiteSettingData70> Info => SuiteSettings.Info;
+		public SuiteSettingInfo<SuiteSettingData> Info => SuiteSettings.Info;
 
 	#endregion
 

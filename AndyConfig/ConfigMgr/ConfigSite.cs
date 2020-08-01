@@ -79,7 +79,7 @@ namespace AndyShared.ConfigMgr
 
 		public bool SiteSettingsFileExists => SiteSettings.Path.Exists;
 
-		public SiteSettingInfo70<SiteSettingData70> Info => SiteSettings.Info;
+		public SiteSettingInfo<SiteSettingData> Info => SiteSettings.Info;
 
 		public ObservableCollection<ConfigSeedFile> SiteInstalledSeedFiles {
 			get => SiteSettings.Data.InstalledSeedFiles;

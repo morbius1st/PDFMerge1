@@ -11,7 +11,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "UserSettingInfoInfo")]
-	public class UserSettingInfo70<T> : UserSettingInfoBase<T>
+	public class UserSettingInfo<T> : UserSettingInfoBase<T>
 		where T : new ()
 	{
 		[DataMember]
@@ -27,7 +27,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "UserSettingData")]
-	public class UserSettingData70
+	public class UserSettingData
 	{
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";

@@ -15,7 +15,7 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "SiteSettingInfo", Namespace = "")]
-	public class SiteSettingInfo70<T> : SiteSettingInfoBase<T>
+	public class SiteSettingInfo<T> : SiteSettingInfoBase<T>
 		where T : new ()
 	{
 		[DataMember]
@@ -32,7 +32,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "SiteSettingData", Namespace = "")]
-	public class SiteSettingData70
+	public class SiteSettingData
 	{
 		[DataMember(Order = 1)]
 		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles { get; set; }

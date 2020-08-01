@@ -14,7 +14,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "AppSettingInfoInfo")]
-	public class AppSettingInfo70<T> : AppSettingInfoBase<T>
+	public class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new ()
 	{
 		[DataMember]
@@ -30,7 +30,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Name = "AppSettingData")]
-	public class AppSettingData70
+	public class AppSettingData
 	{
 		[DataMember]
 		public string Name { get; set; } = "Andy";

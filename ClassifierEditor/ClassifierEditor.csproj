@@ -78,9 +78,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.0\SettingsMgr.-v70.cs">
-      <Link>.Linked\SettingsMgr.-v70.cs</Link>
-    </Compile>
     <Compile Include="ConfigSupport\Configuration.cs" />
     <Compile Include="DataRepo\SheetCategoryDataManager.cs" />
     <Compile Include="DataRepo\SheetCategoryData.cs" />
@@ -113,7 +110,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Settings\AppSettings70.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Windows\MainWindowClassifierEditor.xaml.cs">
       <DependentUpon>MainWindowClassifierEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -162,7 +159,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -182,6 +178,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
+      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
+      <Name>WpfShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyResources\AndyResources.projitems" Label="Shared" />

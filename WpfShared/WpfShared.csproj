@@ -63,8 +63,8 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.0\SettingsMgr.-v70.cs">
-      <Link>.Linked\SettingsMgr.-v70.cs</Link>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.1\SettingsMgr.cs">
+      <Link>.Linked\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="Windows\ClassificationFileSelector.xaml">

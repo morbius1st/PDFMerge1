@@ -41,7 +41,9 @@ using UtilityLibrary;
 // ReSharper disable once CheckNamespace
 namespace SettingManager
 {
-	#region + Header
+	class Aav30x { }
+
+#region + Header
 
 	[DataContract(Namespace = N_SPACE)]
 	//	[DataContract]
