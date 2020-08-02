@@ -25,8 +25,6 @@ namespace AndyShared.ConfigMgr
 
 	#region ctor
 
-		public ConfigManager() { }
-
 	#endregion
 
 	#region public properties

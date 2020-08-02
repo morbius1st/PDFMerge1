@@ -67,8 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include=".External\CsExtensions.cs" />
-    <Compile Include=".External\MessageUtilities.cs" />
     <Compile Include="DebugSupport\DebugSupport.cs" />
     <Compile Include="FilesSupport\FileItem.cs" />
     <Compile Include="MergerSupport\MergeItem.cs" />
@@ -116,7 +114,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".External\" />
     <Folder Include="Support\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
+      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
+      <Name>WpfShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

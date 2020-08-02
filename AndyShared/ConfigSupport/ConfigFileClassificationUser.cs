@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
 using SettingsManager;
@@ -29,9 +30,9 @@ namespace AndyShared.ConfigSupport
 
 		private FilePath<FileNameSimple> sampleFile;
 
-		private bool selectedFile;
+		private bool fileSelected;
 
-		private BaseDataFile<UserSettingData> dataStore = new BaseDataFile<UserSettingData>();
+		private BaseDataFile<ClassificationFileData> dataFile;
 
 	#endregion
 
@@ -42,7 +43,7 @@ namespace AndyShared.ConfigSupport
 			string folder,
 			string fileName) : base(fileId, username, folder, fileName) { }
 
-		public ConfigFileClassificationUser(string filePath, bool selectedFile = false)
+		public ConfigFileClassificationUser(string filePath, bool fileSelected = false)
 		{
 			FilePath = new FilePath<FileNameUserAndId>(filePath);
 
@@ -55,14 +56,13 @@ namespace AndyShared.ConfigSupport
 				this.Folder = null;
 				return;
 
-				
 			}
 
 			this.FileId = FilePath.GetFileNameObject.FileId;
 			this.UserName = FilePath.GetFileNameObject.UserName;
 			this.Folder = FilePath.GetPath;
 			this.FileName = FilePath.GetFileNameObject.FileName;
-			this.SelectedFile = selectedFile;
+			this.FileSelected = fileSelected;
 
 			GetSamplePathAndFile(Folder, FileNameNoExt);
 
@@ -85,23 +85,27 @@ namespace AndyShared.ConfigSupport
 
 		public string SampleFilePath => sampleFile.GetFullFilePath;
 
-		public bool SelectedFile
+		public bool FileSelected
 		{
-			get => selectedFile;
+			get => fileSelected;
 			set
 			{
-				selectedFile = value;
+				fileSelected = value;
 
 				OnPropertyChange();
 			}
 		}
 
+		
+		public string DescriptionFromFile =>
+			CsUtilities.ScanXmlForElementValue(GetFullFilePath, "Description", 1);
+
+		public string DataDescription => dataFile.Data.Description;
+
 	#endregion
 
 	#region private properties
 
-		public string DescriptionFromFile =>
-			CsUtilities.ScanXmlForElementValue(GetFullFilePath, "Description", 1);
 
 
 	#endregion
@@ -128,9 +132,13 @@ namespace AndyShared.ConfigSupport
 				ConfigFileSupport.GetSampleFile(folder, fileNameNoExt, true));
 		}
 
-		private void read()
+		public void read()
 		{
-			dataStore.Admin.Read();
+			dataFile = new BaseDataFile<ClassificationFileData>();
+			dataFile.Configure(GetPath, FilePath.GetFileName);
+			dataFile.Admin.Read();
+
+			OnPropertyChange("DataDescription");
 		}
 
 

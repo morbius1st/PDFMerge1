@@ -120,12 +120,13 @@ namespace AndyConfig.Windows
 			InitializeComponent();
 
 
-			ClassfFile<ClassificationFileData>
-				ClsFile1 = new ClassfFile<ClassificationFileData>();
+			// ClassfFile<ClassificationFileData>
+			// 	ClsFile1 = new ClassfFile<ClassificationFileData>();
+
+			BaseDataFile<ClassificationFileData>
+				ClsFile1 = new BaseDataFile<ClassificationFileData>();
 
 			ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1.xml");
-
-
 		}
 
 	#endregion

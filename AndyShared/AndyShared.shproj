@@ -10,25 +10,6 @@
   <PropertyGroup>
     <UserSecretsId>c7bdde67-b0e3-4eee-aa85-67499ece61c2</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-	    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
-      <Link>.Linked\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.1\SettingsMgr.cs">
-      <Link>.Linked\SettingsMgr.cs</Link>
-    </Compile>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-      <Link>.Linked\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-      <Link>.Linked\MessageUtilities.cs</Link>
-    </Compile>
-	 </ItemGroup>
-
   <Import Project="AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
 </Project>

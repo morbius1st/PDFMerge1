@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
-using static Test3.UtilityLocal;
-
-
 
 #endregion
 
@@ -241,7 +238,7 @@ namespace Test3
 
 			logMsgFmtln("root folder", ROOT_FOLDER);
 			logMsgFmtln("output file", output_file);
-			UtilityLocal.logMsg(UtilityLocal.nl);
+			logMsg(nl);
 
 			foreach (string file in sample)
 			{

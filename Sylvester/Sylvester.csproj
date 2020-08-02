@@ -94,18 +94,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions - Enum.cs">
       <Link>.External\CsExtensions - Enum.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-      <Link>.External\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
-      <Link>.External\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.External\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-      <Link>.External\MessageUtilities.cs</Link>
-    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
       <Link>.External\ScreenParametersWpf.cs</Link>
     </Compile>
@@ -308,6 +296,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Sylvester.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
+      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
+      <Name>WpfShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

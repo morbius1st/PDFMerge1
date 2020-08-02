@@ -1,5 +1,4 @@
 ﻿#region using directives
-
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -86,6 +85,7 @@ namespace AndyShared.ConfigMgr
 
 			set
 			{
+				
 				SiteSettings.Data.InstalledSeedFiles = value;
 				OnPropertyChange();
 			}

@@ -178,7 +178,7 @@
 						/>
 				<Label
 						Content="{Binding ElementName=winClsFileMgr,
-															Path=Selected.DescriptionFromFile,
+															Path=Selected.DataDescription,
 															FallbackValue='Desc'}"
 						Grid.Column="1"
 						Grid.Row="1"

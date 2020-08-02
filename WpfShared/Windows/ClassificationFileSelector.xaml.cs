@@ -9,8 +9,13 @@ using AndyShared.ConfigSupport;
 namespace WpfShared.Windows
 {
 	/// <summary>
-	/// Interaction logic for ClassificationFileSelector.xaml
+	/// Interaction logic for ClassificationFileSelector.xaml <br/>
 	/// </summary>
+	/// <remarks>
+	/// Be aware that this window will be used by other assemblies.  This <br/>
+	/// means that the user and app setting file read will be from referencing <br/>
+	/// assembly and not from this assembly<br/>
+	/// </remarks>
 	public partial class ClassificationFileSelector : Window, INotifyPropertyChanged
 	{
 	#region private fields
@@ -30,6 +35,9 @@ namespace WpfShared.Windows
 			InitializeComponent();
 
 			initialize();
+
+
+
 		}
 
 	#endregion
@@ -46,6 +54,8 @@ namespace WpfShared.Windows
 			set
 			{
 				selected = value;
+
+				selected.read();
 
 				OnPropertyChange();
 			}

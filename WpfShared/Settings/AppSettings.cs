@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using ClassifierEditor.ConfigSupport;
 using UtilityLibrary;
 
 // projname: SettingsManagerV40
@@ -21,7 +20,7 @@ namespace SettingsManager
 
 		[DataMember]
 		public override string DataClassVersion => "7.0a";
-		public override string Description => "app setting file for ClassifierEditor";
+		public override string Description => "app setting file for WpfShared";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 

@@ -87,15 +87,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\utilitylibrary\utilitylibrary\CsExtensions.cs">
-      <Link>.External\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\utilitylibrary\utilitylibrary\CsUtilities.cs">
-      <Link>.External\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\utilitylibrary\utilitylibrary\MessageUtilities.cs">
-      <Link>.External\MessageUtilities.cs</Link>
-    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
@@ -158,6 +149,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include=".External\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
+      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
+      <Name>WpfShared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
