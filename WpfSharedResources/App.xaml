@@ -1,0 +1,16 @@
+﻿<Application x:Class="WpfSharedResources.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfSharedResources"
+             StartupUri="Windows/WinWfpShRes.xaml">
+    <Application.Resources>
+
+      <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+          <ResourceDictionary Source="WpfResources/XamlResources/MasterColorList.xaml"/>
+          <ResourceDictionary Source="WpfResources/XamlResources/VisualStates.xaml"/>
+				</ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary>
+         
+		</Application.Resources>
+</Application>

@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 #endregion
 
@@ -20,7 +22,9 @@ namespace ClassifierEditor.FilesSupport
 		private string fileName;
 
 
+#pragma warning disable CS0246 // The type or namespace name 'FilePath<>' could not be found (are you missing a using directive or an assembly reference?)
 		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
+#pragma warning restore CS0246 // The type or namespace name 'FilePath<>' could not be found (are you missing a using directive or an assembly reference?)
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 
 	#endregion
@@ -46,7 +50,9 @@ namespace ClassifierEditor.FilesSupport
 
 	#region public properties
 
+#pragma warning disable CS0246 // The type or namespace name 'FilePath<>' could not be found (are you missing a using directive or an assembly reference?)
 		public void AddPath(FilePath<FileNameSheetPdf> path)
+#pragma warning restore CS0246 // The type or namespace name 'FilePath<>' could not be found (are you missing a using directive or an assembly reference?)
 		{
 			Files.Add(path);
 			OnPropertyChange("Files");

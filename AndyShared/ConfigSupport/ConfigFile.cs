@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.FilesSupport;
 using AndyShared.Support;
 using SettingsManager;
@@ -24,10 +25,10 @@ namespace AndyShared.ConfigSupport
 
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ConfigSeedFile))]
-	[KnownType(typeof(ConfigFileClassificationUser))]
+	[KnownType(typeof(ClassificationFile))]
 	public class ConfigFile<T> : INotifyPropertyChanged, IObservCollMember  where T : AFileName,  new()  
 	{
-		private FilePath<T> filePath;
+		private FilePath<T> filePathLocal;
 		private string fileName;
 		private string folder;
 
@@ -85,12 +86,12 @@ namespace AndyShared.ConfigSupport
 		}
 
 		[IgnoreDataMember]
-		public FilePath<T> FilePath
+		public FilePath<T> FilePathLocal
 		{
-			get => filePath;
+			get => filePathLocal;
 			set
 			{
-				filePath = value;
+				filePathLocal = value;
 				OnPropertyChange();
 			}
 		}
@@ -115,7 +116,7 @@ namespace AndyShared.ConfigSupport
 
 			fp = folder + FilePathUtil.PATH_SEPARATOR + fileName;
 
-			filePath = new FilePath<T>(fp);
+			filePathLocal = new FilePath<T>(fp);
 		}
 
 		public static string MakeKey(string userName, string id)

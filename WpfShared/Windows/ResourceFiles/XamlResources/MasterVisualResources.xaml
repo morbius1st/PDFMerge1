@@ -112,4 +112,6 @@
 	<SolidColorBrush x:Key="Label.Status.Value.Background" Color="{StaticResource Lime.200}"></SolidColorBrush>
 	<SolidColorBrush x:Key="Label.Status.Button.Background" Color="{StaticResource Amber.300}"></SolidColorBrush>
 
+	<SolidColorBrush x:Key="TextBox.Background" Color="{StaticResource Gray.250}"></SolidColorBrush>
+
 </ResourceDictionary>

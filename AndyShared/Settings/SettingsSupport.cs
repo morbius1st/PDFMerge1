@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Linq;
 using AndyShared.FilesSupport;
 using SettingsManager;
 using UtilityLibrary;
@@ -8,6 +9,22 @@ namespace AndyShared.Settings
 {
 	class SettingsSupport
 	{
+		public static bool ValidateXmlFile(string filePath)
+		{
+			try
+			{
+				XDocument xml = new XDocument();
+
+				xml = XDocument.Load(filePath);
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 
 		public static List<FilePath<FileNameSimpleSelectable>>
 			GetSiteFiles( FilePath<FileNameSimpleSelectable> folder,

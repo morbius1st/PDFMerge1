@@ -138,7 +138,7 @@ namespace AndyConfig.Windows
 		public ConfigSeedInstalled SeedInstalled => cfgMgr?.SeedInstalled ?? null;
 		public ConfigSeedSite SeedSite => cfgMgr?.SeedSite ?? null;
 		public ConfigSeedLocal SeedLocal => cfgMgr?.SeedLocal ?? null;
-		public ConfigClassificationFiles ClassificationFiles => cfgMgr?.ClassificationFiles ?? null;
+		public ClassificationFiles ClassificationFiles => cfgMgr?.ClassificationFiles ?? null;
 
 		public string SiteRootPath => SuiteSettings.Data.SiteRootPath;
 

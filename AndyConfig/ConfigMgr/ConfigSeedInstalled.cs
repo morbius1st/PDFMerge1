@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
 using SettingsManager;
@@ -204,7 +205,7 @@ namespace AndyShared.ConfigMgr
 				{
 					ConfigSeedFile seed =
 						ConfigSeedFileSupport.MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
-							ConfigFileSupport.GetSampleFile(seedFile));
+							ClassificationFileAssist.GetSampleFile(seedFile));
 
 					seed.Keep = true;
 

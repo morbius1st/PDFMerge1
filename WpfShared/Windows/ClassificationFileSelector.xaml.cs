@@ -1,10 +1,33 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
-using AndyShared.ConfigSupport;
+using CSLibraryIo.CommonFileFolderDialog;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using UtilityLibrary;
+
+
+/*
+functions:
+primary: select  a classification file
+
+secondary:
+re: classification file
+1. new:  create a basic / blank file
+2. duplicate: make a copy of the selected classification file - must provide a new fileid
+	does not duplicate 
+3. delete: delete a classification file 
+
+
+
+*/
+
 
 namespace WpfShared.Windows
 {
@@ -18,13 +41,19 @@ namespace WpfShared.Windows
 	/// </remarks>
 	public partial class ClassificationFileSelector : Window, INotifyPropertyChanged
 	{
+		public static string TEST = "";
+
 	#region private fields
 
-		private ConfigClassificationFiles cfgClsFiles = null;
+		public static string NO_SAMPLE_FILE = "No Sample File Found";
 
-		private ConfigFileClassificationUser selected;
+		private ClassificationFiles cfgClsFiles = null;
+
+		private ClassificationFile selected;
 
 		private ICollectionView view;
+
+		Balloon b;
 
 	#endregion
 
@@ -35,27 +64,30 @@ namespace WpfShared.Windows
 			InitializeComponent();
 
 			initialize();
-
-
-
 		}
 
-	#endregion
 
-	#region public properties
+		#endregion
 
-		public ConfigClassificationFiles CfgClsFiles => cfgClsFiles;
+		#region public properties
+
+		public ClassificationFiles CfgClsFiles => cfgClsFiles;
 
 		public ICollectionView View => view;
 
-		public ConfigFileClassificationUser Selected
+		public ClassificationFile Selected
 		{
 			get => selected;
 			set
 			{
+
+				if (selected != null)  selected.SelectedPropertyChanged -= Selected_SelectedPropertyChanged;
+
 				selected = value;
 
-				selected.read();
+				selected.SelectedPropertyChanged += Selected_SelectedPropertyChanged;
+
+				selected.Read();
 
 				OnPropertyChange();
 			}
@@ -64,6 +96,8 @@ namespace WpfShared.Windows
 		public string UserName => Environment.UserName;
 
 		public string ListViewTitle => UserName + "'s Classification Files";
+
+		public bool FileIdPopupIsOpen { get; set; } = false;
 
 	#endregion
 
@@ -83,7 +117,7 @@ namespace WpfShared.Windows
 
 		private void initialize()
 		{
-			cfgClsFiles = ConfigClassificationFiles.Instance;
+			cfgClsFiles = ClassificationFiles.Instance;
 
 			cfgClsFiles.Initialize();
 
@@ -102,11 +136,9 @@ namespace WpfShared.Windows
 
 		private bool MatchUser(object usr)
 		{
-			ConfigFileClassificationUser user = usr as ConfigFileClassificationUser;
+			ClassificationFile user = usr as ClassificationFile;
 
 			return user.UserName.Equals(UserName);
-
-
 		}
 
 	#endregion
@@ -125,6 +157,69 @@ namespace WpfShared.Windows
 	#region event handeling
 
 
+		private bool tbxFlag; // text changed
+
+		private void BtnSelectSampleFile_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (selected.GetFolderPath == null) return;
+
+			FileAndFolderDialog fd = new FileAndFolderDialog();
+
+			FileAndFolderDialog.FileAndFolderDialogSettings fdSetg = new FileAndFolderDialog.FileAndFolderDialogSettings();
+
+			fdSetg.Filters.Add(new CommonFileDialogFilter("Sample File", "*.dat"));
+			
+			string file = fd.GetFile("Select a Sample File", selected.GetFolderPath, fdSetg);
+
+			if (fd.HasSelection)
+			{
+				Selected.InstallSampleFile(file);
+			}
+		}
+
+
+		private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				if (tbxFlag)
+				{
+					TextBox_UpdateSource((TextBox) sender);
+
+					tbxFlag = false;
+				}
+			} 
+			else
+			{
+				tbxFlag = true;
+			}
+		}
+
+		private void TextBox_OnLostFocus(object sender, RoutedEventArgs e)
+		{
+			if (tbxFlag)
+			{
+				TextBox_UpdateSource((TextBox) sender);
+
+				tbxFlag = false;
+			}
+		}
+
+		private void TextBox_UpdateSource(TextBox tbx)
+		{
+			tbx.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+		}
+
+		private void Selected_SelectedPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			b = new Balloon(this, TbxFileId, "Classification file was renamed");
+			b.X = 20;
+			b.Orientation = Balloon.BalloonOrientation.BOTTOM_RIGHT;
+			b.ShowDialog();
+
+		}
+			
+
 
 	#endregion
 
@@ -137,5 +232,6 @@ namespace WpfShared.Windows
 
 	#endregion
 
+		
 	}
 }

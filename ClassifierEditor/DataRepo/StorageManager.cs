@@ -21,8 +21,14 @@ namespace ClassifierEditor.DataRepo
 	#region private fields
 
 		private class DataStore :
+#pragma warning disable CS0246 // The type or namespace name 'BaseSettings<,,>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
 			BaseSettings<StorageMgrPath,
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
 			StorageMgrInfo<T>, T> { }
+#pragma warning restore CS0246 // The type or namespace name 'BaseSettings<,,>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
 
 	#endregion
 
@@ -30,10 +36,20 @@ namespace ClassifierEditor.DataRepo
 
 		[DataMember(Order = 1)]
 		public static T Data => DataStore.Data;
-		public bool Initialized => DataStore.Admin.Path.HasPathAndFile;
+		public bool Initialized => DataStore.Admin.Path.HasFilePath;
+#pragma warning disable CS0246 // The type or namespace name 'SettingsMgr<,,>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
 		public static SettingsMgr<StorageMgrPath, StorageMgrInfo<T>, T> Admin => DataStore.Admin;
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning restore CS0246 // The type or namespace name 'SettingsMgr<,,>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
 		public static StorageMgrInfo<T> Info => DataStore.Info;
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
 		public static StorageMgrPath Path => Admin.Path;
+#pragma warning restore CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
 
 	#endregion
 
@@ -66,7 +82,7 @@ namespace ClassifierEditor.DataRepo
 			DataStore.Admin.Path.RootFolderPath = rootPath;
 			DataStore.Admin.Path.FileName = filename;
 
-			DataStore.Admin.Path.ConfigurePathAndFile();
+			DataStore.Admin.Path.ConfigureFilePath();
 
 			OnPropertyChange("Initialized");
 		}

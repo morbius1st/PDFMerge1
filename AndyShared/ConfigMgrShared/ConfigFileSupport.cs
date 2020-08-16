@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigSupport;
 using AndyShared.FilesSupport;
 using SettingsManager;
@@ -12,24 +13,8 @@ namespace AndyShared.ConfigMgrShared
 {
 	public static class ConfigFileSupport
 	{
-		public const string USER_STORAGE_FOLDER_NAME = @"User Classification Files";
-		public const string USER_STORAGE_PATTERN = @"*.xml";
-		public const string USER_STORAGE_FOLDER = FilePathUtil.PATH_SEPARATOR + USER_STORAGE_FOLDER_NAME;
-
-		// public static string UserClassificationFolderPath => 
-		// 	SuiteSettings.Path.SettingFolderPath + USER_STORAGE_FOLDER;
-		//
-		// public static string UserClassificationFolderPath => 
-		// 	MachSettings.Path.SettingFolderPath + USER_STORAGE_FOLDER;
-
 
 	#region public methods
-
-		public static string MakeClassificationFileName( string username, string id)
-		{
-			return $"{id} ({username})" + ConfigSeedFileSupport.INFO_FILE_EXT;
-		}
-
 
 		public static ConfigSeedFile MakeConfigSeedFileItem(
 			FilePath<FileNameSimpleSelectable> file, string suiteName,
@@ -43,23 +28,6 @@ namespace AndyShared.ConfigMgrShared
 				sampleFile, false, false, file.GetFileNameObject.Selected, SeedFileStatus.IGNORE);
 		}
 
-		public static string GetSampleFile(FilePath<FileNameSimpleSelectable> file)
-		{
-			return GetSampleFile(file.GetPath, file.GetFileNameObject.FileNameNoExt);
-		}
-
-		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
-		{
-			string sampleFile = path + @"\" + fileNameNoExt + ConfigSeedFileSupport.SAMPLE_FILE_EXT;
-
-			if (!isTarget && !File.Exists(sampleFile))
-			{
-				sampleFile = null;
-			}
-
-			return sampleFile;
-		}
-
 	#endregion
 	}
 
@@ -67,7 +35,7 @@ namespace AndyShared.ConfigMgrShared
 	public static class ConfigSeedFileSupport
 	{
 		public const string INFO_FILE_EXT = ".xml";
-		public const string SAMPLE_FILE_EXT = ".dat";
+		public const string SAMPLE_FILE_EXT = ".sample";
 
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";
@@ -89,7 +57,7 @@ namespace AndyShared.ConfigMgrShared
 				FilePath < FileNameSimpleSelectable > seedFile =
 					new FilePath<FileNameSimpleSelectable>(file);
 
-				string sampleFile = ConfigFileSupport.GetSampleFile(seedFile);
+				string sampleFile = ClassificationFileAssist.GetSampleFile(seedFile);
 
 				ConfigSeedFile seed =
 					MakeConfigSeedFileItem(seedFile, Heading.SuiteName,

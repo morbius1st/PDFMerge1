@@ -32,7 +32,7 @@ using UtilityLibrary;
 // ** remove configsite
 
 
-namespace AndyShared.ConfigMgr
+namespace AndyConfig.ConfigMgr
 {
 	public class ConfigSuite : INotifyPropertyChanged
 	{

@@ -8,6 +8,7 @@
 		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:windows="clr-namespace:AndyConfig.Windows"
+		xmlns:as="clr-namespace:AndySharedResources.SVG"
 		x:Name="MainWinAndyCfg"
 		Title="MainWindowAndyCfg"
 		Width="950"
@@ -21,9 +22,10 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ResourceFiles/XamlResources/Andy.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/SVG/SVGResources.xaml" />
-
+				<ResourceDictionary Source="/../AndyResources/SVG/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+				<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Pair-00.xaml" /> -->
+				<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Project-00.xaml" /> -->
 
 			<!-- <local:BoolToFileFoundConverter x:Key="BoolToFileFoundConverter"/> -->
 			<windows:BoolToMessage x:Key="BoolToMessage" />
@@ -35,8 +37,6 @@
 
 			<sys:Double x:Key="Label.Section.Title.FontSize">16</sys:Double>
 			<sys:Double x:Key="Label.Settings.Id.Size">65</sys:Double>
-
-			<sys:Int32 x:Key="Zero">0</sys:Int32>
 
 			<GridLength x:Key="Grid.Settings.Col.Id">80</GridLength>
 			<GridLength x:Key="Grid.Settings.Col.Control">30</GridLength>

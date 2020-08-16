@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyConfig.ConfigMgr;
 using SettingsManager;
 using AndyShared.ConfigSupport;
 
@@ -144,7 +145,7 @@ namespace AndyShared.ConfigMgr
 		{
 			SiteSettings.Path.RootFolderPath = rootPath;
 
-			if (!SiteSettings.Path.SettingPathIsValid) return;
+			if (!SiteSettings.Path.SettingFolderPathIsValid) return;
 
 			Read();
 

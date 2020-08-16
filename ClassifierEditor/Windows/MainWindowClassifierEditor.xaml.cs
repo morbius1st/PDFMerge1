@@ -16,7 +16,9 @@ using ClassifierEditor.DataRepo;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
 using SettingsManager;
+#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
 
@@ -124,6 +126,8 @@ namespace ClassifierEditor.Windows
 	/// </summary>
 	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
+		
+
 	#region private fields
 
 		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
@@ -301,7 +305,9 @@ namespace ClassifierEditor.Windows
 			if (false)
 			{
 
+#pragma warning disable CS0162 // Unreachable code detected
 				SampleData.SampleData sd = new SampleData.SampleData();
+#pragma warning restore CS0162 // Unreachable code detected
 
 				sd.Sample(categories.TreeBase);
 				categories.Write();
@@ -695,7 +701,7 @@ namespace ClassifierEditor.Windows
 
 #endregion
 
-#region bool to string value converter
+#region bool to "on" / "off" string value converter
 
 	[ValueConversion(typeof(bool), typeof(string))]
 	public class BoolToOnOffConverter : IValueConverter

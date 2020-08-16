@@ -38,6 +38,17 @@
     <StartupObject>WpfShared.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=17.0.6271.26263, Culture=neutral, PublicKeyToken=0c673d50796bb708, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=17.0.6271.26265, Culture=neutral, PublicKeyToken=0c673d50796bb708, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -62,7 +73,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Windows\Balloon\Balloon.cs" />
     <Compile Include="Windows\WindowManager.cs" />
+    <Page Include="Windows\Balloon\Balloon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\ClassificationFileSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -9,14 +9,16 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigClassificationFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFileClassificationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
@@ -30,21 +32,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
-			<Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.1\SettingsMgr.cs">
-		<Link>.Linked\SettingsMgr.cs</Link>
-	</Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
-		<Link>.Linked\CsFilePath.cs</Link>
-	</Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-		<Link>.Linked\CsExtensions.cs</Link>
-	</Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-		<Link>.Linked\CsUtilities.cs</Link>
-	</Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-		<Link>.Linked\MessageUtilities.cs</Link>
-	</Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.1\SettingsMgr.cs">
+      <Link>.Linked\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
+      <Link>.Linked\CsFilePath.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
+      <Link>.Linked\CsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.Linked\CsUtilities.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
+      <Link>.Linked\MessageUtilities.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\" />

@@ -3,12 +3,12 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
 using ClassifierEditor.DataRepo;
 using UtilityLibrary;
 using SettingsManager;
-
 using ClassifierEditor.DataRepo;
 
 #endregion
@@ -25,9 +25,10 @@ namespace ClassifierEditor.ConfigSupport
 	{
 	#region private fields
 
-		private ConfigClassificationFiles classificationFiles = ConfigClassificationFiles.Instance;
+		private ClassificationFiles classificationFiles = ClassificationFiles.Instance;
 
-		private ConfigFileClassificationUser classificationFile;
+
+		private ClassificationFile classificationFile;
 
 	#endregion
 
@@ -35,7 +36,6 @@ namespace ClassifierEditor.ConfigSupport
 
 		public Configuration()
 		{
-
 			UserSettings.Admin.Read();
 			UserSettings.Admin.Write();
 
@@ -73,7 +73,7 @@ namespace ClassifierEditor.ConfigSupport
 		public string LastEditedSampleFilePath => classificationFile.SampleFilePath;
 		// ConfigFileSupport.GetSampleFile(LastEditedClassificationFolderPath, LastEditedClassificationFilePath, false);
 
-		public string LastEditedClassificationFolderPath => classificationFile.GetPath;
+		public string LastEditedClassificationFolderPath => classificationFile.GetFolderPath;
 		// classificationUser.Find(Environment.UserName, UserSettings.Data.LastClassificationFileId);
 
 		public string LastEditedClassificationFileName => classificationFile.FileName;

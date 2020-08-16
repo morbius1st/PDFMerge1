@@ -11,6 +11,8 @@ using ClassifierEditor.Tree;
 
 namespace ClassifierEditor.DataRepo
 {
+// TODO: need to eliminate this class and associated class
+// TODO: and replace with ClassificationFiles in AndyShared
 
 //	[DataContract(Name = "Categories", Namespace = "")]
 	public class SheetCategoryDataManager : INotifyPropertyChanged
@@ -27,8 +29,6 @@ namespace ClassifierEditor.DataRepo
 		public SheetCategoryDataManager()
 		{
 			storageMgr = new StorageManager<SheetCategoryData>();
-
-			
 
 		}
 

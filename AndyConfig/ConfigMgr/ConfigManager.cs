@@ -70,7 +70,7 @@ namespace AndyShared.ConfigMgr
 		/// </summary>
 		public ConfigSeedLocal SeedLocal { get; private set; } = ConfigSeedLocal.Instance;
 
-		public ConfigClassificationFiles ClassificationFiles { get; private set; } = ConfigClassificationFiles.Instance;
+		public ClassificationFiles ClassificationFiles { get; private set; } = ClassificationFiles.Instance;
 
 	#endregion
 

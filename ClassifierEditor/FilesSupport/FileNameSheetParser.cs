@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 #endregion
 
@@ -216,9 +218,13 @@ namespace ClassifierEditor.FilesSupport
 	}
 
 
+#pragma warning disable CS0246 // The type or namespace name 'FileExtensionClassifier' could not be found (are you missing a using directive or an assembly reference?)
 	public class FileExtensionPdfClassifier : FileExtensionClassifier
+#pragma warning restore CS0246 // The type or namespace name 'FileExtensionClassifier' could not be found (are you missing a using directive or an assembly reference?)
 	{
+#pragma warning disable CS0115 // 'FileExtensionPdfClassifier.fileTypes': no suitable method found to override
 		public override string[] fileTypes { get; set; } = {"pdf"};
+#pragma warning restore CS0115 // 'FileExtensionPdfClassifier.fileTypes': no suitable method found to override
 	}
 
 

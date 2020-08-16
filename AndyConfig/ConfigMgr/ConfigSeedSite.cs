@@ -12,6 +12,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgr;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
@@ -162,15 +163,15 @@ namespace AndyConfig.ConfigMgr
 
 				string target1 =
 					SiteSeedFolderPath + FilePathUtil.PATH_SEPARATOR +
-					seed.FilePath.GetFileName;
+					seed.FilePathLocal.GetFileName;
 
 				string target2 =
-					ConfigFileSupport.GetSampleFile(SiteSeedFolderPath,
-						seed.FilePath.GetFileNameWithoutExtension, true);
+					ClassificationFileAssist.GetSampleFile(SiteSeedFolderPath,
+						seed.FilePathLocal.GetFileNameWithoutExtension, true);
 
 				if (seed.Status == SeedFileStatus.COPY)
 				{
-					File.Copy(seed.FilePath.GetFullFilePath, target1);
+					File.Copy(seed.FilePathLocal.GetFullFilePath, target1);
 					if (target2 != null)
 					{
 						File.Copy(seed.SampleFile.GetFullFilePath, target2);
@@ -332,7 +333,7 @@ namespace AndyConfig.ConfigMgr
 					new FilePath<FileNameSimpleSelectable>(file);
 
 				ConfigSeedFile seed  = ConfigSeedFileSupport.MakeConfigSeedFileItem(
-					filePath, Heading.SuiteName, ConfigFileSupport.GetSampleFile(filePath));
+					filePath, Heading.SuiteName, ClassificationFileAssist.GetSampleFile(filePath));
 
 				// changes to these means the above must be adjusted
 				// pre-select to keep

@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigSupport;
 using SettingsManager;
 using UtilityLibrary;
@@ -19,15 +20,15 @@ using UtilityLibrary;
 
 namespace AndyShared.ConfigMgrShared
 {
-	public class ConfigClassificationFiles : INotifyPropertyChanged
+	public class ClassificationFiles : INotifyPropertyChanged
 	{
 	#region private fields
 
-		private static readonly Lazy<ConfigClassificationFiles> instance =
-			new Lazy<ConfigClassificationFiles>(() => new ConfigClassificationFiles());
+		private static readonly Lazy<ClassificationFiles> instance =
+			new Lazy<ClassificationFiles>(() => new ClassificationFiles());
 
-		private  ObservableCollection<ConfigFileClassificationUser> userClassificationFiles =
-			new ObservableCollection<ConfigFileClassificationUser>();
+		private  ObservableCollection<ClassificationFile> userClassificationFiles =
+			new ObservableCollection<ClassificationFile>();
 
 		private ICollectionView userClassificationFilesView;
 
@@ -35,13 +36,13 @@ namespace AndyShared.ConfigMgrShared
 
 	#region ctor
 
-		private ConfigClassificationFiles() { }
+		private ClassificationFiles() { }
 
 	#endregion
 
 	#region public properties
 
-		public static ConfigClassificationFiles Instance => instance.Value;
+		public static ClassificationFiles Instance => instance.Value;
 
 
 		public bool Initialized { get; set; }
@@ -54,7 +55,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public bool UserClassificationFolderPathExists => Directory.Exists(UserClassificationFolderPath);
 
-		public  ObservableCollection<ConfigFileClassificationUser> UserClassificationFiles
+		public  ObservableCollection<ClassificationFile> UserClassificationFiles
 		{
 			get => userClassificationFiles;
 			private set
@@ -81,7 +82,7 @@ namespace AndyShared.ConfigMgrShared
 	#region private properties
 
 		private string UserClassfFolderPath => MachSettings.Path.SettingFolderPath +
-			ConfigFileSupport.USER_STORAGE_FOLDER;
+			ClassificationFileAssist.USER_STORAGE_FOLDER;
 
 	#endregion
 
@@ -100,7 +101,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public void UpdateCollection()
 		{
-			userClassificationFiles = new ObservableCollection<ConfigFileClassificationUser>();
+			userClassificationFiles = new ObservableCollection<ClassificationFile>();
 
 			if (!GetFiles()) return;
 
@@ -111,13 +112,13 @@ namespace AndyShared.ConfigMgrShared
 
 		// return the folderpath to the requested 
 		// classification file
-		public ConfigFileClassificationUser Find(string userName, string fileId)
+		public ClassificationFile Find(string userName, string fileId)
 		{
 			foreach (CollectionViewGroup viewGroup in View.Groups)
 			{
-				if (((ConfigFileClassificationUser) viewGroup.Items[0]).UserName.Equals(userName))
+				if (((ClassificationFile) viewGroup.Items[0]).UserName.Equals(userName))
 				{
-					foreach (ConfigFileClassificationUser userCfg in viewGroup.Items)
+					foreach (ClassificationFile userCfg in viewGroup.Items)
 					{
 						if (userCfg.FileId.Equals(fileId))
 						{
@@ -137,10 +138,10 @@ namespace AndyShared.ConfigMgrShared
 		private bool GetFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(UserClassificationFolderPath,
-				ConfigFileSupport.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
+				ClassificationFileAssist.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
 			{
-				ConfigFileClassificationUser userFile =
-					new ConfigFileClassificationUser(file);
+				ClassificationFile userFile =
+					new ClassificationFile(file);
 
 				if (!userFile.IsValid) continue;
 

@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ClassifierEditor.FilesSupport;
 using ClassifierEditor.Tree;
+#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;

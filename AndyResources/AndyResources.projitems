@@ -13,15 +13,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\SVG\File-Open-00.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)SVG\File-Open-00.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\SVG\Folder-Pair-00.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)SVG\Folder-Pair-00.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\SVG\Folder-project-00.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)SVG\Folder-project-00.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

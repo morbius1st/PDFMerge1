@@ -88,7 +88,6 @@ namespace AndyShared.FilesSupport
 
 		private void parseFileName()
 		{
-			
 
 			Regex r = new Regex(PARSE_PATTERN, RegexOptions.IgnoreCase);
 
@@ -109,6 +108,13 @@ namespace AndyShared.FilesSupport
 			}
 
 		}
+
+		// private void updateFileName()
+		// {
+		// 	fileNameNoExt = formatFileName();
+		//
+		// 	OnPropertyChange("FileNameNoExt");
+		// }
 
 	#region event handling
 
