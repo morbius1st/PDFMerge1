@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using ClassifierEditor.ConfigSupport;
 #pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+
 #pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 // projname: SettingsManagerV40
@@ -12,27 +13,19 @@ using UtilityLibrary;
 
 namespace SettingsManager
 {
-
 #region info class
 
-	[DataContract(Name = "AppSettingInfoInfo")]
-#pragma warning disable CS0246 // The type or namespace name 'AppSettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
+	[DataContract(Name = "AppSettings", Namespace = "")]
 	public class AppSettingInfo<T> : AppSettingInfoBase<T>
-#pragma warning restore CS0246 // The type or namespace name 'AppSettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
 		where T : new ()
 	{
+		public AppSettingInfo()
+		{
+			DataClassVersion = "7.0a";
+			Description = "app setting file for ClassifierEditor";
+		}
 
-
-		[DataMember]
-#pragma warning disable CS0115 // 'AppSettingInfo<T>.DataClassVersion': no suitable method found to override
-		public override string DataClassVersion => "7.0a";
-#pragma warning restore CS0115 // 'AppSettingInfo<T>.DataClassVersion': no suitable method found to override
-#pragma warning disable CS0115 // 'AppSettingInfo<T>.Description': no suitable method found to override
-		public override string Description => "app setting file for ClassifierEditor";
-#pragma warning restore CS0115 // 'AppSettingInfo<T>.Description': no suitable method found to override
-#pragma warning disable CS0246 // The type or namespace name 'SettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
-#pragma warning restore CS0246 // The type or namespace name 'SettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
 	}
 
 #endregion
@@ -41,14 +34,12 @@ namespace SettingsManager
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
-	[DataContract(Name = "AppSettingData")]
+	[DataContract(Namespace = "")]
 	public class AppSettingData
 	{
 		[DataMember]
 		public string Name { get; set; } = "Andy";
-
 	}
 
 #endregion
-
 }

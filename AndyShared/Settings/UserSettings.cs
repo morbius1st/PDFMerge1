@@ -7,16 +7,19 @@
 
 namespace SettingsManager
 {
-
 #region info class
 
-	[DataContract(Name = "UserSettingInfoInfo")]
+	[DataContract(Name = "UserSetting", Namespace = "")]
 	public class UserSettingInfo<T> : UserSettingInfoBase<T>
 		where T : new ()
 	{
-		[DataMember]
-		public override string DataClassVersion => "7.0u";
-		public override string Description => "user setting file for ClassifierEditor";
+		public UserSettingInfo()
+		{
+			DataClassVersion = "7.0u";
+			Description = "user setting file for ClassifierEditor";
+		}
+
+
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
@@ -26,7 +29,7 @@ namespace SettingsManager
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
-	[DataContract(Name = "UserSettingData")]
+	[DataContract(Namespace = "")]
 	public class UserSettingData
 	{
 		[DataMember(Order = 1)]
@@ -70,6 +73,4 @@ namespace SettingsManager
 	}
 
 #endregion
-
-
 }

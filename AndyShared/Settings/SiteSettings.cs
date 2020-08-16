@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-
 using AndyShared.ConfigSupport;
 
 // Solution:     SettingsManager
@@ -11,18 +10,20 @@ using AndyShared.ConfigSupport;
 
 namespace SettingsManager
 {
+#region info class
 
-	#region info class
-
-	[DataContract(Name = "SiteSettingInfo", Namespace = "")]
+	[DataContract(Name = "SiteSettings", Namespace = "")]
 	public class SiteSettingInfo<T> : SiteSettingInfoBase<T>
 		where T : new ()
 	{
-		[DataMember]
-		public override string DataClassVersion => "7.0as";
-		public override string Description => "site setting file for SettingsManagerV70";
-		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public SiteSettingInfo()
+		{
+			DataClassVersion = "7.0as";
+			Description = "site setting file for SettingsManagerV70";
+		}
 
+
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion
@@ -31,15 +32,19 @@ namespace SettingsManager
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
-	[DataContract(Name = "SiteSettingData", Namespace = "")]
+	[DataContract(Namespace = "")]
 	public class SiteSettingData
 	{
 		[DataMember(Order = 1)]
 		public ObservableCollection<ConfigSeedFile> InstalledSeedFiles { get; set; }
 			= new ObservableCollection<ConfigSeedFile>()
 			{
-				{new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "", false, false, false, SeedFileStatus.IGNORE) }
+				{
+					new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "", false, false, false,
+						SeedFileStatus.IGNORE)
+				}
 			};
+
 		// public SortedDictionary<string, ConfigSeedFile> InstalledSeedFiles { get; set; }
 //			= new Dictionary<string, ConfigSeedFile>()
 //			{
@@ -54,5 +59,4 @@ namespace SettingsManager
 	}
 
 #endregion
-
 }

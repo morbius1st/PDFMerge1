@@ -32,9 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.1\SettingsMgr.cs">
-      <Link>.Linked\SettingsMgr.cs</Link>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
@@ -46,6 +43,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>.Linked\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>

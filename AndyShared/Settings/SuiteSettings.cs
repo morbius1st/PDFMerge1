@@ -15,14 +15,16 @@ namespace SettingsManager
 {
 #region info class
 
-	[DataContract(Name = "SuiteSettingInfoInfo")]
+	[DataContract(Name = "SuiteSettings", Namespace = "")]
 	public class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
 		where T : new ()
 	{
-		[DataMember]
-		public override string DataClassVersion => "0.7.su";
+		public SuiteSettingInfo()
+		{
+			DataClassVersion = "0.7.su";
+			Description = "Suite setting file for Andy";
+		}
 
-		public override string Description => "Suite setting file for Andy";
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
@@ -32,7 +34,7 @@ namespace SettingsManager
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
-	[DataContract]
+	[DataContract(Namespace = "")]
 	public class SuiteSettingData
 	{
 		[DataMember(Order = 1)]

@@ -20,15 +20,13 @@ namespace ClassifierEditor.DataRepo
 
 	#region private fields
 
-		private class DataStore :
-#pragma warning disable CS0246 // The type or namespace name 'BaseSettings<,,>' could not be found (are you missing a using directive or an assembly reference?)
-#pragma warning disable CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
-			BaseSettings<StorageMgrPath,
-#pragma warning restore CS0246 // The type or namespace name 'StorageMgrPath' could not be found (are you missing a using directive or an assembly reference?)
-#pragma warning disable CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
-			StorageMgrInfo<T>, T> { }
-#pragma warning restore CS0246 // The type or namespace name 'BaseSettings<,,>' could not be found (are you missing a using directive or an assembly reference?)
-#pragma warning restore CS0246 // The type or namespace name 'StorageMgrInfo<>' could not be found (are you missing a using directive or an assembly reference?)
+		private class DataStore : BaseSettingsStatic<StorageMgrPath, StorageMgrInfo<T>, T> { }
+
+
+		// BaseSettingsStatic<StorageMgrPath,
+			//
+			// StorageMgrInfo<T>, T> { }
+
 
 	#endregion
 

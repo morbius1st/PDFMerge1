@@ -177,6 +177,11 @@ namespace WpfShared.Windows
 			}
 		}
 
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
 
 		private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
 		{
@@ -231,6 +236,7 @@ namespace WpfShared.Windows
 		}
 
 	#endregion
+
 
 		
 	}

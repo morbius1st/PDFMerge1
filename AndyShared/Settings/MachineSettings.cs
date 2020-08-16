@@ -7,16 +7,18 @@
 
 namespace SettingsManager
 {
-
 #region info class
 
-	[DataContract(Name = "MachSettingInfoInfo")]
+	[DataContract(Name = "MachSettings", Namespace = "")]
 	public class MachSettingInfo<T> : MachSettingInfoBase<T>
 		where T : new ()
 	{
-		[DataMember]
-		public override string DataClassVersion => "7.0m";
-		public override string Description => "machine setting file for SettingsManagerV70";
+		public MachSettingInfo()
+		{
+			DataClassVersion = "7.0m";
+			Description = "machine setting file for SettingsManagerV70";
+		}
+
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
@@ -26,7 +28,7 @@ namespace SettingsManager
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
-	[DataContract(Name = "MachSettingData")]
+	[DataContract(Namespace = "")]
 	public class MachSettingData
 	{
 		[DataMember(Order = 1)]
@@ -34,5 +36,4 @@ namespace SettingsManager
 	}
 
 #endregion
-
 }

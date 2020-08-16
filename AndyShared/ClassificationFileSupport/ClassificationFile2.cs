@@ -46,6 +46,12 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
+			if (!SettingsSupport.ValidateXmlFile(filePath))
+			{
+				FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
+				return;
+			}
+
 			SampleFilePath = SampleFromFile();
 
 		}
@@ -240,26 +246,7 @@ namespace AndyShared.ClassificationFileSupport
 			OnPropertyChange("SampleFilePath");
 			OnPropertyChange("DataDescription");
 		}
-
-		private bool ValidateClassificationFile(string filePath)
-		{
-			string fileDescription = null;
-
-			if (!SettingsSupport.ValidateXmlFile(filePath)) return false;
-
-			try
-			{
-				fileDescription = FileDescriptionFromFile(filePath);
-
-			}
-			catch 
-			{
-				return false;
-			}
-
-			return fileDescription.Equals(ClassificationFileData.FILE_DESCRIPTION);
-		}
-
+		
 		public void Read()
 		{
 			dataFile = new BaseDataFile<ClassificationFileData>();
