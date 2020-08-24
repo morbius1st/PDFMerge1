@@ -27,9 +27,9 @@ namespace Sylvester.FileSupport
 			{
 				if (!tf.Selected) continue;
 
-				fi = new FileInfo(tf.FullFileRoute.GetFullFilePath);
+				fi = new FileInfo(tf.FullFileRoute.FullFilePath);
 
-				newPath = tf.FullFileRoute.GetPath + "\\"
+				newPath = tf.FullFileRoute.FolderPath + "\\"
 					+ tf.NewFileName;
 
 				fi.MoveTo(newPath);

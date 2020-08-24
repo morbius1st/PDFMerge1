@@ -239,6 +239,7 @@
 				Background="{TemplateBinding Background}"
 				BorderThickness="{TemplateBinding BorderThickness}"
 				BorderBrush="{TemplateBinding BorderBrush}"
+				Padding="{TemplateBinding Padding}"
 				>
 			<Border
 					x:Name="bdr1"

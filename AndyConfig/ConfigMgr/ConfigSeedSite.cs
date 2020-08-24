@@ -91,7 +91,7 @@ namespace AndyConfig.ConfigMgr
 		/// <summary>
 		/// path of the site seed folder
 		/// </summary>
-		public string SiteSeedFolderPath => siteSeedFolderPath?.GetPath ?? null;
+		public string SiteSeedFolderPath => siteSeedFolderPath?.FolderPath ?? null;
 
 		/// <summary>
 		/// verify that the site seed folder exists
@@ -163,18 +163,18 @@ namespace AndyConfig.ConfigMgr
 
 				string target1 =
 					SiteSeedFolderPath + FilePathUtil.PATH_SEPARATOR +
-					seed.FilePathLocal.GetFileName;
+					seed.FilePathLocal.FileName;
 
 				string target2 =
 					ClassificationFileAssist.GetSampleFile(SiteSeedFolderPath,
-						seed.FilePathLocal.GetFileNameWithoutExtension, true);
+						seed.FilePathLocal.FileNameNoExt, true);
 
 				if (seed.Status == SeedFileStatus.COPY)
 				{
-					File.Copy(seed.FilePathLocal.GetFullFilePath, target1);
+					File.Copy(seed.FilePathLocal.FullFilePath, target1);
 					if (target2 != null)
 					{
-						File.Copy(seed.SampleFile.GetFullFilePath, target2);
+						File.Copy(seed.SampleFile.FullFilePath, target2);
 					}
 
 					// #if DEBUG

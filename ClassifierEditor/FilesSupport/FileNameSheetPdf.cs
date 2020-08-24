@@ -76,13 +76,13 @@ namespace ClassifierEditor.FilesSupport
 		}
 
 #pragma warning disable CS0115 // 'FileNameSheetPdf.Extension': no suitable method found to override
-		public override string Extension
+		public override string ExtensionNoSep
 #pragma warning restore CS0115 // 'FileNameSheetPdf.Extension': no suitable method found to override
 		{
-			get => fileextension;
+			get => extensionNoSep;
 			set
 			{
-				fileextension = value;
+				extensionNoSep = value;
 				OnPropertyChange();
 
 				parsed = parse();
@@ -112,7 +112,7 @@ namespace ClassifierEditor.FilesSupport
 		}
 
 
-		public bool IsValid => !FileNameNoExt.IsVoid() && !Extension.IsVoid();
+		public bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
 
 		public bool SheetIdIdsMatch => SheetId.Equals(SheetIdByComponent);
 
@@ -166,9 +166,9 @@ namespace ClassifierEditor.FilesSupport
 
 		private bool parse()
 		{
-			if (parsed || fileNameNoExt.IsVoid() || fileextension.IsVoid()) return false;
+			if (parsed || fileNameNoExt.IsVoid() || extensionNoSep.IsVoid()) return false;
 
-			fnc = new FileNameSheetComponents(fileNameNoExt, fileextension);
+			fnc = new FileNameSheetComponents(fileNameNoExt, extensionNoSep);
 
 			if (fnc.success)
 			{

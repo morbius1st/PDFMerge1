@@ -1,35 +1,30 @@
-﻿#region using
+﻿#region using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using UtilityLibrary;
-
 #endregion
 
-// projname: WpfShared
-// itemname: MainWindow
 // username: jeffs
-// created:  7/12/2020 12:32:07 PM
+// created:  8/17/2020 6:17:55 AM
 
-namespace WpfShared.Windows
+namespace AndyShared.SampleFileSupport
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged
+
+	public class SampleFiles : INotifyPropertyChanged
 	{
 		#region private fields
+
+
 
 		#endregion
 
 		#region ctor
 
-		public MainWindow()
-		{
-			InitializeComponent();
-
-			FilePath<FileNameSimple> f = FilePath<FileNameSimple>.Invalid;
-		}
+		public SampleFiles() { }
 
 		#endregion
 
@@ -68,6 +63,20 @@ namespace WpfShared.Windows
 
 		#endregion
 
+		#region event handeling
+
+
+
+		#endregion
+
+		#region system overrides
+
+		public override string ToString()
+		{
+			return "this is SampleFiles";
+		}
+
+		#endregion
 
 	}
 }

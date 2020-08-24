@@ -21,7 +21,7 @@ namespace Sylvester.FileSupport
 			fc.Initialize();
 
 			foreach (string file in
-				Directory.EnumerateFiles(folder.GetFullFilePath, "*.*",
+				Directory.EnumerateFiles(folder.FullFilePath, "*.*",
 					SearchOption.AllDirectories))
 			{
 				fc.Add(new FilePath<FileNameSimple>(file), preselect);

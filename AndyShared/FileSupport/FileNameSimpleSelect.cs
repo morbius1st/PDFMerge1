@@ -24,7 +24,6 @@ namespace AndyShared.FilesSupport
 	{
 		private bool selected;
 
-
 		public bool Selected
 		{
 			get => selected;
@@ -36,13 +35,6 @@ namespace AndyShared.FilesSupport
 				OnPropertyChange();
 			}
 		}
-
-//		public FileNameSimple() { }
-
-//		public FileNameSimple(string filename)
-//		{
-//			this.filename = filename;
-//		}
 
 	#region event handling
 

@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
+using UtilityLibrary;
 
 namespace AndyShared.Support
 {
@@ -64,6 +65,8 @@ namespace AndyShared.Support
 
 			string[] p = new string[((StringCollection) parameter).Count];
 			((StringCollection) parameter).CopyTo(p, 0);
+
+			if (p[1].IsVoid()) p[1] = (string) value;
 
 			return (string) value == null ? p[0] : p[1];
 		}

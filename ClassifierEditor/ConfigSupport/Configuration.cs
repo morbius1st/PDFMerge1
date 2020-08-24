@@ -66,14 +66,14 @@ namespace ClassifierEditor.ConfigSupport
 
 	#region public properties
 
-		public string LastEditedClassificationFilePath => classificationFile.GetFullFilePath;
+		public string LastEditedClassificationFilePath => classificationFile.FullFilePath;
 		// ConfigFileSupport.MakeClassificationFileName(
 		// Environment.UserName, UserSettings.Data.LastClassificationFileId);
 
 		public string LastEditedSampleFilePath => classificationFile.SampleFilePath;
 		// ConfigFileSupport.GetSampleFile(LastEditedClassificationFolderPath, LastEditedClassificationFilePath, false);
 
-		public string LastEditedClassificationFolderPath => classificationFile.GetFolderPath;
+		public string LastEditedClassificationFolderPath => classificationFile.FolderPath;
 		// classificationUser.Find(Environment.UserName, UserSettings.Data.LastClassificationFileId);
 
 		public string LastEditedClassificationFileName => classificationFile.FileName;

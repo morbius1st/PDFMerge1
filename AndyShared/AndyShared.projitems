@@ -9,7 +9,7 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation.cs" />
@@ -18,12 +18,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FolderAndFileSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\SampleFileAssist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
@@ -32,9 +35,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsFilePath.cs">
-      <Link>.Linked\CsFilePath.cs</Link>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.Linked\CsExtensions.cs</Link>
     </Compile>
@@ -43,6 +43,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs">
+      <Link>.Linked\CsFilePath.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>.Linked\SettingsMgr.cs</Link>

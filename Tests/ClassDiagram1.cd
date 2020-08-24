@@ -1,0 +1,819 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Tests.OutlineTestData" Collapsed="true">
+    <Position X="23" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>.Debug\OutlineTestData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.App" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Helpers" Collapsed="true">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAABgAAAICAGAAAQBJAAIACgACIACEIQIFAQAgBAAQ=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.OutlineItem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQACgAEQEIAAEAAAQiAAAECAAAAAAIAAAACA=</HashCode>
+      <FileName>OutlineItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.OutlineItems" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAACAAAAAAAAQAAAAgAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>OutlineItems.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Debug.SeqTestData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEEAAAAACCAAAQAAgADAAAAggAgAAAAUAAAgAAAAAA=</HashCode>
+      <FileName>.Debug\SeqTestData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Debug.TestCollection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>.Debug\TestCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Debug.Tx" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAICAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>.Debug\TestCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UtilityLibrary.CsExtensions" Collapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAAAAAAAAAAQAAAABAAEAAABAAAAIAAAAAAQA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.MessageException" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.CsUtilities" Collapsed="true">
+    <Position X="30" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAQBAAAAAAgAAAAAAAAAACAAAAAAAEAAQABACBAEA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.Extensions" Collapsed="true">
+    <Position X="33.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.FilePath&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="12" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>JBQAAAYEEIKBBAwEiEqQCOjAwEEAAQCwOEAAABBSBBo=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FilePathInfo" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UtilityLibrary.DllImports" Collapsed="true">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.FilePathInfo&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="21" Y="12" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAgAEgAoCBBAoEwABAEOCAwEAQgYCAEIAACBBQIEI=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UtilityLibrary.FilePathUtil" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAgAIAABAEBAABAACAAAACoAIAAAAEAQCA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.AFileName">
+    <Position X="24.5" Y="13.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAQAgAhAAEAAAABAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="UtilityLibrary.FileNameSimple" Collapsed="true">
+    <Position X="27.25" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAgAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UtilityLibrary.FileNameAsSheetFile" Collapsed="true">
+    <Position X="27.25" Y="15.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAgAAACAAAAAAAgAAEAEgAAABAAAAAAAAAIAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UtilityLibrary.FileExtensionClassifier" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.MessageUtilities2" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAABAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UtilityLibrary.MessageUtilities" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAIAAAAAACAAAAIACCAAAIJAAAALEAgAAAABAwA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.Aav721" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.Heading" Collapsed="true">
+    <Position X="30" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAQAAAgAAAAAQAAACAAAAAEBAAAAAAAAAAEAQA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SettingsMgr&lt;TPath, TInfo, TData&gt;" Collapsed="true">
+    <Position X="30" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwEAIAEAwAABQIABAAAAAAgAAAAAEBAAAAAAEEAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.PathAndFileBase" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAAARCAEAQAEBaAABQAgQAAAAAAAAAAEAAAANCFCA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SettingInfoBase&lt;TData&gt;" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQgAgAAAAAgCAQAAAAAAAAAAAAEABAAAAAgAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SettingsManager.BaseSettingsStatic&lt;TPath, TInfo, TData&gt;" Collapsed="true">
+    <Position X="8.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAIAAAAAAQAAAAAAABAAAAAAAEAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.UserSettingPath" Collapsed="true">
+    <Position X="0.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.UserSettingInfoBase&lt;TData&gt;" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.UserSettings" Collapsed="true">
+    <Position X="7.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SuiteSettingPath" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SuiteSettingInfoBase&lt;TData&gt;" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SuiteSettings" Collapsed="true">
+    <Position X="9.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.MachSettingPath" Collapsed="true">
+    <Position X="7.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.MachSettingInfoBase&lt;TData&gt;" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.MachSettings" Collapsed="true">
+    <Position X="11.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SiteSettingPath" Collapsed="true">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SiteSettingInfoBase&lt;TData&gt;" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SiteSettings" Collapsed="true">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.StorageMgrInfo&lt;TData&gt;" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.StorageMgrPath" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.BaseDataFile&lt;TData&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAACAAAIAAABAAQAAgAAAABAAAAAAAEAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SettingsManager.MachSettingInfo&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\MachineSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.MachSettingData" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\MachineSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SiteSettingInfo&lt;T&gt;" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\SiteSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SiteSettingData" Collapsed="true">
+    <Position X="21.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\SiteSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SuiteSettingInfo&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\SuiteSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.SuiteSettingData" Collapsed="true">
+    <Position X="24.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\SuiteSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.UserSettingInfo&lt;T&gt;" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\UserSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingsManager.UserSettingData" Collapsed="true">
+    <Position X="30" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\UserSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOperation" Collapsed="true">
+    <Position X="1.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAKAAABGAAAAAAAAgAACEQEAIgAAAAAAABI=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompOp" Collapsed="true">
+    <Position X="0.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompOp" Collapsed="true">
+    <Position X="2.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ACompareOp" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompareOp" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompareOp" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations" Collapsed="true">
+    <Position X="33.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAgIAAACAAAAAAAAAACAAJAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAQUACgAFAkIAgAAAAAgAAAAAAgBAAAIEAAADA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\SheetCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.TreeNode" Collapsed="true">
+    <Position X="8.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MQEAmSAAAIiKEATEwRQUQIAcgQCAEAEiAJAJJD4AIFs=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.BaseOfTree" Collapsed="true">
+    <Position X="8.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAECAAgEAwEAAAAAAAAAIEgAAABAICAgABIEAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationFileSupport.ClassificationFile" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAECBARAACQkAAEAAgAQWAghgAAYAQAIUAAAINAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.ClassificationFileSupport.ClassificationFileAssist" Collapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgEAAAQAAAkAAAEAgBACAEAgAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFileAssist.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationFileSupport.ClassificationFileData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAACAAAAEAAAAQAAAgAAAAEAAAAAABAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFileData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.ClassificationFileSupport.SampleFileAssist" Collapsed="true">
+    <Position X="28.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIAAAIAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\SampleFileAssist.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ConfigSupport.ClassificationFile1" Collapsed="true">
+    <Position X="2.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAGAAAQAAAAmAAEAAgAQEAgBgAAYAQAIABAAAMAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFile1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ConfigSupport.ConfigFile&lt;T&gt;" Collapsed="true">
+    <Position X="1.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEABAAAICQBAQAAAAAAAAAgAAAAAAAAUAAAAJABAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ConfigSupport.ConfigSeedFile" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEAAAEAAAABAAAAIAAAgBAQEAAQEBAIAAAABA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ConfigMgrShared.ClassificationFiles" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAEQAAAACAAQwGACAAggAAghBLAAAAQAAAAAgAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFiles.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.ConfigMgrShared.ConfigFileSupport" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigMgrShared\ConfigFileSupport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ConfigMgrShared.ConfigSeedFileSupport" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAACAAEAAAAAAAAAAIAAAAEAAAAgEAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigMgrShared\ConfigFileSupport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ConfigMgrShared.ConfigSeedLocal" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEQAgIACAIQwEAAAAAAAAghBBAAAIUAAAIAYAAIA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigMgrShared\ConfigSeedLocal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.ConfigMgrShared.ConfigUser" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACgAAAEAAAAEAAggBFAAAAAQAAAAAEABAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigMgrShared\ConfigUser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.FilesSupport.FileNameSimpleSelectable" Collapsed="true">
+    <Position X="27.25" Y="14.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\FileSupport\FileNameSimpleSelect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.FilesSupport.FileNameUserAndId" Collapsed="true">
+    <Position X="27.25" Y="16.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAEAShACEAAwAAAAAAAAwAAiANAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\FileSupport\FileNameUserAndId.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.FilesSupport.FolderAndFileSupport" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAEAAAAAAAAAAAEAAAAgAQQAIAAEAAQAAAAAAgABAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\FileSupport\FolderAndFileSupport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.SampleFileSupport.SampleFile" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUAACAAAIEAAgAAgAAgQAAQAAgAEAAAAIAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\SampleFileSupport\SampleFile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.SampleFileSupport.SampleFiles" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAEAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\SampleFileSupport\SampleFiles.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.Settings.SettingsSupport" Collapsed="true">
+    <Position X="31.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Settings\SettingsSupport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.Support.ObservableCollectionSupport" Collapsed="true">
+    <Position X="31.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Support\ObservableCollectionSupport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.Support.InvertBool" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.Support.NullStringToMessage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AndyShared.Support.StringToMessage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.PathSupport.FileNameAsSheetPdf" Collapsed="true">
+    <Position X="27.25" Y="15" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABkBAEAKAAAAEQAhAAEAEwAQBABgABAAAAgKAKA4=</HashCode>
+      <FileName>PathSupport\FileNameAsSheetPdf.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Tests.PathSupport.FileNameParseSheet" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABApQAgAAAAAAAAEAiAAAGBQCEBQAAAAwAAgELCAAAI=</HashCode>
+      <FileName>PathSupport\FileNameParseSheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.PathSupport.FileExtensionClassifier" Collapsed="true">
+    <Position X="5.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>PathSupport\FileNameParseSheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.PathSupport.FileExtensionPdfClassifier" Collapsed="true">
+    <Position X="5.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PathSupport\FileNameParseSheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.PathSupport.FileNameComponentsPDF" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAKAQAAEAAAAAAEAmAAAAAIEQAAIDgAAMgQ=</HashCode>
+      <FileName>PathSupport\FileNameParseSheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Properties.Resources" Collapsed="true">
+    <Position X="24.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Properties.Settings" Collapsed="true">
+    <Position X="28.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Sequence.SeqDisciplines" Collapsed="true">
+    <Position X="31.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAAACAAAAAQAAQAAAAgAAAAAEAQAAAAAAAAAE=</HashCode>
+      <FileName>Sequence\SeqDiscipline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Sequence.SeqDiscipline" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sequence\SeqDiscipline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tests.Sequence.SeqItem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACgAAAAIBAAAAAAgAAAQAAAAABAAAAAAAA=</HashCode>
+      <FileName>Sequence\SeqItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Sequence.SeqItems" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAACADAAAAAAAAAAAgAAAAAAAQAAAAABAAAA=</HashCode>
+      <FileName>Sequence\SeqItems.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Sequence.SeqPart" Collapsed="true">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQACgAEAEIAAgAAAAoAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sequence\SeqPart.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Tests.Sequence.SeqParts" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAABAAAAQAgAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Sequence\SeqParts.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tests.Sequence.SeqPartsList" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIMEBAAAACABAAAAQAAAAAAgBAAAAAAQAAAAABAACA=</HashCode>
+      <FileName>Sequence\SeqPartsList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="UtilityLibrary.IFileName">
+    <Position X="24.5" Y="11" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAhAAEAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AndyShared.Support.IObservCollMember" Collapsed="true">
+    <Position X="23" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\Support\IObservCollMember.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SettingsManager.SettingMgrStatus" Collapsed="true">
+    <Position X="23" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAABBgAAAAAACAAAAAAgAAEAAAAARAAAAAACAE=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SettingsManager.SettingFileType" Collapsed="true">
+    <Position X="21.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAYQAAAAAAAEAIAIBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp" Collapsed="true">
+    <Position X="23" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAgAwQAEAIAYAEACAAQADBAAFAAAAAABEAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.CheckedState" Collapsed="true">
+    <Position X="21.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodeType" Collapsed="true">
+    <Position X="28.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectState" Collapsed="true">
+    <Position X="33.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectMode" Collapsed="true">
+    <Position X="31.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodePlacement" Collapsed="true">
+    <Position X="26.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ConfigSupport.SeedFileStatus" Collapsed="true">
+    <Position X="30" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAQAIAAAAAEAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Tests.PathSupport.FileTypeSheetPdf" Collapsed="true">
+    <Position X="24.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>PathSupport\FileNameParseSheet.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="SettingsManager.RstData" Collapsed="true">
+    <Position X="21.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

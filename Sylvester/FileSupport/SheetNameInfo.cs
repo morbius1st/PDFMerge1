@@ -123,12 +123,12 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public string FilePath => fullFileRoute.GetPath;
+		public string FilePath => fullFileRoute.FolderPath;
 
 
 
 
-		public string FileName => fullFileRoute.GetFileName;
+		public string FileName => fullFileRoute.FileName;
 		
 		public FileType FileType
 		{
@@ -249,7 +249,7 @@ namespace Sylvester.FileSupport
 
 		public void Initalize()
 		{
-			if (fullFileRoute.GetFileExtension.Equals(FILE_TYPE_EXT))
+			if (fullFileRoute.Extension.Equals(FILE_TYPE_EXT))
 			{
 				if (ParseFile())
 				{

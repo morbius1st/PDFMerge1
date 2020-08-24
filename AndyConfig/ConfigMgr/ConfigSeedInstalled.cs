@@ -77,7 +77,7 @@ namespace AndyShared.ConfigMgr
 			Assembly.GetExecutingAssembly().Location;
 	#endif
 
-		public string InstallSeedFileFolder => installedSeedFilePath?.GetPath ?? null;
+		public string InstallSeedFileFolder => installedSeedFilePath?.FolderPath ?? null;
 
 		public bool InstalledFolderExists => installedSeedFilePath?.IsFound ?? false;
 
@@ -192,7 +192,7 @@ namespace AndyShared.ConfigMgr
 				if (!bypass)
 				{
 					string key = ConfigFile<FileNameSimple>.MakeKey(Heading.SuiteName,
-						seedFile.GetFileNameWithoutExtension);
+						seedFile.FileNameNoExt);
 
 					found = InstalledSeedFiles.Find(key);
 				}

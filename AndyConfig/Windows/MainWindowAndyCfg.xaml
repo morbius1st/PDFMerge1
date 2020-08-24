@@ -1684,6 +1684,7 @@
 													</DataGridTemplateColumn>
 
 													<DataGridTextColumn
+															
 															Width="*"
 															Binding="{Binding FileName,
 																								Mode=OneWay,

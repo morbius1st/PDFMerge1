@@ -75,7 +75,7 @@ namespace AndyShared.ConfigMgrShared
 		/// <summary>
 		/// path to the local seed folder
 		/// </summary>
-		public string LocalSeedFolderPath => localSeedFolderPath?.GetPath ?? null;
+		public string LocalSeedFolderPath => localSeedFolderPath?.FolderPath ?? null;
 
 		public bool LocalSeedFolderPathExists => Directory.Exists(LocalSeedFolderPath);
 
@@ -164,7 +164,7 @@ namespace AndyShared.ConfigMgrShared
 		private void GetLocalSeedFiles()
 		{
 			bool result = ConfigSeedFileSupport.GetFiles(seedFiles,
-				localSeedFolderPath.GetPath, ConfigSeedFileSupport.SEED_PATTERN, 
+				localSeedFolderPath.FolderPath, ConfigSeedFileSupport.SEED_PATTERN, 
 				SearchOption.AllDirectories, false, true);
 		}
 

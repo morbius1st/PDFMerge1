@@ -33,7 +33,7 @@ namespace AndyShared.Settings
 			List<FilePath<FileNameSimpleSelectable>> files = new List<FilePath<FileNameSimpleSelectable>>();
 
 			foreach (string file in
-				Directory.EnumerateFiles(folder.GetFullFilePath, pattern, SearchOption.AllDirectories))
+				Directory.EnumerateFiles(folder.FullFilePath, pattern, SearchOption.AllDirectories))
 			{
 				files.Add(new FilePath<FileNameSimpleSelectable>(file));
 			}

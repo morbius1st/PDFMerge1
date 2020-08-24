@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AndyShared.ClassificationFileSupport;
 using UtilityLibrary;
 
 #endregion
@@ -23,18 +24,24 @@ namespace AndyShared.FilesSupport
 
 	public class FileNameUserAndId : AFileName, INotifyPropertyChanged
 	{
+		private const string FILE_EXT = "xml";
+
 		private const int USER_NAME_IDX = 1;
 		private const int FILE_ID_IDX = 2;
 		private const int FILE_EXT_IDX = 3;
 
-		private const string PARSE_PATTERN = @"^\((.{3,})\) (.{3,})\.([xX][mM][lL])";
+		// private const string PARSE_PATTERN = @"^\((.{3,})\) (.{3,})\.([xX][mM][lL])";
+		private const string PARSE_PATTERN = @"^\((.{3,})\) (.{3,})";
+
+
 		// private bool isValid;
 		private string userName;
 		private string fileId;
 
 		public override string FileNameNoExt
 		{
-			get => formatFileName();
+			get => ClassificationFile.formatFileName(UserName, FileId);
+
 			set
 			{
 				if (value.IsVoid())
@@ -46,7 +53,7 @@ namespace AndyShared.FilesSupport
 					return;
 				}
 
-				this.fileNameNoExt = value.Trim();
+				this.fileNameNoExt = value.TrimStart();
 
 				parseFileName();
 
@@ -54,10 +61,23 @@ namespace AndyShared.FilesSupport
 			}
 		}
 
+		public override string ExtensionNoSep
+		{
+			get => this.extensionNoSep;
+
+			set
+			{
+				if (value.Equals(FILE_EXT, StringComparison.OrdinalIgnoreCase))
+				{
+					this.extensionNoSep = value;
+				}
+			}
+		}
+
 		/// <summary>
 		/// The filename and extension
 		/// </summary>
-		public string FileName => fileNameNoExt + FilePathUtil.EXT_SEPARATOR + Extension;
+		public new string FileName => FilePathUtil.AssemblePath(FileNameNoExt, ExtensionNoSep, null);
 
 		public string UserName
 		{
@@ -79,42 +99,32 @@ namespace AndyShared.FilesSupport
 			}
 		}
 
-		public bool IsValid { get; private set; }
-
-		private string formatFileName()
+		public override bool IsValid
 		{
-			return $"({UserName}) {FileId}";
+			get
+			{
+				if (userName == null || fileId == null ||
+					userName.Length < 3 || fileId.Length < 4) return false;
+
+				return true;
+			}
 		}
 
 		private void parseFileName()
 		{
-
 			Regex r = new Regex(PARSE_PATTERN, RegexOptions.IgnoreCase);
 
-			Match m = r.Match(FileName);
-			
+			Match m = r.Match(this.fileNameNoExt);
 
 			if (!m.Success ||
-				m.Groups.Count != 4) return;
+				m.Groups.Count != 3) return;
 
 			UserName = m.Groups[USER_NAME_IDX].Value;
 			FileId = m.Groups[FILE_ID_IDX].Value;
-			Extension = m.Groups[FILE_EXT_IDX].Value;
+			// Extension = m.Groups[FILE_EXT_IDX].Value;
 
-			if (userName.Length > 2 && fileId.Length > 3 && Extension.Length == 3)
-			{
-				IsValid = true;
-				OnPropertyChange("IsValid");
-			}
-
+			OnPropertyChange("IsValid");
 		}
-
-		// private void updateFileName()
-		// {
-		// 	fileNameNoExt = formatFileName();
-		//
-		// 	OnPropertyChange("FileNameNoExt");
-		// }
 
 	#region event handling
 

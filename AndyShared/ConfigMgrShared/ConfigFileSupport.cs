@@ -21,11 +21,11 @@ namespace AndyShared.ConfigMgrShared
 			string sampleFile)
 		{
 			return new ConfigSeedFile(
-				file.GetFileNameWithoutExtension,
+				file.FileNameNoExt,
 				suiteName,
-				file.GetPath,
-				file.GetFileName,
-				sampleFile, false, false, file.GetFileNameObject.Selected, SeedFileStatus.IGNORE);
+				file.FolderPath,
+				file.FileName,
+				sampleFile, false, false, file.FileNameObject.Selected, SeedFileStatus.IGNORE);
 		}
 
 	#endregion
@@ -35,7 +35,6 @@ namespace AndyShared.ConfigMgrShared
 	public static class ConfigSeedFileSupport
 	{
 		public const string INFO_FILE_EXT = ".xml";
-		public const string SAMPLE_FILE_EXT = ".sample";
 
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";
@@ -79,11 +78,11 @@ namespace AndyShared.ConfigMgrShared
 			string sampleFile)
 		{
 			return new ConfigSeedFile(
-				file.GetFileNameWithoutExtension,
+				file.FileNameNoExt,
 				suiteName,
-				file.GetPath,
-				file.GetFileName,
-				sampleFile, false, false, file.GetFileNameObject.Selected, SeedFileStatus.IGNORE);
+				file.FolderPath,
+				file.FileName,
+				sampleFile, false, false, file.FileNameObject.Selected, SeedFileStatus.IGNORE);
 		}
 	}
 }

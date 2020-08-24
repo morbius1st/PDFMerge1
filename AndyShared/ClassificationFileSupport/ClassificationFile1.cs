@@ -1,4 +1,4 @@
-﻿#region using directives
+﻿#region using
 
 using System;
 using System.Collections.Generic;
@@ -9,28 +9,27 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Linq;
+using AndyShared.ClassificationFileSupport;
+using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
-using AndyShared.Settings;
 using SettingsManager;
 using UtilityLibrary;
 
 #endregion
 
 // username: jeffs
-// created:  8/2/2020 10:24:57 PM
+// created:  7/8/2020 1:09:18 PM
 
-namespace AndyShared.ClassificationFileSupport
+
+// represents a single classification configuration file
+namespace AndyShared.ConfigSupport
 {
 	[DataContract(Namespace = "")]
-	public class ClassificationFile : INotifyPropertyChanged
+	public class ClassificationFile1 : ConfigFile<FileNameUserAndId>
 	{
 	#region private fields
 
-		private FilePath<FileNameUserAndId> filePathLocal;
-
-		private string sampleFile;
+		private FilePath<FileNameSimple> sampleFile;
 
 		private BaseDataFile<ClassificationFileData> dataFile;
 
@@ -42,18 +41,33 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		public ClassificationFile(string filePath, bool fileSelected = false)
+		public ClassificationFile1(string fileId,
+			string username,
+			string folder,
+			string fileName) : base(fileId, username, folder, fileName) { }
+
+		public ClassificationFile1(string filePath, bool fileSelected = false)
 		{
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
-			if (!SettingsSupport.ValidateXmlFile(filePath))
+			if (!IsValid)
 			{
 				FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
+				FileId = null;
+				UserName = null;
+				FileName = null;
+				Folder = null;
 				return;
 			}
 
-			SampleFilePath = SampleFromFile();
+			FileId = FilePathLocal.FileNameObject.FileId;
+			UserName = FilePathLocal.FileNameObject.UserName;
+			Folder = FilePathLocal.FolderPath;
+			FileName = FilePathLocal.FileNameObject.FileName;
+			IsSelected = fileSelected;
+			editingEnabled = true;
 
+			UpdateProperties();
 		}
 
 	#endregion
@@ -63,12 +77,12 @@ namespace AndyShared.ClassificationFileSupport
 		// tied to xml data file
 		public string DataDescription
 		{
-			get => dataFile.Data.Description;
+			get => dataFile.Info.Description;
 			set
 			{
-				if (value.Equals(dataFile.Data.Description)) return;
+				if (value.Equals(dataFile.Info.Description)) return;
 
-				dataFile.Data.Description = value;
+				dataFile.Info.Description = value;
 
 				dataFile.Admin.Write();
 
@@ -76,29 +90,9 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public FilePath<FileNameUserAndId> FilePathLocal
+		public string DataFileId
 		{
-			get => filePathLocal;
-
-			set
-			{
-				filePathLocal = value;
-				
-
-				OnPropertyChange();
-			}
-		}
-
-		public string FileName => filePathLocal.GetFileName;
-
-		public string UserName
-		{
-			get => filePathLocal.GetFileNameObject.UserName;
-		}
-
-		public string FileId
-		{
-			get => filePathLocal.GetFileNameObject.FileId;
+			get => FileId;
 
 			set
 			{
@@ -110,8 +104,6 @@ namespace AndyShared.ClassificationFileSupport
 				string newSampleFileName;
 				string newSampleFilePath;
 
-				string newFileNameNoExt = ClassificationFileAssist.MakeClassificationFileNameNoExt(UserName, value);
-
 				string newFileName = ClassificationFileAssist.MakeClassificationFileName(UserName, value);
 
 				string newFilePath = GetFolderPath + FilePathUtil.PATH_SEPARATOR + newFileName;
@@ -119,9 +111,6 @@ namespace AndyShared.ClassificationFileSupport
 
 				try
 				{
-					bool found = File.Exists(oldFilePath);
-
-
 					File.Move(oldFilePath, newFilePath);
 
 
@@ -138,7 +127,7 @@ namespace AndyShared.ClassificationFileSupport
 
 				catch { }
 
-				filePathLocal.ChangeFileName(newFileNameNoExt);
+				FileId = value;
 
 				OnPropertyChange();
 				OnSelectedPropertyChange();
@@ -146,24 +135,25 @@ namespace AndyShared.ClassificationFileSupport
 				OnPropertyChange("SampleFilePath");
 				OnPropertyChange("FileName");
 				OnPropertyChange("GetFullFilePath");
+
 			}
 		}
 
 
 		// management 
-		public string GetFullFilePath => FilePathLocal.GetFullFilePath;
+		public string GetFullFilePath => FilePathLocal.FullFilePath;
 
-		public string GetFolderPath => FilePathLocal.GetPath;
+		public string GetFolderPath => FilePathLocal.FolderPath;
 
-		public string FileNameNoExt => FilePathLocal.GetFileNameObject.FileNameNoExt;
+		public string FileNameNoExt => FilePathLocal.FileNameObject.FileNameNoExt;
 
 		public string SampleFilePath
 		{
-			get => sampleFile;
-			private set
+			get
 			{
-				sampleFile = value;
-				OnPropertyChange();
+				ValidateSampleFile();
+
+				return sampleFile.FullFilePath;
 			}
 		}
 
@@ -171,13 +161,15 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			get
 			{
-				return sampleFile != null;
+				ValidateSampleFile();
+
+				return sampleFile.IsValid;
 			}
 		}
 
 		public bool SampleFileValidated { get; private set;  } = false;
 
-		public bool IsValid => FilePathLocal?.GetFileNameObject?.IsValid ?? false;
+		public bool IsValid => FilePathLocal?.FileNameObject?.IsValid ?? false;
 
 		public bool EditingEnabled
 		{
@@ -206,34 +198,23 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region private properties
 
-		
-
 	#endregion
 
 	#region public methods
-
-		public bool InstallSampleFile(string proposedSampleFile)
-		{
-			string sampleFile = 
-				ClassificationFileAssist.IncorporateSampleFile(proposedSampleFile,
-				GetFolderPath, FileNameNoExt);
-
-			if (sampleFile == null)
-			{
-				return false;
-			}
-			SampleFilePath = sampleFile;
-
-			return true;
-		}
 
 	#endregion
 
 	#region private methods
 
-		private string FileDescriptionFromFile(string filePath) => CsUtilities.ScanXmlForElementValue(filePath, "FileDescription", 1);
+		private void ValidateSampleFile()
+		{
+			if (!SampleFileValidated)
+			{
+				GetSampleFilePath(Folder, FileNameNoExt);
 
-		private string SampleFromFile() => CsUtilities.ScanXmlForElementValue(GetFullFilePath, "SampleFile", 1);
+				SampleFileValidated = true;
+			}
+		}
 
 		private void UpdateProperties()
 		{
@@ -246,28 +227,28 @@ namespace AndyShared.ClassificationFileSupport
 			OnPropertyChange("SampleFilePath");
 			OnPropertyChange("DataDescription");
 		}
-		
+
+		private void GetSampleFilePath(string folder, string fileNameNoExt)
+		{
+			sampleFile = new FilePath<FileNameSimple>(
+				ClassificationFileAssist.GetSampleFile(folder, fileNameNoExt, false));
+		}
+
 		public void Read()
 		{
 			dataFile = new BaseDataFile<ClassificationFileData>();
-			dataFile.Configure(GetFolderPath, FilePathLocal.GetFileName);
+			dataFile.Configure(GetFolderPath, FilePathLocal.FileName);
 			dataFile.Admin.Read();
 
 			EditingEnabled = true;
 
 			UpdateProperties();
 		}
+
 	#endregion
 
 	#region event processing
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-		}
-		
 		public event PropertyChangedEventHandler SelectedPropertyChanged;
 
 		private void OnSelectedPropertyChange([CallerMemberName] string memberName = "")
@@ -285,7 +266,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public override string ToString()
 		{
-			return "this is ClassificationFile2";
+			return "this is ClassificationFile";
 		}
 
 	#endregion

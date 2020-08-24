@@ -2,7 +2,9 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 #endregion
 
@@ -18,7 +20,9 @@ namespace Tests.PathSupport
 //		OTHER
 //	}
 
+#pragma warning disable CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	public class FileNameAsSheetPdf : AFileName, INotifyPropertyChanged
+#pragma warning restore CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	{
 	#region private fields
 
@@ -38,7 +42,9 @@ namespace Tests.PathSupport
 
 	#region public properties
 
+#pragma warning disable CS0115 // 'FileNameAsSheetPdf.FileNameNoExt': no suitable method found to override
 		public override string FileNameNoExt
+#pragma warning restore CS0115 // 'FileNameAsSheetPdf.FileNameNoExt': no suitable method found to override
 		{
 			get => fileNameNoExt;
 
@@ -51,12 +57,14 @@ namespace Tests.PathSupport
 			}
 		}
 
-		public override string Extension
+#pragma warning disable CS0115 // 'FileNameAsSheetPdf.Extension': no suitable method found to override
+		public override string ExtensionNoSep
+#pragma warning restore CS0115 // 'FileNameAsSheetPdf.Extension': no suitable method found to override
 		{
-			get => fileextension;
+			get => extensionNoSep;
 			set
 			{
-				fileextension = value;
+				extensionNoSep = value;
 				OnPropertyChange();
 
 				parsed = parse();
@@ -85,7 +93,7 @@ namespace Tests.PathSupport
 			}
 		}
 
-		public bool IsValid => !FileNameNoExt.IsVoid() && !Extension.IsVoid();
+		public bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
 
 		public bool SheetIdIdsMatch => SheetId.Equals(SheetIdByComponent);
 
@@ -139,9 +147,9 @@ namespace Tests.PathSupport
 
 		private bool parse()
 		{
-			if (parsed || fileNameNoExt.IsVoid() || fileextension.IsVoid()) return false;
+			if (parsed || fileNameNoExt.IsVoid() || extensionNoSep.IsVoid()) return false;
 
-			fnc = new FileNameComponentsPDF(fileNameNoExt, fileextension);
+			fnc = new FileNameComponentsPDF(fileNameNoExt, extensionNoSep);
 
 //			bool result = FileNameParseSheet.Instance.Parse(fnc, filename);
 
@@ -195,7 +203,9 @@ namespace Tests.PathSupport
 
 	#region system overrides
 
+#pragma warning disable CS0115 // 'FileNameAsSheetPdf.ToString()': no suitable method found to override
 		public override string ToString()
+#pragma warning restore CS0115 // 'FileNameAsSheetPdf.ToString()': no suitable method found to override
 		{
 			return "this is FileNameAsSheetFileName";
 		}

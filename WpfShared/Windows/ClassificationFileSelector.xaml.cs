@@ -3,14 +3,17 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using CSLibraryIo.CommonFileFolderDialog;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using SettingsManager;
 using UtilityLibrary;
+using WpfShared.Dialogs;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using TextBox = System.Windows.Controls.TextBox;
 
 
 /*
@@ -24,10 +27,7 @@ re: classification file
 	does not duplicate 
 3. delete: delete a classification file 
 
-
-
 */
-
 
 namespace WpfShared.Windows
 {
@@ -41,11 +41,9 @@ namespace WpfShared.Windows
 	/// </remarks>
 	public partial class ClassificationFileSelector : Window, INotifyPropertyChanged
 	{
-		public static string TEST = "";
+		public static string NO_SAMPLE_FILE { get; } = "A Sample File has not been Configured";
 
 	#region private fields
-
-		public static string NO_SAMPLE_FILE = "No Sample File Found";
 
 		private ClassificationFiles cfgClsFiles = null;
 
@@ -66,10 +64,9 @@ namespace WpfShared.Windows
 			initialize();
 		}
 
+	#endregion
 
-		#endregion
-
-		#region public properties
+	#region public properties
 
 		public ClassificationFiles CfgClsFiles => cfgClsFiles;
 
@@ -80,7 +77,6 @@ namespace WpfShared.Windows
 			get => selected;
 			set
 			{
-
 				if (selected != null)  selected.SelectedPropertyChanged -= Selected_SelectedPropertyChanged;
 
 				selected = value;
@@ -103,13 +99,9 @@ namespace WpfShared.Windows
 
 	#region private properties
 
-
-
 	#endregion
 
 	#region public methods
-
-
 
 	#endregion
 
@@ -117,9 +109,23 @@ namespace WpfShared.Windows
 
 		private void initialize()
 		{
+			// BaseDataFile<ClassificationFileData> dataFile = new BaseDataFile<ClassificationFileData>();
+			// dataFile.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", 
+			// 	"(jeffs) PdfSample 30.xml");
+			// dataFile.Admin.Read();
+			// dataFile.Admin.Write();
+
+
 			cfgClsFiles = ClassificationFiles.Instance;
 
+			reinitialize();
+		}
+
+		private void reinitialize()
+		{
 			cfgClsFiles.Initialize();
+
+			OnPropertyChange("CfgClsFiles");
 
 			initializeView();
 		}
@@ -128,17 +134,9 @@ namespace WpfShared.Windows
 		{
 			view = CollectionViewSource.GetDefaultView(cfgClsFiles.UserClassificationFiles);
 
-			view.Filter = new Predicate<object>(MatchUser);
+			// view.Filter = new Predicate<object>(MatchUser);
 
 			OnPropertyChange("View");
-
-		}
-
-		private bool MatchUser(object usr)
-		{
-			ClassificationFile user = usr as ClassificationFile;
-
-			return user.UserName.Equals(UserName);
 		}
 
 	#endregion
@@ -156,30 +154,29 @@ namespace WpfShared.Windows
 
 	#region event handeling
 
+		private bool tbxKeyProcessingFlag; // text changed
 
-		private bool tbxFlag; // text changed
-
-		private void BtnSelectSampleFile_OnClick(object sender, RoutedEventArgs e)
-		{
-			if (selected.GetFolderPath == null) return;
-
-			FileAndFolderDialog fd = new FileAndFolderDialog();
-
-			FileAndFolderDialog.FileAndFolderDialogSettings fdSetg = new FileAndFolderDialog.FileAndFolderDialogSettings();
-
-			fdSetg.Filters.Add(new CommonFileDialogFilter("Sample File", "*.dat"));
-			
-			string file = fd.GetFile("Select a Sample File", selected.GetFolderPath, fdSetg);
-
-			if (fd.HasSelection)
-			{
-				Selected.InstallSampleFile(file);
-			}
-		}
 
 		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 		{
 			this.Close();
+		}
+
+		private void BtnNew_OnClick(object sender, RoutedEventArgs e)
+		{
+			DialogGetFileId dlg = new DialogGetFileId();
+
+			dlg.Owner = this;
+
+			if (dlg.ShowDialog() == true)
+			{
+
+				string fileId = dlg.FileId;
+
+				ClassificationFile.CreateNew(cfgClsFiles.UserClassificationFolderPath, fileId);
+
+				reinitialize();
+			}
 		}
 
 
@@ -187,26 +184,26 @@ namespace WpfShared.Windows
 		{
 			if (e.Key == Key.Enter)
 			{
-				if (tbxFlag)
+				if (tbxKeyProcessingFlag)
 				{
 					TextBox_UpdateSource((TextBox) sender);
 
-					tbxFlag = false;
+					tbxKeyProcessingFlag = false;
 				}
-			} 
+			}
 			else
 			{
-				tbxFlag = true;
+				tbxKeyProcessingFlag = true;
 			}
 		}
 
 		private void TextBox_OnLostFocus(object sender, RoutedEventArgs e)
 		{
-			if (tbxFlag)
+			if (tbxKeyProcessingFlag)
 			{
 				TextBox_UpdateSource((TextBox) sender);
 
-				tbxFlag = false;
+				tbxKeyProcessingFlag = false;
 			}
 		}
 
@@ -221,10 +218,7 @@ namespace WpfShared.Windows
 			b.X = 20;
 			b.Orientation = Balloon.BalloonOrientation.BOTTOM_RIGHT;
 			b.ShowDialog();
-
 		}
-			
-
 
 	#endregion
 
@@ -236,8 +230,5 @@ namespace WpfShared.Windows
 		}
 
 	#endregion
-
-
-		
 	}
 }

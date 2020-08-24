@@ -1,0 +1,195 @@
+﻿<Window
+		x:Class="WpfShared.Dialogs.DialogGetFileId"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:WpfShared.Dialogs"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		Name="dlgGetFileId"
+		Title="FileId for the Classification File"
+		WindowStyle="ToolWindow"
+		Width="400"
+		Closing="DialogGetFileId_OnClosing"
+		DataContext="{Binding ElementName=dlgGetFileId}"
+		ResizeMode="NoResize"
+		ShowInTaskbar="False"
+		SizeToContent="Height"
+		WindowStartupLocation="CenterOwner"
+		mc:Ignorable="d"
+		Background="{StaticResource Normal.Window.Background}"
+		>
+	<Window.Resources>
+
+		<sys:Double x:Key="Height">30</sys:Double>
+
+		<sys:Double x:Key="BtnHeight">36</sys:Double>
+		<sys:Double x:Key="BtnWidth">90</sys:Double>
+
+
+		<Style
+				x:Key="Sty.TextBox"
+				TargetType="TextBox"
+				>
+			<Setter Property="ToolTip" Value="Provide a File Id for the\&#x0a;new Classification File" />
+			<Style.Triggers>
+				<Trigger Property="Validation.HasError" Value="True">
+					<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}" />
+					<Setter Property="BorderBrush" Value="Red" />
+
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<ControlTemplate x:Key="FileIdValidationTemplate">
+			<DockPanel
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					>
+				<Rectangle
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Stroke="Red"
+						StrokeThickness="2"
+						/>
+
+				<AdornedElementPlaceholder />
+			</DockPanel>
+		</ControlTemplate>
+
+
+
+	</Window.Resources>
+
+	<Grid Margin="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="auto" />
+
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<!-- <RowDefinition Height="22" /> -->
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+
+		</Grid.RowDefinitions>
+
+		<Label
+				Content="File Id"
+				Grid.Column="0"
+				Grid.Row="0"
+				Margin="0,0,20,0"
+				Height="{StaticResource Height}"
+				Padding="5,1,0,1.5"
+				VerticalAlignment="Center"
+				VerticalContentAlignment="Center"
+				FontSize="14"
+				Background="Transparent"
+				Foreground="{StaticResource Label.Title.Foreground.Subdued}"
+				/>
+
+		<TextBox
+				Name="TbxFileId"
+				Grid.Column="1"
+				Grid.Row="0"
+				Grid.ColumnSpan="2"
+				Margin="0,0,0,0"
+				Height="{StaticResource Height}"
+				Padding="5,0,0,1.5"
+				VerticalAlignment="Center"
+				VerticalContentAlignment="Center"
+				FontSize="12"
+				KeyDown="TbxFileId_KeyDown"
+				TextChanged="TbxFileId_TextChanged"
+				Validation.Error="TbxFileId_OnError"
+				Background="{StaticResource TextBox.Background}"
+				Foreground="white"
+				Style="{StaticResource Sty.TextBox}"
+				>
+			<!--  Validation.ErrorTemplate="{StaticResource FileIdValidationTemplate}"  -->
+			<TextBox.Text>
+				<Binding
+						FallbackValue=""
+						NotifyOnValidationError="True"
+						Path="FileId"
+						UpdateSourceTrigger="PropertyChanged"
+						>
+					<!-- <Binding.ValidationRules> -->
+					<!-- 	<local:ValidCharacterValidRule /> -->
+					<!-- </Binding.ValidationRules> -->
+				</Binding>
+			</TextBox.Text>
+		</TextBox>
+		<!--  TextChanged="TbxFileId_TextChanged"  -->
+
+		<TextBox
+				Name="TbxNotes"
+				Grid.Column="1"
+				Grid.Row="1"
+				Grid.ColumnSpan="2"
+				Margin="0,8,0,8"
+				Padding="5,2,0,2"
+				VerticalAlignment="Stretch"
+				FontSize="12"
+				AcceptsReturn="True"
+				Text="{Binding Path=Notes,
+											 Mode=OneWay,
+											 FallbackValue='Disallowed characters: \!@#$%      Minimum 3 characters'}"
+				TextWrapping="NoWrap"
+				Background="{StaticResource TextBox.Background}"
+				Foreground="{StaticResource Label.Title.Foreground.Subdued}"
+				BorderThickness="1"
+				BorderBrush="{StaticResource TextBox.Background}"
+				>
+
+		</TextBox>
+
+		<StackPanel
+				Grid.Column="2"
+				Grid.Row="2"
+				Margin="0"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Stretch"
+				Orientation="Horizontal"
+				>
+
+			<Button
+					Name="BtnCancel"
+					Content="Cancel"
+					Margin="8,0,0,0"
+					Width="{StaticResource Button.Normal.Width}"
+					Height="{StaticResource Button.Normal.Height}"
+					VerticalAlignment="Stretch"
+					Click="BtnCancel_OnClick"
+					/>
+
+			<Button
+					Name="BtnDone"
+					Content="Done"
+					Margin="8,0,0,0"
+					Width="{StaticResource Button.Normal.Width}"
+					Height="{StaticResource Button.Normal.Height}"
+					IsEnabled="{Binding IsValid}"
+					Click="BtnDone_OnClick"
+					>
+				<Button.Style>
+					<Style TargetType="Button">
+						<Setter Property="ToolTip" Value="Use the File Id and\&#x0a;close the dialog box " />
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding IsValid}" Value="false">
+								<Setter Property="ToolTip" Value="The File Id has disallowed\&#x0a;characters. Please\&#x0a;correct first">
+								</Setter>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
+
+
+		</StackPanel>
+
+	</Grid>
+</Window>

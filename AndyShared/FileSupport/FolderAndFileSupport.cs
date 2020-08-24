@@ -21,7 +21,6 @@ namespace AndyShared.FilesSupport
 		private string pattern;
 		private List<FilePath<FileNameSimpleSelectable>> foundFiles;
 
-
 	#endregion
 
 	#region ctor
@@ -69,7 +68,7 @@ namespace AndyShared.FilesSupport
 
 		public bool HasFiles => foundFiles.Count > 0;
 
-		public bool FolderExists => Directory.Exists(folder.GetFullFilePath);
+		public bool FolderExists => Directory.Exists(folder.FullFilePath);
 
 	#endregion
 

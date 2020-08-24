@@ -14,21 +14,12 @@ using SettingsManager;
 namespace AndyShared.ClassificationFileSupport
 {
 	
-
 	// this is the actual data set saved to the data file
 	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
 	public class ClassificationFileData : INotifyPropertyChanged
 	{
 
-		public static string FILE_DESCRIPTION = "ClassificationFileData";
-
 	#region public properties
-
-		[DataMember(Order = 0)]
-		public string FileDescription { get; private set; } = FILE_DESCRIPTION;
-
-		[DataMember(Order = 1)]
-		public string Description { get; set; } = "This is a full list of sheet organization categories";
 
 		[DataMember(Order = 2)]
 		public bool UsePhaseBldg { get; set; }

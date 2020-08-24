@@ -3421,7 +3421,7 @@
 									</Grid.RowDefinitions>
 									<Label
 											x:Name="Label26"
-											Content="{Binding FilePathInfo.FileName.FileNameNoExt}"
+											Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt}"
 											Grid.Column="0"
 											Grid.Row="0"
 											Margin="2"
@@ -3447,7 +3447,7 @@
 
 												<Label
 														x:Name="Label28"
-														Content="{Binding FilePathInfo.FileName.PhaseBldg,
+														Content="{Binding FilePathInfo.FileNameObject.PhaseBldg,
 																							FallbackValue=GRN}"
 														Foreground="White"
 														Style="{StaticResource Dg.CellLabel.Data}"
@@ -3467,7 +3467,7 @@
 														/>
 												<Label
 														x:Name="Label30"
-														Content="{Binding FilePathInfo.FileName.Discipline,
+														Content="{Binding FilePathInfo.FileNameObject.Discipline,
 																							FallbackValue=99}"
 														Foreground="White"
 														Style="{StaticResource Dg.CellLabel.Data}"
@@ -3488,7 +3488,7 @@
 
 												<Label
 														x:Name="Label31"
-														Content="{Binding FilePathInfo.FileName.Category,
+														Content="{Binding FilePathInfo.FileNameObject.Category,
 																							FallbackValue=123A}"
 														Foreground="White"
 														Style="{StaticResource Dg.CellLabel.Data}"
@@ -3509,7 +3509,7 @@
 														/>
 												<Label
 														x:Name="Label34"
-														Content="{Binding FilePathInfo.FileName.Subcategory,
+														Content="{Binding FilePathInfo.FileNameObject.Subcategory,
 																							FallbackValue=none}"
 														Width="30"
 														Foreground="White"
@@ -3530,7 +3530,7 @@
 														/>
 												<Label
 														x:Name="Label36"
-														Content="{Binding FilePathInfo.FileName.Modifier,
+														Content="{Binding FilePathInfo.FileNameObject.Modifier,
 																							FallbackValue=none}"
 														Foreground="White"
 														Style="{StaticResource Dg.CellLabel.Data}"
@@ -3551,7 +3551,7 @@
 														/>
 												<Label
 														x:Name="Label38"
-														Content="{Binding FilePathInfo.FileName.Submodifier,
+														Content="{Binding FilePathInfo.FileNameObject.Submodifier,
 																							FallbackValue=none}"
 														Foreground="White"
 														Style="{StaticResource Dg.CellLabel.Data}"

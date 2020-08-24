@@ -88,7 +88,7 @@ namespace Sylvester.SavedFolders.SubFolder
 
 		internal void onPathPathChangeEvent(object sender, PathChangeArgs e)
 		{
-			if (!e.SelectedPath.GetFullFilePath.IsVoid())
+			if (!e.SelectedPath.FullFilePath.IsVoid())
 			{
 				OnPropertyChange("Folder");
 			}

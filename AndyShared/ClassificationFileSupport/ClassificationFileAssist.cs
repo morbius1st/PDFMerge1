@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using AndyShared.ConfigMgrShared;
 using AndyShared.FilesSupport;
+using AndyShared.SampleFileSupport;
 using UtilityLibrary;
 
 #endregion
@@ -46,12 +47,12 @@ namespace AndyShared.ClassificationFileSupport
 
 		public static string MakeSampleFileName(string classifFileNameNoExt)
 		{
-			return classifFileNameNoExt + ConfigSeedFileSupport.SAMPLE_FILE_EXT;
+			return classifFileNameNoExt + SampleFile.SAMPLE_FILE_EXT;
 		}
 
 		public static string MakeSampleFileName(string username, string id)
 		{
-			return $"({username}) {id}" + ConfigSeedFileSupport.SAMPLE_FILE_EXT;
+			return $"({username}) {id}" + SampleFile.SAMPLE_FILE_EXT;
 		}
 
 		public static string MakeClassificationFileNameNoExt(string username, string id)
@@ -66,12 +67,12 @@ namespace AndyShared.ClassificationFileSupport
 
 		public static string GetSampleFile(FilePath<FileNameSimpleSelectable> file)
 		{
-			return GetSampleFile(file.GetPath, file.GetFileNameObject.FileNameNoExt);
+			return GetSampleFile(file.FolderPath, file.FileNameObject.FileNameNoExt);
 		}
 
 		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
 		{
-			string sampleFile = path + @"\" + fileNameNoExt + ConfigSeedFileSupport.SAMPLE_FILE_EXT;
+			string sampleFile = path + @"\" + fileNameNoExt + SampleFile.SAMPLE_FILE_EXT;
 
 			if (!isTarget && !File.Exists(sampleFile))
 			{
