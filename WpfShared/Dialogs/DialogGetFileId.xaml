@@ -9,7 +9,7 @@
 		Name="dlgGetFileId"
 		Title="FileId for the Classification File"
 		WindowStyle="ToolWindow"
-		Width="400"
+		Width="420"
 		Closing="DialogGetFileId_OnClosing"
 		DataContext="{Binding ElementName=dlgGetFileId}"
 		ResizeMode="NoResize"
@@ -18,7 +18,9 @@
 		WindowStartupLocation="CenterOwner"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
+		FocusManager.FocusedElement="{Binding ElementName=TbxFileId}"
 		>
+
 	<Window.Resources>
 
 		<sys:Double x:Key="Height">30</sys:Double>
@@ -31,7 +33,7 @@
 				x:Key="Sty.TextBox"
 				TargetType="TextBox"
 				>
-			<Setter Property="ToolTip" Value="Provide a File Id for the\&#x0a;new Classification File" />
+			<Setter Property="ToolTip" Value="Provide a File Id for the&#x0a;new Classification File" />
 			<Style.Triggers>
 				<Trigger Property="Validation.HasError" Value="True">
 					<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}" />
@@ -56,8 +58,6 @@
 				<AdornedElementPlaceholder />
 			</DockPanel>
 		</ControlTemplate>
-
-
 
 	</Window.Resources>
 
@@ -177,10 +177,10 @@
 					>
 				<Button.Style>
 					<Style TargetType="Button">
-						<Setter Property="ToolTip" Value="Use the File Id and\&#x0a;close the dialog box " />
+						<Setter Property="ToolTip" Value="Use the File Id and&#x0a;close the dialog box " />
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding IsValid}" Value="false">
-								<Setter Property="ToolTip" Value="The File Id has disallowed\&#x0a;characters. Please\&#x0a;correct first">
+								<Setter Property="ToolTip" Value="The File Id has disallowed&#x0a;characters. Please\&#x0a;correct first">
 								</Setter>
 							</DataTrigger>
 						</Style.Triggers>

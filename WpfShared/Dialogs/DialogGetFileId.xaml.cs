@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AndyShared.Support;
 using UtilityLibrary;
 using static UtilityLibrary.CsUtilities;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -35,6 +36,8 @@ namespace WpfShared.Dialogs
 			InitializeComponent();
 
 			IsValid = false;
+
+			Window w = Common.GetCurrentWindow();
 		}
 
 	#endregion

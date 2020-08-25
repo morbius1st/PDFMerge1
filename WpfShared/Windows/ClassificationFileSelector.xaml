@@ -157,13 +157,14 @@
 				>
 
 			<Button
+					Name="BtnDone"
 					Content="Done"
 					Margin="2.5"
 					Width="{StaticResource Button.Normal.Width}"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Bottom"
 					DockPanel.Dock="Bottom"
-					Click="ButtonBase_OnClick"
+					Click="BtnDone_OnClick"
 					Style="{StaticResource Button.Reduced.Vertically}"
 					Template="{StaticResource Button.Normal.ControlTemplate}"
 					/>
@@ -409,16 +410,18 @@
 									</Button>
 
 									<Button
+											Name="BtnCopy"
 											Content="Duplicate"
 											Width="{StaticResource Button.Normal.Width}"
 											VerticalAlignment="top"
-
 											DockPanel.Dock="top"
 											IsEnabled="{Binding ElementName=winClsFileMgr,
 																					Path=Selected.EditingEnabled,
+																					FallbackValue='false',
 																					Mode=OneWay}"
 											Style="{StaticResource Button.Reduced.Vertically}"
 											Template="{StaticResource Button.Normal.ControlTemplate}"
+											Click="BtnCopy_OnClick"
 											>
 										<!-- <Button.Content> -->
 										<!-- 	<StackPanel Orientation="Vertical"> -->
@@ -435,15 +438,18 @@
 									</Button>
 
 									<Button
+											Name="BtnRename"
 											Content="Rename"
 											Width="{StaticResource Button.Normal.Width}"
 											VerticalAlignment="Bottom"
 											DockPanel.Dock="top"
 											IsEnabled="{Binding ElementName=winClsFileMgr,
 																					Path=Selected.EditingEnabled,
+																					FallbackValue='false',
 																					Mode=OneWay}"
 											Style="{StaticResource Button.Reduced.Vertically}"
 											Template="{StaticResource Button.Normal.ControlTemplate}"
+											Click="BtnRename_OnClick"
 											>
 										<!-- <Button.Content> -->
 										<!-- 	<StackPanel Orientation="Vertical"> -->
@@ -466,6 +472,7 @@
 											DockPanel.Dock="top"
 											IsEnabled="{Binding ElementName=winClsFileMgr,
 																					Path=Selected.EditingEnabled,
+																					FallbackValue='false',
 																					Mode=OneWay}"
 											Style="{StaticResource Button.Reduced.Vertically}"
 											Template="{StaticResource Button.Normal.ControlTemplate}"

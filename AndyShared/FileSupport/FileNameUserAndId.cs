@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -103,6 +104,7 @@ namespace AndyShared.FilesSupport
 		{
 			get
 			{
+				
 				if (userName == null || fileId == null ||
 					userName.Length < 3 || fileId.Length < 4) return false;
 

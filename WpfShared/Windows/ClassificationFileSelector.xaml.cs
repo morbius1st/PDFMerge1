@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
+using AndyShared.FilesSupport;
 using CSLibraryIo.CommonFileFolderDialog;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
@@ -157,7 +158,7 @@ namespace WpfShared.Windows
 		private bool tbxKeyProcessingFlag; // text changed
 
 
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			this.Close();
 		}
@@ -170,15 +171,78 @@ namespace WpfShared.Windows
 
 			if (dlg.ShowDialog() == true)
 			{
-
 				string fileId = dlg.FileId;
 
-				ClassificationFile.CreateNew(cfgClsFiles.UserClassificationFolderPath, fileId);
+				if (!ClassificationFile.
+					Create( fileId, cfgClsFiles.UserClassificationFolderPath)) return;
 
 				reinitialize();
 			}
 		}
 
+		private void BtnCopy_OnClick(object sender, RoutedEventArgs e)
+		{
+			string source = selected.FullFilePath;
+
+			DialogGetFileId dlg = new DialogGetFileId();
+
+			dlg.Owner = this;
+
+			if (dlg.ShowDialog() == true)
+			{
+				string fileId = dlg.FileId;
+
+				// FilePath<FileNameUserAndId> destination =
+				// 	ClassificationFile.AssembleFilePath(fileId,
+				// 		selected.FilePathLocal.FolderPath);
+				//
+				// // if (destination.IsFound)
+				// if (true)
+				// {
+				// 	TaskDialog td = new TaskDialog();
+				// 	td.Caption = "Duplicate a Classification File";
+				// 	td.Text = "The classification File Id you provided: \"" + fileId +
+				// 		"\" already exists.  Please provide a different File Id";
+				// 	td.InstructionText = "The classification file already exists";
+				// 	td.Icon = TaskDialogStandardIcon.Error;
+				// 	td.Icon = td.Icon;
+				// 	td.Cancelable = false;
+				// 	td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(this);
+				// 	td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+				// 	// td.Opened += TaskDialog_Opened;
+				// 	td.Show();
+				// }
+
+
+
+				if (!ClassificationFile.
+					Duplicate(selected.FilePathLocal, fileId)) return;
+
+				reinitialize();
+			}
+		}
+
+		private void TaskDialog_Opened(object sender, EventArgs e)
+		{
+			TaskDialog td = sender as TaskDialog;
+			td.Icon = td.Icon = td.Icon;
+			if (td.FooterIcon != TaskDialogStandardIcon.None)
+			{
+				td.FooterIcon = td.FooterIcon;
+			}
+			td.InstructionText = td.InstructionText;
+
+		}
+
+		private void BtnRename_OnClick(object sender, RoutedEventArgs e)
+		{
+			TaskDialog td = new TaskDialog();
+			td.Caption = "this is a caption";
+			td.InstructionText = "this is the main instructions";
+			td.Icon = TaskDialogStandardIcon.Error;
+			td.Opened += TaskDialog_Opened;
+			td.Show();
+		}
 
 		private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
 		{
@@ -230,5 +294,8 @@ namespace WpfShared.Windows
 		}
 
 	#endregion
+
+
+		
 	}
 }

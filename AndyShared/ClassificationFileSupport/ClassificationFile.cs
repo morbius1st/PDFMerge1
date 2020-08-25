@@ -8,8 +8,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
+using AndyShared.Support;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -273,14 +276,67 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region public methods
 
-		public static void CreateNew(string classfRootFolderPath, string fileId)
+		public static FilePath<FileNameUserAndId> AssembleFilePath(string newFileId, params string[] folders)
 		{
-			FilePath<FileNameUserAndId> fp = new FilePath<FileNameUserAndId>(
-				FilePathUtil.AssemblePath(formatFileName(Environment.UserName, fileId), 
-					CLASSF_FILE_EXT_NO_SEP, classfRootFolderPath, Environment.UserName));
+			return new FilePath<FileNameUserAndId>(
+			FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId), 
+				CLASSF_FILE_EXT_NO_SEP, folders));
+		}
 
-			BaseDataFile<ClassificationFileData> df;
-			df = new BaseDataFile<ClassificationFileData>();
+		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
+		{
+			FilePath<FileNameUserAndId> fp = AssembleFilePath(newFileId, source.FolderPath);
+				//
+				// new FilePath<FileNameUserAndId>(
+				// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId),
+				// 	CLASSF_FILE_EXT_NO_SEP, source.FolderPath));
+
+				ValidateProposedClassfFile("Duplicate a Classification File", newFileId, fp); 
+
+			if (!FileUtilities.CopyFile(source.FullFilePath, fp.FullFilePath)) return false;
+
+			BaseDataFile<ClassificationFileData>  df = 
+				new BaseDataFile<ClassificationFileData>();
+			df.Configure(fp.FolderPath, fp.FileName);
+			df.Admin.Read();
+
+			if (!df.Info.Description.IsVoid())
+			{
+				df.Info.Description = "COPY OF " + df.Info.Description;
+			} 
+			else
+			{
+				df.Info.Description = "This file holds the PDF sheet classification information";
+			}
+			
+			if (!df.Info.Notes.IsVoid())
+			{
+				df.Info.Notes = "COPY OF " + df.Info.Notes;
+			} 
+			else
+			{
+				df.Info.Notes = fp.FileNameObject.UserName + " created this file on " + DateTime.Now;
+			}
+
+			df.Admin.Write();
+
+			df = null;
+
+			return true;
+		}
+
+		public static bool Create( string newFileId, string classfRootFolderPath)
+		{
+			FilePath<FileNameUserAndId> fp = AssembleFilePath(newFileId, classfRootFolderPath, Environment.UserName);
+				
+				// new FilePath<FileNameUserAndId>(
+				// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId), 
+				// 	CLASSF_FILE_EXT_NO_SEP, classfRootFolderPath, Environment.UserName));
+
+			if (fp.IsFound) return false;
+
+			BaseDataFile<ClassificationFileData> df = 
+				new BaseDataFile<ClassificationFileData>();
 			df.Configure(fp.FolderPath, fp.FileName);
 			df.Admin.Read();
 			df.Info.Description = "This file holds the PDF sheet classification information";
@@ -288,6 +344,9 @@ namespace AndyShared.ClassificationFileSupport
 
 			df.Admin.Write();
 
+			df = null;
+
+			return true;
 		}
 
 		public void Read()
@@ -337,8 +396,6 @@ namespace AndyShared.ClassificationFileSupport
 			OnPropertyChange("SampleFileValidated");
 		}
 
-		// private string SampleFromFile() => CsUtilities.ScanXmlForElementValue(FullFilePath, "SampleFile", 1);
-
 		private void UpdateProperties()
 		{
 			OnPropertyChange("IsValid");
@@ -364,6 +421,37 @@ namespace AndyShared.ClassificationFileSupport
 			return IsUserClassfFile || IsDefaultClassfFile;
 		}
 
+		/// <summary>
+		/// Check if the proposed classification file exists and 
+		/// if so, provide a dialog to tell the user
+		/// </summary>
+		/// <returns>
+		/// true if the proposed classification file DOES NOT exist<br/>
+		/// false if  the proposed classification file DOES exist
+		/// </returns>
+		/// <param name="title">The error dialog box's title</param>
+		/// <param name="fp">The FilePath for the proposed classification file</param>
+		/// <returns></returns>
+		private static bool ValidateProposedClassfFile(string title, string fileId,
+			FilePath<FileNameUserAndId> fp)
+		{
+			if (!fp.IsValid) return true;
+
+			TaskDialog td = new TaskDialog();
+			td.Caption = "Duplicate a Classification File";
+			td.Text = "The classification File Id you provided: \"" + fileId +
+				"\" already exists.  Please provide a different File Id";
+			td.InstructionText = "The classification file already exists";
+			td.Icon = TaskDialogStandardIcon.Error;
+			td.Icon = td.Icon;
+			td.Cancelable = false;
+			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			td.Opened += Common.TaskDialog_Opened;
+			td.Show();
+
+			return false;
+		}
 
 	#endregion
 

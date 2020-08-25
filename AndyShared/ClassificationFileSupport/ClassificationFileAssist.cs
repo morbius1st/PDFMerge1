@@ -116,76 +116,64 @@ namespace AndyShared.ClassificationFileSupport
 		// }
 
 
-		public static string IncorporateSampleFile(string existFilePath, 
-			string classfFolderPath, string classfFileNameNoExt)
-		{
-			string newFilePath = classfFolderPath + FilePathUtil.EXT_SEPARATOR +
-						MakeSampleFileName(classfFileNameNoExt);
+		// public static string IncorporateSampleFile(string existFilePath, 
+		// 	string classfFolderPath, string classfFileNameNoExt)
+		// {
+		// 	string newFilePath = classfFolderPath + FilePathUtil.EXT_SEPARATOR +
+		// 				MakeSampleFileName(classfFileNameNoExt);
+		//
+		// 	bool result = CopyFile(existFilePath, newFilePath);
+		//
+		// 	if (result) return newFilePath;
+		//
+		// 	return null;
+		// }
 
-			bool result = CopyFile(existFilePath, newFilePath);
-
-			if (result) return newFilePath;
-
-			return null;
-		}
 
 
 
-		public static bool CopyFile(string eFilePath, string nFilePath)
-		{
-			// step 1 - validate - existing file path cannot equal new file path
-			if (eFilePath.Equals(nFilePath)) return false;
-
-			// step 2 - validate - new file cannot exist
-			if (File.Exists(nFilePath)) return false;
-
-			// step 3 - copy file to new name
-			File.Copy(eFilePath, nFilePath);
-
-			return true;
-		}
 
 	#endregion
 
 	#region private methods
 
-		private static string CopyFileToTemp(string existFile, string newFolderPath)
-		{
-			string tempFilePath = GetTempFileName(newFolderPath);
+		// private static string CopyFileToTemp(string existFile, string newFolderPath)
+		// {
+		// 	string tempFilePath = GetTempFileName(newFolderPath);
+		//
+		// 	if (tempFilePath == null) return null;
+		//
+		// 	try
+		// 	{
+		// 		File.Copy(existFile, tempFilePath);
+		// 	}
+		// 	catch
+		// 	{
+		// 		return null;
+		// 	}
+		//
+		//
+		// 	return tempFilePath;
+		// }
 
-			if (tempFilePath == null) return null;
-
-			try
-			{
-				File.Copy(existFile, tempFilePath);
-			}
-			catch
-			{
-				return null;
-			}
-
-
-			return tempFilePath;
-		}
-
-		private static string GetTempFileName(string newFolderPath)
-		{
-			string tempFileName;
-			string tempFilePath;
-
-			for (int i = 0; i < 99; i++)
-			{
-				tempFileName = $"AndyTempFile{i:D3}.tmp";
-				tempFilePath = newFolderPath + FilePathUtil.PATH_SEPARATOR + tempFileName;
-
-				if (!File.Exists(tempFilePath))
-				{
-					return tempFilePath;
-				}
-			}
-
-			return null;
-		}
+		// private static string GetTempFileName(string newFolderPath)
+		// {
+		// 	string tempFileName;
+		// 	string tempFilePath;
+		//
+		// 	for (int i = 0; i < 99; i++)
+		// 	{
+		// 		tempFileName = $"AndyTempFile{i:D3}.tmp";
+		// 		tempFilePath = newFolderPath + FilePathUtil.PATH_SEPARATOR + tempFileName;
+		//
+		// 		if (!File.Exists(tempFilePath))
+		// 		{
+		// 			return tempFilePath;
+		// 		}
+		// 	}
+		//
+		// 	return null;
+		// }
 
 	#endregion
 

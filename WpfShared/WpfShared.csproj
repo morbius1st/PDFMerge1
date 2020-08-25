@@ -59,6 +59,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
       <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
@@ -91,6 +94,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
+      <Link>.Linked\ScreenParametersWpf.cs</Link>
+    </Compile>
     <Compile Include="Dialogs\DialogGetFileId.xaml.cs">
       <DependentUpon>DialogGetFileId.xaml</DependentUpon>
     </Compile>
@@ -171,16 +177,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".Linked\" />
     <Folder Include="Dialogs\DialogSupport\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyResources\AndyResources.projitems" Label="Shared" />
