@@ -50,6 +50,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>.Linked\SettingsMgr.cs</Link>
     </Compile>
+		    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
+      <Link>.Linked\ScreenParametersWpf.cs</Link>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>
   <ItemGroup>
