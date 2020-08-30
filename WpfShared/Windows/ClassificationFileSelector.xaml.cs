@@ -15,18 +15,6 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
 
-/*
-functions:
-primary: select  a classification file
-
-secondary:
-re: classification file
-1. new:  create a basic / blank file
-2. duplicate: make a copy of the selected classification file - must provide a new fileid
-	does not duplicate 
-3. delete: delete a classification file 
-
-*/
 
 namespace WpfShared.Windows
 {
@@ -56,7 +44,7 @@ namespace WpfShared.Windows
 
 		private Balloon b;
 
-		private bool tbxKeyProcessingFlag; // text changed
+		private bool tbxKeyProcessingFlag;
 
 	#endregion
 
@@ -82,8 +70,6 @@ namespace WpfShared.Windows
 			get => selected;
 			set
 			{
-				Debug.WriteLine("selected classf");
-
 				if (selected != null)  selected.FileIdChanged -= selected_FileIdChanged;
 
 				selected = value;
@@ -108,10 +94,6 @@ namespace WpfShared.Windows
 			get => selectedSampleFile;
 			set
 			{
-
-				Debug.WriteLine("selected sample changed| cur value| " + selectedSampleFile?.SortName ?? "is null");
-				Debug.WriteLine("selected sample changed| new value| " + value?.SortName ?? "is null");
-
 				if (value?.SortName != null &&
 					selectedSampleFile?.SortName != null &&
 					!selectedSampleFile.SortName.Equals(value.SortName))
@@ -182,12 +164,6 @@ namespace WpfShared.Windows
 
 		private void initialize()
 		{
-			// BaseDataFile<ClassificationFileData> dataFile = new BaseDataFile<ClassificationFileData>();
-			// dataFile.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", 
-			// 	"(jeffs) PdfSample 30.xml");
-			// dataFile.Admin.Read();
-			// dataFile.Admin.Write();
-
 			cfgClsFiles = ClassificationFiles.Instance;
 			cfgClsFiles.Initialize();
 
@@ -215,11 +191,8 @@ namespace WpfShared.Windows
 		{
 			view = CollectionViewSource.GetDefaultView(cfgClsFiles.UserClassificationFiles);
 
-			// view.Filter = new Predicate<object>(MatchUser);
-
 			OnPropertyChange("View");
 		}
-
 
 		private bool rename(string newFileId)
 		{
@@ -261,7 +234,6 @@ namespace WpfShared.Windows
 			object s = sender;
 			ComboBox c = sender as ComboBox;
 			beforeIdx = c.SelectedIndex;
-
 		}
 
 		private void CbxSampleFiles_DropDownClosed(object sender, EventArgs e)
@@ -275,10 +247,7 @@ namespace WpfShared.Windows
 		private void CbxSampleFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SampleFile s = e.AddedItems[0] as SampleFile;
-
-			Debug.WriteLine("@selection changed| " + s.FileName + "  (" + s.SortName + ")");
 		}
-
 
 		private void BtnInstallSample_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -320,33 +289,6 @@ namespace WpfShared.Windows
 
 			Lb1.SelectedItem = cf;
 		}
-
-		// private void BtnNew2_OnClick(object sender, RoutedEventArgs e)
-		// {
-		// 	bool result = true;
-		//
-		// 	while (result)
-		// 	{
-		// 		DialogGetFileId dlg = new DialogGetFileId("File Id for a New Classification File");
-		//
-		// 		dlg.Owner = this;
-		//
-		// 		if (dlg.ShowDialog() == true)
-		// 		{
-		// 			string fileId = dlg.FileId;
-		//
-		// 			if (!Create(cfgClsFiles.UserClassificationFolderPath,  fileId)) return;
-		//
-		// 			reinitialize();
-		//
-		// 			result = false; // done - exit loop
-		// 		}
-		// 		else
-		// 		{
-		// 			result = false; // dialog canceled - exit loop
-		// 		}
-		// 	}
-		// }
 
 		private void BtnCopy_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -397,17 +339,6 @@ namespace WpfShared.Windows
 					string fileId = dlg.FileId;
 
 					result = !rename(fileId);
-					//
-					//
-					// string newFileName = ClassificationFileAssist.
-					// 	Rename(selected.FilePathLocal, fileId);
-					//
-					// if (!newFileName.IsVoid())
-					// {
-					// 	selected.FilePathLocal.ChangeFileName(newFileName, "");
-					// 	
-					// 	result = false; // updated - exit loop
-					// }
 				}
 				else // selected cancel in the dialog box - exit loop
 				{
@@ -490,9 +421,6 @@ namespace WpfShared.Windows
 			return "this is ClassificationFileSelector";
 		}
 
-
-
-		#endregion
-
+	#endregion
 	}
 }

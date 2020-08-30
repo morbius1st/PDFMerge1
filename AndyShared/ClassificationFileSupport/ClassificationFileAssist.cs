@@ -36,8 +36,6 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		public ClassificationFileAssist() { }
-
 	#endregion
 
 	#region public properties
@@ -104,10 +102,6 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			FilePath<FileNameUserAndId> dest = 
 				ClassificationFileAssist.AssembleClassfFilePath(newFileId, source.FolderPath);
-			//
-			// new FilePath<FileNameUserAndId>(
-			// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId),
-			// 	CLASSF_FILE_EXT_NO_SEP, source.FolderPath));
 
 			if (!ValidateProposedClassfFile(  dest,
 				false, "Duplicate a Classification File", "already exists")) return false;
@@ -180,7 +174,7 @@ namespace AndyShared.ClassificationFileSupport
 			catch (Exception e)
 			{
 				string m = e.Message;
-				string i = e.InnerException.Message;
+				string i = e.InnerException?.Message;
 				return null;
 			}
 
@@ -243,94 +237,9 @@ namespace AndyShared.ClassificationFileSupport
 			return false;
 		}
 
-		// take an existing file and adjust to be a sample file
-		// proposed sample file must have an extension of ".dat"
-		// /// <summary>
-		// /// take an existing file and adjust to be a sample file<br/>
-		// /// proposed sample file must have an extension of ".sample"
-		// /// </summary>
-		// /// <param name="existFilePath"></param>
-		// /// <param name="userClassfFileFolderPath"></param>
-		// /// <returns></returns>
-		// public static string IncorporateSampleFile(string existFilePath, string classfFilePath)
-		// {
-		// 	FilePath<FileNameSimple> eFilePath = new FilePath<FileNameSimple>(existFilePath);
-		//
-		// 	FilePath<FileNameSimple> cFilePath = new FilePath<FileNameSimple>(classfFilePath);
-		//
-		// 	FilePath<FileNameSimple> nFilePath =
-		// 		new FilePath<FileNameSimple>(
-		// 			cFilePath.GetPath + FilePathUtil.EXT_SEPARATOR +
-		// 			MakeSampleFileName(cFilePath.GetFileNameWithoutExtension));
-		//
-		// 	// step 1 - validate - existing file path cannot equal new file path
-		// 	if (eFilePath.Equals(nFilePath)) return null;
-		//
-		// 	// step 2 - validate - new file cannot exist
-		// 	if (File.Exists(nFilePath.GetFullFilePath)) return null;
-		//
-		// 	// step 3 - copy file to new name
-		// 	File.Copy(eFilePath.GetFullFilePath, nFilePath.GetFullFilePath);
-		//
-		// 	return nFilePath.GetFullFilePath;
-		// }
-
-
-		// public static string IncorporateSampleFile(string existFilePath, 
-		// 	string classfFolderPath, string classfFileNameNoExt)
-		// {
-		// 	string newFilePath = classfFolderPath + FilePathUtil.EXT_SEPARATOR +
-		// 				MakeSampleFileName(classfFileNameNoExt);
-		//
-		// 	bool result = CopyFile(existFilePath, newFilePath);
-		//
-		// 	if (result) return newFilePath;
-		//
-		// 	return null;
-		// }
-
-
 	#endregion
 
 	#region private methods
-
-		// private static string CopyFileToTemp(string existFile, string newFolderPath)
-		// {
-		// 	string tempFilePath = GetTempFileName(newFolderPath);
-		//
-		// 	if (tempFilePath == null) return null;
-		//
-		// 	try
-		// 	{
-		// 		File.Copy(existFile, tempFilePath);
-		// 	}
-		// 	catch
-		// 	{
-		// 		return null;
-		// 	}
-		//
-		//
-		// 	return tempFilePath;
-		// }
-
-		// private static string GetTempFileName(string newFolderPath)
-		// {
-		// 	string tempFileName;
-		// 	string tempFilePath;
-		//
-		// 	for (int i = 0; i < 99; i++)
-		// 	{
-		// 		tempFileName = $"AndyTempFile{i:D3}.tmp";
-		// 		tempFilePath = newFolderPath + FilePathUtil.PATH_SEPARATOR + tempFileName;
-		//
-		// 		if (!File.Exists(tempFilePath))
-		// 		{
-		// 			return tempFilePath;
-		// 		}
-		// 	}
-		//
-		// 	return null;
-		// }
 
 	#endregion
 

@@ -43,23 +43,15 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		public ClassificationFile()
-		{
-			FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
-		}
-
+		// public ClassificationFile()
+		// {
+		// 	FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
+		// }
+		//
 
 		public ClassificationFile(string filePath, bool fileSelected = false)
 		{
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
-
-			// FilePath<FileNameUserAndId> x = filePathLocal;
-			//
-			// string username = x.FileName;
-			// string ext = x.FileExtension;
-			// string f = x.FileNameObject.FileName;
-			// string u = x.FileNameObject.UserName;
-			// string i = x.FileNameObject.FileId;
 
 			if (!filePathLocal.IsValid) return;
 
@@ -272,23 +264,6 @@ namespace AndyShared.ClassificationFileSupport
 			OnPropertyChange("DataDescription");
 		}
 
-
-
-		// public bool InstallSampleFile(string proposedSampleFile)
-		// {
-		// 	string sampleFile = 
-		// 		ClassificationFileAssist.IncorporateSampleFile(proposedSampleFile,
-		// 		GetFolderPath, FileNameNoExt);
-		//
-		// 	if (sampleFile == null)
-		// 	{
-		// 		return false;
-		// 	}
-		// 	SampleFilePath = sampleFile;
-		//
-		// 	return true;
-		// }
-
 	#endregion
 
 	#region private methods
@@ -349,7 +324,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public override string ToString()
 		{
-			return "this is ClassificationFile2";
+			return "this is ClassificationFile";
 		}
 
 	#endregion

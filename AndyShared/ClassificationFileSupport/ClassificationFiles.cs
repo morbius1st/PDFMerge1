@@ -214,7 +214,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public override string ToString()
 		{
-			return "this is ConfigSeedLocal";
+			return "this is ClassificationFiles";
 		}
 
 	#endregion

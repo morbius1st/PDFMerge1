@@ -15,7 +15,7 @@ using UtilityLibrary;
 
 namespace AndyShared.SampleFileSupport
 {
-	public class SampleFileAssist
+	public static class SampleFileAssist
 	{
 		public const string SAMPLE_FILE_PATTERN = @"*." + SampleFile.SAMPLE_FILE_EXT;
 
@@ -24,8 +24,6 @@ namespace AndyShared.SampleFileSupport
 	#endregion
 
 	#region ctor
-
-		public SampleFileAssist() { }
 
 	#endregion
 
@@ -41,10 +39,6 @@ namespace AndyShared.SampleFileSupport
 
 		public static FilePath<FileNameSimple> InstallSampleFile(string startingFolderPath, string sampleFolderPath)
 		{
-			// steps
-			// 1 select file (with extension ".sample" -> cancel -> return false
-			// copy to user's sampleFolder -> error -> return false
-
 			FilePath<FileNameSimple> existFilePath =  SelectSampleFile(startingFolderPath);
 			FilePath<FileNameSimple> newFilePath = 
 				new FilePath<FileNameSimple>(sampleFolderPath + FilePathUtil.PATH_SEPARATOR + existFilePath.FileName);
@@ -57,8 +51,6 @@ namespace AndyShared.SampleFileSupport
 
 			return newFilePath;
 		}
-
-
 
 		public static string DescriptionFromFile(string sampleFilePath)
 		{
@@ -183,7 +175,7 @@ namespace AndyShared.SampleFileSupport
 
 	#region system overrides
 
-		public override string ToString()
+		public new static string ToString()
 		{
 			return "this is SampleFileAssist";
 		}

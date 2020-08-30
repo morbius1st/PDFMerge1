@@ -28,17 +28,11 @@ namespace AndyShared.SampleFileSupport
 		private FilePath<FileNameSimple> sampleFilePath = 
 			FilePath<FileNameSimple>.Invalid;
 
-		private string sortName;
-
 		private bool selected;
 
 	#endregion
 
 	#region ctor
-
-		// public SampleFile()
-		// {
-		// }
 
 	#endregion
 
@@ -82,8 +76,6 @@ namespace AndyShared.SampleFileSupport
 		}
 
 		public string Description { get; private set; }
-
-		// public string DescriptionFromFile => CsUtilities.ScanXmlForElementValue(FullFilePath, "Description", 0);
 
 	#endregion
 

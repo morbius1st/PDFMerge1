@@ -75,19 +75,6 @@
 				<Setter Property="Foreground" Value="White" />
 			</Style>
 
-
-			<Style
-					x:Key="Button.Normal"
-					TargetType="{x:Type Button}"
-					>
-				<Setter Property="HorizontalAlignment" Value="Center" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" />
-				<Setter Property="Height" Value="{StaticResource Button.Normal.Height}" />
-				<Setter Property="Width" Value="{StaticResource Button.Normal.Width}" />
-			</Style>
-
-
 			<Style
 					x:Key="Button.Reduced.Vertically"
 					TargetType="{x:Type Button}"
@@ -133,41 +120,6 @@
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Background" Value="{StaticResource TextBox.Background}" />
 			</Style>
-
-
-			<Style
-					x:Key="TextBox.Stacked.Button"
-					TargetType="{x:Type TextBox}"
-					BasedOn="{StaticResource TextBox.Base}"
-					>
-				<Setter Property="FontSize" Value="10" />
-				<Setter Property="HorizontalAlignment" Value="Center" />
-				<Setter Property="BorderThickness" Value="0" />
-				<Setter Property="Foreground" Value="{StaticResource Normal.Foreground}" />
-				<Setter Property="Background" Value="Transparent" />
-			</Style>
-
-
-
-
-
-			<Style x:Key="FocusVisual">
-				<Setter Property="Control.Template">
-					<Setter.Value>
-						<ControlTemplate>
-							<Rectangle
-									Margin="2"
-									SnapsToDevicePixels="true"
-									Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-									StrokeDashArray="1 2"
-									StrokeThickness="1"
-									/>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-
-
 
 			<ControlTemplate
 					x:Key="CbxControlTemplate"
@@ -242,6 +194,7 @@
 
 					<ToggleButton
 							x:Name="toggleButton"
+							Grid.Column="0"
 							Grid.ColumnSpan="2"
 							Background="{TemplateBinding Background}"
 							BorderThickness="{TemplateBinding BorderThickness}"
@@ -266,13 +219,6 @@
 													BorderThickness="{TemplateBinding BorderThickness}"
 													BorderBrush="#FFACACAC"
 													>
-
-												<!-- <Border.Background> -->
-												<!-- 	<LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> -->
-												<!-- 		<GradientStop Offset="0" Color="#FFF0F0F0" /> -->
-												<!-- 		<GradientStop Offset="1" Color="#FFE5E5E5" /> -->
-												<!-- 	</LinearGradientBrush> -->
-												<!-- </Border.Background> -->
 												<Border
 														x:Name="splitBorder"
 														Margin="0"
@@ -314,14 +260,6 @@
 														<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
 														<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
 													</MultiDataTrigger.Conditions>
-													<!-- <Setter TargetName="templateRoot" Property="Background"> -->
-													<!-- 	<Setter.Value> -->
-													<!-- 		<LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> -->
-													<!-- 			<GradientStop Offset="0" Color="#FFECF4FC" /> -->
-													<!-- 			<GradientStop Offset="1" Color="#FFDCECFC" /> -->
-													<!-- 		</LinearGradientBrush> -->
-													<!-- 	</Setter.Value> -->
-													<!-- </Setter> -->
 													<Setter TargetName="templateRoot" Property="Background" Value="{StaticResource ComboBox.Selected.Background}" />
 													<Setter TargetName="templateRoot" Property="BorderBrush" Value="#FF7EB4EA" />
 												</MultiDataTrigger>
@@ -351,14 +289,6 @@
 														<Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true" />
 														<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
 													</MultiDataTrigger.Conditions>
-													<!-- <Setter TargetName="templateRoot" Property="Background"> -->
-													<!-- 	<Setter.Value> -->
-													<!-- 		<LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> -->
-													<!-- 			<GradientStop Offset="0" Color="#FFDAECFC" /> -->
-													<!-- 			<GradientStop Offset="1" Color="#FFC4E0FC" /> -->
-													<!-- 		</LinearGradientBrush> -->
-													<!-- 	</Setter.Value> -->
-													<!-- </Setter> -->
 													<Setter TargetName="templateRoot" Property="Background" Value="{StaticResource ComboBox.Selected.Background}" />
 													<Setter TargetName="templateRoot" Property="BorderBrush" Value="#FF569DE5" />
 												</MultiDataTrigger>
@@ -376,7 +306,6 @@
 														</Setter.Value>
 													</Setter>
 													<Setter TargetName="splitBorder" Property="BorderBrush" Value="#FF569DE5" />
-													<!-- <Setter TargetName="templateRoot" Property="Background" Value="White" /> -->
 													<Setter TargetName="templateRoot" Property="Background" Value="{StaticResource ComboBox.Selected.Background}" />
 													<Setter TargetName="templateRoot" Property="BorderBrush" Value="#FF569DE5" />
 												</MultiDataTrigger>
@@ -389,7 +318,6 @@
 														<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
 													</MultiDataTrigger.Conditions>
 													<Setter Property="Foreground" Value="{StaticResource ComboBox.Title.Foreground.Subdued}" />
-													<!-- <Setter TargetName="templateRoot" Property="Background" Value="#FFF0F0F0" /> -->
 													<Setter TargetName="templateRoot" Property="Background" Value="{StaticResource ComboBox.Disabled.Background}" />
 													<Setter TargetName="templateRoot" Property="BorderBrush" Value="#FFD9D9D9" />
 												</MultiDataTrigger>
@@ -398,7 +326,6 @@
 														<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
 														<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
 													</MultiDataTrigger.Conditions>
-													<!-- <Setter TargetName="templateRoot" Property="Background" Value="White" /> -->
 													<Setter Property="Foreground" Value="{StaticResource ComboBox.Title.Foreground.Subdued}" />
 													<Setter TargetName="splitBorder" Property="Background" Value="Transparent" />
 													<Setter TargetName="splitBorder" Property="BorderBrush" Value="Transparent" />
@@ -416,6 +343,7 @@
 					<ContentPresenter
 							x:Name="contentPresenter"
 							Content="{TemplateBinding SelectionBoxItem}"
+							Grid.Column="0"
 							Margin="{TemplateBinding Padding}"
 							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -448,8 +376,6 @@
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
 
-
-
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -475,21 +401,6 @@
 				Grid.ColumnSpan="2"
 				VerticalAlignment="Stretch"
 				>
-
-			<!--  <Label  -->
-			<!--  x:Name="Label10"  -->
-			<!--  Content="{Binding ElementName=clsFileMgr,  -->
-			<!--  Path=ListViewTitle,  -->
-			<!--  FallbackValue='Classification Files'}"  -->
-			<!--  Margin="5,0,5,0"  -->
-			<!--  Padding="5,4,0,6"  -->
-			<!--  HorizontalAlignment="Stretch"  -->
-			<!--  VerticalAlignment="Top"  -->
-			<!--  FontSize="14"  -->
-			<!--  DockPanel.Dock="Top"  -->
-			<!--  Background="{StaticResource Win.Title.Background}"  -->
-			<!--  Foreground="White"  -->
-			<!--  />  -->
 
 			<Label
 					x:Name="Label20"
@@ -578,15 +489,6 @@
 									</TextBlock>
 								</StackPanel>
 							</StackPanel>
-
-							<!--  <TextBlock  -->
-							<!--  Margin="10,0,0,5"  -->
-							<!--  Text="{Binding SampleFilePath,  -->
-							<!--  FallbackValue='C\:\\filepath',  -->
-							<!--  Converter={StaticResource NullStringToMessage},  -->
-							<!--  ConverterParameter={x:Static local:ClassificationFileSelector.NO_SAMPLE_FILE}}"  -->
-							<!--  Foreground="White"  -->
-							<!--  />  -->
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
@@ -597,7 +499,6 @@
 		<DockPanel
 				Grid.Column="0"
 				Grid.Row="1"
-				Grid.RowSpan="1"
 				Grid.ColumnSpan="2"
 				Margin="5"
 				>
@@ -661,39 +562,7 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="top"
 						>
-					<!--  <Border  -->
-					<!--  Padding="0,0,0,0"  -->
-					<!--  CornerRadius="16,0,0,0"  -->
-					<!--  Background="Black"  -->
-					<!--  BorderThickness="0"  -->
-					<!--  BorderBrush="Black"  -->
-					<!--  HorizontalAlignment="Stretch"  -->
-					<!--    -->
-					<!--  >  -->
-					<!--  <DockPanel  -->
-					<!--    -->
-					<!--  Margin="5,0,0,0"  -->
-					<!--  Background="{StaticResource Win.Title.Background}"  -->
 
-					<!--  <Border  -->
-					<!--  Padding="5,2,0,0"  -->
-					<!--    -->
-					<!--  VerticalAlignment="Bottom"  -->
-					<!--  CornerRadius="8,0,0,0"  -->
-					<!--  Background="{StaticResource Normal.Window.Background}"  -->
-					<!--  BorderThickness="0"  -->
-					<!--  BorderBrush="Black"  -->
-					<!--  HorizontalAlignment="Stretch"  -->
-					<!--  >  -->
-					<!--  <DockPanel  -->
-					<!--  Width="102"  -->
-					<!--  Margin="0,0,0,0"  -->
-					<!--  HorizontalAlignment="Stretch"  -->
-					<!-- 			</DockPanel> -->
-					<!-- 		</Border> -->
-					<!-- 	</DockPanel> -->
-					<!-- </Border> -->
-					<!--  HorizontalAlignment="left">  -->
 					<Label
 							x:Name="Label22"
 							Content="Classification File"
@@ -721,19 +590,7 @@
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							>
-						<!--  Width="{StaticResource Button.Normal.Width}"  -->
-						<!-- <Button.Content> -->
-						<!-- 	<StackPanel Orientation="Vertical"> -->
-						<!--  <TextBox  -->
-						<!--  Text="New"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Top}"  -->
-						<!--  />  -->
-						<!--  <TextBox  -->
-						<!--  Text=" Classification file"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Bottom}"  -->
-						<!--  />  -->
-						<!-- 	</StackPanel> -->
-						<!-- </Button.Content> -->
+
 					</Button>
 
 					<Button
@@ -750,18 +607,7 @@
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							>
-						<!-- <Button.Content> -->
-						<!-- 	<StackPanel Orientation="Vertical"> -->
-						<!--  <TextBox  -->
-						<!--  Text="Duplicate"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Top}"  -->
-						<!--  />  -->
-						<!--  <TextBox  -->
-						<!--  Text=" Classification file"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Bottom}"  -->
-						<!--  />  -->
-						<!-- 	</StackPanel> -->
-						<!-- </Button.Content> -->
+
 					</Button>
 
 					<Button
@@ -778,18 +624,7 @@
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							>
-						<!-- <Button.Content> -->
-						<!-- 	<StackPanel Orientation="Vertical"> -->
-						<!--  <TextBox  -->
-						<!--  Text="Rename"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Top}"  -->
-						<!--  />  -->
-						<!--  <TextBox  -->
-						<!--  Text=" Classification file"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Bottom}"  -->
-						<!--  />  -->
-						<!-- 	</StackPanel> -->
-						<!-- </Button.Content> -->
+
 					</Button>
 
 					<Button
@@ -806,18 +641,7 @@
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							>
-						<!-- <Button.Content> -->
-						<!-- 	<StackPanel Orientation="Vertical"> -->
-						<!--  <TextBox  -->
-						<!--  Text="Delete"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Top}"  -->
-						<!--  />  -->
-						<!--  <TextBox  -->
-						<!--  Text=" Classification file"  -->
-						<!--  Style="{StaticResource TextBox.Stacked.Button.Bottom}"  -->
-						<!--  />  -->
-						<!-- 	</StackPanel> -->
-						<!-- </Button.Content> -->
+
 					</Button>
 				</DockPanel>
 
@@ -1039,47 +863,6 @@
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
-
-				<!--  <Button  -->
-				<!--  x:Name="BtnSelectSampleFile"  -->
-				<!--  Grid.Column="1"  -->
-				<!--  Grid.Row="5"  -->
-				<!--  Margin="0,-5,0,-5"  -->
-				<!--  Height="26"  -->
-				<!--  Padding="0"  -->
-				<!--  HorizontalAlignment="Center"  -->
-				<!--  ToolTip="Select Site Settings File's Root Path"  -->
-				<!--  Background="Transparent"  -->
-				<!--  BorderThickness="0"  -->
-				<!--  IsEnabled="{Binding ElementName=winClsFileMgr,  -->
-				<!--  Path=Selected.HasSampleFile,  -->
-				<!--  Converter={StaticResource InvertBool}}"  -->
-				<!--  Click="BtnSelectSampleFile_OnClick"  -->
-				<!--  FocusVisualStyle="{x:Null}"  -->
-				<!--  Style="{StaticResource Button.Normal.Style}"  -->
-				<!--  >  -->
-				<!-- 	<Button.Content> -->
-				<!-- 		<Viewbox Child="{StaticResource File-Open-00}" /> -->
-				<!-- 	</Button.Content> -->
-				<!-- </Button> -->
-
-
-				<!--  <Label  -->
-				<!--  Content="{Binding Selected.SampleFilePath,  -->
-				<!--  ConverterParameter={x:Static local:ClassificationFileSelector.NO_SAMPLE_FILE},  -->
-				<!--  Converter={StaticResource NullStringToMessage},  -->
-				<!--  ElementName=winClsFileMgr,  -->
-				<!--  FallbackValue=' '}"  -->
-				<!--  Grid.Column="1"  -->
-				<!--  Grid.Row="5"  -->
-				<!--  Grid.ColumnSpan="4"  -->
-				<!--  VerticalAlignment="Top"  -->
-				<!--  IsEnabled="{Binding Selected.EditingEnabled,  -->
-				<!--  ElementName=winClsFileMgr,  -->
-				<!--  Mode=OneWay}"  -->
-				<!--  Style="{StaticResource Label.Base}"  -->
-				<!--  />  -->
-
 				<ComboBox
 						x:Name="CbxSampleFiles"
 						Grid.Column="1"
@@ -1087,8 +870,6 @@
 						Grid.ColumnSpan="4"
 						DataContext="{Binding ElementName=winClsFileMgr,
 																	Path=SampleFiles}"
-						DropDownClosed="CbxSampleFiles_DropDownClosed"
-						DropDownOpened="CbxSampleFiles_DropDownOpened"
 						SelectedItem="{Binding ElementName=winClsFileMgr,
 																	 Path=SelectedSample,
 																	 Mode=TwoWay}"
@@ -1102,15 +883,12 @@
 						IsReadOnly="True"
 						ItemsSource="{Binding View,
 																	FallbackValue={x:Null}}"
+						Style="{StaticResource Combo.Base}"
 						Template="{DynamicResource CbxControlTemplate}"
 						>
-						<!-- SelectionChanged="CbxSampleFiles_SelectionChanged" -->
-					<!--    -->
 					<ComboBox.ItemTemplate>
 						<DataTemplate DataType="sample:SampleFile">
 							<StackPanel Orientation="Horizontal">
-								<!--  <Label Foreground="White"  -->
-								<!--  Content="{Binding SortName}" />  -->
 								<Label
 										Content="{Binding FileName,
 																			FallbackValue='FileName',
@@ -1127,47 +905,11 @@
 										ContentStringFormat="{}({0})"
 										Foreground="White"
 										>
-									<!-- <Label.Style> -->
-									<!-- 	<Style TargetType="Label"> -->
-									<!-- 		<Style.Triggers> -->
-									<!-- 			<DataTrigger Binding="{Binding FullFilePath}" Value="{x:Null}"> -->
-									<!-- 			<Setter Property="Content" Value="None"/> -->
-									<!-- 			</DataTrigger> -->
-									<!-- 		</Style.Triggers> -->
-									<!-- 	</Style> -->
-									<!-- </Label.Style> -->
 								</Label>
-
-
 							</StackPanel>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
-					<ComboBox.Style>
-						<Style
-								TargetType="ComboBox"
-								BasedOn="{StaticResource Combo.Base}"
-								>
-							<!-- <Style.Triggers> -->
-							<!-- 	~1~ <Trigger Property="IsEnabled" Value="False"> @1@ -->
-							<!-- 	~1~ 	<Setter Property="SelectedItem" Value="{x:Null}" /> @1@ -->
-							<!-- 	~1~ 	<Setter Property="SelectedIndex" Value="-1" /> @1@ -->
-							<!-- 	~1~ </Trigger> @1@ -->
-							<!--  ~1~  <DataTrigger Binding="{Binding ElementName=winClsFileMgr, Path=SelectedSample}"  @1@  -->
-							<!--  ~1~  Value="{x:Null}">  @1@  -->
-							<!-- 	~1~ 	<Setter Property="TextSearch.Text" Value="! First Item"></Setter> @1@ -->
-							<!-- 	~1~ 	<Setter Property="Background" Value="DeepSkyBlue"/> @1@ -->
-							<!-- 	~1~ </DataTrigger> @1@ -->
-							<!--    -->
-							<!-- 	<DataTrigger Binding="{Binding ElementName=winClsFileMgr, Path=SearchText}" Value="{x:Null}"> -->
-							<!-- 		~1~ <Setter Property="Background" Value="Red" /> @1@ -->
-							<!-- 		<Setter Property="SelectedIndex" Value="0" /> -->
-							<!-- 	</DataTrigger> -->
-							<!-- </Style.Triggers> -->
-						</Style>
-					</ComboBox.Style>
-
 				</ComboBox>
-
 
 				<Label
 						Content="Description"
@@ -1193,14 +935,7 @@
 																Mode=OneWay}"
 						Style="{StaticResource TextBlock.Base}"
 						/>
-
-
 			</Grid>
-
-
-
 		</DockPanel>
-
-
 	</Grid>
 </Window>
