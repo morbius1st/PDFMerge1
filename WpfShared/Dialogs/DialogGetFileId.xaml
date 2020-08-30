@@ -7,18 +7,19 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Name="dlgGetFileId"
-		Title="FileId for the Classification File"
-		WindowStyle="ToolWindow"
-		Width="420"
+		Title="{Binding Caption, Mode=OneWay, FallbackValue='File Id for a Classification File'}"
+				WindowStyle="ToolWindow"
+				Width="420"
 		Closing="DialogGetFileId_OnClosing"
 		DataContext="{Binding ElementName=dlgGetFileId}"
+		FocusManager.FocusedElement="{Binding ElementName=TbxFileId}"
 		ResizeMode="NoResize"
 		ShowInTaskbar="False"
 		SizeToContent="Height"
 		WindowStartupLocation="CenterOwner"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
-		FocusManager.FocusedElement="{Binding ElementName=TbxFileId}"
+		
 		>
 
 	<Window.Resources>
@@ -61,29 +62,42 @@
 
 	</Window.Resources>
 
-	<Grid Margin="8">
+	<Grid Margin="0,8,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="auto" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="auto" />
 
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
-			<!-- <RowDefinition Height="22" /> -->
+			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 
 		</Grid.RowDefinitions>
 
+		<!-- <Label -->
+		<!-- 		Grid.Column="0" -->
+		<!-- 		Grid.Row="0" -->
+		<!-- 		Grid.ColumnSpan="2" -->
+		<!-- 		Content="{Binding Caption, Mode=OneWay, FallbackValue='File Id for a Classification File'}" -->
+		<!-- 		Padding="8,4,0,6" -->
+		<!-- 		Margin="1,1,1,8" -->
+		<!-- 		HorizontalAlignment="Stretch" -->
+		<!-- 		VerticalAlignment="Top" -->
+		<!-- 		FontSize="14" -->
+		<!-- 		Background="{StaticResource Win.Title.Background}" -->
+		<!-- 		Foreground="White" -->
+		<!-- 		/> -->
+
 		<Label
 				Content="File Id"
 				Grid.Column="0"
-				Grid.Row="0"
-				Margin="0,0,20,0"
+				Grid.Row="1"
+				Margin="8,0,20,0"
 				Height="{StaticResource Height}"
-				Padding="5,1,0,1.5"
+				Padding="0,1,0,1.5"
 				VerticalAlignment="Center"
 				VerticalContentAlignment="Center"
 				FontSize="14"
@@ -94,9 +108,9 @@
 		<TextBox
 				Name="TbxFileId"
 				Grid.Column="1"
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.ColumnSpan="2"
-				Margin="0,0,0,0"
+				Margin="0,0,8,0"
 				Height="{StaticResource Height}"
 				Padding="5,0,0,1.5"
 				VerticalAlignment="Center"
@@ -128,9 +142,9 @@
 		<TextBox
 				Name="TbxNotes"
 				Grid.Column="1"
-				Grid.Row="1"
+				Grid.Row="2"
 				Grid.ColumnSpan="2"
-				Margin="0,8,0,8"
+				Margin="0,8,8,8"
 				Padding="5,2,0,2"
 				VerticalAlignment="Stretch"
 				FontSize="12"
@@ -148,9 +162,9 @@
 		</TextBox>
 
 		<StackPanel
-				Grid.Column="2"
-				Grid.Row="2"
-				Margin="0"
+				Grid.Column="1"
+				Grid.Row="3"
+				Margin="0,0,8,8"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Stretch"
 				Orientation="Horizontal"

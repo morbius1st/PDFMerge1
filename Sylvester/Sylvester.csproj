@@ -100,9 +100,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions - Enum.cs">
       <Link>.External\CsExtensions - Enum.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
-      <Link>.External\ScreenParametersWpf.cs</Link>
-    </Compile>
     <Compile Include="FileSupport\FileRevision.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">

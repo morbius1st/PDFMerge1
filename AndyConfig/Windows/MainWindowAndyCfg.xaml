@@ -2578,7 +2578,7 @@
 
 						<Label
 								Content="{Binding ElementName=MainWinAndyCfg,
-																	Path=ClassificationFiles.UserClassificationFolderPath,
+																	Path=ClassificationFiles.AllClassifFolderPath,
 																	Mode=OneWay,
 																	FallbackValue='Not Found',
 																	Converter={StaticResource NullStrToMessage},
@@ -2592,7 +2592,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationFiles.UserClassificationFolderPath}" Value="{x:Null}">
+										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationFiles.AllClassifFolderPath}" Value="{x:Null}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>

@@ -1,11 +1,15 @@
 ﻿#region using directives
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
+using AndyShared.ClassificationFileSupport;
+using SettingsManager;
+using UtilityLibrary;
+
 #endregion
 
 // username: jeffs
@@ -13,46 +17,158 @@ using System.Runtime.CompilerServices;
 
 namespace AndyShared.SampleFileSupport
 {
-
 	public class SampleFiles : INotifyPropertyChanged
 	{
-		#region private fields
+		public const string SAMPLE_CBX_FIRST_ITEM = "**FirstItem**";
 
+	#region private fields
 
+		private static readonly Lazy<SampleFiles> instance =
+			new Lazy<SampleFiles>(() => new SampleFiles());
 
-		#endregion
+		private  ObservableCollection<SampleFile> userSampleFiles =
+			new ObservableCollection<SampleFile>();
 
-		#region ctor
+		private ICollectionView sampleFilesView;
+
+		private string sampleFileFolderPath;
+
+	#endregion
+
+	#region ctor
 
 		public SampleFiles() { }
 
-		#endregion
+	#endregion
 
-		#region public properties
+	#region public properties
 
+		public static SampleFiles Instance => instance.Value;
 
+		public bool Initialized { get; set; }
 
-		#endregion
+		public ObservableCollection<SampleFile> UserSampleFiles => userSampleFiles;
 
-		#region private properties
+		public string SampleFileFolderPath => sampleFileFolderPath;
 
+		public ICollectionView View
+		{
+			get => sampleFilesView;
 
+			set
+			{
+				sampleFilesView = value;
 
-		#endregion
+				OnPropertyChange();
+			}
+		}
 
-		#region public methods
+	#endregion
 
+	#region private properties
 
+	#endregion
 
-		#endregion
+	#region public methods
 
-		#region private methods
+		public void Initialize(string userClassfFolderPath)
+		{
+			if (userClassfFolderPath.IsVoid()) return;
 
+			if (Initialized) return;
 
+			Initialized = true;
 
-		#endregion
+			OnPropertyChange("Initialized");
 
-		#region event processing
+			sampleFileFolderPath = SampleFileAssist.GetSampleFolderPath(userClassfFolderPath);
+		}
+
+		public void reinitialize()
+		{
+			UpdateCollection();
+
+			UpdateProperties();
+		}
+
+		public void UpdateCollection()
+		{
+			InitializeCollection();
+
+			if (!GetFiles()) return;
+
+			UpdateView();
+
+			UpdateViewProperties();
+		}
+
+	#endregion
+
+	#region private methods
+
+		private void InitializeCollection()
+		{
+			userSampleFiles = new ObservableCollection<SampleFile>();
+
+			SampleFile sampleFile = new SampleFile();
+
+			sampleFile.SampleFilePath = FilePath<FileNameSimple>.Invalid;
+
+			// sampleFile.SampleFilePath.MakeFilePathInfo("Sample file\\No Sample File Assigned.txt");
+			sampleFile.SampleFilePath.FileNameObject.FileNameNoExt = "No Sample File Assigned";
+
+			sampleFile.SortName = SAMPLE_CBX_FIRST_ITEM;
+
+			userSampleFiles.Add(sampleFile);
+		}
+
+		private bool GetFiles()
+		{
+			foreach (string file in Directory.EnumerateFiles(SampleFileFolderPath, 
+				SampleFileAssist.SAMPLE_FILE_PATTERN, SearchOption.TopDirectoryOnly))
+			{
+				// SampleFile sampleFile = new SampleFile(file);
+				SampleFile sampleFile = new SampleFile();
+
+				sampleFile.InitializeFromSampleFilePath(file);
+
+				sampleFile.SortName = sampleFile.FileName;
+
+				userSampleFiles.Add(sampleFile);
+
+			}
+
+			OnPropertyChange("UserSampleFiles");
+			
+			return userSampleFiles.Count > 0;
+		}
+
+		private void UpdateProperties()
+		{
+			OnPropertyChange("SampleFileFolderPath");
+		}
+
+		private void UpdateView()
+		{
+			sampleFilesView = CollectionViewSource.GetDefaultView(userSampleFiles);
+
+			sampleFilesView.SortDescriptions.Clear();
+			sampleFilesView.SortDescriptions.Add(
+				new SortDescription(SampleFile.SORT_NAME_PROP, ListSortDirection.Ascending));
+
+			OnPropertyChange("View");
+		}
+
+		public void UpdateViewProperties()
+		{
+			OnPropertyChange("UserSampleFiles");
+			OnPropertyChange("View");
+			
+		}
+
+	#endregion
+
+	#region event processing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -61,22 +177,19 @@ namespace AndyShared.SampleFileSupport
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		#endregion
+	#endregion
 
-		#region event handeling
+	#region event handeling
 
+	#endregion
 
-
-		#endregion
-
-		#region system overrides
+	#region system overrides
 
 		public override string ToString()
 		{
 			return "this is SampleFiles";
 		}
 
-		#endregion
-
+	#endregion
 	}
 }

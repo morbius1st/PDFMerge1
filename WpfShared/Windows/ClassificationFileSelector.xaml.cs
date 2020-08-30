@@ -3,19 +3,17 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
-using AndyShared.FilesSupport;
-using CSLibraryIo.CommonFileFolderDialog;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using SettingsManager;
+using AndyShared.SampleFileSupport;
 using UtilityLibrary;
 using WpfShared.Dialogs;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
-
+using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
 
 /*
 functions:
@@ -50,9 +48,15 @@ namespace WpfShared.Windows
 
 		private ClassificationFile selected;
 
+		private SampleFile selectedSampleFile;
+
 		private ICollectionView view;
 
-		Balloon b;
+		private SampleFiles sampleFiles = null;
+
+		private Balloon b;
+
+		private bool tbxKeyProcessingFlag; // text changed
 
 	#endregion
 
@@ -78,13 +82,52 @@ namespace WpfShared.Windows
 			get => selected;
 			set
 			{
-				if (selected != null)  selected.SelectedPropertyChanged -= Selected_SelectedPropertyChanged;
+				Debug.WriteLine("selected classf");
+
+				if (selected != null)  selected.FileIdChanged -= selected_FileIdChanged;
 
 				selected = value;
 
-				selected.SelectedPropertyChanged += Selected_SelectedPropertyChanged;
+				if (selected != null)
+				{
+					selected.FileIdChanged += selected_FileIdChanged;
 
-				selected.Read();
+					selected.Read();
+
+					selectedSampleFile = null;
+
+					SearchText = selected.SampleFileName;
+				}
+
+				OnPropertyChange();
+			}
+		}
+
+		public SampleFile SelectedSample
+		{
+			get => selectedSampleFile;
+			set
+			{
+
+				Debug.WriteLine("selected sample changed| cur value| " + selectedSampleFile?.SortName ?? "is null");
+				Debug.WriteLine("selected sample changed| new value| " + value?.SortName ?? "is null");
+
+				if (value?.SortName != null &&
+					selectedSampleFile?.SortName != null &&
+					!selectedSampleFile.SortName.Equals(value.SortName))
+				{
+					if (value.SortName.Equals(SampleFiles.SAMPLE_CBX_FIRST_ITEM))
+					{
+						selected.UpdateSampleFile(null);
+					}
+					else
+					{
+						selected.UpdateSampleFile(value.SortName);
+						OnPropertyChange("Selected");
+					}
+				}
+
+				selectedSampleFile = value;
 
 				OnPropertyChange();
 			}
@@ -95,6 +138,35 @@ namespace WpfShared.Windows
 		public string ListViewTitle => UserName + "'s Classification Files";
 
 		public bool FileIdPopupIsOpen { get; set; } = false;
+
+		public SampleFiles SampleFiles => sampleFiles;
+
+		private string searchText;
+
+		public string SearchText
+		{
+			get => searchText;
+			set
+			{
+				if (selected?.EditingEnabled ?? false)
+				{
+					if (value == null)
+					{
+						searchText = SampleFiles.SAMPLE_CBX_FIRST_ITEM;
+					}
+					else
+					{
+						searchText = value;
+					}
+				}
+				else
+				{
+					searchText = "*";
+				}
+
+				OnPropertyChange();
+			}
+		}
 
 	#endregion
 
@@ -116,17 +188,25 @@ namespace WpfShared.Windows
 			// dataFile.Admin.Read();
 			// dataFile.Admin.Write();
 
-
 			cfgClsFiles = ClassificationFiles.Instance;
+			cfgClsFiles.Initialize();
+
+			sampleFiles = SampleFiles.Instance;
+			sampleFiles.Initialize(cfgClsFiles.UserClassfFolderPath);
 
 			reinitialize();
 		}
 
 		private void reinitialize()
 		{
-			cfgClsFiles.Initialize();
+			cfgClsFiles.Reinitialize();
+
+			sampleFiles.reinitialize();
 
 			OnPropertyChange("CfgClsFiles");
+			OnPropertyChange("SampleFiles");
+
+			CbxSampleFiles.SelectedIndex = 0;
 
 			initializeView();
 		}
@@ -138,6 +218,25 @@ namespace WpfShared.Windows
 			// view.Filter = new Predicate<object>(MatchUser);
 
 			OnPropertyChange("View");
+		}
+
+
+		private bool rename(string newFileId)
+		{
+			string newFileName = Rename(selected.FilePathLocal, newFileId);
+
+			if (!newFileName.IsVoid())
+			{
+				selected.FilePathLocal.ChangeFileName(newFileName, "");
+
+				OnPropertyChange("Selected");
+
+				selected.UpdateProperties();
+
+				return true;
+			}
+
+			return false;
 		}
 
 	#endregion
@@ -155,93 +254,166 @@ namespace WpfShared.Windows
 
 	#region event handeling
 
-		private bool tbxKeyProcessingFlag; // text changed
+		private int beforeIdx;
 
+		private void CbxSampleFiles_DropDownOpened(object sender, EventArgs e)
+		{
+			object s = sender;
+			ComboBox c = sender as ComboBox;
+			beforeIdx = c.SelectedIndex;
+
+		}
+
+		private void CbxSampleFiles_DropDownClosed(object sender, EventArgs e)
+		{
+			object s = sender;
+			ComboBox c = sender as ComboBox;
+			int idx = c.SelectedIndex;
+		}
+
+
+		private void CbxSampleFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SampleFile s = e.AddedItems[0] as SampleFile;
+
+			Debug.WriteLine("@selection changed| " + s.FileName + "  (" + s.SortName + ")");
+		}
+
+
+		private void BtnInstallSample_OnClick(object sender, RoutedEventArgs e)
+		{
+			int currIdx = Lb1.SelectedIndex;
+
+			FilePath<FileNameSimple> newFilePath =
+				SampleFileAssist.InstallSampleFile(cfgClsFiles.AllClassifFolderPath,
+					sampleFiles.SampleFileFolderPath);
+
+			if (newFilePath != null && newFilePath.IsValid) reinitialize();
+
+			Lb1.SelectedIndex = currIdx;
+		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			this.Close();
 		}
 
-		private void BtnNew_OnClick(object sender, RoutedEventArgs e)
+		private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
 		{
-			DialogGetFileId dlg = new DialogGetFileId();
+			string selectedFilePath = selected.FullFilePath;
 
-			dlg.Owner = this;
+			Lb1.SelectedIndex = -1;
 
-			if (dlg.ShowDialog() == true)
+			if (Delete(selectedFilePath))
 			{
-				string fileId = dlg.FileId;
-
-				if (!ClassificationFile.
-					Create( fileId, cfgClsFiles.UserClassificationFolderPath)) return;
-
 				reinitialize();
 			}
 		}
+
+		private void BtnNew_OnClick(object sender, RoutedEventArgs e)
+		{
+			ClassificationFile cf = Create(cfgClsFiles.AllClassifFolderPath);
+
+			if (cf == null) return;
+
+			cfgClsFiles.UserClassificationFiles.Add(cf);
+
+			Lb1.SelectedItem = cf;
+		}
+
+		// private void BtnNew2_OnClick(object sender, RoutedEventArgs e)
+		// {
+		// 	bool result = true;
+		//
+		// 	while (result)
+		// 	{
+		// 		DialogGetFileId dlg = new DialogGetFileId("File Id for a New Classification File");
+		//
+		// 		dlg.Owner = this;
+		//
+		// 		if (dlg.ShowDialog() == true)
+		// 		{
+		// 			string fileId = dlg.FileId;
+		//
+		// 			if (!Create(cfgClsFiles.UserClassificationFolderPath,  fileId)) return;
+		//
+		// 			reinitialize();
+		//
+		// 			result = false; // done - exit loop
+		// 		}
+		// 		else
+		// 		{
+		// 			result = false; // dialog canceled - exit loop
+		// 		}
+		// 	}
+		// }
 
 		private void BtnCopy_OnClick(object sender, RoutedEventArgs e)
 		{
-			string source = selected.FullFilePath;
+			bool result = true;
 
-			DialogGetFileId dlg = new DialogGetFileId();
+			if (selected == null || !selected.IsValid) return;
 
-			dlg.Owner = this;
-
-			if (dlg.ShowDialog() == true)
+			while (result)
 			{
-				string fileId = dlg.FileId;
+				DialogGetFileId dlg = new DialogGetFileId("File Id for the Duplicate Classification File");
 
-				// FilePath<FileNameUserAndId> destination =
-				// 	ClassificationFile.AssembleFilePath(fileId,
-				// 		selected.FilePathLocal.FolderPath);
-				//
-				// // if (destination.IsFound)
-				// if (true)
-				// {
-				// 	TaskDialog td = new TaskDialog();
-				// 	td.Caption = "Duplicate a Classification File";
-				// 	td.Text = "The classification File Id you provided: \"" + fileId +
-				// 		"\" already exists.  Please provide a different File Id";
-				// 	td.InstructionText = "The classification file already exists";
-				// 	td.Icon = TaskDialogStandardIcon.Error;
-				// 	td.Icon = td.Icon;
-				// 	td.Cancelable = false;
-				// 	td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(this);
-				// 	td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
-				// 	// td.Opened += TaskDialog_Opened;
-				// 	td.Show();
-				// }
+				dlg.Owner = this;
 
+				if (dlg.ShowDialog() == true)
+				{
+					string fileId = dlg.FileId;
 
+					if (!Duplicate(selected.FilePathLocal, fileId)) return;
 
-				if (!ClassificationFile.
-					Duplicate(selected.FilePathLocal, fileId)) return;
+					reinitialize();
 
-				reinitialize();
+					result = false; // done - exit loop
+				}
+				else
+				{
+					result = false; // canceled dialog - exit loop
+				}
 			}
-		}
-
-		private void TaskDialog_Opened(object sender, EventArgs e)
-		{
-			TaskDialog td = sender as TaskDialog;
-			td.Icon = td.Icon = td.Icon;
-			if (td.FooterIcon != TaskDialogStandardIcon.None)
-			{
-				td.FooterIcon = td.FooterIcon;
-			}
-			td.InstructionText = td.InstructionText;
-
 		}
 
 		private void BtnRename_OnClick(object sender, RoutedEventArgs e)
 		{
-			TaskDialog td = new TaskDialog();
-			td.Caption = "this is a caption";
-			td.InstructionText = "this is the main instructions";
-			td.Icon = TaskDialogStandardIcon.Error;
-			td.Opened += TaskDialog_Opened;
-			td.Show();
+			if (selected == null || !selected.IsValid) return;
+
+			bool result = true;
+
+			// loop until done or cancel
+			while (result)
+			{
+				DialogGetFileId dlg =
+					new DialogGetFileId("New File Id for an Existing Classification File",
+						selected.FileId);
+
+				dlg.Owner = this;
+
+				if (dlg.ShowDialog() == true)
+				{
+					string fileId = dlg.FileId;
+
+					result = !rename(fileId);
+					//
+					//
+					// string newFileName = ClassificationFileAssist.
+					// 	Rename(selected.FilePathLocal, fileId);
+					//
+					// if (!newFileName.IsVoid())
+					// {
+					// 	selected.FilePathLocal.ChangeFileName(newFileName, "");
+					// 	
+					// 	result = false; // updated - exit loop
+					// }
+				}
+				else // selected cancel in the dialog box - exit loop
+				{
+					result = false;
+				}
+			}
 		}
 
 		private void TextBox_OnKeyUp(object sender, KeyEventArgs e)
@@ -257,6 +429,8 @@ namespace WpfShared.Windows
 			}
 			else
 			{
+				// non-enter pressed, start editing
+				// flag editing the textbox
 				tbxKeyProcessingFlag = true;
 			}
 		}
@@ -273,10 +447,33 @@ namespace WpfShared.Windows
 
 		private void TextBox_UpdateSource(TextBox tbx)
 		{
+			// textbox changed - about to process change
+			// validate change
+			// if change is OK, tell textbox to update its source
+			// if not OK return
+			if (!rename(tbx.Text))
+			{
+				// rename failed
+				// restore the textbox's value
+				tbx.Text = selected.FileId;
+
+				return;
+			}
+			else
+			{
+				// rename worked - show balloon
+				ShowRenameBalloon();
+			}
+
 			tbx.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
 		}
 
-		private void Selected_SelectedPropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void selected_FileIdChanged(object sender, PropertyChangedEventArgs e)
+		{
+			ShowRenameBalloon();
+		}
+
+		private void ShowRenameBalloon()
 		{
 			b = new Balloon(this, TbxFileId, "Classification file was renamed");
 			b.X = 20;
@@ -293,9 +490,9 @@ namespace WpfShared.Windows
 			return "this is ClassificationFileSelector";
 		}
 
-	#endregion
 
 
-		
+		#endregion
+
 	}
 }

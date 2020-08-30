@@ -20,7 +20,7 @@ using UtilityLibrary;
 // created:   6/21/2020 9:58:53 PM
 
 
-namespace AndyShared.FilesSupport
+namespace AndyShared.FileSupport
 {
 
 	public class FileNameUserAndId : AFileName, INotifyPropertyChanged
@@ -39,9 +39,17 @@ namespace AndyShared.FilesSupport
 		private string userName;
 		private string fileId;
 
+		/// <summary>
+		/// The filename and extension
+		/// </summary>
+		public new string FileName => AssembleFileName(UserName, FileId, ExtensionNoSep);
+
+		/// <summary>
+		/// The filename sans extension
+		/// </summary>
 		public override string FileNameNoExt
 		{
-			get => ClassificationFile.formatFileName(UserName, FileId);
+			get => AssembleFileNameNoExt(UserName, FileId);
 
 			set
 			{
@@ -51,12 +59,13 @@ namespace AndyShared.FilesSupport
 					UserName = null;
 					FileId = null;
 
-					return;
+				} 
+				else
+				{
+					this.fileNameNoExt = value.TrimStart();
+
+					parseFileName();
 				}
-
-				this.fileNameNoExt = value.TrimStart();
-
-				parseFileName();
 
 				OnPropertyChange();
 			}
@@ -72,13 +81,12 @@ namespace AndyShared.FilesSupport
 				{
 					this.extensionNoSep = value;
 				}
+				else
+				{
+					extensionNoSep = null;
+				}
 			}
 		}
-
-		/// <summary>
-		/// The filename and extension
-		/// </summary>
-		public new string FileName => FilePathUtil.AssemblePath(FileNameNoExt, ExtensionNoSep, null);
 
 		public string UserName
 		{
@@ -126,6 +134,16 @@ namespace AndyShared.FilesSupport
 			// Extension = m.Groups[FILE_EXT_IDX].Value;
 
 			OnPropertyChange("IsValid");
+		}
+
+		public static string AssembleFileNameNoExt(string userName, string fileId)
+		{
+			return $"({userName}) {fileId}";
+		}
+		
+		public static string AssembleFileName(string userName, string fileId, string extensionNoSep)
+		{
+			return AssembleFileNameNoExt(userName, fileId) + FilePathUtil.EXT_SEPARATOR + extensionNoSep;
 		}
 
 	#region event handling

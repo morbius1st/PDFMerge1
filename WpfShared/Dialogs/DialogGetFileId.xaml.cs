@@ -27,17 +27,21 @@ namespace WpfShared.Dialogs
 
 		private bool isValid;
 
+		private string caption;
+
 	#endregion
 
 	#region ctor
 
-		public DialogGetFileId()
+		public DialogGetFileId(string title, string currentValue = null)
 		{
 			InitializeComponent();
 
 			IsValid = false;
 
-			Window w = Common.GetCurrentWindow();
+			Caption = title;
+
+			if (!currentValue.IsVoid()) FileId = currentValue;
 		}
 
 	#endregion
@@ -67,6 +71,18 @@ namespace WpfShared.Dialogs
 
 				isValid = value;
 
+				OnPropertyChange();
+			}
+		}
+
+
+
+		public string Caption
+		{
+			get => caption;
+			private set
+			{
+				caption = value;
 				OnPropertyChange();
 			}
 		}

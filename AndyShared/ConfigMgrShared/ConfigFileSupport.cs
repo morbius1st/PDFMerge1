@@ -5,7 +5,8 @@ using System.IO;
 using System.Text;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigSupport;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
+using AndyShared.SampleFileSupport;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -56,7 +57,7 @@ namespace AndyShared.ConfigMgrShared
 				FilePath < FileNameSimpleSelectable > seedFile =
 					new FilePath<FileNameSimpleSelectable>(file);
 
-				string sampleFile = ClassificationFileAssist.GetSampleFile(seedFile);
+				string sampleFile = SampleFileAssist.GetSampleFile(seedFile);
 
 				ConfigSeedFile seed =
 					MakeConfigSeedFileItem(seedFile, Heading.SuiteName,

@@ -30,7 +30,11 @@ namespace AndyShared.ConfigMgrShared
 		private  ObservableCollection<ClassificationFile> userClassificationFiles =
 			new ObservableCollection<ClassificationFile>();
 
-		private ICollectionView userClassificationFilesView;
+		private ICollectionView userClassifFilesView;
+
+		private string allClassfFolderPath;
+
+		private string userClassfFolderPath;
 
 	#endregion
 
@@ -44,16 +48,14 @@ namespace AndyShared.ConfigMgrShared
 
 		public static ClassificationFiles Instance => instance.Value;
 
-
 		public bool Initialized { get; set; }
 
 		/// <summary>
 		/// folder path to the local classification file
 		/// </summary>
-		// public string UserClassificationFolderPath => ConfigFileSupport.UserClassificationFolderPath;
-		public string UserClassificationFolderPath => UserClassfFolderPath;
+		public string AllClassifFolderPath => allClassfFolderPath;
 
-		public bool UserClassificationFolderPathExists => Directory.Exists(UserClassificationFolderPath);
+		public string UserClassfFolderPath => userClassfFolderPath;
 
 		public  ObservableCollection<ClassificationFile> UserClassificationFiles
 		{
@@ -67,11 +69,11 @@ namespace AndyShared.ConfigMgrShared
 
 		public ICollectionView View
 		{
-			get => userClassificationFilesView;
+			get => userClassifFilesView;
 			// mst be public
 			set
 			{
-				userClassificationFilesView = value;
+				userClassifFilesView = value;
 
 				OnPropertyChange();
 			}
@@ -81,20 +83,30 @@ namespace AndyShared.ConfigMgrShared
 
 	#region private properties
 
-		private string UserClassfFolderPath => MachSettings.Path.SettingFolderPath +
-			ClassificationFileAssist.USER_STORAGE_FOLDER;
-
 	#endregion
 
 	#region public methods
 
 		public void Initialize()
 		{
+			if (Initialized) return;
+
 			Initialized = true;
 
-			UpdateCollection();
-
 			OnPropertyChange("Initialized");
+
+			allClassfFolderPath = MachSettings.Path.SettingFolderPath +
+				ClassificationFileAssist.USER_STORAGE_FOLDER;
+
+			userClassfFolderPath = FilePathUtil.AssembleFolderPath(false,
+				AllClassifFolderPath, Environment.UserName);
+
+			Reinitialize();
+		}
+
+		public void Reinitialize()
+		{
+			UpdateCollection();
 
 			UpdateProperties();
 		}
@@ -137,41 +149,43 @@ namespace AndyShared.ConfigMgrShared
 
 		private bool GetFiles()
 		{
-			foreach (string file in Directory.EnumerateFiles(UserClassificationFolderPath,
+			foreach (string file in Directory.EnumerateFiles(AllClassifFolderPath,
 				ClassificationFileAssist.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
 			{
-				ClassificationFile userFile =
-					new ClassificationFile(file);
+				ClassificationFile userFile = new ClassificationFile(file);
 
 				if (!userFile.IsValid) continue;
 
 				userClassificationFiles.Add(userFile);
 			}
 
+			OnPropertyChange("UserClassificationFiles");
+
 			return userClassificationFiles.Count > 0;
 		}
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("UserClassificationFolderPath");
-			OnPropertyChange("UserClassificationFolderPathExists");
+			OnPropertyChange("AllClassifFolderPath");
+			OnPropertyChange("UserClassfFolderPath");
 		}
 
 		private void UpdateViewProperties()
 		{
 			OnPropertyChange("UserClassificationFiles");
-			OnPropertyChange("View");
 		}
 
 		private void UpdateView()
 		{
-			View = CollectionViewSource.GetDefaultView(userClassificationFiles);
+			userClassifFilesView = CollectionViewSource.GetDefaultView(userClassificationFiles);
 
-			View.SortDescriptions.Clear();
-			View.SortDescriptions.Add(new SortDescription("FileName", ListSortDirection.Ascending));
+			userClassifFilesView.SortDescriptions.Clear();
+			userClassifFilesView.SortDescriptions.Add(new SortDescription("FileName", ListSortDirection.Ascending));
 
-			View.GroupDescriptions.Clear();
-			View.GroupDescriptions.Add(new PropertyGroupDescription("UserName"));
+			userClassifFilesView.GroupDescriptions.Clear();
+			userClassifFilesView.GroupDescriptions.Add(new PropertyGroupDescription("UserName"));
+
+			OnPropertyChange("View");
 		}
 
 	#endregion

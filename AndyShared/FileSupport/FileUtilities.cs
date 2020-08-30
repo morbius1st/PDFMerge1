@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using UtilityLibrary;
 
 #endregion
 
@@ -57,6 +58,37 @@ namespace AndyShared.FileSupport
 			}
 
 			return true;
+		}
+
+		public static FilePath<FileNameSimple> UniqueFileName(string fileNameFmtStr, string extNoSep, string folderPath, int maxAttempts = 9)
+		{
+			// place limits on maxAttempts
+			int attempts = maxAttempts > 999 || maxAttempts < 9 ? 99 : maxAttempts;
+
+			for (int i = 1; i < attempts; i++)
+			{
+				string filename = string.Format(fileNameFmtStr, i);
+				;
+				string filePath = folderPath + FilePathUtil.PATH_SEPARATOR + filename + 
+					FilePathUtil.EXT_SEPARATOR + extNoSep;
+
+				try
+				{
+					if (!File.Exists(filePath))
+					{
+						return new FilePath<FileNameSimple>(filePath);
+					}
+				}
+				catch (Exception e)
+				{
+					string m = e.Message;
+					string im = e.InnerException.Message;
+
+					return null;
+				}
+			}
+
+			return null;
 		}
 
 	#endregion

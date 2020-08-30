@@ -2,19 +2,14 @@
 
 using System;
 using System.ComponentModel;
-using System.IO;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-
-using AndyShared.FilesSupport;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
-using AndyShared.Support;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
+using static AndyShared.FileSupport.FileNameUserAndId;
 
 #endregion
 
@@ -77,7 +72,6 @@ namespace AndyShared.ClassificationFileSupport
 			}
 
 			InitailizeSample(FilePathLocal.FullFilePath);
-
 		}
 
 	#endregion
@@ -120,7 +114,7 @@ namespace AndyShared.ClassificationFileSupport
 			set
 			{
 				filePathLocal = value;
-				
+
 
 				OnPropertyChange();
 			}
@@ -143,45 +137,14 @@ namespace AndyShared.ClassificationFileSupport
 			// this renames the the associated classification file
 			set
 			{
-				// value = value.Trim();
-
 				if (value.Equals(FileId)) return;
 
-				// string oldSampleFilePath;
-				// string newSampleFileName;
-				// string newSampleFilePath;
-
-				string newFileNameNoExt = ClassificationFileAssist.MakeClassificationFileNameNoExt(UserName, value);
-
-				// string newFileName = ClassificationFileAssist.MakeClassificationFileName(UserName, value);
-
-				// string newFilePath = GetFolderPath + FilePathUtil.PATH_SEPARATOR + newFileName;
-				// string oldFilePath = GetFullFilePath;
-
-				// try
-				// {
-				// 	bool found = File.Exists(oldFilePath);
-				//
-				//
-				// 	File.Move(oldFilePath, newFilePath);
-				//
-				//
-				// 	if (HasSampleFile)
-				// 	{
-				// 		oldSampleFilePath = SampleFilePath;
-				//
-				// 		newSampleFileName = ClassificationFileAssist.MakeSampleFileName(UserName, value);
-				// 		newSampleFilePath = GetFolderPath + FilePathUtil.PATH_SEPARATOR + newSampleFileName;
-				//
-				// 		File.Move(oldSampleFilePath, newSampleFilePath);
-				// 	}
-				// }
-				//
-				// catch { }
+				string newFileNameNoExt = AssembleFileNameNoExt(UserName, value);
 
 				filePathLocal.ChangeFileName(newFileNameNoExt);
 
 				OnPropertyChange();
+
 				OnSelectedPropertyChange();
 
 				OnPropertyChange("SampleFilePath");
@@ -202,17 +165,18 @@ namespace AndyShared.ClassificationFileSupport
 
 		public string SampleFilePath
 		{
-			get => sampleFile.SampleFileFullFilePath;
+			get => sampleFile?.FullFilePath;
 			set
 			{
-				sampleFile = new SampleFile(value);
-				OnPropertyChange();
-				OnPropertyChange("HasSampleFile");
-				OnPropertyChange("SampleFileValidated");
+				// sampleFile = new SampleFile(value);
+				sampleFile = new SampleFile();
+				sampleFile.InitializeFromClassfFilePath(value);
+
+				UpdateSampleFileProperties();
 			}
 		}
 
-		public string SampleFileName => sampleFile.SampleFilePath.FileName;
+		public string SampleFileName => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
 
 		// public bool IsValid => FilePathLocal?.FileNameObject?.IsValid ?? false;
 		public bool IsValid => FilePathLocal?.IsValid ?? false;
@@ -252,7 +216,7 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			get => isDefaultClassfFile;
 			set
-			{ 
+			{
 				isDefaultClassfFile = value;
 
 				OnPropertyChange();
@@ -264,7 +228,7 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			get => isUserClassfFile;
 			set
-			{ 
+			{
 				isUserClassfFile = value;
 
 				OnPropertyChange();
@@ -276,77 +240,13 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region public methods
 
-		public static FilePath<FileNameUserAndId> AssembleFilePath(string newFileId, params string[] folders)
+		public void UpdateSampleFile(string sampleFile)
 		{
-			return new FilePath<FileNameUserAndId>(
-			FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId), 
-				CLASSF_FILE_EXT_NO_SEP, folders));
-		}
+			dataFile.Data.SampleFile = sampleFile;
+			dataFile.Admin.Write();
 
-		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
-		{
-			FilePath<FileNameUserAndId> fp = AssembleFilePath(newFileId, source.FolderPath);
-				//
-				// new FilePath<FileNameUserAndId>(
-				// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId),
-				// 	CLASSF_FILE_EXT_NO_SEP, source.FolderPath));
-
-				ValidateProposedClassfFile("Duplicate a Classification File", newFileId, fp); 
-
-			if (!FileUtilities.CopyFile(source.FullFilePath, fp.FullFilePath)) return false;
-
-			BaseDataFile<ClassificationFileData>  df = 
-				new BaseDataFile<ClassificationFileData>();
-			df.Configure(fp.FolderPath, fp.FileName);
-			df.Admin.Read();
-
-			if (!df.Info.Description.IsVoid())
-			{
-				df.Info.Description = "COPY OF " + df.Info.Description;
-			} 
-			else
-			{
-				df.Info.Description = "This file holds the PDF sheet classification information";
-			}
+			InitailizeSample(FilePathLocal.FullFilePath);
 			
-			if (!df.Info.Notes.IsVoid())
-			{
-				df.Info.Notes = "COPY OF " + df.Info.Notes;
-			} 
-			else
-			{
-				df.Info.Notes = fp.FileNameObject.UserName + " created this file on " + DateTime.Now;
-			}
-
-			df.Admin.Write();
-
-			df = null;
-
-			return true;
-		}
-
-		public static bool Create( string newFileId, string classfRootFolderPath)
-		{
-			FilePath<FileNameUserAndId> fp = AssembleFilePath(newFileId, classfRootFolderPath, Environment.UserName);
-				
-				// new FilePath<FileNameUserAndId>(
-				// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId), 
-				// 	CLASSF_FILE_EXT_NO_SEP, classfRootFolderPath, Environment.UserName));
-
-			if (fp.IsFound) return false;
-
-			BaseDataFile<ClassificationFileData> df = 
-				new BaseDataFile<ClassificationFileData>();
-			df.Configure(fp.FolderPath, fp.FileName);
-			df.Admin.Read();
-			df.Info.Description = "This file holds the PDF sheet classification information";
-			df.Info.Notes = fp.FileNameObject.UserName + " created this file on " + DateTime.Now;
-
-			df.Admin.Write();
-
-			df = null;
-
-			return true;
 		}
 
 		public void Read()
@@ -360,11 +260,19 @@ namespace AndyShared.ClassificationFileSupport
 			UpdateProperties();
 		}
 
-
-		public static string formatFileName(string userName, string fileId)
+		public void UpdateProperties()
 		{
-			return $"({userName}) {fileId}";
+			OnPropertyChange("IsValid");
+			OnPropertyChange("HasSampleFile");
+			OnPropertyChange("FileName");
+			OnPropertyChange("FileNameNoExt");
+			OnPropertyChange("GetFullFilePath");
+			OnPropertyChange("GetPath");
+			OnPropertyChange("SampleFilePath");
+			OnPropertyChange("DataDescription");
 		}
+
+
 
 		// public bool InstallSampleFile(string proposedSampleFile)
 		// {
@@ -387,70 +295,30 @@ namespace AndyShared.ClassificationFileSupport
 
 		private void InitailizeSample(string classfFilePath)
 		{
-			sampleFile = new SampleFile(classfFilePath);
+			// sampleFile = new SampleFile(classfFilePath);
+			sampleFile = new SampleFile();
 
-			bool v = sampleFile.IsValid;
+			sampleFile.InitializeFromClassfFilePath(classfFilePath);
 
-			OnPropertyChange("SampleFilePath");
-			OnPropertyChange("HasSampleFile");
-			OnPropertyChange("SampleFileValidated");
-		}
-
-		private void UpdateProperties()
-		{
-			OnPropertyChange("IsValid");
-			OnPropertyChange("HasSampleFile");
-			OnPropertyChange("FileName");
-			OnPropertyChange("FileNameNoExt");
-			OnPropertyChange("GetFullFilePath");
-			OnPropertyChange("GetPath");
-			OnPropertyChange("SampleFilePath");
-			OnPropertyChange("DataDescription");
+			// bool v = sampleFile.IsValid;
+			UpdateSampleFileProperties();
 		}
 
 		private bool ValidateAgainstUsername(FilePath<FileNameUserAndId> filePath)
 		{
 			IsDefaultClassfFile =
-				filePath.FileNameObject.UserName.
-					Equals("default", StringComparison.OrdinalIgnoreCase);
+				filePath.FileNameObject.UserName.Equals("default", StringComparison.OrdinalIgnoreCase);
 
 			IsUserClassfFile =
-				filePath.FileNameObject.UserName.
-					Equals(Environment.UserName, StringComparison.OrdinalIgnoreCase);
+				filePath.FileNameObject.UserName.Equals(Environment.UserName, StringComparison.OrdinalIgnoreCase);
 
 			return IsUserClassfFile || IsDefaultClassfFile;
 		}
 
-		/// <summary>
-		/// Check if the proposed classification file exists and 
-		/// if so, provide a dialog to tell the user
-		/// </summary>
-		/// <returns>
-		/// true if the proposed classification file DOES NOT exist<br/>
-		/// false if  the proposed classification file DOES exist
-		/// </returns>
-		/// <param name="title">The error dialog box's title</param>
-		/// <param name="fp">The FilePath for the proposed classification file</param>
-		/// <returns></returns>
-		private static bool ValidateProposedClassfFile(string title, string fileId,
-			FilePath<FileNameUserAndId> fp)
+		private void UpdateSampleFileProperties()
 		{
-			if (!fp.IsValid) return true;
-
-			TaskDialog td = new TaskDialog();
-			td.Caption = "Duplicate a Classification File";
-			td.Text = "The classification File Id you provided: \"" + fileId +
-				"\" already exists.  Please provide a different File Id";
-			td.InstructionText = "The classification file already exists";
-			td.Icon = TaskDialogStandardIcon.Error;
-			td.Icon = td.Icon;
-			td.Cancelable = false;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
-			td.Opened += Common.TaskDialog_Opened;
-			td.Show();
-
-			return false;
+			OnPropertyChange("SampleFilePath");
+			OnPropertyChange("SampleFileName");
 		}
 
 	#endregion
@@ -463,12 +331,12 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-		
-		public event PropertyChangedEventHandler SelectedPropertyChanged;
+
+		public event PropertyChangedEventHandler FileIdChanged;
 
 		private void OnSelectedPropertyChange([CallerMemberName] string memberName = "")
 		{
-			SelectedPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+			FileIdChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
 	#endregion

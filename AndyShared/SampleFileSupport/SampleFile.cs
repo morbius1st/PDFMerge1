@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
 
+using AndyShared.ClassificationFileSupport;
+
 #endregion
 
 // username: jeffs
@@ -20,32 +22,27 @@ namespace AndyShared.SampleFileSupport
 	{
 		public const string SAMPLE_FILE_EXT = "sample";
 		public const string SAMPLE_FOLDER = "Sample Files";
-
+		
 	#region private fields
 
-		private FilePath<FileNameSimple> sampleFilePath = FilePath<FileNameSimple>.Invalid;
+		private FilePath<FileNameSimple> sampleFilePath = 
+			FilePath<FileNameSimple>.Invalid;
 
-#pragma warning disable CS0169 // The field 'SampleFile.isSelected' is never used
-		private bool isSelected;
-#pragma warning restore CS0169 // The field 'SampleFile.isSelected' is never used
+		private string sortName;
+
+		private bool selected;
 
 	#endregion
 
 	#region ctor
 
-		public SampleFile(string classfFilePath)
-		{
-
-			SampleFilePath = FullPathFromFile(classfFilePath);
-
-			// bool v = sampleFilePath.IsValid;
-		}
+		// public SampleFile()
+		// {
+		// }
 
 	#endregion
 
 	#region public properties
-
-		public bool IsValid => sampleFilePath?.IsValid ?? false;
 
 		public FilePath<FileNameSimple> SampleFilePath
 		{
@@ -58,8 +55,35 @@ namespace AndyShared.SampleFileSupport
 			}
 		}
 
-		public string SampleFileFullFilePath => sampleFilePath.FullFilePath;
+		public const string SORT_NAME_PROP = "SortName";
+		public string SortName { get; set; }
 
+		/// <summary>
+		/// FileName No Extension
+		/// </summary>
+		public string FileName => sampleFilePath.FileNameNoExt;
+
+		public bool IsValid => sampleFilePath?.IsValid ?? false;
+
+		public bool IsFound => sampleFilePath?.IsFound ?? false;
+
+		public string FullFilePath => sampleFilePath?.FullFilePath;
+
+		public bool Selected
+		{
+			get => selected;
+			set
+			{
+				selected = value;
+
+				OnPropertyChange();
+			}
+
+		}
+
+		public string Description { get; private set; }
+
+		// public string DescriptionFromFile => CsUtilities.ScanXmlForElementValue(FullFilePath, "Description", 0);
 
 	#endregion
 
@@ -69,42 +93,20 @@ namespace AndyShared.SampleFileSupport
 
 	#region public methods
 
-		// read the sample filename (no extension) from the file
-		public static string FileNameFromFile(string classifFilePath)
+		public bool InitializeFromClassfFilePath(string classfFilePath)
 		{
-			string fileName =
-				CsUtilities.ScanXmlForElementValue(classifFilePath, "SampleFile", 0);
+			SampleFilePath = ClassificationFileAssist.GetSampleFilePathFromFile(classfFilePath);
 
-			return fileName;
-
+			return true;
 		}
 
-		public FilePath<FileNameSimple> FullPathFromFile(string classfFilePath)
+		public bool InitializeFromSampleFilePath(string filePathToSampleFile)
 		{
-			// this is just the filename + extension
-			string sampleFileName = FileNameFromFile(classfFilePath);
+			sampleFilePath = new FilePath<FileNameSimple>(filePathToSampleFile);
 
-			if (sampleFileName.IsVoid())
-			{
-				return FilePath<FileNameSimple>.Invalid;
-			}
+			Description = SampleFileAssist.DescriptionFromFile(filePathToSampleFile);
 
-			// FilePath<FileNameSimple> samplePath = new FilePath<FileNameSimple>();
-			FilePath<FileNameSimple> samplePath = DeriveFolderPath(classfFilePath);
-
-			// samplePath.Up();
-			samplePath.ChangeFileName(sampleFileName, SAMPLE_FILE_EXT);
-
-			return samplePath;
-		}
-
-		public FilePath<FileNameSimple> DeriveFolderPath(string classfFilePath)
-		{
-			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
-
-			sampleFolderPath.Down((SAMPLE_FOLDER));
-
-			return sampleFolderPath;
+			return true;
 		}
 
 	#endregion

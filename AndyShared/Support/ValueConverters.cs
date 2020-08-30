@@ -2,13 +2,37 @@
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Data;
 using UtilityLibrary;
 
 namespace AndyShared.Support
 {
 
-#region null to string value converter
+
+
+#region pass-through converter
+
+	// for debugging only
+
+	[ValueConversion(typeof(object), typeof(object))]
+	public class PassThroughConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			
+			return value;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
+#region not bool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class InvertBool : IValueConverter
@@ -37,6 +61,26 @@ namespace AndyShared.Support
 			if (parameter == null) parameter = "is null";
 
 			return (string) value ?? (string) parameter;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+	
+#region null object to string value converter
+
+	[ValueConversion(typeof(object), typeof(string))]
+	public class NullObjToMessage : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (parameter == null) parameter = "is null";
+
+			return value ?? (string) parameter;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

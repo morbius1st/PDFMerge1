@@ -114,4 +114,10 @@
 
 	<SolidColorBrush x:Key="TextBox.Background" Color="{StaticResource Gray.250}"></SolidColorBrush>
 
+	<SolidColorBrush x:Key="ComboBox.Normal.Background" Color="{StaticResource Gray.250}"></SolidColorBrush>
+	<SolidColorBrush x:Key="ComboBox.Selected.Background" Color="{StaticResource Gray.350}"></SolidColorBrush>
+	<SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="{StaticResource Gray.200}"></SolidColorBrush>
+
+	<SolidColorBrush x:Key="ComboBox.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}"></SolidColorBrush>
+
 </ResourceDictionary>

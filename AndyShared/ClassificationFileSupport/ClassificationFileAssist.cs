@@ -3,9 +3,14 @@
 using System;
 using System.IO;
 using AndyShared.ConfigMgrShared;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
+using AndyShared.Support;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using SettingsManager;
 using UtilityLibrary;
+
+using static AndyShared.FileSupport.FileNameUserAndId;
 
 #endregion
 
@@ -45,50 +50,205 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region public methods
 
-		public static string MakeSampleFileName(string classifFileNameNoExt)
+
+		public static FilePath<FileNameSimple> GetSampleFilePathFromFile(string classfFilePath)
 		{
-			return classifFileNameNoExt + SampleFile.SAMPLE_FILE_EXT;
+			string sampleFileNameNoExt = SampleFileNameFromFile(classfFilePath);
+
+			if (sampleFileNameNoExt.IsVoid()) return null;
+
+			FilePath<FileNameSimple> sampleFilePath = DeriveSampleFolderPath(classfFilePath);
+
+			sampleFilePath.ChangeFileName(sampleFileNameNoExt, SampleFile.SAMPLE_FILE_EXT);
+
+			return sampleFilePath;
 		}
 
-		public static string MakeSampleFileName(string username, string id)
+		public static FilePath<FileNameSimple> DeriveSampleFolderPath(string classfFilePath)
 		{
-			return $"({username}) {id}" + SampleFile.SAMPLE_FILE_EXT;
+			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
+
+			sampleFolderPath.Down((SampleFile.SAMPLE_FOLDER));
+
+			return sampleFolderPath;
 		}
 
-		public static string MakeClassificationFileNameNoExt(string username, string id)
+		public static string SampleFileNameFromFile(string classifFilePath)
 		{
-			return $"({username}) {id}";
-		}
+			if (classifFilePath == null) return null;
 
-		public static string MakeClassificationFileName(string username, string id)
-		{
-			return MakeClassificationFileNameNoExt(username, id) + ConfigSeedFileSupport.INFO_FILE_EXT;
-		}
+			string fileName = null;
 
-		public static string GetSampleFile(FilePath<FileNameSimpleSelectable> file)
-		{
-			return GetSampleFile(file.FolderPath, file.FileNameObject.FileNameNoExt);
-		}
-
-		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
-		{
-			string sampleFile = path + @"\" + fileNameNoExt + SampleFile.SAMPLE_FILE_EXT;
-
-			if (!isTarget && !File.Exists(sampleFile))
+			try
 			{
-				sampleFile = null;
+				fileName =
+					CsUtilities.ScanXmlForElementValue(classifFilePath, "SampleFile", 0);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string im = e.InnerException?.Message ?? null;
 			}
 
-			return sampleFile;
+			return fileName;
 		}
 
+		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)
+		{
+			return new FilePath<FileNameUserAndId>(
+				FilePathUtil.AssembleFilePath(AssembleFileNameNoExt(Environment.UserName, newFileId),
+					ClassificationFile.CLASSF_FILE_EXT_NO_SEP, folders));
+		}
+
+		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
+		{
+			FilePath<FileNameUserAndId> dest = 
+				ClassificationFileAssist.AssembleClassfFilePath(newFileId, source.FolderPath);
+			//
+			// new FilePath<FileNameUserAndId>(
+			// FilePathUtil.AssemblePath(formatFileName(Environment.UserName, newFileId),
+			// 	CLASSF_FILE_EXT_NO_SEP, source.FolderPath));
+
+			if (!ValidateProposedClassfFile(  dest,
+				false, "Duplicate a Classification File", "already exists")) return false;
+
+			if (!FileUtilities.CopyFile(source.FullFilePath, dest.FullFilePath)) return false;
+
+			BaseDataFile<ClassificationFileData>  df =
+				new BaseDataFile<ClassificationFileData>();
+			df.Configure(dest.FolderPath, dest.FileName);
+			df.Admin.Read();
+
+			if (!df.Info.Description.IsVoid())
+			{
+				df.Info.Description = "COPY OF " + df.Info.Description;
+			}
+			else
+			{
+				df.Info.Description = "This file holds the PDF sheet classification information";
+			}
+
+			if (!df.Info.Notes.IsVoid())
+			{
+				df.Info.Notes = "COPY OF " + df.Info.Notes;
+			}
+			else
+			{
+				df.Info.Notes = dest.FileNameObject.UserName + " created this file on " + DateTime.Now;
+			}
+
+			df.Admin.Write();
+
+			df = null;
+
+			return true;
+		}
+
+		public static ClassificationFile Create(string classfRootFolderPath)
+		{
+			FilePath<FileNameSimple> dest = 
+				FileUtilities.UniqueFileName(AssembleFileNameNoExt(Environment.UserName, "Pdf Classfications {0:D3}"),
+					"xml", classfRootFolderPath + FilePathUtil.PATH_SEPARATOR + Environment.UserName);
+
+			if (dest == null) return null;
+
+			BaseDataFile<ClassificationFileData> df =
+				new BaseDataFile<ClassificationFileData>();
+
+			df.Configure(dest.FolderPath, dest.FileName);
+			df.Admin.Read();
+			df.Info.Description = "This file holds the PDF sheet classification information";
+			df.Info.Notes = Environment.UserName + " created this file on " + DateTime.Now;
+
+			df.Admin.Write();
+
+			return new ClassificationFile(dest.FullFilePath);
+		}
+
+		public static string Rename(FilePath<FileNameUserAndId> source, string newFileId)
+		{
+			FilePath<FileNameUserAndId> dest =
+				AssembleClassfFilePath(newFileId, source.FolderPath);
+
+			if (!ValidateProposedClassfFile( dest, false,
+				"Rename a Classification File", "already exists")) return null;
+
+			try
+			{
+				File.Move(source.FullFilePath, dest.FullFilePath);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string i = e.InnerException.Message;
+				return null;
+			}
+
+			return dest.FileNameNoExt;
+		}
+
+		public static bool Delete(string sourceFilePath)
+		{
+			if (!File.Exists(sourceFilePath)) return false;
+
+			try
+			{
+				File.Delete(sourceFilePath);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string i = e.InnerException?.Message;
+
+				return false;
+
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Check if the proposed classification file exists and 
+		/// if so, provide a dialog to tell the user
+		/// </summary>
+		/// <returns>
+		/// true if the proposed classification file DOES NOT exist<br/>
+		/// false if  the proposed classification file DOES exist
+		/// </returns>
+		/// <param name="fp">The FilePath for the proposed classification file</param>
+		/// <param name="test"></param>
+		/// <param name="title">The error dialog box's title</param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public static bool ValidateProposedClassfFile(FilePath<FileNameUserAndId> fp, 
+			bool test, string title, string msg)
+		{
+			if (fp.IsFound == test) return true;
+
+			TaskDialog td = new TaskDialog();
+			td.Caption = title;
+			td.Text = "The classification File Id provided: \"" 
+				//+ fileId +
+				+ fp.FileNameObject.FileId +
+				"\" "
+				+ msg
+				+ ".  Please provide a different File Id";
+			td.InstructionText = "The classification file already exists";
+			td.Icon = TaskDialogStandardIcon.Error;
+			td.Cancelable = false;
+			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			td.Opened += Common.TaskDialog_Opened;
+			td.Show();
+
+			return false;
+		}
 
 		// take an existing file and adjust to be a sample file
 		// proposed sample file must have an extension of ".dat"
-		/// <summary>
-		/// take an existing file and adjust to be a sample file<br/>
-		/// proposed sample file must have an extension of ".sample"
-		/// </summary>
+		// /// <summary>
+		// /// take an existing file and adjust to be a sample file<br/>
+		// /// proposed sample file must have an extension of ".sample"
+		// /// </summary>
 		// /// <param name="existFilePath"></param>
 		// /// <param name="userClassfFileFolderPath"></param>
 		// /// <returns></returns>
@@ -128,9 +288,6 @@ namespace AndyShared.ClassificationFileSupport
 		//
 		// 	return null;
 		// }
-
-
-
 
 
 	#endregion
@@ -193,5 +350,6 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 	#endregion
+
 	}
 }

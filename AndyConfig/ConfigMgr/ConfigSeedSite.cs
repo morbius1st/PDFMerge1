@@ -16,7 +16,8 @@ using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgr;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
+using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using SettingsManager;
 using UtilityLibrary;
@@ -166,7 +167,7 @@ namespace AndyConfig.ConfigMgr
 					seed.FilePathLocal.FileName;
 
 				string target2 =
-					ClassificationFileAssist.GetSampleFile(SiteSeedFolderPath,
+					SampleFileAssist.GetSampleFile(SiteSeedFolderPath,
 						seed.FilePathLocal.FileNameNoExt, true);
 
 				if (seed.Status == SeedFileStatus.COPY)
@@ -333,7 +334,7 @@ namespace AndyConfig.ConfigMgr
 					new FilePath<FileNameSimpleSelectable>(file);
 
 				ConfigSeedFile seed  = ConfigSeedFileSupport.MakeConfigSeedFileItem(
-					filePath, Heading.SuiteName, ClassificationFileAssist.GetSampleFile(filePath));
+					filePath, Heading.SuiteName, SampleFileAssist.GetSampleFile(filePath));
 
 				// changes to these means the above must be adjusted
 				// pre-select to keep

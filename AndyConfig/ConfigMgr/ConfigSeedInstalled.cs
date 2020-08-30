@@ -8,10 +8,11 @@ using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ConfigSupport;
+using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 
 
@@ -205,7 +206,7 @@ namespace AndyShared.ConfigMgr
 				{
 					ConfigSeedFile seed =
 						ConfigSeedFileSupport.MakeConfigSeedFileItem(seedFile, Heading.SuiteName,
-							ClassificationFileAssist.GetSampleFile(seedFile));
+							SampleFileAssist.GetSampleFile(seedFile));
 
 					seed.Keep = true;
 

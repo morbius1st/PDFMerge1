@@ -17,7 +17,7 @@ using UtilityLibrary;
 // created:   6/21/2020 9:58:53 PM
 
 
-namespace AndyShared.FilesSupport
+namespace AndyShared.FileSupport
 {
 
 	public class FileNameSimpleSelectable : AFileName, INotifyPropertyChanged
