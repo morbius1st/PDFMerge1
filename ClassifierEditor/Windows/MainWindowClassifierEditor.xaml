@@ -5,22 +5,23 @@
 		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
 		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:file="clr-namespace:ClassifierEditor.FilesSupport"
+		xmlns:file="clr-namespace:AndyShared.FilesSupport"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:ClassifierEditor.Windows.ResourceFiles.XamlResources"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:tree="clr-namespace:ClassifierEditor.Tree"
+		xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport"
 		x:Name="MainWinClsfrEd"
 		Title="MainWindowClassifierEditor"
-		Width="900"
-		Height="650"
-		MinWidth="900"
-		MinHeight="650"
+		Width="1200"
+		Height="800"
+		MinWidth="1200"
+		MinHeight="800"
 		FontFamily="Tahoma"
 		FontSize="12"
 		d:UseSampleData="True"
 		Closing="MainWin_Closing"
+		DataContext="{Binding ElementName=MainWinClsfrEd}"
 		Loaded="Window_Loaded"
 		mc:Ignorable="d"
 		Background="{DynamicResource Window.Background}"
@@ -187,7 +188,7 @@
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 
 				<Style.Triggers>
-					<DataTrigger Binding="{Binding IsSelected}" Value="true">
+					<DataTrigger Binding="{Binding IsNodeSelected, FallbackValue=False}" Value="true">
 						<Setter Property="IsEnabled" Value="true" />
 					</DataTrigger>
 				</Style.Triggers>
@@ -364,7 +365,7 @@
 					<MultiDataTrigger>
 						<MultiDataTrigger.Conditions>
 							<Condition Binding="{Binding HasSelection, Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}" Value="true" />
-							<Condition Binding="{Binding IsSelected}" Value="false" />
+							<Condition Binding="{Binding IsNodeSelected}" Value="false" />
 						</MultiDataTrigger.Conditions>
 						<Setter Property="IsEnabled" Value="true" />
 					</MultiDataTrigger>
@@ -578,7 +579,7 @@
 								>
 							<Setter Property="IsEnabled" Value="true" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -627,8 +628,8 @@
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
 										<Condition Binding="{Binding HasSelection, Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}" Value="true" />
-										<Condition Binding="{Binding IsSelected}" Value="false" />
-										<Condition Binding="{Binding IsLocked}" Value="false" />
+										<Condition Binding="{Binding IsNodeSelected}" Value="false" />
+										<Condition Binding="{Binding Item.IsLocked}" Value="false" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="true" />
 								</MultiDataTrigger>
@@ -656,10 +657,10 @@
 								>
 							<Setter Property="IsEnabled" Value="True" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding IsFixed}" Value="true">
+								<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
-								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -701,10 +702,10 @@
 								>
 							<Setter Property="IsEnabled" Value="true" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding IsLocked}" Value="true">
+								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
-								<DataTrigger Binding="{Binding IsFixed}" Value="true">
+								<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -719,6 +720,7 @@
 
 			<Style
 					x:Key="Tv1ItemContainerStyle1"
+					x:Name="TvItemContainer"
 					TargetType="{x:Type TreeViewItem}"
 					>
 				<Setter Property="Width" Value="Auto" />
@@ -1050,10 +1052,12 @@
 												<Button
 														x:Name="BtnX2"
 														Width="{Binding CellsPanelHorizontalOffset,
+																						FallbackValue=0,
 																						RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
 														Command="{x:Static DataGrid.SelectAllCommand}"
 														Focusable="false"
 														Visibility="{Binding HeadersVisibility,
+																								 FallbackValue=Visible,
 																								 ConverterParameter={x:Static DataGridHeadersVisibility.All},
 																								 Converter={x:Static DataGrid.HeadersVisibilityConverter},
 																								 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
@@ -1063,13 +1067,16 @@
 												<DataGridColumnHeadersPresenter
 														x:Name="PART_ColumnHeadersPresenter"
 														Grid.Column="1"
+														Grid.Row="0"
 														Visibility="{Binding HeadersVisibility,
+																								 FallbackValue=Visible,
 																								 ConverterParameter={x:Static DataGridHeadersVisibility.Column},
 																								 Converter={x:Static DataGrid.HeadersVisibilityConverter},
 																								 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
 														/>
 												<ScrollContentPresenter
 														x:Name="PART_ScrollContentPresenter"
+														Grid.Column="0"
 														Grid.Row="1"
 														Grid.ColumnSpan="2"
 														CanContentScroll="{TemplateBinding CanContentScroll}"
@@ -1111,7 +1118,7 @@
 														Grid.Row="2"
 														>
 													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+														<ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue=50}" />
 														<ColumnDefinition Width="*" />
 													</Grid.ColumnDefinitions>
 
@@ -1171,17 +1178,19 @@
 
 			<Style
 					x:Key="LvItemContainerStyle1"
+					x:Name="lvItem01"
 					TargetType="{x:Type ListViewItem}"
 					>
-				<Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
-				<Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
-				<Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-				<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
-				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+
+				<Setter Property="Background" Value="{Binding Background, FallbackValue=Black, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+				<Setter Property="BorderBrush" Value="{Binding BorderBrush, FallbackValue=Black, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+				<Setter Property="BorderThickness" Value="{Binding BorderThickness, FallbackValue=1, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+				<Setter Property="Foreground" Value="{Binding Foreground, FallbackValue=White, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, FallbackValue=Center}" />
 				<!-- <Setter Property="Margin" Value="{Binding Margin, RelativeSource={RelativeSource TemplatedParent}}" /> -->
 				<Setter Property="Margin" Value="4,1,4,1" />
-				<Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+				<Setter Property="Padding" Value="{Binding Padding, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -1199,7 +1208,7 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
-				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Center}" />
 				<Style.Triggers>
 					<!-- <MultiTrigger> -->
 					<!-- 	<MultiTrigger.Conditions> -->
@@ -1275,10 +1284,10 @@
 													<Setter Property="Background" Value="{StaticResource ListView.Item.Background.NoConditions}" />
 													<Setter Property="Visibility" Value="Collapsed" />
 													<Style.Triggers>
-														<DataTrigger Binding="{Binding Item.CompareOps.Count}" Value="0">
+														<DataTrigger Binding="{Binding Item.CompareOps.Count, FallbackValue=0}" Value="0">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
-														<DataTrigger Binding="{Binding Item.CompareOps}" Value="{x:Null}">
+														<DataTrigger Binding="{Binding Item.CompareOps, FallbackValue={x:Null}}" Value="{x:Null}">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
 
@@ -1582,9 +1591,9 @@
 
 							<Popup
 									x:Name="Popup"
+									AllowsTransparency="True"
 									Grid.Column="1"
 									Margin="0"
-									AllowsTransparency="True"
 									Focusable="False"
 									Placement="Bottom"
 									PopupAnimation="Slide"
@@ -1954,6 +1963,7 @@
 
 			<HierarchicalDataTemplate
 					x:Key="Tv1ItemTemplate1"
+					x:Name="Hdt1"
 					DataType="{x:Type tree:TreeNode}"
 					ItemsSource="{Binding ChildrenView}"
 					>
@@ -2015,7 +2025,7 @@
 								CornerRadius="3"
 								DockPanel.Dock="Right"
 								BorderThickness="0"
-								IsEnabled="{Binding IsFixed,
+								IsEnabled="{Binding Item.IsFixed,
 																		Converter={StaticResource NotBool}}"
 								>
 							<Border.Style>
@@ -2026,7 +2036,7 @@
 									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
 									<Setter Property="Visibility" Value="Visible" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding IsFixed}" Value="true">
+										<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
 											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2043,7 +2053,7 @@
 									Background="Transparent"
 									Foreground="white"
 									BorderBrush="white"
-									IsChecked="{Binding Path=IsLocked,
+									IsChecked="{Binding Path=Item.IsLocked,
 																			Mode=TwoWay}"
 									Style="{DynamicResource Ckbx1Style}"
 									/>
@@ -2059,7 +2069,7 @@
 								CornerRadius="3"
 								DockPanel.Dock="Right"
 								BorderThickness="0"
-								IsEnabled="{Binding IsFixed,
+								IsEnabled="{Binding Item.IsFixed,
 																		Converter={StaticResource NotBool}}"
 								>
 							<Border.Style>
@@ -2070,7 +2080,7 @@
 									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
 									<Setter Property="Visibility" Value="Collapsed" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding IsFixed}" Value="true">
+										<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2085,7 +2095,7 @@
 									Background="Transparent"
 									Foreground="white"
 									BorderBrush="white"
-									IsChecked="{Binding Path=IsFixed,
+									IsChecked="{Binding Path=Item.IsFixed,
 																			Mode=OneWay}"
 									Style="{DynamicResource Ckbx1Style}"
 									/>
@@ -2146,13 +2156,12 @@
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ItemContainerStyle="{StaticResource LvItemContainerStyle1}"
 								ItemTemplateSelector="{StaticResource Lv1ConditionSelector}"
-								ItemsSource="{Binding Item.CompareOps}"
+								ItemsSource="{Binding Item.CompareOps,
+																			FallbackValue={x:Null}}"
 								Style="{DynamicResource Lv1StyleTv1}"
 								/>
 
 					</DockPanel>
-
-
 				</Grid>
 			</HierarchicalDataTemplate>
 
@@ -2204,14 +2213,15 @@
 							>
 						<Label
 								x:Name="Label7"
-								Content="{Binding Item.ComponentName,
-																	FallbackValue=FallBack}"
+								Content="{Binding Path=Item.ComponentName,
+																	FallbackValue='component name'}"
 								HorizontalAlignment="Center"
+								Style="{StaticResource Label.Condition}"
 								DataContext="{Binding DataContext,
 																			RelativeSource={RelativeSource FindAncestor,
-																																		 AncestorType={x:Type TreeViewItem}}}"
-								Style="{StaticResource Label.Condition}"
+																																		 AncestorType={x:Type ListView}}}"
 								/>
+								<!-- Content="{Binding Path=Item.ComponentName, -->
 					</Border>
 
 					<Border
@@ -2496,7 +2506,7 @@
 								<Label
 										x:Name="Label14"
 										Content="{Binding Item.ComponentName,
-																			FallbackValue=FallBack}"
+																			FallbackValue='component name'}"
 										HorizontalAlignment="Center"
 										d:DataContext="{Binding DataContext,
 																						RelativeSource={RelativeSource FindAncestor,
@@ -2914,8 +2924,8 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" MinWidth="400" />
-			<ColumnDefinition Width="*" MinWidth="400" />
+			<ColumnDefinition Width="4*" MinWidth="400" />
+			<ColumnDefinition Width="3*" MinWidth="400" />
 			<ColumnDefinition Width="0" />
 			<ColumnDefinition Width="0" />
 		</Grid.ColumnDefinitions>
@@ -2951,6 +2961,7 @@
 			</Grid.RowDefinitions>
 
 			<Label
+					x:Name="Label29"
 					Content="Settings"
 					Grid.Column="0"
 					Grid.Row="0"
@@ -2972,35 +2983,36 @@
 				<Border Style="{StaticResource Border.Settings.Title}">
 
 					<Label
+							x:Name="Label30"
 							Content="Use Phase / Building Organization"
 							Style="{StaticResource Label.Settings.Title}"
 							/>
 				</Border>
 
-				<Border>
-					<Label
-							x:Name="SettingPhaseBuilding"
-							Content="{Binding ElementName=MainWinClsfrEd,
-																Path=Categories.UsePhaseBldg,
-																Converter={StaticResource OnOffBool},
-																Mode=OneWay,
-																FallbackValue='Off'}"
-							Style="{StaticResource Label.Settings.Value}"
-							/>
-					<Border.Style>
-						<Style
-								TargetType="Border"
-								BasedOn="{StaticResource Border.Settings.Value}"
-								>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding ElementName=MainWinClsfrEd, Path=Categories.UsePhaseBldg, Mode=OneWay, FallbackValue=False}" Value="False">
-									<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" />
-								</DataTrigger>
-							</Style.Triggers>
-
-						</Style>
-					</Border.Style>
-				</Border>
+				<!-- <Border> -->
+				<!-- 	<Label -->
+				<!-- 			x:Name="SettingPhaseBuilding" -->
+				<!-- 			Content="{Binding ElementName=MainWinClsfrEd, -->
+				<!-- 												Path=ClassificationFile.UsePhaseBldg, -->
+				<!-- 												Converter={StaticResource OnOffBool}, -->
+				<!-- 												Mode=OneWay, -->
+				<!-- 												FallbackValue='Off'}" -->
+				<!-- 			Style="{StaticResource Label.Settings.Value}" -->
+				<!-- 			/> -->
+				<!-- 	<Border.Style> -->
+				<!-- 		<Style -->
+				<!-- 				TargetType="Border" -->
+				<!-- 				BasedOn="{StaticResource Border.Settings.Value}" -->
+				<!-- 				> -->
+				<!-- 			<Style.Triggers> -->
+				<!-- 				<DataTrigger Binding="{Binding ElementName=MainWinClsfrEd, Path=ClassificationFile.UsePhaseBldg, Mode=OneWay, FallbackValue=False}" Value="False"> -->
+				<!-- 					<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" /> -->
+				<!-- 				</DataTrigger> -->
+				<!-- 			</Style.Triggers> -->
+				<!-- -->
+				<!-- 		</Style> -->
+				<!-- 	</Border.Style> -->
+				<!-- </Border> -->
 
 			</StackPanel>
 
@@ -3013,6 +3025,7 @@
 				<Border Style="{StaticResource Border.Settings.Title}">
 
 					<Label
+							x:Name="Label31"
 							Content="Sheet Organization Setting Folder"
 							Style="{StaticResource Label.Settings.Title}"
 							/>
@@ -3020,8 +3033,9 @@
 
 				<Border Style="{StaticResource Border.Settings.Button}">
 					<Label
+							x:Name="Label32"
 							Content="{Binding ElementName=MainWinClsfrEd,
-																Path=Categories.UsePhaseBldg,
+																Path=ClassificationFile.UsePhaseBldg,
 																Converter={StaticResource OnOffBool},
 																Mode=OneWay,
 																FallbackValue='need to fix'}"
@@ -3041,6 +3055,7 @@
 				<Border Style="{StaticResource Border.Settings.Title}">
 
 					<Label
+							x:Name="Label36"
 							Content="Sheet Sample Folder"
 							Style="{StaticResource Label.Settings.Title}"
 							/>
@@ -3048,8 +3063,9 @@
 
 				<Border Style="{StaticResource Border.Settings.Button}">
 					<Label
+							x:Name="Label33"
 							Content="{Binding ElementName=MainWinClsfrEd,
-																Path=Categories.UsePhaseBldg,
+																Path=ClassificationFile.UsePhaseBldg,
 																Converter={StaticResource OnOffBool},
 																Mode=OneWay,
 																FallbackValue='need to fix'}"
@@ -3107,7 +3123,7 @@
 							Width="{StaticResource Normal.Button.Width}"
 							Height="{StaticResource Normal.Button.Height}"
 							DockPanel.Dock="right"
-							IsEnabled="{Binding Categories.IsModified,
+							IsEnabled="{Binding ClassificationFile.IsModified,
 																	ElementName=MainWinClsfrEd}"
 							Click="BtnSave_OnClick"
 							Style="{StaticResource Button.Normal.Style}"
@@ -3217,15 +3233,19 @@
 					/>
 
 			<TextBox
+					x:Name="Tbx01"
 					Grid.Column="1"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Title,
 												 FallbackValue='',
-												 Mode=TwoWay}"
+												 TargetNullValue=''}"
 					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource TextBox.Selected}"
 					/>
+			<!--  Text="{Binding Item.Title,  -->
+			<!--  FallbackValue='',  -->
+			<!--  Mode=TwoWay}"  -->
 
 			<Label
 					x:Name="Label23"
@@ -3236,15 +3256,19 @@
 					/>
 
 			<TextBox
+					x:Name="Tbx02"
 					Grid.Column="1"
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
 					Text="{Binding Item.Description,
 												 FallbackValue='',
-												 Mode=TwoWay}"
+												 TargetNullValue=''}"
 					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource TextBox.Selected}"
 					/>
+			<!--  Text="{Binding Item.Description,  -->
+			<!--  FallbackValue='',  -->
+			<!--  Mode=TwoWay}"  -->
 
 
 			<Label
@@ -3268,6 +3292,7 @@
 					VerticalAlignment="top"
 					VerticalContentAlignment="Bottom"
 					d:DataContext="{x:Static local:MainWindowClassifierEditor.temp}"
+					SelectionChanged="Lv2_SelectionChanged"
 					ItemContainerStyle="{StaticResource LvItemContainerStyle1}"
 					ItemTemplateSelector="{StaticResource Lv2ConditionSelector}"
 					ItemsSource="{Binding Item.CompareOps,
@@ -3392,7 +3417,8 @@
 					AutoGenerateColumns="False"
 					CanUserAddRows="False"
 					DataContext="{Binding FileList.Files,
-																ElementName=MainWinClsfrEd}"
+																ElementName=MainWinClsfrEd,
+																FallbackValue={x:Null}}"
 					GridLinesVisibility="Horizontal"
 					HeadersVisibility="None"
 					HorizontalScrollBarVisibility="Visible"
@@ -3421,7 +3447,8 @@
 									</Grid.RowDefinitions>
 									<Label
 											x:Name="Label26"
-											Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt}"
+											Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt,
+																				FallbackValue='filename'}"
 											Grid.Column="0"
 											Grid.Row="0"
 											Margin="2"
@@ -3581,7 +3608,7 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				d:DataContext="{Binding Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}"
-				DataContext="{Binding Categories.TreeBase,
+				DataContext="{Binding ClassificationFile.TreeBase,
 															ElementName=MainWinClsfrEd}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				SelectedItemChanged="Tv1_OnSelectedItemChanged"

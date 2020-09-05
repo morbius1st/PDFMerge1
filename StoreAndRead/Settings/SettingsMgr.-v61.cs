@@ -569,8 +569,7 @@ namespace SettingsManager
 
 		public abstract void Configure();
 
-		protected string GetVersionFromFile(string elementName) =>
-			CsUtilities.ScanXmlForElementValue(SettingPathAndFile, elementName);
+		protected string GetVersionFromFile(string elementName) => CsXmlUtilities.ScanXmlForElementValue(SettingPathAndFile, elementName);
 	}
 
 	public class UserSettingPath60 : PathAndFileBase

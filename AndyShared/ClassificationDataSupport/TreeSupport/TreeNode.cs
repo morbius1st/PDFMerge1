@@ -3,6 +3,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
@@ -51,7 +52,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 #region TreeNode
 
 	[DataContract(Namespace = "", IsReference = true)]
-	public class TreeNode : INotifyPropertyChanged, ICloneable
+	public class TreeNode : INotifyPropertyChanged, ICloneable 
 	{
 	#region private fields
 
@@ -66,8 +67,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
 
-		private bool isLocked = false;
-		private bool isFixed = false;
+		private bool initialized = false;
+
+		private bool isModified;
+		// private bool isLocked;
+		// private bool isFixed = false;
 		private bool isExpanded;
 		private bool isNodeSelected;
 		private bool isContextSelected = false;
@@ -125,7 +129,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 
 		// the actual tree data item
-		[DataMember(Order = 1)]
+		[DataMember(Order = 20)]
 		public SheetCategory Item
 		{
 			get => item;
@@ -133,8 +137,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				item = value;
+				item.Depth = depth;
+
 				OnPropertyChange();
-				item.NotifyChange();
+				item.UpdateProperties();
+
+				if (Initialized) Debug.WriteLine("@ TreeNode / Item / Set");
 			}
 		}
 
@@ -157,6 +165,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				parent = value;
 				OnPropertyChange();
+
+				if (Initialized) Debug.WriteLine("@ TreeNode / Parent / Set");
 			}
 		}
 
@@ -169,7 +179,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				depth = value;
 				OnPropertyChange();
 
-				item.Depth = value;
+				if (item != null) item.Depth = value;
+
+				if (Initialized) Debug.WriteLine("@ TreeNode / Depth / Set");
 			}
 		}
 
@@ -227,7 +239,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[DataMember(Order = 8, Name = "SubCategories")]
+		[DataMember(Order = 30, Name = "SubCategories")]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
@@ -240,13 +252,46 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public ICollectionView ChildrenView
+		// public ICollectionView ChildrenView
+		public ListCollectionView ChildrenView
 		{
 			get { return childrenView; }
+
+			private set
+			{
+				childrenView = value;
+
+				OnPropertyChange();
+			}
 		}
 
-	#region status properties
+		[IgnoreDataMember]
+		public bool HasChildren => ChildCount > 0;
 
+		[IgnoreDataMember]
+		public int ChildCount => Children?.Count ?? 0;
+
+		[IgnoreDataMember]
+		public int ExtendedChildCount => ExtendedChildrenCount(this);
+
+		[IgnoreDataMember]
+		public int CheckedChildCount
+		{
+			get => checkedChildCount;
+
+			set
+			{
+				if (value != checkedChildCount)
+				{
+					checkedChildCount = value;
+					OnPropertyChange();
+				}
+			}
+		}
+
+
+	#region status properties
+/*
 		/// <summary>
 		///  means this is item is a root node and cannot be<br/>
 		/// deleted or unlocked
@@ -289,7 +334,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 			}
 		}
-
+*/
 		/// <summary>
 		/// controls whether the node is expanded or not
 		/// </summary>
@@ -311,14 +356,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public bool CanExpand => ChildCount > 0;
 
-
 		[IgnoreDataMember]
 		public bool IsNodeSelected
 		{
 			get => isNodeSelected;
 			set
 			{
-				if (isFixed || isLocked)
+				if (item.IsFixed || item.IsLocked)
 				{
 					isNodeSelected = false;
 					OnPropertyChange();
@@ -353,33 +397,42 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-	#endregion
-
-		public bool HasChildren => ChildCount > 0;
-
-		public int ChildCount => Children?.Count ?? 0;
-
-		public int ExtendedChildCount => ExtendedChildrenCount(this);
-
-		public int CheckedChildCount
+		[IgnoreDataMember]
+		public bool Initialized
 		{
-			get => checkedChildCount;
-
+			get => initialized;
 			set
 			{
-				if (value != checkedChildCount)
-				{
-					checkedChildCount = value;
-					OnPropertyChange();
-				}
+				Debug.WriteLine("@node| is      modified == | " + isModified.ToString());
+				Debug.WriteLine("@node| is item modified == | " + item.IsModified.ToString());
+
+				initialized = value;
+				item.Initialized = value;
+			}
+		} 
+
+		[IgnoreDataMember]
+		public bool IsModified
+		{
+			get
+			{
+				return isModified || Item.IsModified;
+			}
+			set
+			{
+				isModified = value;
+
+				OnPropertyChange();
 			}
 		}
 
-
+	#endregion
 
 	#endregion
 
 	#region private properties
+
+
 
 	#endregion
 
@@ -394,8 +447,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			foreach (TreeNode node in Children)
 			{
-				
-
+				node.Initialized = Initialized;
 				node.InitializeAllChildrenView();
 			}
 		}
@@ -551,6 +603,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			TriState = CheckedState.UNSET;
 		}
 
+
 	#endregion
 
 	#region private methods
@@ -705,8 +758,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			newNode.checkedState = checkedState;
 			newNode.isExpanded = isExpanded;
 			newNode.triState = triState;
-			newNode.isLocked = false;
-			newNode.isFixed = false;
+			// newNode.isLocked = false;
+			// newNode.isFixed = false;
 			newNode.isContextSelected = false;
 
 			newNode.depth = depth;
@@ -750,9 +803,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void Initalize()
 		{
-
+			Initialized = true;
 			InitializeAllChildrenView();
-
 		}
 
 	#endregion
@@ -771,6 +823,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		public bool HasSelection => SelectedNode != null;
+
+		
 
 	#endregion
 

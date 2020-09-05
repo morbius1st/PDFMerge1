@@ -21,8 +21,8 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region public properties
 
-		[DataMember(Order = 2)]
-		public bool UsePhaseBldg { get; set; }
+		// [DataMember(Order = 2)]
+		// public bool UsePhaseBldg { get; set; }
 
 		[DataMember(Order = 3)]
 		public string SampleFile { get; set; } = null;

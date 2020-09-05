@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigSupport;
+using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -96,7 +97,7 @@ namespace AndyShared.ConfigMgrShared
 			OnPropertyChange("Initialized");
 
 			allClassfFolderPath = MachSettings.Path.SettingFolderPath +
-				ClassificationFileAssist.USER_STORAGE_FOLDER;
+				FilePathConstants.USER_STORAGE_FOLDER;
 
 			userClassfFolderPath = FilePathUtil.AssembleFolderPath(false,
 				AllClassifFolderPath, Environment.UserName);
@@ -150,7 +151,7 @@ namespace AndyShared.ConfigMgrShared
 		private bool GetFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(AllClassifFolderPath,
-				ClassificationFileAssist.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
+				FilePathConstants.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 

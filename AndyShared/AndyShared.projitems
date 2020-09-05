@@ -9,6 +9,7 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileData.cs" />
@@ -22,7 +23,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FilePathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetComponents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPdf.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
@@ -53,11 +58,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
       <Link>.Linked\ScreenParametersWpf.cs</Link>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
+      <Link>.Linked\CsXmlUtilities.cs</Link>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\" />
     <Folder Include="$(MSBuildThisFileDirectory).Linked\" />
   </ItemGroup>
 </Project>

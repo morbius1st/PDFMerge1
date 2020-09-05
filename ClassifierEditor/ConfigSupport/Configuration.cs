@@ -3,13 +3,11 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.ConfigMgrShared;
-using AndyShared.ConfigSupport;
-using ClassifierEditor.DataRepo;
+
 using UtilityLibrary;
 using SettingsManager;
-using ClassifierEditor.DataRepo;
+
+using AndyShared.Settings;
 
 #endregion
 
@@ -25,10 +23,10 @@ namespace ClassifierEditor.ConfigSupport
 	{
 	#region private fields
 
-		private ClassificationFiles classificationFiles = ClassificationFiles.Instance;
+		// private ClassificationFiles classificationFiles = ClassificationFiles.Instance;
 
 
-		private ClassificationFile classificationFile;
+		// private ClassificationFile classificationFile;
 
 	#endregion
 
@@ -42,13 +40,13 @@ namespace ClassifierEditor.ConfigSupport
 			MachSettings.Admin.Read();
 			MachSettings.Admin.Write();
 
-			string n = MachSettings.Data.LastClassificationFileId;
-			string rp = MachSettings.Path.RootFolderPath;
-			string sp = MachSettings.Path.SettingFolderPath;
+			// string n = MachSettings.Data.LastClassificationFileId;
+			// string rp = MachSettings.Path.RootFolderPath;
+			// string sp = MachSettings.Path.SettingFolderPath;
 
-			classificationFiles.Initialize();
+			// classificationFiles.Initialize();
 
-			getLastClassificationFile(UserSettings.Data.LastClassificationFileId);
+			// getLastClassificationFile(UserSettings.Data.LastClassificationFileId);
 
 			// SuiteSettings.Admin.Read();
 			//
@@ -66,19 +64,21 @@ namespace ClassifierEditor.ConfigSupport
 
 	#region public properties
 
-		public string LastEditedClassificationFilePath => classificationFile.FullFilePath;
-		// ConfigFileSupport.MakeClassificationFileName(
-		// Environment.UserName, UserSettings.Data.LastClassificationFileId);
-
-		public string LastEditedSampleFilePath => classificationFile.SampleFilePath;
-		// ConfigFileSupport.GetSampleFile(LastEditedClassificationFolderPath, LastEditedClassificationFilePath, false);
-
-		public string LastEditedClassificationFolderPath => classificationFile.FolderPath;
-		// classificationUser.Find(Environment.UserName, UserSettings.Data.LastClassificationFileId);
-
-		public string LastEditedClassificationFileName => classificationFile.FileName;
-
-		public string LastEditedClassificationFileDescription => classificationFile.DescriptionFromFile;
+		// public ClassificationFile ClassfFile => classificationFile;
+		//
+		// public string LastEditedClassificationFilePath => classificationFile.FullFilePath;
+		// // ConfigFileSupport.MakeClassificationFileName(
+		// // Environment.UserName, UserSettings.Data.LastClassificationFileId);
+		//
+		// public string LastEditedSampleFilePath => classificationFile.SampleFilePath;
+		// // ConfigFileSupport.GetSampleFile(LastEditedClassificationFolderPath, LastEditedClassificationFilePath, false);
+		//
+		// public string LastEditedClassificationFolderPath => classificationFile.FolderPath;
+		// // classificationUser.Find(Environment.UserName, UserSettings.Data.LastClassificationFileId);
+		//
+		// public string LastEditedClassificationFileName => classificationFile.FileName;
+		//
+		// public string LastEditedClassificationFileDescription => classificationFile.DescriptionFromFile;
 
 	#endregion
 
@@ -115,10 +115,14 @@ namespace ClassifierEditor.ConfigSupport
 
 	#region private methods
 
-		private void getLastClassificationFile(string fieldId)
-		{
-			classificationFile = classificationFiles.Find(Environment.UserName, fieldId);
-		}
+		// private void getLastClassificationFile(string fileId)
+		// {
+		// 	classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
+		// 	classificationFile.Read();
+		// 	
+		//
+		// 	// classificationFile = classificationFiles.Find(Environment.UserName, fieldId);
+		// }
 
 	#endregion
 

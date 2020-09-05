@@ -20,9 +20,6 @@ namespace AndyShared.SampleFileSupport
 {
 	public class SampleFile : INotifyPropertyChanged
 	{
-		public const string SAMPLE_FILE_EXT = "sample";
-		public const string SAMPLE_FOLDER = "Sample Files";
-		
 	#region private fields
 
 		private FilePath<FileNameSimple> sampleFilePath = 
@@ -49,7 +46,6 @@ namespace AndyShared.SampleFileSupport
 			}
 		}
 
-		public const string SORT_NAME_PROP = "SortName";
 		public string SortName { get; set; }
 
 		/// <summary>

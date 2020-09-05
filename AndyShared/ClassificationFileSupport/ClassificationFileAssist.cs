@@ -5,6 +5,7 @@ using System.IO;
 using AndyShared.ConfigMgrShared;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
+using AndyShared.Settings;
 using AndyShared.Support;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
@@ -23,12 +24,7 @@ namespace AndyShared.ClassificationFileSupport
 	{
 	#region public fields
 
-		public const string USER_STORAGE_FOLDER_NAME = @"User Classification Files";
-		public const string USER_STORAGE_PATTERN = @"*.xml";
-		public const string USER_STORAGE_FOLDER = FilePathUtil.PATH_SEPARATOR + USER_STORAGE_FOLDER_NAME;
-
 	#endregion
-
 
 	#region private fields
 
@@ -48,54 +44,17 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region public methods
 
-
-		public static FilePath<FileNameSimple> GetSampleFilePathFromFile(string classfFilePath)
+		public static ClassificationFile GetUserClassfFile(string fileId)
 		{
-			string sampleFileNameNoExt = SampleFileNameFromFile(classfFilePath);
-
-			if (sampleFileNameNoExt.IsVoid()) return null;
-
-			FilePath<FileNameSimple> sampleFilePath = DeriveSampleFolderPath(classfFilePath);
-
-			sampleFilePath.ChangeFileName(sampleFileNameNoExt, SampleFile.SAMPLE_FILE_EXT);
-
-			return sampleFilePath;
-		}
-
-		public static FilePath<FileNameSimple> DeriveSampleFolderPath(string classfFilePath)
-		{
-			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
-
-			sampleFolderPath.Down((SampleFile.SAMPLE_FOLDER));
-
-			return sampleFolderPath;
-		}
-
-		public static string SampleFileNameFromFile(string classifFilePath)
-		{
-			if (classifFilePath == null) return null;
-
-			string fileName = null;
-
-			try
-			{
-				fileName =
-					CsUtilities.ScanXmlForElementValue(classifFilePath, "SampleFile", 0);
-			}
-			catch (Exception e)
-			{
-				string m = e.Message;
-				string im = e.InnerException?.Message ?? null;
-			}
-
-			return fileName;
+			return new ClassificationFile(ClassificationFileAssist.AssembleClassfFilePath(fileId,
+				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
 		}
 
 		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)
 		{
 			return new FilePath<FileNameUserAndId>(
 				FilePathUtil.AssembleFilePath(AssembleFileNameNoExt(Environment.UserName, newFileId),
-					ClassificationFile.CLASSF_FILE_EXT_NO_SEP, folders));
+					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
 		}
 
 		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
@@ -236,6 +195,50 @@ namespace AndyShared.ClassificationFileSupport
 
 			return false;
 		}
+
+
+		public static FilePath<FileNameSimple> GetSampleFilePathFromFile(string classfFilePath)
+		{
+			string sampleFileNameNoExt = SampleFileNameFromFile(classfFilePath);
+
+			if (sampleFileNameNoExt.IsVoid()) return null;
+
+			FilePath<FileNameSimple> sampleFilePath = DeriveSampleFolderPath(classfFilePath);
+
+			sampleFilePath.ChangeFileName(sampleFileNameNoExt, FilePathConstants.SAMPLE_FILE_EXT);
+
+			return sampleFilePath;
+		}
+
+		public static FilePath<FileNameSimple> DeriveSampleFolderPath(string classfFilePath)
+		{
+			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
+
+			sampleFolderPath.Down((FilePathConstants.SAMPLE_FOLDER));
+
+			return sampleFolderPath;
+		}
+
+		public static string SampleFileNameFromFile(string classifFilePath)
+		{
+			if (classifFilePath == null) return null;
+
+			string fileName = null;
+
+			try
+			{
+				fileName =
+					CsXmlUtilities.ScanXmlForElementValue(classifFilePath, "SampleFile", 0);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string im = e.InnerException?.Message ?? null;
+			}
+
+			return fileName;
+		}
+
 
 	#endregion
 

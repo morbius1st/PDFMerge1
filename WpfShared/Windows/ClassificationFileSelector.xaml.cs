@@ -130,7 +130,7 @@ namespace WpfShared.Windows
 			get => searchText;
 			set
 			{
-				if (selected?.EditingEnabled ?? false)
+				if (selected?.CanEdit ?? false)
 				{
 					if (value == null)
 					{

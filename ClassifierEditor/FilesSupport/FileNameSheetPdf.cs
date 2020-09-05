@@ -1,15 +1,8 @@
 ﻿#region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
-#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 #endregion
 
@@ -28,9 +21,7 @@ using UtilityLibrary;
 
 namespace ClassifierEditor.FilesSupport
 {
-#pragma warning disable CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
-#pragma warning restore CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	{
 	#region private fields
 
@@ -54,15 +45,11 @@ namespace ClassifierEditor.FilesSupport
 
 	#region ctor
 
-		public FileNameSheetPdf() { }
-
 	#endregion
 
 	#region public properties
 
-#pragma warning disable CS0115 // 'FileNameSheetPdf.FileNameNoExt': no suitable method found to override
 		public override string FileNameNoExt
-#pragma warning restore CS0115 // 'FileNameSheetPdf.FileNameNoExt': no suitable method found to override
 		{
 			get => fileNameNoExt;
 
@@ -75,9 +62,7 @@ namespace ClassifierEditor.FilesSupport
 			}
 		}
 
-#pragma warning disable CS0115 // 'FileNameSheetPdf.Extension': no suitable method found to override
 		public override string ExtensionNoSep
-#pragma warning restore CS0115 // 'FileNameSheetPdf.Extension': no suitable method found to override
 		{
 			get => extensionNoSep;
 			set
@@ -93,13 +78,13 @@ namespace ClassifierEditor.FilesSupport
 		public FileTypeSheetPdf FileType => fnc?.fileType ?? FileTypeSheetPdf.OTHER;
 
 		public string SheetName          => SheetNumber + " :: " + SheetTitle;
-		public string SheetNumber        => fnc.phaseBldg + fnc.phaseBldgSep + (fnc.sheetID ?? "n/a");
-		public string SheetTitle         => fnc.sheetTitle;
-		public string PhaseBldg          => fnc.phaseBldg;
-		public string PhaseBldgSep       => fnc.phaseBldgSep;
-		public string SheetId            => fnc.sheetID;
+		public string SheetNumber        => fnc?.phaseBldg + fnc.phaseBldgSep + (fnc.sheetID ?? "n/a") ?? "sht number";
+		public string SheetTitle         => fnc?.sheetTitle ?? "sht ttl";
+		public string PhaseBldg          => fnc?.phaseBldg ?? "phase-bldg";
+		public string PhaseBldgSep       => fnc?.phaseBldgSep ?? "pb sep";
+		public string SheetId            => fnc?.sheetID ?? "sht id";
 		public string Separator          => fnc.separator;
-		public string OriginalSheetTitle => fnc.originalSheetTitle;
+		public string OriginalSheetTitle => fnc?.originalSheetTitle ?? "orig sht ttl";
 
 		public bool Selected
 		{
@@ -118,14 +103,14 @@ namespace ClassifierEditor.FilesSupport
 
 		// sheet Id parse
 
-		public string Discipline  => fnc.discipline;
-		public string Category    => fnc.category;
+		public string Discipline  => fnc?.discipline ?? "discipline";
+		public string Category    => fnc?.category ?? "category";
 		public string Seperator1  => fnc.seperator1;
-		public string Subcategory => fnc.subcategory;
+		public string Subcategory => fnc?.subcategory ?? "sub-category";
 		public string Seperator2  => fnc.seperator2;
-		public string Modifier    => fnc.modifier;
+		public string Modifier    => fnc?.modifier ?? "modifier";
 		public string Seperator3  => fnc.seperator3;
-		public string Submodifier => fnc.submodifier;
+		public string Submodifier => fnc?.submodifier ?? "sub-modifier";
 
 		public string SheetIdByComponent
 		{
@@ -160,7 +145,7 @@ namespace ClassifierEditor.FilesSupport
 
 	#region public methods
 
-	#endregion
+	#endregion 
 
 	#region private methods
 

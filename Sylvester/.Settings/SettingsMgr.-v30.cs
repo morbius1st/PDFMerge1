@@ -530,7 +530,8 @@ namespace SettingManager
 				}
 			}
 
-			protected string GetVersionFromFile(string elementName) => CsUtilities.ScanXmlForElementValue(SettingPathAndFile, elementName);
+			protected string GetVersionFromFile(string elementName) => 
+				CsXmlUtilities.ScanXmlForElementValue(SettingPathAndFile, elementName);
 		}
 
 		internal class AppPathAndFile : PathAndFileBase

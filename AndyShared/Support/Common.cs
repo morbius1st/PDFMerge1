@@ -1,4 +1,5 @@
 ﻿#region + Using Directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,6 @@ namespace AndyShared.Support
 			WindowCollection wc = Application.Current.Windows;
 
 			return wc[wc.Count - 1];
-
 		}
 
 
@@ -35,6 +35,28 @@ namespace AndyShared.Support
 			}
 
 			td.InstructionText = td.InstructionText;
+		}
+	}
+
+
+	public static class Meditator
+	{
+		public delegate void OutIsModifiedEventHandler();
+
+		public static event Meditator.OutIsModifiedEventHandler OutIsModified;
+
+		public static void RaiseOutIsModifiedEvent()
+		{
+			OutIsModified?.Invoke();
+		}
+
+		public delegate void InIsModifiedEventHandler();
+
+		public static event Meditator.InIsModifiedEventHandler InIsModified;
+
+		public static void RaiseInIsModifiedEvent()
+		{
+			InIsModified?.Invoke();
 		}
 	}
 }

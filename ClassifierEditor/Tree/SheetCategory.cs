@@ -13,7 +13,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
+using AndyShared.FilesSupport;
 using ClassifierEditor.FilesSupport;
 using static ClassifierEditor.Tree.CompareOperations;
 using static ClassifierEditor.Tree.ComparisonOp;
@@ -105,7 +105,7 @@ namespace ClassifierEditor.Tree
 		[DataMember(Order = 1)]
 		public string Title
 		{
-			get => title;
+			get => title ?? "";
 
 			set
 			{
@@ -117,7 +117,7 @@ namespace ClassifierEditor.Tree
 		[DataMember(Order = 2)]
 		public string Description
 		{
-			get => description;
+			get => description ?? "";
 
 			set
 			{
@@ -153,7 +153,7 @@ namespace ClassifierEditor.Tree
 		[IgnoreDataMember]
 		public string ComponentName
 		{
-			get { return FileNameSheetPdf.SheetNumberComponentTitles[Depth]; }
+			get { return FileNameSheetPdf.SheetNumberComponentTitles[Depth] ?? ""; }
 		}
 
 

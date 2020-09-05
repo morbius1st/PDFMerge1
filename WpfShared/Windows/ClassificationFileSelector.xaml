@@ -14,8 +14,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		x:Name="winClsFileMgr"
 		Title="Classification File Selector"
-		Width="950"
-		Height="700"
+		Width="1200"
+		Height="800"
 		MinWidth="950"
 		mc:Ignorable="d"
 		>
@@ -454,7 +454,7 @@
 
 									<TextBlock
 											Margin="0"
-											Text="{Binding DescriptionFromFile,
+											Text="{Binding HeaderDescFromFile,
 																		 FallbackValue=C:\\file path}"
 											Style="{StaticResource Listbox.TxBlock.Item.Value}"
 											/>
@@ -599,7 +599,7 @@
 							Width="{StaticResource Button.Normal.Width}"
 							VerticalAlignment="top"
 							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.EditingEnabled,
+							IsEnabled="{Binding Selected.CanEdit,
 																	ElementName=winClsFileMgr,
 																	FallbackValue=false,
 																	Mode=OneWay}"
@@ -616,7 +616,7 @@
 							Width="{StaticResource Button.Normal.Width}"
 							VerticalAlignment="Bottom"
 							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.EditingEnabled,
+							IsEnabled="{Binding Selected.CanEdit,
 																	ElementName=winClsFileMgr,
 																	FallbackValue=false,
 																	Mode=OneWay}"
@@ -633,7 +633,7 @@
 							Width="{StaticResource Button.Normal.Width}"
 							VerticalAlignment="Bottom"
 							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.EditingEnabled,
+							IsEnabled="{Binding Selected.CanEdit,
 																	ElementName=winClsFileMgr,
 																	FallbackValue=false,
 																	Mode=OneWay}"
@@ -668,7 +668,7 @@
 							DockPanel.Dock="Top"
 							Background="{StaticResource Win.Title.Background}"
 							Foreground="White"
-							IsEnabled="{Binding Selected.EditingEnabled,
+							IsEnabled="{Binding Selected.CanEdit,
 																	ElementName=winClsFileMgr,
 																	Mode=OneWay}"
 							/>
@@ -726,7 +726,7 @@
 															FallbackValue=''}"
 						Grid.Column="2"
 						Grid.Row="1"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource Label.Base}"
@@ -750,7 +750,7 @@
 													 ElementName=winClsFileMgr,
 													 FallbackValue='',
 													 UpdateSourceTrigger=Explicit}"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource TextBox.Base}"
@@ -803,11 +803,11 @@
 						Grid.ColumnSpan="4"
 						KeyUp="TextBox_OnKeyUp"
 						LostFocus="TextBox_OnLostFocus"
-						Text="{Binding Selected.DataDescription,
+						Text="{Binding Selected.HeaderDescFromMemory,
 													 ElementName=winClsFileMgr,
 													 FallbackValue='',
 													 UpdateSourceTrigger=Explicit}"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource TextBox.Base}"
@@ -826,11 +826,11 @@
 						Grid.ColumnSpan="4"
 						KeyUp="TextBox_OnKeyUp"
 						LostFocus="TextBox_OnLostFocus"
-						Text="{Binding Selected.DateNote,
+						Text="{Binding Selected.HeaderNote,
 													 ElementName=winClsFileMgr,
 													 FallbackValue='',
 													 UpdateSourceTrigger=Explicit}"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource TextBox.Base}"
@@ -850,7 +850,7 @@
 						Grid.Column="1"
 						Grid.Row="4"
 						Grid.ColumnSpan="4"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource Label.Base}"
@@ -877,7 +877,7 @@
 																		Path=SearchText}"
 						SelectedValuePath="SortName"
 						IsEditable="False"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						IsReadOnly="True"
@@ -930,7 +930,7 @@
 													 Converter={StaticResource NullStringToMessage},
 													 ConverterParameter=''}"
 						TextTrimming="CharacterEllipsis"
-						IsEnabled="{Binding Selected.EditingEnabled,
+						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource TextBlock.Base}"

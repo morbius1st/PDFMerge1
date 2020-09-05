@@ -2,8 +2,11 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Windows.Forms.VisualStyles;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
@@ -21,8 +24,6 @@ namespace AndyShared.ClassificationFileSupport
 	[DataContract(Namespace = "")]
 	public class ClassificationFile : INotifyPropertyChanged
 	{
-		public const string CLASSF_FILE_EXT_NO_SEP = "xml";
-
 	#region private fields
 
 		private FilePath<FileNameUserAndId> filePathLocal;
@@ -35,6 +36,8 @@ namespace AndyShared.ClassificationFileSupport
 
 		private bool isSelected;
 
+		private bool isModified;
+
 		private bool dataFileRead = false;
 		private bool isDefaultClassfFile = true;
 		private bool isUserClassfFile = false;
@@ -43,17 +46,15 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		// public ClassificationFile()
-		// {
-		// 	FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
-		// }
-		//
 
 		public ClassificationFile(string filePath, bool fileSelected = false)
 		{
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
 			if (!filePathLocal.IsValid) return;
+
+			AndyShared.Support.Meditator.InIsModified += MeditatorOnInIsModified;
+
 
 			if (!SettingsSupport.ValidateXmlFile(filePath)
 				|| !ValidateAgainstUsername(filePathLocal)
@@ -66,12 +67,16 @@ namespace AndyShared.ClassificationFileSupport
 			InitailizeSample(FilePathLocal.FullFilePath);
 		}
 
+		private void MeditatorOnInIsModified() { }
+
 	#endregion
 
 	#region public properties
 
+		public ClassificationFileData Data => dataFile.Data;
+
 		// tied to xml data file
-		public string DataDescription
+		public string HeaderDescFromMemory
 		{
 			get => dataFile.Info.Description;
 			set
@@ -86,7 +91,9 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public string DateNote
+		public string HeaderDescFromFile => CsXmlUtilities.ScanXmlForElementValue(FullFilePath, "Description", 0);
+
+		public string HeaderNote
 		{
 			get => dataFile.Info.Notes;
 			set
@@ -99,6 +106,8 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
+		public string FullFilePath => FilePathLocal.FullFilePath;
+
 		public FilePath<FileNameUserAndId> FilePathLocal
 		{
 			get => filePathLocal;
@@ -106,7 +115,6 @@ namespace AndyShared.ClassificationFileSupport
 			set
 			{
 				filePathLocal = value;
-
 
 				OnPropertyChange();
 			}
@@ -116,6 +124,8 @@ namespace AndyShared.ClassificationFileSupport
 		/// The whole file name - name + extension
 		/// </summary>
 		public string FileName => filePathLocal.FileName;
+
+		public string FileNameNoExt => FilePathLocal.FileNameObject.FileNameNoExt;
 
 		public string UserName
 		{
@@ -145,16 +155,17 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		// management 
-		public string FullFilePath => FilePathLocal.FullFilePath;
-
 		/// <summary>
 		/// The folder path to the user's specific configuration files
 		/// </summary>
 		public string FolderPath => FilePathLocal.FolderPath;
 
-		public string FileNameNoExt => FilePathLocal.FileNameObject.FileNameNoExt;
+		// // classification file information
+		// public bool UsePhaseBldg => dataFile.Data.UsePhaseBldg;
 
+		public BaseOfTree TreeBase => dataFile.Data.BaseOfTree;
+
+		// sample
 		public string SampleFilePath
 		{
 			get => sampleFile?.FullFilePath;
@@ -170,10 +181,25 @@ namespace AndyShared.ClassificationFileSupport
 
 		public string SampleFileName => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
 
-		// public bool IsValid => FilePathLocal?.FileNameObject?.IsValid ?? false;
-		public bool IsValid => FilePathLocal?.IsValid ?? false;
+		// status
+		public bool CanEdit => DataFileRead && IsUserClassfFile;
 
-		public bool EditingEnabled => DataFileRead && IsUserClassfFile;
+		public bool IsModified
+		{
+			get
+			{
+				Debug.WriteLine("@classf| is    modified == | " + isModified.ToString());
+				Debug.WriteLine("@classf| is TB modified == | " + TreeBase.IsModified.ToString());
+				
+				return isModified || TreeBase.IsModified;
+			}
+			set
+			{
+				isModified = value;
+
+				OnPropertyChange();
+			}
+		}
 
 		public bool IsSelected
 		{
@@ -186,7 +212,8 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public string DescriptionFromFile => CsUtilities.ScanXmlForElementValue(FullFilePath, "Description", 0);
+		public bool IsValid => FilePathLocal?.IsValid ?? false;
+
 
 	#endregion
 
@@ -246,10 +273,16 @@ namespace AndyShared.ClassificationFileSupport
 			dataFile = new BaseDataFile<ClassificationFileData>();
 			dataFile.Configure(FolderPath, FileName);
 			dataFile.Admin.Read();
+			dataFile.Data.BaseOfTree.Initalize();
 
 			DataFileRead = true;
 
 			UpdateProperties();
+		}
+
+		public void Write()
+		{
+			dataFile.Admin.Write();
 		}
 
 		public void UpdateProperties()
@@ -262,6 +295,7 @@ namespace AndyShared.ClassificationFileSupport
 			OnPropertyChange("GetPath");
 			OnPropertyChange("SampleFilePath");
 			OnPropertyChange("DataDescription");
+			OnPropertyChange("TreeBase");
 		}
 
 	#endregion

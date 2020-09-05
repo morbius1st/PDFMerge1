@@ -1,10 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using ClassifierEditor.ConfigSupport;
-#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
-using UtilityLibrary;
-
-#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 // projname: SettingsManagerV40
 // itemname: AppSettingInfo60

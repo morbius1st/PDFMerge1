@@ -14,6 +14,8 @@ using System.Windows.Data;
 
 namespace ClassifierEditor.Tree
 {
+	/*
+
 	public enum CheckedState
 	{
 		UNSET = -1,
@@ -125,7 +127,8 @@ namespace ClassifierEditor.Tree
 
 
 		// the actual tree data item
-		[DataMember(Order = 1)]
+		// have this be last in the XML tree
+		[DataMember(Order = 20)]
 		public SheetCategory Item
 		{
 			get => item;
@@ -133,6 +136,7 @@ namespace ClassifierEditor.Tree
 			set
 			{
 				item = value;
+				item.Depth = depth;
 				OnPropertyChange();
 				item.NotifyChange();
 			}
@@ -169,7 +173,7 @@ namespace ClassifierEditor.Tree
 				depth = value;
 				OnPropertyChange();
 
-				item.Depth = value;
+				if (item != null) item.Depth = value;
 			}
 		}
 
@@ -227,7 +231,7 @@ namespace ClassifierEditor.Tree
 			}
 		}
 
-		[DataMember(Order = 8, Name = "SubCategories")]
+		[DataMember(Order = 30, Name = "SubCategories")]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
@@ -977,4 +981,6 @@ namespace ClassifierEditor.Tree
 
 #endregion
 	
+	*/
+
 }

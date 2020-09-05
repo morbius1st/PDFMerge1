@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 #pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
+
 #pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 // Solution:     PDFMerge1
@@ -13,9 +14,8 @@ using UtilityLibrary;
 // FileNameSheetComponents
 //***					***
 
-namespace ClassifierEditor.FilesSupport 
+namespace ClassifierEditor.FilesSupport
 {
-
 	public class FileNameSheetComponents
 	{
 	#region private fields
@@ -57,26 +57,27 @@ namespace ClassifierEditor.FilesSupport
 
 		public FileNameSheetComponents(string filename, string fileextension)
 		{
-			parse(filename, fileextension);
-
+			success = parse(filename, fileextension);
 		}
 
 	#endregion
 
-	#region public properties 
+	#region public properties
+
 	#endregion
 
 	#region private properties
+
 	#endregion
 
 	#region public methods
+
 	#endregion
 
 	#region private methods
 
 		private bool parse(string filename, string fileextension)
 		{
-
 			if (filename.IsVoid() || fileextension.IsVoid()) return false;
 
 			bool result = true;
@@ -112,6 +113,5 @@ namespace ClassifierEditor.FilesSupport
 		}
 
 	#endregion
-
 	}
 }

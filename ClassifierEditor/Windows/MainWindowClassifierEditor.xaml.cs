@@ -10,17 +10,19 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ClassifierEditor.ConfigSupport;
-
-using ClassifierEditor.DataRepo;
-using ClassifierEditor.FilesSupport;
-using ClassifierEditor.Tree;
+// using ClassifierEditor.ConfigSupport;
+using ClassifierEditor.SampleData;
+// using ClassifierEditor.Tree;
 using SettingsManager;
-#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
-#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
-using static ClassifierEditor.Tree.CompareOperations;
-using static ClassifierEditor.Tree.ComparisonOp;
+
+// using static ClassifierEditor.Tree.CompareOperations;
+// using static ClassifierEditor.Tree.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
+using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.ClassificationFileSupport;
+using AndyShared.FilesSupport;
 
 #endregion
 
@@ -126,12 +128,14 @@ namespace ClassifierEditor.Windows
 	/// </summary>
 	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
-		
-
 	#region private fields
 
-		private SheetCategoryDataManager categories = new SheetCategoryDataManager();
-		private Configuration config;
+		// private SheetCategoryDataManager categories = new SheetCategoryDataManager();
+
+		private ClassificationFile classificationFile;
+
+
+		// private Configuration config;
 		private static TreeNode userSelected;
 		private TreeNode contextSelected;
 		private TreeNode contextSelectedParent;
@@ -151,6 +155,7 @@ namespace ClassifierEditor.Windows
 		private bool bypassContextDeHighlight = false;
 
 	#endregion
+
 
 	#region ctor
 
@@ -219,16 +224,26 @@ namespace ClassifierEditor.Windows
 		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
 
 
-		// this is the live data store
-		public SheetCategoryDataManager Categories
+		public ClassificationFile ClassificationFile
 		{
-			get => categories;
+			get => classificationFile;
 			private set
 			{
-				categories = value;
+				classificationFile = value;
 				OnPropertyChange();
 			}
 		}
+
+		// // this is the live data store
+		// public SheetCategoryDataManager Categories
+		// {
+		// 	get => categories;
+		// 	private set
+		// 	{
+		// 		categories = value;
+		// 		OnPropertyChange();
+		// 	}
+		// }
 
 		public TreeNode UserSelected
 		{
@@ -276,7 +291,7 @@ namespace ClassifierEditor.Windows
 
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
 
-		public SampleFileList FileList { get; private set; }
+		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
 	#endregion
 
@@ -296,7 +311,14 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			config = new Configuration();
+			// config = new Configuration();
+
+			UserSettings.Admin.Read();
+			UserSettings.Admin.Write();
+
+			MachSettings.Admin.Read();
+			MachSettings.Admin.Write();
+
 
 			string sampleFileName;
 
@@ -304,42 +326,44 @@ namespace ClassifierEditor.Windows
 			// false to read existing data
 			if (false)
 			{
-
-#pragma warning disable CS0162 // Unreachable code detected
 				SampleData.SampleData sd = new SampleData.SampleData();
-#pragma warning restore CS0162 // Unreachable code detected
 
-				sd.Sample(categories.TreeBase);
-				categories.Write();
+				classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
+				sd.Sample(classificationFile.Data.BaseOfTree);
+
+				classificationFile.Write();
 
 				sampleFileName = "";
 			}
 			else
 			{
-				//todo: fix
-				// config.ConfigureCategories(categories);
+				string fileId = UserSettings.Data.LastClassificationFileId;
 
-				categories.Configure(config.LastEditedClassificationFolderPath,
-					config.LastEditedClassificationFileName);
-				categories.Read();
+				classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 
-				sampleFileName = config.LastEditedSampleFilePath;
+				classificationFile.Read();
+				classificationFile.TreeBase.Initalize();
+				// classificationFile.TreeBase.Initialized = true;
 
-				string desc = config.LastEditedClassificationFileDescription;
+
+				sampleFileName = classificationFile.SampleFilePath;
+
+				string desc = classificationFile.HeaderDescFromMemory;
+
+				OnPropertyChange("ClassificationFile");
 			}
 
-			// todo: fix
-			// sampleFileName =
-			// 	UserSettings.Data.CatConfigSampleFolder + @"\" + UserSettings.Data.CatConfigSampleFile;
-
 			FileList = new SampleFileList(sampleFileName);
+
 
 			OnPropertyChange("FileList");
 		}
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
-			if (categories.IsModified == true)
+			Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
+
+			if (classificationFile.IsModified == true)
 			{
 				MessageBoxResult result = MessageBox.Show(
 					"There are changes that have not been saved\n"
@@ -360,15 +384,17 @@ namespace ClassifierEditor.Windows
 
 		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
 		{
-			categories.IsModified = true;
+			// classificationFile.IsModified = true;
 		}
 
 		// when a selection has been made
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
+			if (e.NewValue == null) return;
+
 			TreeNode selected = (TreeNode) e.NewValue;
 
-			if (selected != null && selected.IsFixed || selected.IsLocked)
+			if (selected != null && selected.Item.IsFixed || selected.Item.IsLocked)
 			{
 				e.Handled = true;
 				UserSelected = null;
@@ -425,6 +451,7 @@ namespace ClassifierEditor.Windows
 			BaseOfTreeRoot.AddNewChild2(contextSelected);
 
 			contextSelected.IsExpanded = true;
+
 
 			ContextDeselect();
 		}
@@ -636,7 +663,9 @@ namespace ClassifierEditor.Windows
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
-			categories.Write();
+			classificationFile.Write();
+
+			classificationFile.IsModified = false;
 		}
 
 		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e) { }
@@ -653,7 +682,7 @@ namespace ClassifierEditor.Windows
 
 
 			ListView lv = Lv2;
-			ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
+			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
 
 
 			Debug.WriteLine("at debug");
@@ -677,6 +706,10 @@ namespace ClassifierEditor.Windows
 		}
 
 	#endregion
+
+		public void Connect(int connectionId, object target) { }
+
+		private void Lv2_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 	}
 
 #region NotBool value converter

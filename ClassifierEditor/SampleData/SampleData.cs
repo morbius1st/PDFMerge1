@@ -2,15 +2,21 @@
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using ClassifierEditor.FilesSupport;
-using ClassifierEditor.Tree;
-#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
+using ClassifierEditor.SampleData;
+// using ClassifierEditor.Tree;
 using UtilityLibrary;
-#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
-using static ClassifierEditor.Tree.CompareOperations;
-using static ClassifierEditor.Tree.ComparisonOp;
+// using static ClassifierEditor.Tree.CompareOperations;
+// using static ClassifierEditor.Tree.ComparisonOp;
+
+
+
+using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
+using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.FilesSupport;
 
 #endregion
 
@@ -93,24 +99,30 @@ namespace ClassifierEditor.SampleData
 				}
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
+				item.Depth = depth + 1;
 				node = new TreeNode(parent, item, false);
+
 
 				if (i == 0)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					item.IsFixed = true;
+
 					node = new TreeNode(parent, item, false);
-					node.IsFixed = true;
+
 				}
 				else if (i == 2)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
 					node = new TreeNode(parent, item, false);
-					node.IsLocked = true;
+
+					item.IsFixed = true;
 				}
 				else if (i == 3)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", isFirst: true, ignore: false));
 					node = new TreeNode(parent, item, false);
+					item.IsFixed = true;
 				}
 				else if (i == 4)
 				{
@@ -118,6 +130,7 @@ namespace ClassifierEditor.SampleData
 					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
 					node = new TreeNode(parent, item, false);
+
 				} 
 				else if (i == 1)
 				{
@@ -131,6 +144,8 @@ namespace ClassifierEditor.SampleData
 					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
 					node = new TreeNode(parent, item, false);
+
+					
 				} 
 
 				if (i == 3 || i == 5)
@@ -159,8 +174,9 @@ namespace ClassifierEditor.SampleData
 
 				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
 					char.ConvertFromUtf32(65 + i), true));
+
 				node = new TreeNode(parent, item, false);
-				node.IsFixed = true;
+				item.IsFixed = true;
 
 				root.AddNode(node);
 			}
@@ -182,7 +198,7 @@ namespace ClassifierEditor.SampleData
 				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
 					char.ConvertFromUtf32(65 + i), true));
 				node = new TreeNode(rootNode, item, false);
-				node.IsFixed = true;
+				item.IsFixed = true;
 
 				root.AddNode(node);
 			}

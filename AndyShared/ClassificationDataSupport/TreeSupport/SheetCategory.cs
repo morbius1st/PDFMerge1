@@ -7,7 +7,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-
+using AndyShared.FilesSupport;
+// using ClassifierEditor.FilesSupport;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 
@@ -17,7 +18,6 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 
 // username: jeffs
 // created:  5/2/2020 9:18:14 AM
-
 
 
 /*
@@ -63,15 +63,10 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
-//	public class MasterRow
-//	{
-//		public int MasterRowIdx { get; set; } = 0;
-//	}
-
 
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
-	public class SheetCategory : INotifyPropertyChanged, ICloneable
+	public class SheetCategory : INotifyPropertyChanged, ICloneable, ITreeNodeItem
 	{
 	#region private fields
 
@@ -84,6 +79,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private string description;
 		private int depth;
 		private ObservableCollection<ComparisonOperation> compareOps;
+
+		private bool initialized;
+		private bool isModified;
+		private bool isLocked;
+		private bool isFixed = false;
 
 	#endregion
 
@@ -108,8 +108,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
+				if (value.Equals(title)) return;
+
+
 				title = value;
 				OnPropertyChange();
+
+				if (Initialized)
+				{
+					Debug.WriteLine("@ SheetCategory / Title / Set");
+					IsModified = true;
+				}
 			}
 		}
 
@@ -120,22 +129,38 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
+				if (value.Equals(description)) return;
+
+
 				description = value;
 				OnPropertyChange();
+
+				if (Initialized)
+				{
+					Debug.WriteLine("@ SheetCategory / Description / Set");
+					IsModified = true;
+				}
 			}
 		}
 
-		[DataMember(Order = 3)]
+		[DataMember(Order = 10)]
 		public ObservableCollection<ComparisonOperation> CompareOps
 		{
 			get => compareOps;
 			set
 			{
+				if (value.Equals(compareOps)) return;
+
 				compareOps = value;
 				OnPropertyChange();
+
+				if (Initialized)
+				{
+					IsModified = true;
+				}
 			}
 		}
-		
+
 		[IgnoreDataMember]
 		public int Depth
 		{
@@ -143,20 +168,94 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => depth;
 			set
 			{
+				if (value == depth) return;
+
 				depth = value;
 
 				// ReSharper disable once ExplicitCallerInfoArgument
 				OnPropertyChange("ComponentName");
+
+				if (Initialized)
+				{
+					Debug.WriteLine("@ SheetCategory / Depth / Set");
+					IsModified = true;
+				}
 			}
 		}
 
+		[IgnoreDataMember]
+		public bool Initialized
+		{
+			get => initialized;
+			set
+			{
+				initialized = value;
+				IsModified = false;
+			}
+		}
 
-		// [IgnoreDataMember]
-		// public string ComponentName
-		// {
-		// 	get { return FileNameSheetPdf.SheetNumberComponentTitles[Depth]; }
-		// }
+		[IgnoreDataMember]
+		public bool IsModified
+		{
+			get => isModified;
+			set
+			{
+				if (value == isModified) return;
 
+				isModified = value;
+				OnPropertyChange();
+			}
+		}
+
+		/// <summary>
+		///  means this is item is a root node and cannot be<br/>
+		/// deleted or unlocked
+		/// </summary>
+		[DataMember(Order = 4)]
+		public bool IsFixed
+		{
+			get => isFixed;
+
+			set
+			{
+				if (value != isFixed)
+				{
+					isFixed = value;
+					OnPropertyChange();
+
+					// if fixed, not locked
+					IsLocked = false;
+				}
+			}
+		}
+
+		/// <summary>
+		///  the user can lock to prevent accidental deleting
+		/// </summary>
+		[DataMember(Order = 5)]
+		public bool IsLocked
+		{
+			get => isLocked;
+
+			set
+			{
+				if (value != isLocked)
+				{
+					// disallow fixed from being locked
+					if (isFixed) return;
+
+					isLocked = value;
+					OnPropertyChange();
+				}
+			}
+		}
+
+		[IgnoreDataMember]
+		public bool CanSelect
+		{
+			get { return isFixed || isLocked; }
+			set { }
+		}
 
 	#endregion
 
@@ -184,7 +283,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("CompareOps");
 		}
 
-		public void NotifyChange()
+		public void UpdateProperties()
 		{
 			OnPropertyChange("Title");
 			OnPropertyChange("Description");
@@ -199,36 +298,41 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return temp;
 		}
 
-		#endregion
+	#endregion
 
-		#region private methods
+	#region private methods
 
+	#endregion
 
-		#endregion
+	#region event processing
 
-		#region event processing
-
-		// ReSharper disable once UnusedMember.Local
-		// ReSharper disable once UnusedParameter.Local
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
-		[SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
-		private void OnIsDisabledChanged(object sender) => Debug.WriteLine("at event");
+		// // ReSharper disable once UnusedMember.Local
+		// // ReSharper disable once UnusedParameter.Local
+		// [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
+		// [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+		// private void OnIsDisabledChanged(object sender) => Debug.WriteLine("at event");
 
 	#endregion
 
 	#region event handeling
 
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		// ReSharper disable once MemberCanBePrivate.Global
-		protected void OnPropertyChange([CallerMemberName] string memberName = "") => 
+
+		protected void OnPropertyChange([CallerMemberName] string memberName = "") =>
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
+
+	
+		protected void OnPropertyModified([CallerMemberName] string memberName = "")
+		{
+			IsModified = true;
+
+			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
+		}
 
 	#endregion
 
 	#region system overrides
-
 
 		public object Clone()
 		{
@@ -249,7 +353,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					clone.compareOps.Add((LogicalCompOp) compOp.Clone());
 				}
-
 			}
 
 			return clone;
@@ -258,8 +361,5 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public override string ToString() => "this is SheetCategory| " + title;
 
 	#endregion
-
 	}
-
-
 }

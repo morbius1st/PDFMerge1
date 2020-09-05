@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
+using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -154,7 +155,7 @@ namespace AndyShared.SampleFileSupport
 
 			sampleFilesView.SortDescriptions.Clear();
 			sampleFilesView.SortDescriptions.Add(
-				new SortDescription(SampleFile.SORT_NAME_PROP, ListSortDirection.Ascending));
+				new SortDescription(FilePathConstants.SORT_NAME_PROP, ListSortDirection.Ascending));
 
 			OnPropertyChange("View");
 		}
