@@ -35,12 +35,22 @@ namespace TestCore1
 		{
 			Console.WriteLine("\n@ program| Test 2\n");
 
-			Architect.Listen(MODIFY_EVT_NAME, OnModifiedEvent);
+			Orator.Listen(MODIFY_EVT_NAME, OnModifiedEvent);
 
-			Architect.ConfRoom.Announcer A = Architect.Announcer(this, INIT_EVT_NAME);
+			// send message to children
+			Orator.ConfRoom.Announcer A = Orator.GetAnnouncer(INIT_EVT_NAME);
+			Orator.ConfRoom.Announcer2 A2 = Orator.GetAnnouncer2(this, INIT_EVT_NAME);
+
+			AnnounceInit("init event sent");
 
 			A.Announce(this, true);
+			A2.Announce("this is an A2 package");
 
+		}
+
+		private void AnnounceInit(object package)
+		{
+			Orator.Announcer(this, INIT_EVT_NAME, package);
 		}
 
 
@@ -48,24 +58,27 @@ namespace TestCore1
 		{
 			Console.WriteLine("\n@ program| Test 2\n");
 
-			Architect.Listen("Alpha", OnAlphaEvent, "Alpha Description");
-			Architect.Listen("Alpha", OnAlphaEvent, "Alpha Description");
-			Architect.Listen("Beta", OnBetaEvent, "Beta Description");
+			Orator.ConfRoom.Announcer A1 = Orator.GetAnnouncer("Alpha");
 
+			Console.WriteLine("@ program| raise event Alpha1\n");
+			A1.Announce(this, 1000);
 
-			Architect.ConfRoom.Announcer A1 = Architect.Announcer(this, "Alpha");
-			Architect.ConfRoom.Announcer A2 = Architect.Announcer(this, "Alpha");
+			Orator.Listen("Alpha", OnAlphaEvent, "Alpha Description");
+			Orator.Listen("Alpha", OnAlpha2Event, "Alpha Description");
+			Orator.Listen("Beta", OnBetaEvent, "Beta Description");
 
-			Console.WriteLine("@ program| raise event Alpha\n");
+			Orator.ConfRoom.Announcer A2 = Orator.GetAnnouncer("Alpha");
+
+			Console.WriteLine("@ program| raise event Alpha1 & Alpha2\n");
 			A1.Announce(this, 1000);
 			A2.Announce(this, 2000);
 
-			Architect.ConfRoom.Announcer B = Architect.Announcer(this, "Beta");
+			Orator.ConfRoom.Announcer B = Orator.GetAnnouncer("Beta");
 
-			Console.WriteLine("@ program| raise event Beta\n");
+			Console.WriteLine("@ program| raise event B\n");
 			B.Announce(this, 500);
 
-			string[,] rooms = Architect.ConferenceRooms();
+			string[,] rooms = Orator.ConferenceRooms();
 
 			Console.WriteLine("@ program| list ********\n");
 			for (int i = 0; i < rooms.GetLength(0); i++)
@@ -75,15 +88,13 @@ namespace TestCore1
 				Console.Write(" List #| " + rooms[i,2]);
 				Console.WriteLine(" Ann #| " + rooms[i,3]);
 			}
-
-
 		}
 
 		private void OnModifiedEvent(object sender, object value)
 		{
-			Console.WriteLine("@ program| Modified event received| " 
+			Console.WriteLine("@ program| Modified event received|  \"" 
 				+ value.ToString() 
-				+ " send by| " + sender.ToString());
+				+ "\" sent by| " + sender.ToString());
 
 			if (sender.GetType() == typeof(SubChild))
 			{
@@ -98,6 +109,13 @@ namespace TestCore1
 		private void OnAlphaEvent(object sender, object value)
 		{
 			Console.WriteLine("@ program| Alpha event received| " 
+				+ value.ToString() + "\n");
+
+		}
+				
+		private void OnAlpha2Event(object sender, object value)
+		{
+			Console.WriteLine("@ program| Alpha 2 event received| " 
 				+ value.ToString() + "\n");
 
 		}

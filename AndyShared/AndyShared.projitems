@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
       <Link>.Linked\CsXmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Support\Orator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>
   <ItemGroup>

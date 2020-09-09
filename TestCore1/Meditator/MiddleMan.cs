@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Runtime.CompilerServices;
 
 #endregion
 
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace TestCore1.Meditator
 {
-	public static class Architect
+	public static class Orator
 	{
 		private static Dictionary<string, ConfRoom> conferenceCenter = new Dictionary<string, ConfRoom>();
 
@@ -65,17 +65,16 @@ namespace TestCore1.Meditator
 			}
 		}
 
-		// public static void Present(string room, object package)
-		// {
-		// 	if (!conferenceCenter.ContainsKey(room))
-		// 	{
-		// 		conferenceCenter.Add(room, new ConfRoom());
-		// 	}
-		//
-		// 	conferenceCenter[room].RaiseMeditatorEvent(package);
-		// }
+		public static void Announcer(object sender, string room, object value)
+		{
+			if (conferenceCenter.ContainsKey(room))
+			{
+				conferenceCenter[room].RaiseMeditatorEvent(sender, value);
+			}
+		}
 
-		public static ConfRoom.Announcer Announcer(  object sender, string room, string description = null)
+		// first version - dropping
+		public static ConfRoom.Announcer GetAnnouncer(string room, string description = null)
 		{
 			if (!conferenceCenter.ContainsKey(room))
 			{
@@ -85,6 +84,20 @@ namespace TestCore1.Meditator
 			conferenceCenter[room].Annoncers += 1;
 
 			return new ConfRoom.Announcer((sender, value) => conferenceCenter[room].RaiseMeditatorEvent(sender, value));
+		}
+		
+		// second version - use this
+		public static ConfRoom.Announcer2 GetAnnouncer2(object owner, string room, string description = null)
+		{
+			if (!conferenceCenter.ContainsKey(room))
+			{
+				conferenceCenter.Add(room, new ConfRoom() {Description = description});
+			}
+
+			conferenceCenter[room].Annoncers += 1;
+
+			return new ConfRoom.Announcer2(owner, (sender, value) => 
+				conferenceCenter[room].RaiseMeditatorEvent(sender, value));
 		}
 
 		public static void UnAnnounce(string room)
@@ -115,18 +128,36 @@ namespace TestCore1.Meditator
 
 			public class Announcer
 			{
-				private ConfRoom.MeditatorEventHandler evt { get; set; }
+				private MeditatorEventHandler evt { get; set; }
 
-				public Announcer(ConfRoom.MeditatorEventHandler evt)
+				public Announcer(MeditatorEventHandler evt)
 				{
 					this.evt = evt;
 				}
 
-				public void Announce(object sender, object package)
+				public void Announce(object sender, object value)
 				{
-					evt?.Invoke(sender, package);
+					evt?.Invoke(sender, value);
+				}
+			}
+
+			public class Announcer2
+			{
+				private object owner;
+
+				private MeditatorEventHandler evt { get; set; }
+
+				public Announcer2(object owner, MeditatorEventHandler evt)
+				{
+					this.owner = owner;
+
+					this.evt = evt;
 				}
 
+				public void Announce(object value)
+				{
+					evt?.Invoke(owner, value);
+				}
 			}
 
 		}

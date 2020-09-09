@@ -21,7 +21,8 @@ namespace TestCore1.Children
 
 		private bool initialized = false;
 
-		private Architect.ConfRoom.Announcer Modified;
+		private Orator.ConfRoom.Announcer Modified;
+		private Orator.ConfRoom.Announcer2 Modified2;
 
 	#region ctor
 
@@ -44,20 +45,22 @@ namespace TestCore1.Children
 			s2.ConfigListener(Program.INIT_EVT_NAME);
 
 
-			Architect.Listen(Program.INIT_EVT_NAME, OnIntEvent);
+			Orator.Listen(Program.INIT_EVT_NAME, OnIntEvent);
 
-			Modified = Architect.Announcer(this, Program.MODIFY_EVT_NAME);
+			Modified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
+			Modified2 = Orator.GetAnnouncer2(this, Program.MODIFY_EVT_NAME);
 
 		}
 
 		private void OnIntEvent(object sender, object value)
 		{
-			Console.WriteLine("@ child| Init event received| "
-				+ value.ToString() + ""
-				+ " type| " + value.GetType()
+			Console.WriteLine("@ child| Init event received| \""
+				+ value.ToString() + "\""
+				+ "   type| " + value.GetType()
 				+ "\n");
 
-			Modified.Announce(this, "@ child| I am modified");
+			Modified.Announce(this, "from child| I am modified");
+			Modified2.Announce("from child| I am modified 2");
 		}
 
 

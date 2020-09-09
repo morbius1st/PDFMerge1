@@ -3,6 +3,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using ClassifierEditor.SampleData;
 // using ClassifierEditor.Tree;
@@ -27,6 +28,9 @@ namespace ClassifierEditor.SampleData
 {
 	public class SampleData : INotifyPropertyChanged
 	{
+	#if DEBUG
+		
+
 	#region private fields
 
 		private BaseOfTree root;
@@ -35,9 +39,25 @@ namespace ClassifierEditor.SampleData
 
 	#region ctor
 
+		static SampleData()
+		{
+			SampleData sd = new SampleData();
+			sd.Sample(BaseOfTreeRoot);
+
+			sd.SampleFiles(FileList2);
+
+		}
+
 	#endregion
 
 	#region public properties
+
+		// this is only for design time sample data
+		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
+
+		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
+
+		public static TreeNode Temp { get; set; }
 
 	#endregion
 
@@ -55,9 +75,9 @@ namespace ClassifierEditor.SampleData
 			
 			root.Item = item;
 
-//			MakeChildren(root, 0);
-			MakeChildren2(root);
-//			MakeChildren3();
+			MakeChildren(root, 0);
+			// MakeChildren2(root);
+			// MakeChildren3();
 		}
 
 		public void SampleFiles(SampleFileList fileList)
@@ -145,7 +165,8 @@ namespace ClassifierEditor.SampleData
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
 					node = new TreeNode(parent, item, false);
 
-					
+					Temp = node;
+
 				} 
 
 				if (i == 3 || i == 5)
@@ -205,8 +226,6 @@ namespace ClassifierEditor.SampleData
 			root.AddNode(rootNode);
 		}
 
-
-
 	#endregion
 
 	#region event processing
@@ -232,5 +251,7 @@ namespace ClassifierEditor.SampleData
 		}
 
 	#endregion
+
+	#endif
 	}
 }

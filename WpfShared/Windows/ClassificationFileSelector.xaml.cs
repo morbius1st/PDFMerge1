@@ -78,7 +78,7 @@ namespace WpfShared.Windows
 				{
 					selected.FileIdChanged += selected_FileIdChanged;
 
-					selected.Read();
+					selected.Initialize();
 
 					selectedSampleFile = null;
 

@@ -23,6 +23,7 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.FilesSupport;
+using AndyShared.Support;
 
 #endregion
 
@@ -31,7 +32,111 @@ using AndyShared.FilesSupport;
 // username: jeffs
 // created:  5/2/2020 9:16:20 AM
 
-//
+
+/*
+
+inter-class communications
+
+				announce		listen		procedure
+
+when mainwindow tells classfFile to init:
+classfFile		TN_INIT
+all treenodes					TN_INIT		respond: none / set initialized = true / set ismodified = false
+all sheetCategories				TN_INIT		respond: none / set initialized = true / set ismodified = false
+
+
+at the below / at ismodified:
+if (new & current values match) return, no update
+if (isinitialized) announce modified
+
+
+****
+event: treeview item (treenode) selected / userselected set at mainwindow
+											userselected edit controls populated
+
+
+
+****
+event: sheetcategory monitored item changed (e.g. description)
+	userselected/sheetcategory/{control}		
+												ismodified = true;
+				MODIFIED							if (isinitialized) announce modified
+
+classfFile						MODIFIED	if (initialized && ismodified != value) 
+												ismodified = true
+												
+
+
+ 
+ *****
+event: sheetcategory.CompareOps collection changed
+	userselected/sheetcategory/CompareOpsOnCollectionChanged	
+												ismodified = true;
+													if (isinitialized) announce modified
+				MODIFIED
+
+classfFile						MODIFIED	if (initialized && ismodified != value) 
+												ismodified = true
+
+
+
+****
+event: baseoftree / treenode monitored item changed (e.g. parent)	
+												ismodified = true;
+				MODIFIED							if (isinitialized) announce modified
+
+classfFile						MODIFIED	if (initialized && ismodified != value) 
+												ismodified = true
+												
+
+ *****
+event: baseoftree / treenode collection changed
+	event: ChildrenOnCollectionChanged fired	
+												ismodified = true
+													if (isinitialized) announce modified
+				MODIFIED
+classfFile						MODIFIED	if (initialized && ismodified != value) 
+												ismodified = true
+
+****
+event: button saved pressed (classfFile.ismodified is true)
+
+mainwindow										save data
+				SAVED
+
+classfFile							SAVED		ismodified = false
+treenode/baseoftree					SAVED		ismodified = false
+sheetcategory						SAVED		ismodified = false
+
+
+
+****
+needed:
+mainwindow:		✔ (cancel) announce / CF_INIT (just do this directly)
+				✔ announce / SAVED
+				✔ listen {none}
+
+classfFile		✔ (cancel) listen / CF_INIT (just do this directly)
+				✔ announce / TN_INIT (maybe combine the above)
+				✔ listen / MODIFIED 
+				✔ listen / SAVED
+				✔ add IsModified to correct properties
+
+baseoftree/treenode
+				✔ listen / TN_INT
+				✔ listen / SAVED
+				✔ announce / MODIFIED (from IsModified)
+				✔ add IsModified to correct properties
+
+sheetcategory
+				✔ listen / TN_INIT
+				✔ listen / SAVED
+				✔ announce / MODIFIED (from IsModified)
+				✔ add IsModified to correct properties
+
+*/
+
+
 
 namespace ClassifierEditor.Windows
 {
@@ -128,17 +233,6 @@ namespace ClassifierEditor.Windows
 	/// </summary>
 	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
-	#region private fields
-
-		// private SheetCategoryDataManager categories = new SheetCategoryDataManager();
-
-		private ClassificationFile classificationFile;
-
-
-		// private Configuration config;
-		private static TreeNode userSelected;
-		private TreeNode contextSelected;
-		private TreeNode contextSelectedParent;
 
 		public string ContextCmdDelete { get; }            = "delete";
 		public string ContextCmdAddChild { get; }          = "addChild";
@@ -152,77 +246,68 @@ namespace ClassifierEditor.Windows
 		public string ContextCmdExpand { get; }            = "Expand";
 		public string ContextCmdCollapse { get; }          = "Collapse";
 
+	#region private fields
+
+		// private SheetCategoryDataManager categories = new SheetCategoryDataManager();
+
+		private ClassificationFile classificationFile;
+
+
+		// private Configuration config;
+		private static TreeNode userSelected;
+		private TreeNode contextSelected;
+		private TreeNode contextSelectedParent;
+
 		private bool bypassContextDeHighlight = false;
+
+		// private Orator.ConfRoom.Announcer OnCfInitAnnouncer;
+		private Orator.ConfRoom.Announcer OnSavedAnnouncer;
+		private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
 
 	#endregion
 
 
 	#region ctor
 
-		static MainWindowClassifierEditor()
-		{
-			SampleData.SampleData sd = new SampleData.SampleData();
-			sd.Sample(BaseOfTreeRoot);
-
-//			SheetCategory sc = new SheetCategory("title", "description", "pattern");
-//			temp = new TreeNode(
-//				new BaseOfTree(), sc, false);
-
-			sd.SampleFiles(FileList2);
-
-			FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
-
-			MakeSample();
-		}
+// 		static MainWindowClassifierEditor()
+// 		{
+// 			// SampleData.SampleData sd = new SampleData.SampleData();
+// 			//  sd.Sample(BaseOfTreeRoot);
+//
+// //			SheetCategory sc = new SheetCategory("title", "description", "pattern");
+// //			temp = new TreeNode(
+// //				new BaseOfTree(), sc, false);
+//
+// 			// sd.SampleFiles(FileList2);
+//
+// 			 // FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
+// 			 // 	@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+// 			
+// 			 // MakeSample();
+// 		}
 
 		public MainWindowClassifierEditor()
 		{
 			InitializeComponent();
+
+			OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
+			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize");
 		}
 
-		public static TreeNode temp { get; set; }
-
-		public static void MakeSample()
-		{
-			Lv2ConditionTemplateSelector.MasterIdIdx = 0;
-
-			temp = new TreeNode(new BaseOfTree(),
-				new SheetCategory("title", "description")
-				{
-					CompareOps = new ObservableCollection<ComparisonOperation>()
-					{
-						new ValueCompOp(ValueCompareOps[(int) CONTAINS], "First", isFirst: true, ignore: false),
-						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
-						new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "1000 to 500 to 1000 to 800"),
-						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND], true),
-						new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1000", ignore: true),
-						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
-						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
-						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_OR]),
-						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000"),
-						new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]),
-						new ValueCompOp(ValueCompareOps[(int) MATCHES], "2000")
-					}
-				}
-				, false );
-		}
-
-		public static List<ValueCompareOp> vComps = new List<ValueCompareOp>()
-		{
-			new ValueCompareOp("Does Not Contain", DOES_NOT_CONTAIN),
-			new ValueCompareOp("Contains", CONTAINS),
-			new ValueCompareOp("Does not Match", DOES_NOT_MATCH),
-			new ValueCompareOp("Match", MATCHES),
-		};
 
 	#endregion
 
 	#region public properties
 
-		// this is only for design time sample data
-		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
 
+		// // this is only for design time sample data
+		// public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
+
+
+		public BaseOfTree BaseOfTree
+		{
+			get => classificationFile.TreeBase;
+		}
 
 		public ClassificationFile ClassificationFile
 		{
@@ -287,7 +372,7 @@ namespace ClassifierEditor.Windows
 		}
 
 		public bool HasSelection => userSelected != null;
-
+		public bool HasContextSelection => contextSelected != null;
 
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
 
@@ -326,12 +411,14 @@ namespace ClassifierEditor.Windows
 			// false to read existing data
 			if (false)
 			{
-				SampleData.SampleData sd = new SampleData.SampleData();
+				// SampleData.SampleData sd = new SampleData.SampleData();
+				//
+				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
+				// sd.Sample(classificationFile.Data.BaseOfTree);
 
-				classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
-				sd.Sample(classificationFile.Data.BaseOfTree);
-
+#pragma warning disable CS0162 // Unreachable code detected
 				classificationFile.Write();
+#pragma warning restore CS0162 // Unreachable code detected
 
 				sampleFileName = "";
 			}
@@ -341,8 +428,10 @@ namespace ClassifierEditor.Windows
 
 				classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 
-				classificationFile.Read();
-				classificationFile.TreeBase.Initalize();
+				Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+				classificationFile.Initialize();
+
+				
 				// classificationFile.TreeBase.Initialized = true;
 
 
@@ -355,8 +444,13 @@ namespace ClassifierEditor.Windows
 
 			FileList = new SampleFileList(sampleFileName);
 
-
 			OnPropertyChange("FileList");
+
+			Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
+			
+			// cancel any startup modifications
+			// OnSavedAnnouncer.Announce(null);
+			OnTnInitAnnouncer.Announce(null);
 		}
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
@@ -380,6 +474,8 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
+	#region event consuming
+
 	#region control event methods
 
 		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -402,7 +498,7 @@ namespace ClassifierEditor.Windows
 			}
 
 			UserSelected = selected;
-			BaseOfTreeRoot.SelectedNode = userSelected;
+			BaseOfTree.SelectedNode = userSelected;
 		}
 
 		// context menu events
@@ -448,7 +544,7 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.AddNewChild2(contextSelected);
+			BaseOfTree.AddNewChild2(contextSelected);
 
 			contextSelected.IsExpanded = true;
 
@@ -461,7 +557,7 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.AddNewBefore2(contextSelected);
+			BaseOfTree.AddNewBefore2(contextSelected);
 
 			ContextDeselect();
 		}
@@ -471,7 +567,7 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.AddNewAfter2(contextSelected);
+			BaseOfTree.AddNewAfter2(contextSelected);
 
 
 			ContextDeselect();
@@ -481,9 +577,9 @@ namespace ClassifierEditor.Windows
 		{
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.MoveBefore(contextSelected, userSelected);
+			BaseOfTree.MoveBefore(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
+			BaseOfTree.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
@@ -493,9 +589,9 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.MoveAfter(contextSelected, userSelected);
+			BaseOfTree.MoveAfter(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
+			BaseOfTree.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
@@ -505,9 +601,9 @@ namespace ClassifierEditor.Windows
 			// add a child to this leaf - also make a branch.
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			BaseOfTreeRoot.MoveAsChild(contextSelected, userSelected);
+			BaseOfTree.MoveAsChild(contextSelected, userSelected);
 
-			BaseOfTreeRoot.SelectedNode.IsNodeSelected = false;
+			BaseOfTree.SelectedNode.IsNodeSelected = false;
 
 			ContextDeselect();
 		}
@@ -519,7 +615,7 @@ namespace ClassifierEditor.Windows
 
 			TreeNode newNode = contextSelected.Clone() as TreeNode;
 
-			BaseOfTreeRoot.AddAfter2(contextSelected, newNode);
+			BaseOfTree.AddAfter2(contextSelected, newNode);
 
 			ContextDeselect();
 		}
@@ -531,7 +627,7 @@ namespace ClassifierEditor.Windows
 
 			TreeNode newNode = userSelected.Clone() as TreeNode;
 
-			BaseOfTreeRoot.AddChild2(contextSelected, newNode);
+			BaseOfTree.AddChild2(contextSelected, newNode);
 
 			ContextDeselect();
 		}
@@ -567,7 +663,7 @@ namespace ClassifierEditor.Windows
 
 			if (result == MessageBoxResult.Yes)
 			{
-				BaseOfTreeRoot.RemoveNode2(contextSelected);
+				BaseOfTree.RemoveNode2(contextSelected);
 			}
 
 			ContextDeselect();
@@ -665,7 +761,9 @@ namespace ClassifierEditor.Windows
 		{
 			classificationFile.Write();
 
-			classificationFile.IsModified = false;
+			// classificationFile.IsModified = false;
+
+			OnSavedAnnouncer.Announce(true);
 		}
 
 		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e) { }
@@ -692,7 +790,10 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-	#region event handeling
+		private void OnAnnounceCfModified(object sender, object value)
+		{
+
+		}
 
 	#endregion
 

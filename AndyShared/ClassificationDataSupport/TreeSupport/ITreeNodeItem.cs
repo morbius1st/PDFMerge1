@@ -6,7 +6,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
 	public interface ITreeNodeItem : ICloneable
 	{
-		bool Initialized { get; set; }
+		bool IsInitialized { get; set; }
 
 		bool IsModified { get; set; }
 

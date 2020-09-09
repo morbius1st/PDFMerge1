@@ -1,13 +1,13 @@
 ﻿#region using
-
-using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using AndyShared.FilesSupport;
+using AndyShared.Support;
 // using ClassifierEditor.FilesSupport;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
@@ -66,7 +66,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
-	public class SheetCategory : INotifyPropertyChanged, ICloneable, ITreeNodeItem
+	public class SheetCategory : INotifyPropertyChanged, ITreeNodeItem
 	{
 	#region private fields
 
@@ -80,10 +80,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private int depth;
 		private ObservableCollection<ComparisonOperation> compareOps;
 
-		private bool initialized;
+		private bool isInitialized;
 		private bool isModified;
 		private bool isLocked;
-		private bool isFixed = false;
+		private bool isFixed;
+
+		private Orator.ConfRoom.Announcer onModifiedAnnouncer;
 
 	#endregion
 
@@ -91,11 +93,39 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public SheetCategory(string title, string description)
 		{
+			Debug.WriteLine("@ sheetcat|@ ctor");
+
 			this.title = title;
 			this.description = description;
 
 			CompareOps = new ObservableCollection<ComparisonOperation>();
+
+			OnCreated();
 		}
+
+		private void OnCreated()
+		{
+			Debug.WriteLine("@ sheetcat|@ oncreated");
+
+			compareOps.CollectionChanged += CompareOpsOnCollectionChanged;
+
+			// listen to parent, initialize
+			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+
+			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_MODIFIED);
+
+			// IsInitialized = true;
+		}
+
+		[OnDeserialized]
+		private void OnDeserializing(StreamingContext c)
+		{
+			OnCreated();
+		}
+
 
 	#endregion
 
@@ -105,20 +135,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string Title
 		{
 			get => title;
-
 			set
 			{
-				if (value.Equals(title)) return;
+				if (value?.Equals(title) ?? false) return;
 
-
+				Debug.WriteLine("@ sheetcat|@ title| changed");
 				title = value;
 				OnPropertyChange();
-
-				if (Initialized)
-				{
-					Debug.WriteLine("@ SheetCategory / Title / Set");
-					IsModified = true;
-				}
+				IsModified = true;
 			}
 		}
 
@@ -126,20 +150,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string Description
 		{
 			get => description;
-
 			set
 			{
-				if (value.Equals(description)) return;
+				if (value?.Equals(description) ?? false) return;
 
-
+				Debug.WriteLine("@ sheetcat|@ description| changed");
 				description = value;
 				OnPropertyChange();
-
-				if (Initialized)
-				{
-					Debug.WriteLine("@ SheetCategory / Description / Set");
-					IsModified = true;
-				}
+				IsModified = true;
 			}
 		}
 
@@ -149,22 +167,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => compareOps;
 			set
 			{
-				if (value.Equals(compareOps)) return;
+				if (value?.Equals(compareOps) ?? false) return;
 
+				Debug.WriteLine("@ sheetcat|@ CompareOps| changed");
 				compareOps = value;
 				OnPropertyChange();
-
-				if (Initialized)
-				{
-					IsModified = true;
-				}
+				IsModified = true;
 			}
 		}
 
 		[IgnoreDataMember]
 		public int Depth
 		{
-			// ReSharper disable once UnusedMember.Global
 			get => depth;
 			set
 			{
@@ -172,26 +186,25 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				depth = value;
 
-				// ReSharper disable once ExplicitCallerInfoArgument
-				OnPropertyChange("ComponentName");
+				Debug.WriteLine("@ sheetcat|@ depth| changed");
 
-				if (Initialized)
-				{
-					Debug.WriteLine("@ SheetCategory / Depth / Set");
-					IsModified = true;
-				}
+				OnPropertyChange();
+				OnPropertyChange("ComponentName");
+				IsModified = true;
 			}
 		}
 
 		[IgnoreDataMember]
-		public bool Initialized
+		public string ComponentName
 		{
-			get => initialized;
-			set
-			{
-				initialized = value;
-				IsModified = false;
-			}
+			get => FileNameSheetPdf.SheetNumberComponentTitles[Depth] ?? ""; 
+		}
+
+		[IgnoreDataMember]
+		public bool IsInitialized
+		{
+			get => isInitialized;
+			set => isInitialized = value;
 		}
 
 		[IgnoreDataMember]
@@ -200,16 +213,30 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => isModified;
 			set
 			{
+				if (!isInitialized) return;
+
+				Debug.WriteLine("@ sheetcat|@ ismodified| changed| value| " 
+					+ value + "| ismodified| " + isModified + " | who| " + this.ToString());
+
 				if (value == isModified) return;
 
 				isModified = value;
 				OnPropertyChange();
+
+				Debug.WriteLine("@ sheetcat|@ ismodified| changed| isinitialized| " + isInitialized);
+
+				if (isInitialized)
+				{
+					onModifiedAnnouncer.Announce(true);
+				}
 			}
 		}
 
 		/// <summary>
-		///  means this is item is a root node and cannot be<br/>
-		/// deleted or unlocked
+		/// means this is item is a fixed node and cannot be<br/>
+		/// deleted but may be locked (but not be the user)<br/>
+		/// for this to happen, the XML file would have to be<br/>
+		/// manually edited
 		/// </summary>
 		[DataMember(Order = 4)]
 		public bool IsFixed
@@ -218,19 +245,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
-				if (value != isFixed)
-				{
-					isFixed = value;
-					OnPropertyChange();
+				if (value == isFixed) return;
 
-					// if fixed, not locked
-					IsLocked = false;
-				}
+				isFixed = value;
+				OnPropertyChange();
 			}
 		}
 
 		/// <summary>
-		///  the user can lock to prevent accidental deleting
+		/// locked node cannot be changed - deleted or modified<br/>
+		/// but could be fixed.  However, a fixed and locked note<br/>
+		/// has limited value. for this to happen, the XML file would<br/>
+		/// have to be manually edited
 		/// </summary>
 		[DataMember(Order = 5)]
 		public bool IsLocked
@@ -239,21 +265,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
-				if (value != isLocked)
-				{
-					// disallow fixed from being locked
-					if (isFixed) return;
+				if (value == isLocked) return;
 
-					isLocked = value;
-					OnPropertyChange();
-				}
+				isLocked = value;
+				OnPropertyChange();
+
 			}
 		}
 
 		[IgnoreDataMember]
 		public bool CanSelect
 		{
-			get { return isFixed || isLocked; }
+			get => isFixed || isLocked; 
 			set { }
 		}
 
@@ -304,31 +327,35 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#endregion
 
-	#region event processing
+	#region event consuming
 
-		// // ReSharper disable once UnusedMember.Local
-		// // ReSharper disable once UnusedParameter.Local
-		// [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
-		// [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
-		// private void OnIsDisabledChanged(object sender) => Debug.WriteLine("at event");
+		private void OnAnnounceTnInit(object sender, object value)
+		{
+			Debug.WriteLine("@ sheetcat|@ onann-tninit| received");
+			isInitialized = true;
+			isModified = false;
+		}
+
+		private void OnAnnounceSaved(object sender, object value)
+		{
+			isModified = false;
+			Debug.WriteLine("@ sheetcat|@ onann-saved| received| isinitialized| " 
+				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
+		}
+
+		private void CompareOpsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			IsModified = true;
+		}
 
 	#endregion
 
-	#region event handeling
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-
 		protected void OnPropertyChange([CallerMemberName] string memberName = "") =>
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
-
-	
-		protected void OnPropertyModified([CallerMemberName] string memberName = "")
-		{
-			IsModified = true;
-
-			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
-		}
 
 	#endregion
 

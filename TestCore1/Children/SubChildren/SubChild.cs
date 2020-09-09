@@ -9,7 +9,8 @@ namespace TestCore1.Children.SubChildren
 	{
 		private int index;
 
-		private Architect.ConfRoom.Announcer xModified;
+		private Orator.ConfRoom.Announcer xModified;
+		private Orator.ConfRoom.Announcer2 xModified2;
 
 	#region ctor
 
@@ -21,12 +22,13 @@ namespace TestCore1.Children.SubChildren
 
 			Console.WriteLine("@ subchild " + index + "| created");
 
-			xModified = Architect.Announcer(this, Program.MODIFY_EVT_NAME);
+			xModified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
+			xModified2 = Orator.GetAnnouncer2(this, Program.MODIFY_EVT_NAME);
 		}
 
 		public void ConfigListener(string room)
 		{
-			Architect.Listen(room, OnIntEvent);
+			Orator.Listen(room, OnIntEvent);
 		}
 
 		private bool modified;
@@ -51,12 +53,13 @@ namespace TestCore1.Children.SubChildren
 
 		private void OnIntEvent(object sender, object value)
 		{
-			Console.WriteLine("@ subchild " + index + "| Init event received| "
-				+ value.ToString() + ""
+			Console.WriteLine("@ subchild " + index + "| Init event received| \""
+				+ value.ToString() + "\""
 				+ " type| " + value.GetType()
 				+ "\n");
 
-			xModified.Announce(this, "@ subchild " + index + "| I am modified");
+			xModified.Announce(this, "from subchild " + index + "| I am modified");
+			xModified2.Announce("from subchild " + index + "| I am modified 2");
 		}
 
 

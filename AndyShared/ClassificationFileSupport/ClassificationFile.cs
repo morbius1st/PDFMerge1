@@ -10,6 +10,7 @@ using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
+using AndyShared.Support;
 using SettingsManager;
 using UtilityLibrary;
 using static AndyShared.FileSupport.FileNameUserAndId;
@@ -38,14 +39,15 @@ namespace AndyShared.ClassificationFileSupport
 
 		private bool isModified;
 
-		private bool dataFileRead = false;
+		private bool isInitialized = false;
 		private bool isDefaultClassfFile = true;
 		private bool isUserClassfFile = false;
+
+		private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
 
 	#endregion
 
 	#region ctor
-
 
 		public ClassificationFile(string filePath, bool fileSelected = false)
 		{
@@ -53,8 +55,17 @@ namespace AndyShared.ClassificationFileSupport
 
 			if (!filePathLocal.IsValid) return;
 
-			AndyShared.Support.Meditator.InIsModified += MeditatorOnInIsModified;
+			// setup inter-class communication
+			// tell parent, I have been modified announcer
 
+			// listen to children - they have been modified
+			Orator.Listen(OratorRooms.TN_MODIFIED, OnAnnounceSubChildModified);
+
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+
+			// announce to treenode (treebase) / and components initialized and to initialize
+			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
 
 			if (!SettingsSupport.ValidateXmlFile(filePath)
 				|| !ValidateAgainstUsername(filePathLocal)
@@ -67,7 +78,6 @@ namespace AndyShared.ClassificationFileSupport
 			InitailizeSample(FilePathLocal.FullFilePath);
 		}
 
-		private void MeditatorOnInIsModified() { }
 
 	#endregion
 
@@ -81,13 +91,15 @@ namespace AndyShared.ClassificationFileSupport
 			get => dataFile.Info.Description;
 			set
 			{
-				if (value.Equals(dataFile.Info.Description)) return;
+				if (value?.Equals(dataFile.Info.Description) ?? false) return;
 
 				dataFile.Info.Description = value;
 
-				dataFile.Admin.Write();
+				// dataFile.Admin.Write();
 
 				OnPropertyChange();
+
+				IsModified = true;
 			}
 		}
 
@@ -98,11 +110,15 @@ namespace AndyShared.ClassificationFileSupport
 			get => dataFile.Info.Notes;
 			set
 			{
+				if (value?.Equals(dataFile.Info.Notes) ?? false) return;
+
 				dataFile.Info.Notes = value;
+
+				// dataFile.Admin.Write();
 
 				OnPropertyChange();
 
-				dataFile.Admin.Write();
+				IsModified = true;
 			}
 		}
 
@@ -146,9 +162,7 @@ namespace AndyShared.ClassificationFileSupport
 				filePathLocal.ChangeFileName(newFileNameNoExt);
 
 				OnPropertyChange();
-
 				OnSelectedPropertyChange();
-
 				OnPropertyChange("SampleFilePath");
 				OnPropertyChange("FileName");
 				OnPropertyChange("GetFullFilePath");
@@ -182,21 +196,31 @@ namespace AndyShared.ClassificationFileSupport
 		public string SampleFileName => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
 
 		// status
-		public bool CanEdit => DataFileRead && IsUserClassfFile;
+		public bool CanEdit => IsInitialized && IsUserClassfFile;
+
+		public bool IsInitialized
+		{
+			get => isInitialized;
+			private set
+			{
+				isInitialized = value;
+
+				OnPropertyChange();
+				OnPropertyChange("CanEdit");
+			}
+		}
 
 		public bool IsModified
 		{
-			get
-			{
-				Debug.WriteLine("@classf| is    modified == | " + isModified.ToString());
-				Debug.WriteLine("@classf| is TB modified == | " + TreeBase.IsModified.ToString());
-				
-				return isModified || TreeBase.IsModified;
-			}
+			get => isModified; //|| TreeBase.IsModified;
+			// {
+			// 	return isModified || TreeBase.IsModified;
+			// }
 			set
 			{
-				isModified = value;
+				if (value == isModified) return;
 
+				isModified = value;
 				OnPropertyChange();
 			}
 		}
@@ -219,18 +243,6 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region private properties
 
-		private bool DataFileRead
-		{
-			get => dataFileRead;
-			set
-			{
-				dataFileRead = value;
-
-				OnPropertyChange();
-				OnPropertyChange("EditingEnabled");
-			}
-		}
-
 		private bool IsDefaultClassfFile
 		{
 			get => isDefaultClassfFile;
@@ -239,7 +251,7 @@ namespace AndyShared.ClassificationFileSupport
 				isDefaultClassfFile = value;
 
 				OnPropertyChange();
-				OnPropertyChange("EditingEnabled");
+				OnPropertyChange("CanEdit");
 			}
 		} // this will pre-configure to disallow editing
 
@@ -251,7 +263,7 @@ namespace AndyShared.ClassificationFileSupport
 				isUserClassfFile = value;
 
 				OnPropertyChange();
-				OnPropertyChange("EditingEnabled");
+				OnPropertyChange("CanEdit");
 			}
 		}
 
@@ -268,16 +280,24 @@ namespace AndyShared.ClassificationFileSupport
 			
 		}
 
-		public void Read()
+		public void Initialize()
 		{
+			Debug.WriteLine("@ classF|@ initialize| start-init");
 			dataFile = new BaseDataFile<ClassificationFileData>();
 			dataFile.Configure(FolderPath, FileName);
+
+			Debug.WriteLine("@ classF|@ initialize| read");
 			dataFile.Admin.Read();
+
+			Debug.WriteLine("@ classF|@ initialize| baseoftree-init");
 			dataFile.Data.BaseOfTree.Initalize();
 
-			DataFileRead = true;
+			IsInitialized = true;
 
 			UpdateProperties();
+
+			// Debug.WriteLine("@ classF|@ initialize| ann-tn-init");
+			// OnTnInitAnnouncer.Announce(true);
 		}
 
 		public void Write()
@@ -332,7 +352,24 @@ namespace AndyShared.ClassificationFileSupport
 
 	#endregion
 
-	#region event processing
+	#region event consuming
+
+		// one of the sub-children have been modified
+		private void OnAnnounceSubChildModified(object sender, object value)
+		{
+			IsModified = true;
+
+			Debug.WriteLine("@ classfFile|@ onmodified| who| " + sender.ToString() + "| value| " + value);
+		}
+
+		private void OnAnnounceSaved(object sender, object value)
+		{
+			IsModified = false;
+		}
+
+	#endregion
+
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -342,15 +379,12 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 		public event PropertyChangedEventHandler FileIdChanged;
-
+		
+		// used by WpfSelect
 		private void OnSelectedPropertyChange([CallerMemberName] string memberName = "")
 		{
 			FileIdChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
-	#endregion
-
-	#region event handeling
 
 	#endregion
 

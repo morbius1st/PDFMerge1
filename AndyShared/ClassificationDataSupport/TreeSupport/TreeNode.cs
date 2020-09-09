@@ -2,11 +2,14 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
+using AndyShared.Support;
 
 #endregion
 
@@ -52,6 +55,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 #region TreeNode
 
 	[DataContract(Namespace = "", IsReference = true)]
+	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
+	[SuppressMessage("ReSharper", "UnusedMember.Local")]
 	public class TreeNode : INotifyPropertyChanged, ICloneable 
 	{
 	#region private fields
@@ -67,29 +72,30 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
 
-		private bool initialized = false;
+		private bool isInitialized;
 
 		private bool isModified;
 		// private bool isLocked;
 		// private bool isFixed = false;
 		private bool isExpanded;
 		private bool isNodeSelected;
-		private bool isContextSelected = false;
-		private int checkedChildCount = 0;
+		private bool isContextSelected;
+		private int checkedChildCount;
 
 //		protected int uniqueId = -1;
 
 
 		// fields
 
-		//										mixed->checked->unchecked->mixed
-		//										  0        1        2        3 (0)
-		private static readonly bool?[] _boolList = new bool?[] {null,     true,    false,   null};
-		private bool mixesStateBeenTold = false;
+		//										                 mixed->checked->unchecked->mixed
+		//										                   0        1        2        3 (0)
+		private static readonly bool?[] BoolList = new bool?[] {null,     true,    false,   null};
+		private bool mixesStateBeenTold;
 
+		private Orator.ConfRoom.Announcer onModifiedAnnouncer;
 
-		// static
-		protected static int masterUniqueId = 0;
+		// // static
+		// protected static int masterUniqueId = 0;
 
 	#endregion
 
@@ -97,16 +103,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
-			
 			Children = new ObservableCollection<TreeNode>();
 			this.parent = parent;
 			this.item = item;
 			Depth = parent.depth + 1;
 			this.isExpanded = isExpanded;
-
-//			UniqueId = masterUniqueId++;
-
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+
+			OnCreated();
 		}
 
 		public TreeNode() : this(null, null, false) { }
@@ -116,24 +120,44 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			Children = new ObservableCollection<TreeNode>();
 			this.item = item;
 			this.isExpanded = isExpanded;
-
-//			UniqueId = masterUniqueId++;
-
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 
+			OnCreated();
 		}
+
+		private void OnCreated()
+		{
+			Children.CollectionChanged += ChildrenOnCollectionChanged;
+
+			Debug.WriteLine("@ treenode|@ oncreated");
+
+			// listen to parent, initialize
+			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+
+			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_MODIFIED);
+
+			IsInitialized = true;
+		}
+
+		[OnDeserialized]
+		private void OnDeserializing(StreamingContext c)
+		{
+			OnCreated();
+		}
+
 
 	#endregion
 
 	#region public properties
-
 
 		// the actual tree data item
 		[DataMember(Order = 20)]
 		public SheetCategory Item
 		{
 			get => item;
-
 			set
 			{
 				item = value;
@@ -141,8 +165,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				OnPropertyChange();
 				item.UpdateProperties();
-
-				if (Initialized) Debug.WriteLine("@ TreeNode / Item / Set");
 			}
 		}
 
@@ -163,10 +185,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => parent;
 			set
 			{
+				if (value?.Equals(parent) ?? false) return;
+
 				parent = value;
 				OnPropertyChange();
-
-				if (Initialized) Debug.WriteLine("@ TreeNode / Parent / Set");
+				IsModified = true;
 			}
 		}
 
@@ -176,12 +199,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => depth;
 			set
 			{
+				if (value == depth) return;
+
 				depth = value;
 				OnPropertyChange();
 
 				if (item != null) item.Depth = value;
 
-				if (Initialized) Debug.WriteLine("@ TreeNode / Depth / Set");
+				IsModified = true;
 			}
 		}
 
@@ -195,7 +220,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == CheckedState.UNSET)
 				{
 					checkedState = value;
-					return;
+					IsModified = true;
 				}
 				else if (value != checkedState)
 				{
@@ -203,6 +228,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 					OnPropertyChange("Checked");
 
 					parent?.UpdateChildCount(checkedState);
+
+					IsModified = true;
 				}
 			}
 		}
@@ -214,12 +241,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (checkedState == CheckedState.UNSET) return null;
 
-				return _boolList[(int) checkedState];
+				return BoolList[(int) checkedState];
 			}
 
 			set
 			{
-				ProcessStateChange(SelectStateFromBool(value));
+				processStateChange(selectStateFromBool(value));
 				OnPropertyChange();
 			}
 		}
@@ -235,6 +262,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					triState = value;
 					OnPropertyChange();
+					IsModified = true;
 				}
 			}
 		}
@@ -246,8 +274,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			private set
 			{
+				if (value?.Equals(children) ?? false) return;
+
 				children = value;
 				NotifyChildrenChange();
+				IsModified = true;
 			}
 		}
 
@@ -255,7 +286,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// public ICollectionView ChildrenView
 		public ListCollectionView ChildrenView
 		{
-			get { return childrenView; }
+			get => childrenView; 
 
 			private set
 			{
@@ -291,7 +322,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 
 	#region status properties
-/*
+
+		/*
 		/// <summary>
 		///  means this is item is a root node and cannot be<br/>
 		/// deleted or unlocked
@@ -334,7 +366,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 			}
 		}
-*/
+		*/
+
 		/// <summary>
 		/// controls whether the node is expanded or not
 		/// </summary>
@@ -347,8 +380,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value != isExpanded)
 				{
+					if (value == isExpanded) return;
+
 					isExpanded = value;
 					OnPropertyChange();
+					IsModified = true;
 				}
 			}
 		}
@@ -398,16 +434,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public bool Initialized
+		public bool IsInitialized
 		{
-			get => initialized;
+			get => isInitialized;
 			set
 			{
-				Debug.WriteLine("@node| is      modified == | " + isModified.ToString());
-				Debug.WriteLine("@node| is item modified == | " + item.IsModified.ToString());
+				// Debug.WriteLine("@node| is      modified == | " + isModified.ToString());
+				// Debug.WriteLine("@node| is item modified == | " + item.IsModified.ToString());
 
-				initialized = value;
-				item.Initialized = value;
+				isInitialized = value;
+				// item.IsInitialized = value;
 			}
 		} 
 
@@ -416,13 +452,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			get
 			{
-				return isModified || Item.IsModified;
+				return isModified; // || Item.IsModified;
 			}
 			set
 			{
-				isModified = value;
+				if (!isInitialized || value == isModified) return;
 
+				isModified = value;
 				OnPropertyChange();
+
+				if (isInitialized)
+				{
+					onModifiedAnnouncer.Announce(null);
+				}
 			}
 		}
 
@@ -431,8 +473,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#endregion
 
 	#region private properties
-
-
 
 	#endregion
 
@@ -447,8 +487,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			foreach (TreeNode node in Children)
 			{
-				node.Initialized = Initialized;
 				node.InitializeAllChildrenView();
+				node.IsInitialized = true;
 			}
 		}
 
@@ -529,7 +569,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			CheckedState = newState;
 
-			NotifyChildrenOfStateChange(newState, oldState, useTriState);
+			notifyChildrenOfStateChange(newState, oldState, useTriState);
 		}
 
 		public void StateChangeFromChild(CheckedState newState, CheckedState oldState, bool useTristate)
@@ -594,7 +634,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			if (finalState != CheckedState.UNSET)
 			{
 				CheckedState = finalState;
-				NotifyParentOfStateChange(finalState, priorState, useTristate);
+				notifyParentOfStateChange(finalState, priorState, useTristate);
 			}
 		}
 
@@ -635,12 +675,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("ExtendedChildCount");
 		}
 
-		private void NotifyParentOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
+		private void notifyParentOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			parent?.StateChangeFromChild(newState, oldState, useTriState);
 		}
 
-		private void NotifyChildrenOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
+		private void notifyChildrenOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			if (ChildrenView == null) return;
 
@@ -650,29 +690,29 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		private void ProcessStateChangeLeaf(CheckedState newState, CheckedState oldState, bool useTriState)
+		private void processStateChangeLeaf(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			CheckedState = newState;
 
-			NotifyParentOfStateChange(newState, oldState, useTriState);
+			notifyParentOfStateChange(newState, oldState, useTriState);
 		}
 
 		private void processStateChangeBranch(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			CheckedState = newState;
 
-			NotifyChildrenOfStateChange(newState, oldState, useTriState);
-			NotifyParentOfStateChange(newState, oldState, useTriState);
+			notifyChildrenOfStateChange(newState, oldState, useTriState);
+			notifyParentOfStateChange(newState, oldState, useTriState);
 		}
 
-		private void ProcessStateChange(CheckedState newState)
+		private void processStateChange(CheckedState newState)
 		{
 			CheckedState oldState = checkedState;
 
 			// process when leaf
 			if (NodeType == NodeType.LEAF)
 			{
-				ProcessStateChangeLeaf(newState, checkedState, false);
+				processStateChangeLeaf(newState, checkedState, false);
 
 				return;
 			}
@@ -707,33 +747,33 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				// current is unchecked -> change to mixed
 			{
 				CheckedState proposed =
-					SelectStateFromBool(_boolList[(int) oldState + 1]);
+					selectStateFromBool(BoolList[(int) oldState + 1]);
 
 				CheckedState = proposed;
 
-				NotifyParentOfStateChange(proposed, oldState, true);
-				NotifyChildrenOfStateChange(proposed, oldState, true);
+				notifyParentOfStateChange(proposed, oldState, true);
+				notifyChildrenOfStateChange(proposed, oldState, true);
 			}
 		}
 
 		private int indexInBoolList(bool? test)
 		{
-			for (var i = 0; i < _boolList.Length; i++)
+			for (var i = 0; i < BoolList.Length; i++)
 			{
-				if (_boolList[i] == test) return i;
+				if (BoolList[i] == test) return i;
 			}
 
 			return 0;
 		}
 
-		private CheckedState SelectStateFromBool(bool? test)
+		private CheckedState selectStateFromBool(bool? test)
 		{
 			return (CheckedState) indexInBoolList(test);
 		}
 
 	#endregion
 
-	#region event processing
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -741,10 +781,30 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+		
 
 	#endregion
 
-	#region event handeling
+	#region event consuming
+
+		private void OnAnnounceTnInit(object sender, object value)
+		{
+			Debug.WriteLine("@ treenode|@ onann-tninit| received");
+			isInitialized = true;
+			isModified = false;
+		}
+
+		private void OnAnnounceSaved(object sender, object value)
+		{
+			Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
+				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
+			isModified = false;
+		}
+
+		private void ChildrenOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			IsModified = true;
+		}
 
 	#endregion
 
@@ -786,7 +846,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 #region BaseOfTree
 
 	[DataContract(Namespace = "", IsReference = true)]
-	public class BaseOfTree : TreeNode, INotifyPropertyChanged
+	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
+	public class BaseOfTree : TreeNode
 	{
 	#region private fields
 		private TreeNode selectedNode;
@@ -795,15 +856,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region ctor
 
-		public BaseOfTree() : base(new SheetCategory("BaseOfTree", null), false)
+		// public BaseOfTree() : base(new SheetCategory("BaseOfTree", null), false)
+		// {
+		// 	Depth = 0;
+		// }
+		
+		public BaseOfTree() : base(null, false)
 		{
-			masterUniqueId = 0;
 			Depth = 0;
 		}
 
 		public void Initalize()
 		{
-			Initialized = true;
+			IsInitialized = true;
 			InitializeAllChildrenView();
 		}
 
@@ -1008,7 +1073,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region event processing
 
-
 	#endregion
 
 	#region event handeling
@@ -1021,7 +1085,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override string ToString()
 		{
-			return NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
+			return NodeType + ":: ** class BaseOfTree ** ::" + CheckedState;
 //
 //			return $"[{UniqueId:D3}] :: " +
 //				NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
