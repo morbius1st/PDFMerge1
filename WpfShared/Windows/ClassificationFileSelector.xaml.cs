@@ -55,6 +55,7 @@ namespace WpfShared.Windows
 			InitializeComponent();
 
 			initialize();
+
 		}
 
 	#endregion
@@ -82,7 +83,7 @@ namespace WpfShared.Windows
 
 					selectedSampleFile = null;
 
-					SearchText = selected.SampleFileName;
+					SearchText = selected.SampleFileNameNoExt;
 				}
 
 				OnPropertyChange();
@@ -262,8 +263,18 @@ namespace WpfShared.Windows
 			Lb1.SelectedIndex = currIdx;
 		}
 
+		private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
+		{
+			selected = null;
+			DialogResult = false;
+
+			this.Close();
+		}
+
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
+			DialogResult = true;
+
 			this.Close();
 		}
 

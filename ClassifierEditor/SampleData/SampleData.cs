@@ -33,7 +33,7 @@ namespace ClassifierEditor.SampleData
 
 	#region private fields
 
-		private BaseOfTree root;
+		private static BaseOfTree root;
 
 	#endregion
 
@@ -41,11 +41,19 @@ namespace ClassifierEditor.SampleData
 
 		static SampleData()
 		{
-			SampleData sd = new SampleData();
-			sd.Sample(BaseOfTreeRoot);
+			// sd = new SampleData();
+			SampleData.Sample(TreeBase);
+		
+			SampleData.SampleFiles(FileList2);
+		
+		}
 
-			sd.SampleFiles(FileList2);
+		public SampleData()
+		{
+			// sd = new SampleData();
+			SampleData.Sample(TreeBase);
 
+			SampleData.SampleFiles(FileList2);
 		}
 
 	#endregion
@@ -53,11 +61,13 @@ namespace ClassifierEditor.SampleData
 	#region public properties
 
 		// this is only for design time sample data
-		public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
+		public static BaseOfTree TreeBase { get; set; } = new BaseOfTree();
 
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
 
 		public static TreeNode Temp { get; set; }
+
+		public static string FullFilePath { get; set; } = "this is a file path";
 
 	#endregion
 
@@ -67,7 +77,7 @@ namespace ClassifierEditor.SampleData
 
 	#region public methods
 
-		public void Sample(BaseOfTree tn)
+		public static void Sample(BaseOfTree tn)
 		{
 			root = tn;
 
@@ -80,7 +90,7 @@ namespace ClassifierEditor.SampleData
 			// MakeChildren3();
 		}
 
-		public void SampleFiles(SampleFileList fileList)
+		public static void SampleFiles(SampleFileList fileList)
 		{
 			FilePath<FileNameSheetPdf> sheet;
 
@@ -103,7 +113,7 @@ namespace ClassifierEditor.SampleData
 		private static int CHILDMAX = 5;
 		private static int BRANCH = 0;
 
-		private void MakeChildren(TreeNode parent, int depth)
+		private static void MakeChildren(TreeNode parent, int depth)
 		{
 			TreeNode node;
 
@@ -249,6 +259,8 @@ namespace ClassifierEditor.SampleData
 		{
 			return "this is SampleData";
 		}
+
+		public static string ToSTring() => "This is a test";
 
 	#endregion
 

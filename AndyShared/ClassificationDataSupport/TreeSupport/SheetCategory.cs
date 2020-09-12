@@ -299,7 +299,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return -1;
 		}
 
-		// ReSharper disable once UnusedMember.Global
 		public void RemoveCompOpAt(int idx)
 		{
 			compareOps.RemoveAt(idx);

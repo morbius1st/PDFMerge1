@@ -23,7 +23,12 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/SVG/File-Open-00.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterColorList.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
+				<ResourceDictionary Source="../SVG/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<sharedsupport:NullStringToMessage x:Key="NullStringToMessage" />
@@ -384,7 +389,9 @@
 		<StaticResource ResourceKey="Normal.Window.Background" />
 	</Window.Background>
 
-	<Grid Margin="0,0,0,5">
+	<Grid 
+			
+			Margin="0,0,0,5">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="100" />
@@ -394,6 +401,13 @@
 			<RowDefinition />
 			<RowDefinition Height="230" />
 		</Grid.RowDefinitions>
+
+
+		<!-- <Viewbox -->
+		<!-- 		Grid.Column="0" -->
+		<!-- 		Grid.Row="1" -->
+		<!-- -->
+		<!-- 		Child="{StaticResource File-Open-00}" /> -->
 
 		<DockPanel
 				Grid.Column="0"
@@ -474,7 +488,7 @@
 													Converter="{StaticResource StringToMessage}"
 													FallbackValue="C\:\\file path"
 													Mode="OneWay"
-													Path="SampleFileName"
+													Path="SampleFileNameNoExt"
 													>
 												<Binding.ConverterParameter>
 													<cs:StringCollection>
@@ -500,12 +514,14 @@
 				Grid.Column="0"
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
-				Margin="5"
+				Margin="5,5,5,0"
+
 				>
 
 			<Grid
 					Margin="0"
 					DockPanel.Dock="Left"
+
 					>
 
 				<Grid.ColumnDefinitions>
@@ -531,25 +547,39 @@
 
 				<DockPanel
 						Grid.Column="7"
-						Grid.Row="5"
-						Grid.RowSpan="2"
-						Margin="5,0,0,5"
+						Grid.Row="4"
+						Grid.RowSpan="3"
+						Margin="5,5,0,5.0"
 						HorizontalAlignment="Right"
-						VerticalAlignment="Top"
+						VerticalAlignment="bottom"
 						>
 
+
 					<Button
-							x:Name="BtnDonex"
-							Content="Done"
-							Margin="0,33,0,0"
+							x:Name="BtnCancel"
+							Content="Cancel"
+							Margin="0,0,0,0"
 							Width="{StaticResource Button.Normal.Width}"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
 							DockPanel.Dock="Bottom"
+							Click="BtnCancel_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}" />
+
+					<Button
+							x:Name="BtnDone"
+							Content="Select"
+							Margin="0,0,0,5.5"
+							Width="{StaticResource Button.Normal.Width}"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							DockPanel.Dock="bottom"
 							Click="BtnDone_OnClick"
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							/>
+
 
 				</DockPanel>
 
@@ -649,7 +679,7 @@
 						Grid.Column="6"
 						Grid.Row="5"
 						Grid.RowSpan="2"
-						Margin="0,5,0,0"
+						Margin="0,5.5,0,0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="top"
 						>
@@ -659,7 +689,7 @@
 							Content="Sample File"
 							Margin="0,0,0,2"
 							Width="{StaticResource Button.Normal.Width}"
-							Height="22"
+							Height="26"
 							Padding="0,0,0,2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"

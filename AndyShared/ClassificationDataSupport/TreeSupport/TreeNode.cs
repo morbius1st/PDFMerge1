@@ -75,15 +75,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private bool isInitialized;
 
 		private bool isModified;
-		// private bool isLocked;
-		// private bool isFixed = false;
 		private bool isExpanded;
 		private bool isNodeSelected;
 		private bool isContextSelected;
 		private int checkedChildCount;
-
-//		protected int uniqueId = -1;
-
 
 		// fields
 
@@ -93,9 +88,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private bool mixesStateBeenTold;
 
 		private Orator.ConfRoom.Announcer onModifiedAnnouncer;
-
-		// // static
-		// protected static int masterUniqueId = 0;
 
 	#endregion
 
@@ -323,51 +315,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region status properties
 
-		/*
-		/// <summary>
-		///  means this is item is a root node and cannot be<br/>
-		/// deleted or unlocked
-		/// </summary>
-		[DataMember(Order = 10)]
-		public bool IsFixed
-		{
-			get => isFixed;
-
-			set
-			{
-				if (value != isFixed)
-				{
-					isFixed = value;
-					OnPropertyChange();
-
-					// if fixed, not locked
-					IsLocked = false;
-				}
-			}
-		}
-
-		/// <summary>
-		///  the user can lock to prevent accidental deleting
-		/// </summary>
-		[DataMember(Order = 11)]
-		public bool IsLocked
-		{
-			get => isLocked;
-
-			set
-			{
-				if (value != isLocked)
-				{
-					// disallow fixed from being locked
-					if (isFixed) return;
-
-					isLocked = value;
-					OnPropertyChange();
-				}
-			}
-		}
-		*/
-
 		/// <summary>
 		/// controls whether the node is expanded or not
 		/// </summary>
@@ -439,11 +386,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => isInitialized;
 			set
 			{
-				// Debug.WriteLine("@node| is      modified == | " + isModified.ToString());
-				// Debug.WriteLine("@node| is item modified == | " + item.IsModified.ToString());
-
 				isInitialized = value;
-				// item.IsInitialized = value;
 			}
 		} 
 
@@ -480,10 +423,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void InitializeAllChildrenView()
 		{
-//			uniqueId = masterUniqueId++;
-
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
-//			childrenView.CustomSort = new ChildrenSorter();
 
 			foreach (TreeNode node in Children)
 			{
@@ -514,13 +454,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			CheckedChildCount--;
 		}
-
-		// adds a child at the end of the list of children
-		// for sample data only
-//		public void AddNode(TreeNode newNode)
-//		{
-//			children.Add(newNode);
-//		}
 
 		public static TreeNode TempTreeNode(TreeNode parent)
 		{
@@ -830,9 +763,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public override string ToString()
 		{
 			return NodeType + "::" + item.Title + "::" + checkedState;
-			
-//			return $"[{UniqueId:D3}] :: " +
-//				NodeType + "::" + item.Title + "::" + checkedState;
 		}
 
 
@@ -856,11 +786,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region ctor
 
-		// public BaseOfTree() : base(new SheetCategory("BaseOfTree", null), false)
-		// {
-		// 	Depth = 0;
-		// }
-		
 		public BaseOfTree() : base(null, false)
 		{
 			Depth = 0;
@@ -888,8 +813,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		public bool HasSelection => SelectedNode != null;
-
-		
 
 	#endregion
 
@@ -1077,8 +1000,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region event handeling
 
-
-
 	#endregion
 
 	#region system overrides
@@ -1086,9 +1007,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public override string ToString()
 		{
 			return NodeType + ":: ** class BaseOfTree ** ::" + CheckedState;
-//
-//			return $"[{UniqueId:D3}] :: " +
-//				NodeType + ":: ** BaseOfTree ** ::" + CheckedState;
 		}
 
 	#endregion

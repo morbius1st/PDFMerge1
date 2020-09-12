@@ -22,8 +22,9 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
 using AndyShared.Support;
+using WpfShared.Windows;
 
 #endregion
 
@@ -248,10 +249,7 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
-		// private SheetCategoryDataManager categories = new SheetCategoryDataManager();
-
 		private ClassificationFile classificationFile;
-
 
 		// private Configuration config;
 		private static TreeNode userSelected;
@@ -269,45 +267,22 @@ namespace ClassifierEditor.Windows
 
 	#region ctor
 
-// 		static MainWindowClassifierEditor()
-// 		{
-// 			// SampleData.SampleData sd = new SampleData.SampleData();
-// 			//  sd.Sample(BaseOfTreeRoot);
-//
-// //			SheetCategory sc = new SheetCategory("title", "description", "pattern");
-// //			temp = new TreeNode(
-// //				new BaseOfTree(), sc, false);
-//
-// 			// sd.SampleFiles(FileList2);
-//
-// 			 // FilePath<FileNameSheetPdf> sheetname = new FilePath<FileNameSheetPdf>(
-// 			 // 	@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
-// 			
-// 			 // MakeSample();
-// 		}
-
 		public MainWindowClassifierEditor()
 		{
 			InitializeComponent();
 
 			OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
 			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize");
-		}
 
+			SampleData.SampleData SD = new SampleData.SampleData();
+
+		}
 
 	#endregion
 
 	#region public properties
 
-
-		// // this is only for design time sample data
-		// public static BaseOfTree BaseOfTreeRoot { get; set; } = new BaseOfTree();
-
-
-		public BaseOfTree BaseOfTree
-		{
-			get => classificationFile.TreeBase;
-		}
+		public static SampleData.SampleData SD { get; set; } = new SampleData.SampleData();
 
 		public ClassificationFile ClassificationFile
 		{
@@ -319,16 +294,10 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
-		// // this is the live data store
-		// public SheetCategoryDataManager Categories
-		// {
-		// 	get => categories;
-		// 	private set
-		// 	{
-		// 		categories = value;
-		// 		OnPropertyChange();
-		// 	}
-		// }
+		public BaseOfTree BaseOfTree
+		{
+			get => classificationFile.TreeBase;
+		}
 
 		public TreeNode UserSelected
 		{
@@ -372,11 +341,42 @@ namespace ClassifierEditor.Windows
 		}
 
 		public bool HasSelection => userSelected != null;
+
 		public bool HasContextSelection => contextSelected != null;
 
-		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
-
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
+
+		public bool CanSave
+		{
+			get
+			{
+				if (classificationFile == null ||
+					!classificationFile.IsValid ||
+					!classificationFile.IsInitialized) return false;
+
+				bool a = userSelected == null;
+				bool b = classificationFile.IsModified;
+
+				return b && a;
+			}
+		}
+
+		/*
+		cansave conditions
+
+		1. userselected == null && classfFile.ismodified == true
+		 * button: enabled
+		 * tool tip: Save Changes
+		2.userselected != null && classfFile.ismodified == true
+		 * button: disabled
+		 * tool tip: Finish Editing the Selected Category First
+		3.userselected == null && classfFile.ismodified == false
+		 * button: disabled
+		 * tool tip: No Changes Yet
+		4.userselected != null && classfFile.ismodified == false
+		 * button: disabled
+		 * tool tip: No Changes Yet
+		*/
 
 	#endregion
 
@@ -396,8 +396,6 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			// config = new Configuration();
-
 			UserSettings.Admin.Read();
 			UserSettings.Admin.Write();
 
@@ -412,13 +410,14 @@ namespace ClassifierEditor.Windows
 			if (false)
 			{
 				// SampleData.SampleData sd = new SampleData.SampleData();
-				//
-				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
-				// sd.Sample(classificationFile.Data.BaseOfTree);
 
 #pragma warning disable CS0162 // Unreachable code detected
-				classificationFile.Write();
+				classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
 #pragma warning restore CS0162 // Unreachable code detected
+
+				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
+
+				classificationFile.Write();
 
 				sampleFileName = "";
 			}
@@ -430,10 +429,6 @@ namespace ClassifierEditor.Windows
 
 				Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
 				classificationFile.Initialize();
-
-				
-				// classificationFile.TreeBase.Initialized = true;
-
 
 				sampleFileName = classificationFile.SampleFilePath;
 
@@ -449,7 +444,6 @@ namespace ClassifierEditor.Windows
 			Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
 			
 			// cancel any startup modifications
-			// OnSavedAnnouncer.Announce(null);
 			OnTnInitAnnouncer.Announce(null);
 		}
 
@@ -477,11 +471,6 @@ namespace ClassifierEditor.Windows
 	#region event consuming
 
 	#region control event methods
-
-		private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
-		{
-			// classificationFile.IsModified = true;
-		}
 
 		// when a selection has been made
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -519,8 +508,6 @@ namespace ClassifierEditor.Windows
 		}
 
 		// context menu commands
-
-
 		private void Tv1ContextMenuExpand_OnClick(object sender, RoutedEventArgs e)
 		{
 			string command = ((MenuItem) sender).CommandParameter as string;
@@ -665,10 +652,8 @@ namespace ClassifierEditor.Windows
 			{
 				BaseOfTree.RemoveNode2(contextSelected);
 			}
-
 			ContextDeselect();
 		}
-
 
 		private void CkbxDisable_OnChecked(object sender, RoutedEventArgs e)
 		{
@@ -697,7 +682,6 @@ namespace ClassifierEditor.Windows
 
 			selected.IsNodeSelected = false;
 		}
-
 
 		private void ContextHighlight()
 		{
@@ -757,6 +741,20 @@ namespace ClassifierEditor.Windows
 			UserSelected = null;
 		}
 
+		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
+		{
+			ClassificationFileSelector 
+				dialog = new ClassificationFileSelector();
+
+			bool? result = dialog.ShowDialog();
+
+			if (result != true) return;
+
+			ClassificationFile = dialog.Selected;
+
+		}
+
+
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
 			classificationFile.Write();
@@ -790,14 +788,9 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-		private void OnAnnounceCfModified(object sender, object value)
-		{
-
-		}
-
 	#endregion
 
-	#region event processing
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

@@ -9,8 +9,6 @@ using UtilityLibrary;
 namespace AndyShared.Support
 {
 
-
-
 #region pass-through converter
 
 	// for debugging only
@@ -40,6 +38,25 @@ namespace AndyShared.Support
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return !((bool) value);
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
+
+#region null to bool value converter
+
+	[ValueConversion(typeof(object), typeof(bool))]
+	public class NullObjToBool : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value == null;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

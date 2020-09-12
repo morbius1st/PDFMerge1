@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Windows.Forms.VisualStyles;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
@@ -28,8 +27,6 @@ namespace AndyShared.ClassificationFileSupport
 	#region private fields
 
 		private FilePath<FileNameUserAndId> filePathLocal;
-
-		// private string sampleFilePath;
 
 		private SampleFile sampleFile;
 
@@ -82,6 +79,10 @@ namespace AndyShared.ClassificationFileSupport
 	#endregion
 
 	#region public properties
+
+
+		// // classification file information
+		public BaseOfTree TreeBase => dataFile.Data.BaseOfTree;
 
 		public ClassificationFileData Data => dataFile.Data;
 
@@ -174,11 +175,6 @@ namespace AndyShared.ClassificationFileSupport
 		/// </summary>
 		public string FolderPath => FilePathLocal.FolderPath;
 
-		// // classification file information
-		// public bool UsePhaseBldg => dataFile.Data.UsePhaseBldg;
-
-		public BaseOfTree TreeBase => dataFile.Data.BaseOfTree;
-
 		// sample
 		public string SampleFilePath
 		{
@@ -193,7 +189,9 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public string SampleFileName => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
+		public string SampleFileName => sampleFile?.SampleFilePath?.FileName ?? null;
+
+		public string SampleFileNameNoExt => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
 
 		// status
 		public bool CanEdit => IsInitialized && IsUserClassfFile;
@@ -212,10 +210,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public bool IsModified
 		{
-			get => isModified; //|| TreeBase.IsModified;
-			// {
-			// 	return isModified || TreeBase.IsModified;
-			// }
+			get => isModified; 
 			set
 			{
 				if (value == isModified) return;
@@ -237,7 +232,6 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 		public bool IsValid => FilePathLocal?.IsValid ?? false;
-
 
 	#endregion
 
@@ -296,8 +290,6 @@ namespace AndyShared.ClassificationFileSupport
 
 			UpdateProperties();
 
-			// Debug.WriteLine("@ classF|@ initialize| ann-tn-init");
-			// OnTnInitAnnouncer.Announce(true);
 		}
 
 		public void Write()
@@ -324,12 +316,10 @@ namespace AndyShared.ClassificationFileSupport
 
 		private void InitailizeSample(string classfFilePath)
 		{
-			// sampleFile = new SampleFile(classfFilePath);
 			sampleFile = new SampleFile();
 
 			sampleFile.InitializeFromClassfFilePath(classfFilePath);
 
-			// bool v = sampleFile.IsValid;
 			UpdateSampleFileProperties();
 		}
 

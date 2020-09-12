@@ -16,12 +16,8 @@ namespace AndyShared.Support
 		public const string TN_INIT = "TnInit";
 
 		// from children to parent, i have been modified
-		// for treenodes or sub-components
+		// for treenodes only
 		public const string TN_MODIFIED = "TnModified";
-
-		// from children to parent, i have been modified
-		// for classfFile to mainwindow
-		// public const string CF_MODIFIED = "CfModified";
 
 		// parent to children - modifications saved
 		public const string SAVED = "Saved";

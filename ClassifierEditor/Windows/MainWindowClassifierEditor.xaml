@@ -2,16 +2,16 @@
 		x:Class="ClassifierEditor.Windows.MainWindowClassifierEditor"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:file="clr-namespace:AndyShared.FilesSupport"
-		xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport"
+		xmlns:file="clr-namespace:AndyShared.FilesSupport;assembly=WpfShared"
+		xmlns:local="clr-namespace:ClassifierEditor.Windows"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:ClassifierEditor.Windows.ResourceFiles.XamlResources"
 		xmlns:sample="clr-namespace:ClassifierEditor.SampleData"
-		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
-		xmlns:local="clr-namespace:ClassifierEditor.Windows"
+		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
 		x:Name="MainWinClsfrEd"
 		Title="MainWindowClassifierEditor"
 		Width="1200"
@@ -27,6 +27,10 @@
 		mc:Ignorable="d"
 		Background="{DynamicResource Window.Background}"
 		>
+	<!--  xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"  -->
+	<!--  xmlns:file="clr-namespace:AndyShared.FilesSupport;assembly=WpfShared"  -->
+	<!--  xmlns:file="clr-namespace:AndyShared.FilesSupport"  -->
+	<!--  xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport"  -->
 
 	<Window.Resources>
 
@@ -43,6 +47,8 @@
 			<local:Lv2ConditionTemplateSelector x:Key="Lv2ConditionSelector" />
 			<local:NotBoolConverter x:Key="NotBool" />
 			<local:BoolToOnOffConverter x:Key="OnOffBool" />
+
+			<support:NullObjToBool x:Key="ObjToBool" />
 
 			<sys:Double x:Key="LogicalHorizBarWidth">
 				18
@@ -125,7 +131,6 @@
 				</Style.Triggers>
 			</Style>
 
-
 			<Style
 					x:Key="Label.Base"
 					TargetType="{x:Type Label}"
@@ -174,6 +179,36 @@
 				<Setter Property="Padding" Value="15,0,15,1" />
 			</Style>
 
+
+			<Style
+					x:Key="TextBox.Base"
+					TargetType="TextBox"
+					>
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+			</Style>
+
+			<Style
+					x:Key="TextBox.Setting.Value"
+					TargetType="TextBox"
+					BasedOn="{StaticResource TextBox.Base}"
+					>
+				<Setter Property="Padding" Value="8,0,8,1" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="FontSize" Value="12" />
+				<Setter Property="Foreground">
+					<Setter.Value>
+						<SolidColorBrush Color="{StaticResource True.White}" />
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
+
 			<Style
 					x:Key="TextBox.Selected"
 					TargetType="{x:Type TextBox}"
@@ -194,23 +229,6 @@
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
-
-			<!--  <Style  -->
-			<!--  x:Key="Label.Selected.HintText"  -->
-			<!--  TargetType="{x:Type Label}"  -->
-			<!--  >  -->
-			<!-- 	<Setter Property="Background" Value="{StaticResource Edit.TextBox.Background}" /> -->
-			<!-- 	<Setter Property="BorderThickness" Value="0" /> -->
-			<!-- 	<Setter Property="Foreground"> -->
-			<!-- 		<Setter.Value> -->
-			<!-- 			<SolidColorBrush Color="{StaticResource Gray.400}" /> -->
-			<!-- 		</Setter.Value> -->
-			<!-- 	</Setter> -->
-			<!-- 	<Setter Property="Margin" Value="4,0" /> -->
-			<!-- 	<Setter Property="Padding" Value="6,2,4,2" /> -->
-			<!-- 	<Setter Property="VerticalAlignment" Value="Center" /> -->
-			<!-- 	<Setter Property="VerticalContentAlignment" Value="Center" /> -->
-			<!-- </Style> -->
 
 			<Style
 					x:Key="Dg.Cell.Base"
@@ -347,7 +365,6 @@
 				<Setter Property="Width" Value="16" />
 			</Style>
 
-
 			<Style
 					x:Key="Tv.context.menuitem.base"
 					TargetType="{x:Type MenuItem}"
@@ -356,7 +373,6 @@
 				<Setter Property="Padding" Value="0,2,0,2" />
 			</Style>
 
-							<!-- <Condition Binding="{Binding HasSelection, Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}" Value="true" /> -->
 			<Style
 					x:Key="Tv.context.menuitem.move"
 					TargetType="{x:Type MenuItem}"
@@ -373,8 +389,7 @@
 					</MultiDataTrigger>
 				</Style.Triggers>
 			</Style>
-			
-					<!-- <DataTrigger Binding="{Binding HasSelection, Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}" Value="true"> -->
+
 			<Style
 					x:Key="Tv.context.menuitem.clone"
 					TargetType="{x:Type MenuItem}"
@@ -426,7 +441,6 @@
 					Foreground="White"
 					OverridesDefaultStyle="True"
 					>
-				<!--  Closed="Tv1ContextMenu_OnClosed"  -->
 
 				<ContextMenu.Template>
 					<ControlTemplate
@@ -533,14 +547,6 @@
 									<Setter Property="Header" Value="{Binding ContextCmdCollapse, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindowClassifierEditor}}}" />
 									<Setter Property="IsEnabled" Value="True" />
 								</MultiDataTrigger>
-
-
-								<!--  <DataTrigger  -->
-								<!--  Binding="{Binding Path=CanExpand}"  -->
-								<!--  Value="true"  -->
-								<!--  >  -->
-								<!-- 	<Setter Property="IsEnabled" Value="true" /> -->
-								<!-- </DataTrigger> -->
 							</Style.Triggers>
 						</Style>
 					</MenuItem.Style>
@@ -641,9 +647,7 @@
 					</MenuItem.Style>
 				</MenuItem>
 
-
 				<Separator Margin="6" />
-
 
 				<MenuItem
 						CommandParameter="{Binding ContextCmdCopy,
@@ -671,11 +675,6 @@
 					</MenuItem.Style>
 				</MenuItem>
 
-
-
-
-
-
 				<MenuItem
 						CommandParameter="{Binding ContextCmdCopyAsChild,
 																			 Mode=OneWay,
@@ -686,9 +685,7 @@
 						Style="{StaticResource Tv.context.menuitem.clone}"
 						/>
 
-
 				<Separator Margin="6" />
-
 
 				<MenuItem
 						CommandParameter="{Binding ContextCmdDelete,
@@ -716,10 +713,7 @@
 					</MenuItem.Style>
 				</MenuItem>
 
-
-
 			</ContextMenu>
-
 
 			<Style
 					x:Key="Tv1ItemContainerStyle1"
@@ -734,7 +728,6 @@
 				<Setter Property="IsSelected" Value="{Binding IsNodeSelected, Mode=TwoWay}" />
 				<Setter Property="Padding" Value="1,0,0,0" />
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-				<!-- <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate
@@ -746,7 +739,6 @@
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" MinWidth="19" />
 									<ColumnDefinition Width="*" />
-									<!-- <ColumnDefinition Width="*" /> -->
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
@@ -790,7 +782,6 @@
 											BorderThickness="4,0.5,2,0.5"
 											BorderBrush="{StaticResource TreeView.Background}"
 											>
-										<!--  Background="{TemplateBinding Background}"  -->
 										<Border.Style>
 											<Style TargetType="{x:Type Border}">
 												<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
@@ -821,7 +812,6 @@
 														</Style.Triggers>
 													</Style>
 												</Border.Style>
-												<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
 												<ContentPresenter
 														x:Name="PART_Header"
 														ContentSource="Header"
@@ -862,8 +852,6 @@
 					</Setter.Value>
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-				<!-- <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" /> -->
-
 				<Style.Triggers>
 					<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
 						<Setter Property="ItemsPanel">
@@ -983,7 +971,6 @@
 									<Setter TargetName="ExpandPath" Property="RenderTransform">
 										<Setter.Value>
 											<RotateTransform Angle="180" />
-											<!-- <RotateTransform Angle="180" CenterX="3" CenterY="3" /> -->
 										</Setter.Value>
 									</Setter>
 									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" />
@@ -1010,8 +997,6 @@
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 				<Setter Property="Width" Value="9.5" />
 			</Style>
-
-
 
 			<Style
 					x:Key="Dg1Style"
@@ -1185,13 +1170,11 @@
 					TargetType="{x:Type ListViewItem}"
 					>
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-
 				<Setter Property="Background" Value="{Binding Background, FallbackValue=Black, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="BorderBrush" Value="{Binding BorderBrush, FallbackValue=Black, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="BorderThickness" Value="{Binding BorderThickness, FallbackValue=1, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="Foreground" Value="{Binding Foreground, FallbackValue=White, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, FallbackValue=Center}" />
-				<!-- <Setter Property="Margin" Value="{Binding Margin, RelativeSource={RelativeSource TemplatedParent}}" /> -->
 				<Setter Property="Margin" Value="4,1,4,1" />
 				<Setter Property="Padding" Value="{Binding Padding, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
 				<Setter Property="Template">
@@ -1213,16 +1196,6 @@
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Center}" />
 				<Style.Triggers>
-					<!-- <MultiTrigger> -->
-					<!-- 	<MultiTrigger.Conditions> -->
-					<!-- 		<Condition Property="IsSelected" Value="True" /> -->
-					<!-- 		<Condition Property="IsMouseOver" Value="False" /> -->
-					<!-- 	</MultiTrigger.Conditions> -->
-					<!-- 	<MultiTrigger.Setters> -->
-					<!-- 		<Setter Property="Background" Value="Transparent" /> -->
-					<!-- 		<Setter Property="BorderBrush" Value="Transparent" /> -->
-					<!-- 	</MultiTrigger.Setters> -->
-					<!-- </MultiTrigger> -->
 					<Trigger Property="IsMouseOver" Value="True">
 						<Setter Property="Background" Value="Transparent" />
 						<Setter Property="BorderBrush" Value="Transparent" />
@@ -1297,7 +1270,6 @@
 													</Style.Triggers>
 												</Style>
 											</Border.Style>
-											<!--  Background="{StaticResource ListView.Item.Background.NoConditions}"  -->
 											<StackPanel Orientation="Horizontal">
 												<Label
 														x:Name="Label1"
@@ -1309,7 +1281,6 @@
 														FontSize="10"
 														Foreground="White"
 														/>
-
 											</StackPanel>
 										</Border>
 									</Grid>
@@ -1333,10 +1304,6 @@
 				</Setter>
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 			</Style>
-
-
-			<!-- </Style> -->
-
 
 			<Style
 					x:Key="Button.Condition.Style"
@@ -1400,9 +1367,6 @@
 					TargetType="{x:Type Button}"
 					>
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-				<!-- <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}" /> -->
-				<!-- <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" /> -->
-				<!-- <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" /> -->
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
 				<Setter Property="Padding" Value="1" />
@@ -1488,9 +1452,7 @@
 								<RotateTransform Angle="-90" />
 							</TransformGroup>
 						</Path.RenderTransform>
-
 					</Path>
-
 				</Grid>
 				<ControlTemplate.Triggers>
 					<Trigger Property="IsChecked" Value="true">
@@ -1517,9 +1479,6 @@
 						/>
 			</ControlTemplate>
 
-
-
-
 			<ControlTemplate
 					x:Key="ComboBoxTemplate1"
 					TargetType="ComboBox"
@@ -1536,7 +1495,6 @@
 							CornerRadius="3"
 							BorderThickness="0"
 							>
-
 						<Border.Style>
 							<Style TargetType="Border">
 								<Setter Property="Background" Value="Transparent" />
@@ -1590,7 +1548,6 @@
 									Style="{x:Null}"
 									Template="{StaticResource ComboBoxTextBox}"
 									/>
-
 
 							<Popup
 									x:Name="Popup"
@@ -1733,15 +1690,12 @@
 				</Setter>
 			</Style>
 
-
-
 			<Style
 					x:Key="ComboBoxItem1"
 					TargetType="{x:Type ComboBoxItem}"
 					>
 				<Setter Property="FocusVisualStyle" Value="{StaticResource CboxFocusVisual}" />
 				<Setter Property="OverridesDefaultStyle" Value="true" />
-
 				<Setter Property="SnapsToDevicePixels" Value="true" />
 				<Setter Property="Template">
 					<Setter.Value>
@@ -1789,7 +1743,6 @@
 									</VisualStateGroup>
 								</VisualStateManager.VisualStateGroups>
 							</Border>
-
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
@@ -1815,73 +1768,70 @@
 			</Style>
 
 
-
-			<ControlTemplate
-					x:Key="ScrollViewerControlTemplate1"
-					TargetType="{x:Type ScrollViewer}"
-					>
-				<Grid
-						x:Name="Grid"
-						Background="{TemplateBinding Background}"
-						>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<Rectangle
-							x:Name="Corner"
-							Grid.Column="1"
-							Grid.Row="1"
-							Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-							/>
-					<ScrollContentPresenter
-							x:Name="PART_ScrollContentPresenter"
-							Content="{TemplateBinding Content}"
-							Grid.Column="0"
-							Grid.Row="0"
-							Margin="{TemplateBinding Padding}"
-							CanContentScroll="{TemplateBinding CanContentScroll}"
-							CanHorizontallyScroll="False"
-							CanVerticallyScroll="False"
-							ContentTemplate="{TemplateBinding ContentTemplate}"
-							/>
-					<ScrollBar
-							x:Name="PART_VerticalScrollBar"
-							Grid.Column="1"
-							Grid.Row="0"
-							AutomationProperties.AutomationId="VerticalScrollBar"
-							Cursor="Arrow"
-							Maximum="{TemplateBinding ScrollableHeight}"
-							Minimum="0"
-							ViewportSize="{TemplateBinding ViewportHeight}"
-							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-							Value="{Binding VerticalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							/>
-					<ScrollBar
-							x:Name="PART_HorizontalScrollBar"
-							Grid.Column="0"
-							Grid.Row="1"
-							AutomationProperties.AutomationId="HorizontalScrollBar"
-							Cursor="Arrow"
-							Maximum="{TemplateBinding ScrollableWidth}"
-							Minimum="0"
-							Orientation="Horizontal"
-							ViewportSize="{TemplateBinding ViewportWidth}"
-							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-							Value="{Binding HorizontalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							/>
-				</Grid>
-			</ControlTemplate>
-
-
+			<!--  <ControlTemplate  -->
+			<!--  x:Key="ScrollViewerControlTemplate1"  -->
+			<!--  TargetType="{x:Type ScrollViewer}"  -->
+			<!--  >  -->
+			<!--  <Grid  -->
+			<!--  x:Name="Grid"  -->
+			<!--  Background="{TemplateBinding Background}"  -->
+			<!--  >  -->
+			<!-- 		<Grid.ColumnDefinitions> -->
+			<!-- 			<ColumnDefinition Width="*" /> -->
+			<!-- 			<ColumnDefinition Width="Auto" /> -->
+			<!-- 		</Grid.ColumnDefinitions> -->
+			<!-- 		<Grid.RowDefinitions> -->
+			<!-- 			<RowDefinition Height="*" /> -->
+			<!-- 			<RowDefinition Height="Auto" /> -->
+			<!-- 		</Grid.RowDefinitions> -->
+			<!--  <Rectangle  -->
+			<!--  x:Name="Corner"  -->
+			<!--  Grid.Column="1"  -->
+			<!--  Grid.Row="1"  -->
+			<!--  Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  -->
+			<!--  />  -->
+			<!--  <ScrollContentPresenter  -->
+			<!--  x:Name="PART_ScrollContentPresenter"  -->
+			<!--  Content="{TemplateBinding Content}"  -->
+			<!--  Grid.Column="0"  -->
+			<!--  Grid.Row="0"  -->
+			<!--  Margin="{TemplateBinding Padding}"  -->
+			<!--  CanContentScroll="{TemplateBinding CanContentScroll}"  -->
+			<!--  CanHorizontallyScroll="False"  -->
+			<!--  CanVerticallyScroll="False"  -->
+			<!--  ContentTemplate="{TemplateBinding ContentTemplate}"  -->
+			<!--  />  -->
+			<!--  <ScrollBar  -->
+			<!--  x:Name="PART_VerticalScrollBar"  -->
+			<!--  Grid.Column="1"  -->
+			<!--  Grid.Row="0"  -->
+			<!--  AutomationProperties.AutomationId="VerticalScrollBar"  -->
+			<!--  Cursor="Arrow"  -->
+			<!--  Maximum="{TemplateBinding ScrollableHeight}"  -->
+			<!--  Minimum="0"  -->
+			<!--  ViewportSize="{TemplateBinding ViewportHeight}"  -->
+			<!--  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"  -->
+			<!--  Value="{Binding VerticalOffset,  -->
+			<!--  Mode=OneWay,  -->
+			<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
+			<!--  />  -->
+			<!--  <ScrollBar  -->
+			<!--  x:Name="PART_HorizontalScrollBar"  -->
+			<!--  Grid.Column="0"  -->
+			<!--  Grid.Row="1"  -->
+			<!--  AutomationProperties.AutomationId="HorizontalScrollBar"  -->
+			<!--  Cursor="Arrow"  -->
+			<!--  Maximum="{TemplateBinding ScrollableWidth}"  -->
+			<!--  Minimum="0"  -->
+			<!--  Orientation="Horizontal"  -->
+			<!--  ViewportSize="{TemplateBinding ViewportWidth}"  -->
+			<!--  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"  -->
+			<!--  Value="{Binding HorizontalOffset,  -->
+			<!--  Mode=OneWay,  -->
+			<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
+			<!--  />  -->
+			<!-- 	</Grid> -->
+			<!-- </ControlTemplate> -->
 
 
 			<ControlTemplate
@@ -1927,7 +1877,6 @@
 							Grid.Row="1"
 							Margin="0,-1,0,0"
 							Width="{StaticResource BarSizeOutline}"
-							MinWidth="{StaticResource BarSize}"
 							Cursor="Arrow"
 							Maximum="{TemplateBinding ScrollableHeight}"
 							Minimum="0"
@@ -1996,7 +1945,6 @@
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							>
-						<!--  HorizontalAlignment="Stretch"  -->
 						<Label
 								x:Name="Label2"
 								Content="{Binding Item.Title}"
@@ -2103,39 +2051,6 @@
 									Style="{DynamicResource Ckbx1Style}"
 									/>
 						</Border>
-
-
-
-
-						<!--  <Label  -->
-						<!--  x:Name="Label4"  -->
-						<!--  Content="{Binding Depth}"  -->
-						<!--  Margin="0,0,11,0"  -->
-						<!--  Width="20"  -->
-						<!--  Padding="0,0,0,2"  -->
-						<!--  HorizontalAlignment="Right"  -->
-						<!--  VerticalAlignment="top"  -->
-						<!--  HorizontalContentAlignment="Right"  -->
-						<!--  VerticalContentAlignment="Center"  -->
-						<!--  FontSize="6"  -->
-						<!--  DockPanel.Dock="top"  -->
-						<!--  Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"  -->
-						<!--  />  -->
-
-						<!--  <Label  -->
-						<!--  x:Name="Label5"  -->
-						<!--  Content="{Binding UniqueId}"  -->
-						<!--  Margin="0,0,11,0"  -->
-						<!--  Width="20"  -->
-						<!--  Padding="0,0,0,2"  -->
-						<!--  HorizontalAlignment="Right"  -->
-						<!--  VerticalAlignment="Center"  -->
-						<!--  HorizontalContentAlignment="Right"  -->
-						<!--  FontSize="6"  -->
-						<!--  DockPanel.Dock="Bottom"  -->
-						<!--  Foreground="{StaticResource TreeViewItem.Label.Foreground.Dim}"  -->
-						<!--  />  -->
-
 					</DockPanel>
 
 					<DockPanel
@@ -2195,7 +2110,6 @@
 				</Border>
 			</HierarchicalDataTemplate>
 
-
 			<DataTemplate
 					x:Key="Lv1DataTemplate1"
 					DataType="tree:ComparisonOperation"
@@ -2219,12 +2133,11 @@
 								Content="{Binding Path=Item.ComponentName,
 																	FallbackValue='component name'}"
 								HorizontalAlignment="Center"
-								Style="{StaticResource Label.Condition}"
 								DataContext="{Binding DataContext,
 																			RelativeSource={RelativeSource FindAncestor,
 																																		 AncestorType={x:Type ListView}}}"
+								Style="{StaticResource Label.Condition}"
 								/>
-								<!-- Content="{Binding Path=Item.ComponentName, -->
 					</Border>
 
 					<Border
@@ -2259,10 +2172,8 @@
 								Style="{StaticResource Label.Condition}"
 								/>
 					</Border>
-
 				</DockPanel>
 			</DataTemplate>
-
 
 			<DataTemplate
 					x:Key="Lv1DataTemplate2"
@@ -2305,8 +2216,6 @@
 							/>
 				</DockPanel>
 			</DataTemplate>
-
-
 
 			<DataTemplate
 					x:Key="Lv1DataTemplate3"
@@ -2369,8 +2278,6 @@
 
 				</DockPanel>
 			</DataTemplate>
-
-
 
 			<DataTemplate
 					x:Key="Lv2DataTemplate1"
@@ -2435,7 +2342,6 @@
 							</Button.Content>
 						</Button>
 
-
 						<Border
 								x:Name="BorderCkBx"
 								Grid.Column="1"
@@ -2473,20 +2379,6 @@
 								Grid.Row="1"
 								Margin="0,0,0,0"
 								>
-
-							<!--  <Label  -->
-							<!--  Content="{Binding Path=Id}"  -->
-							<!--  Margin="4,0,4,0"  -->
-							<!--  Padding="1"  -->
-							<!--  HorizontalAlignment="Left"  -->
-							<!--  VerticalAlignment="Center"  -->
-							<!--  FontSize="8"  -->
-							<!--  Background="White"  -->
-							<!--  Foreground="Black"  -->
-							<!--  />  -->
-							<!--  Content="{Binding Path=Row, Converter={StaticResource RowConverter},  -->
-							<!--  ConverterParameter={x:Static tree:ComparisonOperation.MasterRow}, Mode=TwoWay}"  -->
-
 
 							<Border
 									x:Name="Bdr1"
@@ -2545,10 +2437,6 @@
 									ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
 									>
-								<!--  SelectedIndex="{Binding RelativeSource={RelativeSource FindAncestor,  -->
-								<!--  AncestorType={x:Type ListViewItem}},  -->
-								<!--  Path=DataContext.CompareOpCode,  -->
-								<!--  Mode=TwoWay}"  -->
 
 								<ComboBox.Style>
 									<Style
@@ -2560,7 +2448,6 @@
 									</Style>
 								</ComboBox.Style>
 							</ComboBox>
-							<!--  Background="{StaticResource ListView.Item.Background}"  -->
 
 							<Border
 									Margin="5,0,0,0"
@@ -2619,30 +2506,10 @@
 				</DataTemplate.Triggers>
 			</DataTemplate>
 
-
-
 			<DataTemplate
 					x:Key="Lv2DataTemplate2"
 					DataType="tree:ComparisonOperation"
 					>
-				<!--  <DockPanel  -->
-				<!--  Margin="0,-3,0,-3"  -->
-				<!--  LastChildFill="False"  -->
-				<!--  >  -->
-
-				<!--  <Line  -->
-				<!--  x:Name="gridline"  -->
-				<!--  Margin="0,2,0,2"  -->
-				<!--  DockPanel.Dock="Top"  -->
-				<!--  Stroke="white"  -->
-				<!--  StrokeThickness="0.5"  -->
-				<!--  X1="0"  -->
-				<!--  X2="{Binding RelativeSource={RelativeSource FindAncestor,  -->
-				<!--  AncestorType={x:Type ListViewItem}},  -->
-				<!--  Path=ActualWidth}"  -->
-				<!--  Y1="0"  -->
-				<!--  Y2="0"  -->
-				<!--  />  -->
 
 				<DockPanel
 						x:Name="DpLogical"
@@ -2650,17 +2517,6 @@
 						IsEnabled="{Binding Path=IsDisabled,
 																Converter={StaticResource NotBool}}"
 						>
-
-					<!--  <Label  -->
-					<!--  Content="{Binding Path=Id}"  -->
-					<!--  Margin="4,0,4,0"  -->
-					<!--  Padding="1"  -->
-					<!--  HorizontalAlignment="Left"  -->
-					<!--  VerticalAlignment="Center"  -->
-					<!--  FontSize="8"  -->
-					<!--  Background="White"  -->
-					<!--  Foreground="Black"  -->
-					<!--  />  -->
 
 					<Border
 							Margin="0,0,0,0"
@@ -2674,15 +2530,6 @@
 							BorderThickness="0"
 							>
 					</Border>
-
-					<!--  <Label  -->
-					<!--  x:Name="Label16"  -->
-					<!--  Content="{Binding CompareString}"  -->
-					<!--  Width="34"  -->
-					<!--  HorizontalContentAlignment="Center"  -->
-					<!--  VerticalContentAlignment="Center"  -->
-					<!--  Style="{StaticResource Label.Condition}"  -->
-					<!--  />  -->
 
 					<ComboBox
 							x:Name="Cbx2"
@@ -2726,7 +2573,6 @@
 							BorderThickness="0"
 							/>
 				</DockPanel>
-				<!-- </DockPanel> -->
 			</DataTemplate>
 
 
@@ -2791,24 +2637,6 @@
 
 				</DockPanel>
 			</DataTemplate>
-
-			<!-- <Style x:Key="OptionMarkFocusVisual"> -->
-			<!-- 	<Setter Property="Control.Template"> -->
-			<!-- 		<Setter.Value> -->
-			<!-- 			<ControlTemplate> -->
-			<!--  <Rectangle  -->
-			<!--  Margin="14,0,0,0"  -->
-			<!--  SnapsToDevicePixels="true"  -->
-			<!--  Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"  -->
-			<!--  StrokeDashArray="1 2"  -->
-			<!--  StrokeThickness="1"  -->
-			<!--  />  -->
-			<!-- 			</ControlTemplate> -->
-			<!-- 		</Setter.Value> -->
-			<!-- 	</Setter> -->
-			<!-- </Style> -->
-
-
 
 			<Style
 					x:Key="Ckbx1Style"
@@ -2886,7 +2714,6 @@
 							</Grid>
 							<ControlTemplate.Triggers>
 								<Trigger Property="HasContent" Value="true">
-									<!-- <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" /> -->
 									<Setter Property="Padding" Value="4,-1,0,0" />
 								</Trigger>
 								<Trigger Property="IsMouseOver" Value="true">
@@ -2976,53 +2803,9 @@
 					Foreground="White"
 					/>
 
-			<!-- -->
-			<!-- <StackPanel -->
-			<!-- 		Grid.Column="0" -->
-			<!-- 		Grid.Row="1" -->
-			<!-- 		Orientation="Horizontal" -->
-			<!-- 		> -->
-			<!-- -->
-			<!-- 	<Border Style="{StaticResource Border.Settings.Title}"> -->
-			<!-- -->
-			<!-- 		<Label -->
-			<!-- 				x:Name="Label30" -->
-			<!-- 				Content="Use Phase / Building Organization" -->
-			<!-- 				Style="{StaticResource Label.Settings.Title}" -->
-			<!-- 				/> -->
-			<!-- 	</Border> -->
-			<!-- -->
-			<!-- 	~1~ <Border> @1@ -->
-			<!-- 	~1~ 	<Label @1@ -->
-			<!-- 	~1~ 			x:Name="SettingPhaseBuilding" @1@ -->
-			<!-- 	~1~ 			Content="{Binding ElementName=MainWinClsfrEd, @1@ -->
-			<!-- 	~1~ 												Path=ClassificationFile.UsePhaseBldg, @1@ -->
-			<!-- 	~1~ 												Converter={StaticResource OnOffBool}, @1@ -->
-			<!-- 	~1~ 												Mode=OneWay, @1@ -->
-			<!-- 	~1~ 												FallbackValue='Off'}" @1@ -->
-			<!-- 	~1~ 			Style="{StaticResource Label.Settings.Value}" @1@ -->
-			<!-- 	~1~ 			/> @1@ -->
-			<!-- 	~1~ 	<Border.Style> @1@ -->
-			<!-- 	~1~ 		<Style @1@ -->
-			<!-- 	~1~ 				TargetType="Border" @1@ -->
-			<!-- 	~1~ 				BasedOn="{StaticResource Border.Settings.Value}" @1@ -->
-			<!-- 	~1~ 				> @1@ -->
-			<!-- 	~1~ 			<Style.Triggers> @1@ -->
-			<!-- 	~1~ 				<DataTrigger Binding="{Binding ElementName=MainWinClsfrEd, Path=ClassificationFile.UsePhaseBldg, Mode=OneWay, FallbackValue=False}" Value="False"> @1@ -->
-			<!-- 	~1~ 					<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" /> @1@ -->
-			<!-- 	~1~ 				</DataTrigger> @1@ -->
-			<!-- 	~1~ 			</Style.Triggers> @1@ -->
-			<!-- 	~1~ @1@ -->
-			<!-- 	~1~ 		</Style> @1@ -->
-			<!-- 	~1~ 	</Border.Style> @1@ -->
-			<!-- 	~1~ </Border> @1@ -->
-			<!-- -->
-			<!-- </StackPanel> -->
-
-			<StackPanel
+			<DockPanel
 					Grid.Column="0"
 					Grid.Row="1"
-					Orientation="Horizontal"
 					>
 
 				<Border Style="{StaticResource Border.Settings.Title}">
@@ -3034,25 +2817,62 @@
 							/>
 				</Border>
 
-				<Border Style="{StaticResource Border.Settings.Button}">
-					<Label
-							x:Name="Label32"
-							Content="{Binding ElementName=MainWinClsfrEd,
-																Path=ClassificationFile.UsePhaseBldg,
-																Converter={StaticResource OnOffBool},
-																Mode=OneWay,
-																FallbackValue='need to fix'}"
-							Style="{StaticResource Label.Settings.Value}"
-							/>
+				<Border
+						Margin="5,0,0,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}"
+						>
+					<Border.Background>
+						<SolidColorBrush Color="{StaticResource Amber.200}" />
+					</Border.Background>
+					<TextBox
+							x:Name="tbx33"
+							HorizontalAlignment="Stretch"
+							HorizontalScrollBarVisibility="Hidden"
+							MaxLines="1"
+							MinLines="1"
+							ScrollViewer.CanContentScroll="True"
+							Text="{Binding ElementName=MainWinClsfrEd,
+														 Path=ClassificationFile.FileName,
+														 Mode=OneWay,
+														 FallbackValue='FileName'}"
+							VerticalScrollBarVisibility="Disabled"
+							IsReadOnly="True"
+							Style="{StaticResource TextBox.Setting.Value}"
+							>
+
+					</TextBox>
 				</Border>
 
-			</StackPanel>
+				<Border
+						Margin="5,0,5,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}"
+						>
+					<TextBox
+							x:Name="tbx32"
+							HorizontalAlignment="Stretch"
+							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
+							DataContext="{Binding ElementName=MainWinClsfrEd,
+																		Path=ClassificationFile.FullFilePath}"
+							HorizontalScrollBarVisibility="Hidden"
+							MaxLines="1"
+							MinLines="1"
+							ScrollViewer.CanContentScroll="True"
+							Text="{Binding Mode=OneWay}"
+							VerticalScrollBarVisibility="Disabled"
+							IsReadOnly="True"
+							Style="{StaticResource TextBox.Setting.Value}"
+							>
+						<!--  d:DataContext="{Binding Source={d:DesignInstance {x:Type sample:SampleData}}}"  -->
+					</TextBox>
+				</Border>
 
+			</DockPanel>
 
-			<StackPanel
+			<DockPanel
 					Grid.Column="0"
 					Grid.Row="2"
-					Orientation="Horizontal"
 					>
 
 				<Border Style="{StaticResource Border.Settings.Title}">
@@ -3064,20 +2884,47 @@
 							/>
 				</Border>
 
-				<Border Style="{StaticResource Border.Settings.Button}">
-					<Label
-							x:Name="Label33"
-							Content="{Binding ElementName=MainWinClsfrEd,
-																Path=ClassificationFile.UsePhaseBldg,
-																Converter={StaticResource OnOffBool},
-																Mode=OneWay,
-																FallbackValue='need to fix'}"
-							Style="{StaticResource Label.Settings.Value}"
-							/>
+
+				<Border
+						Margin="5,0,0,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}"
+						>
+					<Border.Background>
+						<SolidColorBrush Color="{StaticResource Amber.200}" />
+					</Border.Background>
+					<TextBox
+							x:Name="Tbx35"
+							HorizontalAlignment="Stretch"
+							Text="{Binding ElementName=MainWinClsfrEd,
+														 Path=ClassificationFile.SampleFileName,
+														 Mode=OneWay,
+														 FallbackValue='Filename'}"
+							Style="{StaticResource TextBox.Setting.Value}"
+							>
+
+					</TextBox>
+
 				</Border>
 
-			</StackPanel>
+				<Border
+						Margin="5,0,5,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}"
+						>
+					<TextBox
+							x:Name="Tbx34"
+							HorizontalAlignment="Stretch"
+							Text="{Binding ElementName=MainWinClsfrEd,
+														 Path=ClassificationFile.SampleFilePath,
+														 Mode=OneWay,
+														 FallbackValue='FilePath'}"
+							Style="{StaticResource TextBox.Setting.Value}"
+							>
+					</TextBox>
+				</Border>
 
+			</DockPanel>
 
 			<StackPanel
 					Grid.Column="2"
@@ -3087,7 +2934,10 @@
 					VerticalAlignment="Bottom"
 					Orientation="Vertical"
 					>
-				<StackPanel Orientation="Horizontal">
+				<StackPanel
+						HorizontalAlignment="right"
+						Orientation="Horizontal"
+						>
 					<Button
 							x:Name="BtnDebug"
 							Content="Debug"
@@ -3117,21 +2967,71 @@
 							/>
 				</StackPanel>
 
+				<StackPanel
+						HorizontalAlignment="right"
+						Orientation="Horizontal"
+						>
 
-				<StackPanel Orientation="Horizontal">
+					<Button
+							x:Name="BtnSelect"
+							Content="Select"
+							Margin="5"
+							Width="{StaticResource Normal.Button.Width}"
+							Height="{StaticResource Normal.Button.Height}"
+							DockPanel.Dock="right"
+							IsEnabled="{Binding ClassificationFile.IsModified,
+																	ElementName=MainWinClsfrEd,
+																	Converter={StaticResource NotBool}}"
+							Click="BtnSelect_OnClick"
+							Style="{StaticResource Button.Normal.Style}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							/>
+
 					<Button
 							x:Name="BtnDSave"
 							Content="Save"
 							Margin="5"
 							Width="{StaticResource Normal.Button.Width}"
 							Height="{StaticResource Normal.Button.Height}"
+							DataContext="{Binding ElementName=MainWinClsfrEd}"
 							DockPanel.Dock="right"
-							IsEnabled="{Binding ClassificationFile.IsModified,
-																	ElementName=MainWinClsfrEd}"
+
 							Click="BtnSave_OnClick"
-							Style="{StaticResource Button.Normal.Style}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
-							/>
+							>
+						<!-- IsEnabled="{Binding ClassificationFile.IsModified, -->
+						<!-- ElementName=MainWinClsfrEd}" -->
+						<Button.Style>
+							<Style
+									TargetType="Button"
+									BasedOn="{StaticResource Button.Normal.Style}"
+									>
+								<Setter Property="ToolTip" Value="No Changes Yet" />
+								<Setter Property="IsEnabled" Value="False" />
+								<Setter Property="ToolTipService.ShowOnDisabled" Value="true"/>
+								<Style.Triggers>
+									<MultiDataTrigger>
+										<MultiDataTrigger.Conditions>
+											<Condition Binding="{Binding UserSelected, Converter={StaticResource ObjToBool}}" Value="true"/>
+											<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true"/>
+										</MultiDataTrigger.Conditions>
+										<Setter Property="IsEnabled" Value="True"/>
+										<Setter Property="ToolTip" Value="Save Changes"/>
+									</MultiDataTrigger>
+
+									<MultiDataTrigger>
+										<MultiDataTrigger.Conditions>
+											<Condition Binding="{Binding UserSelected, Converter={StaticResource ObjToBool}}" Value="false" />
+											<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+										</MultiDataTrigger.Conditions>
+										<Setter Property="IsEnabled" Value="False" />
+										<Setter Property="ToolTip" Value="Finish Editing the Selected Category" />
+									</MultiDataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Button.Style>
+					</Button>
 
 					<Button
 							x:Name="BtDone"
@@ -3174,15 +3074,11 @@
 				DataContext="{Binding ElementName=MainWinClsfrEd,
 															Path=UserSelected}"
 				>
-			<!--  DataContext="{Binding SelectedValue,  -->
-			<!--  ElementName=Tv1}"  -->
 
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="80" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="70" />
-
-
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -3192,10 +3088,7 @@
 				<RowDefinition MinHeight="125" />
 				<RowDefinition Height="26" />
 				<RowDefinition />
-
-
 			</Grid.RowDefinitions>
-
 
 			<Label
 					x:Name="Label21"
@@ -3213,7 +3106,6 @@
 
 			<Button
 					x:Name="BtnDoneEditing"
-
 					Grid.Column="1"
 					Grid.Row="3"
 					Grid.ColumnSpan="2"
@@ -3223,26 +3115,26 @@
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
 					FontSize="10"
-
 					Click="BtnDoneEditing_OnClick"
-			>
+					>
 				<Button.Style>
-					<Style BasedOn="{StaticResource Button.Normal.Style}" TargetType="Button">
-						<Setter Property="Content" Value="Clear"/>
-						<Setter Property="IsEnabled" Value="True"/>
+					<Style
+							TargetType="Button"
+							BasedOn="{StaticResource Button.Normal.Style}"
+							>
+						<Setter Property="Content" Value="Done" />
+						<Setter Property="IsEnabled" Value="True" />
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Item}" Value="{x:Null}">
-								<Setter Property="IsEnabled" Value="False"/>
+								<Setter Property="IsEnabled" Value="False" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Item.IsModified}" Value="True">
-								<Setter Property="Content" Value="Done"/>
+								<Setter Property="Content" Value="Done" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
 			</Button>
-					<!-- IsEnabled="{Binding Path=Item.IsModified, FallbackValue=false, Mode=OneWay}" -->
-
 
 			<Label
 					x:Name="Label22"
@@ -3261,12 +3153,8 @@
 					Text="{Binding Item.Title,
 												 FallbackValue='',
 												 TargetNullValue=''}"
-					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource TextBox.Selected}"
 					/>
-			<!--  Text="{Binding Item.Title,  -->
-			<!--  FallbackValue='',  -->
-			<!--  Mode=TwoWay}"  -->
 
 			<Label
 					x:Name="Label23"
@@ -3285,13 +3173,8 @@
 					Text="{Binding Item.Description,
 												 FallbackValue='',
 												 TargetNullValue=''}"
-					TextChanged="TextBoxBase_OnTextChanged"
 					Style="{StaticResource TextBox.Selected}"
 					/>
-			<!--  Text="{Binding Item.Description,  -->
-			<!--  FallbackValue='',  -->
-			<!--  Mode=TwoWay}"  -->
-
 
 			<Label
 					x:Name="Label24"
@@ -3321,7 +3204,6 @@
 																FallbackValue={x:Null}}"
 					Style="{DynamicResource Lv1StyleTv1}"
 					/>
-			<!--  d:DataContext="{x:Static local:MainWindow.temp}"  -->
 
 			<Button
 					x:Name="BtnAddCondition"
@@ -3355,65 +3237,7 @@
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
-
-
-				<!-- <Button.Content> -->
-				<!--  <Border  -->
-				<!--  x:Name="Bd"  -->
-				<!--  HorizontalAlignment="Stretch"  -->
-				<!--  VerticalAlignment="Stretch"  -->
-				<!--  CornerRadius="14"  -->
-				<!--  Background="Lime"  -->
-				<!--  BorderThickness="0"  -->
-				<!--  BorderBrush="Lime"  -->
-				<!--  >  -->
-				<!-- 		<Border.Style> -->
-				<!-- 			<Style TargetType="Border"> -->
-				<!-- 				<Setter Property="Background" Value="Lime" /> -->
-				<!-- 				<Style.Triggers> -->
-				<!--    -->
-				<!-- 					<Trigger Property="IsMouseOver" Value="True"> -->
-				<!-- 						<Setter Property="Background" Value="LimeGreen" /> -->
-				<!-- 					</Trigger> -->
-				<!--    -->
-				<!-- 				</Style.Triggers> -->
-				<!--    -->
-				<!-- 			</Style> -->
-				<!-- 		</Border.Style> -->
-				<!--    -->
-				<!--  <Label  -->
-				<!--  Content="+"  -->
-				<!--  Margin="1,-5,0,0"  -->
-				<!--  Padding="0"  -->
-				<!--  HorizontalAlignment="Center"  -->
-				<!--  VerticalAlignment="Center"  -->
-				<!--  FontSize="24"  -->
-				<!--  Foreground="Black"  -->
-				<!--  >  -->
-				<!-- 			<Label.Style> -->
-				<!-- 				<Style TargetType="Label"> -->
-				<!-- 					<Setter Property="Background" Value="Transparent" /> -->
-				<!-- 					<Style.Triggers> -->
-				<!--    -->
-				<!-- 						<Trigger Property="IsMouseOver" Value="True"> -->
-				<!-- 							<Setter Property="Background" Value="Transparent" /> -->
-				<!-- 						</Trigger> -->
-				<!--    -->
-				<!-- 					</Style.Triggers> -->
-				<!--    -->
-				<!-- 				</Style> -->
-				<!-- 			</Label.Style> -->
-				<!--    -->
-				<!--    -->
-				<!-- 		</Label> -->
-				<!--    -->
-				<!--    -->
-				<!-- 	</Border> -->
-				<!-- </Button.Content> -->
-
 			</Button>
-
-
 
 			<Label
 					x:Name="Label25"
@@ -3429,14 +3253,11 @@
 					Foreground="White"
 					/>
 
-					<!-- d:DataContext="{Binding Files, -->
-					<!-- 												Source={x:Static local:MainWindowClassifierEditor.FileList2}}" -->
 			<DataGrid
 					x:Name="Dg1"
 					Grid.Column="0"
 					Grid.Row="6"
 					Grid.ColumnSpan="3"
-					
 					d:DataContext="{Binding Files,
 																	Source={x:Static sample:SampleData.FileList2}}"
 					AutoGenerateColumns="False"
@@ -3449,7 +3270,6 @@
 					HorizontalScrollBarVisibility="Visible"
 					VerticalScrollBarVisibility="Visible"
 					Background="{StaticResource TreeView.Background}"
-					BorderThickness="1"
 					HorizontalGridLinesBrush="{StaticResource TreeViewRow.BorderBrush.Light}"
 					ItemsSource="{Binding}"
 					CellStyle="{StaticResource Dg.Cell.Base}"
@@ -3610,22 +3430,15 @@
 														/>
 											</StackPanel>
 										</Border>
-
 									</StackPanel>
 								</Grid>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-
 					</DataGridTemplateColumn>
-
 				</DataGrid.Columns>
 			</DataGrid>
-
 		</Grid>
 
-		<!-- </TreeView> -->
-
-				<!-- d:DataContext="{Binding Source={x:Static local:MainWindowClassifierEditor.BaseOfTreeRoot}}" -->
 		<TreeView
 				x:Name="Tv1"
 				Grid.Column="0"
@@ -3633,7 +3446,7 @@
 				Margin="5"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				d:DataContext="{Binding Source={x:Static sample:SampleData.BaseOfTreeRoot}}"
+				d:DataContext="{Binding Source={x:Static sample:SampleData.TreeBase}}"
 				DataContext="{Binding ClassificationFile.TreeBase,
 															ElementName=MainWinClsfrEd}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -3646,7 +3459,8 @@
 				ItemsSource="{Binding ChildrenView}"
 				Style="{StaticResource Tv1Style1}"
 				/>
-
+		<!--  d:DataContext="{d:DesignInstance Type=sample:SampleData}"  -->
+		<!--  d:DataContext="{Binding Source={x:Static sample:SampleData.BaseOfTreeRoot}}"  -->
 
 	</Grid>
 </Window>

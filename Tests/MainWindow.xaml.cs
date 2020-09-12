@@ -192,7 +192,9 @@ namespace Tests
 
 			FilePath<FileNameSimple> f;
 			// FilePath<FileNameAsSheetFile> fx;
+#pragma warning disable CS0168 // The variable 'fp' is declared but never used
 			FilePath<FileNameAsSheetPdf> fp;
+#pragma warning restore CS0168 // The variable 'fp' is declared but never used
 
 			// sample for documentation
 
