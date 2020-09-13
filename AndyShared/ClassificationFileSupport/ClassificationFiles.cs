@@ -58,7 +58,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public string UserClassfFolderPath => userClassfFolderPath;
 
-		internal  ObservableCollection<ClassificationFile> UserClassificationFiles
+		public  ObservableCollection<ClassificationFile> UserClassificationFiles
 		{
 			get => userClassificationFiles;
 			private set
@@ -79,6 +79,8 @@ namespace AndyShared.ConfigMgrShared
 				OnPropertyChange();
 			}
 		}
+
+		public bool UserClassificationFolderPathExists => File.Exists(userClassfFolderPath);
 
 	#endregion
 
@@ -125,7 +127,7 @@ namespace AndyShared.ConfigMgrShared
 
 		// return the folderpath to the requested 
 		// classification file
-		internal ClassificationFile Find(string userName, string fileId)
+		public ClassificationFile Find(string userName, string fileId)
 		{
 			foreach (CollectionViewGroup viewGroup in View.Groups)
 			{
@@ -169,6 +171,7 @@ namespace AndyShared.ConfigMgrShared
 		{
 			OnPropertyChange("AllClassifFolderPath");
 			OnPropertyChange("UserClassfFolderPath");
+			OnPropertyChange("UserClassificationFolderPathExists");
 		}
 
 		private void UpdateViewProperties()

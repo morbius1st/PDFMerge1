@@ -575,7 +575,7 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
 							DockPanel.Dock="bottom"
-							Click="BtnDone_OnClick"
+							Click="BtnSelect_OnClick"
 							Style="{StaticResource Button.Reduced.Vertically}"
 							Template="{StaticResource Button.Normal.ControlTemplate}"
 							/>

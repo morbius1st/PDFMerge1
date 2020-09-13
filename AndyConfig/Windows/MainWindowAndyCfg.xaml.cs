@@ -252,7 +252,7 @@ namespace AndyConfig.Windows
 			// TextBlock tbk = (TextBlock) ((Expander) sender).FindName("tbkUsrName");
 
 
-			string path = UserSettings.Path.SettingFolderPath;
+			// string path = UserSettings.Path.SettingFolderPath;
 		}
 
 		private void expdr06_Collapsed(object sender, RoutedEventArgs e)

@@ -36,7 +36,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />

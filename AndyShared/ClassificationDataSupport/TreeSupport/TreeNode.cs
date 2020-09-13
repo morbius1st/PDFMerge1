@@ -63,7 +63,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// properties
 		private SheetCategory item;
-		private ObservableCollection<TreeNode> children;
+		private ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
 		private ListCollectionView childrenView;
 
 		private TreeNode parent;
@@ -95,33 +95,42 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
-			Children = new ObservableCollection<TreeNode>();
+			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+			
 			this.parent = parent;
 			this.item = item;
 			Depth = parent.depth + 1;
 			this.isExpanded = isExpanded;
-			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+
+			// Children = new ObservableCollection<TreeNode>();
 
 			OnCreated();
+
+
 		}
 
 		public TreeNode() : this(null, null, false) { }
 
 		protected  TreeNode(SheetCategory item, bool isExpanded)
 		{
-			Children = new ObservableCollection<TreeNode>();
 			this.item = item;
 			this.isExpanded = isExpanded;
-			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+
 
 			OnCreated();
+
+			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+
 		}
 
 		private void OnCreated()
 		{
+
 			Children.CollectionChanged += ChildrenOnCollectionChanged;
 
-			Debug.WriteLine("@ treenode|@ oncreated");
+			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ oncreated");
 
 			// listen to parent, initialize
 			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
@@ -134,8 +143,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			IsInitialized = true;
 		}
 
-		[OnDeserialized]
+		[OnDeserializing]
 		private void OnDeserializing(StreamingContext c)
+		{
+			Children = new ObservableCollection<TreeNode>();
+		}
+
+		[OnDeserialized]
+		private void OnDeserialized(StreamingContext c)
 		{
 			OnCreated();
 		}
@@ -722,14 +737,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnAnnounceTnInit(object sender, object value)
 		{
-			Debug.WriteLine("@ treenode|@ onann-tninit| received");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
 			isInitialized = true;
 			isModified = false;
 		}
 
 		private void OnAnnounceSaved(object sender, object value)
 		{
-			Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
+			if (Common.SHOW_DEBUG_MESSAGE1)
+				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
 				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 			isModified = false;
 		}

@@ -44,9 +44,12 @@ namespace ClassifierEditor.SampleData
 		{
 			// WriteXml();
 
-			this.fileName = fileName;
+			if (!fileName.IsVoid())
+			{
+				this.fileName = fileName;
 
-			GetFiles();
+				GetFiles();
+			}
 
 			OnPropertyChange("Files");
 		}

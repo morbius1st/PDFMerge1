@@ -163,6 +163,7 @@
     </Compile>
     <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
     <Compile Include="Settings\AppSetgData30.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="Support\Converters.cs" />

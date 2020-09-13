@@ -246,7 +246,6 @@ namespace WpfShared.Windows
 			int idx = c.SelectedIndex;
 		}
 
-
 		private void CbxSampleFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SampleFile s = e.AddedItems[0] as SampleFile;
@@ -273,7 +272,7 @@ namespace WpfShared.Windows
 			this.Close();
 		}
 
-		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
+		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
 		{
 			DialogResult = true;
 

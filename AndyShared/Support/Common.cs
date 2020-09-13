@@ -17,6 +17,8 @@ namespace AndyShared.Support
 {
 	public class Common
 	{
+		public const bool SHOW_DEBUG_MESSAGE1				= true;
+
 		public static Window GetCurrentWindow()
 		{
 			WindowCollection wc = Application.Current.Windows;

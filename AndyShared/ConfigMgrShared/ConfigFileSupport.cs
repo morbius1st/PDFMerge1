@@ -17,7 +17,7 @@ namespace AndyShared.ConfigMgrShared
 
 	#region public methods
 
-		internal static ConfigSeedFile MakeConfigSeedFileItem(
+		public static ConfigSeedFile MakeConfigSeedFileItem(
 			FilePath<FileNameSimpleSelectable> file, string suiteName,
 			string sampleFile)
 		{
@@ -43,7 +43,7 @@ namespace AndyShared.ConfigMgrShared
 		public const string SEED_FOLDER_LOCAL = @"\Local " + SEED_FOLDER_NAME;
 		public const string SEED_FOLDER_INSTALLED = @"\Installed " + SEED_FOLDER_NAME;
 
-		internal static bool GetFiles(ObservableCollection<ConfigSeedFile> collection,
+		public static bool GetFiles(ObservableCollection<ConfigSeedFile> collection,
 			string folder, string pattern = SEED_PATTERN, 
 			SearchOption options = SearchOption.AllDirectories, 
 			bool select = false, bool local = false, bool keep = false, 
@@ -74,7 +74,7 @@ namespace AndyShared.ConfigMgrShared
 		}
 
 
-		internal static ConfigSeedFile MakeConfigSeedFileItem(
+		public static ConfigSeedFile MakeConfigSeedFileItem(
 			FilePath<FileNameSimpleSelectable> file, string suiteName,
 			string sampleFile)
 		{

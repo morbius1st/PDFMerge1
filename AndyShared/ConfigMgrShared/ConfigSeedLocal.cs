@@ -79,7 +79,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public bool LocalSeedFolderPathExists => Directory.Exists(LocalSeedFolderPath);
 
-		internal  ObservableCollection<ConfigSeedFile> SeedFiles
+		public  ObservableCollection<ConfigSeedFile> SeedFiles
 		{
 			get => seedFiles;
 			private set

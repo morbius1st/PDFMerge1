@@ -293,15 +293,21 @@ namespace ClassifierEditor.Windows
 
 				classificationFile = value;
 
-				Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+
 				classificationFile.Initialize();
 
 				FileList = new SampleFileList(classificationFile.SampleFilePath);
 
 				string desc = classificationFile.HeaderDescFromMemory;
 
-
 				OnPropertyChange();
+				OnPropertyChange("BaseOfTree");
+				OnPropertyChange("UserSelected");
+				OnPropertyChange("ContextSelected");
+				OnPropertyChange("HasSelection");
+				OnPropertyChange("FileList");
+
 			}
 		}
 
@@ -357,20 +363,20 @@ namespace ClassifierEditor.Windows
 
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
-		public bool CanSave
-		{
-			get
-			{
-				if (classificationFile == null ||
-					!classificationFile.IsValid ||
-					!classificationFile.IsInitialized) return false;
-
-				bool a = userSelected == null;
-				bool b = classificationFile.IsModified;
-
-				return b && a;
-			}
-		}
+		// public bool CanSave
+		// {
+		// 	get
+		// 	{
+		// 		if (classificationFile == null ||
+		// 			!classificationFile.IsValid ||
+		// 			!classificationFile.IsInitialized) return false;
+		//
+		// 		bool a = userSelected == null;
+		// 		bool b = classificationFile.IsModified;
+		//
+		// 		return b && a;
+		// 	}
+		// }
 
 		/*
 		cansave conditions
@@ -422,7 +428,9 @@ namespace ClassifierEditor.Windows
 			{
 				// SampleData.SampleData sd = new SampleData.SampleData();
 
-				classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
+				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
+				classificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+				classificationFile.Initialize();
 
 				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
 
@@ -433,13 +441,16 @@ namespace ClassifierEditor.Windows
 			}
 			else
 			{
+
+				UserSettingData a = UserSettings.Data;
+
 				string fileId = UserSettings.Data.LastClassificationFileId;
 
 				ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 				//
-				// Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
 				// classificationFile.Initialize();
 				//
 				// sampleFileName = classificationFile.SampleFilePath;
@@ -453,7 +464,7 @@ namespace ClassifierEditor.Windows
 			//
 			// OnPropertyChange("FileList");
 
-			Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
 			
 			// cancel any startup modifications
 			OnTnInitAnnouncer.Announce(null);
@@ -461,7 +472,7 @@ namespace ClassifierEditor.Windows
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
-			Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
 
 			if (classificationFile.IsModified == true)
 			{

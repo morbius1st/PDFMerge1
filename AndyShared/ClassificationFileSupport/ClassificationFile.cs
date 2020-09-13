@@ -64,13 +64,19 @@ namespace AndyShared.ClassificationFileSupport
 			// announce to treenode (treebase) / and components initialized and to initialize
 			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
 
-			if (!SettingsSupport.ValidateXmlFile(filePath)
+			bool a = !SettingsSupport.ValidateXmlFile(filePath);
+			bool b = !ValidateAgainstUsername(filePathLocal);
+
+
+			if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
 				|| !ValidateAgainstUsername(filePathLocal)
 				)
 			{
 				FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
 				return;
 			}
+
+			PreInitialize();
 
 			InitailizeSample(FilePathLocal.FullFilePath);
 		}
@@ -274,16 +280,21 @@ namespace AndyShared.ClassificationFileSupport
 			
 		}
 
-		public void Initialize()
+		private void PreInitialize()
 		{
-			Debug.WriteLine("@ classF|@ initialize| start-init");
 			dataFile = new BaseDataFile<ClassificationFileData>();
 			dataFile.Configure(FolderPath, FileName);
+		}
 
-			Debug.WriteLine("@ classF|@ initialize| read");
+		public void Initialize()
+		{
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| start-init");
+			PreInitialize();
+
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| read");
 			dataFile.Admin.Read();
 
-			Debug.WriteLine("@ classF|@ initialize| baseoftree-init");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| baseoftree-init");
 			dataFile.Data.BaseOfTree.Initalize();
 
 			IsInitialized = true;
@@ -349,7 +360,7 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			IsModified = true;
 
-			Debug.WriteLine("@ classfFile|@ onmodified| who| " + sender.ToString() + "| value| " + value);
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classfFile|@ onmodified| who| " + sender.ToString() + "| value| " + value);
 		}
 
 		private void OnAnnounceSaved(object sender, object value)

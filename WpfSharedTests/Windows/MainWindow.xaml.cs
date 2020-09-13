@@ -3,9 +3,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+
 using WpfShared.Windows;
 
-using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
 
 #endregion

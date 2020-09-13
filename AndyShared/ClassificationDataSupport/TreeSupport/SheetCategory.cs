@@ -93,7 +93,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public SheetCategory(string title, string description)
 		{
-			Debug.WriteLine("@ sheetcat|@ ctor");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ctor");
 
 			this.title = title;
 			this.description = description;
@@ -105,7 +105,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnCreated()
 		{
-			Debug.WriteLine("@ sheetcat|@ oncreated");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ oncreated");
 
 			compareOps.CollectionChanged += CompareOpsOnCollectionChanged;
 
@@ -139,7 +139,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(title) ?? false) return;
 
-				Debug.WriteLine("@ sheetcat|@ title| changed");
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ title| changed");
 				title = value;
 				OnPropertyChange();
 				IsModified = true;
@@ -154,7 +154,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(description) ?? false) return;
 
-				Debug.WriteLine("@ sheetcat|@ description| changed");
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ description| changed");
 				description = value;
 				OnPropertyChange();
 				IsModified = true;
@@ -169,7 +169,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(compareOps) ?? false) return;
 
-				Debug.WriteLine("@ sheetcat|@ CompareOps| changed");
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ CompareOps| changed");
 				compareOps = value;
 				OnPropertyChange();
 				IsModified = true;
@@ -186,7 +186,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				depth = value;
 
-				Debug.WriteLine("@ sheetcat|@ depth| changed");
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ depth| changed");
 
 				OnPropertyChange();
 				OnPropertyChange("ComponentName");
@@ -215,7 +215,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (!isInitialized) return;
 
-				Debug.WriteLine("@ sheetcat|@ ismodified| changed| value| " 
+				if (Common.SHOW_DEBUG_MESSAGE1)
+					Debug.WriteLine("@ sheetcat|@ ismodified| changed| value| " 
 					+ value + "| ismodified| " + isModified + " | who| " + this.ToString());
 
 				if (value == isModified) return;
@@ -223,7 +224,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				isModified = value;
 				OnPropertyChange();
 
-				Debug.WriteLine("@ sheetcat|@ ismodified| changed| isinitialized| " + isInitialized);
+				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ismodified| changed| isinitialized| " + isInitialized);
 
 				if (isInitialized)
 				{
@@ -330,14 +331,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnAnnounceTnInit(object sender, object value)
 		{
-			Debug.WriteLine("@ sheetcat|@ onann-tninit| received");
+			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ onann-tninit| received");
 			isInitialized = true;
 			isModified = false;
 		}
 
 		private void OnAnnounceSaved(object sender, object value)
 		{
-			isModified = false;
+			if (Common.SHOW_DEBUG_MESSAGE1) isModified = false;
 			Debug.WriteLine("@ sheetcat|@ onann-saved| received| isinitialized| " 
 				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 		}
