@@ -17,7 +17,7 @@ namespace AndyShared.Support
 {
 	public class Common
 	{
-		public const bool SHOW_DEBUG_MESSAGE1				= true;
+		public const bool SHOW_DEBUG_MESSAGE1				= false;
 
 		public static Window GetCurrentWindow()
 		{

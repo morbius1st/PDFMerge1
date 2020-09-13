@@ -414,6 +414,9 @@ namespace ClassifierEditor.Windows
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			UserSettings.Admin.Read();
+
+			UserSettingInfo<UserSettingData> u = UserSettings.Info;
+
 			UserSettings.Admin.Write();
 
 			MachSettings.Admin.Read();
@@ -802,10 +805,10 @@ namespace ClassifierEditor.Windows
 			List< ValueCompareOp > a = ValueCompareOps;
 			List< LogicalCompareOp > b = LogicalCompareOps;
 
-
 			ListView lv = Lv2;
 			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
 
+			UserSettingInfo<UserSettingData> u = UserSettings.Info;
 
 			Debug.WriteLine("at debug");
 		}

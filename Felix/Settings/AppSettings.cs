@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using UtilityLibrary;
+﻿using System.Runtime.Serialization;
 
-// projname: SettingsManagerV40
-// itemname: AppSettingInfo60
-// username: jeffs
-// Created:      -- ()
+// App settings (per user)
+//	- applies to a specific app in the suite
+//	- holds information specific to the app
+//	- located in the user's app data folder / app name / AppSettings
+
+// ReSharper disable once CheckNamespace
 
 namespace SettingsManager
 {
@@ -17,8 +17,10 @@ namespace SettingsManager
 	{
 		public AppSettingInfo()
 		{
-			DataClassVersion = "7.0a";
-			Description = "app setting file for WpfShared";
+			// these are specific to this data file
+			DataClassVersion =  "app 7.2a";
+			Description = "app setting file for SettingsManager v7.2";
+			Notes = "any notes go here";
 		}
 
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
@@ -33,8 +35,8 @@ namespace SettingsManager
 	[DataContract(Namespace = "")]
 	internal class AppSettingData
 	{
-		[DataMember]
-		public string Name { get; set; } = "Andy";
+		[DataMember(Order = 1)]
+		public int AppSettingsValue { get; set; } = 7;
 	}
 
 #endregion

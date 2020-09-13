@@ -125,8 +125,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WpfShared">
-      <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
+    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
     <Compile Include="ConfigMgr\ConfigManager.cs" />
     <Compile Include="ConfigMgr\ConfigSeedInstalled.cs" />
     <Compile Include="ConfigMgr\ConfigSeedSite.cs" />
@@ -167,6 +180,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Settings\HeadingSettings.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\MainWindowAndyCfg.xaml.cs">
       <DependentUpon>MainWindowAndyCfg.xaml</DependentUpon>
       <SubType>Code</SubType>

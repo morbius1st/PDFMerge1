@@ -15,6 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,7 +28,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -126,7 +126,7 @@
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
+      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +136,15 @@
     </ApplicationDefinition>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />

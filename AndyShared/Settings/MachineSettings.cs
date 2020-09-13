@@ -10,7 +10,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "MachSettings", Namespace = "")]
-	public class MachSettingInfo<T> : MachSettingInfoBase<T>
+	internal class MachSettingInfo<T> : MachSettingInfoBase<T>
 		where T : new ()
 	{
 		public MachSettingInfo()
@@ -29,7 +29,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class MachSettingData
+	internal class MachSettingData
 	{
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";

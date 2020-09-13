@@ -149,6 +149,12 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions - Enum.cs">
       <Link>.External\CsExtensions - Enum.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
     <Compile Include="FileSupport\FileRevision.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
@@ -163,7 +169,6 @@
     </Compile>
     <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
     <Compile Include="Settings\AppSetgData30.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Settings\UsrSetgSavedFolderPair.cs" />
     <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="Support\Converters.cs" />

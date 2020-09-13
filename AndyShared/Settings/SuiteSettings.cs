@@ -16,7 +16,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "SuiteSettings", Namespace = "")]
-	public class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
+	internal class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
 		where T : new ()
 	{
 		public SuiteSettingInfo()
@@ -35,7 +35,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class SuiteSettingData
+	internal class SuiteSettingData
 	{
 		[DataMember(Order = 1)]
 		public string SiteRootPath { get; set; }

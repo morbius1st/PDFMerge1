@@ -31,11 +31,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\HeadingSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
@@ -50,9 +50,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs">
       <Link>.Linked\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>.Linked\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
       <Link>.Linked\ScreenParametersWpf.cs</Link>

@@ -11,7 +11,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "AppSettings", Namespace = "")]
-	public class AppSettingInfo<T> : AppSettingInfoBase<T>
+	internal class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new ()
 	{
 		public AppSettingInfo()

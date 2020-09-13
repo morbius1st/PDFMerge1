@@ -121,6 +121,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
     <Compile Include="DebugSupport\DebugSupport.cs" />
     <Compile Include="FilesSupport\FileItem.cs" />
     <Compile Include="MergerSupport\MergeItem.cs" />
@@ -145,7 +151,6 @@
     <Compile Include="SelectFolder.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="DebugSupport\ListInfo.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="UtilityLocal.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

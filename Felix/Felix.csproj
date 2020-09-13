@@ -63,7 +63,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -123,6 +123,24 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyShared\Settings\UserSettings.cs">
+      <Link>Settings\UserSettings.cs</Link>
+    </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
     <Compile Include="FileListManager\FileItem.cs" />
@@ -136,6 +154,7 @@
     <Compile Include="OutlineManager\OutlineMgr.cs" />
     <Compile Include="PDFMergeManager\PDFMergeTree\PDFMergeItem.cs" />
     <Compile Include="PDFMergeManager\PDFMergeTree\PDFMergeTree.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
@@ -189,6 +208,7 @@
     <ProjectReference Include="..\WpfShared\WpfShared.csproj">
       <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
       <Name>WpfShared</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -36,7 +36,7 @@ namespace SettingsManager
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";
 		
 		[DataMember(Order = 2)]
-		public string RememberNodeExpandStatus { get; set; } = "PdfSample 1";
+		public bool RememberNodeExpandStatus { get; set; } = false;
 
 
 

@@ -111,6 +111,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
     <Compile Include="Dialogs\DialogGetFileId.xaml.cs">
       <DependentUpon>DialogGetFileId.xaml</DependentUpon>
     </Compile>
@@ -118,7 +121,7 @@
       <DependentUpon>DialogRequestValues.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Settings\HeadingSettings.cs" />
     <Compile Include="Windows\Balloon\Balloon.cs" />
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="Dialogs\DialogGetFileId.xaml">
@@ -211,5 +214,10 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\AODeliverable\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"</PostBuildEvent>
   </PropertyGroup>
 </Project>
