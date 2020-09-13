@@ -124,6 +124,8 @@ namespace WpfShared.Windows
 
 		public SampleFiles SampleFiles => sampleFiles;
 
+		public string SelectedFileId => selected.FileId;
+
 		private string searchText;
 
 		public string SearchText

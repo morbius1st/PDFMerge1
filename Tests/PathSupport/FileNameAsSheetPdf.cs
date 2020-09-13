@@ -93,9 +93,7 @@ namespace Tests.PathSupport
 			}
 		}
 
-#pragma warning disable CS0114 // 'FileNameAsSheetPdf.IsValid' hides inherited member 'AFileName.IsValid'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword.
-		public bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
-#pragma warning restore CS0114 // 'FileNameAsSheetPdf.IsValid' hides inherited member 'AFileName.IsValid'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword.
+		public new bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
 
 		public bool SheetIdIdsMatch => SheetId.Equals(SheetIdByComponent);
 

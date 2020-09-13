@@ -54,8 +54,11 @@ Global
 		AndyShared\AndyShared.projitems*{0ebf6960-80c0-4acc-973d-873d7c0c2d00}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{9db459f6-2625-4296-9e1a-04297c76893a}*SharedItemsImports = 13
 		AndyResources\AndyResources.projitems*{b413f196-575d-4ae0-9c4a-d81082f67b94}*SharedItemsImports = 13
+		AndyShared\AndyShared.projitems*{c199e67c-f523-4504-9014-234a723ca57d}*SharedItemsImports = 4
 		AndyResources\AndyResources.projitems*{c4cf3e3e-620e-400c-bc59-b701e5c2e637}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{c4cf3e3e-620e-400c-bc59-b701e5c2e637}*SharedItemsImports = 4
+		AndyShared\AndyShared.projitems*{c693f2ce-f8bf-43b4-8f23-4808376f98c8}*SharedItemsImports = 4
+		AndyShared\AndyShared.projitems*{d05189ea-a9d3-46c2-99eb-06d8b379f520}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU

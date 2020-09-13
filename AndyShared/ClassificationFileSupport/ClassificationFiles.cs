@@ -58,7 +58,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public string UserClassfFolderPath => userClassfFolderPath;
 
-		public  ObservableCollection<ClassificationFile> UserClassificationFiles
+		internal  ObservableCollection<ClassificationFile> UserClassificationFiles
 		{
 			get => userClassificationFiles;
 			private set
@@ -125,7 +125,7 @@ namespace AndyShared.ConfigMgrShared
 
 		// return the folderpath to the requested 
 		// classification file
-		public ClassificationFile Find(string userName, string fileId)
+		internal ClassificationFile Find(string userName, string fileId)
 		{
 			foreach (CollectionViewGroup viewGroup in View.Groups)
 			{

@@ -77,7 +77,7 @@ namespace WpfSharedTests.Windows
 
 		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 		{
-			WpfShared.Windows.ClassificationFileSelector d = new ClassificationFileSelector();
+			ClassificationFileSelector d = new ClassificationFileSelector();
 
 			bool? result = d.ShowDialog();
 

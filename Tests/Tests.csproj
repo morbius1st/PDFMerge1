@@ -165,11 +165,6 @@
   <ItemGroup>
     <Folder Include=".external\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
-      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
-      <Name>WpfShared</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

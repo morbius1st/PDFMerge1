@@ -17,7 +17,6 @@ namespace WpfShared
 {
 	public partial class App : Application
 	{
-
-
+		public void Connect(int connectionId, object target) { }
 	}
 }
