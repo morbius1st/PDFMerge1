@@ -9,6 +9,7 @@ using System.Windows.Input;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.SampleFileSupport;
+using SettingsManager;
 using UtilityLibrary;
 using WpfShared.Dialogs;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -152,6 +153,7 @@ namespace WpfShared.Windows
 				OnPropertyChange();
 			}
 		}
+
 
 	#endregion
 

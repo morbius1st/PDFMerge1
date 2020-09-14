@@ -1,4 +1,6 @@
-﻿#region using
+﻿extern alias Shared;
+
+#region using
 
 using System;
 using System.Collections.Generic;
@@ -10,11 +12,12 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 // using ClassifierEditor.ConfigSupport;
 using ClassifierEditor.SampleData;
 // using ClassifierEditor.Tree;
 using SettingsManager;
-using UtilityLibrary;
+using Shared::UtilityLibrary;
 
 // using static ClassifierEditor.Tree.CompareOperations;
 // using static ClassifierEditor.Tree.ComparisonOp;
@@ -27,6 +30,8 @@ using AndyShared.Support;
 using WpfShared.Windows;
 
 #endregion
+
+
 
 // projname: ClassifierEditor
 // itemname: MainWindowClassifierEditor
@@ -138,7 +143,6 @@ sheetcategory
 */
 
 
-
 namespace ClassifierEditor.Windows
 {
 	/*
@@ -234,7 +238,6 @@ namespace ClassifierEditor.Windows
 	/// </summary>
 	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
-
 		public string ContextCmdDelete { get; }            = "delete";
 		public string ContextCmdAddChild { get; }          = "addChild";
 		public string ContextCmdAddBefore { get; }         = "addBefore";
@@ -261,6 +264,8 @@ namespace ClassifierEditor.Windows
 		// private Orator.ConfRoom.Announcer OnCfInitAnnouncer;
 		private Orator.ConfRoom.Announcer OnSavedAnnouncer;
 		private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
+		private Orator.ConfRoom.Announcer OnRemExCollapseStateAnnouncer;
+		private Orator.ConfRoom.Announcer OnSavingAnnouncer;
 
 	#endregion
 
@@ -272,10 +277,12 @@ namespace ClassifierEditor.Windows
 			InitializeComponent();
 
 			OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
+			OnSavingAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVING, "Before Modifications get saved");
 			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize");
+			OnRemExCollapseStateAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_REM_EXCOLLAPSE_STATE,
+				"Remember Exp-Collapse State");
 
-			SampleData.SampleData SD = new SampleData.SampleData();
-
+			// SampleData.SampleData SD = new SampleData.SampleData();
 		}
 
 	#endregion
@@ -293,7 +300,9 @@ namespace ClassifierEditor.Windows
 
 				classificationFile = value;
 
+
 				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+
 
 				classificationFile.Initialize();
 
@@ -307,7 +316,6 @@ namespace ClassifierEditor.Windows
 				OnPropertyChange("ContextSelected");
 				OnPropertyChange("HasSelection");
 				OnPropertyChange("FileList");
-
 			}
 		}
 
@@ -363,6 +371,21 @@ namespace ClassifierEditor.Windows
 
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
+
+	#region public property settings
+
+		public bool RememberCollapseState
+		{
+			get => UserSettings.Data.RememberNodeExpandState;
+			private set
+			{
+				UserSettings.Data.RememberNodeExpandState = value;
+				UserSettings.Admin.Write();
+				OnPropertyChange();
+			}
+		}
+
+
 		// public bool CanSave
 		// {
 		// 	get
@@ -397,6 +420,8 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
+	#endregion
+
 	#region private properties
 
 	#endregion
@@ -407,23 +432,38 @@ namespace ClassifierEditor.Windows
 
 	#region private methods
 
+		private void initSettings()
+		{
+			UserSettings.Admin.Read();
+
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> i = UserSettings.Admin;
+
+			UserSettingInfo<UserSettingData> u = UserSettings.Info;
+
+			UserSettingData ud = UserSettings.Data;
+
+			OnPropertyChange("RememberCollapseState");
+
+			// inform all of the current setting
+			OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+
+			UserSettings.Admin.Write();
+
+			MachSettings.Admin.Read();
+			MachSettings.Admin.Write();
+		}
+
 	#endregion
 
 	#region window event methods
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			UserSettings.Admin.Read();
+			initSettings();
 
-			UserSettingInfo<UserSettingData> u = UserSettings.Info;
-
-			UserSettings.Admin.Write();
-
-			MachSettings.Admin.Read();
-			MachSettings.Admin.Write();
-
-
+#pragma warning disable CS0219 // The variable 'sampleFileName' is assigned but its value is never used
 			string sampleFileName;
+#pragma warning restore CS0219 // The variable 'sampleFileName' is assigned but its value is never used
 
 			// true to create sample data and save to disk
 			// false to read existing data
@@ -432,7 +472,9 @@ namespace ClassifierEditor.Windows
 				// SampleData.SampleData sd = new SampleData.SampleData();
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
+
 				classificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+
 				classificationFile.Initialize();
 
 				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
@@ -440,11 +482,9 @@ namespace ClassifierEditor.Windows
 				classificationFile.Write();
 
 				sampleFileName = "";
-
 			}
 			else
 			{
-
 				UserSettingData a = UserSettings.Data;
 
 				string fileId = UserSettings.Data.LastClassificationFileId;
@@ -467,15 +507,19 @@ namespace ClassifierEditor.Windows
 			//
 			// OnPropertyChange("FileList");
 
+
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
-			
+
+
 			// cancel any startup modifications
 			OnTnInitAnnouncer.Announce(null);
 		}
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
+			if (Common.SHOW_DEBUG_MESSAGE1)
+				Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
+
 
 			if (classificationFile.IsModified == true)
 			{
@@ -678,6 +722,7 @@ namespace ClassifierEditor.Windows
 			{
 				BaseOfTree.RemoveNode2(contextSelected);
 			}
+
 			ContextDeselect();
 		}
 
@@ -735,6 +780,13 @@ namespace ClassifierEditor.Windows
 
 	#region buttons
 
+		private void BtnRemExCollapseState_OnClick(object sender, RoutedEventArgs e)
+		{
+			RememberCollapseState = !RememberCollapseState;
+
+			OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+		}
+
 		private void BtnAddCondition_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (HasSelection)
@@ -769,7 +821,7 @@ namespace ClassifierEditor.Windows
 
 		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
 		{
-			ClassificationFileSelector 
+			ClassificationFileSelector
 				dialog = new ClassificationFileSelector();
 
 			bool? result = dialog.ShowDialog();
@@ -777,18 +829,17 @@ namespace ClassifierEditor.Windows
 			if (result != true) return;
 
 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(dialog.SelectedFileId);
-				
-				
-				// dialog.Selected;
 
+
+			// dialog.Selected;
 		}
 
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
-			classificationFile.Write();
+			OnSavingAnnouncer.Announce(true);
 
-			// classificationFile.IsModified = false;
+			classificationFile.Write();
 
 			OnSavedAnnouncer.Announce(true);
 		}
@@ -809,6 +860,8 @@ namespace ClassifierEditor.Windows
 			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
 
 			UserSettingInfo<UserSettingData> u = UserSettings.Info;
+
+			BaseOfTree bot = BaseOfTree;
 
 			Debug.WriteLine("at debug");
 		}
@@ -856,33 +909,33 @@ namespace ClassifierEditor.Windows
 	}
 
 #endregion
-
-#region bool to "on" / "off" string value converter
-
-	[ValueConversion(typeof(bool), typeof(string))]
-	public class BoolToOnOffConverter : IValueConverter
-	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (targetType != typeof(object))
-				throw new InvalidOperationException("The target must be a object");
-
-			if ((bool) value)
-			{
-				return "On";
-			}
-
-			return "Off";
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter,
-			System.Globalization.CultureInfo culture)
-		{
-			throw new NotSupportedException();
-		}
-	}
-
-#endregion
+//
+// #region bool to "on" / "off" string value converter
+//
+// 	[ValueConversion(typeof(bool), typeof(string))]
+// 	public class BoolToOnOffConverter : IValueConverter
+// 	{
+// 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+// 		{
+// 			if (targetType != typeof(object))
+// 				throw new InvalidOperationException("The target must be a object");
+//
+// 			if ((bool) value)
+// 			{
+// 				return "On";
+// 			}
+//
+// 			return "Off";
+// 		}
+//
+// 		public object ConvertBack(object value, Type targetType, object parameter,
+// 			System.Globalization.CultureInfo culture)
+// 		{
+// 			throw new NotSupportedException();
+// 		}
+// 	}
+//
+// #endregion
 
 	public class Lv1ConditionTemplateSelector : DataTemplateSelector
 	{

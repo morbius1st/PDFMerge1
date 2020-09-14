@@ -338,8 +338,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnAnnounceSaved(object sender, object value)
 		{
-			if (Common.SHOW_DEBUG_MESSAGE1) isModified = false;
-			Debug.WriteLine("@ sheetcat|@ onann-saved| received| isinitialized| " 
+			isModified = false;
+
+			if (Common.SHOW_DEBUG_MESSAGE1)
+				Debug.WriteLine("@ sheetcat|@ onann-saved| received| isinitialized| " 
 				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 		}
 

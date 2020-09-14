@@ -30,13 +30,13 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class UserSettingData
+	internal class UserSettingData
 	{
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";
 		
 		[DataMember(Order = 2)]
-		public bool RememberNodeExpandStatus { get; set; } = false;
+		public bool RememberNodeExpandState { get; set; } = false;
 
 
 

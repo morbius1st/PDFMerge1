@@ -21,6 +21,12 @@ namespace AndyShared.Support
 
 		// parent to children - modifications saved
 		public const string SAVED = "Saved";
+		
+		// parent to children - modifications saved
+		public const string SAVING = "Saving";
+
+		// parent to children - modifications saved
+		public const string TN_REM_EXCOLLAPSE_STATE = "TnRem_EC_State";
 	}
 
 	// ver	2.0		adjusted announcer to hold ref to owner and reduce

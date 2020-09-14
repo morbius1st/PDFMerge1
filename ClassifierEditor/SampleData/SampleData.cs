@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -41,11 +42,14 @@ namespace ClassifierEditor.SampleData
 
 		static SampleData()
 		{
+			TreeBase = new BaseOfTree();
+
 			// sd = new SampleData();
 			SampleData.Sample(TreeBase);
+
+			TreeBase.Initalize();
 		
 			SampleData.SampleFiles(FileList2);
-		
 		}
 
 		public SampleData()
@@ -61,7 +65,7 @@ namespace ClassifierEditor.SampleData
 	#region public properties
 
 		// this is only for design time sample data
-		public static BaseOfTree TreeBase { get; set; } = new BaseOfTree();
+		public static BaseOfTree TreeBase { get; set; } // = new BaseOfTree();
 
 		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
 

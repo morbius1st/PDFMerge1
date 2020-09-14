@@ -2,3 +2,9 @@
 
 # IDE0032: Use auto property
 dotnet_style_prefer_auto_properties = false:silent
+
+# IDE0011: Add braces
+csharp_prefer_braces = false:silent
+
+# CS0162: Unreachable code detected
+dotnet_diagnostic.CS0162.severity = silent

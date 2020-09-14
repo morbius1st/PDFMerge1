@@ -80,6 +80,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private bool isContextSelected;
 		private int checkedChildCount;
 
+		private bool rememberExpCollapseState;
+		private bool isSaving;
+
 		// fields
 
 		//										                 mixed->checked->unchecked->mixed
@@ -95,7 +98,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
-			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+			
 			
 			this.parent = parent;
 			this.item = item;
@@ -103,9 +106,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			this.isExpanded = isExpanded;
 
 			// Children = new ObservableCollection<TreeNode>();
-
 			OnCreated();
 
+			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
 
 		}
 
@@ -137,11 +140,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+			
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.SAVING, OnSavingAnnounce);
+
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnounceRemExCollapseState);
+
 
 			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_MODIFIED);
 
 			IsInitialized = true;
 		}
+		
 
 		[OnDeserializing]
 		private void OnDeserializing(StreamingContext c)
@@ -153,8 +164,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private void OnDeserialized(StreamingContext c)
 		{
 			OnCreated();
+
+			if (!rememberExpCollapseState) isExpanded = false;
 		}
 
+		// [OnSerializing]
+		// private void Onerializing(StreamingContext c)
+		// {
+		// 	if (!rememberExpCollapseState) isExpanded = false;
+		// }
 
 	#endregion
 
@@ -340,14 +358,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
-				if (value != isExpanded)
-				{
-					if (value == isExpanded) return;
+				if (value == isExpanded) return;
 
-					isExpanded = value;
-					OnPropertyChange();
-					IsModified = true;
-				}
+				isExpanded = value;
+
+				OnPropertyChange();
+
+				if (rememberExpCollapseState) IsModified = true;
 			}
 		}
 
@@ -735,6 +752,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region event consuming
 
+		private void OnSavingAnnounce(object sender, object value)
+		{
+			isSaving = true;
+		}
+
+		private void OnAnnounceRemExCollapseState(object sender, object value)
+		{
+			rememberExpCollapseState = (bool) (value ?? false);
+		}
+
 		private void OnAnnounceTnInit(object sender, object value)
 		{
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
@@ -748,6 +775,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
 				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 			isModified = false;
+			isSaving = false;
 		}
 
 		private void ChildrenOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -30,6 +30,53 @@ namespace AndyShared.Support
 
 #endregion
 
+#region bool to "on" / "off" string value converter
+
+	[ValueConversion(typeof(bool), typeof(string))]
+	public class BoolToOnOffConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			// if (targetType != typeof(object))
+			// 	throw new InvalidOperationException("The target must be an object");
+
+			return ((bool) value) ? "On" : "Off";
+
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter,
+			System.Globalization.CultureInfo culture)
+		{
+			throw new NotSupportedException();
+		}
+	}
+
+#endregion
+
+#region bool to "on" / "off" string value converter
+
+	[ValueConversion(typeof(bool), typeof(string))]
+	public class BoolToYesNoConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			// if (targetType != typeof(object))
+			// 	throw new InvalidOperationException("The target must be an object");
+
+			return ((bool) value) ? "Yes" : "No";
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter,
+			System.Globalization.CultureInfo culture)
+		{
+			throw new NotSupportedException();
+		}
+	}
+
+#endregion
+
+
+
 #region not bool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
@@ -48,7 +95,6 @@ namespace AndyShared.Support
 
 #endregion
 
-
 #region null to bool value converter
 
 	[ValueConversion(typeof(object), typeof(bool))]
@@ -66,7 +112,6 @@ namespace AndyShared.Support
 	}
 
 #endregion
-
 
 #region null to string value converter
 

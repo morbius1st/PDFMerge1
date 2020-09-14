@@ -46,8 +46,8 @@
 			<local:Lv1ConditionTemplateSelector x:Key="Lv1ConditionSelector" />
 			<local:Lv2ConditionTemplateSelector x:Key="Lv2ConditionSelector" />
 			<local:NotBoolConverter x:Key="NotBool" />
-			<local:BoolToOnOffConverter x:Key="OnOffBool" />
 
+			<support:BoolToYesNoConverter x:Key="BoolToYesNo" />
 			<support:NullObjToBool x:Key="ObjToBool" />
 
 			<sys:Double x:Key="LogicalHorizBarWidth">
@@ -2884,7 +2884,6 @@
 							/>
 				</Border>
 
-
 				<Border
 						Margin="5,0,0,0"
 						HorizontalAlignment="Stretch"
@@ -2902,9 +2901,7 @@
 														 FallbackValue='Filename'}"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
-
 					</TextBox>
-
 				</Border>
 
 				<Border
@@ -2923,8 +2920,120 @@
 							>
 					</TextBox>
 				</Border>
-
 			</DockPanel>
+
+			<!--
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="3">
+
+				<Border Style="{StaticResource Border.Settings.Title}">
+
+					<Label
+							x:Name="Label38"
+							Content="Sample Data Count"
+							Style="{StaticResource Label.Settings.Title}" />
+				</Border>
+
+				<Border
+
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}">
+					<Border.Background>
+						<SolidColorBrush Color="{StaticResource Amber.200}" />
+					</Border.Background>
+					<TextBox
+							x:Name="Tbx38"
+							HorizontalAlignment="Stretch"
+							Text="{Binding Source= {x:Static sample:SampleData.TreeBase}, Path=ChildCount,
+														 Mode=OneWay,
+														 FallbackValue='none'}"
+							Style="{StaticResource TextBox.Setting.Value}">
+					</TextBox>
+
+				</Border>
+
+				<Border
+						Margin="5,0,5,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}">
+					<TextBox
+							x:Name="Tbx39"
+							HorizontalAlignment="Stretch"
+							Text="{Binding Source= {x:Static sample:SampleData.TreeBase}, Path=ChildrenView.Count,
+														 Mode=OneWay,
+														 FallbackValue='none'}"
+							Style="{StaticResource TextBox.Setting.Value}">
+					</TextBox>
+				</Border>
+			</DockPanel>
+			-->
+
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="3">
+
+				<Border Style="{StaticResource Border.Settings.Title}">
+
+					<Label
+							x:Name="Label38"
+							Content="Remember Tree Expand / Collapse state"
+							Style="{StaticResource Label.Settings.Title}" />
+				</Border>
+
+
+				<Border
+
+						HorizontalAlignment="left"
+
+						Style="{StaticResource Border.Settings.Button}">
+					<Border.Background>
+						<SolidColorBrush Color="{StaticResource Amber.200}" />
+					</Border.Background>
+
+					<Button
+							x:Name="BtnRemExCollapseState"
+							Width="60"
+							Padding="0,0,0,1"
+							Content="{Binding ElementName=MainWinClsfrEd, Converter={StaticResource BoolToYesNo},
+								Path=RememberCollapseState, Mode=OneWay, FallbackValue='none'}"
+							BorderThickness="0"
+							Background="Transparent"
+							Foreground="White"
+							Click="BtnRemExCollapseState_OnClick"
+							/>
+				<!-- 	<TextBox -->
+				<!-- 			x:Name="TbxRememberExpandState" -->
+				<!-- 			Width="60" -->
+				<!-- 			IsReadOnly="True" -->
+				<!-- 			HorizontalAlignment="left" -->
+				<!-- 			HorizontalContentAlignment="Center" -->
+				<!-- 			Text="{Binding ElementName=MainWinClsfrEd,Path=RememberCollapseState, -->
+				<!-- 										 Mode=OneWay, -->
+				<!-- 										 FallbackValue='none'}" -->
+				<!-- 			Style="{StaticResource TextBox.Setting.Value}" -->
+				<!-- 			MouseUp="TbxRememberExpandState_OnMouseUp" -->
+				<!-- 			> -->
+				<!-- -->
+				<!-- 	</TextBox> -->
+				<!-- -->
+				</Border>
+
+				<!-- <Border -->
+				<!-- 		Margin="5,0,5,0" -->
+				<!-- 		HorizontalAlignment="Stretch" -->
+				<!-- 		Style="{StaticResource Border.Settings.Button}"> -->
+				<!-- 	<TextBox -->
+				<!-- 			x:Name="Tbx39" -->
+				<!-- 			HorizontalAlignment="Stretch" -->
+				<!-- 			Text="{Binding Source= {x:Static sample:SampleData.TreeBase}, Path=ChildrenView.Count, -->
+				<!-- 										 Mode=OneWay, -->
+				<!-- 										 FallbackValue='none'}" -->
+				<!-- 			Style="{StaticResource TextBox.Setting.Value}"> -->
+				<!-- 	</TextBox> -->
+				<!-- </Border> -->
+			</DockPanel>
+
 
 			<StackPanel
 					Grid.Column="2"
