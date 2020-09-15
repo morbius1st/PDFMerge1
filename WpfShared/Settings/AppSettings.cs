@@ -21,7 +21,7 @@ namespace SettingsManager
 			Description = "app setting file for WpfShared";
 		}
 
-		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

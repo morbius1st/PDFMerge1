@@ -31,19 +31,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\MachineSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\SiteSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\SuiteSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.Linked\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
@@ -56,6 +49,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
       <Link>.Linked\CsXmlUtilities.cs</Link>
+    </Compile>
+		    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.Linked\CsUtilities.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Support\Orator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />

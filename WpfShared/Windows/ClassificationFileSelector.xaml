@@ -10,11 +10,12 @@
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sample="clr-namespace:AndyShared.SampleFileSupport"
+		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
 		xmlns:sharedsupport="clr-namespace:AndyShared.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		x:Name="winClsFileMgr"
 		Title="Classification File Selector"
-		Width="1200"
+		Width="1000"
 		Height="800"
 		MinWidth="950"
 		mc:Ignorable="d"
@@ -28,7 +29,7 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
-				<ResourceDictionary Source="../SVG/File-Open-00.xaml" />
+				<ResourceDictionary Source="ResourceFiles/SVG/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<sharedsupport:NullStringToMessage x:Key="NullStringToMessage" />
@@ -38,6 +39,12 @@
 			<sharedsupport:PassThroughConverter x:Key="PassThru" />
 
 			<sys:Double x:Key="EditingTextBoxHeight">22</sys:Double>
+
+			<x:Static
+					x:Key="emptystring"
+					Member="sys:String.Empty"
+					>
+			</x:Static>
 
 
 			<Style
@@ -75,9 +82,11 @@
 					x:Key="Listbox.TxBlock.Item.Value"
 					TargetType="{x:Type TextBlock}"
 					>
-				<Setter Property="Padding" Value="0,2,0,0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Margin" Value="0,0,0,0" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="Foreground" Value="White" />
+				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
 			</Style>
 
 			<Style
@@ -381,6 +390,220 @@
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
 
+
+			<DataTemplate
+					x:Key="Lb1ItemTemplate"
+					DataType="classificationFileSupport:ClassificationFile"
+					>
+				<StackPanel Orientation="Vertical">
+
+					<TextBlock
+							Margin="0,0,0,3"
+							Text="{Binding FileName,
+														 FallbackValue=filename}"
+							Foreground="White"
+							/>
+					<StackPanel
+							Margin="20,0,0,5"
+							Orientation="Vertical"
+							>
+						<StackPanel Orientation="Horizontal">
+
+							<Label
+									Content="Description"
+									Style="{StaticResource Listbox.Label.Item.Title}"
+									/>
+
+							<TextBlock
+									Margin="0"
+									Text="{Binding HeaderDescFromFile,
+																 FallbackValue=C:\\file path}"
+									Style="{StaticResource Listbox.TxBlock.Item.Value}"
+									/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<Label
+									Content="Sample File"
+									Style="{StaticResource Listbox.Label.Item.Title}"
+									/>
+							<TextBlock
+									Margin="0"
+									d:DataContext="{Binding Path=UserClassificationFiles,
+																					Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"
+									Style="{StaticResource Listbox.TxBlock.Item.Value}"
+									>
+								<TextBlock.Text>
+									<Binding
+											Converter="{StaticResource StringToMessage}"
+											FallbackValue="C\:\\file path"
+											Mode="OneWay"
+											Path="SampleFileNameNoExt"
+											>
+										<Binding.ConverterParameter>
+											<cs:StringCollection>
+												<sys:String>Sample file has not been assigned</sys:String>
+												<x:Static Member="sys:String.Empty" />
+											</cs:StringCollection>
+										</Binding.ConverterParameter>
+										<!-- <sys:String>Was Found</sys:String> -->
+										<!-- <x:Null /> -->
+										<!-- <x:Static Member="sys:String.Empty" /> -->
+										<!--  d:DataContext="{Binding  -->
+										<!--  Source={x:Static sampledata:ClassfFileSelectorSampleData.Selected}}"  -->
+
+									</Binding>
+								</TextBlock.Text>
+							</TextBlock>
+
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</DataTemplate>
+
+
+			<!-- <Style x:Key="FocusVisual"> -->
+			<!-- 	<Setter Property="Control.Template"> -->
+			<!-- 		<Setter.Value> -->
+			<!-- 			<ControlTemplate> -->
+			<!--  <Rectangle Margin="2"  -->
+			<!--  SnapsToDevicePixels="true"  -->
+			<!--  Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"  -->
+			<!--  StrokeThickness="1"  -->
+			<!--  StrokeDashArray="1 2" />  -->
+			<!-- 			</ControlTemplate> -->
+			<!-- 		</Setter.Value> -->
+			<!-- 	</Setter> -->
+			<!-- </Style> -->
+
+			<Style x:Key="FocusVisual">
+				<Setter Property="Control.Template">
+					<Setter.Value>
+						<ControlTemplate>
+
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
+			<SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
+			<SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da" />
+			<SolidColorBrush x:Key="Item.MouseOver.Border.Opaque" Color="#FF26A0Da" />
+			<SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA" />
+			<SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA" />
+			<SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA" />
+			<SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA" />
+
+
+
+			<Style
+					x:Key="Lb1ItemContainer1"
+					TargetType="{x:Type ListBoxItem}"
+					>
+				<Setter Property="SnapsToDevicePixels" Value="True" />
+				<Setter Property="Padding" Value="4,1" />
+				<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderBrush" Value="Transparent" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListBoxItem}">
+
+
+
+							<Border
+									x:Name="Bdr"
+									Margin="0,0.5,4.5,0"
+									Width="Auto"
+									CornerRadius="6"
+									SnapsToDevicePixels="True"
+									BorderThickness="12,1.5,.5,6"
+									>
+								<Border.Style>
+									<Style TargetType="{x:Type Border}">
+										<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
+									</Style>
+								</Border.Style>
+								<Border.BorderBrush>
+									<LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+										<GradientStop Offset="0.03" Color="{StaticResource TreeViewRow.BorderBrush.Dark.C}" />
+										<GradientStop Offset="0.10" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
+									</LinearGradientBrush>
+								</Border.BorderBrush>
+
+
+								<!--    -->
+								<Border
+										x:Name="Bd"
+										Margin="-3.5,-.5,.5,-1"
+										Padding="{TemplateBinding Padding}"
+										CornerRadius="5"
+										SnapsToDevicePixels="true"
+										Background="{TemplateBinding Background}"
+										BorderThickness="4,0.5,2,0.5"
+										>
+
+									<Border.Style>
+										<Style TargetType="Border">
+											<Setter Property="Background" Value="{StaticResource ListView.Background}" />
+											<Setter Property="BorderBrush">
+												<Setter.Value>
+													<SolidColorBrush Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
+												</Setter.Value>
+											</Setter>
+										</Style>
+
+									</Border.Style>
+									<ContentPresenter
+											x:Name="Cp1"
+											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+											/>
+								</Border>
+							</Border>
+
+							<ControlTemplate.Triggers>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsMouseOver" Value="true" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListView.MouseOver.Background}" />
+									<!-- <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border.Opaque}" /> -->
+									<!-- -->
+									<!-- <Setter TargetName="Bdr" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border.Opaque}" /> -->
+								</MultiTrigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="Selector.IsSelectionActive" Value="false" />
+										<Condition Property="IsSelected" Value="True" />
+									</MultiTrigger.Conditions>
+
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListView.Selected.InActive.Background}" />
+									<!-- <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedInactive.Border}" /> -->
+								</MultiTrigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="Selector.IsSelectionActive" Value="true" />
+										<Condition Property="IsSelected" Value="True" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListView.Selected.Background}" />
+									<!-- <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" /> -->
+									<!-- <Setter TargetName="Bdr" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" /> -->
+								</MultiTrigger>
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -389,9 +612,7 @@
 		<StaticResource ResourceKey="Normal.Window.Background" />
 	</Window.Background>
 
-	<Grid 
-			
-			Margin="0,0,0,5">
+	<Grid Margin="0,0,0,5">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="100" />
@@ -403,11 +624,11 @@
 		</Grid.RowDefinitions>
 
 
-		<!-- <Viewbox -->
-		<!-- 		Grid.Column="0" -->
-		<!-- 		Grid.Row="1" -->
-		<!-- -->
-		<!-- 		Child="{StaticResource File-Open-00}" /> -->
+		<!--  <Viewbox  -->
+		<!--  Grid.Column="0"  -->
+		<!--  Grid.Row="1"  -->
+		<!--    -->
+		<!--  Child="{StaticResource File-Open-00}" />  -->
 
 		<DockPanel
 				Grid.Column="0"
@@ -433,7 +654,9 @@
 					x:Name="Lb1"
 					Margin="5"
 					VerticalAlignment="Stretch"
-					DataContext="{Binding View,
+					d:DataContext="{Binding Path=UserClassificationFiles,
+																	Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"
+					DataContext="{Binding Path=View,
 																ElementName=winClsFileMgr}"
 					DockPanel.Dock="Top"
 					SelectedIndex="0"
@@ -443,69 +666,10 @@
 																 Mode=TwoWay}"
 					Background="{StaticResource ListView.Background}"
 					Foreground="White"
+					ItemContainerStyle="{DynamicResource Lb1ItemContainer1}"
+					ItemTemplate="{StaticResource Lb1ItemTemplate}"
 					ItemsSource="{Binding}"
 					>
-				<ListBox.ItemTemplate>
-					<DataTemplate DataType="classificationFileSupport:ClassificationFile">
-						<StackPanel Orientation="Vertical">
-
-							<TextBlock
-									Margin="0,0,0,3"
-									Text="{Binding FileName,
-																 FallbackValue=filename}"
-									Foreground="White"
-									/>
-							<StackPanel
-									Margin="20,0,0,5"
-									Orientation="Vertical"
-									>
-								<StackPanel Orientation="Horizontal">
-
-									<Label
-											Content="Description"
-											Style="{StaticResource Listbox.Label.Item.Title}"
-											/>
-
-									<TextBlock
-											Margin="0"
-											Text="{Binding HeaderDescFromFile,
-																		 FallbackValue=C:\\file path}"
-											Style="{StaticResource Listbox.TxBlock.Item.Value}"
-											/>
-								</StackPanel>
-
-								<StackPanel Orientation="Horizontal">
-									<Label
-											Content="Sample File"
-											Style="{StaticResource Listbox.Label.Item.Title}"
-											/>
-									<TextBlock
-											Margin="0"
-											Style="{StaticResource Listbox.TxBlock.Item.Value}"
-											>
-										<TextBlock.Text>
-											<Binding
-													Converter="{StaticResource StringToMessage}"
-													FallbackValue="C\:\\file path"
-													Mode="OneWay"
-													Path="SampleFileNameNoExt"
-													>
-												<Binding.ConverterParameter>
-													<cs:StringCollection>
-														<sys:String>Sample file has not been assigned</sys:String>
-														<x:Null />
-													</cs:StringCollection>
-												</Binding.ConverterParameter>
-												<!-- <sys:String>Was Found</sys:String> -->
-
-											</Binding>
-										</TextBlock.Text>
-									</TextBlock>
-								</StackPanel>
-							</StackPanel>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
 
 			</ListBox>
 		</DockPanel>
@@ -515,13 +679,11 @@
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
 				Margin="5,5,5,0"
-
 				>
 
 			<Grid
 					Margin="0"
 					DockPanel.Dock="Left"
-
 					>
 
 				<Grid.ColumnDefinitions>
@@ -565,7 +727,8 @@
 							DockPanel.Dock="Bottom"
 							Click="BtnCancel_OnClick"
 							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}" />
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							/>
 
 					<Button
 							x:Name="BtnDone"
@@ -874,17 +1037,33 @@
 						/>
 
 				<Label
-						Content="{Binding Selected.FullFilePath,
-															ElementName=winClsFileMgr,
-															FallbackValue=''}"
+						Content="{Binding}"
 						Grid.Column="1"
 						Grid.Row="4"
 						Grid.ColumnSpan="4"
+						HorizontalAlignment="Stretch"
+						DataContext="{Binding Selected.FullFilePath,
+																	ElementName=winClsFileMgr,
+																	FallbackValue=''}"
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
 						Style="{StaticResource Label.Base}"
 						/>
+
+				<!--  <Label  -->
+				<!--  Content="{Binding UserClassificationFiles.Count}"  -->
+				<!--  Grid.Column="1"  -->
+				<!--  Grid.Row="4"  -->
+				<!--  Grid.ColumnSpan="4"  -->
+				<!--  Width="400"  -->
+				<!--  HorizontalAlignment="Right"  -->
+				<!--  d:DataContext="{Binding Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"  -->
+				<!--  IsEnabled="{Binding Selected.CanEdit,  -->
+				<!--  ElementName=winClsFileMgr,  -->
+				<!--  Mode=OneWay}"  -->
+				<!--  Style="{StaticResource Label.Base}"  -->
+				<!--  />  -->
 
 				<Label
 						Content="Sample File"

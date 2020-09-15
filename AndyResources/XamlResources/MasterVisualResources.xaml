@@ -10,6 +10,16 @@
 				Color="{DynamicResource Blue.100}"
 				/>-->
 
+
+	<DynamicResource x:Key="Control.Scrolling.Background" ResourceKey="Gray.150" />
+	<DynamicResource x:Key="Control.Scrolling.Selected.Background" ResourceKey="Blue.150" />
+	<DynamicResource x:Key="Control.Scrolling.Selected.InActive.Background" ResourceKey="Blue.050" />
+	<DynamicResource x:Key="Control.Scrolling.MouseOver.Background" ResourceKey="Blue.010" />
+
+	<DynamicResource x:Key="Control.View.Background" ResourceKey="Gray.250"/>
+
+	<DynamicResource x:Key="Title.Subdued" ResourceKey="Gray.650"/>
+
 	<Color x:Key="Window.Background.C">#FF222222</Color>
 	<Color x:Key="TreeView.Background.C">#FF212121</Color>
 
@@ -20,9 +30,6 @@
 	<Color x:Key="DisabledForegroundColor">#FF888888</Color>
 	<Color x:Key="BorderMediumColor">#FF888888</Color>
 
-	<DynamicResource x:Key="Control.View.Background" ResourceKey="Gray.250"/>
-
-	<DynamicResource x:Key="Title.Subdued" ResourceKey="Gray.650"/>
 
 
 	
@@ -42,9 +49,9 @@
 	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Muted" Color="{StaticResource Gray.500}" />
 	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Dim" Color="{StaticResource Gray.400}" />
 
-	<SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource TreeView.Background.C}" />
-	<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Blue.150}" />
-	<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Blue.100}" />
+	<SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource Control.Scrolling.Background}" />
+	<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}" />
+	<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Control.Scrolling.Selected.MouseOver.Background}" />
 	<SolidColorBrush x:Key="TreeView.MouseOver.Background" Color="{StaticResource Blue.050}" />
 	<SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="{StaticResource Medium.Brown.050}" />
 	<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
@@ -67,7 +74,10 @@
 	<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.200}" />
 
 
-	<SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Control.View.Background}"/>
+	<SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Control.Scrolling.Background}"/>
+	<SolidColorBrush x:Key="ListView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}"/>
+	<SolidColorBrush x:Key="ListView.Selected.InActive.Background" Color="{StaticResource Control.Scrolling.Selected.InActive.Background}"/>
+	<SolidColorBrush x:Key="ListView.MouseOver.Background" Color="{StaticResource Control.Scrolling.MouseOver.Background}"/>
 	<SolidColorBrush x:Key="ListView.Static.Background" Color="{StaticResource Blue.200}" />
 	<SolidColorBrush x:Key="ListView.Static.Border" Color="{StaticResource Blue.200}" />
 	<SolidColorBrush x:Key="ListView.Disabled.Background" Color="{StaticResource Blue.Gray.050}" />

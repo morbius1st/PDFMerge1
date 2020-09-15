@@ -25,7 +25,7 @@ namespace SettingsManager
 			Description = "Suite setting file for Andy";
 		}
 
-		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

@@ -11,9 +11,7 @@ using System.Threading.Tasks;
 using Tests2.DebugSupport;
 using Tests2.FileListManager;
 using Tests2.Windows;
-#pragma warning disable CS0105 // The using directive for 'System.Threading.Tasks' appeared previously in this namespace
 using System.Threading.Tasks;
-#pragma warning restore CS0105 // The using directive for 'System.Threading.Tasks' appeared previously in this namespace
 using System.Windows.Threading;
 #endregion
 

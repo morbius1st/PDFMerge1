@@ -12,6 +12,7 @@ using AndyShared.SampleFileSupport;
 using SettingsManager;
 using UtilityLibrary;
 using WpfShared.Dialogs;
+using WpfShared.SampleData;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
@@ -37,19 +38,29 @@ namespace WpfShared.Windows
 
 		private ClassificationFile selected;
 
+		private SampleFiles sampleFiles = null;
+
 		private SampleFile selectedSampleFile;
 
 		private ICollectionView view;
 
-		private SampleFiles sampleFiles = null;
 
 		private Balloon b;
 
 		private bool tbxKeyProcessingFlag;
 
+		public static ClassfFileSelectorSampleData SampleData { get; set; } = new ClassfFileSelectorSampleData();
+
 	#endregion
 
 	#region ctor
+
+		static ClassificationFileSelector()
+		{
+
+			ClassificationFiles cfgClsFiles = ClassfFileSelectorSampleData.CfgClsFiles;
+		}
+
 
 		public ClassificationFileSelector()
 		{

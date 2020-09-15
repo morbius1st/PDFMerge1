@@ -115,6 +115,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.External\CsUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
@@ -180,9 +183,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include=".External\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Windows\MainWindow.xaml">
       <SubType>Designer</SubType>

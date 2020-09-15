@@ -23,7 +23,7 @@ namespace SettingsManager
 			Notes = "any notes go here";
 		}
 
-		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

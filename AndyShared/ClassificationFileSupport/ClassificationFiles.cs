@@ -41,7 +41,7 @@ namespace AndyShared.ConfigMgrShared
 
 	#region ctor
 
-		private ClassificationFiles() { }
+		public ClassificationFiles() { }
 
 	#endregion
 
@@ -60,8 +60,8 @@ namespace AndyShared.ConfigMgrShared
 
 		public  ObservableCollection<ClassificationFile> UserClassificationFiles
 		{
-			get => userClassificationFiles;
-			private set
+			get => userClassificationFiles; 
+			set
 			{
 				userClassificationFiles = value;
 				OnPropertyChange();
@@ -179,7 +179,7 @@ namespace AndyShared.ConfigMgrShared
 			OnPropertyChange("UserClassificationFiles");
 		}
 
-		private void UpdateView()
+		public void UpdateView()
 		{
 			userClassifFilesView = CollectionViewSource.GetDefaultView(userClassificationFiles);
 

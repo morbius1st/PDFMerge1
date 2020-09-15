@@ -180,21 +180,17 @@ namespace Tests
 		private void FilePathTests()
 		{
 
-			
-
 			//P:\FolderName\FolderName\FolderName\New Text Document.txt
 
 			tbxLeft.Text = "";
 
-			//                         | 
+			// 
 			WriteLineToLeft("current directory 1 is| " + (Directory.GetCurrentDirectory()) + nl);
 			WriteLineToLeft("current directory 2 is| " + (Environment.CurrentDirectory) + nl);
 
 			FilePath<FileNameSimple> f;
 			// FilePath<FileNameAsSheetFile> fx;
-#pragma warning disable CS0168 // The variable 'fp' is declared but never used
 			FilePath<FileNameAsSheetPdf> fp;
-#pragma warning restore CS0168 // The variable 'fp' is declared but never used
 
 			// sample for documentation
 

@@ -75,8 +75,6 @@ namespace AndyShared.Support
 
 #endregion
 
-
-
 #region not bool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
@@ -174,7 +172,7 @@ namespace AndyShared.Support
 
 			if (p[1].IsVoid()) p[1] = (string) value;
 
-			return (string) value == null ? p[0] : p[1];
+			return ((string) value).IsVoid() ? p[0] : p[1];
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

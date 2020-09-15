@@ -127,7 +127,7 @@
     <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
-      <Aliases>Shared</Aliases>
+      <Aliases>global</Aliases>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -135,25 +135,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.Linked\CsUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
       <Link>Settings\MachineSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
-    <Compile Include="Settings\HeadingSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\ResourceFiles\XamlResources\Behaviors.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
+    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MainWindowClassifierEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -167,7 +177,7 @@
       <DependentUpon>MainWindowClassifierEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\ResourceFiles\XamlResources\MainWinResources.xaml">
+    <Page Include="Windows\ResourceFiles\SavedResources\MainWinResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,7 +228,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".Linked\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
   </ItemGroup>
   <ItemGroup>

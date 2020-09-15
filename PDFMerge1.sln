@@ -24,10 +24,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D6D8A33-2943-4C44-B585-D0CD8234C61E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Categorization System.txt = Categorization System.txt
-		ClassificationFilleDataStorageSystem.txt = ClassificationFilleDataStorageSystem.txt
-		SVG\File-Open-00.xaml = SVG\File-Open-00.xaml
-		Project Descriptions.txt = Project Descriptions.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassifierEditor", "ClassifierEditor\ClassifierEditor.csproj", "{B6CB8C1E-D565-48EE-A16B-223CAFBCDA9C}"
@@ -42,11 +38,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfShared", "WpfShared\WpfS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCore1", "TestCore1\TestCore1.csproj", "{18FDE023-2E9B-491F-BF61-843C6EFA6677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfSharedTests", "WpfSharedTests\WpfSharedTests.csproj", "{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SVG", "SVG", "{C0ECAAF1-D1C6-45FB-ADCB-2BFA49390E22}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{C29B7CA2-988C-4330-B5C4-47C0A1C91FC2}"
 	ProjectSection(SolutionItems) = preProject
-		SVG\File-Open-00.xaml = SVG\File-Open-00.xaml
+		Categorization System.txt = Categorization System.txt
+		ClassificationFilleDataStorageSystem.txt = ClassificationFilleDataStorageSystem.txt
+		Project Descriptions.txt = Project Descriptions.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".LinkOnly", ".LinkOnly", "{F627B9D2-FC1F-4A64-A2A6-DC35ACC39BA1}"
+	ProjectSection(SolutionItems) = preProject
+		.LinkOnly\HeadingSettings.cs = .LinkOnly\HeadingSettings.cs
+		.LinkOnly\MachineSettings.cs = .LinkOnly\MachineSettings.cs
+		.LinkOnly\SiteSettings.cs = .LinkOnly\SiteSettings.cs
+		.LinkOnly\SuiteSettings.cs = .LinkOnly\SuiteSettings.cs
 	EndProjectSection
 EndProject
 Global
@@ -54,7 +58,6 @@ Global
 		AndyShared\AndyShared.projitems*{9db459f6-2625-4296-9e1a-04297c76893a}*SharedItemsImports = 13
 		AndyResources\AndyResources.projitems*{b413f196-575d-4ae0-9c4a-d81082f67b94}*SharedItemsImports = 13
 		AndyShared\AndyShared.projitems*{c199e67c-f523-4504-9014-234a723ca57d}*SharedItemsImports = 4
-		AndyResources\AndyResources.projitems*{c4cf3e3e-620e-400c-bc59-b701e5c2e637}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{c4cf3e3e-620e-400c-bc59-b701e5c2e637}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{d05189ea-a9d3-46c2-99eb-06d8b379f520}*SharedItemsImports = 4
 	EndGlobalSection
@@ -301,30 +304,13 @@ Global
 		{18FDE023-2E9B-491F-BF61-843C6EFA6677}.Release|x64.Build.0 = Release|Any CPU
 		{18FDE023-2E9B-491F-BF61-843C6EFA6677}.Release|x86.ActiveCfg = Release|x86
 		{18FDE023-2E9B-491F-BF61-843C6EFA6677}.Release|x86.Build.0 = Release|x86
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|Any CPU.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|Any CPU.Build.0 = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|x64.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|x64.Build.0 = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|x86.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.All|x86.Build.0 = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|x64.Build.0 = Debug|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|x86.ActiveCfg = Debug|x86
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Debug|x86.Build.0 = Debug|x86
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|x64.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|x64.Build.0 = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|x86.ActiveCfg = Release|Any CPU
-		{2CEFBE96-2FC6-4A22-BA56-E524A78E44AC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C0ECAAF1-D1C6-45FB-ADCB-2BFA49390E22} = {0D6D8A33-2943-4C44-B585-D0CD8234C61E}
+		{C29B7CA2-988C-4330-B5C4-47C0A1C91FC2} = {0D6D8A33-2943-4C44-B585-D0CD8234C61E}
+		{F627B9D2-FC1F-4A64-A2A6-DC35ACC39BA1} = {0D6D8A33-2943-4C44-B585-D0CD8234C61E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D26B3FDF-7C88-4C5D-920B-AF32B974C98E}

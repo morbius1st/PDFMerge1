@@ -159,16 +159,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.Linked\CsUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
       <Link>Settings\MachineSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include="ConfigMgr\ConfigManager.cs" />
@@ -180,7 +186,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Settings\HeadingSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\MainWindowAndyCfg.xaml.cs">
       <DependentUpon>MainWindowAndyCfg.xaml</DependentUpon>
@@ -220,7 +225,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".Linked\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>

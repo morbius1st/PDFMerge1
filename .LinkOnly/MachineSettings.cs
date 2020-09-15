@@ -19,7 +19,7 @@ namespace SettingsManager
 			Description = "machine setting file for SettingsManagerV70";
 		}
 
-		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

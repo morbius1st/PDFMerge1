@@ -34,9 +34,7 @@ namespace Tests2.Support
 			list = new ObservableCollection<KeyValuePair<T1, T2>>(collection);
 		}
 
-#pragma warning disable CS0109 // The member 'ObservableDictionary<T1, T2>.Add(KeyValuePair<T1, T2>)' does not hide an accessible member. The new keyword is not required.
 		public new void Add(KeyValuePair<T1, T2> item)
-#pragma warning restore CS0109 // The member 'ObservableDictionary<T1, T2>.Add(KeyValuePair<T1, T2>)' does not hide an accessible member. The new keyword is not required.
 		{
 			list.Add(item);
 		}

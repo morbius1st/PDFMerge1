@@ -204,9 +204,7 @@ namespace AndyShared.FilesSupport
 
 	#region system overrides
 
-#pragma warning disable CS0115 // 'FileNameSheetPdf.ToString()': no suitable method found to override
 		public override string ToString()
-#pragma warning restore CS0115 // 'FileNameSheetPdf.ToString()': no suitable method found to override
 		{
 			return "this is FileNameAsSheetFileName";
 		}

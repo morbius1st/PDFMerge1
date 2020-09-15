@@ -48,9 +48,7 @@ namespace Tests2.PDFMergeManager
 
 		public void ListTree()
 		{
-#pragma warning disable CS1061 // 'PDFMergeTree' does not contain a definition for 'ListMergeTree' and no accessible extension method 'ListMergeTree' accepting a first argument of type 'PDFMergeTree' could be found (are you missing a using directive or an assembly reference?)
 			MTree.ListMergeTree();
-#pragma warning restore CS1061 // 'PDFMergeTree' does not contain a definition for 'ListMergeTree' and no accessible extension method 'ListMergeTree' accepting a first argument of type 'PDFMergeTree' could be found (are you missing a using directive or an assembly reference?)
 		}
 
 //		public async void test(int i)

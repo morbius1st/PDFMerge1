@@ -120,22 +120,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.External\CsUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\HeadingSettings.cs">
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
       <Link>Settings\MachineSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include="..\AndyShared\Settings\UserSettings.cs">
@@ -201,9 +204,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include=".External\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\WpfShared\WpfShared.csproj">
       <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>

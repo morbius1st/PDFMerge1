@@ -191,13 +191,20 @@ namespace AndyShared.ClassificationFileSupport
 				sampleFile = new SampleFile();
 				sampleFile.InitializeFromClassfFilePath(value);
 
+			#if DEBUG
+				if (sampleFile.SampleFilePath == null)
+				{
+					sampleFile.SampleFilePath = new FilePath<FileNameSimple>(value);
+				}
+			#endif
+
 				UpdateSampleFileProperties();
 			}
 		}
 
 		public string SampleFileName => sampleFile?.SampleFilePath?.FileName ?? null;
 
-		public string SampleFileNameNoExt => sampleFile?.SampleFilePath?.FileNameNoExt ?? null;
+		public string SampleFileNameNoExt => sampleFile?.SampleFilePath?.FileNameNoExt ?? "";
 
 		// status
 		public bool CanEdit => IsInitialized && IsUserClassfFile;

@@ -1,6 +1,4 @@
-﻿extern alias Shared;
-
-#region using
+﻿#region using
 
 using System;
 using System.Collections.Generic;
@@ -17,7 +15,7 @@ using System.Windows.Input;
 using ClassifierEditor.SampleData;
 // using ClassifierEditor.Tree;
 using SettingsManager;
-using Shared::UtilityLibrary;
+using UtilityLibrary;
 
 // using static ClassifierEditor.Tree.CompareOperations;
 // using static ClassifierEditor.Tree.ComparisonOp;
@@ -434,6 +432,7 @@ namespace ClassifierEditor.Windows
 
 		private void initSettings()
 		{
+
 			UserSettings.Admin.Read();
 
 			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> i = UserSettings.Admin;
@@ -444,8 +443,7 @@ namespace ClassifierEditor.Windows
 
 			OnPropertyChange("RememberCollapseState");
 
-			// inform all of the current setting
-			OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+
 
 			UserSettings.Admin.Write();
 
@@ -490,6 +488,9 @@ namespace ClassifierEditor.Windows
 				string fileId = UserSettings.Data.LastClassificationFileId;
 
 				ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
+
+				// inform all of the current setting
+				OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 				//

@@ -124,19 +124,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+      <Link>.External\CsUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
       <Link>.External\SettingsMgr.-v30.cs</Link>
     </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\MachineSettings.cs">
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
       <Link>Settings\MachineSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyShared\Settings\SuiteSettings.cs">
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include="..\AndyShared\Settings\UserSettings.cs">
@@ -153,7 +159,6 @@
     <Compile Include="PdfMerge\PdfMergeMgr.cs" />
     <Compile Include="PdfMerge\PdfMergeTree.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
-    <Compile Include="Settings\HeadingSettings.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

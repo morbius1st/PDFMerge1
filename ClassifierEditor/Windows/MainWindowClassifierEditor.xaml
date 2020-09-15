@@ -39,7 +39,7 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ExpanderCheckBox.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/MainWinResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 
 			</ResourceDictionary.MergedDictionaries>
 
@@ -753,6 +753,8 @@
 																				RelativeSource={RelativeSource TemplatedParent}}"
 										Style="{StaticResource Tv1ExpandCollapseToggleStyle}"
 										/>
+
+
 								<Border
 										x:Name="Bdr"
 										Grid.Column="1"
@@ -775,6 +777,7 @@
 											<GradientStop Offset="0.10" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
 										</LinearGradientBrush>
 									</Border.BorderBrush>
+
 									<Border
 											x:Name="BD"
 											Margin="-3.5,-.5,.5,-1"
@@ -787,10 +790,12 @@
 												<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
 											</Style>
 										</Border.Style>
+
 										<VirtualizingStackPanel
 												Grid.Column="1"
 												Grid.Row="0"
 												>
+
 											<Border
 													x:Name="Bd"
 													Padding="{TemplateBinding Padding}"
@@ -803,7 +808,7 @@
 													<Style TargetType="{x:Type Border}">
 														<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
 														<Style.Triggers>
-															<Trigger Property="IsMouseOver" Value="True">
+															<Trigger Property="IsMouseOver" Value="true">
 																<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" />
 															</Trigger>
 															<DataTrigger Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}" Value="true">
@@ -818,9 +823,11 @@
 														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 														/>
 											</Border>
+
 											<ItemsPresenter x:Name="ItemsHost" />
 										</VirtualizingStackPanel>
 									</Border>
+
 								</Border>
 
 							</Grid>
@@ -1912,11 +1919,11 @@
 				</Grid>
 			</ControlTemplate>
 
-
+			<!-- DataType="{x:Type tree:TreeNode}" -->
 			<HierarchicalDataTemplate
 					x:Key="Tv1ItemTemplate1"
 					x:Name="Hdt1"
-					DataType="{x:Type tree:TreeNode}"
+					
 					ItemsSource="{Binding ChildrenView}"
 					>
 

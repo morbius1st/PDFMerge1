@@ -2,9 +2,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-#pragma warning disable CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 using UtilityLibrary;
-#pragma warning restore CS0246 // The type or namespace name 'UtilityLibrary' could not be found (are you missing a using directive or an assembly reference?)
 
 #endregion
 
@@ -20,9 +18,7 @@ namespace Tests.PathSupport
 //		OTHER
 //	}
 
-#pragma warning disable CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	public class FileNameAsSheetPdf : AFileName, INotifyPropertyChanged
-#pragma warning restore CS0246 // The type or namespace name 'AFileName' could not be found (are you missing a using directive or an assembly reference?)
 	{
 	#region private fields
 
@@ -42,9 +38,7 @@ namespace Tests.PathSupport
 
 	#region public properties
 
-#pragma warning disable CS0115 // 'FileNameAsSheetPdf.FileNameNoExt': no suitable method found to override
 		public override string FileNameNoExt
-#pragma warning restore CS0115 // 'FileNameAsSheetPdf.FileNameNoExt': no suitable method found to override
 		{
 			get => fileNameNoExt;
 
@@ -57,9 +51,7 @@ namespace Tests.PathSupport
 			}
 		}
 
-#pragma warning disable CS0115 // 'FileNameAsSheetPdf.Extension': no suitable method found to override
 		public override string ExtensionNoSep
-#pragma warning restore CS0115 // 'FileNameAsSheetPdf.Extension': no suitable method found to override
 		{
 			get => extensionNoSep;
 			set
@@ -203,9 +195,7 @@ namespace Tests.PathSupport
 
 	#region system overrides
 
-#pragma warning disable CS0115 // 'FileNameAsSheetPdf.ToString()': no suitable method found to override
 		public override string ToString()
-#pragma warning restore CS0115 // 'FileNameAsSheetPdf.ToString()': no suitable method found to override
 		{
 			return "this is FileNameAsSheetFileName";
 		}
