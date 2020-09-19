@@ -6,93 +6,44 @@
 	<!--  xmlns:local="clr-namespace:ClassifierEditor.Windows.ResourceFiles.XamlResources"  -->
 
 
-	<sys:Double x:Key="BarSize"
-			>
+	<sys:Double x:Key="BarSize">
 		8
 	</sys:Double>
-	<sys:Double x:Key="BarSizeOutline"
-			>
+	<sys:Double x:Key="BarSizeOutline">
 		10
 	</sys:Double>
-	<sys:Double x:Key="RepeatButtonLength"
-			>
+	<sys:Double x:Key="RepeatButtonLength">
 		11
 	</sys:Double>
 
-	<SolidColorBrush x:Key="ScrollBar.Static.Background"
-			Color="#222222"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Static.Border"
-			Color="Black"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.MouseOver.Background"
-			Color="#555555"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.MouseOver.Border"
-			Color="Black"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Pressed.Background"
-			Color="#666666"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Pressed.Border"
-			Color="#666666"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Disabled.Background"
-			Color="#222222"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Disabled.Border"
-			Color="#222222"
-			/>
+	<SolidColorBrush x:Key="ScrollBar.Static.Background" Color="#222222" />
+	<SolidColorBrush x:Key="ScrollBar.Static.Border" Color="Black" />
+	<SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="#555555" />
+	<SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="Black" />
+	<SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#666666" />
+	<SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#666666" />
+	<SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="#222222" />
+	<SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#222222" />
 
 
-	<SolidColorBrush x:Key="ScrollBar.Glyph.Pressed"
-			Color="Red"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Glyph.MouseOver"
-			Color="Red"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Glyph.Disabled"
-			Color="red"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Glyph.Static"
-			Color="Red"
-			/>
+	<SolidColorBrush x:Key="ScrollBar.Glyph.Pressed" Color="Red" />
+	<SolidColorBrush x:Key="ScrollBar.Glyph.MouseOver" Color="Red" />
+	<SolidColorBrush x:Key="ScrollBar.Glyph.Disabled" Color="red" />
+	<SolidColorBrush x:Key="ScrollBar.Glyph.Static" Color="Red" />
 
 
-	<SolidColorBrush x:Key="ScrollBar.Thumb.MouseOver"
-			Color="#BBBBBB"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Thumb.Pressed"
-			Color="#BBBBBB"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Thumb.Static"
-			Color="#555555"
-			/>
+	<SolidColorBrush x:Key="ScrollBar.Thumb.MouseOver" Color="#BBBBBB" />
+	<SolidColorBrush x:Key="ScrollBar.Thumb.Pressed" Color="#BBBBBB" />
+	<SolidColorBrush x:Key="ScrollBar.Thumb.Static" Color="#555555" />
 
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Static.Background"
-			Color="#222222"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Static.Border"
-			Color="#888888"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.MouseOver.Background"
-			Color="#BBBBBB"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.MouseOver.Border"
-			Color="#888888"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Pressed.Background"
-			Color="White"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Pressed.Border"
-			Color="White"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Disabled.Background"
-			Color="#222222"
-			/>
-	<SolidColorBrush x:Key="ScrollBar.Repeat.Disabled.Border"
-			Color="#888888"
-			/>
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Static.Background" Color="#222222" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Static.Border" Color="#888888" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.MouseOver.Background" Color="#BBBBBB" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.MouseOver.Border" Color="#888888" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Pressed.Background" Color="White" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Pressed.Border" Color="White" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Disabled.Background" Color="#222222" />
+	<SolidColorBrush x:Key="ScrollBar.Repeat.Disabled.Border" Color="#888888" />
 
 	<!-- <Style x:Key="FocusVisual"> -->
 	<!-- 	<Setter Property="Control.Template"> -->
@@ -121,9 +72,7 @@
 		<Setter Property="Padding" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="{x:Type RepeatButton}"
-						>
+				<ControlTemplate TargetType="{x:Type RepeatButton}">
 					<Border x:Name="border"
 							SnapsToDevicePixels="true"
 							Background="{StaticResource ScrollBar.Repeat.Static.Background}"
@@ -169,9 +118,7 @@
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="{x:Type RepeatButton}"
-						>
+				<ControlTemplate TargetType="{x:Type RepeatButton}">
 					<Rectangle
 							Width="{TemplateBinding Width}"
 							Height="{TemplateBinding Height}"
@@ -189,13 +136,9 @@
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="{x:Type Thumb}"
-						>
+				<ControlTemplate TargetType="{x:Type Thumb}">
 
-					<Border
-							BorderThickness="1,0,1,0"
-							>
+					<Border BorderThickness="1,0,1,0">
 						<Rectangle x:Name="rectangle"
 								Width="{TemplateBinding Width}"
 								Height="{TemplateBinding Height}"
@@ -225,13 +168,9 @@
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="{x:Type Thumb}"
-						>
+				<ControlTemplate TargetType="{x:Type Thumb}">
 
-					<Border
-							BorderThickness="0,1,0,1"
-							>
+					<Border BorderThickness="0,1,0,1">
 						<Rectangle x:Name="rectangle"
 								Width="{TemplateBinding Width}"
 								Height="{TemplateBinding Height}"
@@ -295,9 +234,7 @@
 		<Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="{x:Type ScrollBar}"
-						>
+				<ControlTemplate TargetType="{x:Type ScrollBar}">
 					<Border
 							Width="{StaticResource BarSizeOutline}"
 							BorderThickness="1"
@@ -355,9 +292,7 @@
 											/>
 								</Track.IncreaseRepeatButton>
 								<Track.Thumb>
-									<Thumb
-											Style="{StaticResource ScrollBarThumbVertical}"
-											/>
+									<Thumb Style="{StaticResource ScrollBarThumbVertical}" />
 								</Track.Thumb>
 							</Track>
 							<RepeatButton x:Name="PART_LineDownButton"
@@ -424,9 +359,7 @@
 					<!--<Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />-->
 					<!--<Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />-->
 					<Setter.Value>
-						<ControlTemplate
-								TargetType="{x:Type ScrollBar}"
-								>
+						<ControlTemplate TargetType="{x:Type ScrollBar}">
 							<Border
 									Height="{StaticResource BarSizeOutline}"
 									BorderThickness="1"
@@ -479,9 +412,7 @@
 													/>
 										</Track.IncreaseRepeatButton>
 										<Track.Thumb>
-											<Thumb
-													Style="{StaticResource ScrollBarThumbHorizontal}"
-													/>
+											<Thumb Style="{StaticResource ScrollBarThumbHorizontal}" />
 										</Track.Thumb>
 									</Track>
 									<RepeatButton x:Name="PART_LineRightButton"

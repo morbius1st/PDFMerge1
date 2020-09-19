@@ -55,9 +55,9 @@ namespace ClassifierEditor.SampleData
 		public SampleData()
 		{
 			// sd = new SampleData();
-			SampleData.Sample(TreeBase);
-
-			SampleData.SampleFiles(FileList2);
+			// SampleData.Sample(TreeBase);
+			//
+			// SampleData.SampleFiles(FileList2);
 		}
 
 	#endregion
@@ -127,6 +127,8 @@ namespace ClassifierEditor.SampleData
 
 			for (int i = 0; i < max; i++)
 			{
+				// Debug.WriteLine("@index = " + i);
+
 				if (depth == 0)
 				{
 					BRANCH = i;
@@ -134,56 +136,63 @@ namespace ClassifierEditor.SampleData
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
 				item.Depth = depth + 1;
+
 				node = new TreeNode(parent, item, false);
 
 
 				if (i == 0)
 				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
 					item.IsFixed = true;
 
-					node = new TreeNode(parent, item, false);
+					// node = new TreeNode(parent, item, false);
 
 				}
 				else if (i == 2)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
-					node = new TreeNode(parent, item, false);
+					// node = new TreeNode(parent, item, false);
 
 					item.IsFixed = true;
 				}
-				else if (i == 3)
-				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", isFirst: true, ignore: false));
-					node = new TreeNode(parent, item, false);
-					item.IsFixed = true;
-				}
-				else if (i == 4)
-				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					node = new TreeNode(parent, item, false);
-
-				} 
-				else if (i == 1)
+				else if (i == 3 || i == 5)
 				{
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true));
 					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
 					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					node = new TreeNode(parent, item, false);
+					// node = new TreeNode(parent, item, false);
+					item.IsFixed = true;
+				}
+				else if (i == 4)
+				{
+					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
+					// item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					// node = new TreeNode(parent, item, false);
 
-					Temp = node;
+				} 
+				else if (i == 1)
+				{
+					ValueCompOp v = new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true);
+					v.IsFirstCompOp = true;
+
+
+					item.CompareOps.Add(v);
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					// node = new TreeNode(parent, item, false);
+
+					if (depth == 0) Temp = node;
 
 				} 
 
-				if (i == 3 || i == 5)
+				if (i == 3)
 				{
 					// make a new branch
 					// this branch is still associated with the parent branch

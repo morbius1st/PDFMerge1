@@ -1,11 +1,8 @@
 ﻿#region + Using Directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Windows.Media;
 
 #endregion
 
@@ -15,6 +12,49 @@ using System.Windows.Controls;
 
 namespace ClassifierEditor.Windows.Support
 {
+
+	// <Setter Property="Background" Value="{custom:ScBrush color={StaticResource Gray.150}, A=#2f}"></Setter>
+
+		[MarkupExtensionReturnType(typeof(SolidColorBrush))]
+		public class ScBrush : MarkupExtension
+		{
+			private Color c;
+
+			public ScBrush() {}
+
+			public Color color
+			{
+				get => c;
+				set
+				{
+					R = c.R;
+					G = c.G;
+					B = c.B;
+				}
+			}
+
+			public byte R { get; set; }
+
+			public byte G { get; set; }
+
+			public byte B { get; set; }
+
+			public byte? A { get; set; }
+
+			public System.Windows.Media.SolidColorBrush ToBrush()
+			{
+				return new SolidColorBrush(Color.FromArgb(
+					(byte) (A.HasValue ? A.Value : 255), R, G, B));
+
+			}
+
+			public override object ProvideValue(IServiceProvider serviceProvider)
+			{
+				return ToBrush();
+			}
+		}
+
+
 	public class CustomProperties
 	{
 

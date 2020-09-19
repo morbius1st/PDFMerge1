@@ -159,8 +159,28 @@
     <Compile Include="Windows\ResourceFiles\XamlResources\Behaviors.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
+    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -184,22 +204,6 @@
     <Page Include="Windows\ResourceFiles\XamlResources\ExpanderCheckBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\IconResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\MasterColorList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\ScrollBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\VisualStates.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

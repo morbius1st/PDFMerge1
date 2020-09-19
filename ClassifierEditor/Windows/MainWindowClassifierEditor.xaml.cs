@@ -512,6 +512,8 @@ namespace ClassifierEditor.Windows
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
 
 
+			List<LogicalCompareOp> LogicalCompareOps = CompareOperations.LogicalCompareOps;
+
 			// cancel any startup modifications
 			OnTnInitAnnouncer.Announce(null);
 		}

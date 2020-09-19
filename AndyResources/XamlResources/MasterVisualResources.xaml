@@ -36,6 +36,45 @@
 	<!--#endregion-->
 
 
+	<SolidColorBrush x:Key="ItemsControl.Background" Color="{StaticResource Gray.150}" />
+	<SolidColorBrush x:Key="ItemsControl.MouseOver.Background" Color="{StaticResource Blue.250}" />
+	<SolidColorBrush x:Key="ItemsControl.Selected.InActive.Background" Color="{StaticResource Light.Blue.150}" />
+	<SolidColorBrush x:Key="ItemsControl.Selected.Active.Background" Color="{StaticResource Blue.220}" />
+
+
+	<SolidColorBrush x:Key="ItemsControl.Item.Background.Normal" Color="{StaticResource Blue.200}" />
+	<SolidColorBrush x:Key="ItemsControl.Item.Background.Disabled" Color="{StaticResource Blue.150}" />
+
+	<SolidColorBrush x:Key="ItemsControl.Item.Alt1.Background.Normal" Color="{StaticResource Deep.Purple.450}" />
+	<SolidColorBrush x:Key="ItemsControl.Item.Alt1.Background.Disabled" Color="{StaticResource Deep.Purple.200}" />
+
+	<SolidColorBrush x:Key="ItemsControl.Title.Background.Normal" Color="{StaticResource Bright.Green.350}" />
+	<SolidColorBrush x:Key="ItemsControl.Title.Background.Disabled" Color="{StaticResource Bright.Green.300}" />
+
+	<SolidColorBrush x:Key="ItemsControl.Subject.Background.Normal" Color="{StaticResource Blue.450}" />
+	<SolidColorBrush x:Key="ItemsControl.Subject.Background.Disabled" Color="{StaticResource Blue.300}" />
+
+	<SolidColorBrush x:Key="ItemsControl.Value.Background.Normal" Color="{StaticResource Teal.500}" />
+	<SolidColorBrush x:Key="ItemsControl.Value.Background.Disabled" Color="{StaticResource Teal.350}" />
+
+
+	<SolidColorBrush x:Key="ItemsControl.Text.MouseOver" Color="White" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Normal" Color="{StaticResource Gray.950}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled" Color="{StaticResource Gray.700}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.800}" />
+
+
+	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Normal" Color="{StaticResource Indigo.400}" />
+	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Disabled" Color="{StaticResource Indigo.200}" />
+
+
+
+
+
+
+
+
+
 	<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
 
 	<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />
@@ -49,9 +88,15 @@
 	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Muted" Color="{StaticResource Gray.500}" />
 	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Dim" Color="{StaticResource Gray.400}" />
 
-	<SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource Control.Scrolling.Background}" />
-	<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}" />
-	<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Control.Scrolling.Selected.MouseOver.Background}" />
+	<!-- <SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource Control.Scrolling.Background}" /> -->
+	<!-- <SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}" /> -->
+	<!-- <SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Control.Scrolling.Selected.MouseOver.Background}" /> -->
+
+
+	<SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource Gray.150}" />
+	<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Blue.150}" />
+	<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Blue.010}" />
+
 	<SolidColorBrush x:Key="TreeView.MouseOver.Background" Color="{StaticResource Blue.050}" />
 	<SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="{StaticResource Medium.Brown.050}" />
 	<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
@@ -74,16 +119,25 @@
 	<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.200}" />
 
 
-	<SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Control.Scrolling.Background}"/>
-	<SolidColorBrush x:Key="ListView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}"/>
-	<SolidColorBrush x:Key="ListView.Selected.InActive.Background" Color="{StaticResource Control.Scrolling.Selected.InActive.Background}"/>
-	<SolidColorBrush x:Key="ListView.MouseOver.Background" Color="{StaticResource Control.Scrolling.MouseOver.Background}"/>
+	<!-- <SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Control.Scrolling.Background}"/> -->
+	<!-- <SolidColorBrush x:Key="ListView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}"/> -->
+	<!-- <SolidColorBrush x:Key="ListView.Selected.InActive.Background" Color="{StaticResource Control.Scrolling.Selected.InActive.Background}"/> -->
+	<!-- <SolidColorBrush x:Key="ListView.MouseOver.Background" Color="{StaticResource Control.Scrolling.MouseOver.Background}"/> -->
+	
+	<SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Gray.150}"/>
+	<SolidColorBrush x:Key="ListView.Selected.Background" Color="{StaticResource Blue.150}"/>
+	<SolidColorBrush x:Key="ListView.Selected.InActive.Background" Color="{StaticResource Blue.050}"/>
+	<SolidColorBrush x:Key="ListView.MouseOver.Background" Color="{StaticResource Blue.010}"/>
+
+
+
+
 	<SolidColorBrush x:Key="ListView.Static.Background" Color="{StaticResource Blue.200}" />
 	<SolidColorBrush x:Key="ListView.Static.Border" Color="{StaticResource Blue.200}" />
 	<SolidColorBrush x:Key="ListView.Disabled.Background" Color="{StaticResource Blue.Gray.050}" />
 
 	<SolidColorBrush x:Key="ListView.Item.Background.NoConditions" Color="{StaticResource Deep.Purple.300}" />
-	<SolidColorBrush x:Key="ListView.Item.Background.Discipline" Color="{StaticResource Lime.200}" />
+	<SolidColorBrush x:Key="ListView.Item.Background.Discipline" Color="{StaticResource Bright.Green.350}" />
 	<SolidColorBrush x:Key="ListView.Item.Background.Logical" Color="{StaticResource Indigo.400}" />
 	<SolidColorBrush x:Key="ListView.Item.Background.Value" Color="{StaticResource Teal.500}" />
 	<SolidColorBrush x:Key="ListView.Item.Background.Error" Color="{StaticResource Red.200}" />
@@ -95,12 +149,12 @@
 
 	<SolidColorBrush x:Key="Control.Disabled.Background" Color="{StaticResource Gray.600}" />
 
-	<SolidColorBrush x:Key="Button.Static.Background" Color="{StaticResource Lime.300}" />
+	<SolidColorBrush x:Key="Button.Static.Background" Color="{StaticResource Bright.Green.300}" />
 	<SolidColorBrush x:Key="Button.Static.Delete.Background" Color="{StaticResource Yellow.300}" />
 	<SolidColorBrush x:Key="Button.Static.Delete.Icon" Color="{StaticResource Gray.100}" />
-	<SolidColorBrush x:Key="Button.Static.Border" Color="{StaticResource Lime.300}" />
-	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="{StaticResource Lime.600}" />
-	<SolidColorBrush x:Key="Button.MouseOver.Border" Color="{StaticResource Lime.600}" />
+	<SolidColorBrush x:Key="Button.Static.Border" Color="{StaticResource Bright.Green.300}" />
+	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="{StaticResource Bright.Green.600}" />
+	<SolidColorBrush x:Key="Button.MouseOver.Border" Color="{StaticResource Bright.Green.600}" />
 	<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
 	<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
 	<SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
@@ -119,7 +173,7 @@
 	<SolidColorBrush x:Key="Label.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}"></SolidColorBrush>
 
 	<SolidColorBrush x:Key="Label.Status.Title.Background" Color="{StaticResource Dark.Blue.400}"></SolidColorBrush>
-	<SolidColorBrush x:Key="Label.Status.Value.Background" Color="{StaticResource Lime.200}"></SolidColorBrush>
+	<SolidColorBrush x:Key="Label.Status.Value.Background" Color="{StaticResource Bright.Green.200}"></SolidColorBrush>
 	<SolidColorBrush x:Key="Label.Status.Button.Background" Color="{StaticResource Amber.300}"></SolidColorBrush>
 
 	<SolidColorBrush x:Key="TextBox.Background" Color="{StaticResource Gray.250}"></SolidColorBrush>

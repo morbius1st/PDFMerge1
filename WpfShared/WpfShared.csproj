@@ -112,8 +112,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -179,19 +194,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\ResourceFiles\XamlResources\IconResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\MasterColorList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Windows\ResourceFiles\XamlResources\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\VisualStates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
