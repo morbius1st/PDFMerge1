@@ -42,4 +42,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\XmalMarkup.cs" />
+  </ItemGroup>
 </Project>

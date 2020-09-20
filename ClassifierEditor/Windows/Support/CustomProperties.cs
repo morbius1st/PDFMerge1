@@ -12,52 +12,8 @@ using System.Windows.Media;
 
 namespace ClassifierEditor.Windows.Support
 {
-
-	// <Setter Property="Background" Value="{custom:ScBrush color={StaticResource Gray.150}, A=#2f}"></Setter>
-
-		[MarkupExtensionReturnType(typeof(SolidColorBrush))]
-		public class ScBrush : MarkupExtension
-		{
-			private Color c;
-
-			public ScBrush() {}
-
-			public Color color
-			{
-				get => c;
-				set
-				{
-					R = c.R;
-					G = c.G;
-					B = c.B;
-				}
-			}
-
-			public byte R { get; set; }
-
-			public byte G { get; set; }
-
-			public byte B { get; set; }
-
-			public byte? A { get; set; }
-
-			public System.Windows.Media.SolidColorBrush ToBrush()
-			{
-				return new SolidColorBrush(Color.FromArgb(
-					(byte) (A.HasValue ? A.Value : 255), R, G, B));
-
-			}
-
-			public override object ProvideValue(IServiceProvider serviceProvider)
-			{
-				return ToBrush();
-			}
-		}
-
-
-	public class CustomProperties
+	public class CustomProperties 
 	{
-
 	#region GenericBoolOne
 
 		public static readonly DependencyProperty GenericBoolOneProperty = DependencyProperty.RegisterAttached(
@@ -76,23 +32,23 @@ namespace ClassifierEditor.Windows.Support
 
 	#endregion
 
-//	#region GenericBoolOne
-//
-//		public static readonly DependencyProperty GenericBoolTwoProperty = DependencyProperty.RegisterAttached(
-//			"GenericBoolTwo", typeof(bool), typeof(CustomProperties),
-//			new PropertyMetadata(false));
-//
-//		public static void SetGenericBoolTwo(UIElement e, bool value)
-//		{
-//			e.SetValue(GenericBoolTwoProperty, value);
-//		}
-//
-//		public static bool GetGenericBoolTwo(UIElement e)
-//		{
-//			return (bool) e.GetValue(GenericBoolTwoProperty);
-//		}
-//
-//	#endregion
+	#region GenericBoolOne
+
+		public static readonly DependencyProperty GenericBoolTwoProperty = DependencyProperty.RegisterAttached(
+			"GenericBoolTwo", typeof(bool), typeof(CustomProperties),
+			new PropertyMetadata(false));
+
+		public static void SetGenericBoolTwo(UIElement e, bool value)
+		{
+			e.SetValue(GenericBoolTwoProperty, value);
+		}
+
+		public static bool GetGenericBoolTwo(UIElement e)
+		{
+			return (bool) e.GetValue(GenericBoolTwoProperty);
+		}
+
+	#endregion
 
 	#region DropDownWidth
 
