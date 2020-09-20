@@ -794,12 +794,15 @@ namespace ClassifierEditor.Windows
 		{
 			if (HasSelection)
 			{
-				if (userSelected.Item.CompareOps.Count > 0)
+				if (userSelected.Item.CompareOps.Count == 0)
 				{
-					userSelected.Item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
+					userSelected.Item.CompareOps.Add(
+						new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "A"));
+				} else
+				{
+					userSelected.Item.CompareOps.Add(
+						new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) EQUALTO], "A"));
 				}
-
-				userSelected.Item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "A"));
 			}
 		}
 
@@ -951,12 +954,12 @@ namespace ClassifierEditor.Windows
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
 
-				if (taskitem.CompareOp is LogicalCompareOp)
+				if (taskitem.ValueCompareOp is LogicalCompareOp)
 				{
 					return
 						element.FindResource("Lv1DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP)
+				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
@@ -986,12 +989,12 @@ namespace ClassifierEditor.Windows
 
 				taskitem.Id = MasterIdIdx++;
 
-				if (taskitem.CompareOp is LogicalCompareOp)
+				if (taskitem.ValueCompareOp is LogicalCompareOp)
 				{
 					return
 						element.FindResource("Lv2DataTemplate2") as DataTemplate;
 				}
-				else if (taskitem.CompareOp.OpCodeValue == (int) NO_OP)
+				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;

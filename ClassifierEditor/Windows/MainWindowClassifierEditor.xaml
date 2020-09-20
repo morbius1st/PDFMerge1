@@ -2336,7 +2336,7 @@
 						</Border.Style>
 
 						<Label x:Name="Label8"
-								Content="{Binding CompareString}"
+								Content="{Binding ValueCompareString}"
 								Padding="20,0,20,0"
 								Style="{StaticResource Label.Condition}"
 								/>
@@ -2395,7 +2395,7 @@
 					<!--  Background="{StaticResource ListView.Item.Background.Logical}"  -->
 
 					<Label x:Name="Label10"
-							Content="{Binding CompareString}"
+							Content="{Binding ValueCompareString}"
 							Width="34"
 							HorizontalContentAlignment="Center"
 							VerticalContentAlignment="Center"

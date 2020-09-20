@@ -44,15 +44,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ValueCompOp))]
-	[KnownType(typeof(LogicalCompOp))]
 	public abstract class ComparisonOperation : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
-		protected ACompareOp coOp = ValueCompareOps[(int) NO_OP];
+		protected ValueCompareOp valueCompOp = ValueCompareOps[(int) NO_OP];
+		protected LogicalCompareOp logicalCompOp = null;
 
 		protected string compareValue;
-		protected bool isFirstCompOp = false;
 		protected bool isDsableCompOp = false;
 
 	#endregion
@@ -69,22 +68,38 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public int Id { get; set; }
 
 		[IgnoreDataMember]
-		public string CompareString => CompareOp.Name;
+		public string ValueCompareString => ValueCompareOp.Name;
+
+		[IgnoreDataMember]
+		public string LogicalCompareString => LogicalCompareOp.Name;
 
 		[DataMember(Order = 1)]
-		public ACompareOp CompareOp
+		public ValueCompareOp ValueCompareOp
 		{
-			get => coOp;
+			get => valueCompOp;
 
 			set
 			{
-				coOp = value;
+				valueCompOp = value;
+				OnPropertyChange();
+				OnPropertyChange("CompareString");
+			}
+		}
+		
+		[DataMember(Order = 2)]
+		public LogicalCompareOp LogicalCompareOp
+		{
+			get => logicalCompOp;
+
+			set
+			{
+				logicalCompOp = value;
 				OnPropertyChange();
 				OnPropertyChange("CompareString");
 			}
 		}
 
-		[DataMember(Order = 2)]
+		[DataMember(Order = 5)]
 		public string CompareValue
 		{
 			get => compareValue;
@@ -96,19 +111,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[DataMember(Order = 3)]
+		[IgnoreDataMember]
 		public bool IsFirstCompOp
 		{
-			get => isFirstCompOp;
-			set
-			{
-				isFirstCompOp = value;
-
-				OnPropertyChange();
-			}
+			get => logicalCompOp == null;
 		}
 
-		[DataMember(Order = 4)]
+		[DataMember(Order = 15)]
 		public bool IsDisabled
 		{
 			get => isDsableCompOp;
@@ -122,7 +131,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public abstract int CompareOpCode { get; set; }
+		public abstract int ValueCompOpCode { get; set; }
+		
+		[IgnoreDataMember]
+		public abstract int LogicalCompOpCode { get; set; }
 
 
 	#endregion
@@ -173,63 +185,74 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 //		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false) : this(op, value, isFirst) { }
 
-		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false, bool ignore = false)
+		public ValueCompOp(LogicalCompareOp l_op,
+			ValueCompareOp v_op,
+			string value, 
+			bool disable = false)
 		{
-			CompareOp = op;
+			ValueCompareOp = v_op;
+			LogicalCompareOp = l_op;
 			CompareValue = value;
-			IsFirstCompOp = isFirst;
-			IsDisabled = ignore;
+			IsDisabled = disable;
 //			Id = row;
 		}
 
 		[IgnoreDataMember]
-		public override int CompareOpCode
+		public override int ValueCompOpCode
 		{
-
-			get => coOp.OpCodeValue;
+			get => valueCompOp.OpCodeValue;
 			set
 			{
-				CompareOp = ValueCompareOps[value];
-
+				ValueCompareOp = ValueCompareOps[value];
 			}
 		}
-
-		public override object Clone()
-		{
-			ValueCompOp clone = new ValueCompOp((ValueCompareOp) coOp, compareValue, isFirstCompOp, isDsableCompOp);
-
-			return clone;
-		}
-	}
-
-	[DataContract(Namespace = "")]
-	public class LogicalCompOp : ComparisonOperation
-	{
-		public LogicalCompOp(LogicalCompareOp op, bool ignore = false)
-		{
-			CompareOp = op;
-			CompareValue = null;
-			IsDisabled = ignore;
-		}
-
+		
 		[IgnoreDataMember]
-		public override int CompareOpCode
+		public override int LogicalCompOpCode
 		{
-			get => coOp.OpCodeValue;
+			get => logicalCompOp.OpCodeValue;
 			set
 			{
-				CompareOp = LogicalCompareOps[value];
-
+				LogicalCompareOp = LogicalCompareOps[value];
 			}
 		}
 
 		public override object Clone()
 		{
-			LogicalCompOp clone = new LogicalCompOp((LogicalCompareOp) coOp, isDsableCompOp);
+			ValueCompOp clone = new ValueCompOp(logicalCompOp, valueCompOp, compareValue, isDsableCompOp);
 
 			return clone;
 		}
 	}
+
+	// [DataContract(Namespace = "")]
+	// public class LogicalCompOp : ComparisonOperation
+	// {
+	// 	public LogicalCompOp(LogicalCompareOp op)
+	// 	{
+	// 		LogicalCompareOp = op;
+	// 		CompareValue = null;
+	// 		IsDisabled = ignore;
+	// 	}
+	//
+	// 	[IgnoreDataMember]
+	// 	public override int CompareOpCode
+	// 	{
+	// 		get => valueCompOp.OpCodeValue;
+	// 		set
+	// 		{
+	// 			LogicalCompareOp = LogicalCompareOps[value];
+	//
+	// 		}
+	// 	}
+	//
+	// 	public override object Clone()
+	// 	{
+	// 		LogicalCompOp clone = new LogicalCompOp((LogicalCompareOp) valueCompOp, isDsableCompOp);
+	//
+	// 		return clone;
+	// 	}
+	// }
 
 
 	// value conditions

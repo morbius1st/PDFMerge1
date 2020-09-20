@@ -150,16 +150,17 @@ namespace ClassifierEditor.SampleData
 				}
 				else if (i == 2)
 				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A"));
 					// node = new TreeNode(parent, item, false);
 
 					item.IsFixed = true;
 				}
 				else if (i == 3 || i == 5)
 				{
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], 
+						ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+
 					// node = new TreeNode(parent, item, false);
 					item.IsFixed = true;
 				}
@@ -173,19 +174,13 @@ namespace ClassifierEditor.SampleData
 				} 
 				else if (i == 1)
 				{
-					ValueCompOp v = new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true);
-					v.IsFirstCompOp = true;
 
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_END_WITH], "A"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_START_WITH], "Z"));
 
-					item.CompareOps.Add(v);
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
 					// node = new TreeNode(parent, item, false);
 
 					if (depth == 0) Temp = node;
@@ -208,46 +203,46 @@ namespace ClassifierEditor.SampleData
 		}
 
 		
-		private void MakeChildren2(TreeNode parent)
-		{
-			TreeNode node;
-
-			for (int i = 0; i < 5; i++)
-			{
-				SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
-
-				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
-					char.ConvertFromUtf32(65 + i), true));
-
-				node = new TreeNode(parent, item, false);
-				item.IsFixed = true;
-
-				root.AddNode(node);
-			}
-		}
-		
-		private void MakeChildren3()
-		{
-			SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{0:D2}", $"node description");
-			item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH],"A", true));
-
-			TreeNode rootNode = new TreeNode(root, item, false);
-
-			TreeNode node;
-
-			for (int i = 0; i < 5; i++)
-			{
-				item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
-
-				item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
-					char.ConvertFromUtf32(65 + i), true));
-				node = new TreeNode(rootNode, item, false);
-				item.IsFixed = true;
-
-				root.AddNode(node);
-			}
-			root.AddNode(rootNode);
-		}
+		// private void MakeChildren2(TreeNode parent)
+		// {
+		// 	TreeNode node;
+		//
+		// 	for (int i = 0; i < 5; i++)
+		// 	{
+		// 		SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
+		//
+		// 		item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+		// 			char.ConvertFromUtf32(65 + i), true));
+		//
+		// 		node = new TreeNode(parent, item, false);
+		// 		item.IsFixed = true;
+		//
+		// 		root.AddNode(node);
+		// 	}
+		// }
+		//
+		// private void MakeChildren3()
+		// {
+		// 	SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{0:D2}", $"node description");
+		// 	item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH],"A", true));
+		//
+		// 	TreeNode rootNode = new TreeNode(root, item, false);
+		//
+		// 	TreeNode node;
+		//
+		// 	for (int i = 0; i < 5; i++)
+		// 	{
+		// 		item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
+		//
+		// 		item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+		// 			char.ConvertFromUtf32(65 + i), true));
+		// 		node = new TreeNode(rootNode, item, false);
+		// 		item.IsFixed = true;
+		//
+		// 		root.AddNode(node);
+		// 	}
+		// 	root.AddNode(rootNode);
+		// }
 
 	#endregion
 

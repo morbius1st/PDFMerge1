@@ -316,7 +316,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public static SheetCategory TempSheetCategory()
 		{
 			SheetCategory temp = new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description");
-			temp.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", true));
+			temp.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
 
 			return temp;
 		}
@@ -374,14 +374,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			foreach (ComparisonOperation compOp in compareOps)
 			{
-				if (compOp.GetType() == typeof(ValueCompOp))
-				{
-					clone.compareOps.Add((ValueCompOp) compOp.Clone());
-				}
-				else
-				{
-					clone.compareOps.Add((LogicalCompOp) compOp.Clone());
-				}
+				clone.compareOps.Add((ValueCompOp) compOp.Clone());
+				// if (compOp.GetType() == typeof(ValueCompOp))
+				// {
+				// 	
+				// }
+				// else
+				// {
+				// 	clone.compareOps.Add((LogicalCompOp) compOp.Clone());
+				// }
 			}
 
 			return clone;

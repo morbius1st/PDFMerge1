@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -6,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.SampleFileSupport;
@@ -16,6 +18,8 @@ using WpfShared.SampleData;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
+
+
 
 
 namespace WpfShared.Windows
