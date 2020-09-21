@@ -71,7 +71,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string ValueCompareString => ValueCompareOp.Name;
 
 		[IgnoreDataMember]
-		public string LogicalCompareString => LogicalCompareOp.Name;
+		public string LogicalCompareString => LogicalCompareOp?.Name ?? "";
 
 		[DataMember(Order = 1)]
 		public ValueCompareOp ValueCompareOp
@@ -210,7 +210,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public override int LogicalCompOpCode
 		{
-			get => logicalCompOp.OpCodeValue;
+			get => logicalCompOp?.OpCodeValue ?? 0;
 			set
 			{
 				LogicalCompareOp = LogicalCompareOps[value];

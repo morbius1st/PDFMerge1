@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 // using ClassifierEditor.ConfigSupport;
 using ClassifierEditor.SampleData;
 // using ClassifierEditor.Tree;
@@ -369,6 +370,7 @@ namespace ClassifierEditor.Windows
 
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
+		public TreeNode SelectedItem { get; set; }
 
 	#region public property settings
 
@@ -459,14 +461,14 @@ namespace ClassifierEditor.Windows
 		{
 			initSettings();
 
-#pragma warning disable CS0219 // The variable 'sampleFileName' is assigned but its value is never used
-			string sampleFileName;
-#pragma warning restore CS0219 // The variable 'sampleFileName' is assigned but its value is never used
-
 			// true to create sample data and save to disk
 			// false to read existing data
 			if (false)
 			{
+#pragma warning disable CS0219 // The variable 'sampleFileName' is assigned but its value is never used
+				string sampleFileName;
+#pragma warning restore CS0219 // The variable 'sampleFileName' is assigned but its value is never used
+
 				// SampleData.SampleData sd = new SampleData.SampleData();
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
@@ -544,6 +546,17 @@ namespace ClassifierEditor.Windows
 	#region event consuming
 
 	#region control event methods
+
+		// private void Lv2_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+		private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			Grid g = (sender as Grid);
+			TreeViewItem tvi = (g.Tag as TreeViewItem);
+			TreeNode t = ((TreeNode) tvi?.DataContext) ?? null;
+
+			if (tvi != null) tvi.IsSelected = true;
+
+		}
 
 		// when a selection has been made
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -735,10 +748,10 @@ namespace ClassifierEditor.Windows
 			{
 				int id = ((ComparisonOperation) ((CheckBox) sender).DataContext).Id;
 
-				int idx = userSelected.Item.FindCompOp(id) - 1;
+				// int idx = userSelected.Item.FindCompOp(id) - 1;
 
 
-				userSelected.Item.CompareOps[idx].IsDisabled = true;
+				userSelected.Item.CompareOps[id].IsDisabled = true;
 			}
 		}
 
@@ -891,7 +904,7 @@ namespace ClassifierEditor.Windows
 
 		public void Connect(int connectionId, object target) { }
 
-		private void Lv2_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+
 	}
 
 #region NotBool value converter
@@ -953,22 +966,32 @@ namespace ClassifierEditor.Windows
 			{
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
-
-				if (taskitem.ValueCompareOp is LogicalCompareOp)
-				{
-					return
-						element.FindResource("Lv1DataTemplate2") as DataTemplate;
-				}
-				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
+				if (taskitem.ValueCompareOp.OpCodeValue == (int)NO_OP)
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
 				}
-				else
-				{
-					return
-						element.FindResource("Lv1DataTemplate1") as DataTemplate;
-				}
+
+				return
+					element.FindResource("Lv1DataTemplate0") as DataTemplate;
+
+
+
+				// if (taskitem.ValueCompareOp is LogicalCompareOp)
+				// {
+				// 	return
+				// 		element.FindResource("Lv1DataTemplate2") as DataTemplate;
+				// }
+				// else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
+				// {
+				// 	return
+				// 		element.FindResource("Lv1DataTemplate3") as DataTemplate;
+				// }
+				// else
+				// {
+				// 	return
+				// 		element.FindResource("Lv1DataTemplate1") as DataTemplate;
+				// }
 			}
 
 			return null;
@@ -989,24 +1012,41 @@ namespace ClassifierEditor.Windows
 
 				taskitem.Id = MasterIdIdx++;
 
-				if (taskitem.ValueCompareOp is LogicalCompareOp)
-				{
-					return
-						element.FindResource("Lv2DataTemplate2") as DataTemplate;
-				}
-				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
+				if (taskitem.ValueCompOpCode == (int) NO_OP)
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
 				}
-				else
-				{
-					return
-						element.FindResource("Lv2DataTemplate1") as DataTemplate;
-				}
+
+				return
+					element.FindResource("Lv2DataTemplate0") as DataTemplate;
+//
+//
+// #pragma warning disable CS0184 // The given expression is never of the provided ('LogicalCompareOp') type
+// 				if (taskitem.ValueCompareOp is LogicalCompareOp)
+// #pragma warning restore CS0184 // The given expression is never of the provided ('LogicalCompareOp') type
+// 				{
+// 					return
+// 						element.FindResource("Lv2DataTemplate2") as DataTemplate;
+// 				}
+// 				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
+// 				{
+// 					return
+// 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
+// 				}
+// 				else
+// 				{
+// 					return
+// 						element.FindResource("Lv2DataTemplate1") as DataTemplate;
+// 				}
+// 			}
+//
+			
 			}
 
 			return null;
 		}
 	}
+#pragma warning disable CS1513 // } expected
 }
+#pragma warning restore CS1513 // } expected

@@ -21,6 +21,7 @@
 
 	<DynamicResource x:Key="Title.Subdued" ResourceKey="Gray.650"/>
 
+
 	<Color x:Key="Window.Background.C">#FF222222</Color>
 	<Color x:Key="TreeView.Background.C">#FF212121</Color>
 
@@ -36,9 +37,14 @@
 	
 	<!--#endregion-->
 
-	<xs:ScBrush x:Key="ItemsControl.Border.B" A="#BB"  color="{StaticResource Light.Blue.760}"/>
+	<!-- save for future reference -->
+	<!-- <xs:ScBrush x:Key="ItemsControl.Border.B" A="#BB"  color="{StaticResource Light.Blue.760}"/> -->
 
-	<SolidColorBrush x:Key="ItemsControl.Border" Color="{xs:XmalColor A=#BB, Color={StaticResource Light.Blue.760}}" />
+	<SolidColorBrush x:Key="ItemsControl.Border.Frame" Color="{xs:XmalColor A=#BB, Color={StaticResource Light.Blue.760}}" />
+
+	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Normal" Color="{StaticResource Deep.Purple.450}" />
+	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Disabled" Color="{StaticResource Deep.Purple.200}" />
+
 
 	<SolidColorBrush x:Key="ItemsControl.Background" Color="{StaticResource Gray.150}" />
 	<SolidColorBrush x:Key="ItemsControl.MouseOver.Background" Color="{StaticResource Blue.250}" />
@@ -69,13 +75,12 @@
 
 
 	<SolidColorBrush x:Key="ItemsControl.Text.MouseOver" Color="White" />
+
 	<SolidColorBrush x:Key="ItemsControl.Text.Normal" Color="{StaticResource Gray.950}" />
-	<SolidColorBrush x:Key="ItemsControl.Text.Disabled" Color="{StaticResource Gray.700}" />
-	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.800}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled" Color="{StaticResource Gray.600}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.760}" />
 
 
-	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Normal" Color="{StaticResource Indigo.400}" />
-	<SolidColorBrush x:Key="ItemsControl.Border.Logical.Background.Disabled" Color="{StaticResource Indigo.200}" />
 
 
 
@@ -96,7 +101,7 @@
 	<SolidColorBrush x:Key="ListBorder" Color="#828790" />
 
 	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Muted" Color="{StaticResource Gray.500}" />
-	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Dim" Color="{StaticResource Gray.400}" />
+	<SolidColorBrush x:Key="TreeViewItem.Label.Foreground.Dim" Color="{StaticResource Gray.800}" />
 
 	<!-- <SolidColorBrush x:Key="TreeView.Background" Color="{StaticResource Control.Scrolling.Background}" /> -->
 	<!-- <SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Control.Scrolling.Selected.Background}" /> -->

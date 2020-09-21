@@ -106,6 +106,15 @@ namespace ClassifierEditor.SampleData
 
 			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test A30.pdf");
 			fileList.AddPath(sheet);
+
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test S30.pdf");
+			fileList.AddPath(sheet);
+
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test M30.pdf");
+			fileList.AddPath(sheet);
+
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test P30.pdf");
+			fileList.AddPath(sheet);
 		}
 
 	#endregion
@@ -177,7 +186,13 @@ namespace ClassifierEditor.SampleData
 
 					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
 					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_END_WITH], "A"));
+
+					ValueCompOp v = new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR],
+						ValueCompareOps[(int) DOES_NOT_END_WITH], "A");
+					v.IsDisabled = true;
+
+
+					item.CompareOps.Add(v);
 					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1"));
 					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_START_WITH], "Z"));
 
