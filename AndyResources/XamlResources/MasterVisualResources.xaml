@@ -38,7 +38,8 @@
 	<!--#endregion-->
 
 	<!-- save for future reference -->
-	<!-- <xs:ScBrush x:Key="ItemsControl.Border.B" A="#BB"  color="{StaticResource Light.Blue.760}"/> -->
+	<xs:ScBrush x:Key="ItemsControl.Border.B" A="#BB"  color="{StaticResource Light.Blue.760}"/>
+	<xs:XmalColor x:Key="XmalColor" Color="{StaticResource Gray.150}"/>
 
 	<SolidColorBrush x:Key="ItemsControl.Border.Frame" Color="{xs:XmalColor A=#BB, Color={StaticResource Light.Blue.760}}" />
 

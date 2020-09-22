@@ -41,8 +41,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)XamlResources\VisualStates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\Behaviors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\XmalMarkup.cs" />
   </ItemGroup>
 </Project>

@@ -188,6 +188,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				item = value;
+
+				if (item == null) return;
+
 				item.Depth = depth;
 
 				OnPropertyChange();

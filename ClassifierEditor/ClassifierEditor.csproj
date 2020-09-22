@@ -153,13 +153,15 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\Behaviors.cs">
+      <Link>Windows\ResourceFiles\XamlResources\Behaviors.cs</Link>
+    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Settings\UserSettings.cs" />
-    <Compile Include="Windows\ResourceFiles\XamlResources\Behaviors.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
     <Page Include="..\AndyResources\XamlResources\IconResources.xaml">

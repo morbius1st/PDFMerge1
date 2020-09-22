@@ -14,7 +14,6 @@ using System.Windows.Media;
 namespace AndySharedResources.XamlResources
 {
 
-
 	[MarkupExtensionReturnType(typeof(System.Windows.Media.Color))]
 	public class XmalColor : MarkupExtension
 	{

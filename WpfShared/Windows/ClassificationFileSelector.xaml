@@ -1,4 +1,4 @@
-﻿<Window
+﻿<Window x:Name="winClsFileMgr"
 		x:Class="WpfShared.Windows.ClassificationFileSelector"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,16 +9,16 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
 		xmlns:sample="clr-namespace:AndyShared.SampleFileSupport"
 		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
 		xmlns:sharedsupport="clr-namespace:AndyShared.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		x:Name="winClsFileMgr"
 		Title="Classification File Selector"
-		Width="800"
-		Height="700"
-		MinWidth="800"
-		MinHeight="700"
+		Width="700"
+		Height="650"
+		MinWidth="700"
+		MinHeight="650"
 		mc:Ignorable="d"
 		>
 	<Window.Resources>
@@ -41,15 +41,13 @@
 
 			<sys:Double x:Key="EditingTextBoxHeight">22</sys:Double>
 
-			<x:Static
-					x:Key="emptystring"
+			<x:Static x:Key="emptystring"
 					Member="sys:String.Empty"
 					>
 			</x:Static>
 
 
-			<Style
-					x:Key="Label.Base"
+			<Style x:Key="Label.Base"
 					TargetType="{x:Type Label}"
 					>
 				<Setter Property="Padding" Value="0" />
@@ -58,8 +56,7 @@
 				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
 			</Style>
 
-			<Style
-					x:Key="Listbox.Label.Item.Title"
+			<Style x:Key="Listbox.Label.Item.Title"
 					TargetType="{x:Type Label}"
 					BasedOn="{StaticResource Label.Base}"
 					>
@@ -69,8 +66,7 @@
 			</Style>
 
 
-			<Style
-					x:Key="Label.Selected.Title"
+			<Style x:Key="Label.Selected.Title"
 					TargetType="{x:Type Label}"
 					BasedOn="{StaticResource Label.Base}"
 					>
@@ -79,8 +75,7 @@
 				<Setter Property="Foreground" Value="{StaticResource Label.Title.Foreground.Subdued}" />
 			</Style>
 
-			<Style
-					x:Key="Listbox.TxBlock.Item.Value"
+			<Style x:Key="Listbox.TxBlock.Item.Value"
 					TargetType="{x:Type TextBlock}"
 					>
 				<Setter Property="Padding" Value="0" />
@@ -90,8 +85,7 @@
 				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
 			</Style>
 
-			<Style
-					x:Key="Button.Reduced.Vertically"
+			<Style x:Key="Button.Reduced.Vertically"
 					TargetType="{x:Type Button}"
 					BasedOn="{StaticResource Button.Normal.Style}"
 					>
@@ -103,19 +97,17 @@
 				<Setter Property="Padding" Value="0,0,0,2" />
 			</Style>
 
-			<Style
-					x:Key="Combo.Base"
+			<Style x:Key="Combo.Base"
 					TargetType="{x:Type ComboBox}"
 					>
-				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
+				<!-- <Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" /> -->
 				<Setter Property="Padding" Value="0" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Background" Value="{StaticResource ComboBox.Normal.Background}" />
 			</Style>
 
-			<Style
-					x:Key="TextBlock.Base"
+			<Style x:Key="TextBlock.Base"
 					TargetType="TextBlock"
 					>
 				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
@@ -125,23 +117,32 @@
 				<Setter Property="Background" Value="Transparent" />
 			</Style>
 
-			<Style
-					x:Key="TextBox.Base"
+			<Style x:Key="TextBox.Base"
 					TargetType="{x:Type TextBox}"
 					>
 				<Setter Property="Height" Value="{StaticResource EditingTextBoxHeight}" />
-				<Setter Property="Padding" Value="0" />
+				<Setter Property="Padding" Value="6,0,4,1" />
 				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Background" Value="{StaticResource TextBox.Background}" />
 			</Style>
 
-			<ControlTemplate
-					x:Key="CbxControlTemplate"
+			<Style x:Key="TextBox.Edit"
+					TargetType="{x:Type TextBox}"
+					BasedOn="{StaticResource TextBox.Base}"
+					>
+				<Setter Property="Padding" Value="6,1,4,2" />
+				<Setter Property="Height" Value="Auto" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="MaxLines" Value="1" />
+				<Setter Property="BorderThickness" Value="0" />
+			</Style>
+
+			<ControlTemplate x:Key="CbxControlTemplate"
 					TargetType="{x:Type ComboBox}"
 					>
-				<Grid
-						x:Name="templateRoot"
+				<Grid x:Name="templateRoot"
 						SnapsToDevicePixels="True"
 						>
 					<Grid.ColumnDefinitions>
@@ -149,8 +150,7 @@
 						<ColumnDefinition Width="0" MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
 					</Grid.ColumnDefinitions>
 
-					<Popup
-							x:Name="PART_Popup"
+					<Popup x:Name="PART_Popup"
 							AllowsTransparency="True"
 							Grid.ColumnSpan="2"
 							Margin="1"
@@ -160,34 +160,29 @@
 															 Mode=TwoWay,
 															 RelativeSource={RelativeSource TemplatedParent}}"
 							>
-						<Themes:SystemDropShadowChrome
-								x:Name="shadow"
+						<Themes:SystemDropShadowChrome x:Name="shadow"
 								MinWidth="{Binding ActualWidth,
 																	 ElementName=templateRoot}"
 								MaxHeight="{TemplateBinding MaxDropDownHeight}"
 								Color="Transparent"
 								>
 							<!--  Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"  -->
-							<Border
-									x:Name="DropDownBorder"
+							<Border x:Name="DropDownBorder"
 									Background="{TemplateBinding Background}"
 									BorderThickness="1"
 									BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
 									>
 								<ScrollViewer x:Name="DropDownScrollViewer">
-									<Grid
-											x:Name="grid"
+									<Grid x:Name="grid"
 											RenderOptions.ClearTypeHint="Enabled"
 											>
-										<Canvas
-												x:Name="canvas"
+										<Canvas x:Name="canvas"
 												Width="0"
 												Height="0"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Top"
 												>
-											<Rectangle
-													x:Name="OpaqueRect"
+											<Rectangle x:Name="OpaqueRect"
 													Width="{Binding ActualWidth,
 																					ElementName=DropDownBorder}"
 													Height="{Binding ActualHeight,
@@ -196,8 +191,7 @@
 																				 ElementName=DropDownBorder}"
 													/>
 										</Canvas>
-										<ItemsPresenter
-												x:Name="ItemsPresenter"
+										<ItemsPresenter x:Name="ItemsPresenter"
 												KeyboardNavigation.DirectionalNavigation="Contained"
 												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 												/>
@@ -207,8 +201,7 @@
 						</Themes:SystemDropShadowChrome>
 					</Popup>
 
-					<ToggleButton
-							x:Name="toggleButton"
+					<ToggleButton x:Name="toggleButton"
 							Grid.Column="0"
 							Grid.ColumnSpan="2"
 							Background="{TemplateBinding Background}"
@@ -227,15 +220,13 @@
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type ToggleButton}">
-											<Border
-													x:Name="templateRoot"
+											<Border x:Name="templateRoot"
 													SnapsToDevicePixels="True"
 													Background="{TemplateBinding Background}"
 													BorderThickness="{TemplateBinding BorderThickness}"
 													BorderBrush="#FFACACAC"
 													>
-												<Border
-														x:Name="splitBorder"
+												<Border x:Name="splitBorder"
 														Margin="0"
 														Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"
 														HorizontalAlignment="Right"
@@ -243,8 +234,7 @@
 														BorderThickness="1"
 														BorderBrush="Transparent"
 														>
-													<Path
-															x:Name="Arrow"
+													<Path x:Name="Arrow"
 															Margin="0"
 															HorizontalAlignment="Center"
 															VerticalAlignment="Center"
@@ -355,8 +345,7 @@
 						</ToggleButton.Style>
 					</ToggleButton>
 
-					<ContentPresenter
-							x:Name="contentPresenter"
+					<ContentPresenter x:Name="contentPresenter"
 							Content="{TemplateBinding SelectionBoxItem}"
 							Grid.Column="0"
 							Margin="{TemplateBinding Padding}"
@@ -392,11 +381,14 @@
 			</ControlTemplate>
 
 
-			<DataTemplate
-					x:Key="Lb1ItemTemplate"
+			<DataTemplate x:Key="Lb1ItemTemplate"
 					DataType="classificationFileSupport:ClassificationFile"
 					>
-				<DockPanel Margin="5">
+
+				<DockPanel
+						Margin="5"
+						HorizontalAlignment="left"
+						>
 
 					<Label
 							Content="{Binding FileName,
@@ -409,18 +401,18 @@
 
 					<Border
 							Margin="5,8,5,3"
+							Padding="5,0,5,0"
 							CornerRadius="6"
 							DockPanel.Dock="Top"
-							Background="{StaticResource ListView.Static.Background}"
+							Background="{StaticResource ItemsControl.Item.Background.Normal}"
 							BorderThickness="0"
 							>
 
 						<StackPanel
-								Margin="12,0,0,0"
+								Margin="0,0,0,0"
 								HorizontalAlignment="left"
 								Orientation="Vertical"
 								>
-
 
 							<DockPanel
 									Margin="0"
@@ -455,19 +447,22 @@
 								<Border
 										Margin="7,5,0,3"
 										Padding="0"
-										HorizontalAlignment="Stretch"
+										HorizontalAlignment="left"
 										VerticalAlignment="Center"
 										CornerRadius="3"
 										DockPanel.Dock="Top"
 										Background="{StaticResource ListView.Item.Background}"
 										BorderThickness="0"
 										>
+
 									<TextBlock
 											Margin="0"
 											Padding="8,2,8,0"
 											HorizontalAlignment="left"
 											Text="{Binding HeaderDescFromFile,
-																		 FallbackValue=C:\\file path}"
+																		 Mode=OneWay,
+																		 TargetNullValue='No Value',
+																		 FallbackValue='C:\file path'}"
 											Style="{StaticResource Listbox.TxBlock.Item.Value}"
 											/>
 
@@ -478,8 +473,10 @@
 							<DockPanel
 									Margin="0"
 									Height="26"
-									VerticalAlignment="Center"
-									DockPanel.Dock="Top">
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="top"
+									DockPanel.Dock="Top"
+									>
 
 								<Border
 										Margin="0,5,0,3"
@@ -488,7 +485,9 @@
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										CornerRadius="3"
-										BorderThickness="0">
+										DockPanel.Dock="left"
+										BorderThickness="0"
+										>
 									<Border.Background>
 										<SolidColorBrush Color="{StaticResource Bright.Green.350}" />
 									</Border.Background>
@@ -498,7 +497,8 @@
 											Margin="0"
 											Padding="0,2,0,0"
 											Foreground="White"
-											Style="{StaticResource Listbox.Label.Item.Title}" />
+											Style="{StaticResource Listbox.Label.Item.Title}"
+											/>
 
 								</Border>
 
@@ -508,22 +508,70 @@
 										HorizontalAlignment="left"
 										VerticalAlignment="Center"
 										CornerRadius="3"
-										DockPanel.Dock="Top"
+										DockPanel.Dock="left"
 										Background="{StaticResource ListView.Item.Background}"
-										BorderThickness="0">
+										BorderThickness="0"
+										>
 
 									<TextBlock
 											Margin="0"
 											Padding="8,2,8,0"
 											d:DataContext="{Binding Path=UserClassificationFiles,
-																						Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"
-											Style="{StaticResource Listbox.TxBlock.Item.Value}">
+																							Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"
+											Style="{StaticResource Listbox.TxBlock.Item.Value}"
+											>
 										<TextBlock.Text>
 											<Binding
 													Converter="{StaticResource StringToMessage}"
-													FallbackValue="C\:\\file path"
+													FallbackValue="C:\file path"
 													Mode="OneWay"
-													Path="SampleFileNameNoExt">
+													Path="SampleFileNameNoExt"
+													>
+												<Binding.ConverterParameter>
+													<cs:StringCollection>
+														<sys:String>None</sys:String>
+														<x:Static Member="sys:String.Empty" />
+													</cs:StringCollection>
+												</Binding.ConverterParameter>
+												<!-- <sys:String>Was Found</sys:String> -->
+												<!-- <x:Null /> -->
+												<!-- <x:Static Member="sys:String.Empty" /> -->
+												<!--  d:DataContext="{Binding  -->
+												<!--  Source={x:Static sampledata:ClassfFileSelectorSampleData.Selected}}"  -->
+
+											</Binding>
+										</TextBlock.Text>
+									</TextBlock>
+								</Border>
+
+
+								<Border
+										Margin="7,5,0,3"
+										Padding="0"
+										HorizontalAlignment="left"
+										VerticalAlignment="Center"
+										CornerRadius="3"
+										DockPanel.Dock="bottom"
+										Background="{StaticResource ItemsControl.Value.Background.Normal}"
+										BorderThickness="0"
+										>
+
+									<TextBlock
+											Margin="0"
+											Padding="8,2,8,0"
+											HorizontalAlignment="left"
+											d:DataContext="{Binding Path=UserClassificationFiles,
+																							Source={x:Static sampledata:ClassfFileSelectorSampleData.CfgClsFiles}}"
+											TextAlignment="Right"
+											Style="{StaticResource Listbox.TxBlock.Item.Value}"
+											>
+										<TextBlock.Text>
+											<Binding
+													Converter="{StaticResource StringToMessage}"
+													FallbackValue="C:\file path"
+													Mode="OneWay"
+													Path="SampleFilePath"
+													>
 												<Binding.ConverterParameter>
 													<cs:StringCollection>
 														<sys:String>Sample file has not been assigned</sys:String>
@@ -539,17 +587,12 @@
 											</Binding>
 										</TextBlock.Text>
 									</TextBlock>
-
 								</Border>
 
 							</DockPanel>
 
-
-
-
 						</StackPanel>
 					</Border>
-
 
 				</DockPanel>
 			</DataTemplate>
@@ -589,30 +632,29 @@
 			<!-- <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA" /> -->
 
 
+			<!-- <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}" /> -->
 			<!-- <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
-			<Style
-					x:Key="Lb1ItemContainer1"
+			<Style x:Key="Lb1ItemContainer1"
 					TargetType="{x:Type ListBoxItem}"
 					>
+				<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"/>
 				<Setter Property="SnapsToDevicePixels" Value="True" />
 				<Setter Property="Padding" Value="4,1" />
-				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Left" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
 				<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="BorderBrush" Value="Transparent" />
 				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
 
 
-							<Border
-									x:Name="Bdr"
+							<Border x:Name="Bdr"
 									Margin="5,1.5,5.0,2"
-									Width="Auto"
 									CornerRadius="6,6,8,8"
 									SnapsToDevicePixels="True"
 									BorderThickness="12,1.5,.5,6"
@@ -651,8 +693,7 @@
 
 									</Border.Style>
 
-									<Border
-											x:Name="Bd"
+									<Border x:Name="Bd"
 											Margin="0,-0.5,-0.5,0"
 											Padding="0"
 											CornerRadius="3,6,6,3"
@@ -662,8 +703,7 @@
 																						Path=Background}"
 											>
 
-										<ContentPresenter
-												x:Name="Cp1"
+										<ContentPresenter x:Name="Cp1"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -680,7 +720,8 @@
 							<ControlTemplate.Triggers>
 								<!-- <MultiTrigger> -->
 								<!-- 	<MultiTrigger.Conditions> -->
-								<!-- 		<Condition Property="IsMouseOver" Value="true" /> --><!--true--> 
+								<!-- 		<Condition Property="IsMouseOver" Value="true" /> -->
+								<!--  true  -->
 								<!-- 	</MultiTrigger.Conditions> -->
 								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" /> -->
 								<!-- 	~1~ <Setter TargetName="Bd" Property="Background" Value="{StaticResource ListView.MouseOver.Background}" /> @1@ -->
@@ -689,15 +730,17 @@
 								<!-- </MultiTrigger> -->
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
-										<Condition Property="Selector.IsSelectionActive" Value="false" /> <!--false-->
+										<Condition Property="Selector.IsSelectionActive" Value="false" />
+										<!--  false  -->
 										<Condition Property="IsSelected" Value="True" />
 									</MultiTrigger.Conditions>
 
-									<Setter TargetName="Bd" Property="Background" Value="{StaticResource  ItemsControl.Selected.InActive.Background}" />
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.Selected.InActive.Background}" />
 								</MultiTrigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
-										<Condition Property="Selector.IsSelectionActive" Value="true" /> <!--true-->
+										<Condition Property="Selector.IsSelectionActive" Value="true" />
+										<!--  true  -->
 										<Condition Property="IsSelected" Value="True" />
 									</MultiTrigger.Conditions>
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.Selected.Active.Background}" />
@@ -707,7 +750,8 @@
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
-										<Condition Property="IsMouseOver" Value="true" /> <!--true-->
+										<Condition Property="IsMouseOver" Value="true" />
+										<!--  true  -->
 									</MultiTrigger.Conditions>
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" />
 								</MultiTrigger>
@@ -718,6 +762,166 @@
 				</Setter>
 			</Style>
 
+
+			<SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border2" Color="#FFD9D9D9" />
+
+
+			<Style x:Key="Lb1Style1"
+					TargetType="{x:Type ListBox}"
+					>
+				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListBox}">
+							<Border x:Name="Bd"
+									Padding="1"
+									SnapsToDevicePixels="true"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									>
+								<ScrollViewer
+										Padding="{TemplateBinding Padding}"
+										Focusable="false"
+										Template="{DynamicResource Lb1ScrollViewerControlTemplate1}"
+										>
+									<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="false">
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border2}" />
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsGrouping" Value="true" />
+										<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
+
+			<ControlTemplate x:Key="Lb1ScrollViewerControlTemplate1"
+					TargetType="{x:Type ScrollViewer}"
+					>
+				<Grid x:Name="Grid"
+						Background="{TemplateBinding Background}"
+						>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Rectangle x:Name="Corner"
+							Grid.Column="2"
+							Grid.Row="2"
+							Fill="black"
+							/>
+					<ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+							Content="{TemplateBinding Content}"
+							Grid.Column="1"
+							Grid.Row="1"
+							Margin="{TemplateBinding Padding}"
+							CanContentScroll="{TemplateBinding CanContentScroll}"
+							CanHorizontallyScroll="False"
+							CanVerticallyScroll="False"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+
+					<ScrollBar x:Name="PART_VerticalScrollBar"
+							Grid.Column="2"
+							Grid.Row="1"
+							Margin="0,-1,0,0"
+							Width="{StaticResource BarSizeOutline}"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							Style="{DynamicResource ScrollBarStyle}"
+							/>
+
+					<ScrollBar x:Name="PART_HorizontalScrollBar"
+							Grid.Column="1"
+							Grid.Row="2"
+							Height="{StaticResource BarSizeOutline}"
+							MinHeight="{StaticResource BarSize}"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							ClipToBounds="True"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							Style="{DynamicResource ScrollBarStyle}"
+							/>
+
+
+					<!--<ScrollBar x:Name="PART_VerticalScrollBar"
+							Grid.Column="1"
+							Grid.Row="0"
+							AutomationProperties.AutomationId="VerticalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							/>
+					<ScrollBar x:Name="PART_HorizontalScrollBar"
+							Grid.Column="0"
+							Grid.Row="1"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							/>-->
+
+
+				</Grid>
+			</ControlTemplate>
+
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -726,15 +930,15 @@
 		<StaticResource ResourceKey="Normal.Window.Background" />
 	</Window.Background>
 
-	<Grid Margin="0,0,0,5">
+	<Grid Margin="0,0,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
-			<ColumnDefinition Width="100" />
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="230" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="30" />
 		</Grid.RowDefinitions>
 
 
@@ -751,8 +955,7 @@
 				VerticalAlignment="Stretch"
 				>
 
-			<Label
-					x:Name="Label20"
+			<Label x:Name="Label20"
 					Content="Available Classification Files"
 					Margin="5,5,5,0"
 					Padding="5,4,0,6"
@@ -764,8 +967,7 @@
 					Foreground="White"
 					/>
 
-			<ListBox
-					x:Name="Lb1"
+			<ListBox x:Name="Lb1"
 					Margin="5"
 					VerticalAlignment="Stretch"
 					d:DataContext="{Binding Path=UserClassificationFiles,
@@ -783,15 +985,53 @@
 					ItemContainerStyle="{DynamicResource Lb1ItemContainer1}"
 					ItemTemplate="{StaticResource Lb1ItemTemplate}"
 					ItemsSource="{Binding}"
+					Style="{DynamicResource Lb1Style1}"
 					>
 
 			</ListBox>
 		</DockPanel>
 
+
+
+		<DockPanel
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0,0,5,5"
+				HorizontalAlignment="Right"
+				VerticalAlignment="bottom"
+				>
+
+
+			<Button x:Name="BtnCancel"
+					Content="Cancel"
+					Margin="0,0,0,0"
+					Width="{StaticResource Button.Normal.Width}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="top"
+					DockPanel.Dock="right"
+					Click="BtnCancel_OnClick"
+					Style="{StaticResource Button.Reduced.Vertically}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					/>
+
+			<Button x:Name="BtnDone"
+					Content="Select"
+					Margin="0,0,5,0"
+					Width="{StaticResource Button.Normal.Width}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="top"
+					DockPanel.Dock="Right"
+					Click="BtnSelect_OnClick"
+					Style="{StaticResource Button.Reduced.Vertically}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					/>
+
+
+		</DockPanel>
+
 		<DockPanel
 				Grid.Column="0"
 				Grid.Row="1"
-				Grid.ColumnSpan="2"
 				Margin="5,5,5,0"
 				>
 
@@ -803,200 +1043,25 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="80" />
 					<ColumnDefinition Width="50" />
-					<ColumnDefinition Width="120" />
-					<ColumnDefinition Width="50" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="5" />
-					<ColumnDefinition Width="105" />
-					<ColumnDefinition Width="95" />
+					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="55" />
+					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
 				<Grid.RowDefinitions>
 					<RowDefinition Height="24" />
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
+					<RowDefinition Height="28" />
+					<RowDefinition Height="26" />
+					<RowDefinition Height="26" />
+					<RowDefinition Height="26" />
+					<RowDefinition Height="24" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="26" />
+					<RowDefinition Height="26" />
 				</Grid.RowDefinitions>
 
-				<DockPanel
-						Grid.Column="7"
-						Grid.Row="4"
-						Grid.RowSpan="3"
-						Margin="5,5,0,5.0"
-						HorizontalAlignment="Right"
-						VerticalAlignment="bottom"
-						>
 
-
-					<Button
-							x:Name="BtnCancel"
-							Content="Cancel"
-							Margin="0,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Bottom"
-							DockPanel.Dock="Bottom"
-							Click="BtnCancel_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							/>
-
-					<Button
-							x:Name="BtnDone"
-							Content="Select"
-							Margin="0,0,0,5.5"
-							Width="{StaticResource Button.Normal.Width}"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Bottom"
-							DockPanel.Dock="bottom"
-							Click="BtnSelect_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							/>
-
-
-				</DockPanel>
-
-
-				<DockPanel
-						Grid.Column="6"
-						Grid.Row="0"
-						Grid.RowSpan="5"
-						Margin="0"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="top"
-						>
-
-					<Label
-							x:Name="Label22"
-							Content="Classification File"
-							Margin="0,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
-							Height="22"
-							Padding="0,0,0,2"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							HorizontalContentAlignment="Center"
-							VerticalContentAlignment="Center"
-							DockPanel.Dock="Top"
-							Background="{StaticResource Win.Title.Background}"
-							Foreground="White"
-							/>
-					<!--  VerticalAlignment="Bottom">  -->
-					<Button
-							x:Name="BtnNew"
-							Content="New"
-							Width="{StaticResource Button.Normal.Width}"
-							VerticalAlignment="top"
-							VerticalContentAlignment="Center"
-							DockPanel.Dock="top"
-							Click="BtnNew_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							>
-
-					</Button>
-
-					<Button
-							x:Name="BtnCopy"
-							Content="Duplicate"
-							Width="{StaticResource Button.Normal.Width}"
-							VerticalAlignment="top"
-							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.CanEdit,
-																	ElementName=winClsFileMgr,
-																	FallbackValue=false,
-																	Mode=OneWay}"
-							Click="BtnCopy_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							>
-
-					</Button>
-
-					<Button
-							x:Name="BtnRename"
-							Content="Rename"
-							Width="{StaticResource Button.Normal.Width}"
-							VerticalAlignment="Bottom"
-							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.CanEdit,
-																	ElementName=winClsFileMgr,
-																	FallbackValue=false,
-																	Mode=OneWay}"
-							Click="BtnRename_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							>
-
-					</Button>
-
-					<Button
-							x:Name="BtnDelete"
-							Content="Delete"
-							Width="{StaticResource Button.Normal.Width}"
-							VerticalAlignment="Bottom"
-							DockPanel.Dock="top"
-							IsEnabled="{Binding Selected.CanEdit,
-																	ElementName=winClsFileMgr,
-																	FallbackValue=false,
-																	Mode=OneWay}"
-							Click="BtnDelete_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							>
-
-					</Button>
-				</DockPanel>
-
-				<DockPanel
-						Grid.Column="6"
-						Grid.Row="5"
-						Grid.RowSpan="2"
-						Margin="0,5.5,0,0"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="top"
-						>
-
-					<Label
-							x:Name="Label23"
-							Content="Sample File"
-							Margin="0,0,0,2"
-							Width="{StaticResource Button.Normal.Width}"
-							Height="26"
-							Padding="0,0,0,2"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Top"
-							HorizontalContentAlignment="Center"
-							VerticalContentAlignment="Center"
-							DockPanel.Dock="Top"
-							Background="{StaticResource Win.Title.Background}"
-							Foreground="White"
-							IsEnabled="{Binding Selected.CanEdit,
-																	ElementName=winClsFileMgr,
-																	Mode=OneWay}"
-							/>
-
-
-					<Button
-							x:Name="BtnInstallSample"
-							Content="Install"
-							Width="{StaticResource Button.Normal.Width}"
-							VerticalAlignment="Bottom"
-							DockPanel.Dock="Top"
-							Click="BtnInstallSample_OnClick"
-							Style="{StaticResource Button.Reduced.Vertically}"
-							Template="{StaticResource Button.Normal.ControlTemplate}"
-							>
-					</Button>
-
-				</DockPanel>
-
-				<Label
-						x:Name="Label21"
+				<Label x:Name="Label21"
 						Content="Selected Classification File"
 						Grid.Column="0"
 						Grid.Row="0"
@@ -1012,17 +1077,23 @@
 						Foreground="White"
 						/>
 
+
+
+
+
+
+
 				<Label
 						Content="File Name"
 						Grid.Column="0"
-						Grid.Row="1"
+						Grid.Row="2"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
 				<Label
 						Content="User Id"
 						Grid.Column="1"
-						Grid.Row="1"
+						Grid.Row="2"
 						Margin="0"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
@@ -1032,7 +1103,7 @@
 															ElementName=winClsFileMgr,
 															FallbackValue=''}"
 						Grid.Column="2"
-						Grid.Row="1"
+						Grid.Row="2"
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
@@ -1042,17 +1113,19 @@
 				<Label
 						Content="File Id"
 						Grid.Column="3"
-						Grid.Row="1"
-						Margin="0"
+						Grid.Row="2"
+						Margin="15,0,0,0"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
-				<TextBox
-						x:Name="TbxFileId"
+
+				<!--  KeyUp="TextBox_OnKeyUp"  -->
+				<!--  LostFocus="TextBox_OnLostFocus"  -->
+				<TextBox x:Name="TbxFileId"
 						Grid.Column="4"
-						Grid.Row="1"
-						KeyUp="TextBox_OnKeyUp"
-						LostFocus="TextBox_OnLostFocus"
+						Grid.Row="2"
+						res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+						res:TextBoxBehavior.SelectAllTextOnFocus="True"
 						Text="{Binding Selected.FileId,
 													 ElementName=winClsFileMgr,
 													 FallbackValue='',
@@ -1060,13 +1133,12 @@
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
-						Style="{StaticResource TextBox.Base}"
+						Style="{StaticResource TextBox.Edit}"
 						/>
 
-				<Popup
-						x:Name="FileIdPopup"
+				<Popup x:Name="FileIdPopup"
 						AllowsTransparency="True"
-						Grid.Row="1"
+						Grid.Row="2"
 						Width="150"
 						Height="auto"
 						HorizontalAlignment="Center"
@@ -1100,37 +1172,38 @@
 				<Label
 						Content="Description"
 						Grid.Column="0"
-						Grid.Row="2"
+						Grid.Row="3"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
 				<TextBox
 						Grid.Column="1"
-						Grid.Row="2"
-						Grid.ColumnSpan="4"
+						Grid.Row="3"
+						Grid.ColumnSpan="2"
 						KeyUp="TextBox_OnKeyUp"
 						LostFocus="TextBox_OnLostFocus"
 						Text="{Binding Selected.HeaderDescFromMemory,
 													 ElementName=winClsFileMgr,
-													 FallbackValue='',
+													 FallbackValue='Sample Text',
 													 UpdateSourceTrigger=Explicit}"
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
-						Style="{StaticResource TextBox.Base}"
+						Style="{StaticResource TextBox.Edit}"
 						/>
 
 				<Label
 						Content="Notes"
-						Grid.Column="0"
+						Grid.Column="3"
 						Grid.Row="3"
+						Margin="15,0,0,0"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
 				<TextBox
-						Grid.Column="1"
+						Grid.Column="4"
 						Grid.Row="3"
-						Grid.ColumnSpan="4"
+						Grid.ColumnSpan="1"
 						KeyUp="TextBox_OnKeyUp"
 						LostFocus="TextBox_OnLostFocus"
 						Text="{Binding Selected.HeaderNote,
@@ -1140,7 +1213,7 @@
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
 																Mode=OneWay}"
-						Style="{StaticResource TextBox.Base}"
+						Style="{StaticResource TextBox.Edit}"
 						/>
 
 				<Label
@@ -1179,18 +1252,114 @@
 				<!--  Style="{StaticResource Label.Base}"  -->
 				<!--  />  -->
 
-				<Label
+
+				<DockPanel
+						Grid.Column="0"
+						Grid.Row="1"
+						Grid.ColumnSpan="5"
+						Margin="0,2,0,0"
+						HorizontalAlignment="left"
+						VerticalAlignment="Top"
+						>
+
+					<Button x:Name="BtnNew"
+							Content="New"
+							Margin="0,0,0,0"
+							Width="{StaticResource Button.Normal.Width}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="top"
+							VerticalContentAlignment="Center"
+							DockPanel.Dock="left"
+							Click="BtnNew_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							>
+					</Button>
+
+
+					<Button x:Name="BtnCopy"
+							Content="Duplicate"
+							Margin="5,0,0,0"
+							Width="{StaticResource Button.Normal.Width}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="top"
+							VerticalContentAlignment="Center"
+							DockPanel.Dock="left"
+							IsEnabled="{Binding Selected.CanEdit,
+																	ElementName=winClsFileMgr,
+																	FallbackValue=false,
+																	Mode=OneWay}"
+							Click="BtnCopy_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							>
+					</Button>
+
+
+					<Button x:Name="BtnRename"
+							Content="Rename"
+							Margin="5,0,0,0"
+							Width="{StaticResource Button.Normal.Width}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="top"
+							IsEnabled="{Binding Selected.CanEdit,
+																	ElementName=winClsFileMgr,
+																	FallbackValue=false,
+																	Mode=OneWay}"
+							Click="BtnRename_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							>
+					</Button>
+
+
+
+					<Button x:Name="BtnDelete"
+							Content="Delete"
+							Margin="5,0,0,0"
+							Width="{StaticResource Button.Normal.Width}"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Top"
+							IsEnabled="{Binding Selected.CanEdit,
+																	ElementName=winClsFileMgr,
+																	FallbackValue=false,
+																	Mode=OneWay}"
+							Click="BtnDelete_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							>
+					</Button>
+
+				</DockPanel>
+
+				<Label x:Name="Label31"
 						Content="Sample File"
 						Grid.Column="0"
 						Grid.Row="5"
+						Grid.ColumnSpan="5"
+						Margin="0,0,0,2"
+						Height="22"
+						Padding="5,0,0,2"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						VerticalContentAlignment="Center"
+						DockPanel.Dock="Top"
+						Background="{StaticResource Win.Title.Background}"
+						Foreground="White"
+						/>
+
+				<Label
+						Content="Sample File"
+						Grid.Column="0"
+						Grid.Row="7"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
-				<ComboBox
-						x:Name="CbxSampleFiles"
+				<ComboBox x:Name="CbxSampleFiles"
 						Grid.Column="1"
-						Grid.Row="5"
+						Grid.Row="7"
 						Grid.ColumnSpan="4"
+						Padding="4,1,4,2"
 						DataContext="{Binding ElementName=winClsFileMgr,
 																	Path=SampleFiles}"
 						SelectedItem="{Binding ElementName=winClsFileMgr,
@@ -1199,6 +1368,7 @@
 						SelectedValue="{Binding ElementName=winClsFileMgr,
 																		Path=SearchText}"
 						SelectedValuePath="SortName"
+						BorderThickness="0"
 						IsEditable="False"
 						IsEnabled="{Binding Selected.CanEdit,
 																ElementName=winClsFileMgr,
@@ -1237,14 +1407,15 @@
 				<Label
 						Content="Description"
 						Grid.Column="0"
-						Grid.Row="6"
+						Grid.Row="8"
 						Style="{StaticResource Label.Selected.Title}"
 						/>
 
 				<TextBlock
 						Grid.Column="1"
-						Grid.Row="6"
+						Grid.Row="8"
 						Grid.ColumnSpan="4"
+						Height="Auto"
 						Text="{Binding SelectedSample.Description,
 													 ElementName=winClsFileMgr,
 													 FallbackValue='',
@@ -1258,6 +1429,31 @@
 																Mode=OneWay}"
 						Style="{StaticResource TextBlock.Base}"
 						/>
+
+
+				<DockPanel
+						Grid.Column="0"
+						Grid.Row="6"
+						Grid.ColumnSpan="5"
+						Margin="0,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						>
+
+					<Button x:Name="BtnInstallSample2"
+							Content="Install"
+							Margin="0,3,0,0"
+							Width="{StaticResource Button.Normal.Width}"
+							VerticalAlignment="Bottom"
+							DockPanel.Dock="Top"
+							Click="BtnInstallSample_OnClick"
+							Style="{StaticResource Button.Reduced.Vertically}"
+							Template="{StaticResource Button.Normal.ControlTemplate}"
+							>
+					</Button>
+
+				</DockPanel>
+
 			</Grid>
 		</DockPanel>
 	</Grid>

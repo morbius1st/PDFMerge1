@@ -7,12 +7,11 @@
 		xmlns:file="clr-namespace:AndyShared.FilesSupport;assembly=WpfShared"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:res="clr-namespace:ClassifierEditor.Windows.ResourceFiles.XamlResources"
+		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
 		xmlns:sample="clr-namespace:ClassifierEditor.SampleData"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
-		xmlns:xs="clr-namespace:AndySharedResources.XamlResources;assembly=WpfShared"
 		Title="MainWindowClassifierEditor"
 		Width="1200"
 		Height="800"
@@ -645,9 +644,8 @@
 												<ColorAnimationUsingKeyFrames
 														Storyboard.TargetName="Border"
 														Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
-
 														>
-													<!-- Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)" -->
+													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
 													<EasingColorKeyFrame
 															KeyTime="0"
 															Value="{DynamicResource ItemsControl.ListItem.Background.Selected}"
@@ -663,7 +661,7 @@
 														Storyboard.TargetName="Border"
 														Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
 														>
-													<!-- Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)" -->
+													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
 													<EasingColorKeyFrame
 															KeyTime="0"
 															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.UnFocused}"
@@ -774,9 +772,10 @@
 						<Style TargetType="Border">
 							<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" />
 
-							<Style.Triggers> <!--  true  -->
+							<Style.Triggers> 
+								<!--  true  -->
 								<Trigger Property="IsMouseOver" Value="true">
-									
+
 									<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.MouseOver}" />
 
 								</Trigger>
@@ -1527,9 +1526,10 @@
 					<Setter.Value>
 						<ControlTemplate x:Name="Tv1ItemContainer"
 								TargetType="{x:Type TreeViewItem}"
-						>
+								>
 
-							<Grid Margin="0,2,0,0"
+							<Grid
+									Margin="0,2,0,0"
 									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
 									UIElement.MouseUp="UIElement_OnMouseUp"
 									>
@@ -1605,9 +1605,9 @@
 													<Style TargetType="{x:Type Border}">
 														<Setter Property="Background" Value="{StaticResource TreeView.Background}" />
 														<Style.Triggers>
-															<Trigger Property="IsMouseOver" Value="true">
-																<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" />
-															</Trigger>
+															<!-- <Trigger Property="IsMouseOver" Value="true"> -->
+															<!-- 	<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" /> -->
+															<!-- </Trigger> -->
 															<DataTrigger Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}" Value="true">
 																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
 															</DataTrigger>
@@ -1649,17 +1649,19 @@
 
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
-										<Condition Property="Selector.IsSelectionActive" Value="false" />
 										<!--  false  -->
+										<Condition Property="Selector.IsSelectionActive" Value="false" />
+										<!--  true  -->
 										<Condition Property="IsSelected" Value="True" />
 									</MultiTrigger.Conditions>
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.Selected.InActive.Background}" />
 								</MultiTrigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
+										<!--  true  -->
 										<Condition Property="Selector.IsSelectionActive" Value="true" />
 										<!--  true  -->
-										<Condition Property="IsSelected" Value="True" />
+										<Condition Property="IsSelected" Value="true" />
 									</MultiTrigger.Conditions>
 									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.Selected.Active.Background}" />
 								</MultiTrigger>
@@ -1969,6 +1971,7 @@
 							Background="{StaticResource ScrollBarBkg}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
+
 				</Grid>
 			</ControlTemplate>
 
@@ -2017,7 +2020,7 @@
 
 										<Border x:Name="Bdr"
 												Grid.Row="1"
-												Margin="7,2,2,4"
+												Margin="5,2,2,4"
 												Padding="0"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Bottom"
@@ -2046,6 +2049,7 @@
 
 
 											<StackPanel Orientation="Horizontal">
+
 												<Label x:Name="Label1"
 														Content="No Conditions"
 														Width="95"
@@ -2055,6 +2059,7 @@
 														FontSize="10"
 														Style="{StaticResource Label.ItemsControl.Base}"
 														/>
+
 											</StackPanel>
 
 										</Border>
@@ -2288,7 +2293,7 @@
 								HorizontalContentAlignment="Stretch"
 								VerticalContentAlignment="Bottom"
 								DockPanel.Dock="Bottom"
-								ScrollViewer.HorizontalScrollBarVisibility="Auto"
+								ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ItemContainerStyle="{StaticResource Tv1LvItemContainerStyle1}"
 								ItemTemplateSelector="{StaticResource Lv1ConditionSelector}"
@@ -2383,7 +2388,6 @@
 
 					</DockPanel>
 
-
 					<DockPanel
 							Margin="0"
 							HorizontalAlignment="left"
@@ -2468,7 +2472,6 @@
 									Content="{Binding CompareValue}"
 									MinWidth="50"
 									Padding="16,0,16,0"
-
 									HorizontalContentAlignment="Center"
 									Style="{StaticResource Label.Condition.Value}"
 									/>
@@ -4043,7 +4046,6 @@
 							VerticalAlignment="top"
 							VerticalContentAlignment="Bottom"
 							d:DataContext="{x:Static sample:SampleData.Temp}"
-							
 							ItemContainerStyle="{StaticResource Lv2ItemContainerStyle1}"
 							ItemTemplateSelector="{StaticResource Lv2ConditionSelector}"
 							ItemsSource="{Binding Item.CompareOps,
@@ -4051,7 +4053,7 @@
 							Style="{DynamicResource Tv1Lv1Style}"
 							/>
 					<!--  ItemTemplate="{StaticResource Lv2DataTemplate0}"  -->
-					<!-- SelectionChanged="Lv2_SelectionChanged" -->
+					<!--  SelectionChanged="Lv2_SelectionChanged"  -->
 
 					<Button x:Name="BtnAddCondition"
 							Content="+"
@@ -4097,7 +4099,6 @@
 					Content="Test Sheet Files"
 					Grid.Column="0"
 					Grid.Row="2"
-					Grid.ColumnSpan="3"
 					Margin="0,0,0,6"
 					Padding="2,1,2,4"
 					VerticalAlignment="Center"
@@ -4290,7 +4291,6 @@
 															ElementName=MainWinClsfrEd}"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				SelectedItemChanged="Tv1_OnSelectedItemChanged"
-
 				Tag="{Binding ContextCmdDelete,
 											ElementName=MainWinClsfrEd}"
 				Background="{StaticResource ItemsControl.Background}"

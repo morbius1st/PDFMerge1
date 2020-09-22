@@ -37,6 +37,7 @@ namespace WpfShared.SampleData
 			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 1.xml");
 			selected.SampleFilePath =
 				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample A.sample";
+			
 
 			cfgClsFiles.UserClassificationFiles.Add(selected);
 
@@ -49,6 +50,12 @@ namespace WpfShared.SampleData
 			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 2.xml");
 			selected.SampleFilePath =
 				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample C.sample";
+
+			cfgClsFiles.UserClassificationFiles.Add(selected);
+			
+			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 3.xml");
+			selected.SampleFilePath =
+				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample B.sample";
 
 			cfgClsFiles.UserClassificationFiles.Add(selected);
 			

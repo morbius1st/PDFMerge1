@@ -162,6 +162,10 @@ namespace AndyShared.ClassificationFileSupport
 			// this renames the the associated classification file
 			set
 			{
+				Debug.WriteLine("@fileId| updated");
+
+				return;
+
 				if (value.Equals(FileId)) return;
 
 				string newFileNameNoExt = AssembleFileNameNoExt(UserName, value);
