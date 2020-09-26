@@ -7,19 +7,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using AndyShared.ClassificationDataSupport.TreeSupport;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.ConfigMgrShared;
-using AndyShared.SampleFileSupport;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared.ClassificationFileSupport;
 using WpfShared.Dialogs;
+using UtilityLibrary;
 using WpfShared.SampleData;
+using AndyShared.SampleFileSupport;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
-
-
 
 
 namespace WpfShared.Windows

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows.Data;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.ConfigSupport;
-using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared.FileSupport;
 
 
 // all user classification files
@@ -19,7 +15,7 @@ using UtilityLibrary;
 // of the machine setting file
 
 
-namespace AndyShared.ConfigMgrShared
+namespace AndyShared.ClassificationFileSupport
 {
 	public class ClassificationFiles : INotifyPropertyChanged
 	{

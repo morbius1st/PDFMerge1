@@ -82,6 +82,10 @@
 	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.760}" />
 
 
+	<SolidColorBrush x:Key="Element.Value.Background.Normal" Color="{StaticResource Teal.500}" />
+	
+	<SolidColorBrush x:Key="Element.Button.Background.Normal" Color="{StaticResource Amber.200}" />
+
 
 
 

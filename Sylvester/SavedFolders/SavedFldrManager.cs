@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.Settings;
@@ -53,8 +54,12 @@ namespace Sylvester.SavedFolders
 
 		private string title;
 
+#pragma warning disable CS0169 // The field 'SavedFolderManager.favoritesMgr' is never used
 		private static SavedFolderManager favoritesMgr;
+#pragma warning restore CS0169 // The field 'SavedFolderManager.favoritesMgr' is never used
+#pragma warning disable CS0169 // The field 'SavedFolderManager.historyMgr' is never used
 		private static SavedFolderManager historyMgr;
+#pragma warning restore CS0169 // The field 'SavedFolderManager.historyMgr' is never used
 
 
 	#endregion

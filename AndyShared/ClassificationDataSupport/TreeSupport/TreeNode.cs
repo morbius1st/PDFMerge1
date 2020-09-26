@@ -150,7 +150,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnounceRemExCollapseState);
 
 
-			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_MODIFIED);
+			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			IsInitialized = true;
 		}

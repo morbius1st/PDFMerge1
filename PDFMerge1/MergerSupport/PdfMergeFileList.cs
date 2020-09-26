@@ -1,21 +1,17 @@
-﻿using System;
+﻿//using static PDFMerge1.UtilityLocal;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Navigation;
 using iText.Kernel.Utils;
-
-//using static PDFMerge1.UtilityLocal;
-using static PDFMerge1.FileItemType;
-using static PDFMerge1.PdfMergeTree;
-using static PDFMerge1.bookmarkType;
-
-using UtilityLibrary;
+using PDFMerge1.FilesSupport;
+using static PDFMerge1.FilesSupport.FileItemType;
+using static PDFMerge1.MergerSupport.bookmarkType;
 using static UtilityLibrary.MessageUtilities;
 
 
-namespace PDFMerge1
+namespace PDFMerge1.MergerSupport
 {
 	internal class PdfMergeFileList
 	{
@@ -420,7 +416,7 @@ namespace PDFMerge1
 		string formatBookmark(string title, int depth, int page)
 		{
 			return String.Format("{1,3} | page| {0,3} | {2}{3}",
-				page, depth, " ".Repeat(depth * 2), title);
+				page, depth, StringExtensions.Repeat(" ", depth * 2), title);
 		}
 	}
 }

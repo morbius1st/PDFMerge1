@@ -13,7 +13,8 @@ using Tests.PathSupport;
 using Tests.Sequence;
 
 using UtilityLibrary;
-
+// using AndyShared.FileSupport;
+using static Tests.PathSupport.FileTypeSheetPdf;
 
 
 // a hierarchical sequence and associated tree view - but using single level codes
@@ -50,6 +51,8 @@ namespace Tests
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+
+
 		private bool doNameTest;
 
 		private string nl = System.Environment.NewLine;

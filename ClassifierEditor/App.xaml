@@ -9,12 +9,9 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary
-						Source="Windows/ResourceFiles/XamlResources/MasterColorList.xaml"
-						/>
-				<ResourceDictionary
-						Source="Windows/ResourceFiles/XamlResources/VisualStates.xaml"
-						/>
+				<ResourceDictionary Source="Windows/ResourceFiles/XamlResources/MasterColorList.xaml"/>
+				<ResourceDictionary Source="Windows/ResourceFiles/XamlResources/VisualStates.xaml"/>
+				<ResourceDictionary Source="Windows/ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 

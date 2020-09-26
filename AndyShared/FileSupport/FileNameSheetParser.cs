@@ -1,10 +1,6 @@
 ﻿#region using
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using UtilityLibrary;
 
@@ -13,7 +9,7 @@ using UtilityLibrary;
 // username: jeffs
 // created:  5/27/2020 10:55:08 PM
 
-namespace AndyShared.FilesSupport
+namespace AndyShared.FileSupport
 {
 	public enum FileTypeSheetPdf
 	{
@@ -44,8 +40,8 @@ namespace AndyShared.FilesSupport
 		private const string SHEET_NAME_2_STR   = "shtname2";
 		private const string SHEET_NAME_3_STR   = "shtname3";
 		private const string SHEET_NAME_4_STR   = "shtname4";
-//		private const string COMMENT_1_STR      = "comment1";
-//		private const string COMMENT_2_STR      = "comment2";
+		private const string COMMENT_1_STR      = "comment1";
+		private const string COMMENT_2_STR      = "comment2";
 		private const string EXTENSION_1_STR    = "ext2";
 		private const string EXTENSION_2_STR    = "ext3";
 
@@ -94,29 +90,29 @@ namespace AndyShared.FilesSupport
 				components.sheetID = g[SHEET_ID_2_STR].Value;
 			}
 
-//			test = g[COMMENT_1_STR].Value;
-//			if (string.IsNullOrEmpty(test))
-//			{
-//				test = g[COMMENT_2_STR].Value;
-//				if (!string.IsNullOrEmpty(test))
-//				{
-////					components.comment = test;
-//					components.originalSheetTitle = g[SHEET_NAME_2_STR].Value;
-//				}
-//				else if (!string.IsNullOrEmpty(g[SHEET_NAME_3_STR].Value))
-//				{
-//					components.originalSheetTitle = g[SHEET_NAME_3_STR].Value;
-//				}
-//				else if (!string.IsNullOrEmpty(g[SHEET_NAME_4_STR].Value))
-//				{
-//					components.originalSheetTitle = g[SHEET_NAME_4_STR].Value;
-//				}
-//			}
-//			else
-//			{
-				components.originalSheetTitle = "";
-//				components.comment = test;
-//			}
+			test = g[COMMENT_1_STR].Value;
+			if (string.IsNullOrEmpty(test))
+			{
+				test = g[COMMENT_2_STR].Value;
+				if (!string.IsNullOrEmpty(test))
+				{
+//					components.comment = test;
+					components.originalSheetTitle = g[SHEET_NAME_2_STR].Value;
+				}
+				else if (!string.IsNullOrEmpty(g[SHEET_NAME_3_STR].Value))
+				{
+					components.originalSheetTitle = g[SHEET_NAME_3_STR].Value;
+				}
+				else if (!string.IsNullOrEmpty(g[SHEET_NAME_4_STR].Value))
+				{
+					components.originalSheetTitle = g[SHEET_NAME_4_STR].Value;
+				}
+			}
+			else
+			{
+				 components.originalSheetTitle = "";
+				// components.comment = test;
+			}
 
 			components.sheetTitle = components.originalSheetTitle;
 

@@ -3,9 +3,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyConfig.ConfigMgr;
-using AndyShared.ConfigMgrShared;
-using AndyShared.ConfigSupport;
 using SettingsManager;
+using AndyShared.ClassificationFileSupport;
+using AndyShared.ConfigMgrShared;
 
 #endregion
 

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
+
 using Sylvester.FileSupport;
 using Sylvester.FolderSupport;
 using Sylvester.SavedFolders;

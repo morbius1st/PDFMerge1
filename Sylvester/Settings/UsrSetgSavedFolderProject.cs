@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+
 using Sylvester.Settings;
 using UtilityLibrary;
 

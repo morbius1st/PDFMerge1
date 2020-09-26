@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml.Linq;
-using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared.FileSupport;
 
 namespace AndyShared.Settings
 {

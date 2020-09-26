@@ -8,6 +8,7 @@ using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Navigation;
 using iText.Kernel.Utils;
 using UtilityLibrary;
+using AndyShared;
 using static AODeliverable.PdfMerge.bookmarkType;
 using static AODeliverable.FileSelection.FileItemType;
 using static UtilityLibrary.MessageUtilities;
@@ -205,7 +206,9 @@ namespace AODeliverable.PdfMerge
 							logMsgDbLn2(" added(-no-) pages");
 						}
 					}
+#pragma warning disable CS0168 // The variable 'ex' is declared but never used
 					catch (Exception ex)
+#pragma warning restore CS0168 // The variable 'ex' is declared but never used
 					{
 						logMsgFmtln("corrupted PDF found");
 

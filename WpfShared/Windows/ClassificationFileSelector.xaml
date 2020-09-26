@@ -3,17 +3,16 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-		xmlns:classificationFileSupport="clr-namespace:AndyShared.ClassificationFileSupport"
-		xmlns:configSupport="clr-namespace:AndyShared.ConfigSupport"
 		xmlns:cs="clr-namespace:System.Collections.Specialized;assembly=System"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
-		xmlns:sample="clr-namespace:AndyShared.SampleFileSupport"
 		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
-		xmlns:sharedsupport="clr-namespace:AndyShared.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:support="clr-namespace:AndyShared.Support"
+		xmlns:classificationFileSupport="clr-namespace:AndyShared.ClassificationFileSupport"
+		xmlns:sampleFileSupport="clr-namespace:AndyShared.SampleFileSupport"
 		Title="Classification File Selector"
 		Width="700"
 		Height="650"
@@ -22,7 +21,6 @@
 		mc:Ignorable="d"
 		>
 	<Window.Resources>
-
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterColorList.xaml" />
@@ -33,11 +31,11 @@
 				<ResourceDictionary Source="ResourceFiles/SVG/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<sharedsupport:NullStringToMessage x:Key="NullStringToMessage" />
-			<sharedsupport:NullObjToMessage x:Key="NullObjToMessage" />
-			<sharedsupport:InvertBool x:Key="InvertBool" />
-			<sharedsupport:StringToMessage x:Key="StringToMessage" />
-			<sharedsupport:PassThroughConverter x:Key="PassThru" />
+			<support:NullStringToMessage x:Key="NullStringToMessage" />
+			<support:NullObjToMessage x:Key="NullObjToMessage" />
+			<support:InvertBool x:Key="InvertBool" />
+			<support:StringToMessage x:Key="StringToMessage" />
+			<support:PassThroughConverter x:Key="PassThru" />
 
 			<sys:Double x:Key="EditingTextBoxHeight">22</sys:Double>
 
@@ -1005,7 +1003,7 @@
 			<Button x:Name="BtnCancel"
 					Content="Cancel"
 					Margin="0,0,0,0"
-					Width="{StaticResource Button.Normal.Width}"
+					Width="{StaticResource Normal.Button.Width}"
 					HorizontalAlignment="Right"
 					VerticalAlignment="top"
 					DockPanel.Dock="right"
@@ -1017,7 +1015,7 @@
 			<Button x:Name="BtnDone"
 					Content="Select"
 					Margin="0,0,5,0"
-					Width="{StaticResource Button.Normal.Width}"
+					Width="{StaticResource Normal.Button.Width}"
 					HorizontalAlignment="Right"
 					VerticalAlignment="top"
 					DockPanel.Dock="Right"
@@ -1265,7 +1263,7 @@
 					<Button x:Name="BtnNew"
 							Content="New"
 							Margin="0,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
+							Width="{StaticResource Normal.Button.Width}"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="top"
 							VerticalContentAlignment="Center"
@@ -1280,7 +1278,7 @@
 					<Button x:Name="BtnCopy"
 							Content="Duplicate"
 							Margin="5,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
+							Width="{StaticResource Normal.Button.Width}"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="top"
 							VerticalContentAlignment="Center"
@@ -1299,7 +1297,7 @@
 					<Button x:Name="BtnRename"
 							Content="Rename"
 							Margin="5,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
+							Width="{StaticResource Normal.Button.Width}"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="top"
 							IsEnabled="{Binding Selected.CanEdit,
@@ -1317,7 +1315,7 @@
 					<Button x:Name="BtnDelete"
 							Content="Delete"
 							Margin="5,0,0,0"
-							Width="{StaticResource Button.Normal.Width}"
+							Width="{StaticResource Normal.Button.Width}"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							IsEnabled="{Binding Selected.CanEdit,
@@ -1380,7 +1378,7 @@
 						Template="{DynamicResource CbxControlTemplate}"
 						>
 					<ComboBox.ItemTemplate>
-						<DataTemplate DataType="sample:SampleFile">
+						<DataTemplate DataType="sampleFileSupport:SampleFile">
 							<StackPanel Orientation="Horizontal">
 								<Label
 										Content="{Binding FileName,
@@ -1443,7 +1441,7 @@
 					<Button x:Name="BtnInstallSample2"
 							Content="Install"
 							Margin="0,3,0,0"
-							Width="{StaticResource Button.Normal.Width}"
+							Width="{StaticResource Normal.Button.Width}"
 							VerticalAlignment="Bottom"
 							DockPanel.Dock="Top"
 							Click="BtnInstallSample_OnClick"

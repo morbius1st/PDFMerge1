@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using AndyShared.ClassificationDataSupport.TreeSupport;
-using SettingsManager;
 
 #endregion
 

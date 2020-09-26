@@ -46,10 +46,7 @@
 
 	<sys:Double x:Key="Normal.Button.Height">30</sys:Double>
 	<sys:Double x:Key="Normal.Button.Width">90</sys:Double>
-
-	<sys:Double x:Key="Button.Normal.Width">90</sys:Double>
-	<sys:Double x:Key="Button.Normal.Height">30</sys:Double>
-
+	
 	<!--  normal / thicknesses  -->
 
 	<Thickness x:Key="Normal.BorderThickness">

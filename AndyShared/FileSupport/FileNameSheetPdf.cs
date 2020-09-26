@@ -19,7 +19,7 @@ using UtilityLibrary;
 
 */
 
-namespace AndyShared.FilesSupport
+namespace AndyShared.FileSupport
 {
 	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
 	{
@@ -78,7 +78,7 @@ namespace AndyShared.FilesSupport
 		public FileTypeSheetPdf FileType => fnc?.fileType ?? FileTypeSheetPdf.OTHER;
 
 		public string SheetName          => SheetNumber + " :: " + SheetTitle;
-		public string SheetNumber        => fnc?.phaseBldg + fnc.phaseBldgSep + (fnc.sheetID ?? "n/a") ?? "sht number";
+		public string SheetNumber        => (fnc?.phaseBldg + fnc?.phaseBldgSep + fnc?.sheetID) ?? "sht number";
 		public string SheetTitle         => fnc?.sheetTitle ?? "sht ttl";
 		public string PhaseBldg          => fnc?.phaseBldg ?? "phase-bldg";
 		public string PhaseBldgSep       => fnc?.phaseBldgSep ?? "pb sep";

@@ -23,13 +23,14 @@ using System.Text;
 using System.Windows.Forms;
 using iText.Kernel.Pdf;
 using PDFMerge1.DebugSupport;
-using UtilityLibrary;
-
-using static PDFMerge1.FileList;
+using PDFMerge1.FilesSupport;
+using PDFMerge1.MergerSupport;
+using static PDFMerge1.FilesSupport.FileList;
 using static PDFMerge1.Samples;
 using static PDFMerge1.SelectFolder;
 
 using static UtilityLibrary.MessageUtilities;
+using UtilityLibrary;
 
 namespace PDFMerge1
 {
@@ -57,7 +58,8 @@ namespace PDFMerge1
 		}
 
 		private void listSamples()
-		{
+		{ 
+			
 			logMsg(nl);
 			logMsgln("original file list");
 			listSample(Samples.orig, OUTPUT_ORIG);

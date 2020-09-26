@@ -17,7 +17,7 @@ namespace AndyShared.Support
 
 		// from children to parent, i have been modified
 		// for treenodes only
-		public const string TN_MODIFIED = "TnModified";
+		public const string MODIFIED = "Modified";
 
 		// parent to children - modifications saved
 		public const string SAVED = "Saved";

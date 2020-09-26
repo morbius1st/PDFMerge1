@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using UtilityLibrary;
+﻿using UtilityLibrary;
 
 
 // Solution:     PDFMerge1
@@ -12,7 +10,10 @@ using UtilityLibrary;
 // FileNameSheetComponents
 //***					***
 
-namespace AndyShared.FilesSupport
+
+
+
+namespace AndyShared.FileSupport
 {
 	public class FileNameSheetComponents
 	{

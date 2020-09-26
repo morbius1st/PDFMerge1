@@ -6,10 +6,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.FileSupport;
-using SettingsManager;
 using UtilityLibrary;
+using AndyShared.FileSupport;
 
 #endregion
 
@@ -83,6 +81,8 @@ namespace AndyShared.SampleFileSupport
 			OnPropertyChange("Initialized");
 
 			sampleFileFolderPath = SampleFileAssist.GetSampleFolderPath(userClassfFolderPath);
+
+			UpdateCollection();
 		}
 
 		public void reinitialize()

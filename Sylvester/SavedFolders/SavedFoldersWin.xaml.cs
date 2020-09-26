@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+
 using Sylvester.Process;
 using Sylvester.SavedFolders.SubFolder;
 using Sylvester.Settings;
@@ -70,8 +71,12 @@ namespace Sylvester.SavedFolders
 		private bool withinScrollViewer = false;
 
 		// the name of a newly created project and/or folder pair entry
+#pragma warning disable CS0169 // The field 'SavedFoldersWin.NewProjectName' is never used
 		private string NewProjectName;
+#pragma warning restore CS0169 // The field 'SavedFoldersWin.NewProjectName' is never used
+#pragma warning disable CS0169 // The field 'SavedFoldersWin.NewFolderPairName' is never used
 		private string NewFolderPairName;
+#pragma warning restore CS0169 // The field 'SavedFoldersWin.NewFolderPairName' is never used
 
 		private FolderProjectOp folderProjectOp = FolderProjectOp.NONE;
 
@@ -125,7 +130,9 @@ namespace Sylvester.SavedFolders
 		{
 			get
 			{
+#pragma warning disable CS0219 // The variable 'title' is assigned but its value is never used
 				string title = "";
+#pragma warning restore CS0219 // The variable 'title' is assigned but its value is never used
 
 				return winTitle + " " +
 					AppSettingData30.SavedFolderOperationDesc[(int) savedFolderOperation, 0];

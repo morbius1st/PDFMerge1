@@ -5,13 +5,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using SettingsManager;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using UtilityLibrary;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
 using AndyShared.Support;
-using SettingsManager;
-using UtilityLibrary;
 using static AndyShared.FileSupport.FileNameUserAndId;
 
 #endregion
@@ -40,7 +40,7 @@ namespace AndyShared.ClassificationFileSupport
 		private bool isDefaultClassfFile = true;
 		private bool isUserClassfFile = false;
 
-		private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
+		// private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
 
 	#endregion
 
@@ -55,14 +55,17 @@ namespace AndyShared.ClassificationFileSupport
 			// setup inter-class communication
 			// tell parent, I have been modified announcer
 
+			// listen to parent, initialize
+			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+
 			// listen to children - they have been modified
-			Orator.Listen(OratorRooms.TN_MODIFIED, OnAnnounceSubChildModified);
+			Orator.Listen(OratorRooms.MODIFIED, OnAnnounceSubChildModified);
 
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
 
-			// announce to treenode (treebase) / and components initialized and to initialize
-			OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
+			// // announce to treenode (treebase) / and components initialized and to initialize
+			// OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
 
 			bool a = !SettingsSupport.ValidateXmlFile(filePath);
 			bool b = !ValidateAgainstUsername(filePathLocal);
@@ -129,7 +132,17 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public string FullFilePath => FilePathLocal.FullFilePath;
+		public string FolderPathLocal
+		{
+			get
+			{
+				FilePath<FileNameUserAndId> f = filePathLocal;
+
+				return filePathLocal.FolderPath;
+			}
+		}
+
+		public string FullFilePath => filePathLocal.FullFilePath;
 
 		public FilePath<FileNameUserAndId> FilePathLocal
 		{
@@ -209,6 +222,8 @@ namespace AndyShared.ClassificationFileSupport
 		public string SampleFileName => sampleFile?.SampleFilePath?.FileName ?? null;
 
 		public string SampleFileNameNoExt => sampleFile?.SampleFilePath?.FileNameNoExt ?? "";
+
+		public string SampleFileFolderPath => sampleFile.SampleFilePath.FolderPath;
 
 		// status
 		public bool CanEdit => IsInitialized && IsUserClassfFile;
@@ -365,6 +380,12 @@ namespace AndyShared.ClassificationFileSupport
 	#endregion
 
 	#region event consuming
+
+		private void OnAnnounceTnInit(object sender, object value)
+		{
+			isInitialized = true;
+			IsModified = false;
+		}
 
 		// one of the sub-children have been modified
 		private void OnAnnounceSubChildModified(object sender, object value)

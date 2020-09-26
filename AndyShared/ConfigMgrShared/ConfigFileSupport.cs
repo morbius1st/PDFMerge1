@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
-using AndyShared.ClassificationFileSupport;
+using SettingsManager;
 using AndyShared.ConfigSupport;
+using UtilityLibrary;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
-using SettingsManager;
-using UtilityLibrary;
 
 namespace AndyShared.ConfigMgrShared
 {

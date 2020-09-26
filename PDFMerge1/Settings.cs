@@ -1,6 +1,5 @@
-﻿using System.Collections.Specialized;
-
-namespace PDFMerge1.Properties {
+﻿namespace PDFMerge1.Properties
+{
     
     
     // This class allows you to handle specific events on the settings class:

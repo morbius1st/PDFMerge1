@@ -1,18 +1,12 @@
 ﻿#region + Using Directives
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Security;
 using AndyShared.ClassificationFileSupport;
-using AndyShared.FileSupport;
-using AndyShared.Support;
-using SettingsManager;
 using UtilityLibrary;
+using AndyShared.Support;
 
 #endregion
 

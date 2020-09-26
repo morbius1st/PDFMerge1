@@ -174,8 +174,8 @@
 					Name="BtnCancel"
 					Content="Cancel"
 					Margin="8,0,0,0"
-					Width="{StaticResource Button.Normal.Width}"
-					Height="{StaticResource Button.Normal.Height}"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
 					VerticalAlignment="Stretch"
 					Click="BtnCancel_OnClick"
 					/>
@@ -184,8 +184,8 @@
 					Name="BtnDone"
 					Content="Done"
 					Margin="8,0,0,0"
-					Width="{StaticResource Button.Normal.Width}"
-					Height="{StaticResource Button.Normal.Height}"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
 					IsEnabled="{Binding IsValid}"
 					Click="BtnDone_OnClick"
 					>

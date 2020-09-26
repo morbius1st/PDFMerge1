@@ -1,5 +1,6 @@
 ﻿#region + Using Directives
-
+using Sylvester.Process;
+using UtilityLibrary;
 #endregion
 
 
@@ -8,8 +9,8 @@
 // username: jeffs
 // created:  1/4/2020 10:35:42 PM
 
-using Sylvester.Process;
-using UtilityLibrary;
+
+
 
 namespace Sylvester.FileSupport
 {
@@ -37,7 +38,9 @@ namespace Sylvester.FileSupport
 		private string matchedSeparator = "";
 		private string matchedSheetTitle = "";
 		private FileCurrent fileCurrent;
+#pragma warning disable CS0169 // The field 'FileFinal.isChecked' is never used
 		private bool isChecked;
+#pragma warning restore CS0169 // The field 'FileFinal.isChecked' is never used
 
 		public FileFinal() { }
 

@@ -1,20 +1,13 @@
-﻿using System;
+﻿//using static PDFMerge1.UtilityLocal;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using iText.Kernel.XMP.Impl;
-
-//using static PDFMerge1.UtilityLocal;
-using static PDFMerge1.FileItemType;
-using static PDFMerge1.FileList;
-using static PDFMerge1.bookmarkType;
-
-using UtilityLibrary;
+using PDFMerge1.FilesSupport;
+using static PDFMerge1.FilesSupport.FileItemType;
+using static PDFMerge1.MergerSupport.bookmarkType;
 using static UtilityLibrary.MessageUtilities;
 
-namespace PDFMerge1
+namespace PDFMerge1.MergerSupport
 {
 	internal enum bookmarkType
 	{
@@ -99,7 +92,7 @@ namespace PDFMerge1
 				{
 					List<MergeItem> childBookmarks = new List<MergeItem>(1);
 
-					mergeItems.Add(new MergeItem(fileList[i].getOutlineDirectory().GetSubDirectoryName(currDepth), 
+					mergeItems.Add(new MergeItem(StringExtensions.GetSubDirectoryName(fileList[i].getOutlineDirectory(), currDepth), 
 						bookmarkType.BRANCH, childBookmarks, -1, currDepth, new FileItem()));
 
 					i = Add(fileList, i, currDepth + 1, fileList[i].getOutlineDirectory(), childBookmarks) - 1;
@@ -161,7 +154,7 @@ namespace PDFMerge1
 			sb.Append(" fileitemType| ").Append($"{mi.fileItem.ItemType.ToString(),-8}");
 			sb.Append(" page#| ").Append(fmt(mi.pageNumber));
 			sb.Append(" vs ").Append(fmt(findPageNumber(mi)));
-			sb.Append(" bookmark title| ").Append(" ".Repeat(depth * 3)).Append(mi.bookmarkTitle);
+			sb.Append(" bookmark title| ").Append(StringExtensions.Repeat(" ", depth * 3)).Append(mi.bookmarkTitle);
 			sb.Append(nl);
 
 			if (mi.fileItem.ItemType == FILE)

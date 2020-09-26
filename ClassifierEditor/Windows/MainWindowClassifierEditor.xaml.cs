@@ -17,15 +17,14 @@ using ClassifierEditor.SampleData;
 // using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.ClassificationFileSupport;
+using AndyShared.Support;
 
 // using static ClassifierEditor.Tree.CompareOperations;
 // using static ClassifierEditor.Tree.ComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using AndyShared.ClassificationDataSupport.TreeSupport;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.FileSupport;
-using AndyShared.Support;
 using WpfShared.Windows;
 
 #endregion
@@ -299,7 +298,6 @@ namespace ClassifierEditor.Windows
 
 				classificationFile = value;
 
-
 				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
 
 
@@ -315,6 +313,7 @@ namespace ClassifierEditor.Windows
 				OnPropertyChange("ContextSelected");
 				OnPropertyChange("HasSelection");
 				OnPropertyChange("FileList");
+
 			}
 		}
 
@@ -364,13 +363,15 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
+		public TreeNode SelectedItem { get; set; }
+
 		public bool HasSelection => userSelected != null;
 
 		public bool HasContextSelection => contextSelected != null;
 
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
-		public TreeNode SelectedItem { get; set; }
+
 
 	#region public property settings
 
@@ -550,7 +551,7 @@ namespace ClassifierEditor.Windows
 	#region control event methods
 
 		// private void Lv2_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
-		private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
+		private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			Grid g = (sender as Grid);
 			TreeViewItem tvi = (g.Tag as TreeViewItem);
@@ -829,7 +830,7 @@ namespace ClassifierEditor.Windows
 
 				int idx = userSelected.Item.FindCompOp(id) ;
 
-				userSelected.Item.RemoveCompOpAt(idx--);
+				// userSelected.Item.RemoveCompOpAt(idx--);
 				userSelected.Item.RemoveCompOpAt(idx);
 			}
 		}
@@ -851,10 +852,22 @@ namespace ClassifierEditor.Windows
 
 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(dialog.SelectedFileId);
 
+			OnTnInitAnnouncer.Announce(null);
 
 			// dialog.Selected;
 		}
 
+		private void BtnSave_OnCancelChanges(object sender, RoutedEventArgs e)
+		{
+			ClassificationFile c = classificationFile;
+
+			classificationFile = null;
+
+			ClassificationFile = c;
+
+			OnTnInitAnnouncer.Announce(null);
+		}
+		
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{

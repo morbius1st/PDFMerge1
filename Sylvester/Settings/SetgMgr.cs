@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using SettingManager;
+
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;

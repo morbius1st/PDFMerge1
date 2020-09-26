@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows.Data;
 using UtilityLibrary;
 

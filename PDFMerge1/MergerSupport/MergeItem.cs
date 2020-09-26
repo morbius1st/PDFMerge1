@@ -3,10 +3,10 @@
 // File:             MergeItem.cs
 // Created:      -- ()
 
-using System;
 using System.Collections.Generic;
+using PDFMerge1.FilesSupport;
 
-namespace PDFMerge1
+namespace PDFMerge1.MergerSupport
 {
 	internal class MergeItem 
 	{

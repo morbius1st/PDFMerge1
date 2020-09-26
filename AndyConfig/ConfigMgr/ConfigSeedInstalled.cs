@@ -6,15 +6,15 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.ConfigMgrShared;
-using AndyShared.FileSupport;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared;
+using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
+using UtilityLibrary;
+using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
-
 
 #endregion
 

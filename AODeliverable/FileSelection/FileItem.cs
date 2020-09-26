@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilityLibrary;
+using AndyShared;
 
 #endregion
 
@@ -28,6 +29,7 @@ namespace AODeliverable.FileSelection
 
 	public class FileItem : IComparable<FileItem>
 	{ 
+
 		// static
 		private static string rootPath;
 		internal static int notFound { get; private set; }
@@ -49,6 +51,8 @@ namespace AODeliverable.FileSelection
 
 		internal bool isFullPath { get; set; } = false;
 		internal FileItemType ItemType { get; set; }
+
+
 
 		public FileItem()
 		{
@@ -75,6 +79,47 @@ namespace AODeliverable.FileSelection
 				this.outlinePath = path;
 			}
 		}
+
+
+		internal bool isMissing
+		{
+			get { return ItemType == FileItemType.MISSING; }
+		}
+
+		internal int Depth
+		{
+			get
+			{
+				if (isMissing) { return -1; }
+
+				return outlinePath.CountSubstring("\\") - 1;
+			}
+
+		}
+
+
+
+		public static string RootPath
+		{
+			get { return rootPath; }
+			set
+			{
+				if (value == null || value.Length <= 3)
+				{
+					rootPath = null;
+				}
+
+				rootPath = Path.GetFullPath(value);
+				RootPathLen = RootPath.Length;
+			}
+		}
+
+		public int CompareTo(FileItem other)
+		{
+			return outlinePath.CompareTo(other.outlinePath);
+		}
+
+
 
 		private string setPath(string testPath)
 		{
@@ -109,21 +154,6 @@ namespace AODeliverable.FileSelection
 			return FileItemType.MISSING;
 		}
 
-		internal bool isMissing
-		{
-			get { return ItemType == FileItemType.MISSING; }
-		}
-
-		internal int Depth
-		{
-			get
-			{
-				if (isMissing) { return -1; }
-
-				return outlinePath.CountSubstring("\\") - 1;
-			}
-
-		}
 
 		internal string getName()
 		{
@@ -158,24 +188,5 @@ namespace AODeliverable.FileSelection
 			}
 		}
 
-		public static string RootPath
-		{
-			get { return rootPath; }
-			set
-			{
-				if (value == null || value.Length <= 3)
-				{
-					rootPath = null;
-				}
-
-				rootPath = Path.GetFullPath(value);
-				RootPathLen = RootPath.Length;
-			}
-		}
-
-		public int CompareTo(FileItem other)
-		{
-			return outlinePath.CompareTo(other.outlinePath);
-		}
 	}
 }

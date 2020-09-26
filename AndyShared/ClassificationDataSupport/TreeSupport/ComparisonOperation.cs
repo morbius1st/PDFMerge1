@@ -1,12 +1,12 @@
 ﻿#region using directives
 
+// using ClassifierEditor.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-// using ClassifierEditor.Windows;
-
+using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 
@@ -52,13 +52,38 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		protected LogicalCompareOp logicalCompOp = null;
 
 		protected string compareValue;
-		protected bool isDsableCompOp = false;
+		protected bool isDsableCompOp;
+
+		protected bool isInitialized;
+		protected bool isModified;
+
+		private Orator.ConfRoom.Announcer OnModifiedAnnouncer;
 
 	#endregion
 
 	#region ctor
 
-		public ComparisonOperation() { }
+		public ComparisonOperation()
+		{
+			OnCreated();
+		}
+
+		private void OnCreated()
+		{
+			OnModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
+
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.SAVED, OnOratorAnnouncedSaved);
+
+			// listen to parent, initialize
+			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+		}
+		
+		[OnDeserialized]
+		private void OnDeserialized(StreamingContext c)
+		{
+			OnCreated();
+		}
 
 	#endregion
 
@@ -80,12 +105,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
+				if (value == valueCompOp) return;
+
 				valueCompOp = value;
 				OnPropertyChange();
-				OnPropertyChange("CompareString");
+				OnPropertyChange("ValueCompareString");
+
+				IsModified = true;
 			}
 		}
-		
+
+		[IgnoreDataMember]
+		public abstract int ValueCompOpCode { get; set; }
+
 		[DataMember(Order = 2)]
 		public LogicalCompareOp LogicalCompareOp
 		{
@@ -93,11 +125,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			set
 			{
+				if (value == logicalCompOp) return;
+
 				logicalCompOp = value;
 				OnPropertyChange();
-				OnPropertyChange("CompareString");
+				OnPropertyChange("LogicalCompareString");
+
+				IsModified = true;
 			}
 		}
+
+		[IgnoreDataMember]
+		public abstract int LogicalCompOpCode { get; set; }
 
 		[DataMember(Order = 5)]
 		public string CompareValue
@@ -111,11 +150,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[IgnoreDataMember]
-		public bool IsFirstCompOp
-		{
-			get => logicalCompOp == null;
-		}
 
 		[DataMember(Order = 15)]
 		public bool IsDisabled
@@ -126,15 +160,32 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				isDsableCompOp = value;
 
 				OnPropertyChange();
-
 			}
 		}
 
 		[IgnoreDataMember]
-		public abstract int ValueCompOpCode { get; set; }
-		
-		[IgnoreDataMember]
-		public abstract int LogicalCompOpCode { get; set; }
+		public bool IsFirstCompOp
+		{
+			get => logicalCompOp == null;
+		}
+
+		public bool IsModified
+		{
+			get => isModified;
+			private set
+			{
+				if (value == isModified) return;
+
+				isModified = value;
+
+				OnPropertyChange();
+
+				if (isInitialized)
+				{
+					OnModifiedAnnouncer.Announce(null);
+				}
+			}
+		}
 
 
 	#endregion
@@ -151,11 +202,23 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#endregion
 
-	#region event processing
+	#region event consuming
+
+		private void OnOratorAnnouncedSaved(object sender, object value)
+		{
+			isModified = false;
+		}
+
+
+		private void OnAnnounceTnInit(object sender, object value)
+		{
+			isInitialized = true;
+			isModified = false;
+		}
 
 	#endregion
 
-	#region event handeling
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -283,6 +346,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public int OpCodeValue => (int) OpCode;
 	}
 
+
+
+
 	[DataContract(Namespace = "")]
 	public class ValueCompareOp : ACompareOp
 	{
@@ -295,6 +361,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public override ComparisonOp OpCode { get; set; }
 	}
 
+
+
+
 	[DataContract(Namespace = "")]
 	public class LogicalCompareOp : ACompareOp
 	{
@@ -306,6 +375,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override ComparisonOp OpCode { get; set;  }
 	}
+
+
+
 
 	public static class CompareOperations
 	{

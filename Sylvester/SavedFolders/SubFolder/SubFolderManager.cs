@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
 using Sylvester.FolderSupport;
 using Sylvester.Process;
 using Sylvester.Settings;
@@ -33,9 +34,13 @@ namespace Sylvester.SavedFolders.SubFolder
 
 		private SelectFolder sf;
 
+#pragma warning disable CS0649 // Field 'SubFolderManager.FolderType' is never assigned to, and will always have its default value
 		private FolderType FolderType;
+#pragma warning restore CS0649 // Field 'SubFolderManager.FolderType' is never assigned to, and will always have its default value
 
+#pragma warning disable CS0169 // The field 'SubFolderManager.FolderPathType' is never used
 		private int FolderPathType;
+#pragma warning restore CS0169 // The field 'SubFolderManager.FolderPathType' is never used
 
 		public SubFolderManager(FolderRoute fr)
 		{

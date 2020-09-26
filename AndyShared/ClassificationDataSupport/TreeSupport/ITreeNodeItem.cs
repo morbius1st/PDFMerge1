@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
@@ -20,3 +18,5 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	}
 }
+
+

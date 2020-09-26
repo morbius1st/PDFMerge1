@@ -1,14 +1,14 @@
-﻿using System.Collections;
+﻿//using static PDFMerge1.UtilityLocal;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-//using static PDFMerge1.UtilityLocal;
-using static PDFMerge1.FileItemType;
+using static PDFMerge1.FilesSupport.FileItemType;
 
 using static UtilityLibrary.MessageUtilities;
 
 
-namespace PDFMerge1
+namespace PDFMerge1.FilesSupport
 {
 	public enum FileItemType
 	{

@@ -1,7 +1,6 @@
 ﻿#region + Using Directives
 
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Sylvester.FileSupport;
 using Sylvester.Settings;
 using UtilityLibrary;
 

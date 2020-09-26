@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using AndyShared.ConfigSupport;
 using SettingsManager;
+using AndyShared.ConfigSupport;
 using UtilityLibrary;
 
 namespace AndyShared.ConfigMgrShared

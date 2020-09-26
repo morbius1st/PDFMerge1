@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using PDFMerge1.FilesSupport;
+using PDFMerge1.MergerSupport;
 using static UtilityLibrary.MessageUtilities;
 
 #endregion

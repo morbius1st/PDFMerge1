@@ -1,15 +1,9 @@
 ﻿#region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using UtilityLibrary;
-
 using AndyShared.ClassificationFileSupport;
+using UtilityLibrary;
 
 #endregion
 

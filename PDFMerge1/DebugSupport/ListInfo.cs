@@ -1,6 +1,8 @@
 ﻿#region + Using Directives
 
 using System.Collections.Generic;
+using PDFMerge1.FilesSupport;
+using PDFMerge1.MergerSupport;
 using static UtilityLibrary.MessageUtilities;
 using static PDFMerge1.DebugSupport.DebugSupport;
 

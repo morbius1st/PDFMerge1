@@ -90,11 +90,17 @@ namespace AndySharedResources.XamlResources
 
     public static void SetUpdatePropertySourceWhenEnterPressed(DependencyObject dp, DependencyProperty value)
     {
+		
+
         dp.SetValue(UpdatePropertySourceWhenEnterPressedProperty, value);
+
     }
 
     public static DependencyProperty GetUpdatePropertySourceWhenEnterPressed(DependencyObject dp)
-    {
+	{
+
+		if (dp is TextBox) ((TextBox) dp).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+
         return (DependencyProperty)dp.GetValue(UpdatePropertySourceWhenEnterPressedProperty);
     }
 

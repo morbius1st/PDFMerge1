@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using SettingsManager;
 
 // projname: SettingsManagerV40
 // itemname: AppSettingInfo60

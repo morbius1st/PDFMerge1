@@ -7,7 +7,7 @@ using System.IO;
 // Created:      -- ()
 
 
-namespace PDFMerge1
+namespace PDFMerge1.FilesSupport
 {
 	public class FileItem : IComparable<FileItem>
 	{
@@ -103,7 +103,7 @@ namespace PDFMerge1
 			{
 				if (isMissing) { return -1; }
 
-				return outlinePath.CountSubstring("\\") - 1;
+				return StringExtensions.CountSubstring(outlinePath, "\\") - 1;
 			}
 
 		}

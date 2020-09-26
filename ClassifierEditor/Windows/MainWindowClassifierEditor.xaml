@@ -4,14 +4,14 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:file="clr-namespace:AndyShared.FilesSupport;assembly=WpfShared"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
 		xmlns:sample="clr-namespace:ClassifierEditor.SampleData"
-		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:tree="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
+		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
+		xmlns:treeSupport="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
+		xmlns:file="clr-namespace:AndyShared.FileSupport;assembly=WpfShared"
 		Title="MainWindowClassifierEditor"
 		Width="1200"
 		Height="800"
@@ -48,7 +48,7 @@
 			<local:NotBoolConverter x:Key="NotBool" />
 
 			<support:BoolToYesNoConverter x:Key="BoolToYesNo" />
-			<support:NullObjToBool x:Key="ObjToBool" />
+			<support:NullObjToBool x:Key="NullObjToBool" />
 
 			<sys:Double x:Key="LogicalHorizBarWidth">
 				24
@@ -98,8 +98,9 @@
 					TargetType="Border"
 					BasedOn="{StaticResource Border.Settings.Base}"
 					>
-				<Setter Property="BorderBrush" Value="{StaticResource Label.Status.Value.Background}" />
-				<Setter Property="Background" Value="{StaticResource Label.Status.Value.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Label.Status.Button.Background}" />
+				<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" />
+
 				<Setter Property="Margin" Value="5,0,0,0" />
 			</Style>
 
@@ -107,8 +108,8 @@
 					TargetType="Border"
 					BasedOn="{StaticResource Border.Settings.Base}"
 					>
-				<Setter Property="BorderBrush" Value="{StaticResource Label.Status.Button.Background}" />
-				<Setter Property="Background" Value="{StaticResource Label.Status.Button.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Element.Value.Background.Normal}" />
+				<Setter Property="Background" Value="{StaticResource Element.Value.Background.Normal}" />
 				<Setter Property="Margin" Value="5,0,0,0" />
 			</Style>
 
@@ -1531,7 +1532,7 @@
 							<Grid
 									Margin="0,2,0,0"
 									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
-									UIElement.MouseUp="UIElement_OnMouseUp"
+									UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"
 									>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" MinWidth="19" />
@@ -2334,7 +2335,7 @@
 
 
 			<DataTemplate x:Key="Lv1DataTemplate0"
-					DataType="tree:ComparisonOperation"
+					DataType="treeSupport:ComparisonOperation"
 					>
 
 				<StackPanel Orientation="Vertical">
@@ -2636,7 +2637,7 @@
 
 			<!--  error  -->
 			<DataTemplate x:Key="Lv1DataTemplate3"
-					DataType="tree:ComparisonOperation"
+					DataType="treeSupport:ComparisonOperation"
 					>
 				<DockPanel
 						Margin="0"
@@ -2734,7 +2735,7 @@
 
 			<!--  normal  -->
 			<DataTemplate x:Key="Lv2DataTemplate0"
-					DataType="tree:ComparisonOperation"
+					DataType="treeSupport:ComparisonOperation"
 					>
 
 				<Border x:Name="DtBorder1"
@@ -2897,7 +2898,7 @@
 											BorderThickness="2"
 											IsEditable="False"
 											ItemContainerStyle="{DynamicResource ComboBoxItem1}"
-											ItemsSource="{Binding Source={x:Static tree:CompareOperations.LogicalCompareOps}}"
+											ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.LogicalCompareOps}}"
 											FocusVisualStyle="{x:Null}"
 											>
 										<ComboBox.Style>
@@ -2983,17 +2984,19 @@
 									HorizontalAlignment="Left"
 									FontSize="10"
 									custom:CustomProperties.DropDownWidth="180.0"
-									d:DataContext="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
+									d:DataContext="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									DisplayMemberPath="Name"
 									MaxDropDownHeight="100"
-									SelectedIndex="{Binding CompareOpCode,
+									SelectedIndex="{Binding ValueCompOpCode,
 																					FallbackValue='1'}"
 									BorderThickness="2"
 									IsEditable="False"
 									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
-									ItemsSource="{Binding Source={x:Static tree:CompareOperations.ValueCompareOps}}"
+									ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
 									>
+								<!-- SelectedIndex="{Binding CompareOpCode, -->
+								<!-- FallbackValue='1'}" -->
 
 								<ComboBox.Style>
 									<Style
@@ -3433,7 +3436,7 @@
 
 			<!--  logical condition  -->
 			<DataTemplate x:Key="Lv2DataTemplate3"
-					DataType="tree:ComparisonOperation"
+					DataType="treeSupport:ComparisonOperation"
 					>
 				<DockPanel
 						Margin="0"
@@ -3552,52 +3555,55 @@
 							Style="{StaticResource Label.Settings.Title}"
 							/>
 				</Border>
-
-				<Border
-						Margin="5,0,0,0"
-						HorizontalAlignment="Stretch"
-						Style="{StaticResource Border.Settings.Button}"
-						>
-					<Border.Background>
-						<SolidColorBrush Color="{StaticResource Amber.200}" />
-					</Border.Background>
-					<TextBox x:Name="tbx33"
-							HorizontalAlignment="Stretch"
-							HorizontalScrollBarVisibility="Hidden"
-							MaxLines="1"
-							MinLines="1"
-							ScrollViewer.CanContentScroll="True"
-							Text="{Binding ElementName=MainWinClsfrEd,
-														 Path=ClassificationFile.FileName,
-														 Mode=OneWay,
-														 FallbackValue='FileName'}"
-							VerticalScrollBarVisibility="Disabled"
-							IsReadOnly="True"
-							Style="{StaticResource TextBox.Setting.Value}"
-							>
-
-					</TextBox>
-				</Border>
+				<!-- -->
+				<!-- <Border -->
+				<!-- 		Margin="5,0,0,0" -->
+				<!-- 		HorizontalAlignment="Stretch" -->
+				<!-- 		Style="{StaticResource Border.Settings.Button}" -->
+				<!-- 		> -->
+				<!-- 	<Border.Background> -->
+				<!-- 		<SolidColorBrush Color="{StaticResource Amber.200}" /> -->
+				<!-- 	</Border.Background> -->
+				<!-- 	<TextBox x:Name="tbx33" -->
+				<!-- 			HorizontalAlignment="Stretch" -->
+				<!-- 			HorizontalScrollBarVisibility="Hidden" -->
+				<!-- 			MaxLines="1" -->
+				<!-- 			MinLines="1" -->
+				<!-- 			ScrollViewer.CanContentScroll="True" -->
+				<!-- 			Text="{Binding ElementName=MainWinClsfrEd, -->
+				<!-- 										 Path=ClassificationFile.FileName, -->
+				<!-- 										 Mode=OneWay, -->
+				<!-- 										 FallbackValue='FileName'}" -->
+				<!-- 			VerticalScrollBarVisibility="Disabled" -->
+				<!-- 			IsReadOnly="True" -->
+				<!-- 			Style="{StaticResource TextBox.Setting.Value}" -->
+				<!-- 			> -->
+				<!-- -->
+				<!-- 	</TextBox> -->
+				<!-- </Border> -->
 
 				<Border
 						Margin="5,0,5,0"
 						HorizontalAlignment="Stretch"
 						Style="{StaticResource Border.Settings.Button}"
 						>
+
 					<TextBox x:Name="tbx32"
+
 							HorizontalAlignment="Stretch"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							DataContext="{Binding ElementName=MainWinClsfrEd,
-																		Path=ClassificationFile.FullFilePath}"
+																		Path=ClassificationFile.FolderPathLocal, 
+																		FallbackValue='c:\\File Path'}"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
+							VerticalScrollBarVisibility="Disabled"
 							ScrollViewer.CanContentScroll="True"
 							Text="{Binding Mode=OneWay}"
-							VerticalScrollBarVisibility="Disabled"
-							IsReadOnly="True"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
+							<!-- IsReadOnly="True" -->
 						<!--  d:DataContext="{Binding Source={d:DesignInstance {x:Type sample:SampleData}}}"  -->
 					</TextBox>
 				</Border>
@@ -3617,24 +3623,24 @@
 							/>
 				</Border>
 
-				<Border
-						Margin="5,0,0,0"
-						HorizontalAlignment="Stretch"
-						Style="{StaticResource Border.Settings.Button}"
-						>
-					<Border.Background>
-						<SolidColorBrush Color="{StaticResource Amber.200}" />
-					</Border.Background>
-					<TextBox x:Name="Tbx35"
-							HorizontalAlignment="Stretch"
-							Text="{Binding ElementName=MainWinClsfrEd,
-														 Path=ClassificationFile.SampleFileName,
-														 Mode=OneWay,
-														 FallbackValue='Filename'}"
-							Style="{StaticResource TextBox.Setting.Value}"
-							>
-					</TextBox>
-				</Border>
+				<!-- <Border -->
+				<!-- 		Margin="5,0,0,0" -->
+				<!-- 		HorizontalAlignment="Stretch" -->
+				<!-- 		Style="{StaticResource Border.Settings.Button}" -->
+				<!-- 		> -->
+				<!-- 	<Border.Background> -->
+				<!-- 		<SolidColorBrush Color="{StaticResource Amber.200}" /> -->
+				<!-- 	</Border.Background> -->
+				<!-- 	<TextBox x:Name="Tbx35" -->
+				<!-- 			HorizontalAlignment="Stretch" -->
+				<!-- 			Text="{Binding ElementName=MainWinClsfrEd, -->
+				<!-- 										 Path=ClassificationFile.SampleFileName, -->
+				<!-- 										 Mode=OneWay, -->
+				<!-- 										 FallbackValue='Filename'}" -->
+				<!-- 			Style="{StaticResource TextBox.Setting.Value}" -->
+				<!-- 			> -->
+				<!-- 	</TextBox> -->
+				<!-- </Border> -->
 
 				<Border
 						Margin="5,0,5,0"
@@ -3642,11 +3648,17 @@
 						Style="{StaticResource Border.Settings.Button}"
 						>
 					<TextBox x:Name="Tbx34"
+
 							HorizontalAlignment="Stretch"
+							HorizontalScrollBarVisibility="Hidden"
+							MaxLines="1"
+							MinLines="1"
+							VerticalScrollBarVisibility="Disabled"
+							ScrollViewer.CanContentScroll="True"
 							Text="{Binding ElementName=MainWinClsfrEd,
-														 Path=ClassificationFile.SampleFilePath,
+														 Path=ClassificationFile.SampleFileFolderPath,
 														 Mode=OneWay,
-														 FallbackValue='FilePath'}"
+														 FallbackValue='File Path'}"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
 					</TextBox>
@@ -3717,10 +3729,8 @@
 				<Border
 						HorizontalAlignment="left"
 						Style="{StaticResource Border.Settings.Button}"
+						Background="{StaticResource Element.Button.Background.Normal}"
 						>
-					<Border.Background>
-						<SolidColorBrush Color="{StaticResource Amber.200}" />
-					</Border.Background>
 
 					<Button x:Name="BtnRemExCollapseState"
 							Content="{Binding ElementName=MainWinClsfrEd,
@@ -3826,18 +3836,17 @@
 						Template="{StaticResource Button.Normal.ControlTemplate}"
 						/>
 
-				<Button x:Name="BtnDSave"
-						Content="Save"
+				<Button x:Name="BtnCancelChanges"
+						Content="Cancel Changes"
 						Margin="5"
 						Width="{StaticResource Normal.Button.Width}"
 						Height="{StaticResource Normal.Button.Height}"
 						DataContext="{Binding ElementName=MainWinClsfrEd}"
 						DockPanel.Dock="right"
-						Click="BtnSave_OnClick"
+						Click="BtnSave_OnCancelChanges"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
 						>
-					<!--  IsEnabled="{Binding ClassificationFile.IsModified,  -->
-					<!--  ElementName=MainWinClsfrEd}"  -->
+
 					<Button.Style>
 						<Style
 								TargetType="Button"
@@ -3849,7 +3858,49 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource ObjToBool}}" Value="true" />
+										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="true" />
+										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="True" />
+									<Setter Property="ToolTip" Value="Cancel all changes&#x0a;since last save" />
+								</MultiDataTrigger>
+
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="false" />
+										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="false" />
+									<Setter Property="ToolTip" Value="Finish Editing the&#x0a;Selected Category" />
+								</MultiDataTrigger>
+
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
+
+
+				<Button x:Name="BtnDSave"
+						Content="Save"
+						Margin="5"
+						Width="{StaticResource Normal.Button.Width}"
+						Height="{StaticResource Normal.Button.Height}"
+						DataContext="{Binding ElementName=MainWinClsfrEd}"
+						DockPanel.Dock="right"
+						Click="BtnSave_OnClick"
+						Template="{StaticResource Button.Normal.ControlTemplate}">
+
+					<Button.Style>
+						<Style
+								TargetType="Button"
+								BasedOn="{StaticResource Button.Normal.Style}">
+							<Setter Property="ToolTip" Value="No Changes Yet" />
+							<Setter Property="IsEnabled" Value="False" />
+							<Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
+							<Style.Triggers>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="true" />
 										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
@@ -3858,10 +3909,10 @@
 
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource ObjToBool}}" Value="false" />
+										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="false" />
 										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
 									</MultiDataTrigger.Conditions>
-									<Setter Property="IsEnabled" Value="False" />
+									<Setter Property="IsEnabled" Value="false" />
 									<Setter Property="ToolTip" Value="Finish Editing the Selected Category" />
 								</MultiDataTrigger>
 
@@ -3869,6 +3920,7 @@
 						</Style>
 					</Button.Style>
 				</Button>
+
 
 				<Button x:Name="BtDone"
 						Content="Done"
@@ -3911,9 +3963,9 @@
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="auto" />
-				<RowDefinition Height="*" />
+				<RowDefinition Height="4*" />
 				<RowDefinition Height="26" />
-				<RowDefinition Height="*" />
+				<RowDefinition Height="3*" />
 			</Grid.RowDefinitions>
 
 			<Label x:Name="Label21"
@@ -3939,7 +3991,7 @@
 				<!--  color={StaticResource Light.Blue.760}}"  -->
 
 				<Grid x:Name="EditCategory"
-						Margin="0"
+						Margin="0,2,0,0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						DataContext="{Binding ElementName=MainWinClsfrEd,
@@ -3954,7 +4006,7 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="26" />
 						<RowDefinition Height="26" />
-						<RowDefinition Height="26" />
+						<RowDefinition Height="Auto" />
 						<RowDefinition MinHeight="125" />
 
 					</Grid.RowDefinitions>
@@ -3969,7 +4021,6 @@
 							Height="{StaticResource Normal.Button.Height}"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
-							FontSize="10"
 							Click="BtnDoneEditing_OnClick"
 							>
 						<Button.Style>
@@ -4001,6 +4052,8 @@
 					<TextBox x:Name="Tbx01"
 							Grid.Column="1"
 							Grid.ColumnSpan="2"
+							res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+							res:TextBoxBehavior.SelectAllTextOnFocus="True"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							Text="{Binding Item.Title,
 														 FallbackValue='',
@@ -4019,6 +4072,8 @@
 							Grid.Column="1"
 							Grid.Row="1"
 							Grid.ColumnSpan="2"
+							res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+							res:TextBoxBehavior.SelectAllTextOnFocus="True"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							Text="{Binding Item.Description,
 														 FallbackValue='',
@@ -4070,8 +4125,9 @@
 							FontSize="26"
 							FontWeight="Bold"
 							BorderThickness="0"
+							IsDefault="False"
 							Click="BtnAddCondition_OnClick"
-							>
+									IsTabStop="False">
 						<Button.Effect>
 							<DropShadowEffect />
 						</Button.Effect>

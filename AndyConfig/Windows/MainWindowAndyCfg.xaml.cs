@@ -11,11 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using AndyConfig.ConfigMgr;
-using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgr;
+using SettingsManager;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
-using SettingsManager;
 
 #endregion
 

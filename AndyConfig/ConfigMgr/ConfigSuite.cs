@@ -7,6 +7,7 @@ using AndyConfig.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
+using AndyShared;
 
 #endregion
 

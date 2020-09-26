@@ -30,6 +30,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPdf.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />

@@ -1,4 +1,6 @@
 ﻿#region using
+
+// using ClassifierEditor.FilesSupport;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -6,9 +8,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using AndyShared.FilesSupport;
+using AndyShared.FileSupport;
 using AndyShared.Support;
-// using ClassifierEditor.FilesSupport;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
 
@@ -115,7 +116,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
 
-			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_MODIFIED);
+			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			// IsInitialized = true;
 		}
