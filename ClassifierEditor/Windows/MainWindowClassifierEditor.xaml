@@ -1519,7 +1519,7 @@
 				<Setter Property="FocusVisualStyle" Value="{StaticResource Tv1ItemFocusVisual}" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-				<Setter Property="IsSelected" Value="{Binding IsNodeSelected, Mode=TwoWay}" />
+				<!-- <Setter Property="IsSelected" Value="{Binding IsNodeSelected, Mode=TwoWay}" /> -->
 				<Setter Property="Padding" Value="1,0,0,0" />
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 
@@ -1532,8 +1532,8 @@
 							<Grid
 									Margin="0,2,0,0"
 									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
-									UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"
 									>
+									<!-- UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" -->
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" MinWidth="19" />
 									<ColumnDefinition Width="*" />
