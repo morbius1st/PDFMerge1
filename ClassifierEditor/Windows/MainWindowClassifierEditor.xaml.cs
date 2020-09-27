@@ -575,8 +575,13 @@ namespace ClassifierEditor.Windows
 				return;
 			}
 
+			Debug.WriteLine("@ selected changed 1| " + selected.Item.Title);
+
+
 			UserSelected = selected;
 			BaseOfTree.SelectedNode = userSelected;
+
+			Debug.WriteLine("@ selected changed 2| " + selected.Item.Title);
 		}
 
 		// context menu events

@@ -28,6 +28,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetComponents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPdf.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeAssist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileList.cs" />

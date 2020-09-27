@@ -37,11 +37,12 @@ namespace ClassifySheets.Windows
 
 		private static TreeNode userSelected;
 
-		private Dictionary<string, string> cmdLineArgs = new Dictionary<string, string>();
+		
 
 		private string classfFileArg;
 
 		private string tbx1Message;
+		private string tbx2Message;
 
 	#endregion
 
@@ -65,23 +66,9 @@ namespace ClassifySheets.Windows
 			{
 				if (value == null) return;
 
-				classificationFile = value;
-
 				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ MainWinClassifySheets|@ ClassificationFile");
 
-				classificationFile.Initialize();
-
-				if (!classificationFile.SampleFilePath.IsVoid())
-				{
-					TestFileList = new SampleFileList(classificationFile.SampleFilePath);
-				}
-
-				string desc = classificationFile.HeaderDescFromMemory;
-
-				OnPropertyChange();
-				OnPropertyChange("BaseOfTree");
-				OnPropertyChange("TestFileList");
-				OnPropertyChange("UserSelected");
+				InitClassfFile(value);
 			}
 		}
 
@@ -113,6 +100,18 @@ namespace ClassifySheets.Windows
 				OnPropertyChange();
 			}
 		}
+		
+		public string Tbx2Message
+		{
+			get => tbx2Message;
+
+			private set
+			{
+				tbx2Message += value;
+
+				OnPropertyChange();
+			}
+		}
 
 
 	#endregion
@@ -122,6 +121,25 @@ namespace ClassifySheets.Windows
 	#endregion
 
 	#region public methods
+
+		public void InitClassfFile(ClassificationFile classfFile)
+		{
+
+			classificationFile = classfFile;
+
+			classificationFile.Initialize();
+
+			if (!classificationFile.SampleFilePath.IsVoid())
+			{
+				TestFileList = new SampleFileList(classificationFile.SampleFilePath);
+			}
+
+			OnPropertyChange("ClassificationFile");
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("TestFileList");
+			OnPropertyChange("UserSelected");
+		}
+
 
 	#endregion
 
@@ -135,7 +153,7 @@ namespace ClassifySheets.Windows
 			{
 				if (classfFileArg.IsVoid())
 				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
 				}
 				else
 				{
@@ -156,11 +174,14 @@ namespace ClassifySheets.Windows
 			classificationFile.Initialize();
 
 			ListSampleFileList();
+			ListTreeBase();
 
 		}
 
 		private void getCmdLineArgs()
 		{
+			Dictionary<string, string> cmdLineArgs = new Dictionary<string, string>();
+
 			string[] args = Environment.GetCommandLineArgs();
 
 			int count = args.Length;
@@ -225,6 +246,49 @@ namespace ClassifySheets.Windows
 			}
 
 			OnPropertyChange("Tbx1Message");
+		}
+
+		private void ListTreeBase()
+		{
+			StringBuilder sb = new StringBuilder();
+
+			sb.Append(formatNodeDescription(classificationFile.TreeBase));
+
+			sb.Append(listTreeBase(classificationFile.TreeBase));
+
+			Tbx2Message = sb.ToString();
+		}
+
+		private string listTreeBase(TreeNode node)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			foreach (TreeNode childNode in node.Children)
+			{
+				sb.Append(formatNodeDescription(childNode));
+
+				if (childNode.ChildCount > 0)
+				{
+					sb.Append(listTreeBase(childNode));
+				} 
+			}
+
+			return sb.ToString();
+		}
+
+		private string formatNodeDescription(TreeNode node)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			sb.Append(node.NodeType.ToString().PadRight(12));
+			sb.Append("| Depth| ");
+			sb.Append(node.Depth.ToString().PadRight(5));
+			sb.Append("|");
+			sb.Append(("  ".Repeat(node.Depth) + ">" + node.Item.Title));
+
+			sb.AppendLine("<");
+
+			return sb.ToString();
 		}
 
 

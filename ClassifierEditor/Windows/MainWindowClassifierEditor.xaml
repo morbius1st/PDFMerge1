@@ -4,14 +4,14 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:file="clr-namespace:AndyShared.FileSupport;assembly=WpfShared"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
 		xmlns:sample="clr-namespace:ClassifierEditor.SampleData"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:treeSupport="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
-		xmlns:file="clr-namespace:AndyShared.FileSupport;assembly=WpfShared"
 		Title="MainWindowClassifierEditor"
 		Width="1200"
 		Height="800"
@@ -773,7 +773,7 @@
 						<Style TargetType="Border">
 							<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" />
 
-							<Style.Triggers> 
+							<Style.Triggers>
 								<!--  true  -->
 								<Trigger Property="IsMouseOver" Value="true">
 
@@ -1612,6 +1612,9 @@
 															<DataTrigger Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}" Value="true">
 																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
 															</DataTrigger>
+															<Trigger Property="IsMouseOver" Value="True">
+																<Setter Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}"></Setter>
+															</Trigger>
 														</Style.Triggers>
 													</Style>
 												</Border.Style>
@@ -1669,13 +1672,13 @@
 								<Trigger Property="IsEnabled" Value="False">
 									<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
 								</Trigger>
-								<MultiTrigger>
-									<MultiTrigger.Conditions>
-										<Condition Property="IsMouseOver" Value="true" />
-										<!--  true  -->
-									</MultiTrigger.Conditions>
-									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" />
-								</MultiTrigger>
+								<!-- <MultiTrigger> -->
+								<!-- 	<MultiTrigger.Conditions> -->
+								<!-- 		<Condition Property="IsMouseOver" Value="true" /> -->
+								<!-- 		~1~  true  @1@ -->
+								<!-- 	</MultiTrigger.Conditions> -->
+								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" /> -->
+								<!-- </MultiTrigger> -->
 								<DataTrigger Binding="{Binding Item.CanSelect}" Value="true">
 									<Setter TargetName="PART_Header" Property="IsEnabled" Value="False" />
 								</DataTrigger>
@@ -1714,6 +1717,7 @@
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="Padding" Value="1" />
+				
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -2134,8 +2138,9 @@
 			<!--  DataType="{x:Type tree:TreeNode}"  -->
 			<HierarchicalDataTemplate x:Key="Tv1ItemTemplate1" x:Name="Hdt1"
 					ItemsSource="{Binding ChildrenView}"
+					
 					>
-
+				
 				<Grid x:Name="GD1"
 						Margin="0,1,2,0"
 						HorizontalAlignment="Stretch"
@@ -2333,7 +2338,6 @@
 			</HierarchicalDataTemplate>
 			-->
 
-
 			<DataTemplate x:Key="Lv1DataTemplate0"
 					DataType="treeSupport:ComparisonOperation"
 					>
@@ -2417,12 +2421,12 @@
 									Content="{Binding Item.ComponentName,
 																		FallbackValue=component name}"
 									HorizontalAlignment="Center"
+									DataContext="{Binding DataContext,
+																				RelativeSource={RelativeSource FindAncestor,
+																																			 AncestorType={x:Type ListView}}}"
 									Style="{StaticResource Label.Condition.ComponentName}"
 									/>
 						</Border>
-						<!--  DataContext="{Binding DataContext,  -->
-						<!--  RelativeSource={RelativeSource FindAncestor,  -->
-						<!--  AncestorType={x:Type ListView}}}"  -->
 						<!--  Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}},  -->
 						<!--  Path=Foreground}"  -->
 
@@ -2995,8 +2999,8 @@
 									ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
 									>
-								<!-- SelectedIndex="{Binding CompareOpCode, -->
-								<!-- FallbackValue='1'}" -->
+								<!--  SelectedIndex="{Binding CompareOpCode,  -->
+								<!--  FallbackValue='1'}"  -->
 
 								<ComboBox.Style>
 									<Style
@@ -3555,30 +3559,30 @@
 							Style="{StaticResource Label.Settings.Title}"
 							/>
 				</Border>
-				<!-- -->
-				<!-- <Border -->
-				<!-- 		Margin="5,0,0,0" -->
-				<!-- 		HorizontalAlignment="Stretch" -->
-				<!-- 		Style="{StaticResource Border.Settings.Button}" -->
-				<!-- 		> -->
+				<!--    -->
+				<!--  <Border  -->
+				<!--  Margin="5,0,0,0"  -->
+				<!--  HorizontalAlignment="Stretch"  -->
+				<!--  Style="{StaticResource Border.Settings.Button}"  -->
+				<!--  >  -->
 				<!-- 	<Border.Background> -->
 				<!-- 		<SolidColorBrush Color="{StaticResource Amber.200}" /> -->
 				<!-- 	</Border.Background> -->
-				<!-- 	<TextBox x:Name="tbx33" -->
-				<!-- 			HorizontalAlignment="Stretch" -->
-				<!-- 			HorizontalScrollBarVisibility="Hidden" -->
-				<!-- 			MaxLines="1" -->
-				<!-- 			MinLines="1" -->
-				<!-- 			ScrollViewer.CanContentScroll="True" -->
-				<!-- 			Text="{Binding ElementName=MainWinClsfrEd, -->
-				<!-- 										 Path=ClassificationFile.FileName, -->
-				<!-- 										 Mode=OneWay, -->
-				<!-- 										 FallbackValue='FileName'}" -->
-				<!-- 			VerticalScrollBarVisibility="Disabled" -->
-				<!-- 			IsReadOnly="True" -->
-				<!-- 			Style="{StaticResource TextBox.Setting.Value}" -->
-				<!-- 			> -->
-				<!-- -->
+				<!--  <TextBox x:Name="tbx33"  -->
+				<!--  HorizontalAlignment="Stretch"  -->
+				<!--  HorizontalScrollBarVisibility="Hidden"  -->
+				<!--  MaxLines="1"  -->
+				<!--  MinLines="1"  -->
+				<!--  ScrollViewer.CanContentScroll="True"  -->
+				<!--  Text="{Binding ElementName=MainWinClsfrEd,  -->
+				<!--  Path=ClassificationFile.FileName,  -->
+				<!--  Mode=OneWay,  -->
+				<!--  FallbackValue='FileName'}"  -->
+				<!--  VerticalScrollBarVisibility="Disabled"  -->
+				<!--  IsReadOnly="True"  -->
+				<!--  Style="{StaticResource TextBox.Setting.Value}"  -->
+				<!--  >  -->
+				<!--    -->
 				<!-- 	</TextBox> -->
 				<!-- </Border> -->
 
@@ -3589,21 +3593,20 @@
 						>
 
 					<TextBox x:Name="tbx32"
-
 							HorizontalAlignment="Stretch"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							DataContext="{Binding ElementName=MainWinClsfrEd,
-																		Path=ClassificationFile.FolderPathLocal, 
+																		Path=ClassificationFile.FolderPathLocal,
 																		FallbackValue='c:\\File Path'}"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
-							VerticalScrollBarVisibility="Disabled"
 							ScrollViewer.CanContentScroll="True"
 							Text="{Binding Mode=OneWay}"
+							VerticalScrollBarVisibility="Disabled"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
-							<!-- IsReadOnly="True" -->
+						<!--  IsReadOnly="True"  -->
 						<!--  d:DataContext="{Binding Source={d:DesignInstance {x:Type sample:SampleData}}}"  -->
 					</TextBox>
 				</Border>
@@ -3623,22 +3626,22 @@
 							/>
 				</Border>
 
-				<!-- <Border -->
-				<!-- 		Margin="5,0,0,0" -->
-				<!-- 		HorizontalAlignment="Stretch" -->
-				<!-- 		Style="{StaticResource Border.Settings.Button}" -->
-				<!-- 		> -->
+				<!--  <Border  -->
+				<!--  Margin="5,0,0,0"  -->
+				<!--  HorizontalAlignment="Stretch"  -->
+				<!--  Style="{StaticResource Border.Settings.Button}"  -->
+				<!--  >  -->
 				<!-- 	<Border.Background> -->
 				<!-- 		<SolidColorBrush Color="{StaticResource Amber.200}" /> -->
 				<!-- 	</Border.Background> -->
-				<!-- 	<TextBox x:Name="Tbx35" -->
-				<!-- 			HorizontalAlignment="Stretch" -->
-				<!-- 			Text="{Binding ElementName=MainWinClsfrEd, -->
-				<!-- 										 Path=ClassificationFile.SampleFileName, -->
-				<!-- 										 Mode=OneWay, -->
-				<!-- 										 FallbackValue='Filename'}" -->
-				<!-- 			Style="{StaticResource TextBox.Setting.Value}" -->
-				<!-- 			> -->
+				<!--  <TextBox x:Name="Tbx35"  -->
+				<!--  HorizontalAlignment="Stretch"  -->
+				<!--  Text="{Binding ElementName=MainWinClsfrEd,  -->
+				<!--  Path=ClassificationFile.SampleFileName,  -->
+				<!--  Mode=OneWay,  -->
+				<!--  FallbackValue='Filename'}"  -->
+				<!--  Style="{StaticResource TextBox.Setting.Value}"  -->
+				<!--  >  -->
 				<!-- 	</TextBox> -->
 				<!-- </Border> -->
 
@@ -3648,17 +3651,16 @@
 						Style="{StaticResource Border.Settings.Button}"
 						>
 					<TextBox x:Name="Tbx34"
-
 							HorizontalAlignment="Stretch"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
-							VerticalScrollBarVisibility="Disabled"
 							ScrollViewer.CanContentScroll="True"
 							Text="{Binding ElementName=MainWinClsfrEd,
 														 Path=ClassificationFile.SampleFileFolderPath,
 														 Mode=OneWay,
 														 FallbackValue='File Path'}"
+							VerticalScrollBarVisibility="Disabled"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
 					</TextBox>
@@ -3728,8 +3730,8 @@
 
 				<Border
 						HorizontalAlignment="left"
-						Style="{StaticResource Border.Settings.Button}"
 						Background="{StaticResource Element.Button.Background.Normal}"
+						Style="{StaticResource Border.Settings.Button}"
 						>
 
 					<Button x:Name="BtnRemExCollapseState"
@@ -3888,12 +3890,14 @@
 						DataContext="{Binding ElementName=MainWinClsfrEd}"
 						DockPanel.Dock="right"
 						Click="BtnSave_OnClick"
-						Template="{StaticResource Button.Normal.ControlTemplate}">
+						Template="{StaticResource Button.Normal.ControlTemplate}"
+						>
 
 					<Button.Style>
 						<Style
 								TargetType="Button"
-								BasedOn="{StaticResource Button.Normal.Style}">
+								BasedOn="{StaticResource Button.Normal.Style}"
+								>
 							<Setter Property="ToolTip" Value="No Changes Yet" />
 							<Setter Property="IsEnabled" Value="False" />
 							<Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
@@ -4052,9 +4056,9 @@
 					<TextBox x:Name="Tbx01"
 							Grid.Column="1"
 							Grid.ColumnSpan="2"
+							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
 							res:TextBoxBehavior.SelectAllTextOnFocus="True"
-							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							Text="{Binding Item.Title,
 														 FallbackValue='',
 														 TargetNullValue=''}"
@@ -4072,9 +4076,9 @@
 							Grid.Column="1"
 							Grid.Row="1"
 							Grid.ColumnSpan="2"
+							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
 							res:TextBoxBehavior.SelectAllTextOnFocus="True"
-							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							Text="{Binding Item.Description,
 														 FallbackValue='',
 														 TargetNullValue=''}"
@@ -4126,8 +4130,9 @@
 							FontWeight="Bold"
 							BorderThickness="0"
 							IsDefault="False"
+							IsTabStop="False"
 							Click="BtnAddCondition_OnClick"
-									IsTabStop="False">
+							>
 						<Button.Effect>
 							<DropShadowEffect />
 						</Button.Effect>

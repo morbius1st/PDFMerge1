@@ -81,9 +81,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private int checkedChildCount;
 
 		private bool rememberExpCollapseState;
-#pragma warning disable CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
 		private bool isSaving;
-#pragma warning restore CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
 
 		// fields
 
@@ -388,6 +386,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 					OnPropertyChange();
 					return;
 				}
+
+				Debug.WriteLine("@ is node selected| " + item.Title);
 
 
 				isNodeSelected = value;

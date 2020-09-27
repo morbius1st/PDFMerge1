@@ -2,8 +2,8 @@ App					status	description
 AndyConfig			85%		System configuration
 Felix				0%		(rename to Andy??) final PDF merge app
 Sylvester			95%		Sync PDF file names
-ClassifierEditor	75%		edit classification files
-
+ClassifierEditor	70%		edit classification files
+ClassifySheets		10%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
 
 support utilities
 WpfShared			??%		common WPF routines: includes:
