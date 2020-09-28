@@ -72,7 +72,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#region private fields
 
 		// static fields
-		private static int tempIdx;
+		private static int tempIdx = 100;
 		private static int copyIdx;
 
 		// not static fields
@@ -316,7 +316,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public static SheetCategory TempSheetCategory()
 		{
-			SheetCategory temp = new SheetCategory($"{tempIdx++:D2} New Node Title", "New Node Description");
+			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title",
+				$"{tempIdx++:D3} New Node Description");
 			temp.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
 
 			return temp;

@@ -148,18 +148,25 @@ namespace AndyShared.SampleFileSupport
 
 		private static void DialogInvalidSampleFile(string fileName)
 		{
-			TaskDialog td = new TaskDialog();
-			td.Caption = "Invalid Sample File";
-			td.InstructionText = "Invalid Sample File";
-			td.Icon = TaskDialogStandardIcon.Error;
-			td.Text = "The Sample File selected \"" + (fileName ?? "(unknown)") + "\" " +
+			CommonTaskDialogs.CommonErrorDialog(
+				"Invalid Sample File",
+				"Invalid Sample File",
+				"The Sample File selected \"" + (fileName ?? "(unknown)") + "\" " +
 				"Cannot be used as it is the wrong file type.  Please select a file of type \""
-				+ FilePathConstants.SAMPLE_FILE_EXT;
-			td.Cancelable = false;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
-			td.Opened += Common.TaskDialog_Opened;
-			td.Show();
+				+ FilePathConstants.SAMPLE_FILE_EXT);
+
+			// TaskDialog td = new TaskDialog();
+			// td.Caption = "Invalid Sample File";
+			// td.InstructionText = "Invalid Sample File";
+			// td.Icon = TaskDialogStandardIcon.Error;
+			// td.Text = "The Sample File selected \"" + (fileName ?? "(unknown)") + "\" " +
+			// 	"Cannot be used as it is the wrong file type.  Please select a file of type \""
+			// 	+ FilePathConstants.SAMPLE_FILE_EXT;
+			// td.Cancelable = false;
+			// td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+			// td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			// td.Opened += Common.TaskDialog_Opened;
+			// td.Show();
 
 		}
 

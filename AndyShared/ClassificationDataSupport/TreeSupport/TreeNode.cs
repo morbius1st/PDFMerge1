@@ -9,6 +9,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
+
+using static UtilityLibrary.MessageUtilities;
 using AndyShared.Support;
 
 #endregion
@@ -68,6 +70,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private TreeNode parent;
 		private int depth;
+		private static int maxDepth = 7;
 
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
@@ -98,8 +101,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
-			
-			
 			this.parent = parent;
 			this.item = item;
 			Depth = parent.depth + 1;
@@ -108,7 +109,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// Children = new ObservableCollection<TreeNode>();
 			OnCreated();
 
-			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
 
 		}
 
@@ -119,10 +120,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			this.item = item;
 			this.isExpanded = isExpanded;
 
-
 			OnCreated();
 
-			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
 
 		}
 
@@ -448,6 +448,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
+		[IgnoreDataMember]
+		public bool IsMaxDepth => depth >= maxDepth;
+
+
 	#endregion
 
 	#endregion
@@ -638,8 +642,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public void NotifyChildrenChange()
 		{
 
-			OnPropertyChange("ChildrenView");
 			OnPropertyChange("Children");
+			OnPropertyChange("ChildrenView");
 			OnPropertyChange("ChildCount");
 			OnPropertyChange("HasChildren");
 			OnPropertyChange("ExtendedChildCount");
@@ -882,6 +886,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void AddNewChild2(TreeNode contextNode)
 		{
+			
+
 			contextNode.Children.Add(TempTreeNode(contextNode));
 
 			contextNode.NotifyChildrenChange();
@@ -984,6 +990,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#endregion
 
 	#region private methods
+
+		private void CannotAddChildError()
+		{
+			CommonTaskDialogs.CommonErrorDialog(
+				"Cannot Add Sub-Category",
+				"A sub-category cannot be added",
+				"The maximum sheet classification depth has" + nl
+				+ "been reached and a sub-category cannot be added"
+				);
+		}
+
 
 		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
 		{

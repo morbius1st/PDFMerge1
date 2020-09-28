@@ -20,6 +20,7 @@ using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.Support;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 // using static ClassifierEditor.Tree.CompareOperations;
 // using static ClassifierEditor.Tree.ComparisonOp;
@@ -531,13 +532,23 @@ namespace ClassifierEditor.Windows
 
 			if (classificationFile.IsModified == true)
 			{
-				MessageBoxResult result = MessageBox.Show(
-					"There are changes that have not been saved\n"
-					+ "Do you want to save your changes?",
-					"Classifier Editor", MessageBoxButton.YesNo,
-					MessageBoxImage.Warning);
+				TaskDialogResult result =
+					CommonTaskDialogs.CommonWarningDialog(
+					"Classifier Editor",
+					"There are changes that have not been saved",
+					"Do you want to save your changes?",
+					(TaskDialogStandardButtons.No | TaskDialogStandardButtons.Yes)
+					);
 
-				if (result == MessageBoxResult.Yes)
+				// MessageBoxResult result = MessageBox.Show(
+				// 	"There are changes that have not been saved\n"
+				// 	+ "Do you want to save your changes?",
+				// 	"Classifier Editor", MessageBoxButton.YesNo,
+				// 	MessageBoxImage.Warning);
+				//
+				// if (result == MessageBoxResult.Yes)
+
+				if (result == TaskDialogResult.Ok)
 				{
 					e.Cancel = true;
 				}
@@ -564,24 +575,24 @@ namespace ClassifierEditor.Windows
 		// when a selection has been made
 		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
+			e.Handled = true;
+
 			if (e.NewValue == null) return;
 
 			TreeNode selected = (TreeNode) e.NewValue;
 
 			if (selected != null && selected.Item.IsFixed || selected.Item.IsLocked)
 			{
-				e.Handled = true;
 				UserSelected = null;
 				return;
 			}
 
-			Debug.WriteLine("@ selected changed 1| " + selected.Item.Title);
-
+			// Debug.WriteLine("@ selected changed 1| " + selected.Item.Title);
 
 			UserSelected = selected;
 			BaseOfTree.SelectedNode = userSelected;
 
-			Debug.WriteLine("@ selected changed 2| " + selected.Item.Title);
+			// Debug.WriteLine("@ selected changed 2| " + selected.Item.Title);
 		}
 
 		// context menu events
@@ -627,8 +638,10 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTree.AddNewChild2(contextSelected);
 
-			contextSelected.IsExpanded = true;
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("ContextSelected");
 
+			contextSelected.IsExpanded = true;
 
 			ContextDeselect();
 		}
@@ -735,14 +748,32 @@ namespace ClassifierEditor.Windows
 
 			string title = contextSelected.Item.Title;
 
-			MessageBoxResult result = MessageBox.Show(
-				"You are about to delete the category\n"
-				+ title + "\nwith " + msg
-				+ "\nIs this correct?",
-				"Classifier Editor", MessageBoxButton.YesNo,
-				MessageBoxImage.Warning );
+			TaskDialogResult result = CommonTaskDialogs.CommonWarningDialog(
+				"Classifier Editor",
+				"You are about to delete the category\n\"" + title + "\"",
+				"The category \"" + title + "\" has " + msg + "\nIs it OK to delete this category?");
 
-			if (result == MessageBoxResult.Yes)
+
+			//
+			// TaskDialog td = new TaskDialog();
+			//
+			// td.Caption = "Classifier Editor";
+			// td.InstructionText = 
+			// td.Text = ;
+			// td.Icon = TaskDialogStandardIcon.Warning;
+			//
+			//
+			//
+			// MessageBoxResult result = MessageBox.Show(
+			// 	"You are about to delete the category\n"
+			// 	+ title + "\nwith " + msg
+			// 	+ "\nIs this correct?",
+			// 	"Classifier Editor", MessageBoxButton.YesNo,
+			// 	MessageBoxImage.Warning );
+
+			// if (result == MessageBoxResult.Yes)
+
+			if (result == TaskDialogResult.Ok)
 			{
 				BaseOfTree.RemoveNode2(contextSelected);
 			}

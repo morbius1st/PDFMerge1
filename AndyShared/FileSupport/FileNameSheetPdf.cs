@@ -34,11 +34,11 @@ namespace AndyShared.FileSupport
 	#endregion
 
 	#region public fields
-
+		
 		public static string[] SheetNumberComponentTitles { get; } =
 		new []
 		{
-			"Phase/Bldg", "Discipline", "Category", "Sub-Category", "Modifier", "sub-modifier"
+			"Phase/Bldg", "Discipline", "Category", "Sub-Category", "Modifier", "sub-modifier", "Identifier", "Sub-Identifier"
 		};
 
 	#endregion

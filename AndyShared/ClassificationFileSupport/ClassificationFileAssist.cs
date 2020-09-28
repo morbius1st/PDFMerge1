@@ -174,21 +174,25 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			if (fp.IsFound == test) return true;
 
-			TaskDialog td = new TaskDialog();
-			td.Caption = title;
-			td.Text = "The classification File Id provided: \"" 
-				//+ fileId +
-				+ fp.FileNameObject.FileId +
-				"\" "
-				+ msg
-				+ ".  Please provide a different File Id";
-			td.InstructionText = "The classification file already exists";
-			td.Icon = TaskDialogStandardIcon.Error;
-			td.Cancelable = false;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
-			td.Opened += Common.TaskDialog_Opened;
-			td.Show();
+			CommonTaskDialogs.CommonErrorDialog(title,
+				"The classification file already exists",
+				"The classification File Id provided: \"");
+
+			// TaskDialog td = new TaskDialog();
+			// td.Caption = title;
+			// td.Text = "The classification File Id provided: \"" 
+			// 	//+ fileId +
+			// 	+ fp.FileNameObject.FileId +
+			// 	"\" "
+			// 	+ msg
+			// 	+ ".  Please provide a different File Id";
+			// td.InstructionText = "The classification file already exists";
+			// td.Icon = TaskDialogStandardIcon.Error;
+			// td.Cancelable = false;
+			// td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+			// td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			// td.Opened += Common.TaskDialog_Opened;
+			// td.Show();
 
 			return false;
 		}

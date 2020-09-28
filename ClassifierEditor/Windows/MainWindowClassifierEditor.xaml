@@ -49,6 +49,7 @@
 
 			<support:BoolToYesNoConverter x:Key="BoolToYesNo" />
 			<support:NullObjToBool x:Key="NullObjToBool" />
+			<support:PassThroughConverter x:Key="PassThru" />
 
 			<sys:Double x:Key="LogicalHorizBarWidth">
 				24
@@ -1211,26 +1212,26 @@
 
 			<!--
 				options
-				WHEN	          default     IsFixed			  Isfixed      IsLocked
-				.               state       == true       == false     == true
+				WHEN	          default     IsFixed			  Isfixed      IsLocked      IsMaxDepth
+				.               state       == true       == false     == true       == true;
 				
-				expand          disabled    either        either       either
+				expand          disabled    either        either       either        either
 				spacer
-				add before      enabled     either        either       either
-				add after       enabled     either        either       either
-				add child       enabled     either        either       disable
+				add before      enabled     either        either       either        either
+				add after       enabled     either        either       either        either
+				add child       enabled     either        either       disable       disabled
 				spacer
-				move before     disabled    either        either       either
-				move after      disabled    either        either       either
-				move as child   disabled    either        either       disable
+				move before     disabled    either        either       either        either
+				move after      disabled    either        either       either        either
+				move as child   disabled    either        either       disable       disabled
 				spacer
-				clone           disabled    either        either       either
-				.                           (remove				(remove      (remove
-				.							              lock/ fixed)	lock/ fixed) lock / fixed)
-				clone as child  disabled    either        either       disable
-				.                           (remove				(remove      (remove
-				. 						              lock / fixed)	lock/ fixed) lock/ fixed)
-				delete          disabled    disable				either       disable
+				clone           disabled    either        either       either        either
+				.                           (remove				(remove      (remove       (remove
+				.							              lock/ fixed)	lock/ fixed) lock / fixed) lock / fixed)
+				clone as child  disabled    either        either       disable       disabled
+				.                           (remove				(remove      
+				. 						              lock / fixed)	lock/ fixed) 
+				delete          disabled    disable				either       disable       either
 			-->
 
 			<ContextMenu x:Key="Tv1ContextMenu" x:Name="Tv1ContextMenu"
@@ -1241,11 +1242,13 @@
 					Background="{StaticResource ContextMenu.Background}"
 					Foreground="White"
 					OverridesDefaultStyle="True"
+					d:DataContext="{Binding ElementName=MainWinClsfrEd, Path=UserSelected}"
 					>
 
 				<ContextMenu.Template>
 					<ControlTemplate x:Name="ContextTemplate"
 							TargetType="{x:Type ContextMenu}"
+							
 							>
 
 						<Border x:Name="ContextMenuBorder"
@@ -1387,6 +1390,9 @@
 								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
+								<DataTrigger Binding="{Binding IsMaxDepth, Converter={StaticResource PassThru}}" Value="true">
+									<Setter Property="IsEnabled" Value="false" />
+								</DataTrigger>
 							</Style.Triggers>
 						</Style>
 					</MenuItem.Style>
@@ -1435,6 +1441,7 @@
 										<Condition Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" Value="true" />
 										<Condition Binding="{Binding IsNodeSelected}" Value="false" />
 										<Condition Binding="{Binding Item.IsLocked}" Value="false" />
+										<Condition Binding="{Binding IsMaxDepth}" Value="false" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="true" />
 								</MultiDataTrigger>
@@ -1496,14 +1503,23 @@
 								TargetType="MenuItem"
 								BasedOn="{StaticResource Tv.context.menuitem.base}"
 								>
-							<Setter Property="IsEnabled" Value="true" />
+							<Setter Property="IsEnabled" Value="false" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
-									<Setter Property="IsEnabled" Value="false" />
-								</DataTrigger>
-								<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
-									<Setter Property="IsEnabled" Value="false" />
-								</DataTrigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding Item.IsLocked}" Value="false"/>
+									<Condition Binding="{Binding Item.IsFixed}" Value="false"/>
+									<Condition Binding="{Binding IsMaxDepth}" Value="false"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="IsEnabled" Value="true"/>
+							</MultiDataTrigger>
+
+								<!-- <DataTrigger Binding="{Binding Item.IsLocked}" Value="true"> -->
+								<!-- 	<Setter Property="IsEnabled" Value="false" /> -->
+								<!-- </DataTrigger> -->
+								<!-- <DataTrigger Binding="{Binding Item.IsFixed}" Value="true"> -->
+								<!-- 	<Setter Property="IsEnabled" Value="false" /> -->
+								<!-- </DataTrigger> -->
 							</Style.Triggers>
 						</Style>
 					</MenuItem.Style>
@@ -1532,8 +1548,8 @@
 							<Grid
 									Margin="0,2,0,0"
 									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
-									UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"
 									>
+									<!-- UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" -->
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" MinWidth="19" />
 									<ColumnDefinition Width="*" />
@@ -4338,8 +4354,6 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-
-
 
 		<TreeView x:Name="Tv1"
 				Grid.Column="0"
