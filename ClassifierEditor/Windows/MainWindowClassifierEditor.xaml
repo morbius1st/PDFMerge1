@@ -827,7 +827,7 @@
 								IsChecked="{Binding IsDropDownOpen,
 																		Mode=TwoWay,
 																		RelativeSource={RelativeSource TemplatedParent}}"
-								Template="{StaticResource ComboBoxToggleButton1}"
+								Template="{DynamicResource ComboBoxToggleButton1}"
 								/>
 
 						<ContentPresenter x:Name="ContentSite"
@@ -1229,26 +1229,26 @@
 				.                           (remove				(remove      (remove       (remove
 				.							              lock/ fixed)	lock/ fixed) lock / fixed) lock / fixed)
 				clone as child  disabled    either        either       disable       disabled
-				.                           (remove				(remove      
-				. 						              lock / fixed)	lock/ fixed) 
+				.                           (remove				(remove
+				. 						              lock / fixed)	lock/ fixed)
 				delete          disabled    disable				either       disable       either
 			-->
 
 			<ContextMenu x:Key="Tv1ContextMenu" x:Name="Tv1ContextMenu"
 					Padding="0,6,0,6"
+					d:DataContext="{Binding ElementName=MainWinClsfrEd,
+																	Path=UserSelected}"
 					Closed="Tv1ContextMenu_OnClosed"
 					HasDropShadow="True"
 					Opened="Tv1ContextMenu_OnOpened"
 					Background="{StaticResource ContextMenu.Background}"
 					Foreground="White"
 					OverridesDefaultStyle="True"
-					d:DataContext="{Binding ElementName=MainWinClsfrEd, Path=UserSelected}"
 					>
 
 				<ContextMenu.Template>
 					<ControlTemplate x:Name="ContextTemplate"
 							TargetType="{x:Type ContextMenu}"
-							
 							>
 
 						<Border x:Name="ContextMenuBorder"
@@ -1505,14 +1505,14 @@
 								>
 							<Setter Property="IsEnabled" Value="false" />
 							<Style.Triggers>
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding Item.IsLocked}" Value="false"/>
-									<Condition Binding="{Binding Item.IsFixed}" Value="false"/>
-									<Condition Binding="{Binding IsMaxDepth}" Value="false"/>
-								</MultiDataTrigger.Conditions>
-								<Setter Property="IsEnabled" Value="true"/>
-							</MultiDataTrigger>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding Item.IsLocked}" Value="false" />
+										<Condition Binding="{Binding Item.IsFixed}" Value="false" />
+										<Condition Binding="{Binding IsMaxDepth}" Value="false" />
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="true" />
+								</MultiDataTrigger>
 
 								<!-- <DataTrigger Binding="{Binding Item.IsLocked}" Value="true"> -->
 								<!-- 	<Setter Property="IsEnabled" Value="false" /> -->
@@ -1549,7 +1549,7 @@
 									Margin="0,2,0,0"
 									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
 									>
-									<!-- UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" -->
+								<!--  UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"  -->
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" MinWidth="19" />
 									<ColumnDefinition Width="*" />
@@ -1629,7 +1629,8 @@
 																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
 															</DataTrigger>
 															<Trigger Property="IsMouseOver" Value="True">
-																<Setter Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}"></Setter>
+																<Setter Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}">
+																</Setter>
 															</Trigger>
 														</Style.Triggers>
 													</Style>
@@ -1691,7 +1692,7 @@
 								<!-- <MultiTrigger> -->
 								<!-- 	<MultiTrigger.Conditions> -->
 								<!-- 		<Condition Property="IsMouseOver" Value="true" /> -->
-								<!-- 		~1~  true  @1@ -->
+								<!--  ~1~  true  @1@  -->
 								<!-- 	</MultiTrigger.Conditions> -->
 								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" /> -->
 								<!-- </MultiTrigger> -->
@@ -1733,7 +1734,7 @@
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="Padding" Value="1" />
-				
+
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -2154,9 +2155,8 @@
 			<!--  DataType="{x:Type tree:TreeNode}"  -->
 			<HierarchicalDataTemplate x:Key="Tv1ItemTemplate1" x:Name="Hdt1"
 					ItemsSource="{Binding ChildrenView}"
-					
 					>
-				
+
 				<Grid x:Name="GD1"
 						Margin="0,1,2,0"
 						HorizontalAlignment="Stretch"

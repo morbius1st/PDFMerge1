@@ -886,9 +886,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void AddNewChild2(TreeNode contextNode)
 		{
-			
+			TreeNode temp = TempTreeNode(contextNode);
 
-			contextNode.Children.Add(TempTreeNode(contextNode));
+			temp.IsNodeSelected = true;
+
+			contextNode.Children.Add(temp);
 
 			contextNode.NotifyChildrenChange();
 		}
