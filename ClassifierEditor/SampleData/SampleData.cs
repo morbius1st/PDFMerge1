@@ -1,24 +1,12 @@
 ﻿#region using
-
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using ClassifierEditor.SampleData;
-// using ClassifierEditor.Tree;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
-using UtilityLibrary;
 using AndyShared.FileSupport;
 
-// using static ClassifierEditor.Tree.CompareOperations;
-// using static ClassifierEditor.Tree.ComparisonOp;
-
-
-
-using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 
 #endregion

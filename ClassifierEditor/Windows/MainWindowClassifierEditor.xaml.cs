@@ -24,7 +24,12 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 // using static ClassifierEditor.Tree.CompareOperations;
 // using static ClassifierEditor.Tree.ComparisonOp;
-using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+#pragma warning disable CS0234 // The type or namespace name 'LogicalComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+#pragma warning restore CS0234 // The type or namespace name 'LogicalComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
+#pragma warning disable CS0234 // The type or namespace name 'ValueComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
+#pragma warning restore CS0234 // The type or namespace name 'ValueComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using WpfShared.Windows;
 
@@ -467,9 +472,6 @@ namespace ClassifierEditor.Windows
 			// false to read existing data
 			if (false)
 			{
-#pragma warning disable CS0219 // The variable 'sampleFileName' is assigned but its value is never used
-				string sampleFileName;
-#pragma warning restore CS0219 // The variable 'sampleFileName' is assigned but its value is never used
 
 				// SampleData.SampleData sd = new SampleData.SampleData();
 
@@ -482,8 +484,6 @@ namespace ClassifierEditor.Windows
 				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
 
 				classificationFile.Write();
-
-				sampleFileName = "";
 			}
 			else
 			{
@@ -1017,7 +1017,7 @@ namespace ClassifierEditor.Windows
 			{
 				ComparisonOperation taskitem = item as ComparisonOperation;
 
-				if (taskitem.ValueCompareOp.OpCodeValue == (int)NO_OP)
+				if (taskitem.ValueCompareOp.OpCodeValue == (int) VALUE_NO_OP)
 				{
 					return
 						element.FindResource("Lv1DataTemplate3") as DataTemplate;
@@ -1063,7 +1063,7 @@ namespace ClassifierEditor.Windows
 
 				taskitem.Id = MasterIdIdx++;
 
-				if (taskitem.ValueCompOpCode == (int) NO_OP)
+				if (taskitem.ValueCompOpCode == (int) VALUE_NO_OP)
 				{
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;

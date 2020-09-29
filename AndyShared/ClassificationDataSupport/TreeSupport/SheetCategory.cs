@@ -14,7 +14,8 @@ using AndyShared.FileSupport;
 using AndyShared.MergeSupport;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 
 #endregion
 

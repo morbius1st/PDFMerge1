@@ -9,7 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using AndyShared.Support;
-using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 
 #endregion
@@ -22,8 +23,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	public enum LogicalComparisonOp
 	{
-		NO_OP                 = -1,
-		LOGICAL_OR            = 0,
+		LOCICAL_NO_OP         = 0,
+		LOGICAL_OR            = 1,
 		LOGICAL_AND           ,
 		LOGICAL_COUNT
 
@@ -31,8 +32,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	public enum ValueComparisonOp
 	{
-		NO_OP                 = -1,
-		LESS_THAN_OR_EQUAL    = 0,
+		VALUE_NO_OP           = 0,
+		LESS_THAN_OR_EQUAL    = 1,
 		LESS_THAN             ,
 		GREATER_THAN_OR_EQUAL ,
 		GREATER_THAN          ,
@@ -50,29 +51,29 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	}
 
 
-
-	public enum ComparisonOp
-	{
-		LOGICAL_OR            = 0,
-		LOGICAL_AND           ,
-		LOGICAL_COUNT         ,
-		NO_OP                 = 0,
-		LESS_THAN_OR_EQUAL    ,
-		LESS_THAN             ,
-		GREATER_THAN_OR_EQUAL ,
-		GREATER_THAN          ,
-		EQUALTO               ,
-		DOES_NOT_EQUAL        ,
-		CONTAINS              ,
-		STARTS_WITH           ,
-		DOES_NOT_START_WITH   ,
-		ENDS_WITH             ,
-		DOES_NOT_END_WITH     ,
-		MATCHES               ,
-		DOES_NOT_MATCH        ,
-		DOES_NOT_CONTAIN      ,
-		VALUE_COUNT
-	}
+	//
+	// public enum ComparisonOp
+	// {
+	// 	LOGICAL_OR            = 0,
+	// 	LOGICAL_AND           ,
+	// 	LOGICAL_COUNT         ,
+	// 	NO_OP                 = 0,
+	// 	LESS_THAN_OR_EQUAL    ,
+	// 	LESS_THAN             ,
+	// 	GREATER_THAN_OR_EQUAL ,
+	// 	GREATER_THAN          ,
+	// 	EQUALTO               ,
+	// 	DOES_NOT_EQUAL        ,
+	// 	CONTAINS              ,
+	// 	STARTS_WITH           ,
+	// 	DOES_NOT_START_WITH   ,
+	// 	ENDS_WITH             ,
+	// 	DOES_NOT_END_WITH     ,
+	// 	MATCHES               ,
+	// 	DOES_NOT_MATCH        ,
+	// 	DOES_NOT_CONTAIN      ,
+	// 	VALUE_COUNT
+	// }
 
 
 	[DataContract(Namespace = "")]
@@ -81,7 +82,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 	#region private fields
 
-		protected ValueCompareOp valueCompOp = ValueCompareOps[(int) NO_OP];
+		protected ValueCompareOp valueCompOp = ValueCompareOps[(int) VALUE_NO_OP];
 		protected LogicalCompareOp logicalCompOp = null;
 
 		protected string compareValue;
@@ -359,11 +360,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ValueCompareOp))]
 	[KnownType(typeof(LogicalCompareOp))]
-	public abstract class ACompareOp
+	public abstract class ACompareOp<T> where T : Enum
 	{
 		public ACompareOp() {}
 
-		public ACompareOp(string name, ComparisonOp op)
+		public ACompareOp(string name, T op)
 		{
 			Name = name;
 			OpCode = op;
@@ -373,40 +374,40 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public abstract string Name { get; set;  }
 
 		[DataMember]
-		public abstract ComparisonOp OpCode { get; set;  }
+		public abstract T OpCode { get; set;  }
 
 		[IgnoreDataMember]
-		public int OpCodeValue => (int) OpCode;
+		public int OpCodeValue =>  Convert.ToInt32(OpCode);
 	}
 
 
 
 
 	[DataContract(Namespace = "")]
-	public class ValueCompareOp : ACompareOp
+	public class ValueCompareOp : ACompareOp<ValueComparisonOp>
 	{
 		public ValueCompareOp() { }
 
-		public ValueCompareOp(string name, ComparisonOp op) : base(name, op) { }
+		public ValueCompareOp(string name, ValueComparisonOp op) : base(name, op) { }
 
 		public override string Name { get; set; }
 
-		public override ComparisonOp OpCode { get; set; }
+		public override ValueComparisonOp OpCode { get; set; }
 	}
 
 
 
 
 	[DataContract(Namespace = "")]
-	public class LogicalCompareOp : ACompareOp
+	public class LogicalCompareOp : ACompareOp<LogicalComparisonOp>
 	{
 		public LogicalCompareOp() {}
 
-		public LogicalCompareOp(string name, ComparisonOp op) : base(name, op) { }
+		public LogicalCompareOp(string name, LogicalComparisonOp op) : base(name, op) { }
 
 		public override string Name { get; set;  }
 
-		public override ComparisonOp OpCode { get; set;  }
+		public override LogicalComparisonOp OpCode { get; set;  }
 	}
 
 
@@ -440,7 +441,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					result = compare(value, compareOp);
 				}
-				else if (compareOp.LogicalCompareOp.OpCode.Equals(ComparisonOp.LOGICAL_AND))
+				else if (compareOp.LogicalCompareOp.OpCode.Equals(LogicalComparisonOp.LOGICAL_AND))
 				{
 					result &= compare(value, compareOp);
 				}
@@ -476,7 +477,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			configureCompareOpList(ValueCompareOps, (int) VALUE_COUNT);
 
-			setValueCompareOp(ValueCompareOps, "No Op", NO_OP);
+			setValueCompareOp(ValueCompareOps, "No Op", VALUE_NO_OP);
 			setValueCompareOp(ValueCompareOps, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
 			setValueCompareOp(ValueCompareOps, "Is Less Than", LESS_THAN);
 			setValueCompareOp(ValueCompareOps, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
@@ -493,12 +494,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			setValueCompareOp(ValueCompareOps, "Does Not Match the Pattern", DOES_NOT_MATCH);
 		}
 
-		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ComparisonOp op)
+		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ValueComparisonOp op)
 		{
 			list[(int) op] = new ValueCompareOp(name, op);
 		}
 		
-		private static void setLogicalCompareOp(List<LogicalCompareOp> list, string name, ComparisonOp op)
+		private static void setLogicalCompareOp(List<LogicalCompareOp> list, string name, LogicalComparisonOp op)
 		{
 			list[(int) op] = new LogicalCompareOp(name, op);
 		}
@@ -517,67 +518,67 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			switch (compareOp.ValueCompareOp.OpCode)
 			{
-			case ComparisonOp.LESS_THAN_OR_EQUAL:
+			case ValueComparisonOp.LESS_THAN_OR_EQUAL:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) <= 0;
 					break;
 				}
-			case ComparisonOp.LESS_THAN:
+			case ValueComparisonOp.LESS_THAN:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) < 0;
 					break;
 				}
-			case ComparisonOp.GREATER_THAN_OR_EQUAL:
+			case ValueComparisonOp.GREATER_THAN_OR_EQUAL:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) >= 0;
 					break;
 				}
-			case ComparisonOp.GREATER_THAN:
+			case ValueComparisonOp.GREATER_THAN:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) > 0;
 					break;
 				}
-			case ComparisonOp.EQUALTO:
+			case ValueComparisonOp.EQUALTO:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) == 0;
 					break;
 				}
-			case ComparisonOp.DOES_NOT_EQUAL:
+			case ValueComparisonOp.DOES_NOT_EQUAL:
 				{
 					result = string.Compare(value, compareOp.CompareValue, StringComparison.CurrentCulture) != 0;
 					break;
 				}
-			case ComparisonOp.CONTAINS:
+			case ValueComparisonOp.CONTAINS:
 				{
 					result = value.Contains(compareOp.CompareValue);
 					break;
 				}
-			case ComparisonOp.DOES_NOT_CONTAIN:
+			case ValueComparisonOp.DOES_NOT_CONTAIN:
 				{
 					result = !value.Contains(compareOp.CompareValue);
 					break;
 				}
-			case ComparisonOp.STARTS_WITH:
+			case ValueComparisonOp.STARTS_WITH:
 				{
 					result = value.StartsWith(compareOp.CompareValue, StringComparison.CurrentCulture);
 					break;
 				}
-			case ComparisonOp.DOES_NOT_START_WITH:
+			case ValueComparisonOp.DOES_NOT_START_WITH:
 				{
 					result = !value.StartsWith(compareOp.CompareValue, StringComparison.CurrentCulture);
 					break;
 				}
-			case ComparisonOp.ENDS_WITH:
+			case ValueComparisonOp.ENDS_WITH:
 				{
 					result = value.EndsWith(compareOp.CompareValue, StringComparison.CurrentCulture);
 					break;
 				}
-			case ComparisonOp.DOES_NOT_END_WITH:
+			case ValueComparisonOp.DOES_NOT_END_WITH:
 				{
 					result = !value.EndsWith(compareOp.CompareValue, StringComparison.CurrentCulture);
 					break;
 				}
-			case ComparisonOp.MATCHES:
+			case ValueComparisonOp.MATCHES:
 				{
 					try
 					{
@@ -590,7 +591,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 					break;
 				}
-			case ComparisonOp.DOES_NOT_MATCH:
+			case ValueComparisonOp.DOES_NOT_MATCH:
 				{
 					try
 					{

@@ -9,7 +9,6 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\CompareOpSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileAssist.cs" />
