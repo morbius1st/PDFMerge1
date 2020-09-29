@@ -22,6 +22,7 @@ namespace WpfShared.Windows
 		private App app = null;
 		private MainWindow mainWin = null;
 		private ClassificationFileSelector ClsFileMgr = null;
+		private Window1 win1 = null;
 
 	#endregion
 
@@ -46,7 +47,7 @@ namespace WpfShared.Windows
 
 		public void Start()
 		{
-			int which = 1;
+			int which = 2;
 
 			switch (which)
 			{
@@ -60,6 +61,12 @@ namespace WpfShared.Windows
 					ShowClassificationFileManager();
 					break;
 				}
+			case 2:
+				{
+					ShowWin1();
+					break;
+				}
+
 			}
 		}
 
@@ -74,6 +81,7 @@ namespace WpfShared.Windows
 
 			mainWin = new MainWindow();
 			ClsFileMgr = new ClassificationFileSelector();
+			win1 = new Window1();
 		}
 
 
@@ -87,6 +95,11 @@ namespace WpfShared.Windows
 		private void ShowClassificationFileManager()
 		{
 			ClsFileMgr.ShowDialog();
+		}
+
+		private void ShowWin1()
+		{
+			win1.ShowDialog();
 		}
 
 	#endregion

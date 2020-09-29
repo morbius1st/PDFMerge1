@@ -648,9 +648,10 @@
 														Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
 														>
 													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
+													<!-- ReSharper disable once Xaml.InvalidResourceType -->
 													<EasingColorKeyFrame
 															KeyTime="0"
-															Value="{DynamicResource ItemsControl.ListItem.Background.Selected}"
+															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.C}"
 															/>
 													<!--  color of the drop down selected item  -->
 													<!--  Value="{StaticResource SelectedBackgroundColor}  -->
@@ -664,9 +665,10 @@
 														Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
 														>
 													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
+													<!-- ReSharper disable once Xaml.InvalidResourceType -->
 													<EasingColorKeyFrame
 															KeyTime="0"
-															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.UnFocused}"
+															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.UnFocused.C}"
 															/>
 													<!--  color of the drop down selected item focus lost  -->
 													<!--  Value="{StaticResource SelectedUnfocusedColor}"  -->
@@ -681,23 +683,6 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="Cbox1Style1"
-					TargetType="{x:Type ComboBox}"
-					>
-				<Setter Property="OverridesDefaultStyle" Value="true" />
-				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-				<Setter Property="SnapsToDevicePixels" Value="true" />
-				<Setter Property="Template" Value="{DynamicResource ComboBoxTemplate1}" />
-
-
-				<Style.Triggers>
-					<Trigger Property="IsEnabled" Value="False">
-						<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" />
-					</Trigger>
-				</Style.Triggers>
-			</Style>
 
 
 			<ControlTemplate x:Key="ComboBoxToggleButton1"
@@ -827,7 +812,7 @@
 								IsChecked="{Binding IsDropDownOpen,
 																		Mode=TwoWay,
 																		RelativeSource={RelativeSource TemplatedParent}}"
-								Template="{DynamicResource ComboBoxToggleButton1}"
+								Template="{StaticResource ComboBoxToggleButton1}"
 								/>
 
 						<ContentPresenter x:Name="ContentSite"
@@ -1001,6 +986,24 @@
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
+			</Style>
+
+
+			<Style x:Key="Cbox1Style1"
+					TargetType="{x:Type ComboBox}">
+				<Setter Property="OverridesDefaultStyle" Value="true" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="SnapsToDevicePixels" Value="true" />
+				<Setter Property="Template" Value="{StaticResource ComboBoxTemplate1}" />
+
+
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" />
+					</Trigger>
+				</Style.Triggers>
 			</Style>
 
 

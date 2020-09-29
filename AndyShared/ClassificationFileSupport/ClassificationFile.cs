@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using SettingsManager;
@@ -163,6 +164,8 @@ namespace AndyShared.ClassificationFileSupport
 
 		public string FileNameNoExt => FilePathLocal.FileNameObject.FileNameNoExt;
 
+		public string FileNameExtNoSep => FilePathLocal.FileNameObject.ExtensionNoSep;
+
 		public string UserName
 		{
 			get => filePathLocal.FileNameObject.UserName;
@@ -303,13 +306,12 @@ namespace AndyShared.ClassificationFileSupport
 			dataFile.Admin.Write();
 
 			InitailizeSample(FilePathLocal.FullFilePath);
-			
 		}
 
 		private void PreInitialize()
 		{
 			dataFile = new BaseDataFile<ClassificationFileData>();
-			dataFile.Configure(FolderPath, FileName);
+			dataFile.Configure(FolderPath, FileNameNoExt, FileNameExtNoSep);
 		}
 
 		public void Initialize()
@@ -329,8 +331,19 @@ namespace AndyShared.ClassificationFileSupport
 
 		}
 
-		public void Write()
+		public void Write(bool createBackup = true)
 		{
+			if (createBackup)
+			{
+				// string filename = dataFile.Path.
+				string newFileName = dataFile.Path.FileNameNoExt + FilePathUtil.EXT_SEPARATOR
+					+ FilePathUtil.BACKUP_EXTNOSEP;
+
+				string newFilePath = dataFile.Path.SettingFolderPath + FilePathUtil.PATH_SEPARATOR + newFileName;
+				
+				File.Copy(dataFile.Path.SettingFilePath, newFilePath, true);
+			}
+
 			dataFile.Admin.Write();
 		}
 

@@ -17,7 +17,7 @@ namespace AndySharedResources.XamlResources
 	[MarkupExtensionReturnType(typeof(System.Windows.Media.Color))]
 	public class XmalColor : MarkupExtension
 	{
-		private Color? c;
+		private System.Windows.Media.Color? c;
 		private byte? a;
 		private byte? r;
 		private byte? g;
@@ -25,7 +25,7 @@ namespace AndySharedResources.XamlResources
 
 		public XmalColor() { }
 
-		public Color Color
+		public System.Windows.Media.Color Color
 		{
 			get => c.Value;
 			set
@@ -94,7 +94,7 @@ namespace AndySharedResources.XamlResources
 
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
-			return ToColor();
+			return (System.Windows.Media.Color) ToColor();
 		}
 	}
 

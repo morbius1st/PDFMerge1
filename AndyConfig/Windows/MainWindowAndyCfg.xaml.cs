@@ -126,7 +126,7 @@ namespace AndyConfig.Windows
 			BaseDataFile<ClassificationFileData>
 				ClsFile1 = new BaseDataFile<ClassificationFileData>();
 
-			ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1.xml");
+			ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1", "xml");
 		}
 
 	#endregion

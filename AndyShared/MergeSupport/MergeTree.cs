@@ -20,7 +20,7 @@ namespace AndyShared.MergeSupport
 	{
 	#region private fields
 
-		private Dictionary<string, MergeItem> treeRoot;
+		private Dictionary<string, MergeItem2> treeRoot;
 
 	#endregion
 
@@ -28,7 +28,7 @@ namespace AndyShared.MergeSupport
 
 		public MergeTree()
 		{
-			treeRoot = new Dictionary<string, MergeItem>();
+			treeRoot = new Dictionary<string, MergeItem2>();
 
 
 		}
@@ -37,7 +37,7 @@ namespace AndyShared.MergeSupport
 
 	#region public properties
 
-		public Dictionary<string, MergeItem> TreeRoot => treeRoot ?? null;
+		public Dictionary<string, MergeItem2> TreeRoot => treeRoot ?? null;
 
 		public int Count => fullCount(treeRoot, true);
 		public int LeafCount => fullCount(treeRoot);
@@ -49,7 +49,7 @@ namespace AndyShared.MergeSupport
 		/// <summary>
 		/// Count the total number of nodes (of just the leaves)
 		/// </summary>
-		private int fullCount(Dictionary<string, MergeItem> items, bool? countWhich = false)
+		private int fullCount(Dictionary<string, MergeItem2> items, bool? countWhich = false)
 		{
 			// count which
 			// true == count leaves
@@ -58,7 +58,7 @@ namespace AndyShared.MergeSupport
 
 			int count = 0;
 
-			foreach (KeyValuePair<string, MergeItem> kvp in treeRoot)
+			foreach (KeyValuePair<string, MergeItem2> kvp in treeRoot)
 			{
 				if (kvp.Value.HasChildNodes)
 				{

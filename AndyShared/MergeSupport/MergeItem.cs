@@ -17,28 +17,44 @@ namespace AndyShared.MergeSupport
 
 	public class MergeItem
 	{
+		public int                             PageNumber { get; set; }
+		public int                             NumberOfPages { get; set; }
+		public FilePath<FileNameAsSheetFile>   FilePath { get; set; }
 
+		public MergeItem(int numberOfPages, FilePath<FileNameAsSheetFile> filePath)
+		{
+			NumberOfPages = numberOfPages;
+			FilePath = filePath;
+		}
+	}
+
+
+
+
+
+	public class MergeItem2
+	{
 
 	#region private fields
 
-		// internal string                          outlineTitle;
+		// internal string                       outlineTitle;
 		internal NodeType                        nodeType;
 		internal int                             pageNumber;
 		internal int                             depth;
 		internal FilePath<FileNameSimple>        filePath;
-		internal Dictionary<string, MergeItem>   mergeTreeBranch;
+		internal Dictionary<string, MergeItem2>  mergeTreeBranch;
 
 	#endregion
 
 	#region ctor
 
-		public MergeItem(NodeType type, int depth) : this(type, null, 0, depth, null) { }
+		public MergeItem2(NodeType type, int depth) : this(type, null, 0, depth, null) { }
 
-		public MergeItem(NodeType type, Dictionary<string, MergeItem> branch, 
+		public MergeItem2(NodeType type, Dictionary<string, MergeItem2> branch, 
 			int page, int depth, FilePath<FileNameSimple> filepath)
 		{
 			nodeType = type;
-			mergeTreeBranch = branch ?? new Dictionary<string, MergeItem>();
+			mergeTreeBranch = branch ?? new Dictionary<string, MergeItem2>();
 			pageNumber = page;
 			filePath = filepath;
 			this.depth = depth;
@@ -61,8 +77,6 @@ namespace AndyShared.MergeSupport
 	#endregion
 
 	#region public methods
-
-
 
 	#endregion
 

@@ -84,7 +84,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private int checkedChildCount;
 
 		private bool rememberExpCollapseState;
+#pragma warning disable CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
 		private bool isSaving;
+#pragma warning restore CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
 
 		// fields
 

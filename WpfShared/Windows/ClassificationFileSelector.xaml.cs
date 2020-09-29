@@ -11,7 +11,9 @@ using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ClassificationFileSupport;
 using WpfShared.Dialogs;
+#pragma warning disable CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 using UtilityLibrary;
+#pragma warning restore CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 using WpfShared.SampleData;
 using AndyShared.SampleFileSupport;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;

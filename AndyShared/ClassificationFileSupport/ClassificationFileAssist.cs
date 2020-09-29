@@ -66,7 +66,8 @@ namespace AndyShared.ClassificationFileSupport
 
 			BaseDataFile<ClassificationFileData>  df =
 				new BaseDataFile<ClassificationFileData>();
-			df.Configure(dest.FolderPath, dest.FileName);
+			// df.Configure(dest.FolderPath, dest.FileName);
+			df.Configure(dest.FolderPath, dest.FileNameNoExt, dest.FileExtensionNoSep);
 			df.Admin.Read();
 
 			if (!df.Info.Description.IsVoid())
@@ -105,7 +106,7 @@ namespace AndyShared.ClassificationFileSupport
 			BaseDataFile<ClassificationFileData> df =
 				new BaseDataFile<ClassificationFileData>();
 
-			df.Configure(dest.FolderPath, dest.FileName);
+			df.Configure(dest.FolderPath, dest.FileNameNoExt, dest.FileExtensionNoSep);
 			df.Admin.Read();
 			df.Info.Description = "This file holds the PDF sheet classification information";
 			df.Info.Notes = Environment.UserName + " created this file on " + DateTime.Now;

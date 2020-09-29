@@ -1,6 +1,7 @@
 ﻿#region using
 
 // using ClassifierEditor.FilesSupport;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,7 +9,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Windows.Documents;
 using AndyShared.FileSupport;
+using AndyShared.MergeSupport;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp;
@@ -80,6 +83,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private string description;
 		private int depth;
 		private ObservableCollection<ComparisonOperation> compareOps;
+
+		// the actual sheet PDF files that get merged into the
+		// final PDF set
+		private List<MergeItem> mergeItems;
 
 		private bool isInitialized;
 		private bool isModified;
@@ -174,6 +181,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				compareOps = value;
 				OnPropertyChange();
 				IsModified = true;
+			}
+		}
+
+		[IgnoreDataMember]
+		public List<MergeItem> MergeItems
+		{
+			get => mergeItems;
+			set
+			{
+				mergeItems = value;
 			}
 		}
 

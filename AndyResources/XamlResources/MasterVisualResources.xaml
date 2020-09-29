@@ -67,7 +67,11 @@
 	<SolidColorBrush x:Key="ItemsControl.Subject.Background.MouseOver" Color="{StaticResource Blue.500}" />
 	<!-- e.g. combobox list items -->
 	<SolidColorBrush x:Key="ItemsControl.ListItem.Background.Normal" Color="{StaticResource Blue.400}" />
-	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected" ResourceKey="Blue.550" />
+
+	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.C" Color="{StaticResource Blue.550}"/>
+	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.UnFocused.C" Color="{StaticResource Blue.500}"/>
+
+	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected" ResourceKey="Blue.550"/>
 	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected.UnFocused" ResourceKey="Blue.500" />
 
 
