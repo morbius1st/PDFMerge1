@@ -13,8 +13,9 @@
 
 
 
-namespace AndyShared.FileSupport
+namespace AndyShared.FileSupport.SheetPDF
 {
+
 	public class FileNameSheetComponents
 	{
 	#region private fields
@@ -34,6 +35,7 @@ namespace AndyShared.FileSupport
 //		public string comment;
 		public string originalSheetTitle;
 		public FileTypeSheetPdf fileType;
+
 
 		// sheet Id parse
 		public string phaseBldg;
@@ -86,24 +88,24 @@ namespace AndyShared.FileSupport
 			if (filename.IsVoid() || fileextension.IsVoid()) return false;
 
 			bool result = true;
-
-			if (fxc.IsCorrectFileType(fileextension))
-			{
-				if (FileNameSheetParser.Instance.Parse(this, filename))
-				{
-					fileType = FileTypeSheetPdf.SHEET_PDF;
-
-					result = FileNameSheetParser.Instance.ParseSheetId(this, sheetID);
-				}
-				else
-				{
-					fileType = FileTypeSheetPdf.NON_SHEET_PDF;
-				}
-			}
-			else
-			{
-				fileType = FileTypeSheetPdf.OTHER;
-			}
+			//
+			// if (fxc.IsCorrectFileType(fileextension))
+			// {
+			// 	if (FileNameSheetParser.Instance.Parse(this, filename))
+			// 	{
+			// 		fileType = FileTypeSheetPdf.SHEET_PDF;
+			//
+			// 		result = FileNameSheetParser.Instance.ParseSheetId(this, sheetID);
+			// 	}
+			// 	else
+			// 	{
+			// 		fileType = FileTypeSheetPdf.NON_SHEET_PDF;
+			// 	}
+			// }
+			// else
+			// {
+			// 	fileType = FileTypeSheetPdf.OTHER;
+			// }
 
 			return result;
 		}

@@ -1,5 +1,6 @@
 ﻿#region using directives
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
@@ -30,6 +31,8 @@ namespace AndyShared.FileSupport
 		// flags
 		private bool parsed = false;
 		private bool selected = false;
+
+
 
 	#endregion
 
@@ -77,6 +80,24 @@ namespace AndyShared.FileSupport
 		// sheet number and name parse
 		public FileTypeSheetPdf FileType => fnc?.fileType ?? FileTypeSheetPdf.OTHER;
 
+		// todo create indexer
+		// public string this[int idx]
+		// {
+		// 	get
+		// 	{
+		// 		if (idx >= SheetNumberComponentTitles.Length
+		// 			|| idx < 0) throw new IndexOutOfRangeException();
+		//
+		// 		switch (idx)
+		// 		{
+		//
+		// 		}
+		//
+		//
+		// 	}
+		// }
+
+
 		public string SheetName          => SheetNumber + " :: " + SheetTitle;
 		public string SheetNumber        => (fnc?.phaseBldg + fnc?.phaseBldgSep + fnc?.sheetID) ?? "sht number";
 		public string SheetTitle         => fnc?.sheetTitle ?? "sht ttl";
@@ -95,7 +116,6 @@ namespace AndyShared.FileSupport
 				OnPropertyChange();
 			}
 		}
-
 
 		public new bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
 

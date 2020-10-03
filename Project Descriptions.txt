@@ -17,7 +17,9 @@ ConfigClassificationUser	creates and holds a list of the user's classification f
 
 test apps
 AODeliverable	proof of concept app - working (show to the office)
+test1			test parsing a sheet file's filename into sheet name and sheet number components
 test3			test using a tri-state tree using events and methods
+testcore1		created and tests orator
 tests			PDF categories and codes
 tests2			categorizing PDF files / presenting in trees
 StoreAndRead	Component project to store and read data from an XML file using the settings routines

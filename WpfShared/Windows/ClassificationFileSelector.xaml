@@ -3,16 +3,16 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+		xmlns:classificationFileSupport="clr-namespace:AndyShared.ClassificationFileSupport"
 		xmlns:cs="clr-namespace:System.Collections.Specialized;assembly=System"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
-		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:support="clr-namespace:AndyShared.Support"
-		xmlns:classificationFileSupport="clr-namespace:AndyShared.ClassificationFileSupport"
 		xmlns:sampleFileSupport="clr-namespace:AndyShared.SampleFileSupport"
+		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
+		xmlns:support="clr-namespace:AndyShared.Support"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Title="Classification File Selector"
 		Width="700"
 		Height="650"
@@ -635,7 +635,7 @@
 			<Style x:Key="Lb1ItemContainer1"
 					TargetType="{x:Type ListBoxItem}"
 					>
-				<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"/>
+				<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}" />
 				<Setter Property="SnapsToDevicePixels" Value="True" />
 				<Setter Property="Padding" Value="4,1" />
 				<Setter Property="HorizontalContentAlignment" Value="Left" />

@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
+using AndyShared.FileSupport;
 using UtilityLibrary;
 
 #endregion
@@ -54,9 +55,9 @@ namespace AndyShared.MergeSupport
 		/// <param name="classfFile"></param>
 		/// <param name="sheetFiles"></param>
 		/// <returns></returns>
-		public bool Process(ClassificationFile classfFile, List<FilePath<FileNameAsSheetFile>> sheetFiles)
+		public bool Process(ClassificationFile classfFile, List<FilePath<FileNameSheetPdf>> sheetFiles)
 		{
-			foreach (FilePath<FileNameAsSheetFile> sheetFile in sheetFiles)
+			foreach (FilePath<FileNameSheetPdf> sheetFile in sheetFiles)
 			{
 				
 			}
@@ -70,7 +71,7 @@ namespace AndyShared.MergeSupport
 	#region private methods
 
 
-		private void classify(TreeNode classfNode, FileNameAsSheetFile sheetFile)
+		private void classify(TreeNode classfNode, FileNameSheetPdf sheetFile)
 		{
 			bool matchFlag = false;
 
@@ -88,7 +89,7 @@ namespace AndyShared.MergeSupport
 
 				// does the current sheetfile match the current
 				// if sheetfile matches childclassfnode.sheetcategory.compareops
-				if (true)
+				if (CompareOperations.Compare(sheetFile.Category, childClassfNode.Item.CompareOps))
 				{
 
 				}

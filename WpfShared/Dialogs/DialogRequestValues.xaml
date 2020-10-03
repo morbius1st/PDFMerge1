@@ -1,11 +1,10 @@
-﻿<Window
+﻿<Window x:Name="DlgRequestValues"
 		x:Class="WpfShared.Dialogs.DialogRequestValues"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Dialogs"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		x:Name="DlgRequestValues"
 		Title="DialogRequestValues"
 		WindowStyle="ToolWindow"
 		Width="400"
@@ -18,8 +17,7 @@
 	<Window.Resources>
 
 
-		<Style
-				x:Key="Base.Style.Control"
+		<Style x:Key="Base.Style.Control"
 				TargetType="Control"
 				>
 			<Setter Property="Foreground" Value="White" />
@@ -30,8 +28,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Left" />
 		</Style>
 
-		<Style
-				x:Key="Style.TextBox.As.Label"
+		<Style x:Key="Style.TextBox.As.Label"
 				TargetType="TextBox"
 				BasedOn="{StaticResource Base.Style.Control}"
 				>
@@ -42,30 +39,28 @@
 			<Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
 		</Style>
 
-		<Style
-				x:Key="TextBox.Input"
+		<Style x:Key="TextBox.Input"
 				TargetType="TextBox"
 				BasedOn="{StaticResource Base.Style.Control}"
 				>
 
 		</Style>
 
-		<TextBox
-				x:Key="TxBoxAsLabel"
+		<TextBox x:Key="TxBoxAsLabel"
 				x:Shared="False"
 				Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}},
 											 Path=(local:DialogRequestValues.TextBoxMessage)}"
 				Style="{StaticResource Style.TextBox.As.Label}"
 				/>
 
-		<TextBox
-				x:Key="TxBoxInput"
+		<TextBox x:Key="TxBoxInput"
 				x:Shared="False"
 				LostFocus="TxBox_OnLostFocus"
 				Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}},
 											Path=Tag}"
 				Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}},
-											 Path=(local:DialogRequestValues.TextBoxMessage), Mode=TwoWay}"
+											 Path=(local:DialogRequestValues.TextBoxMessage),
+											 Mode=TwoWay}"
 				Style="{StaticResource TextBox.Input}"
 				/>
 
@@ -73,8 +68,7 @@
 
 
 		<ContentControl x:Key="ControlGroup">
-			<Grid
-					x:Name="Grid"
+			<Grid x:Name="Grid"
 					Height="auto"
 					>
 				<Grid.ColumnDefinitions>
@@ -88,45 +82,46 @@
 					<RowDefinition Height="60" />
 				</Grid.RowDefinitions>
 
-				<!-- <TextBox -->
-				<!-- 		Name="TextBoxAsLabel" -->
-				<!-- 		Grid.Column="0" -->
-				<!-- 		Grid.Row="0" -->
-				<!-- 		Text="This is a label" -->
-				<!-- 		Style="{StaticResource Style.TextBox.As.Label}" -->
-				<!-- 		/> -->
-				<!-- -->
-				<!-- <TextBox -->
-				<!-- 		Name="TextBoxInput" -->
-				<!-- 		Grid.Column="1" -->
-				<!-- 		Grid.Row="0" -->
-				<!-- 		Text="{Binding TestStrings[0]}" -->
-				<!-- 		Style="{StaticResource TextBox.Input}" -->
-				<!-- 		/> -->
+				<!--  <TextBox  -->
+				<!--  Name="TextBoxAsLabel"  -->
+				<!--  Grid.Column="0"  -->
+				<!--  Grid.Row="0"  -->
+				<!--  Text="This is a label"  -->
+				<!--  Style="{StaticResource Style.TextBox.As.Label}"  -->
+				<!--  />  -->
+				<!--    -->
+				<!--  <TextBox  -->
+				<!--  Name="TextBoxInput"  -->
+				<!--  Grid.Column="1"  -->
+				<!--  Grid.Row="0"  -->
+				<!--  Text="{Binding TestStrings[0]}"  -->
+				<!--  Style="{StaticResource TextBox.Input}"  -->
+				<!--  />  -->
 
 				<ContentControl
 						Content="{StaticResource TxBoxAsLabel}"
 						Grid.Column="0"
 						Grid.Row="0"
 						local:DialogRequestValues.TextBoxMessage="{Binding TestStrings[0]}"
-				/>
+						/>
 
 				<ContentControl
 						Content="{StaticResource TxBoxInput}"
 						Grid.Column="1"
 						Grid.Row="0"
-						local:DialogRequestValues.TextBoxMessage="{Binding ResultStrings[0], Mode=TwoWay}"
+						local:DialogRequestValues.TextBoxMessage="{Binding ResultStrings[0],
+																															 Mode=TwoWay}"
 						Tag="0"
 						/>
-						<!-- DataContext="{Binding Path=ResultStrings}" -->
+				<!--  DataContext="{Binding Path=ResultStrings}"  -->
 
 				<TextBlock
 						Grid.Column="0"
 						Grid.Row="2"
 						Grid.ColumnSpan="2"
-						TextWrapping="Wrap"
 						Text="{Binding TextBlockText,
 													 FallbackValue='text here'}"
+						TextWrapping="Wrap"
 						Foreground="White"
 						/>
 			</Grid>
@@ -137,8 +132,7 @@
 	</Window.Resources>
 
 
-	<DockPanel
-			x:Name="Main"
+	<DockPanel x:Name="Main"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			>

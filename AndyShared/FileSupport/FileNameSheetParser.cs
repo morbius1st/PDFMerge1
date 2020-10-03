@@ -122,19 +122,24 @@ namespace AndyShared.FileSupport
 
 		private const string PATTERN_SHT_NUM =
 			@"^(?<discipline>GRN|(?>[A-Z][A-Z]?)(?=[\-,0-9]))(?<cat>[0-9]{0,2})((?<sep1>\-|\.)(?<subcat>[0-9]{1,3}[A-Za-z]?)((?<sep2>\-)(?<modifier>[0-9,A-Z,a-z]{1,4}))?((?<sep3>\.)(?<submodifier>[0-9]{1,2}))?)?";
-
+		   // ^(?<discipline>GRN|(?>[A-Z][A-Z]?)(?=[\-,0-9]))(?<cat>[0-9]{0,2})((?<sep1>\-|\.)(?<subcat>[0-9]{1,3}[A-Za-z]?)((?<sep2>\-)(?<modifier>[0-9,A-Z,a-z]{1,4}))?((?<sep3>\.)(?<submodifier>[0-9]{1,2}))?((?<sep4>\({1})(?<identifier>[0-9,A-Z,a-z]+)(?<sep5>\/{0,1})(?<subidentifier>[0-9,A-Z,a-z]*)(?<sep6>\){1}))?)?
 		private static Regex patternShtNum =
 			new Regex(PATTERN_SHT_NUM, RegexOptions.Compiled | RegexOptions.Singleline);
 
 		// capture group names
-		private const string DISCIPLINE  = "discipline";
-		private const string CATEGORY    = "cat";
-		private const string SEP1        = "sep1";
-		private const string SUBCATEGORY = "subcat";
-		private const string SEP2        = "sep2";
-		private const string MODIFIER    = "modifier";
-		private const string SEP3        = "sep3";
-		private const string SUBMODIFIER = "submodifier";
+		private const string DISCIPLINE    = "discipline";
+		private const string CATEGORY      = "cat";
+		private const string SEP1          = "sep1";
+		private const string SUBCATEGORY   = "subcat";
+		private const string SEP2          = "sep2";
+		private const string MODIFIER      = "modifier";
+		private const string SEP3          = "sep3";
+		private const string SUBMODIFIER   = "submodifier";
+		private const string SEP4          = "sep4";
+		private const string IDENTIFIER    = "identifier";
+		private const string SEP6          = "sep5";
+		private const string SUBIDENTIFIER = "subidentifier";
+		private const string SEP5          = "sep6";
 
 		public bool ParseSheetId(FileNameSheetComponents components, string shtId)
 		{
@@ -174,6 +179,33 @@ namespace AndyShared.FileSupport
 						{
 							components.seperator3 = test;
 							components.submodifier = g[SUBMODIFIER].Value;
+
+							test = g[SEP4].Value;
+
+							if (!test.IsVoid())
+							{
+								components.seperator4 = test;
+								components.identifier = g[IDENTIFIER].Value;
+
+								test = g[SEP5].Value;
+
+								if (!test.IsVoid())
+								{
+									components.seperator5 = test;
+									components.subidentifier = g[SUBIDENTIFIER].Value;
+
+									test = g[SEP6].Value;
+
+									if (!test.IsVoid())
+									{
+										components.seperator6 = test;
+
+									}
+								}
+							}
+
+
+
 						}
 					}
 				}
