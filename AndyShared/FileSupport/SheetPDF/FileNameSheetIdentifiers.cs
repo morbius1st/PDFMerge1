@@ -25,32 +25,7 @@ namespace AndyShared.FileSupport.SheetPDF
 			OTHER,
 			NON_SHEET_PDF,
 			SHEET_PDF,
-			// SHEET_PDF_UNASSIGNED_TYPE,
-			// SHEET_PDF_PB_UNASSIGNED_TYPE,
-			// SHEET_PDF_PB = 0,
-			// SHEET_PDF_ID = 5,
-			// SHEET_PDF_TYPE10   = 1,
-			// SHEET_PDF_TYPE20,
-			// SHEET_PDF_TYPE30,
-			// SHEET_PDF_TYPE40,
-			// COUNT               = (int) SHEET_PDF_TYPE40 - (int) SHEET_PDF_TYPE10 + 1,
 		}
-
-
-		// internal string CompGrpName(ShtCompTypes type, ShtCompsGrpIdx grpIdx)
-		// {
-		// 	return SheetComponentNames[(int) type][(int) grpIdx, 0];
-		// }
-
-
-		// public enum ShtCompsPhaseBldg
-		// {
-		// 	PHBLDG  ,
-		// 	PBSEP   ,
-		// 	SHTID1  ,
-		// 	SHTID2  ,
-		// 	COUNTPB
-		// }
 
 		// the index in the final 
 		// sheet component array
@@ -136,117 +111,7 @@ namespace AndyShared.FileSupport.SheetPDF
 			COUNT
 		}
 
-
-		// the index of the group name in the
-		// master "ShtCompList" array
-		// public enum ShtCompsGrpIdx
-		// {
-		// 	PHBLDG0      = 0,
-		// 	PBSEP0       ,
-		// 	SHTID0       ,
-		// 	SHTNAME      ,
-		// 	DISCIPLINE10 = 0,
-		// 	CATEGORY10   ,
-		// 	SEP11        ,
-		// 	SUBCATEGORY10,
-		// 	SEP12        ,
-		// 	MODIFIER10   ,
-		// 	SEP13        ,
-		// 	SUBMODIFIER10,
-		// 	COUNT10      ,
-		// 	DISCIPLINE20 = 0,
-		// 	SEP21        ,
-		// 	CATEGORY20    ,
-		// 	COUNT20      ,
-		// 	DISCIPLINE30 = 0,
-		// 	CATEGORY30   ,
-		// 	SEP31        ,
-		// 	SUBCATEGORY30,
-		// 	COUNT30      ,
-		// 	DISCIPLINE40 = 0,
-		// 	SEP41        ,
-		// 	CATEGORY40   ,
-		// 	COUNT40      ,
-		// 	SEP01         = 0,
-		// 	IDENTIFIER0   ,
-		// 	SEP02         ,
-		// 	SUBIDENTIFIER0,
-		// 	SEP03         ,
-		// 	COUNTID0
-		// }
-
-		//
-		// // index A: the sheet component type
-		// // index 1 & 2:
-		// // index B, the sheet component (SheetComponentsType1, etc.)
-		// // index B,1, the sheet component, regex group name 
-		// // index B,2, the sheet component, human name
-		//
-		// public static string[][,] SheetComponentNames = new []
-		// {
-		// 	// index = 0
-		// 	new string[,]
-		// 	{
-		// 		// building-phase
-		// 		{"bldgid"     , PHBLD},
-		// 		{"pbsep"      , SEPR},
-		// 		{"shtid"      , "Sheet Id"},
-		// 		{"shtname"    , "Sheet Name"},
-		// 	},
-		//
-		// 	// index = 1
-		// 	new string[,]
-		// 	{
-		// 		// TYPE1 (ie. typical  A A2.1-1)
-		// 		{DISCP + "10" , DISCP},
-		// 		{CAT + "10"   , CAT},
-		// 		{SEP + 11     , SEPR + 11},
-		// 		{SUBCAT + "10", SUBCAT},
-		// 		{SEP + 12     , SEPR + 12},
-		// 		{MOD + "10"   , MOD},
-		// 		{SEP + 13     , SEPR + 13},
-		// 		{SUBMOD + "10", SUBMOD},
-		// 	},
-		// 	// index = 2
-		// 	new string[,]
-		// 	{
-		// 		// TYPE2 (ie. 'GRN.1'
-		// 		{DISCP + "20" , DISCP},
-		// 		{SEP + 21     , SEPR + 21},
-		// 		{CAT + "20"   , CAT},
-		// 	},
-		// 	// index = 3
-		// 	new string[,]
-		// 	{
-		// 		// TYPE3
-		// 		{DISCP + "30" , DISCP},
-		// 		{CAT + "30"   , CAT},
-		// 		{SEP + 31     , SEPR + 31},
-		// 		{SUBCAT + "30", SUBCAT},
-		// 	},
-		// 	// index = 4
-		// 	new string[,]
-		// 	{
-		// 		// TYPE4
-		// 		{DISCP + "40" , DISCP},
-		// 		{SEP + 41     , SEPR + 41},
-		// 		{CAT + "40"   , CAT},
-		// 	},
-		//
-		// 	// index = 5
-		// 	new string[,]
-		// 	{
-		// 		// identifier
-		// 		{SEP + 1      , SEPR + 1},
-		// 		{ID           , ID},
-		// 		{SEP + 2      , SEPR + 2},
-		// 		{SUBID        , SUBID},
-		// 		{SEP + 3      , SEPR + 3}
-		// 	}
-		// };
-
-
-		public const string PHBLD  = "Bldg/Phase";
+		public const string PHBLD  = "PhBldgid";
 		public const string DISCP  = "Discipline";
 		public const string CAT    = "Category";
 		public const string SUBCAT = "SubCategory";
@@ -260,11 +125,6 @@ namespace AndyShared.FileSupport.SheetPDF
 
 
 		public static int PhBldgCount = 0;
-		public static int Type10Count = 0;
-		public static int Type20Count = 0;
-		public static int Type30Count = 0;
-		public static int Type40Count = 0;
-		public static int IdentCount = 0;
 
 		public string CompGrpName(ShtCompTypes type, int idx)
 		{
@@ -290,7 +150,6 @@ namespace AndyShared.FileSupport.SheetPDF
 		{
 			return ShtCompList[(int) type].ShtCompNames[idx].SeqCtrl;
 		}
-
 
 		public static List<SheetCompList> ShtCompList = new List<SheetCompList>()
 		{
@@ -368,16 +227,6 @@ namespace AndyShared.FileSupport.SheetPDF
 				})
 		};
 
-
-		// not applicable
-		// required - continue
-		// required - end of seq
-		// skip
-		// optional / seq end if not present
-		// optional / seq end if not present / next is required if present
-		// optional / seq end if not present / next is required if present // start of optional seq
-		// required / end of optional seq
-
 		public enum SeqCtrl
 		{
 			NOT_USED                                  = -2,
@@ -390,8 +239,6 @@ namespace AndyShared.FileSupport.SheetPDF
 			OPTIONAL_END_OR_NEXT_REQD_START_OPT_SEQ   = 102,
 			OPTIONAL_SKIP_NEXT                        = 103,
 		}
-
-
 
 		public class SheetCompList
 		{

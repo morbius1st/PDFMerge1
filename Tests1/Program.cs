@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using AndyShared.FileSupport.SheetPDF;
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
 using UtilityLibrary;
@@ -51,7 +52,7 @@ namespace Tests1
 
 			for (int i = 0; i < td.Length; i++)
 			{
-				f = new FilePath<FileNameSheetPdf>(td[i][0,0]);
+				f = new FilePath<FileNameSheetPdf>(td[i][0, 0]);
 
 				if (f.IsValid)
 				{
@@ -76,7 +77,7 @@ namespace Tests1
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("");
-			sb.Append("test data|".PadLeft(tabStops[0])).AppendLine(td[0,0]);
+			sb.Append("test data|".PadLeft(tabStops[0])).AppendLine(td[0, 0]);
 
 			sb.Append("file type|".PadLeft(tabStops[0])).AppendLine(fo.FileType.ToString());
 			sb.Append("sht comp type|".PadLeft(tabStops[0])).AppendLine(fo.shtCompType.ToString());
@@ -115,7 +116,7 @@ namespace Tests1
 				{
 					if (!ids.CompIsUsed(fo.shtCompType, i)) continue;
 
-					test = fo.ShtIdComps[ids.CompIdx(fo.shtCompType, i)]?? "";
+					test = fo.ShtIdComps[ids.CompIdx(fo.shtCompType, i)] ?? "";
 					compare = td[2, i];
 
 					sb.Append((ids.CompTitle(fo.shtCompType, i) + "|").PadLeft(tabStops[0]))
@@ -139,7 +140,8 @@ namespace Tests1
 						sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
 					}
 				}
-			} else
+			}
+			else
 			{
 				sb.Append("\n*** file type: ").Append(fo.FileType).AppendLine(" ***\n");
 			}
@@ -157,6 +159,100 @@ namespace Tests1
 
 			return names;
 		}
+//
+// 		private List<List<List<string>>> Tx()
+// 		{
+//
+// 			List<string> ta;
+// 			List<string> tb;
+// 			List<string> tc;
+// 			List<string> td;
+//
+// 			List<List<string>> tz;
+//
+// 			List< List< List<string>>> tx = new List<List<List<string>>>();
+//
+// 			/*
+// 			list< (all files
+// 				List< (one file)
+// 					LIst< (string test items)
+// 						"", "", "", ""
+// 					>
+// 				>
+// 			>
+// 			*/
+// 			// item 1
+// 			ta = new List<string>()
+// 			{
+// //              general info
+// //              file                            type       title
+// 				@"C:\A A-101A Sheet Name.pdf", "TYPE40", "Sheet Name"
+// 			};
+//
+// 			tb = new List<string>()
+// 			{
+// //              PB
+// //              phbldg  pbsep
+// 				"A",    " "
+// 			};
+// 			tc = new List<string>()
+// 			{
+// //              SHEETID
+// //              disc sep0 cat
+// 				"A", "-", "101A"
+// 			};
+// 			td = new List<string>()
+// 			{
+// //              IDENT
+// //              
+// 				null
+// 			};
+//
+// 			tz = new List<List<string>>();
+// 			
+// 			tz.Add(ta);
+// 			tz.Add(tb);
+// 			tz.Add(tc);
+// 			tz.Add(td);
+//
+// 			tx.Add(tz);
+//
+// 			// item 2
+// 			ta = new List<string>()
+// 			{
+// //              general info
+// //              file                            type       title
+// 				@"C:\A A2.1-1 Sheet Name.pdf", "TYPE10", "Sheet Name"
+// 			};
+//
+// 			tb = new List<string>()
+// 			{
+// //              PB
+// 				"A",    " "
+// 			};
+// 			tc = new List<string>()
+// 			{
+// //              SHEETID
+// 				"A", "", "2", ".",  "1",   "-",  "1"
+// 			};
+// 			td = new List<string>()
+// 			{
+// //              IDENT
+// 				null
+// 			};
+//
+// 			tz = new List<List<string>>();
+//
+// 			tz.Add(ta);
+// 			tz.Add(tb);
+// 			tz.Add(tc);
+// 			tz.Add(td);
+//
+// 			tx.Add(tz);
+//
+// 			return tx;
+// 		}
+
 
 		private string[][,] TestData()
 		{
