@@ -104,7 +104,6 @@ namespace AndyShared.FileSupport.SheetPDF
 		private const string SHT_NUM_PATTERN =
 			@"(((?<Discipline10>[A-Z][A-Z]?(?=[\.\-0-9]))(?<Category10>[0-9]{0,2})(?<sep11>\.)(?<SubCategory10>[0-9]{0,3}[A-Za-z]?)(?<sep12>\-)(?<Modifier10>[0-9A-Za-z]{0,4})((?<sep13>\.)(?<SubModifier10>[0-9]{0,2}))?|(?<Discipline20>GRN)(?<sep21>|\.)(?<Category20>[0-9]{1,3})|(?<Discipline30>[A-Z][A-Z]?)(?<Category30>[0-9]{1,3})(?<sep31>\.(?=[0-9]))?(?<SubCategory30>(?<=\.)[0-9]{1,3}[A-Za-z]{0,2})?){1}|((?<Discipline40>[A-Z][A-Z]?)(?<sep41>\-)(?<Category40>[0-9]{1,3}[A-Za-z]{0,2})))($|(?<sep4>\()(?=[0-9A-Za-z])(?<Identifier>(?<=\()[0-9A-Za-z]*(?=│|\)))(?<sep5>│{0,1})(?<SubIdentifier>[0-9A-Za-z]*(?=\)))(?<sep6>\){0,1})$)";
 
-//																																																																																																																																									 (?=│|\)))(?<sep5>│{0,1})
 		private static Regex shtIdPattern =
 			new Regex(SHT_NUM_PATTERN, RegexOptions.Compiled | RegexOptions.Singleline);
 
@@ -152,6 +151,48 @@ namespace AndyShared.FileSupport.SheetPDF
 			{
 				shtIdComps.fileType = fileType.INVALID;
 				return false;
+			}
+
+			return true;
+		}
+
+		internal bool ParseType(compType type, GroupCollection g, FileNameSheetPdf shtIdComps)
+		{
+			string test;
+			bool skipNext = false;
+
+			foreach (SheetCompNames ci in ShtCompList[(int) type].ShtCompNames)
+			{
+				if (ci.SeqCtrl == SeqCtrl.SKIP_CONTINUE) continue;
+
+				test = g[ids.CompGrpName(type, ci.Index)].Value;
+
+				if (skipNext)
+				{
+					if (ci.SeqCtrl == SeqCtrl.OPTIONAL_END)
+					{
+						break;
+					}
+
+					skipNext = false;
+					continue;
+				}
+
+				if (test.IsVoid())
+				{
+					if (ci.SeqCtrl == SeqCtrl.OPTIONAL_SKIP_NEXT)
+					{
+						skipNext = true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+
+				shtIdComps.ShtIdComps[ci.Index] = test;
+
+				if (ci.SeqCtrl == SeqCtrl.REQUIRED_END) break;
 			}
 
 			return true;
@@ -209,48 +250,6 @@ namespace AndyShared.FileSupport.SheetPDF
 			else
 			{
 				shtIdComps.hasIdentifier = false;
-			}
-
-			return true;
-		}
-
-		internal bool ParseType(compType type, GroupCollection g, FileNameSheetPdf shtIdComps)
-		{
-			string test;
-			bool skipNext = false;
-
-			foreach (SheetCompNames ci in ShtCompList[(int) type].ShtCompNames)
-			{
-				if (ci.SeqCtrl == SeqCtrl.SKIP_CONTINUE) continue;
-
-				test = g[ids.CompGrpName(type, ci.Index)].Value;
-
-				if (skipNext)
-				{
-					if (ci.SeqCtrl == SeqCtrl.OPTIONAL_END)
-					{
-						break;
-					}
-
-					skipNext = false;
-					continue;
-				}
-
-				if (test.IsVoid())
-				{
-					if (ci.SeqCtrl == SeqCtrl.OPTIONAL_SKIP_NEXT)
-					{
-						skipNext = true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-
-				shtIdComps.ShtIdComps[ci.Index] = test;
-
-				if (ci.SeqCtrl == SeqCtrl.REQUIRED_END) break;
 			}
 
 			return true;

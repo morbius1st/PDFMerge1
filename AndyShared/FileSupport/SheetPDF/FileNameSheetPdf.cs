@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Documents;
 using UtilityLibrary;
-
 using AndyShared.FileSupport.SheetPDF;
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.FileTypeSheetPdf;
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.pbCompsIdx;
@@ -14,6 +13,7 @@ using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.ShtIdComps
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.identCompsIdx;
 using shtIds = AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
+
 #endregion
 
 // username: jeffs
@@ -35,69 +35,34 @@ namespace AndyShared.FileSupport.SheetPDF
 	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
 	{
 	#region private fields
-
+		
 		private FileExtensionPdfClassifier fxc = new FileExtensionPdfClassifier();
 
-		public List<string> PbComps;
-		public List<string> ShtIdComps;
-		public List<string> IdentComps;
-
+		// true = good, false = invalid, null = unknown / unassigned
+		private bool? status = null;
 
 		// flags
-		public bool? parsed = false;
-		public bool selected = false;
+		private bool? parsed = false;
+		private bool selected = false;
 
-		// true = good, false = invalid, null = unknown / unassigned
-		public bool? status = null;
-		public bool? isPhaseBldg;
-		public bool? hasIdentifier;
+		// fields being accessed by parse routines
+		internal List<string> PbComps;
+		internal List<string> ShtIdComps;
+		internal List<string> IdentComps;
 
-		public shtIds.FileTypeSheetPdf fileType;
-		public shtIds.ShtCompTypes shtCompType;
+		internal bool? isPhaseBldg;
+		internal bool? hasIdentifier;
 
+		internal shtIds.FileTypeSheetPdf fileType;
+		internal shtIds.ShtCompTypes shtCompType;
 
-
-		public string sheetID;
-		public string originalSheetTitle;
-
-
-
-		// sheet number and name parse
-		public string separator;
-		public string sheetTitle;
-
-		// sheet Id parse
-		public string phaseBldg;
-		public string phaseBldgSep;
-
-		public string discipline;
-		public string category;
-		public string seperator11;
-		public string subcategory;
-		public string seperator12;
-		public string modifier;
-		public string seperator13;
-		public string submodifier;
-		public string seperator1;
-		public string identifier;
-		public string seperator2;
-		public string subidentifier;
-		public string seperator3;
-
-		// status
-		// private bool success;
-
-
+		internal string sheetID;
+		internal string originalSheetTitle;
+		internal string sheetTitle;
 
 	#endregion
 
 	#region public fields
-		
-		public static string[] SheetNumberComponentTitles { get; } =
-		new []
-		{
-			"Phase/Bldg", "Discipline", "Category", "Sub-Category", "Modifier", "sub-modifier", "Identifier", "Sub-Identifier"
-		};
 
 	#endregion
 
@@ -110,7 +75,6 @@ namespace AndyShared.FileSupport.SheetPDF
 		public override string FileNameNoExt
 		{
 			get => fileNameNoExt;
-
 			set
 			{
 				fileNameNoExt = value;
@@ -132,25 +96,11 @@ namespace AndyShared.FileSupport.SheetPDF
 			}
 		}
 
+
 		// sheet number and name parse
 		public shtIds.FileTypeSheetPdf FileType => fileType;
 
-		// todo write indexer
-		// public string this[int idx]
-		// {
-		// 	get
-		// 	{
-		// 		if (idx >= SheetNumberComponentTitles.Length
-		// 			|| idx < 0) throw new IndexOutOfRangeException();
-		//
-		// 		switch (idx)
-		// 		{
-		//
-		// 		}
-		//
-		//
-		// 	}
-		// }
+		public ShtCompTypes SheetComponentType => shtCompType;
 
 		public bool Selected
 		{
@@ -164,57 +114,38 @@ namespace AndyShared.FileSupport.SheetPDF
 
 		public new bool IsValid => !FileNameNoExt.IsVoid() && !ExtensionNoSep.IsVoid();
 
-		public bool SheetIdIdsMatch => SheetId.Equals(SheetIdByComponent);
+		public bool? IsPhaseBldg => isPhaseBldg;
 
-		public string OriginalSheetTitle => originalSheetTitle ?? "orig sht ttl";
+		public bool? HasIdentifier => hasIdentifier;
 
+		public string OriginalSheetTitle => originalSheetTitle;
 
-		public string SheetName          => SheetNumber + " :: " + SheetTitle;
-		public string SheetNumber2        => (phaseBldg + phaseBldgSep + sheetID) ?? "sht number";
-		public string SheetNumber        => (PbComps[PHBLDGIDX] + PbComps[PBSEPIDX] + sheetID) ?? "sht number";
-		public string SheetTitle         => sheetTitle ?? "sht ttl";
-		public string PhaseBldg          => phaseBldg ?? "phase-bldg";
-		public string PhaseBldgSep       => phaseBldgSep ?? "pb sep";
-		public string SheetId            => sheetID ?? "sht id";
-		public string Separator          => separator;
+		public string SheetName    => SheetNumber + " :: " + SheetTitle;
 
+		// public string SheetNumber2 => (phaseBldg + phaseBldgSep + sheetID) ?? "sht number";
+		public string SheetNumber  => (PbComps[PHBLDGIDX] + PbComps[PBSEPIDX] + sheetID);
+		public string SheetId      => sheetID;
+		public string SheetTitle   => sheetTitle;
 
+		// phase bldg parse
+		public string PhaseBldg    => PbComps[PHBLDGIDX];
+		public string PhaseBldgSep => PbComps[PBSEPIDX];
 
 		// sheet Id parse
-
-		public string Discipline  => discipline ?? "discipline";
-		public string Category    => category ?? "category";
-		public string Seperator1  => seperator1;
-		public string Subcategory => subcategory ?? "sub-category";
-		public string Seperator2  => seperator2;
-		public string Modifier    => modifier ?? "modifier";
-		public string Seperator3  => seperator3;
-		public string Submodifier => submodifier ?? "sub-modifier";
-
-		public string SheetIdByComponent
-		{
-			get
-			{
-				string shtId = discipline + category;
-
-				if (seperator1 != null)
-				{
-					shtId += seperator1 + subcategory;
-
-					if (seperator2 != null)
-					{
-						shtId += seperator2 + modifier;
-
-						if (seperator3 != null)
-						{
-							shtId += seperator3 + submodifier;
-						}
-					}
-				}
-
-				return shtId;
-			}
-		}
+		public string Discipline     => ShtIdComps[DISCIPLINEIDX]     ;
+		public string Seperator0     => ShtIdComps[SEP0IDX]           ;
+		public string Category       => ShtIdComps[CATEGORYIDX]       ;
+		public string Seperator1     => ShtIdComps[SEP1IDX]           ;
+		public string Subcategory    => ShtIdComps[SUBCATEGORYIDX]    ;
+		public string Seperator2     => ShtIdComps[SEP2IDX]           ;
+		public string Modifier       => ShtIdComps[MODIFIERIDX]       ;
+		public string Seperator3     => ShtIdComps[SEP3IDX]           ;
+		public string Submodifier    => ShtIdComps[SUBMODIFIERIDX]    ;
+		public string Seperator4     => ShtIdComps[SEP4IDX]           ;
+		public string Identifier     => ShtIdComps[IDENTIFIERIDX]     ;
+		public string Seperator5     => ShtIdComps[SEP5IDX]           ;
+		public string subidentifier  => ShtIdComps[SUBIDENTIFIERIDX]  ;
+		public string Seperator6     => ShtIdComps[SEP6IDX]           ;
 
 	#endregion
 
@@ -224,7 +155,7 @@ namespace AndyShared.FileSupport.SheetPDF
 
 	#region public methods
 
-	#endregion 
+	#endregion
 
 	#region private methods
 
@@ -285,7 +216,6 @@ namespace AndyShared.FileSupport.SheetPDF
 
 			for (int i = 0; i < (int) CI_PBCOUNT; i++)
 			{
-
 				PbComps.Add(null);
 			}
 
@@ -293,7 +223,6 @@ namespace AndyShared.FileSupport.SheetPDF
 
 			for (int i = 0; i < (int) CI_TYPECOUNT; i++)
 			{
-				
 				ShtIdComps.Add(null);
 			}
 
@@ -301,25 +230,33 @@ namespace AndyShared.FileSupport.SheetPDF
 
 			for (int i = 0; i < (int) CI_IDENTCOUNT; i++)
 			{
-
 				IdentComps.Add(null);
 			}
-
 		}
 
 		private void NotifyChange()
 		{
+			OnPropertyChange("FileNameNoExt");
+			OnPropertyChange("ExtensionNoSep");
+
+			OnPropertyChange("IsValid");
+			OnPropertyChange("IsPhaseBldg");
+			OnPropertyChange("HasIdentifier");
+
 			OnPropertyChange("FileType");
+			
 			OnPropertyChange("SheetNumber");
+			OnPropertyChange("SheetId");
+			OnPropertyChange("sheetTitle");
 			OnPropertyChange("OriginalSheetTitle");
 
+			// PB
 			OnPropertyChange("PhaseBldg");
 			OnPropertyChange("PhaseBldgSep");
-			OnPropertyChange("Separator");
-			OnPropertyChange("SheetId");
-			OnPropertyChange("SheetTitle");
-//			OnPropertyChange("Comment");
+
+			// sheet Id
 			OnPropertyChange("Discipline");
+			OnPropertyChange("Seperator0");
 			OnPropertyChange("Category");
 			OnPropertyChange("Seperator1");
 			OnPropertyChange("Subcategory");
@@ -327,6 +264,12 @@ namespace AndyShared.FileSupport.SheetPDF
 			OnPropertyChange("Modifier");
 			OnPropertyChange("Seperator3");
 			OnPropertyChange("Submodifier");
+			OnPropertyChange("Seperator4");
+			OnPropertyChange("Identifier");
+			OnPropertyChange("Seperator5");
+			OnPropertyChange("subidentifier");
+			OnPropertyChange("Seperator6");
+
 		}
 
 	#endregion

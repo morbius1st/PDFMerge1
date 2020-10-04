@@ -70,7 +70,7 @@ namespace Tests1
 
 		private void ListSheetPdfInfo(string[,] td, string[] names, FilePath<FileNameSheetPdf> f)
 		{
-			int[] tabStops = new [] {20, 25, 6, 8};
+			int[] tabStops = new [] {20, 25, 7, 9};
 
 			FileNameSheetPdf fo = f.FileNameObject;
 
@@ -80,18 +80,29 @@ namespace Tests1
 			sb.Append("test data|".PadLeft(tabStops[0])).AppendLine(td[0, 0]);
 
 			sb.Append("file type|".PadLeft(tabStops[0])).AppendLine(fo.FileType.ToString());
-			sb.Append("sht comp type|".PadLeft(tabStops[0])).AppendLine(fo.shtCompType.ToString());
 			sb.Append("sheet num|".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
-			sb.Append("ph bldg|".PadLeft(tabStops[0])).AppendLine(fo.ShtIdComps[PHBLDGIDX]);
-			sb.Append("sht id|".PadLeft(tabStops[0])).AppendLine(fo.sheetID);
+			sb.Append("isPhBld|".PadLeft(tabStops[0])).AppendLine(fo.IsPhaseBldg?.ToString() ?? "unknown");
+			sb.Append("hasIdent|".PadLeft(tabStops[0])).AppendLine(fo.HasIdentifier?.ToString() ?? "unknown");
+
+			sb.Append("sht number|".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
 			sb.Append("sht Title|".PadLeft(tabStops[0])).AppendLine(fo.SheetTitle);
-			sb.Append("isPhBld|".PadLeft(tabStops[0])).AppendLine(fo.isPhaseBldg?.ToString() ?? "unknown");
-			sb.Append("hasIdent|".PadLeft(tabStops[0])).AppendLine(fo.hasIdentifier?.ToString() ?? "unknown");
+
+			sb.AppendLine();
+
+			string test;
+			string compare;
+
+			test = fo.SheetComponentType.ToString();
+			compare = td[0, 1];
+
+			sb.Append(("sht comp type" + "|").PadLeft(tabStops[0]))
+			.Append(test.PadRight(tabStops[2]));
+			sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
+			sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
 
 			if (fo.FileType == FileTypeSheetPdf.SHEET_PDF)
 			{
-				string test;
-				string compare;
+
 
 				if (fo.isPhaseBldg == true)
 				{
@@ -101,6 +112,8 @@ namespace Tests1
 					{
 						test = fo.PbComps[ids.CompIdx(ShtCompTypes.PHBLDG, i)] ?? "";
 						compare = td[1, i];
+
+						if(compare.IsVoid() && test.IsVoid()) continue;
 
 						sb.Append((ids.CompTitle(ShtCompTypes.PHBLDG, i) + "|").PadLeft(tabStops[0]))
 						.Append(test.PadRight(tabStops[2]));
@@ -119,6 +132,8 @@ namespace Tests1
 					test = fo.ShtIdComps[ids.CompIdx(fo.shtCompType, i)] ?? "";
 					compare = td[2, i];
 
+					if (compare.IsVoid() && test.IsVoid()) continue;
+
 					sb.Append((ids.CompTitle(fo.shtCompType, i) + "|").PadLeft(tabStops[0]))
 					.Append(test.PadRight(tabStops[2]));
 					sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
@@ -133,6 +148,8 @@ namespace Tests1
 					{
 						test = fo.IdentComps[ids.CompIdx(ShtCompTypes.IDENT, i)] ?? "";
 						compare = td[3, i];
+
+						if (compare.IsVoid() && test.IsVoid()) continue;
 
 						sb.Append((ids.CompTitle(ShtCompTypes.IDENT, i) + "|").PadLeft(tabStops[0]))
 						.Append(test.PadRight(tabStops[2]));
@@ -159,99 +176,6 @@ namespace Tests1
 
 			return names;
 		}
-//
-// 		private List<List<List<string>>> Tx()
-// 		{
-//
-// 			List<string> ta;
-// 			List<string> tb;
-// 			List<string> tc;
-// 			List<string> td;
-//
-// 			List<List<string>> tz;
-//
-// 			List< List< List<string>>> tx = new List<List<List<string>>>();
-//
-// 			/*
-// 			list< (all files
-// 				List< (one file)
-// 					LIst< (string test items)
-// 						"", "", "", ""
-// 					>
-// 				>
-// 			>
-// 			*/
-// 			// item 1
-// 			ta = new List<string>()
-// 			{
-// //              general info
-// //              file                            type       title
-// 				@"C:\A A-101A Sheet Name.pdf", "TYPE40", "Sheet Name"
-// 			};
-//
-// 			tb = new List<string>()
-// 			{
-// //              PB
-// //              phbldg  pbsep
-// 				"A",    " "
-// 			};
-// 			tc = new List<string>()
-// 			{
-// //              SHEETID
-// //              disc sep0 cat
-// 				"A", "-", "101A"
-// 			};
-// 			td = new List<string>()
-// 			{
-// //              IDENT
-// //              
-// 				null
-// 			};
-//
-// 			tz = new List<List<string>>();
-// 			
-// 			tz.Add(ta);
-// 			tz.Add(tb);
-// 			tz.Add(tc);
-// 			tz.Add(td);
-//
-// 			tx.Add(tz);
-//
-// 			// item 2
-// 			ta = new List<string>()
-// 			{
-// //              general info
-// //              file                            type       title
-// 				@"C:\A A2.1-1 Sheet Name.pdf", "TYPE10", "Sheet Name"
-// 			};
-//
-// 			tb = new List<string>()
-// 			{
-// //              PB
-// 				"A",    " "
-// 			};
-// 			tc = new List<string>()
-// 			{
-// //              SHEETID
-// 				"A", "", "2", ".",  "1",   "-",  "1"
-// 			};
-// 			td = new List<string>()
-// 			{
-// //              IDENT
-// 				null
-// 			};
-//
-// 			tz = new List<List<string>>();
-//
-// 			tz.Add(ta);
-// 			tz.Add(tb);
-// 			tz.Add(tc);
-// 			tz.Add(td);
-//
-// 			tx.Add(tz);
-//
-// 			return tx;
-// 		}
 
 
 		private string[][,] TestData()

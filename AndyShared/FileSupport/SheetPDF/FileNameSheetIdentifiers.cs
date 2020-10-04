@@ -79,17 +79,17 @@ namespace AndyShared.FileSupport.SheetPDF
 
 
 		// shorthand access to the indicies
-		internal const int PHBLDGIDX          = (int) pbCompsIdx.CI_PHBLDG        ;
-		internal const int PBSEPIDX           = (int) pbCompsIdx.CI_PBSEP        	;
-		internal const int DISCIPLINEIDX	  = (int) ShtIdCompsIdx.CI_DISCIPLINE   	;
-		internal const int SEP0IDX			  = (int) ShtIdCompsIdx.CI_SEP0         	;
-		internal const int CATEGORYIDX		  = (int) ShtIdCompsIdx.CI_CATEGORY     	;
-		internal const int SEP1IDX			  = (int) ShtIdCompsIdx.CI_SEP1         	;
-		internal const int SUBCATEGORYIDX	  = (int) ShtIdCompsIdx.CI_SUBCATEGORY  	;
-		internal const int SEP2IDX			  = (int) ShtIdCompsIdx.CI_SEP2         	;
-		internal const int MODIFIERIDX		  = (int) ShtIdCompsIdx.CI_MODIFIER     	;
-		internal const int SEP3IDX			  = (int) ShtIdCompsIdx.CI_SEP3         	;
-		internal const int SUBMODIFIERIDX	  = (int) ShtIdCompsIdx.CI_SUBMODIFIER  	;
+		internal const int PHBLDGIDX          = (int) pbCompsIdx.CI_PHBLDG;
+		internal const int PBSEPIDX           = (int) pbCompsIdx.CI_PBSEP;
+		internal const int DISCIPLINEIDX	  = (int) ShtIdCompsIdx.CI_DISCIPLINE;
+		internal const int SEP0IDX			  = (int) ShtIdCompsIdx.CI_SEP0;
+		internal const int CATEGORYIDX		  = (int) ShtIdCompsIdx.CI_CATEGORY;
+		internal const int SEP1IDX			  = (int) ShtIdCompsIdx.CI_SEP1;
+		internal const int SUBCATEGORYIDX	  = (int) ShtIdCompsIdx.CI_SUBCATEGORY;
+		internal const int SEP2IDX			  = (int) ShtIdCompsIdx.CI_SEP2;
+		internal const int MODIFIERIDX		  = (int) ShtIdCompsIdx.CI_MODIFIER;
+		internal const int SEP3IDX			  = (int) ShtIdCompsIdx.CI_SEP3;
+		internal const int SUBMODIFIERIDX	  = (int) ShtIdCompsIdx.CI_SUBMODIFIER;
 		internal const int SEP4IDX			  = (int) identCompsIdx.CI_SEP4;
 		internal const int IDENTIFIERIDX	  = (int) identCompsIdx.CI_IDENTIFIER;
 		internal const int SEP5IDX      	  = (int) identCompsIdx.CI_SEP5;
