@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
-using AndyShared.FileSupport;
+using AndyShared.FileSupport.SheetPDF;
 
 #endregion
 
@@ -16,50 +16,33 @@ using AndyShared.FileSupport;
 
 namespace AndyShared.SampleFileSupport
 {
-	public class SampleFileList : INotifyPropertyChanged
+	/// <summary>
+	/// holds a list of sheet files to be classified
+	/// </summary>
+	public class SheetFileList : INotifyPropertyChanged
 	{
 	#region private fields
 
 	#endregion
-
+	
 	#region ctor
 
-		public SampleFileList(string filePath)
-		{
-			if (!filePath.IsVoid())
-			{
-				ReadFileList(filePath);
-			}
-
-		}
-
 	#endregion
-
+	
 	#region public properties
-
+	
 		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
-
+	
 	#endregion
-
+	
 	#region private properties
-
+	
 	#endregion
-
+	
 	#region public methods
 
-		public void Add(FilePath<FileNameSheetPdf> filePath)
-		{
-			Files.Add(filePath);
-
-			OnPropertyChange("Files");
-		}
-
-	#endregion
-
-	#region private methods
-
-		private void ReadFileList(string filePath)
+		public void ReadSampleSheetFileList(string filePath)
 		{
 			if (!File.Exists(filePath)) throw new FileNotFoundException();
 
@@ -91,34 +74,36 @@ namespace AndyShared.SampleFileSupport
 
 				Files.Add(fileName);
 			}
-
-			OnPropertyChange("Files");
 		}
-
+	
 	#endregion
 
+	#region private methods
+	
+	#endregion
+	
 	#region event consuming
-
+	
 	#endregion
-
+	
 	#region event publishing
-
+	
 		public event PropertyChangedEventHandler PropertyChanged;
-
+	
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
+	
 	#endregion
-
+	
 	#region system overrides
-
+	
 		public override string ToString()
 		{
 			return "this is SampleFileList";
 		}
-
+	
 	#endregion
 	}
 }

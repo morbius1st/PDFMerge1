@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using AndyShared.FileSupport;
+using AndyShared.FileSupport.SheetPDF;
 using AndyShared.MergeSupport;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
@@ -212,11 +212,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[IgnoreDataMember]
-		public string ComponentName
-		{
-			get => FileNameSheetPdf.SheetNumberComponentTitles[Depth] ?? ""; 
-		}
+		// [IgnoreDataMember]
+		// public string ComponentName
+		// {
+		// 	get => FileNameSheetPdf.SheetNumberComponentTitles[Depth] ?? ""; 
+		// }
 
 		[IgnoreDataMember]
 		public bool IsInitialized

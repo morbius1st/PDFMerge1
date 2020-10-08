@@ -9,7 +9,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
-using AndyShared.FileSupport;
+using AndyShared.FileSupport.SheetPDF;
+using AndyShared.SampleFileSupport;
 using UtilityLibrary;
 
 #endregion
@@ -52,12 +53,11 @@ namespace AndyShared.MergeSupport
 		/// ClassificationFile, and place the file into the<br/>
 		/// Classification tree
 		/// </summary>
-		/// <param name="classfFile"></param>
-		/// <param name="sheetFiles"></param>
-		/// <returns></returns>
-		public bool Process(ClassificationFile classfFile, List<FilePath<FileNameSheetPdf>> sheetFiles)
+
+		public bool Process(BaseOfTree treeBase, SheetFileList fileList)
 		{
-			foreach (FilePath<FileNameSheetPdf> sheetFile in sheetFiles)
+			// process each file in the list and categorize
+			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
 			{
 				
 			}
@@ -91,7 +91,7 @@ namespace AndyShared.MergeSupport
 				// if sheetfile matches childclassfnode.sheetcategory.compareops
 				if (CompareOperations.Compare(sheetFile.Category, childClassfNode.Item.CompareOps))
 				{
-
+					
 				}
 
 

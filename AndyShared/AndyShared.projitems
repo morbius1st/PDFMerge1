@@ -21,14 +21,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetIdentifiers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetPdf.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FilePathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetComponents.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetParser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPdf.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetComponents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetIdentifiers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetPdf.cs" />
@@ -38,7 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SheetFileList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />

@@ -1,11 +1,6 @@
 ﻿#region + Using Directives
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.SeqCtrl;
 
@@ -18,6 +13,15 @@ namespace AndyShared.FileSupport.SheetPDF
 {
 	public class FileNameSheetIdentifiers
 	{
+		private static FileNameSheetIdentifiers _fileNameSheetIdentifiers = new FileNameSheetIdentifiers();
+
+		public static FileNameSheetIdentifiers ShtIds => _fileNameSheetIdentifiers;
+
+		private FileNameSheetIdentifiers()
+		{
+			config();
+		}
+
 		public enum FileTypeSheetPdf
 		{
 			INVALID     = -1,
@@ -27,9 +31,24 @@ namespace AndyShared.FileSupport.SheetPDF
 			SHEET_PDF,
 		}
 
+		// indicates the sheet component type and 
+		// is the index in the SheetComponentNames array
+		// is the index in the master "ShtCompList" array
+		public enum ShtCompTypes
+		{
+			UNASSIGNED  = -1,
+			PHBLDG      = 0,
+			TYPE10      = 1,
+			TYPE20      = 2,
+			TYPE30      = 3,
+			TYPE40      = 4,
+			IDENT       = 5,
+			COUNT
+		}
+
 		// the index in the final 
 		// sheet component array
-		public enum pbCompsIdx
+		public enum PbCompsIdx
 		{
 			// phase / bldg only
 			CI_PHBLDG       = 0, // 0 
@@ -58,7 +77,7 @@ namespace AndyShared.FileSupport.SheetPDF
 
 		// the index in the final 
 		// sheet component array
-		public enum identCompsIdx
+		public enum IdentCompsIdx
 		{
 			CI_SEP4         = 0, // 0
 			CI_IDENTIFIER   ,    // 1
@@ -68,19 +87,19 @@ namespace AndyShared.FileSupport.SheetPDF
 			CI_IDENTCOUNT        // 5
 		}
 
-		public const int PBSTART = (int) pbCompsIdx.CI_PHBLDG;
-		public const int PBEND = (int) pbCompsIdx.CI_PBSEP + 1;
+		public const int PBSTART = (int) PbCompsIdx.CI_PHBLDG;
+		public const int PBEND = (int) PbCompsIdx.CI_PBSEP + 1;
 
 		public const int TYPESTART = (int) ShtIdCompsIdx.CI_DISCIPLINE;
 		public const int TYPEEND = (int) ShtIdCompsIdx.CI_SUBMODIFIER + 1;
 
-		public const int IDENTSTART = (int) identCompsIdx.CI_SEP4;
-		public const int IDENTEND = (int) identCompsIdx.CI_SEP6 + 1;
+		public const int IDENTSTART = (int) IdentCompsIdx.CI_SEP4;
+		public const int IDENTEND = (int) IdentCompsIdx.CI_SEP6 + 1;
 
 
 		// shorthand access to the indicies
-		internal const int PHBLDGIDX          = (int) pbCompsIdx.CI_PHBLDG;
-		internal const int PBSEPIDX           = (int) pbCompsIdx.CI_PBSEP;
+		internal const int PHBLDGIDX          = (int) PbCompsIdx.CI_PHBLDG;
+		internal const int PBSEPIDX           = (int) PbCompsIdx.CI_PBSEP;
 		internal const int DISCIPLINEIDX	  = (int) ShtIdCompsIdx.CI_DISCIPLINE;
 		internal const int SEP0IDX			  = (int) ShtIdCompsIdx.CI_SEP0;
 		internal const int CATEGORYIDX		  = (int) ShtIdCompsIdx.CI_CATEGORY;
@@ -90,26 +109,25 @@ namespace AndyShared.FileSupport.SheetPDF
 		internal const int MODIFIERIDX		  = (int) ShtIdCompsIdx.CI_MODIFIER;
 		internal const int SEP3IDX			  = (int) ShtIdCompsIdx.CI_SEP3;
 		internal const int SUBMODIFIERIDX	  = (int) ShtIdCompsIdx.CI_SUBMODIFIER;
-		internal const int SEP4IDX			  = (int) identCompsIdx.CI_SEP4;
-		internal const int IDENTIFIERIDX	  = (int) identCompsIdx.CI_IDENTIFIER;
-		internal const int SEP5IDX      	  = (int) identCompsIdx.CI_SEP5;
-		internal const int SUBIDENTIFIERIDX	  = (int) identCompsIdx.CI_SUBIDENTIFIER;
-		internal const int SEP6IDX      	  = (int) identCompsIdx.CI_SEP6;
+		internal const int SEP4IDX			  = (int) IdentCompsIdx.CI_SEP4;
+		internal const int IDENTIFIERIDX	  = (int) IdentCompsIdx.CI_IDENTIFIER;
+		internal const int SEP5IDX      	  = (int) IdentCompsIdx.CI_SEP5;
+		internal const int SUBIDENTIFIERIDX	  = (int) IdentCompsIdx.CI_SUBIDENTIFIER;
+		internal const int SEP6IDX      	  = (int) IdentCompsIdx.CI_SEP6;
 
-		// indicates the sheet component type and 
-		// is the index in the SheetComponentNames array
-		// is the index in the master "ShtCompList" array
-		public enum ShtCompTypes
-		{
-			UNASSIGNED  = -1,
-			PHBLDG      = 0,
-			TYPE10      = 1,
-			TYPE20      = 2,
-			TYPE30      = 3,
-			TYPE40      = 4,
-			IDENT       = 5,
-			COUNT
-		}
+
+
+
+		// public string[] ShtCompTypesNames = new []
+		// {
+		// 	"Not Used, Phase/Building", 
+		// 	"Categorized-Extended", 
+		// 	"Green", 
+		// 	"Categorized", 
+		// 	"Traditional", 
+		// 	"Not Used, Identifier"
+		// };
+
 
 		public const string PHBLD  = "PhBldgid";
 		public const string DISCP  = "Discipline";
@@ -151,15 +169,15 @@ namespace AndyShared.FileSupport.SheetPDF
 			return ShtCompList[(int) type].ShtCompNames[idx].SeqCtrl;
 		}
 
-		public static List<SheetCompList> ShtCompList = new List<SheetCompList>()
+		public List<SheetCompList> ShtCompList = new List<SheetCompList>()
 		{
 			new SheetCompList("PhBldg",
 				new List<SheetCompNames>()
 				{
-					new SheetCompNames(true, REQUIRED_CONTINUE, PhBldgCount++, grpNname: "bldgid" , title: PHBLD),
-					new SheetCompNames(true, REQUIRED_CONTINUE, PhBldgCount++, grpNname: "pbsep"  , title: "PB"+SEPR),
-					new SheetCompNames(true, NOT_USED, PhBldgCount++, grpNname: "shtid"  , title: "Sheet Id"),
-					new SheetCompNames(true, NOT_USED, PhBldgCount++, grpNname: "shtname", title: "Sheet Name")
+					new SheetCompNames(true, REQUIRED_CONTINUE, 0, grpNname: PHBLD , title: "Phase/Bldg"),
+					new SheetCompNames(true, REQUIRED_CONTINUE, 1, grpNname: "pbsep"  , title: "PB"+SEPR),
+					new SheetCompNames(true, NOT_USED,          2, grpNname: "shtid"  , title: "Sheet Id"),
+					new SheetCompNames(true, NOT_USED,          3, grpNname: "shtname", title: "Sheet Name")
 				}),
 			new SheetCompList("TYPE10",
 				new List<SheetCompNames>()
@@ -240,6 +258,68 @@ namespace AndyShared.FileSupport.SheetPDF
 			OPTIONAL_SKIP_NEXT                        = 103,
 		}
 
+		private void config()
+		{
+			typeList = new Dictionary<string, ShtComponentType>();
+			string key;
+
+			key = "INVALID";
+			typeList.Add(key, new ShtComponentType(-1, key, "Not Used, Invalid"));
+
+			key = "PHBLDG";
+			typeList.Add(key, new ShtComponentType(0, key, "Not Used, Phase/Building"));
+
+			key = "TYPE10";
+			typeList.Add(key, new ShtComponentType(1, key, "Categorized-Extended"));
+
+			key = "TYPE20";
+			typeList.Add(key, new ShtComponentType(2, key, "Green"));
+
+			key = "TYPE30";
+			typeList.Add(key, new ShtComponentType(3, key, "Categorized"));
+
+			key = "TYPE40";
+			typeList.Add(key, new ShtComponentType(4, key, "Traditional"));
+
+			key = "IDENT";
+			typeList.Add(key, new ShtComponentType(5, key, "Not Used, Identifier"));
+
+		}
+
+		private Dictionary<string, ShtComponentType> typeList;
+
+		public ShtComponentType this[string key]
+		{
+			get
+			{
+				if (key == null) return null;
+
+				ShtComponentType type;
+
+				if (!typeList.TryGetValue(key, out type))
+				{
+					return null;
+				}
+
+				return  type;
+			}
+		}
+
+		public class ShtComponentType
+		{
+			public string Key { get; private set; }
+			public string Title { get; private set; }
+			public int Index { get; private set; }
+
+			public ShtComponentType(int index, string key, string title)
+			{
+				Index = index;
+				Key = key;
+				Title = title;
+			}
+		}
+
+
 		public class SheetCompList
 		{
 			public string TypeName { get; private set; }
@@ -266,7 +346,7 @@ namespace AndyShared.FileSupport.SheetPDF
 			public bool IsUsed { get; private set; }
 			public SeqCtrl SeqCtrl { get; private set; }
 
-			public SheetCompNames(    bool isUsed, SeqCtrl seqCtrl, int index, string grpNname = "", string title = "")
+			public SheetCompNames(bool isUsed, SeqCtrl seqCtrl, int index, string grpNname = "", string title = "")
 			{
 				IsUsed = isUsed;
 				SeqCtrl = seqCtrl;

@@ -20,40 +20,38 @@ namespace AndyShared.FileSupport.SheetPDF
 	{
 	#region private fields
 
-		private FileExtensionPdfClassifier fxc = new FileExtensionPdfClassifier();
+		// private FileExtensionPdfClassifier fxc = new FileExtensionPdfClassifier();
 
 	#endregion
 
 	#region public fields
 
 		// sheet number and name parse
-		public string sheetID;
+		internal string sheetID;
 
-		public string separator;
-		public string sheetTitle;
+		internal string separator;
+		internal string sheetTitle;
 
-//		public string comment;
-		public string originalSheetTitle;
-		public FileTypeSheetPdf fileType;
-
+		internal string originalSheetTitle;
+		internal FileNameSheetIdentifiers.FileTypeSheetPdf fileType;
 
 		// sheet Id parse
-		public string phaseBldg;
-		public string phaseBldgSep;
+		internal string phaseBldg;
+		internal string phaseBldgSep;
 
-		public string discipline;
-		public string category;
-		public string seperator1;
-		public string subcategory;
-		public string seperator2;
-		public string modifier;
-		public string seperator3;
-		public string submodifier;
-		public string seperator4;
-		public string identifier;
-		public string seperator5;
-		public string subidentifier;
-		public string seperator6;
+		internal string discipline;
+		internal string category;
+		internal string seperator1;
+		internal string subcategory;
+		internal string seperator2;
+		internal string modifier;
+		internal string seperator3;
+		internal string submodifier;
+		internal string seperator4;
+		internal string identifier;
+		internal string seperator5;
+		internal string subidentifier;
+		internal string seperator6;
 
 		// status
 		public bool success;
@@ -88,24 +86,6 @@ namespace AndyShared.FileSupport.SheetPDF
 			if (filename.IsVoid() || fileextension.IsVoid()) return false;
 
 			bool result = true;
-			//
-			// if (fxc.IsCorrectFileType(fileextension))
-			// {
-			// 	if (FileNameSheetParser.Instance.Parse(this, filename))
-			// 	{
-			// 		fileType = FileTypeSheetPdf.SHEET_PDF;
-			//
-			// 		result = FileNameSheetParser.Instance.ParseSheetId(this, sheetID);
-			// 	}
-			// 	else
-			// 	{
-			// 		fileType = FileTypeSheetPdf.NON_SHEET_PDF;
-			// 	}
-			// }
-			// else
-			// {
-			// 	fileType = FileTypeSheetPdf.OTHER;
-			// }
 
 			return result;
 		}

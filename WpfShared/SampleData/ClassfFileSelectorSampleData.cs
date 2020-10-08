@@ -19,7 +19,7 @@ namespace WpfShared.SampleData
 
 		private static ClassificationFile selected;
 
-		private static SampleFiles sampleFiles = null;
+		// private static SampleFiles sampleFiles = null;
 
 #pragma warning disable CS0169 // The field 'ClassfFileSelectorSampleData.selectedSampleFile' is never used
 		private static SampleFile selectedSampleFile;
@@ -77,7 +77,7 @@ namespace WpfShared.SampleData
 		{
 			cfgClsFiles.Reinitialize();
 
-			sampleFiles.reinitialize();
+			// sampleFiles.reinitialize();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

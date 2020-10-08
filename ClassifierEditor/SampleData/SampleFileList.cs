@@ -12,10 +12,7 @@ using System.Windows.Documents;
 using System.Xml;
 using UtilityLibrary;
 using AndyShared;
-#pragma warning disable CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
-using UtilityLibrary;
-#pragma warning restore CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
-using AndyShared.FileSupport;
+using AndyShared.FileSupport.SheetPDF;
 using static UtilityLibrary.CsXmlUtilities;
 
 #endregion

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using AndyShared.FileSupport.SheetPDF;
-using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
+using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
+using AndyShared.FileSupport.FileNameSheetPDF;
 using UtilityLibrary;
 
 namespace Tests1
 {
 	class Program
 	{
-		private FileNameSheetIdentifiers ids = new FileNameSheetIdentifiers();
+		private static FileNameSheetPdf fo;
 
 		[STAThread]
 		static void Main(string[] args)
@@ -22,7 +18,7 @@ namespace Tests1
 			p.Process();
 
 			Console.Write("Waiting ... : ");
-			Console.Read();
+			Console.ReadKey();
 
 			Environment.Exit(0);
 		}
@@ -72,89 +68,154 @@ namespace Tests1
 		{
 			int[] tabStops = new [] {20, 25, 7, 9};
 
-			FileNameSheetPdf fo = f.FileNameObject;
+			fo = f.FileNameObject;
 
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("");
-			sb.Append("test data|".PadLeft(tabStops[0])).AppendLine(td[0, 0]);
+			sb.Append("test data| ".PadLeft(tabStops[0])).AppendLine(td[0, 0]);
 
-			sb.Append("file type|".PadLeft(tabStops[0])).AppendLine(fo.FileType.ToString());
-			sb.Append("sheet num|".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
-			sb.Append("isPhBld|".PadLeft(tabStops[0])).AppendLine(fo.IsPhaseBldg?.ToString() ?? "unknown");
-			sb.Append("hasIdent|".PadLeft(tabStops[0])).AppendLine(fo.HasIdentifier?.ToString() ?? "unknown");
+			sb.Append("file type| ".PadLeft(tabStops[0])).AppendLine(fo.FileType.ToString());
+			sb.Append("sht num type| ".PadLeft(tabStops[0])).AppendLine(fo.ShtCompTypeName.ToString());
+			sb.Append("sheet num| ".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
+			sb.Append("isPhBld| ".PadLeft(tabStops[0])).AppendLine(fo.IsPhaseBldg?.ToString() ?? "unknown");
+			sb.Append("hasIdent| ".PadLeft(tabStops[0])).AppendLine(fo.HasIdentifier?.ToString() ?? "unknown");
 
-			sb.Append("sht number|".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
-			sb.Append("sht Title|".PadLeft(tabStops[0])).AppendLine(fo.SheetTitle);
+			sb.Append("sht number| ".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
+			sb.Append("sht Title| ".PadLeft(tabStops[0])).AppendLine(fo.SheetTitle);
 
 			sb.AppendLine();
 
 			string test;
+			string test2 = null;
 			string compare;
+			int idx = 0;
 
 			test = fo.SheetComponentType.ToString();
 			compare = td[0, 1];
 
-			sb.Append(("sht comp type" + "|").PadLeft(tabStops[0]))
+			sb.Append(("sht comp type" + "| ").PadLeft(tabStops[0]))
 			.Append(test.PadRight(tabStops[2]));
 			sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
-			sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
+			sb.Append("(match?| ").Append((test.Equals(compare)).ToString());
+			sb.AppendLine(")");
 
 			if (fo.FileType == FileTypeSheetPdf.SHEET_PDF)
 			{
-
-
+			
+			
 				if (fo.isPhaseBldg == true)
 				{
 					sb.AppendLine("PB Info");
-
-					for (int i = PBSTART; i < PBEND; i++)
+			
+					for (int i = COMP_PB_IDX_MIN; i < COMP_PB_IDX_COUNT; i++)
 					{
-						test = fo.PbComps[ids.CompIdx(ShtCompTypes.PHBLDG, i)] ?? "";
+						idx = ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, i);
+
+						test = fo.SheetComps[idx] ?? "";
+						
+						if (i % 2 == 0)
+						{
+							// idx = i / 2;
+							test2 = fo[idx];
+						}
+			
+			
 						compare = td[1, i];
-
+			
 						if(compare.IsVoid() && test.IsVoid()) continue;
-
-						sb.Append((ids.CompTitle(ShtCompTypes.PHBLDG, i) + "|").PadLeft(tabStops[0]))
+			
+						sb.Append((ShtIds.CompTitle2(ShtCompTypes.PHBLDG, i) + "| ").PadLeft(tabStops[0]))
 						.Append(test.PadRight(tabStops[2]));
 						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
-						sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
+						sb.Append("(match?| ").Append((test.Equals(compare)).ToString()).Append(")");
+						sb.AppendLine();
+			
+						if (i % 2 == 0)
+						{
+							sb.Append(("[" + idx + "] | ").PadLeft(tabStops[0]));
+							sb.Append(test2.PadRight(tabStops[2]));
+							sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
+							sb.Append("(match?| ").Append((test2.Equals(compare)).ToString()).Append(")");
+							sb.AppendLine();
+						}
+			
 					}
 				}
 
 
 				sb.AppendLine("TYPE Info");
 
-				for (int i = TYPESTART; i < TYPEEND; i++)
+				for (int i = COMP_SHTID_IDX_MIN; i < COMP_SHTID_IDX_COUNT; i++)
 				{
-					if (!ids.CompIsUsed(fo.shtCompType, i)) continue;
+					if (!ShtIds.CompIsUsed2(fo.shtCompType, i)) continue;
 
-					test = fo.ShtIdComps[ids.CompIdx(fo.shtCompType, i)] ?? "";
+					idx = ShtIds.CompValueIdx2(fo.shtCompType, i);
+
+					test = fo.SheetComps[idx] ?? "";
+
+					if (i % 2 == 0)
+					{
+						idx = (idx) / 2;
+						test2 = fo[idx];
+					}
+
 					compare = td[2, i];
 
 					if (compare.IsVoid() && test.IsVoid()) continue;
 
-					sb.Append((ids.CompTitle(fo.shtCompType, i) + "|").PadLeft(tabStops[0]))
+					sb.Append((ShtIds.CompTitle2(fo.shtCompType, i) + "| ").PadLeft(tabStops[0]))
 					.Append(test.PadRight(tabStops[2]));
 					sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
-					sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
+					sb.Append("(match?| ").Append((test.Equals(compare)).ToString()).Append(")");
+					sb.AppendLine();
+
+					if (i % 2 == 0)
+					{
+						sb.Append(("[" + idx + "] | ").PadLeft(tabStops[0]));
+						sb.Append(test2.PadRight(tabStops[2]));
+						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
+						sb.Append("(match?| ").Append((test2.Equals(compare)).ToString()).Append(")");
+						sb.AppendLine();
+					}
 				}
 
 				if (fo.hasIdentifier == true)
 				{
 					sb.AppendLine("IDENT Info");
-
-					for (int i = IDENTSTART; i < IDENTEND; i++)
+				
+					for (int i = COMP_IDENT_IDX_MIN; i < COMP_IDENT_IDX_COUNT; i++)
 					{
-						test = fo.IdentComps[ids.CompIdx(ShtCompTypes.IDENT, i)] ?? "";
+						idx = ShtIds.CompValueIdx2(ShtCompTypes.IDENT, i);
+
+						test = fo.SheetComps[idx] ?? "";
+						
+						if (i % 2 == 1)
+						{
+							// idx = (i + 1) / 2 + 5;
+							idx = idx / 2;
+							test2 = fo[idx];
+						}
+				
 						compare = td[3, i];
-
+				
 						if (compare.IsVoid() && test.IsVoid()) continue;
-
-						sb.Append((ids.CompTitle(ShtCompTypes.IDENT, i) + "|").PadLeft(tabStops[0]))
+				
+				
+						sb.Append((ShtIds.CompTitle2(ShtCompTypes.IDENT, i) + "| ").PadLeft(tabStops[0]))
 						.Append(test.PadRight(tabStops[2]));
 						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
-						sb.Append("(match?| ").AppendLine((test.Equals(compare)).ToString());
+						sb.Append("(match?| ").Append((test.Equals(compare)).ToString()).Append(")");
+						sb.AppendLine();
+				
+						if (i % 2 == 1)
+						{
+							sb.Append(("[" + idx + "] | ").PadLeft(tabStops[0]));
+							sb.Append(test2.PadRight(tabStops[2]));
+							sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
+							sb.Append("(match?| ").Append((test2.Equals(compare)).ToString()).Append(")");
+							sb.AppendLine();
+						}
 					}
 				}
 			}
@@ -185,6 +246,28 @@ namespace Tests1
 				new [,]
 				{
 					{
+//						general info                  type      sheet name
+						@"C:\A2.1a Sheet Name.pdf",   "TYPE30", "Sheet Name", "", "", "", "", "", ""
+					},
+					{
+//						PB
+//					    PB   PBSEP
+						"", "", "", "",  "",    "",  "", "",  ""
+					},
+					{
+//						TYPE
+//						disc sep0 cat  sep1  subcat  sep2 mod sep3 submod
+						"A", "",  "2", ".",  "1a",   "",  "",   "", ""
+					},
+					{
+//						IDENT
+//						sep4 id  sep5 subid sep6
+						"",  "", "",  "",   "", "", "", "", ""
+					}
+				},
+				new [,]
+				{
+					{
 						// general info
 						@"C:\A A-101A Sheet Name.pdf", "TYPE40", "Sheet Name", "", "", "", "", "", ""
 					},
@@ -205,7 +288,7 @@ namespace Tests1
 				{
 					{
 						// general info
-						@"C:\A A2.1-1 Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
+						@"C:\A A2.1-3 Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
 					},
 					{
 						// PB
@@ -213,7 +296,7 @@ namespace Tests1
 					},
 					{
 						// TYPE 
-						"A", "", "2", ".",  "1",   "-",  "1",   "", ""
+						"A", "", "2", ".",  "1",   "-",  "3",   "", ""
 					},
 					{
 						// IDENT
@@ -224,7 +307,7 @@ namespace Tests1
 				{
 					{
 						// general info
-						@"C:\A A2.1-1.1 Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
+						@"C:\A A2.1-3.4 Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
 					},
 					{
 						// PB
@@ -232,7 +315,7 @@ namespace Tests1
 					},
 					{
 						// TYPE 
-						"A", "", "2", ".",  "1", "-",  "1",   ".", "1"
+						"A", "", "2", ".",  "1", "-",  "3",   ".", "4"
 					},
 					{
 						// IDENT
@@ -243,7 +326,7 @@ namespace Tests1
 				{
 					{
 						// general info
-						@"C:\A A2.1-1.1(right) Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
+						@"C:\A A2.1-3.4(right) Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
 					},
 					{
 						// PB
@@ -251,7 +334,7 @@ namespace Tests1
 					},
 					{
 						// TYPE 
-						"A", "", "2", ".",  "1", "-",  "1",   ".", "1"
+						"A", "", "2", ".",  "1", "-",  "3",   ".", "4"
 					},
 					{
 						// IDENT
@@ -262,7 +345,7 @@ namespace Tests1
 				{
 					{
 						// general info
-						@"C:\A A2.1-1.1(right│left) Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
+						@"C:\A A2.1-4.5(right│left) Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
 					},
 					{
 						// PB
@@ -270,7 +353,7 @@ namespace Tests1
 					},
 					{
 						// TYPE 
-						"A", "", "2", ".",  "1", "-",  "1",   ".", "1"
+						"A", "", "2", ".",  "1", "-",  "4",   ".", "5"
 					},
 					{
 						// IDENT
@@ -299,28 +382,7 @@ namespace Tests1
 						"",  "", "",  "",   "", "", "", "", ""
 					}
 				},
-				new [,]
-				{
-					{
-//						general info                  type      sheet name
-						@"C:\A2.1a Sheet Name.pdf",   "TYPE30", "Sheet Name", "", "", "", "", "", ""
-					},
-					{
-//						PB
-//					    PB   PBSEP
-						"", "", "", "",  "",    "",  "", "",  ""
-					},
-					{
-//						TYPE
-//						disc sep0 cat  sep1  subcat  sep2 mod sep3 submod
-						"A", "",  "2", ".",  "1a",   "",  "",   "", ""
-					},
-					{
-//						IDENT
-//						sep4 id  sep5 subid sep6
-						"",  "", "",  "",   "", "", "", "", ""
-					}
-				},
+
 				new [,]
 				{
 					{

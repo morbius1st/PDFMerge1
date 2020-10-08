@@ -1,14 +1,10 @@
 ﻿#region using
 
 using System;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using UtilityLibrary;
 
 using static AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
-using shtIds = AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers;
-using fileType = AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.FileTypeSheetPdf;
-using compType = AndyShared.FileSupport.SheetPDF.FileNameSheetIdentifiers.ShtCompTypes;
 
 #endregion
 
@@ -21,7 +17,7 @@ namespace AndyShared.FileSupport.SheetPDF
 	{
 	#region private fields
 
-		private FileNameSheetIdentifiers ids = new FileNameSheetIdentifiers();
+		// private FileNameSheetIdentifiers ids = ShtIds;
 
 		private static readonly Lazy<FileNameSheetParser> instance =
 			new Lazy<FileNameSheetParser>(() => new FileNameSheetParser());
@@ -47,7 +43,7 @@ namespace AndyShared.FileSupport.SheetPDF
 	#region public methods
 
 		private const string PATTERN_SHTNUM_AND_NAME =
-			@"^(?<shtnum>((?<bldgid>([0-9]*|[A-Z]*)([A-Z]*|[0-9]*))(?= ))?(?<pbsep> *)(?<shtid>[^ ]*))([ -]+)(?<shtname>.*)";
+			@"^(?<shtnum>((?<PhBldgid>([0-9]*|[A-Z]*)([A-Z]*|[0-9]*))(?= ))?(?<pbsep> *)(?<shtid>[^ ]*))([ -]+)(?<shtname>.*)";
 
 		private static Regex patternShtNumAndName =
 			new Regex(PATTERN_SHTNUM_AND_NAME, RegexOptions.Compiled | RegexOptions.Singleline);
@@ -62,13 +58,13 @@ namespace AndyShared.FileSupport.SheetPDF
 		public bool Parse2(FileNameSheetPdf shtIdComps, string filename)
 		{
 			shtIdComps.isPhaseBldg = null;
-			shtIdComps.shtCompType = compType.UNASSIGNED;
+			shtIdComps.shtCompType = ShtCompTypes.UNASSIGNED;
 
 			Match match = patternShtNumAndName.Match(filename);
 
 			if (!match.Success)
 			{
-				shtIdComps.fileType = fileType.INVALID;
+				shtIdComps.fileType = FileTypeSheetPdf.INVALID;
 				return false;
 			}
 
@@ -77,24 +73,24 @@ namespace AndyShared.FileSupport.SheetPDF
 			string test;
 
 			// phase-bldg
-			test = g[ids.CompGrpName(compType.PHBLDG, PHBLDGIDX)].Value;
+			test = g[ShtIds.CompGrpName(ShtCompTypes.PHBLDG, PHBLDGIDX)].Value;
 
 			if (!test.IsVoid())
 			{
 				shtIdComps.PbComps[PHBLDGIDX] = test;
 				shtIdComps.PbComps[PBSEPIDX] =
-					g[ids.CompGrpName(compType.PHBLDG, PBSEPIDX)].Value;
-				shtIdComps.sheetID = g[ids.CompGrpName(compType.PHBLDG, SHTIDIDX)].Value;
+					g[ShtIds.CompGrpName(ShtCompTypes.PHBLDG, PBSEPIDX)].Value;
+				shtIdComps.sheetID = g[ShtIds.CompGrpName(ShtCompTypes.PHBLDG, SHTIDIDX)].Value;
 
 				shtIdComps.isPhaseBldg = true;
 			}
 			else
 			{
-				shtIdComps.sheetID = g[ids.CompGrpName(compType.PHBLDG, SHTIDIDX)].Value;
+				shtIdComps.sheetID = g[ShtIds.CompGrpName(ShtCompTypes.PHBLDG, SHTIDIDX)].Value;
 				shtIdComps.isPhaseBldg = false;
 			}
 
-			shtIdComps.originalSheetTitle = g[ids.CompGrpName(compType.PHBLDG, SHTNAMEIDX)].Value;
+			shtIdComps.originalSheetTitle = g[ShtIds.CompGrpName(ShtCompTypes.PHBLDG, SHTNAMEIDX)].Value;
 
 			shtIdComps.sheetTitle = shtIdComps.originalSheetTitle;
 
@@ -102,7 +98,7 @@ namespace AndyShared.FileSupport.SheetPDF
 		}
 
 		private const string SHT_NUM_PATTERN =
-			@"(((?<Discipline10>[A-Z][A-Z]?(?=[\.\-0-9]))(?<Category10>[0-9]{0,2})(?<sep11>\.)(?<SubCategory10>[0-9]{0,3}[A-Za-z]?)(?<sep12>\-)(?<Modifier10>[0-9A-Za-z]{0,4})((?<sep13>\.)(?<SubModifier10>[0-9]{0,2}))?|(?<Discipline20>GRN)(?<sep21>|\.)(?<Category20>[0-9]{1,3})|(?<Discipline30>[A-Z][A-Z]?)(?<Category30>[0-9]{1,3})(?<sep31>\.(?=[0-9]))?(?<SubCategory30>(?<=\.)[0-9]{1,3}[A-Za-z]{0,2})?){1}|((?<Discipline40>[A-Z][A-Z]?)(?<sep41>\-)(?<Category40>[0-9]{1,3}[A-Za-z]{0,2})))($|(?<sep4>\()(?=[0-9A-Za-z])(?<Identifier>(?<=\()[0-9A-Za-z]*(?=│|\)))(?<sep5>│{0,1})(?<SubIdentifier>[0-9A-Za-z]*(?=\)))(?<sep6>\){0,1})$)";
+			@"(((?<Discipline10>[A-Z][A-Z]?(?=[\.\-0-9]))(?<Category10>[0-9]{0,2})(?<sep11>\.)(?<SubCategory10>[0-9]{0,3}[A-Za-z]?)(?<sep12>\-)(?<Modifier10>[0-9A-Za-z]{0,4})((?<sep13>\.)(?<SubModifier10>[0-9]{0,2}))?|(?<Discipline20>GRN)(?<sep21>|\.)(?<Category20>[0-9]{1,3})|(?<Discipline30>[A-Z][A-Z]?)(?<Category30>[0-9]{1,3}(?=\.))(?<sep31>\.(?=[0-9]))?(?<SubCategory30>(?<=\.)[0-9]{1,3}[A-Za-z]{0,2})?){1}|((?<Discipline40>(?<![A-Z0-9])[A-Z]{1,2})(?<sep41>\-?)(?<Category40>[0-9]{1,3}[A-Za-z]{0,2})))($|(?<sep4>\()(?=[0-9A-Za-z])(?<Identifier>(?<=\()[0-9A-Za-z]*(?=│|\)))(?<sep5>│{0,1})(?<SubIdentifier>[0-9A-Za-z]*(?=\)))(?<sep6>\){0,1})$)";
 
 		private static Regex shtIdPattern =
 			new Regex(SHT_NUM_PATTERN, RegexOptions.Compiled | RegexOptions.Singleline);
@@ -116,7 +112,7 @@ namespace AndyShared.FileSupport.SheetPDF
 			bool status = true;
 
 			if (shtId.IsVoid()
-				|| shtIdComps.fileType != fileType.SHEET_PDF)
+				|| shtIdComps.fileType != FileTypeSheetPdf.SHEET_PDF)
 			{
 				status = false;
 			}
@@ -149,23 +145,23 @@ namespace AndyShared.FileSupport.SheetPDF
 
 			if (!status)
 			{
-				shtIdComps.fileType = fileType.INVALID;
+				shtIdComps.fileType = FileTypeSheetPdf.INVALID;
 				return false;
 			}
 
 			return true;
 		}
 
-		internal bool ParseType(compType type, GroupCollection g, FileNameSheetPdf shtIdComps)
+		internal bool ParseType(ShtCompTypes type, GroupCollection g, FileNameSheetPdf shtIdComps)
 		{
 			string test;
 			bool skipNext = false;
 
-			foreach (SheetCompNames ci in ShtCompList[(int) type].ShtCompNames)
+			foreach (SheetCompNames ci in ShtIds.ShtCompList[(int) type].ShtCompNames)
 			{
 				if (ci.SeqCtrl == SeqCtrl.SKIP_CONTINUE) continue;
 
-				test = g[ids.CompGrpName(type, ci.Index)].Value;
+				test = g[ShtIds.CompGrpName(type, ci.Index)].Value;
 
 				if (skipNext)
 				{
@@ -203,25 +199,25 @@ namespace AndyShared.FileSupport.SheetPDF
 			bool status = false;
 			shtIdComps.hasIdentifier = false;
 
-			string test = g[ids.CompGrpName(compType.IDENT, SEP4IDX)].Value;
+			string test = g[ShtIds.CompGrpName(ShtCompTypes.IDENT, SEP4IDX)].Value;
 
 			if (!test.IsVoid())
 			{
 				shtIdComps.IdentComps[SEP4IDX] = test;
 
-				test = g[ids.CompGrpName(compType.IDENT, IDENTIFIERIDX)].Value;
+				test = g[ShtIds.CompGrpName(ShtCompTypes.IDENT, IDENTIFIERIDX)].Value;
 
 				if (!test.IsVoid())
 				{
 					shtIdComps.IdentComps[IDENTIFIERIDX] = test;
 
-					test = g[ids.CompGrpName(compType.IDENT, SEP5IDX)].Value;
+					test = g[ShtIds.CompGrpName(ShtCompTypes.IDENT, SEP5IDX)].Value;
 
 					if (!test.IsVoid())
 					{
 						shtIdComps.IdentComps[SEP5IDX] = test;
 
-						test = g[ids.CompGrpName(compType.IDENT, SUBIDENTIFIERIDX)].Value;
+						test = g[ShtIds.CompGrpName(ShtCompTypes.IDENT, SUBIDENTIFIERIDX)].Value;
 
 						if (!test.IsVoid())
 						{
@@ -232,7 +228,7 @@ namespace AndyShared.FileSupport.SheetPDF
 						}
 					}
 
-					test = g[ids.CompGrpName(compType.IDENT, SEP6IDX)].Value;
+					test = g[ShtIds.CompGrpName(ShtCompTypes.IDENT, SEP6IDX)].Value;
 
 					if (!test.IsVoid())
 					{
@@ -255,26 +251,26 @@ namespace AndyShared.FileSupport.SheetPDF
 			return true;
 		}
 
-		internal shtIds.ShtCompTypes GetShtCompTypeFromGrpCollection(GroupCollection g)
+		internal ShtCompTypes GetShtCompTypeFromGrpCollection(GroupCollection g)
 		{
-			if (!g[ids.CompGrpName(compType.TYPE10, DISCIPLINEIDX)].Value.IsVoid())
+			if (!g[ShtIds.CompGrpName(ShtCompTypes.TYPE10, DISCIPLINEIDX)].Value.IsVoid())
 			{
-				return compType.TYPE10;
+				return ShtCompTypes.TYPE10;
 			}
-			else if (!g[ids.CompGrpName(compType.TYPE20, DISCIPLINEIDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName(ShtCompTypes.TYPE20, DISCIPLINEIDX)].Value.IsVoid())
 			{
-				return compType.TYPE20;
+				return ShtCompTypes.TYPE20;
 			}
-			else if (!g[ids.CompGrpName(compType.TYPE30, DISCIPLINEIDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName(ShtCompTypes.TYPE30, DISCIPLINEIDX)].Value.IsVoid())
 			{
-				return compType.TYPE30;
+				return ShtCompTypes.TYPE30;
 			}
-			else if (!g[ids.CompGrpName(compType.TYPE40, DISCIPLINEIDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName(ShtCompTypes.TYPE40, DISCIPLINEIDX)].Value.IsVoid())
 			{
-				return compType.TYPE40;
+				return ShtCompTypes.TYPE40;
 			}
 
-			return compType.UNASSIGNED;
+			return ShtCompTypes.UNASSIGNED;
 		}
 
 	#endregion

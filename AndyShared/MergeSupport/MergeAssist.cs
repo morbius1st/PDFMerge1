@@ -54,7 +54,7 @@ namespace AndyShared.MergeSupport
 		/// <param name="testFileList"></param>
 		/// <returns></returns>
 		public MergeTree MergeTreePopulate(ClassificationFile classfFile, 
-			SampleFileList testFileList)
+			SheetFileList testFileList)
 		{
 			// classfFile defines the categories and the order
 			// testfilelist is the list of items to add to the merge tree

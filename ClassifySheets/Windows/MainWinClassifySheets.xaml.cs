@@ -1,5 +1,4 @@
 ﻿#region using
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,10 +10,7 @@ using UtilityLibrary;
 using AndyShared;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
-#pragma warning disable CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
-using UtilityLibrary;
-#pragma warning restore CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
-using AndyShared.FileSupport;
+using AndyShared.FileSupport.SheetPDF;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using static UtilityLibrary.MessageUtilities;
@@ -44,6 +40,14 @@ namespace ClassifySheets.Windows
 		private string tbx1Message;
 		private string tbx2Message;
 
+		private FileNameSheetPdf fp;
+
+		// the list of files to categorize;
+		private SheetFileList testFileList;
+
+		// the classification tree 
+		private BaseOfTree treeBase;
+
 	#endregion
 
 	#region ctor
@@ -57,7 +61,7 @@ namespace ClassifySheets.Windows
 
 	#region public properties
 
-		public SampleFileList TestFileList { get; private set; }
+		public SheetFileList TestFileList => testFileList;
 
 		public ClassificationFile ClassificationFile
 		{
@@ -74,7 +78,7 @@ namespace ClassifySheets.Windows
 
 		public BaseOfTree BaseOfTree
 		{
-			get => classificationFile?.TreeBase ?? null;
+			get => treeBase;
 		}
 
 		public TreeNode UserSelected
@@ -129,9 +133,12 @@ namespace ClassifySheets.Windows
 
 			classificationFile.Initialize();
 
+			treeBase = classificationFile?.TreeBase ?? null;
+
 			if (!classificationFile.SampleFilePath.IsVoid())
 			{
-				TestFileList = new SampleFileList(classificationFile.SampleFilePath);
+				testFileList = new SheetFileList();
+				testFileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
 			}
 
 			OnPropertyChange("ClassificationFile");
@@ -226,19 +233,22 @@ namespace ClassifySheets.Windows
 
 			foreach (FilePath<FileNameSheetPdf> filePath in TestFileList.Files)
 			{
-				FileNameSheetPdf fp = filePath.FileNameObject;
+				fp = filePath.FileNameObject;
 
 				StringBuilder sb = new StringBuilder();
 
-				sb.Append(i);
-				sb.Append(" |  ").Append(fp.PhaseBldg);
-				sb.Append(" |  ").Append(fp.Discipline);
-				sb.Append(" |  ").Append(fp.Category);
-				sb.Append(" |  ").Append(fp.Subcategory);
-				sb.Append(" |  ").Append(fp.Modifier);
-				sb.Append(" |  ").Append(fp.Submodifier);
-				sb.Append(" |  component| ").Append(fp.SheetIdByComponent);
-				sb.Append(" |  sht title| ").Append(fp.SheetTitle);
+				sb.Append(i++.ToString("D3"));
+				sb.Append(" |  ").Append((fp.SheetComponentType.ToString()).PadRight(7));
+				sb.Append(" |  ").Append((fp.PhaseBldg    ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Discipline   ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Category     ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Subcategory  ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Modifier     ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Submodifier  ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Identifier   ?? "?").PadRight(7));
+				sb.Append(" |  ").Append((fp.Subidentifier?? "?").PadRight(7));
+				sb.Append(" |  ").Append(fp.SheetNumber.PadRight(12));
+				sb.Append(" |  ").Append(fp.SheetTitle);
 
 				sb.Append(nl);
 
@@ -285,8 +295,12 @@ namespace ClassifySheets.Windows
 			sb.Append(node.Depth.ToString().PadRight(5));
 			sb.Append("|");
 			sb.Append(("  ".Repeat(node.Depth) + ">" + node.Item.Title));
+			sb.Append("< ");
 
-			sb.AppendLine("<");
+			sb.Append("compare count| ").Append(node.Item.CompareOps.Count);
+
+
+			sb.AppendLine();
 
 			return sb.ToString();
 		}
