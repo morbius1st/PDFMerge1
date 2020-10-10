@@ -9,12 +9,12 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using AndyShared.FileSupport.SheetPDF;
 using AndyShared.MergeSupport;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
+using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 
 #endregion
 
@@ -212,11 +212,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		// [IgnoreDataMember]
-		// public string ComponentName
-		// {
-		// 	get => FileNameSheetPdf.SheetNumberComponentTitles[Depth] ?? ""; 
-		// }
+		[IgnoreDataMember]
+		public string ComponentName
+		{
+			get => ShtIds.SheetNumberComponentTitles[Depth].Name ?? ""; 
+		}
 
 		[IgnoreDataMember]
 		public bool IsInitialized

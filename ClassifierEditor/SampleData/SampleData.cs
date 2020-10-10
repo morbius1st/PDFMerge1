@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
-using AndyShared.FileSupport.SheetPDF;
+using AndyShared.FileSupport.FileNameSheetPDF;
 
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
@@ -90,19 +90,19 @@ namespace ClassifierEditor.SampleData
 			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0 This is a Test A20.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test A30.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test S30.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.1 This is a Test A21.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test M30.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A GRN.1(left│right) This is a Test GRN1.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A3.0-0 This is a Test P30.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A-101 This is a Test A101.pdf");
 			fileList.AddPath(sheet);
 		}
 

@@ -28,9 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FilePathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetIdentifiers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetParser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\SheetPDF\FileNameSheetPdf.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\CreateMergeList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeItem.cs" />

@@ -1,4 +1,5 @@
 ﻿#region using directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,36 +7,20 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Documents;
 using UtilityLibrary;
-
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
-
 
 #endregion
 
 // username: jeffs
 // created:  5/27/2020 10:53:23 PM
 
-/*
-	path
-
-	FilePath<FileNameSheetPdf>
-	+-> FileNameSheetPdf
-		+-> FileNameSheetComponents (fnc)
-			+-> FileNameSheetParser(FileNameSheetComponents)
-
-*/
-
-
 namespace AndyShared.FileSupport.FileNameSheetPDF
 {
 	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
 	{
 	#region private fields
-		
-		private FileExtensionPdfClassifier fxc = new FileExtensionPdfClassifier();
 
-		// true = good, false = invalid, null = unknown / unassigned
-		// private bool? status = null;
+		private FileExtensionPdfClassifier fxc = new FileExtensionPdfClassifier();
 
 		// flags
 		private bool? parsed = false;
@@ -43,10 +28,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		// fields being accessed by parse routines
 		internal List<string> SheetComps;
-
-		// internal List<string> PbComps;
-		// internal List<string> ShtIdComps;
-		// internal List<string> IdentComps;
 
 		internal bool? isPhaseBldg;
 		internal bool? hasIdentifier;
@@ -69,22 +50,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	#endregion
 
 	#region public properties
-
-		// public static string[] SheetNumberComponentTitles { get; } =
-		// 	new []
-		// 	{
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.PHBLDG].ShtCompInfo[PHBLDG_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.TYPE10].ShtCompInfo[DISCIPLINE_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.TYPE10].ShtCompInfo[CATEGORY_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.TYPE10].ShtCompInfo[SUBCATEGORY_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.TYPE10].ShtCompInfo[MODIFIER_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.TYPE10].ShtCompInfo[SUBMODIFIER_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.IDENT].ShtCompInfo[IDENTIFIER_COMP_IDX].Title,
-		// 		ShtIds.ShtCompList[(int) ShtCompTypes.IDENT].ShtCompInfo[SUBIDENTIFIER_COMP_IDX].Title,
-		// 		
-		// 		// "Discipline", "Category", "Sub-Category", "Modifier", "sub-modifier", "Identifier",
-		// 		// "Sub-Identifier"
-		// 	};
 
 		public override string FileNameNoExt
 		{
@@ -115,7 +80,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public ShtCompTypes SheetComponentType => shtCompType;
 
-		// public string ShtCompTypeName => ShtIds.SheetNumTypeTitle(shtCompType);
 		public string ShtCompTypeName => ShtIds.ShtCompList2[(int) shtCompType].Title;
 
 		public bool IsSelected
@@ -138,136 +102,89 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public string SheetName    => SheetNumber + " :: " + SheetTitle;
 
-		// public string SheetNumber2 => (phaseBldg + phaseBldgSep + sheetID) ?? "sht number";
 		public string SheetNumber  => SheetPb + sheetID;
+
 		public string SheetID      => sheetID;
+
 		public string SheetTitle   => sheetTitle;
 
 		public string SheetPb      =>  PhaseBldg + PhaseBldgSep;
 
-		public string SheetId
+		public string SheetId()
 		{
-			get
+			StringBuilder sb = new StringBuilder();
+
+			List<SheetCompInfo2> list =	ShtIds.ShtCompList2[(int) shtCompType].ShtCompInfo;
+
+			foreach (SheetCompInfo2 ci in list)
 			{
-				StringBuilder sb = new StringBuilder();
-				
-				// List<SheetCompInfo> compInfoList = ShtIds.ShtCompList[(int) shtCompType].ShtCompInfo;
-				//
-				// foreach (SheetCompInfo ci in compInfoList)
-				// {
-				// 	string value = null;
-				//
-				// 	if (ci.IsUsed == false || ci.SeqCtrlUse == SeqCtrl.SKIP_CONTINUE) continue;
-				//
-				// 	if (ci.SeqCtrlUse == SeqCtrl.REQUIRED_CONTINUE)
-				// 	{
-				// 		value = SheetComps[ci.ValueIndex];
-				//
-				// 		if (value.IsVoid()) value = "** error **";
-				//
-				// 		sb.Append(value);
-				// 	} else if (ci.SeqCtrlUse == op)
-				//
-				//
-				//
-				//
-				//
-				// 	sb.Append(value);
-				//
-				// 	if (ci.SeqCtrlUse == SeqCtrl.REQUIRED_END ||
-				// 		ci.SeqCtrlUse == SeqCtrl.REQUIRED_END_AND_OPT_SEQ_END ||
-				// 		ci.SeqCtrlUse == SeqCtrl.OPTIONAL_END)
-				// 	{
-				// 		break;
-				// 	}
-				// }
+				if (ci.SeqCtrlUse == SeqCtrlUse2.SKIP) continue;
 
+				string text = SheetComps[ci.ValueIndex];
 
-
-				switch (shtCompType)
+				if (ci.SeqCtrlUse == SeqCtrlUse2.REQUIRED) 
 				{
-					case ShtCompTypes.TYPE10:
-						{
-							
-							sb.Append(SheetComps[DISCIPLINE_COMP_IDX]);
-							sb.Append(SheetComps[CATEGORY_COMP_IDX]);
-							sb.Append(SheetComps[SEP1_COMP_IDX]);
-							sb.Append(SheetComps[SUBCATEGORY_COMP_IDX]);
-							sb.Append(SheetComps[SEP2_COMP_IDX]);
-							sb.Append(SheetComps[MODIFIER_COMP_IDX]);
-							sb.Append(SheetComps[SEP3_COMP_IDX]);
-							sb.Append(SheetComps[SUBMODIFIER_COMP_IDX]);
+					if ((int) ci.GetProceedReqd() <= 0) break;
 
-							break;
-						}
-					case ShtCompTypes.TYPE20:
-						{
-							sb.Append(SheetComps[DISCIPLINE_COMP_IDX]);
-							sb.Append(SheetComps[SEP0_COMP_IDX]);
-							sb.Append(SheetComps[CATEGORY_COMP_IDX]);
-							break;
-						}
-					case ShtCompTypes.TYPE30:
-						{
-							sb.Append(SheetComps[DISCIPLINE_COMP_IDX]);
-							sb.Append(SheetComps[CATEGORY_COMP_IDX]);
-							sb.Append(SheetComps[SEP1_COMP_IDX]);
-							sb.Append(SheetComps[SUBCATEGORY_COMP_IDX]);
-
-							break;
-						}
-					case ShtCompTypes.TYPE40:
-						{
-							sb.Append(SheetComps[DISCIPLINE_COMP_IDX]);
-							sb.Append(SheetComps[SEP0_COMP_IDX]);
-							sb.Append(SheetComps[CATEGORY_COMP_IDX]);
-							break;
-						}
+					if (text.IsVoid())
+					{
+						text = "{x}";
+					}
+				}
+				else if (ci.SeqCtrlUse == SeqCtrlUse2.OPTIONAL)
+				{
+					if ((int) ci.GetProceedOpt() <= 0) break;
 				}
 
-				return sb.ToString();
+				sb.Append(text);
 
+				if (ci.IsEnd) break;
 			}
+
+			return sb.ToString();
 		}
 
-		public string SheetIdentifier
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder();
+		// phase bldg parse
+		public string PhaseBldg      => SheetComps[PHBLDG_VALUE_IDX]        ;
+		public string PhaseBldgSep   => SheetComps[PBSEP_VALUE_IDX]         ;
+		// sheet Id parse                                                  ;
+		public string Discipline     => SheetComps[DISCIPLINE_VALUE_IDX]    ;
+		public string Seperator0     => SheetComps[SEP0_VALUE_IDX]          ;
+		public string Category       => SheetComps[CATEGORY_VALUE_IDX]      ;
+		public string Seperator1     => SheetComps[SEP1_VALUE_IDX]          ;
+		public string Subcategory    => SheetComps[SUBCATEGORY_VALUE_IDX]   ;
+		public string Seperator2     => SheetComps[SEP2_VALUE_IDX]          ;
+		public string Modifier       => SheetComps[MODIFIER_VALUE_IDX]      ;
+		public string Seperator3     => SheetComps[SEP3_VALUE_IDX]          ;
+		public string Submodifier    => SheetComps[SUBMODIFIER_VALUE_IDX]   ;
+		// identifier                                                      ;
+		public string Seperator4     => SheetComps[SEP4_VALUE_IDX]          ;
+		public string Identifier     => SheetComps[IDENTIFIER_VALUE_IDX]    ;
+		public string Seperator5     => SheetComps[SEP5_VALUE_IDX]          ;
+		public string Subidentifier  => SheetComps[SUBIDENTIFIER_VALUE_IDX] ;
+		public string Seperator6     => SheetComps[SEP6_VALUE_IDX]          ;
 
-				sb.Append(SheetComps[SEP4_COMP_IDX]);
-				sb.Append(SheetComps[IDENTIFIER_COMP_IDX]);
-				sb.Append(SheetComps[SEP5_COMP_IDX]);
-				sb.Append(SheetComps[SUBIDENTIFIER_COMP_IDX]);
-				sb.Append(SheetComps[SEP6_COMP_IDX]);
+		// // phase bldg parse ----                                   --- [index]
+		// public string PhaseBldg      => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, PHBLDG_COMP_IDX)]       ;
+		// public string PhaseBldgSep   => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, PBSEP_COMP_IDX)]        ;
+		// // sheet Id parse																							 ;
+		// public string Discipline     => SheetComps[ShtIds.CompValueIdx2(shtCompType, DISCIPLINE_COMP_IDX)]           ;
+		// public string Seperator0     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP0_COMP_IDX)]                 ;
+		// public string Category       => SheetComps[ShtIds.CompValueIdx2(shtCompType, CATEGORY_COMP_IDX)]             ;
+		// public string Seperator1     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP1_COMP_IDX)]                 ;
+		// public string Subcategory    => SheetComps[ShtIds.CompValueIdx2(shtCompType, SUBCATEGORY_COMP_IDX)]          ;
+		// public string Seperator2     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP2_COMP_IDX)]                 ;
+		// public string Modifier       => SheetComps[ShtIds.CompValueIdx2(shtCompType, MODIFIER_COMP_IDX)]             ;
+		// public string Seperator3     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP3_COMP_IDX)]                 ;
+		// public string Submodifier    => SheetComps[ShtIds.CompValueIdx2(shtCompType, SUBMODIFIER_COMP_IDX)]          ;
+		// // identifier																								 ;
+		// public string Seperator4     => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP4_COMP_IDX)]          ;
+		// public string Identifier     => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, IDENTIFIER_COMP_IDX)]    ;
+		// public string Seperator5     => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP5_COMP_IDX)]          ;
+		// public string Subidentifier  => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SUBIDENTIFIER_COMP_IDX)] ;
+		// public string Seperator6     => SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP6_COMP_IDX)]          ;
 
-				return sb.ToString();
-			}
-		}
 
-		// phase bldg parse ----                                   --- [index]
-		public string PhaseBldg      => SheetComps[ShtIds.CompValueIdx2(shtCompType, PHBLDG_COMP_IDX)]         ; // [0]
-		public string PhaseBldgSep   => SheetComps[ShtIds.CompValueIdx2(shtCompType, PBSEP_COMP_IDX)]          ;
-
-		// sheet Id parse
-		public string Discipline     => SheetComps[ShtIds.CompValueIdx2(shtCompType, DISCIPLINE_COMP_IDX)]     ; // [1] (0) = [1] - 1 * 2 = 0      | (0) / 2 + 1 = 1
-		public string Seperator0     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP0_COMP_IDX)]           ; //     (1)
-		public string Category       => SheetComps[ShtIds.CompValueIdx2(shtCompType, CATEGORY_COMP_IDX)]       ; // [2] (2) = [2] - 1 * 2 = 2      | (2) / 2 + 1 = 2
-		public string Seperator1     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP1_COMP_IDX)]           ; //     (3)
-		public string Subcategory    => SheetComps[ShtIds.CompValueIdx2(shtCompType, SUBCATEGORY_COMP_IDX)]    ; // [3] (4) = [3] - 1 * 2 = 4      | (4) / 2 + 1 = 3
-		public string Seperator2     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP2_COMP_IDX)]           ; //     (5)
-		public string Modifier       => SheetComps[ShtIds.CompValueIdx2(shtCompType, MODIFIER_COMP_IDX)]       ; // [4] (6) = [4] - 1 * 2 = 6      | (6) / 2 + 1 = 4
-		public string Seperator3     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP3_COMP_IDX)]           ; //     (7)
-		public string Submodifier    => SheetComps[ShtIds.CompValueIdx2(shtCompType, SUBMODIFIER_COMP_IDX)]    ; // [5] (8) = [5] - 1 * 2 = 8      | (8) / 2 + 1 = 5
-
-		// identifier
-		public string Seperator4     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP4_COMP_IDX)]           ; //     (0)
-		public string Identifier     => SheetComps[ShtIds.CompValueIdx2(shtCompType, IDENTIFIER_COMP_IDX)]     ; // [6] (1) = [6] - 5 * 2 - 1 = 1  | (1) + 1 / 2 + 5 = 6
-		public string Seperator5     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP5_COMP_IDX)]           ; //     (2)
-		public string Subidentifier  => SheetComps[ShtIds.CompValueIdx2(shtCompType, SUBIDENTIFIER_COMP_IDX)]  ; // [7] (3) = [7] - 5 * 2 - 1 = 3  | (3) + 1 / 2 + 5 = 7
-		public string Seperator6     => SheetComps[ShtIds.CompValueIdx2(shtCompType, SEP6_COMP_IDX)]           ; //     (4)
-																		// [8] (5) = [8] - 5 * 2 - 1 = 5  | (5) + 1 / 2 + 5 = 8
 
 	#endregion
 
@@ -278,8 +195,8 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	#region public methods
 
 		/// <summary>
-		/// indexer - provide the not separator components of the<br/>
-		/// sheet number adjusting for the "SheetComponentType"<br/>
+		/// indexer - provide the components of the sheet number<br/>
+		/// adjusting for the "SheetComponentType" without separators<br/>
 		/// for missing components, provide a null - but note that<br/>
 		/// identifier and subidentifier may exist beyond a null return
 		/// [0] is always the phase / building code
@@ -380,7 +297,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			OnPropertyChange("HasIdentifier");
 
 			OnPropertyChange("FileType");
-			
+
 			OnPropertyChange("SheetNumber");
 			OnPropertyChange("SheetId");
 			OnPropertyChange("sheetTitle");
@@ -405,7 +322,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			OnPropertyChange("Seperator5");
 			OnPropertyChange("subidentifier");
 			OnPropertyChange("Seperator6");
-
 		}
 
 	#endregion

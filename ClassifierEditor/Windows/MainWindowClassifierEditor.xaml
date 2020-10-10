@@ -4,7 +4,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:file="clr-namespace:AndyShared.FileSupport.SheetPDF;assembly=WpfShared"
+		xmlns:file="clr-namespace:AndyShared.FileSupport.FileNameSheetPDF;assembly=WpfShared"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
@@ -438,16 +438,20 @@
 					TargetType="{x:Type Label}"
 					BasedOn="{StaticResource Dg.CellLabel.Base}"
 					>
+				
+				<Setter Property="Padding" Value="10,2,10,2" />
+				<Setter Property="MinWidth" Value="24" />
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
-				<Setter Property="Width" Value="36" />
 			</Style>
+				<!-- <Setter Property="Width" Value="36" /> -->
 
 			<Style x:Key="Dg.CellLabel.Data"
 					TargetType="{x:Type Label}"
 					BasedOn="{StaticResource Dg.CellLabel.Base}"
 					>
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
-				<Setter Property="Width" Value="23" />
+				<Setter Property="Padding" Value="6,2,6,2" />
+				<Setter Property="MinWidth" Value="28" />
 			</Style>
 
 			<Style x:Key="Dg.CellLabel.Border"
@@ -2438,7 +2442,7 @@
 
 							<Label x:Name="Label7"
 									Content="{Binding Item.ComponentName,
-																		FallbackValue=component name}"
+																		FallbackValue='component name'}"
 									HorizontalAlignment="Center"
 									DataContext="{Binding DataContext,
 																				RelativeSource={RelativeSource FindAncestor,
@@ -4207,150 +4211,331 @@
 					CellStyle="{StaticResource Dg.Cell.Base}"
 					RowStyle="{StaticResource Dg.Row.Base}"
 					Style="{DynamicResource Dg1Style}"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
 					>
 				<DataGrid.Columns>
 
 					<DataGridTemplateColumn CellStyle="{StaticResource Dg.Cell.Base}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Grid Margin="2">
+								<Grid Margin="-2"
+										
+										HorizontalAlignment="Stretch"
+										Width="{Binding Path=ActualWidth, FallbackValue=500, Mode=OneWay,
+										RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}"
+										>
 									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="*" />
 
 									</Grid.ColumnDefinitions>
 									<Grid.RowDefinitions>
 										<RowDefinition Height="*" />
-										<RowDefinition Height="*" />
 									</Grid.RowDefinitions>
-									<Label x:Name="Label26"
-											Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt,
-																				FallbackValue='filename'}"
-											Grid.Column="0"
+
+
+									<!-- <Label -->
+									<!-- 		Grid.Column="1" -->
+									<!-- 		Grid.Row="0" -->
+									<!-- 		Padding="0,0,0,0" -->
+									<!-- 		VerticalAlignment="Bottom" -->
+									<!-- 		HorizontalAlignment="Right" -->
+									<!-- 		Foreground="White" -->
+									<!-- 		Content="Hello" /> -->
+
+									<Border
+											Grid.Column="1"
 											Grid.Row="0"
-											Margin="2"
-											Padding="0"
-											Foreground="White"
-											/>
+											VerticalAlignment="Bottom"
+											HorizontalAlignment="Right"
+											Margin="0,0,0,5"
+											BorderThickness="1,0,1,0"
+											>
+										<StackPanel Orientation="Vertical">
+											<Label x:Name="Label27a"
+													Margin="2,0,0,2"
+													Content="{Binding 
+															Path= SheetNumberComponentTitles[0].AbbrevName,
+															Mode=OneWay, FallbackValue='Type',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+													Foreground="DimGray"
+													Style="{StaticResource Dg.CellLabel.Title}" />
+
+											<Label x:Name="Label28a"
+													Margin="2,1,0,0"
+													Content="{Binding FilePathInfo.FileNameObject.SheetComponentType,
+																							FallbackValue=GRN}"
+													Foreground="DimGray"
+													Style="{StaticResource Dg.CellLabel.Data}" />
+										</StackPanel>
+										<Border.Style>
+											<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+												<Setter Property="Visibility" Value="Visible" />
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.SheetComponentType, Mode=OneWay}"
+															Value="{x:Null}">
+														<Setter Property="Visibility" Value="Collapsed" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</Border.Style>
+									</Border>
+
+
+
 									<StackPanel
 											Grid.Column="0"
-											Grid.Row="1"
-											Orientation="Horizontal"
+											Grid.Row="0"
+											Margin="6,0,0,0"
+											Orientation="Vertical"
 											>
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label27"
-														Content="{Binding [0],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Width="46"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
+										<Label x:Name="Label26"
+												Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt,
+																				FallbackValue='filename'}"
+												Margin="2,3,0,0"
+												Padding="0"
+												Foreground="White"
+												HorizontalAlignment="Stretch" />
 
-												<Label x:Name="Label28"
-														Content="{Binding FilePathInfo.FileNameObject.PhaseBldg,
+										<StackPanel
+												Grid.Column="0"
+												Grid.Row="1"
+												Orientation="Horizontal"
+												Margin="2">
+
+
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label27b"
+															Content="{Binding 
+															Path= SheetNumberComponentTitles[1].AbbrevName,
+															Mode=OneWay, FallbackValue='Ph / Bl',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+
+													<Label x:Name="Label28b"
+															Content="{Binding FilePathInfo.FileNameObject.PhaseBldg,
 																							FallbackValue=GRN}"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.PhaseBldg, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
 
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label29"
-														Content="{Binding [1],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
-												<Label x:Name="Label30"
-														Content="{Binding FilePathInfo.FileNameObject.Discipline,
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label29"
+															Content="{Binding 
+																							Path= SheetNumberComponentTitles[2].AbbrevName,
+															Mode=OneTime, FallbackValue='D',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label30"
+															Content="{Binding FilePathInfo.FileNameObject.Discipline,
 																							FallbackValue=99}"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Discipline, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
 
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label32"
-														Content="{Binding [2],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label32"
+															Content="{Binding 
+														Path= SheetNumberComponentTitles[3].AbbrevName,
+															Mode=OneTime, FallbackValue='C',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
 
-												<Label x:Name="Label31"
-														Content="{Binding FilePathInfo.FileNameObject.Category,
+													<Label x:Name="Label31"
+															Content="{Binding FilePathInfo.FileNameObject.Category,
 																							FallbackValue=123A}"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Category, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
 
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label33"
-														Content="{Binding [3],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Width="50"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
-												<Label x:Name="Label34"
-														Content="{Binding FilePathInfo.FileNameObject.Subcategory,
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label33"
+															Content="{Binding Path= SheetNumberComponentTitles[4].AbbrevName,
+															Mode=OneTime, FallbackValue='Sc',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label34"
+															Content="{Binding FilePathInfo.FileNameObject.Subcategory,
 																							FallbackValue=none}"
-														Width="30"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Subcategory, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
 
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label35"
-														Content="{Binding [4],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
-												<Label x:Name="Label36"
-														Content="{Binding FilePathInfo.FileNameObject.Modifier,
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label35"
+															Content="{Binding Path= SheetNumberComponentTitles[5].AbbrevName,
+															Mode=OneTime, FallbackValue='M',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label36"
+															Content="{Binding FilePathInfo.FileNameObject.Modifier,
 																							FallbackValue=none}"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Modifier, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
 
-										<Border Style="{StaticResource Dg.CellLabel.Border}">
-											<StackPanel Orientation="Horizontal">
-												<Label x:Name="Label37"
-														Content="{Binding [5],
-																							Mode=OneTime,
-																							Source={x:Static file:FileNameSheetPdf.SheetNumberComponentTitles}}"
-														Width="50"
-														Foreground="DimGray"
-														Style="{StaticResource Dg.CellLabel.Title}"
-														/>
-												<Label x:Name="Label38"
-														Content="{Binding FilePathInfo.FileNameObject.Submodifier,
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label37"
+															Content="{Binding Path= SheetNumberComponentTitles[6].AbbrevName,
+															Mode=OneTime, FallbackValue='Sm',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label38"
+															Content="{Binding FilePathInfo.FileNameObject.Submodifier,
 																							FallbackValue=none}"
-														Foreground="White"
-														Style="{StaticResource Dg.CellLabel.Data}"
-														/>
-											</StackPanel>
-										</Border>
-									</StackPanel>
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Submodifier, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
+
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label37a"
+															Content="{Binding Path= SheetNumberComponentTitles[7].AbbrevName,
+															Mode=OneTime, FallbackValue='Id',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label38a"
+															Content="{Binding FilePathInfo.FileNameObject.Identifier,
+																							FallbackValue=none}"
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Identifier, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
+											
+											<Border>
+												<StackPanel Orientation="Horizontal">
+													<Label x:Name="Label37b"
+															Content="{Binding Path= SheetNumberComponentTitles[8].AbbrevName,
+															Mode=OneTime, FallbackValue='Si',
+																							Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
+															Foreground="DimGray"
+															Style="{StaticResource Dg.CellLabel.Title}" />
+													<Label x:Name="Label38b"
+															Content="{Binding FilePathInfo.FileNameObject.Subidentifier,
+																							FallbackValue=none}"
+															Foreground="White"
+															Style="{StaticResource Dg.CellLabel.Data}" />
+												</StackPanel>
+												<Border.Style>
+													<Style BasedOn="{StaticResource Dg.CellLabel.Border}" TargetType="Border">
+														<Setter Property="Visibility" Value="Visible" />
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Subidentifier, Mode=OneWay}"
+																	Value="{x:Null}">
+																<Setter Property="Visibility" Value="Collapsed" />
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Border.Style>
+											</Border>
+
+
+
+
+
+										</StackPanel>
+										</StackPanel>
+
+
 								</Grid>
+
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

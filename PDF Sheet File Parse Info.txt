@@ -1,0 +1,73 @@
+
+
+
+parse rules / examples
+
+
+(3) required items / end after last
+req / cont / n-a
+req / cont / n-a
+req / end / n-a
+
+(2) required items / (1) optional / 
+end after last item - if or if not present
+req / cont / n-a
+req / cont / n-a
+opt / end / n-a
+
+
+continue if opt missing
+req / cont / n-a
+req / cont / n-a
+opt / cont / n-a
+req / end / n-a
+
+continue if opt missing but
+if missing, skip the next item
+end after last item - whether used or not
+req / cont / n-a
+req / cont / n-a
+opt / cont / skip_next
+opt / end / n-a
+
+
+continue if opt missing but
+if missing, skip the next item and continue
+end after last item
+req / cont / n-a
+req / cont / n-a
+opt / cont / skip_next
+opt / cont / n-a
+req / end
+
+
+read req'd
+start opt seq
+if exists, process opt items
+if missing, skip next opt items
+until seq end or req item
+
+for example
+X ( A / B ) Z
+            +> req
+          +--> opt / seq end + req'd for seq
+        +----> opt / req if / exists
+      +------> opt
+    +--------> opt / req if ( exists
+  +----------> opt / seq start - if exists, read seq, if not exists, skip whole seq
++------------> req
+
+X  req / cont / n-a
+(  opt / cont / opt seq start
+A  opt / cont / req if prior
+/  opt / cont / n-a
+B  opt / cont / req if prior
+)  opt / cont / seq end + seq red
+Z  req / end
+
+
+req / cont / n-a
+skip / n-a / n-a
+req / cont / n-a
+
+

@@ -88,7 +88,19 @@ namespace Tests1
 
 			string test;
 			string test2 = null;
+			// string test3 = null;
 			string compare;
+
+			test = fo.SheetID;
+			test2 = fo.SheetId();
+
+			sb.Append(("sht id's match" + "| ").PadLeft(tabStops[0]));
+
+			sb.Append(test.PadRight(tabStops[2]));
+			sb.Append(("(" + test2 + ")").PadRight(tabStops[3]));
+			sb.Append("(match?| ").Append((test.Equals(test2)).ToString());
+			sb.AppendLine(")");
+
 			int idx = 0;
 
 			test = fo.SheetComponentType.ToString();
@@ -102,13 +114,13 @@ namespace Tests1
 
 			if (fo.FileType == FileTypeSheetPdf.SHEET_PDF)
 			{
-			
+				sb.AppendLine("Comparisons based on indexed values");
 			
 				if (fo.isPhaseBldg == true)
 				{
 					sb.AppendLine("PB Info");
 			
-					for (int i = COMP_PB_IDX_MIN; i < COMP_PB_IDX_COUNT; i++)
+					for (int i = 0; i < 2; i++)
 					{
 						idx = ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, i);
 
@@ -146,7 +158,7 @@ namespace Tests1
 
 				sb.AppendLine("TYPE Info");
 
-				for (int i = COMP_SHTID_IDX_MIN; i < COMP_SHTID_IDX_COUNT; i++)
+				for (int i = 0; i < 9; i++)
 				{
 					if (!ShtIds.CompIsUsed2(fo.shtCompType, i)) continue;
 
@@ -184,7 +196,7 @@ namespace Tests1
 				{
 					sb.AppendLine("IDENT Info");
 				
-					for (int i = COMP_IDENT_IDX_MIN; i < COMP_IDENT_IDX_COUNT; i++)
+					for (int i = 0; i < 5; i++)
 					{
 						idx = ShtIds.CompValueIdx2(ShtCompTypes.IDENT, i);
 
@@ -202,8 +214,7 @@ namespace Tests1
 						if (compare.IsVoid() && test.IsVoid()) continue;
 				
 				
-						sb.Append((ShtIds.CompTitle2(ShtCompTypes.IDENT, i) + "| ").PadLeft(tabStops[0]))
-						.Append(test.PadRight(tabStops[2]));
+						sb.Append((ShtIds.CompTitle2(ShtCompTypes.IDENT, i) + "| ").PadLeft(tabStops[0])).Append(test.PadRight(tabStops[2]));
 						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
 						sb.Append("(match?| ").Append((test.Equals(compare)).ToString()).Append(")");
 						sb.AppendLine();
@@ -218,6 +229,28 @@ namespace Tests1
 						}
 					}
 				}
+
+
+				sb.AppendLine("Comparisons based on array values");
+
+				if (!td[1, 0].IsVoid()) {sb.Append(formatValue("Ph/Bldg| "      , fo.PhaseBldg    , td[1, 0], tabStops));}
+				if (!td[1, 0].IsVoid()) {sb.Append(formatValue("Ph/Bldg sep| "  , fo.PhaseBldgSep , td[1, 1], tabStops));}
+				if (!td[2, 0].IsVoid()) {sb.Append(formatValue("Discipline| "   , fo.Discipline   , td[2, 0], tabStops));}
+				if (!td[2, 1].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator0   , td[2, 1], tabStops));}
+				if (!td[2, 2].IsVoid()) {sb.Append(formatValue("Category| "     , fo.Category     , td[2, 2], tabStops));}
+				if (!td[2, 3].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator1   , td[2, 3], tabStops));}
+				if (!td[2, 4].IsVoid()) {sb.Append(formatValue("SubCategory| "  , fo.Subcategory  , td[2, 4], tabStops));}
+				if (!td[2, 5].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator2   , td[2, 5], tabStops));}
+				if (!td[2, 6].IsVoid()) {sb.Append(formatValue("Modifier| "     , fo.Modifier     , td[2, 6], tabStops));}
+				if (!td[2, 7].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator3   , td[2, 7], tabStops));}
+				if (!td[2, 8].IsVoid()) {sb.Append(formatValue("SubModifier| "  , fo.Submodifier  , td[2, 8], tabStops));}
+				if (!td[3, 0].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator4   , td[3, 0], tabStops));}
+				if (!td[3, 1].IsVoid()) {sb.Append(formatValue("Identifier| "   , fo.Identifier   , td[3, 1], tabStops));}
+				if (!td[3, 2].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator5   , td[3, 2], tabStops));}
+				if (!td[3, 3].IsVoid()) {sb.Append(formatValue("SubIdentifier| ", fo.Subidentifier, td[3, 3], tabStops));}
+				if (!td[3, 4].IsVoid()) {sb.Append(formatValue("sep| "          , fo.Seperator6   , td[3, 4], tabStops));}
+
+
 			}
 			else
 			{
@@ -226,6 +259,21 @@ namespace Tests1
 
 			Console.WriteLine(sb.ToString());
 		}
+
+		private string formatValue(string title, string test, string compare, int[] tabStops)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			test = test == null ? "{null}" : test;
+
+			sb.Append(title.PadLeft(tabStops[0])).Append(test.PadRight(tabStops[2]));
+			sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
+			sb.Append("(match?| ").Append((test.Equals(compare)).ToString()).Append(")");
+			sb.AppendLine();
+
+			return sb.ToString();
+		}
+
 
 
 		private string[] TestDataNames()
@@ -344,7 +392,7 @@ namespace Tests1
 				new [,]
 				{
 					{
-						// general info
+						// general info  alt code = Alt+179
 						@"C:\A A2.1-4.5(right│left) Sheet Name.pdf", "TYPE10", "Sheet Name", "", "", "", "", "", ""
 					},
 					{

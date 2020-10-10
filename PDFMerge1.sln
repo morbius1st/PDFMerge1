@@ -42,6 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{C29B7CA2
 	ProjectSection(SolutionItems) = preProject
 		Categorization System.txt = Categorization System.txt
 		ClassificationFilleDataStorageSystem.txt = ClassificationFilleDataStorageSystem.txt
+		PDF Sheet File Parse Info.txt = PDF Sheet File Parse Info.txt
 		Project Descriptions.txt = Project Descriptions.txt
 	EndProjectSection
 EndProject

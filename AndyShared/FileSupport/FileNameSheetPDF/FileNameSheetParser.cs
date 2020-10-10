@@ -16,8 +16,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	{
 	#region private fields
 
-		// private FileNameSheetIdentifiers ids = ShtIds;
-
 		private static readonly Lazy<FileNameSheetParser> instance =
 			new Lazy<FileNameSheetParser>(() => new FileNameSheetParser());
 
@@ -51,19 +49,19 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		/// <summary>
 		/// Parse out the Building / Phase, separator, Sheet ID, sheet name
 		/// </summary>
-		/// <param name="shtIdComps"></param>
+		/// <param name="sheetPdf"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public bool Parse2(FileNameSheetPdf shtIdComps, string filename)
+		public bool Parse2(FileNameSheetPdf sheetPdf, string filename)
 		{
-			shtIdComps.isPhaseBldg = null;
-			shtIdComps.shtCompType = ShtCompTypes.UNASSIGNED;
+			sheetPdf.isPhaseBldg = null;
+			sheetPdf.shtCompType = ShtCompTypes.UNASSIGNED;
 
 			Match match = patternShtNumAndName.Match(filename);
 
 			if (!match.Success)
 			{
-				shtIdComps.fileType = FileTypeSheetPdf.INVALID;
+				sheetPdf.fileType = FileTypeSheetPdf.INVALID;
 				return false;
 			}
 
@@ -76,22 +74,22 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 			if (!test.IsVoid())
 			{
-				shtIdComps.SheetComps[PHBLDG_COMP_IDX] = test;
-				shtIdComps.SheetComps[PBSEP_COMP_IDX] =
+				sheetPdf.SheetComps[PHBLDG_VALUE_IDX] = test;
+				sheetPdf.SheetComps[PBSEP_VALUE_IDX] =
 					g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, PBSEP_COMP_IDX)].Value;
-				shtIdComps.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
+				sheetPdf.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
 
-				shtIdComps.isPhaseBldg = true;
+				sheetPdf.isPhaseBldg = true;
 			}
 			else
 			{
-				shtIdComps.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
-				shtIdComps.isPhaseBldg = false;
+				sheetPdf.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
+				sheetPdf.isPhaseBldg = false;
 			}
 
-			shtIdComps.originalSheetTitle = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTNAME_COMP_IDX)].Value;
+			sheetPdf.originalSheetTitle = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTNAME_COMP_IDX)].Value;
 
-			shtIdComps.sheetTitle = shtIdComps.originalSheetTitle;
+			sheetPdf.sheetTitle = sheetPdf.originalSheetTitle;
 
 			return true;
 		}
@@ -144,11 +142,10 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 							status = false;
 						} else
 						{
-							if (!shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP4_COMP_IDX)].IsVoid())
+							if (!shtIdComps.SheetComps[SEP4_VALUE_IDX].IsVoid())
 							{
 								shtIdComps.hasIdentifier = true;
 							}
-
 						}
 					}
 				}
@@ -243,79 +240,21 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			return true;
 		}
 
-		// internal bool ParseIdent(GroupCollection g, FileNameSheetPdf shtIdComps)
-		// {
-		// 	bool status = false;
-		// 	shtIdComps.hasIdentifier = false;
-		//
-		// 	string test = g[ShtIds.CompGrpName2(ShtCompTypes.IDENT, SEP4_COMP_IDX)].Value;
-		//
-		// 	if (!test.IsVoid())
-		// 	{
-		// 		shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP4_COMP_IDX)] = test;
-		//
-		// 		test = g[ShtIds.CompGrpName2(ShtCompTypes.IDENT, IDENTIFIER_COMP_IDX)].Value;
-		//
-		// 		if (!test.IsVoid())
-		// 		{
-		// 			shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, IDENTIFIER_COMP_IDX)] = test;
-		//
-		// 			test = g[ShtIds.CompGrpName2(ShtCompTypes.IDENT, SEP5_COMP_IDX)].Value;
-		//
-		// 			if (!test.IsVoid())
-		// 			{
-		// 				shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP5_COMP_IDX)] = test;
-		//
-		// 				test = g[ShtIds.CompGrpName2(ShtCompTypes.IDENT, SUBIDENTIFIER_COMP_IDX)].Value;
-		//
-		// 				if (!test.IsVoid())
-		// 				{
-		// 					shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SUBIDENTIFIER_COMP_IDX)] =
-		// 						test;
-		//
-		// 					status = true;
-		// 					shtIdComps.hasIdentifier = true;
-		// 				}
-		// 			}
-		//
-		// 			test = g[ShtIds.CompGrpName2(ShtCompTypes.IDENT, SEP6_COMP_IDX)].Value;
-		//
-		// 			if (!test.IsVoid())
-		// 			{
-		// 				shtIdComps.SheetComps[ShtIds.CompValueIdx2(ShtCompTypes.IDENT, SEP6_COMP_IDX)] = test;
-		//
-		// 				shtIdComps.hasIdentifier = true;
-		// 			}
-		// 			else
-		// 			{
-		// 				status = false;
-		// 				shtIdComps.hasIdentifier = false;
-		// 			}
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		shtIdComps.hasIdentifier = false;
-		// 	}
-		//
-		// 	return true;
-		// }
-
 		internal ShtCompTypes GetShtCompTypeFromGrpCollection(GroupCollection g)
 		{
-			if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE10, DISCIPLINE_COMP_IDX)].Value.IsVoid())
+			if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE10, 0)].Value.IsVoid())
 			{
 				return ShtCompTypes.TYPE10;
 			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE20, DISCIPLINE_COMP_IDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE20, 0)].Value.IsVoid())
 			{
 				return ShtCompTypes.TYPE20;
 			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE30, DISCIPLINE_COMP_IDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE30, 0)].Value.IsVoid())
 			{
 				return ShtCompTypes.TYPE30;
 			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE40, DISCIPLINE_COMP_IDX)].Value.IsVoid())
+			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE40, 0)].Value.IsVoid())
 			{
 				return ShtCompTypes.TYPE40;
 			}
