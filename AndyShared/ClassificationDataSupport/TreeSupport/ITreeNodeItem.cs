@@ -12,6 +12,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		int Depth { get; set; }
 
+		int Count { get; }
+
 		void UpdateProperties();
 
 		new object Clone();

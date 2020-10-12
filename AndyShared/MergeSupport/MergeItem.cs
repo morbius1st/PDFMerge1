@@ -4,7 +4,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AndyShared.ClassificationDataSupport.TreeSupport;
-
+using AndyShared.FileSupport.FileNameSheetPDF;
 using UtilityLibrary;
 
 #endregion
@@ -19,9 +19,9 @@ namespace AndyShared.MergeSupport
 	{
 		public int                             PageNumber { get; set; }
 		public int                             NumberOfPages { get; set; }
-		public FilePath<FileNameAsSheetFile>   FilePath { get; set; }
+		public FilePath<FileNameSheetPdf>   FilePath { get; set; }
 
-		public MergeItem(int numberOfPages, FilePath<FileNameAsSheetFile> filePath)
+		public MergeItem(int numberOfPages, FilePath<FileNameSheetPdf> filePath)
 		{
 			NumberOfPages = numberOfPages;
 			FilePath = filePath;

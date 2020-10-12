@@ -734,7 +734,7 @@ namespace ClassifierEditor.Windows
 
 			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			int extChildCount = contextSelected.ExtendedChildCount;
+			int extChildCount = contextSelected.ExtChildCount;
 
 			if (extChildCount > 0)
 			{

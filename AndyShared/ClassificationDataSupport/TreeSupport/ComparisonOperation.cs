@@ -50,32 +50,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		VALUE_COUNT
 	}
 
-
-	//
-	// public enum ComparisonOp
-	// {
-	// 	LOGICAL_OR            = 0,
-	// 	LOGICAL_AND           ,
-	// 	LOGICAL_COUNT         ,
-	// 	NO_OP                 = 0,
-	// 	LESS_THAN_OR_EQUAL    ,
-	// 	LESS_THAN             ,
-	// 	GREATER_THAN_OR_EQUAL ,
-	// 	GREATER_THAN          ,
-	// 	EQUALTO               ,
-	// 	DOES_NOT_EQUAL        ,
-	// 	CONTAINS              ,
-	// 	STARTS_WITH           ,
-	// 	DOES_NOT_START_WITH   ,
-	// 	ENDS_WITH             ,
-	// 	DOES_NOT_END_WITH     ,
-	// 	MATCHES               ,
-	// 	DOES_NOT_MATCH        ,
-	// 	DOES_NOT_CONTAIN      ,
-	// 	VALUE_COUNT
-	// }
-
-
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ValueCompOp))]
 	public abstract class ComparisonOperation : INotifyPropertyChanged, ICloneable
@@ -380,9 +354,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public int OpCodeValue =>  Convert.ToInt32(OpCode);
 	}
 
-
-
-
 	[DataContract(Namespace = "")]
 	public class ValueCompareOp : ACompareOp<ValueComparisonOp>
 	{
@@ -394,9 +365,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override ValueComparisonOp OpCode { get; set; }
 	}
-
-
-
 
 	[DataContract(Namespace = "")]
 	public class LogicalCompareOp : ACompareOp<LogicalComparisonOp>
@@ -410,8 +378,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public override LogicalComparisonOp OpCode { get; set;  }
 	}
 
-
-
 	/// <summary>
 	/// Static methods using / supporting the compare ops
 	/// </summary>
@@ -423,7 +389,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			defineValueCompareOps();
 		}
 
-		
 	#region public properties
 
 		public static List<LogicalCompareOp> LogicalCompareOps { get; private set; }
@@ -441,7 +406,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					result = compare(value, compareOp);
 				}
-				else if (compareOp.LogicalCompareOp.OpCode.Equals(LogicalComparisonOp.LOGICAL_AND))
+				else if (compareOp.LogicalCompareOp.OpCode.Equals(LOGICAL_AND))
 				{
 					result &= compare(value, compareOp);
 				}

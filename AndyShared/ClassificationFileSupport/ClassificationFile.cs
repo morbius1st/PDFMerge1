@@ -41,8 +41,6 @@ namespace AndyShared.ClassificationFileSupport
 		private bool isDefaultClassfFile = true;
 		private bool isUserClassfFile = false;
 
-		// private Orator.ConfRoom.Announcer OnTnInitAnnouncer;
-
 	#endregion
 
 	#region ctor
@@ -89,7 +87,6 @@ namespace AndyShared.ClassificationFileSupport
 	#endregion
 
 	#region public properties
-
 
 		// // classification file information
 		public BaseOfTree TreeBase => dataFile.Data.BaseOfTree;

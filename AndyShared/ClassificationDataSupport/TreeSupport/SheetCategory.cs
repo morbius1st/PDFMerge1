@@ -125,6 +125,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
+			mergeItems = new List<MergeItem>();
+
 			// IsInitialized = true;
 		}
 
@@ -193,6 +195,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				mergeItems = value;
 			}
 		}
+
+		[IgnoreDataMember]
+		public int MergeItemCount => mergeItems?.Count ?? 0;
+
+		[IgnoreDataMember]
+		public int Count => MergeItemCount;
 
 		[IgnoreDataMember]
 		public int Depth
@@ -298,6 +306,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => isFixed || isLocked; 
 			set { }
 		}
+
+		[IgnoreDataMember]
+		public bool HasMergeItems => MergeItemCount > 0;
 
 	#endregion
 

@@ -1,6 +1,7 @@
 ﻿#region using directives
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -65,6 +66,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// properties
 		private SheetCategory item;
+
+		/// <summary>
+		/// the list of child TreeNodes
+		/// </summary>
 		private ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
 		private ListCollectionView childrenView;
 
@@ -84,9 +89,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private int checkedChildCount;
 
 		private bool rememberExpCollapseState;
-#pragma warning disable CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
-		private bool isSaving;
-#pragma warning restore CS0414 // The field 'TreeNode.isSaving' is assigned but its value is never used
+
+		// private bool isSaving;
 
 		// fields
 
@@ -155,7 +159,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			IsInitialized = true;
 		}
 		
-
 		[OnDeserializing]
 		private void OnDeserializing(StreamingContext c)
 		{
@@ -332,8 +335,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public int ChildCount => Children?.Count ?? 0;
 
-		[IgnoreDataMember]
-		public int ExtendedChildCount => ExtendedChildrenCount(this);
+		// [IgnoreDataMember]
+		// public int ExtendedChildCount => ExtendedChildrenCount(this);
+
+		public int ExtChildCount => ExtChildrenCount();
 
 		[IgnoreDataMember]
 		public int CheckedChildCount
@@ -350,6 +355,30 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
+	#region item properties
+
+		[IgnoreDataMember]
+		public int ItemCount => item.Count;
+
+		[IgnoreDataMember]
+		public int ExtItemCount
+		{
+			get
+			{
+				int count = item.Count;
+
+				foreach (TreeNode node in children)
+				{
+					count += node.ExtItemCount;
+				}
+
+				return count;
+			}
+		}
+
+
+
+	#endregion
 
 	#region status properties
 
@@ -624,18 +653,32 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region private methods
 
-		private int ExtendedChildrenCount(TreeNode node)
+		// private int ExtendedChildrenCount(TreeNode node)
+		// {
+		// 	if (node.children.Count == 0) return 0;
+		//
+		// 	int count = node.children.Count;
+		//
+		// 	foreach (TreeNode child in node.children)
+		// 	{
+		// 		if (child.children.Count > 0)
+		// 		{
+		// 			count += ExtendedChildrenCount(child);
+		// 		}
+		// 	}
+		//
+		// 	return count;
+		// }
+
+		private int ExtChildrenCount()
 		{
-			if (node.children.Count == 0) return 0;
+			if (children.Count == 0) return 0;
 
-			int count = node.children.Count;
+			int count = children.Count;
 
-			foreach (TreeNode child in node.children)
+			foreach (TreeNode child in children)
 			{
-				if (child.children.Count > 0)
-				{
-					count += ExtendedChildrenCount(child);
-				}
+				count += child.ExtChildCount;
 			}
 
 			return count;
@@ -765,7 +808,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnSavingAnnounce(object sender, object value)
 		{
-			isSaving = true;
+			// isSaving = true;
 		}
 
 		private void OnAnnounceRemExCollapseState(object sender, object value)
@@ -786,7 +829,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
 				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 			isModified = false;
-			isSaving = false;
+			// isSaving = false;
 		}
 
 		private void ChildrenOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
