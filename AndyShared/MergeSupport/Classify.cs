@@ -98,6 +98,7 @@ namespace AndyShared.MergeSupport
 
 	#region public methods
 
+
 		public bool Configure(BaseOfTree treeBase, SheetFileList fileList)
 		{
 			isConfigured = false;
@@ -135,12 +136,20 @@ namespace AndyShared.MergeSupport
 
 			classifyFiles();
 
+			UpdateProperties();
+
 		}
 
 	#endregion
 
 	#region private methods
 
+		private void UpdateProperties()
+		{
+			
+			OnPropertyChange("NonApplicableFiles");
+			OnPropertyChange("NonApplicableFilesTotalCount");
+		}
 
 		private void classifyFiles()
 		{
@@ -150,7 +159,6 @@ namespace AndyShared.MergeSupport
 
 			treeBase.CountExtItems();
 		}
-
 
 		private void preProcessMergeItems()
 		{
@@ -162,7 +170,6 @@ namespace AndyShared.MergeSupport
 			}
 
 		}
-
 
 		private void processFiles()
 		{

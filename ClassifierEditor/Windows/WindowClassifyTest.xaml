@@ -11,16 +11,16 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Title="Classify Confirmation"
 		Width="500"
-		Height="650"
+		Height="750"
+		DataContext="{Binding ElementName=WinClassfTest}"
+		mc:Ignorable="d"
 		FontFamily="Tahoma"
 		FontSize="12"
+		Background="{DynamicResource Window.Background}"
 		Closing="WinClassfTest_Closing"
-		DataContext="{Binding ElementName=WinClassfTest}"
 		Initialized="WinClassfTest_Initialized"
 		Loaded="WinClassfTest_Loaded"
 		ShowInTaskbar="False"
-		mc:Ignorable="d"
-		Background="{DynamicResource Window.Background}"
 		>
 	<Window.Resources>
 
@@ -37,12 +37,13 @@
 			<SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
 			<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
 
-			<sys:Double x:Key="BkMrkItemHeight">24</sys:Double>
-			<sys:Double x:Key="BkMrkIconWidthDbl">24</sys:Double>
-			<sys:Double x:Key="BkMrkItemRowHeightDbl">36</sys:Double>
+			<sys:Double x:Key="BkMrkItemHeight">20</sys:Double>
+			<sys:Double x:Key="BkMrkIconWidthDbl">20</sys:Double>
+			<sys:Double x:Key="BkMrkItemRowHeightDbl">30</sys:Double>
+			<sys:Double x:Key="ListView.Item.Arrow.Size">8</sys:Double>
 
-			<GridLength x:Key="BkMrkItemRowHeight">36</GridLength>
-			<GridLength x:Key="BkMrkIconWidth">24</GridLength>
+			<GridLength x:Key="BkMrkItemRowHeight">30</GridLength>
+			<GridLength x:Key="BkMrkIconWidth">20</GridLength>
 
 			<Thickness x:Key="Listview.ItemList.Margin"
 					Bottom="5"
@@ -75,7 +76,7 @@
 					>
 				<Setter Property="Margin" Value="5,0,0,2" />
 				<Setter Property="Padding" Value="5,0,0,0" />
-				<Setter Property="FontSize" Value="16" />
+				<Setter Property="FontSize" Value="13" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 			</Style>
 
@@ -225,15 +226,15 @@
 							Margin="0,0,0,0"
 							Width="{StaticResource BarSizeOutline}"
 							MinWidth="{StaticResource BarSize}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
 							Cursor="Arrow"
 							Maximum="{TemplateBinding ScrollableHeight}"
 							Minimum="0"
 							ViewportSize="{TemplateBinding ViewportHeight}"
 							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-							Value="{Binding VerticalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							Background="{StaticResource ScrollBarBkg}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
 
@@ -257,6 +258,10 @@
 							Grid.ColumnSpan="2"
 							Height="{StaticResource BarSizeOutline}"
 							MinHeight="{StaticResource BarSize}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
 							AutomationProperties.AutomationId="HorizontalScrollBar"
 							Cursor="Arrow"
 							Maximum="{TemplateBinding ScrollableWidth}"
@@ -264,10 +269,6 @@
 							Orientation="Horizontal"
 							ViewportSize="{TemplateBinding ViewportWidth}"
 							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-							Value="{Binding HorizontalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							Background="{StaticResource ScrollBarBkg}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
 
@@ -306,10 +307,10 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TextBox}">
 							<Border x:Name="border"
-									SnapsToDevicePixels="True"
 									Background="{TemplateBinding Background}"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="True"
 									>
 								<ScrollViewer x:Name="PART_ContentHost"
 										Focusable="false"
@@ -343,7 +344,7 @@
 				</Style.Triggers>
 			</Style>
 
-			<Style x:Key="TreeViewStyle1"
+			<Style x:Key="Tv1_TvStyle"
 					TargetType="{x:Type TreeView}"
 					>
 
@@ -361,33 +362,32 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TreeView}">
 							<Border x:Name="Bd"
-									SnapsToDevicePixels="true"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="true"
 									>
 
 								<ScrollViewer x:Name="_tv_scrollviewer_"
 										Padding="{TemplateBinding Padding}"
+										Background="{TemplateBinding Background}"
 										CanContentScroll="false"
 										Focusable="false"
 										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
 										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-										Background="{TemplateBinding Background}"
 										Template="{DynamicResource ScrollViewerControlTemplate1}"
 										>
 
 									<DockPanel HorizontalAlignment="Stretch">
 
-										<StackPanel
-												x:Name="Sp02"
+										<StackPanel x:Name="Sp02"
 												HorizontalAlignment="Stretch"
 												DockPanel.Dock="Top"
 												Orientation="Vertical"
 												>
-											<DockPanel
-													x:Name="Dp02"
-													HorizontalAlignment="Stretch">
+											<DockPanel x:Name="Dp02"
+													HorizontalAlignment="Stretch"
+													>
 
 												<Border Style="{StaticResource Border.BookMark.Icon}">
 													<Path x:Name="Plus"
@@ -398,32 +398,29 @@
 												<Border Style="{StaticResource Border.BookMark.Title}">
 
 													<DockPanel>
-														<Label
-																x:Name="Lbl01"
+														<Label x:Name="Lbl01"
 																Content="{Binding Item.MergeItems.Count}"
 																ContentStringFormat="{}({0})"
 																Style="{StaticResource Label.BookMark.Title}"
 																/>
-														<!-- -->
-														<!-- <Label -->
-														<!-- 		Content="{Binding ExtItemCountLast}" -->
-														<!-- 		Margin="5,0,0,5" -->
-														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-														<!-- 		/> -->
-														<!-- -->
-														<!-- -->
-														<!-- <Label -->
-														<!-- 		Content="{Binding ExtItemCountCurrent}" -->
-														<!-- 		Margin="5,0,0,5" -->
-														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-														<!-- 		/> -->
+														<!--    -->
+														<!--  <Label  -->
+														<!--  Content="{Binding ExtItemCountLast}"  -->
+														<!--  Margin="5,0,0,5"  -->
+														<!--  Style="{StaticResource Label.BookMark.Title}"  -->
+														<!--  />  -->
+														<!--    -->
+														<!--    -->
+														<!--  <Label  -->
+														<!--  Content="{Binding ExtItemCountCurrent}"  -->
+														<!--  Margin="5,0,0,5"  -->
+														<!--  Style="{StaticResource Label.BookMark.Title}"  -->
+														<!--  />  -->
 
-														<Label
-																x:Name="Lbl02"
+														<Label x:Name="Lbl02"
 																Content="{Binding ElementName=WinClassfTest,
 																									Path=TreeBaseTitle,
 																									FallbackValue='Title'}"
-
 																Padding="0"
 																DataContext="{Binding}"
 																DockPanel.Dock="Left"
@@ -436,27 +433,26 @@
 
 											</DockPanel>
 
-											<ListView
-													x:Name="Lv02"
+											<ListView x:Name="Lv02"
 													Margin="{StaticResource Listview.ItemList.Margin}"
 													Width="Auto"
 													Padding="0"
 													HorizontalAlignment="Stretch"
+													Background="Transparent"
+													BorderThickness="0"
 													ScrollViewer.CanContentScroll="False"
 													ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 													ScrollViewer.VerticalScrollBarVisibility="Disabled"
-													Background="Transparent"
-													BorderThickness="0"
 													ItemsSource="{Binding Item.MergeItems}"
 													>
 
 												<ListView.ItemTemplate>
-													<DataTemplate 
-															x:Name="Dt02"
-															DataType="mergeSupport:MergeItem">
-														<Grid 
-																x:Name="Gd03"
-																Margin="1,0,0,0">
+													<DataTemplate x:Name="Dt02"
+															DataType="mergeSupport:MergeItem"
+															>
+														<Grid x:Name="Gd03"
+																Margin="1,0,0,0"
+																>
 
 															<Grid.ColumnDefinitions>
 																<ColumnDefinition Width="Auto" />
@@ -470,8 +466,8 @@
 
 															<Path
 																	Margin="0,0,10,0"
-																	Width="10"
-																	Height="10"
+																	Width="{StaticResource ListView.Item.Arrow.Size}"
+																	Height="{StaticResource ListView.Item.Arrow.Size}"
 																	Data="M 0,0 4,8 8,0 z"
 																	Fill="red"
 																	RenderTransformOrigin="0.5,0.5"
@@ -483,8 +479,7 @@
 																</Path.RenderTransform>
 															</Path>
 
-															<Label
-																	x:Name="Lbl03"
+															<Label x:Name="Lbl03"
 																	Content="{Binding Path=FilePath.FileNameObject.SheetNumber}"
 																	Grid.Column="1"
 																	Grid.Row="0"
@@ -492,8 +487,7 @@
 																	Padding="0,2,0,0"
 																	Foreground="White"
 																	/>
-															<Label
-																	x:Name="Lbl04"
+															<Label x:Name="Lbl04"
 																	Content="{Binding Path=FilePath.FileNameObject.SheetTitle}"
 																	Grid.Column="2"
 																	Grid.Row="0"
@@ -610,10 +604,10 @@
 
 
 			<!-- <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
-			<Style x:Key="TreeViewItemStyle1"
+			<Style x:Key="Tv1_ItemContainerStyle"
 					TargetType="{x:Type TreeViewItem}"
-			>
-				<Setter Property="Visibility" Value="Visible"/>
+					>
+				<Setter Property="Visibility" Value="Visible" />
 				<Setter Property="Width" Value="Auto" />
 				<Setter Property="IsExpanded" Value="{Binding ElementName=WinClassfTest, Path=IsExpandedEx}" />
 				<Setter Property="Background" Value="Transparent" />
@@ -624,13 +618,10 @@
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 				<Setter Property="Template">
 					<Setter.Value>
-						<ControlTemplate 
-								x:Name="Ct01"
-								
-								TargetType="{x:Type TreeViewItem}">
-							<Grid
-									x:Name="GdTvi01"
-							>
+						<ControlTemplate x:Name="Ct01"
+								TargetType="{x:Type TreeViewItem}"
+								>
+							<Grid x:Name="GdTvi01">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="{StaticResource BkMrkIconWidth}" />
 									<ColumnDefinition Width="*" />
@@ -644,9 +635,9 @@
 										Grid.Row="0"
 										Height="{StaticResource BkMrkItemRowHeightDbl}"
 										VerticalAlignment="Top"
-										ClickMode="Press"
 										IsChecked="{Binding IsExpanded,
 																				RelativeSource={RelativeSource TemplatedParent}}"
+										ClickMode="Press"
 										Style="{StaticResource ExpandCollapseToggleStyle}"
 										/>
 								<Border x:Name="Bd"
@@ -654,10 +645,10 @@
 										Grid.Row="0"
 										Width="Auto"
 										Padding="{TemplateBinding Padding}"
-										SnapsToDevicePixels="true"
 										Background="{TemplateBinding Background}"
 										BorderThickness="{TemplateBinding BorderThickness}"
 										BorderBrush="{TemplateBinding BorderBrush}"
+										SnapsToDevicePixels="true"
 										>
 									<ContentPresenter x:Name="PART_Header"
 											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -671,12 +662,12 @@
 										/>
 							</Grid>
 							<ControlTemplate.Triggers>
-								
+
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-								
-										<Condition Binding="{Binding ExtItemCountLast}" Value="0" />
-										<Condition Binding="{Binding ElementName=WinClassfTest, Path=TreeViewTitleIndex}" Value="1" />
+
+										<Condition Value="0" Binding="{Binding ExtItemCountLast}" />
+										<Condition Value="1" Binding="{Binding ElementName=WinClassfTest, Path=TreeViewTitleIndex}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="Visibility" Value="Collapsed" />
 								</MultiDataTrigger>
@@ -717,6 +708,60 @@
 					</Trigger>
 				</Style.Triggers>
 			</Style>
+			<SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border2" Color="#FFD9D9D9" />
+
+
+			<Style x:Key="Lv1_LvStyle"
+					TargetType="{x:Type ListView}"
+					>
+				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListView}">
+							<Border x:Name="Bd"
+									Padding="1"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="true"
+									>
+								<ScrollViewer
+										Padding="{TemplateBinding Padding}"
+										Focusable="false"
+										Template="{DynamicResource ScrollViewerControlTemplate1}"
+										>
+									<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="false">
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border2}" />
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsGrouping" Value="true" />
+										<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 
 
 		</ResourceDictionary>
@@ -726,11 +771,18 @@
 	<Grid>
 
 		<Grid.RowDefinitions>
+			<!--  0  -->
 			<RowDefinition Height="Auto" />
+			<!--  1  -->
 			<RowDefinition Height="Auto" />
+			<!--  2  -->
 			<RowDefinition Height="Auto" />
+			<!--  3  -->
 			<RowDefinition Height="*" />
-			<RowDefinition Height="*" />
+			<!--  4  non-applicable files  -->
+			<RowDefinition Height="Auto" />
+			<!--  5  -->
+			<RowDefinition Height="Auto" />
 
 			<RowDefinition Height="auto" />
 		</Grid.RowDefinitions>
@@ -760,10 +812,10 @@
 
 					<TextBox x:Name="tbx32"
 							HorizontalAlignment="Stretch"
-							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							DataContext="{Binding ElementName=WinClassfTest,
 																		Path=ClassificationFile.FileName,
 																		FallbackValue='file'}"
+							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -873,9 +925,9 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
 						DockPanel.Dock="right"
-						Click="BtnTest_OnClick"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnTest_OnClick"
 						/>
 
 			</DockPanel>
@@ -886,31 +938,31 @@
 		<Button x:Name="BtnExpand"
 				Content="Expand"
 				Grid.Column="1"
-				Grid.Row="5"
+				Grid.Row="6"
 				Margin="5,5,100,5"
 				Width="{StaticResource Normal.Button.Width}"
 				Height="{StaticResource Normal.Button.Height}"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Bottom"
 				DockPanel.Dock="right"
-				Click="BtnExpand_OnClick"
 				Style="{StaticResource Button.Normal.Style}"
 				Template="{StaticResource Button.Normal.ControlTemplate}"
+				Click="BtnExpand_OnClick"
 				/>
 
 		<Button x:Name="BtnDone"
 				Content="Done"
 				Grid.Column="1"
-				Grid.Row="5"
+				Grid.Row="6"
 				Margin="5"
 				Width="{StaticResource Normal.Button.Width}"
 				Height="{StaticResource Normal.Button.Height}"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Bottom"
 				DockPanel.Dock="right"
-				Click="BtnDone_OnClick"
 				Style="{StaticResource Button.Normal.Style}"
 				Template="{StaticResource Button.Normal.ControlTemplate}"
+				Click="BtnDone_OnClick"
 				/>
 
 		<Label x:Name="Label21"
@@ -922,7 +974,7 @@
 				Margin="5,0,5,0"
 				Padding="2,1,2,2"
 				VerticalAlignment="Bottom"
-				FontSize="13"
+				FontSize="14"
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
 				/>
@@ -936,34 +988,33 @@
 				Margin="5,5,5,0"
 				Padding="2,1,2,2"
 				VerticalAlignment="Bottom"
-				FontSize="13"
+				FontSize="12"
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
 				/>
 
-		<TreeView
+		<TreeView x:Name="Tv1"
 				Grid.Column="0"
 				Grid.Row="3"
 				Grid.ColumnSpan="2"
-				Grid.RowSpan="2"
 				Margin="5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
-				d:DataContext="{Binding Source={x:Static sample:SampleData.TreeBase}}"
 				DataContext="{Binding Path=BaseOfTree}"
+				d:DataContext="{Binding Source={x:Static sample:SampleData.TreeBase}}"
+				Background="Transparent"
+				Foreground="White"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				Visibility="Visible"
-				Background="Transparent"
-				Foreground="White"
-				ItemContainerStyle="{DynamicResource TreeViewItemStyle1}"
-				ItemTemplate="{DynamicResource DataTemplate1}"
+				ItemContainerStyle="{DynamicResource Tv1_ItemContainerStyle}"
+				ItemTemplate="{DynamicResource Tv1_ItemTemplate}"
 				ItemsSource="{Binding ChildrenView}"
-				Style="{DynamicResource TreeViewStyle1}"
+				Style="{DynamicResource Tv1_TvStyle}"
 				>
 
 			<TreeView.Resources>
-				<HierarchicalDataTemplate x:Key="DataTemplate1"
+				<HierarchicalDataTemplate x:Key="Tv1_ItemTemplate"
 						DataType="node:TreeNode"
 						ItemsSource="{Binding ChildrenView}"
 						>
@@ -1027,32 +1078,30 @@
 
 						</DockPanel>
 
-						<DockPanel
-								x:Name="Dp01"
+						<DockPanel x:Name="Dp01"
 								Grid.Column="0"
 								Grid.Row="1"
 								Grid.ColumnSpan="2"
 								>
 
-							<ListView
-									x:Name="Lv1"
+							<ListView x:Name="Lv1"
 									Margin="{StaticResource Listview.ItemList.Margin}"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Bottom"
 									HorizontalContentAlignment="Stretch"
 									VerticalContentAlignment="Bottom"
+									Background="Transparent"
+									BorderThickness="0"
 									ScrollViewer.CanContentScroll="False"
 									ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 									ScrollViewer.VerticalScrollBarVisibility="Disabled"
-									Background="Transparent"
-									BorderThickness="0"
 									ItemsSource="{Binding Item.MergeItems}"
 									>
 								<ListView.ItemTemplate>
 									<DataTemplate DataType="mergeSupport:MergeItem">
-										<Grid 
-												x:Name="Gd01"
-												Margin="1,0,0,0">
+										<Grid x:Name="Gd01"
+												Margin="1,0,0,0"
+												>
 
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="Auto" />
@@ -1066,8 +1115,8 @@
 
 											<Path
 													Margin="0,0,10,0"
-													Width="10"
-													Height="10"
+													Width="{StaticResource ListView.Item.Arrow.Size}"
+													Height="{StaticResource ListView.Item.Arrow.Size}"
 													Data="M 0,0 4,8 8,0 z"
 													Fill="red"
 													RenderTransformOrigin="0.5,0.5"
@@ -1099,48 +1148,182 @@
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
-
 							</ListView>
-
 						</DockPanel>
-
-						<!-- <Grid.Style> -->
-						<!-- 	<Style TargetType="Grid"> -->
-						<!-- 		<Setter Property="Visibility" Value="Visible" /> -->
-						<!-- 		<Style.Triggers> -->
-						<!-- 			<MultiDataTrigger> -->
-						<!-- 				<MultiDataTrigger.Conditions> -->
-						<!-- 					<Condition Binding="{Binding ExtItemCountLast}" Value="0" /> -->
-						<!-- 					<Condition Binding="{Binding ElementName=WinClassfTest, Path=TreeViewTitleIndex}" Value="1" /> -->
-						<!-- 				</MultiDataTrigger.Conditions> -->
-						<!-- 				<Setter Property="Visibility" Value="Collapsed" /> -->
-						<!-- 			</MultiDataTrigger> -->
-						<!-- 		</Style.Triggers> -->
-						<!-- -->
-						<!-- -->
-						<!-- 	</Style> -->
-						<!-- </Grid.Style> -->
-
-
 					</Grid>
-					<!-- </Grid> -->
 
 				</HierarchicalDataTemplate>
 			</TreeView.Resources>
 
 		</TreeView>
 
-		<TextBox
+
+		<Grid
 				Grid.Column="0"
 				Grid.Row="4"
 				Grid.ColumnSpan="2"
-				Visibility="Collapsed"
+				Margin="5,0,5,0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+
+			</Grid.RowDefinitions>
+
+			<Label x:Name="Label24"
+					Content="{Binding NonApplicableFilesDescription,
+														FallbackValue='count'}"
+					Grid.Column="0"
+					Grid.Row="0"
+					Margin="0,0,0,5"
+					Padding="2,1,2,2"
+					VerticalAlignment="Bottom"
+					FontSize="14"
+					Background="{StaticResource Win.Title.Background}"
+					Foreground="White"
+					DockPanel.Dock="Top"
+					/>
+
+
+			<ListView x:Name="Lv1"
+					Grid.Column="0"
+					Grid.Row="1"
+					Height="140"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					DataContext="{Binding Path=Classify.NonApplicableFiles}"
+					d:DataContext="{Binding Source={x:Static sample:SampleData.NonApplicableFiles}}"
+					Background="Transparent"
+					ScrollViewer.HorizontalScrollBarVisibility="Visible"
+					ScrollViewer.VerticalScrollBarVisibility="Visible"
+					ItemsSource="{Binding}"
+					Style="{DynamicResource Lv1_LvStyle}"
+					>
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Label
+									Content="{Binding Key}"
+									Grid.Column="0"
+									Grid.Row="0"
+									Padding="0"
+									ContentStringFormat="Building {0}"
+									DockPanel.Dock="Top"
+									Style="{StaticResource Label.BookMark.Title}"
+									/>
+
+							<ListView x:Name="Lv2_lv1"
+									Grid.Column="0"
+									Grid.Row="1"
+									Background="Transparent"
+									BorderThickness="0"
+									DockPanel.Dock="Bottom"
+									ItemsSource="{Binding Value}"
+									>
+
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<Grid
+												Margin="10,0,0,0"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												>
+
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="24" />
+												<ColumnDefinition Width="Auto" MinWidth="100" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*" />
+											</Grid.RowDefinitions>
+											<Path
+													Grid.Column="0"
+													Grid.Row="0"
+													Margin="0,0,10,0"
+													Width="{StaticResource ListView.Item.Arrow.Size}"
+													Height="{StaticResource ListView.Item.Arrow.Size}"
+													Data="M 0,0 4,8 8,0 z"
+													Fill="red"
+													RenderTransformOrigin="0.5,0.5"
+													Stretch="UniformToFill"
+													StrokeThickness="0"
+													>
+												<Path.RenderTransform>
+													<RotateTransform Angle="270" CenterX="0" CenterY="0" />
+												</Path.RenderTransform>
+											</Path>
+
+											<Label
+													Content="{Binding FileNameObject.SheetNumber}"
+													Grid.Column="1"
+													Grid.Row="0"
+													Margin="0,0,5,0"
+													Padding="0"
+													Foreground="White"
+													/>
+
+											<Label
+													Content="{Binding FileNameObject.SheetTitle}"
+													Grid.Column="2"
+													Grid.Row="0"
+													Margin="0,0,5,0"
+													Padding="0"
+													Foreground="White"
+													/>
+
+										</Grid>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+
+			<Grid.Style>
+				<Style TargetType="Grid">
+					<Setter Property="Visibility" Value="Visible" />
+					<Style.Triggers>
+						<DataTrigger Value="true" Binding="{Binding ShowNonApplicableFiles}">
+							<Setter Property="Visibility" Value="Visible" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Grid.Style>
+
+		</Grid>
+
+
+		<TextBox
+				Grid.Column="0"
+				Grid.Row="5"
+				Grid.ColumnSpan="2"
+				Background="Transparent"
+				Foreground="White"
 				HorizontalScrollBarVisibility="Visible"
 				Text="{Binding Tbx1Message,
 											 Mode=OneWay}"
 				VerticalScrollBarVisibility="Visible"
-				Background="Transparent"
-				Foreground="White"
+				Visibility="Collapsed"
 				/>
 
 

@@ -57,12 +57,8 @@ namespace ClassifierEditor.Windows
 
 		// private string phaseBldg;
 
-#pragma warning disable CS0169 // The field 'WindowClassifyTest.fp' is never used
-		private FileNameSheetPdf fp;
-#pragma warning restore CS0169 // The field 'WindowClassifyTest.fp' is never used
-#pragma warning disable CS0169 // The field 'WindowClassifyTest.userSelected' is never used
-		private static TreeNode userSelected;
-#pragma warning restore CS0169 // The field 'WindowClassifyTest.userSelected' is never used
+		// private FileNameSheetPdf fp;
+		// private static TreeNode userSelected;
 
 	#endregion
 
@@ -80,6 +76,18 @@ namespace ClassifierEditor.Windows
 	#endregion
 
 	#region public properties
+
+
+		public bool ShowNonApplicableFiles => (classify?.NonApplicableFilesTotalCount?? 0) > 0;
+
+		public string NonApplicableFilesDescription
+		{
+			get
+			{
+				return classify == null ? null : 
+					classify.NonApplicableFilesTotalCount.ToString("###0") + " Non-applicable Files";
+			}
+		}
 
 		public string TestFileDescription => testFileList?.Description ?? "Unknown";
 
@@ -102,6 +110,10 @@ namespace ClassifierEditor.Windows
 		{
 			get => classificationFile?.TreeBase;
 		}
+
+		public Classify Classify => classify;
+
+		// public Dictionary<string, List<FilePath<FileNameSheetPdf>>> NonApplicableFiles => classify?.NonApplicableFiles;
 
 		public string TreeBaseTitle
 		{
@@ -182,8 +194,6 @@ namespace ClassifierEditor.Windows
 
 	#region public methods
 
-		
-
 		public bool Configure(ClassificationFile classfFile)
 		{
 			isConfigured = false;
@@ -211,12 +221,14 @@ namespace ClassifierEditor.Windows
 		private void updateProperties()
 		{
 			OnPropertyChange("TestFileList");
-			OnPropertyChange("TestFileListDescription");
+			OnPropertyChange("TestFileDescription");
 			OnPropertyChange("ClassificationFile");
 			OnPropertyChange("BaseOfTree");
 			OnPropertyChange("PhaseBuilding");
 			OnPropertyChange("IsConfigured");
 		}
+
+
 
 		private void initFileList()
 		{
@@ -226,7 +238,7 @@ namespace ClassifierEditor.Windows
 
 		private void go()
 		{
-			Tbx1Message = "*** Classification Started ***\n";
+			// Tbx1Message = "*** Classification Started ***\n";
 
 			if (!classify.Configure(BaseOfTree, TestFileList)) return;
 
@@ -234,13 +246,17 @@ namespace ClassifierEditor.Windows
 
 			classify.Process();
 
+			OnPropertyChange("Classify");
+			OnPropertyChange("ShowNonApplicableFiles");
+			OnPropertyChange("NonApplicableFilesDescription");
+
 			// int c = BaseOfTree.CountExtItems();
 
-			Tbx1Message += "*** Classification Complete ***\n";
-
-			BaseOfTree b = BaseOfTree;
-			
-			Tbx1Message += classify.FormatMergeList(BaseOfTree);
+			// Tbx1Message += "*** Classification Complete ***\n";
+			//
+			// BaseOfTree b = BaseOfTree;
+			//
+			// Tbx1Message += classify.FormatMergeList(BaseOfTree);
 		}
 
 	#endregion
@@ -307,7 +323,7 @@ namespace ClassifierEditor.Windows
 
 			// BaseOfTree b = this.BaseOfTree;
 			//
-
+			this.Visibility = Visibility.Collapsed;
 
 			Close();
 		}

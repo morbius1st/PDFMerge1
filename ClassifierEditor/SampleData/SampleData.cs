@@ -28,6 +28,8 @@ namespace ClassifierEditor.SampleData
 
 	#region private fields
 
+
+
 		private static BaseOfTree root;
 
 	#endregion
@@ -36,16 +38,16 @@ namespace ClassifierEditor.SampleData
 
 		static SampleData()
 		{
-			
-
 			TreeBase = new BaseOfTree();
 
 			// sd = new SampleData();
-			SampleData.Sample(TreeBase);
+			Sample(TreeBase);
 
 			TreeBase.Initalize();
 		
-			SampleData.SampleFiles(FileList2);
+			SampleFiles(FileList2);
+
+			SampleNonApplicableFiles();
 		}
 
 		public SampleData()
@@ -68,6 +70,8 @@ namespace ClassifierEditor.SampleData
 		public static TreeNode Temp { get; set; }
 
 		public static string FullFilePath { get; set; } = "this is a file path";
+
+		public static Dictionary<string, List<FilePath<FileNameSheetPdf>>> NonApplicableFiles { get; set; }
 
 	#endregion
 
@@ -127,6 +131,26 @@ namespace ClassifierEditor.SampleData
 	#endregion
 
 	#region private methods
+
+		private static void SampleNonApplicableFiles()
+		{
+			NonApplicableFiles = new Dictionary<string, List<FilePath<FileNameSheetPdf>>>();
+
+			List < FilePath<FileNameSheetPdf>> fileList = new List<FilePath<FileNameSheetPdf>>();
+
+			fileList.Add(new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-101 This is a Test B A101.pdf"));
+			fileList.Add(new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-102 This is a Test B A102.pdf"));
+			fileList.Add(new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-103 This is a Test B A103.pdf"));
+
+			NonApplicableFiles.Add("B", fileList);
+			NonApplicableFiles.Add("C", fileList);
+			NonApplicableFiles.Add("D", fileList);
+
+		}
+
 
 		private static int MAX_DEPTH = 4;
 		private static int TOPMAX = 5;
