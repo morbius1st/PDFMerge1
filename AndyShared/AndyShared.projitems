@@ -29,9 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FilePathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\Classify.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SheetFileList.cs" />

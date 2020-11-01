@@ -1,22 +1,23 @@
 App					status	description
+AODeliverable		n/a		proof of concept app - working (show to the office)
+
 AndyConfig			85%		System configuration
 Felix				0%		(rename to Andy??) final PDF merge app
 Sylvester			95%		Sync PDF file names
 ClassifierEditor	70%		edit classification files
-ClassifySheets		10%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
+ClassifySheets		90%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
 
 support utilities
 WpfShared			??%		common WPF routines: includes:
 							ClassificationFileSelector: select a user's classification file
 							classification file manager
 
+
+
 ConfigClassificationUser	creates and holds a list of the user's classification files
 
 
-
-
 test apps
-AODeliverable	proof of concept app - working (show to the office)
 test1			test parsing a sheet file's filename into sheet name and sheet number components
 test3			test using a tri-state tree using events and methods
 testcore1		created and tests orator

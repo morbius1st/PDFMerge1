@@ -73,6 +73,25 @@ namespace AndyShared.SampleFileSupport
 
 			return description;
 		}
+		
+		public static string BuildingFromFile(string sampleFilePath)
+		{
+			if (sampleFilePath == null)  return null;
+
+			string building = null;
+
+			try
+			{
+				building = CsXmlUtilities.ScanXmlForElementValue(sampleFilePath, "Building", 0);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string im = e.InnerException?.Message ?? null;
+			}
+
+			return building;
+		}
 
 		/// <summary>
 		/// get a sample file's filepath based on the folderpath<br/>

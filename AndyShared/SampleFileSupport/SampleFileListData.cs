@@ -17,7 +17,7 @@ namespace AndyShared.SampleFileSupport
 		public Hdr Header { get; set; } = new Hdr();
 
 		[DataMember(Order = 2)]
-		public Shts Data { get; set; } = new Shts();
+		public SheetFileData Data { get; set; } = new SheetFileData();
 
 
 		[DataContract(Namespace = "")]
@@ -35,8 +35,11 @@ namespace AndyShared.SampleFileSupport
 		// }
 
 		[DataContract(Namespace = "")]
-		public class Shts
+		public class SheetFileData
 		{
+			[DataMember]
+			public string Building { get; set; }
+
 			[DataMember]
 			public string Sheets { get; set; }
 

@@ -86,7 +86,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// the actual sheet PDF files that get merged into the
 		// final PDF set
-		private List<MergeItem> mergeItems;
+		private ObservableCollection<MergeItem> mergeItems;
 
 		private bool isInitialized;
 		private bool isModified;
@@ -125,7 +125,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
-			mergeItems = new List<MergeItem>();
+			mergeItems = new ObservableCollection<MergeItem>();
 
 			// IsInitialized = true;
 		}
@@ -187,7 +187,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public List<MergeItem> MergeItems
+		public ObservableCollection<MergeItem> MergeItems
 		{
 			get => mergeItems;
 			set
@@ -340,6 +340,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("Title");
 			OnPropertyChange("Description");
 			OnPropertyChange("Pattern");
+		}
+
+		public void UpdateMergeProperties()
+		{
+			OnPropertyChange("MergeItems");
+			OnPropertyChange("MergeItemCount");
 		}
 
 		public static SheetCategory TempSheetCategory()

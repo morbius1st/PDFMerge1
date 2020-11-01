@@ -1,13 +1,18 @@
 ﻿#region using
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
-
+using AndyShared.MergeSupport;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
+using TreeNode = AndyShared.ClassificationDataSupport.TreeSupport.TreeNode;
 
 #endregion
 
@@ -31,6 +36,8 @@ namespace ClassifierEditor.SampleData
 
 		static SampleData()
 		{
+			
+
 			TreeBase = new BaseOfTree();
 
 			// sd = new SampleData();
@@ -75,6 +82,17 @@ namespace ClassifierEditor.SampleData
 			root = tn;
 
 			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
+
+			item.MergeItems = new ObservableCollection<MergeItem>();
+
+			MergeItem mi = new MergeItem(0, sht1);
+			item.MergeItems.Add(mi);
+
+			mi = new MergeItem(0, sht2);
+			item.MergeItems.Add(mi);
+
+			mi = new MergeItem(0, sht3);
+			item.MergeItems.Add(mi);
 			
 			root.Item = item;
 
@@ -115,6 +133,16 @@ namespace ClassifierEditor.SampleData
 		private static int CHILDMAX = 5;
 		private static int BRANCH = 0;
 
+		private static FilePath<FileNameSheetPdf> sht1 = 
+			new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+		private static FilePath<FileNameSheetPdf> sht2 =
+			new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
+		private static FilePath<FileNameSheetPdf> sht3 =
+			new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
+
 		private static void MakeChildren(TreeNode parent, int depth)
 		{
 			TreeNode node;
@@ -135,8 +163,18 @@ namespace ClassifierEditor.SampleData
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
 				item.Depth = depth + 1;
 
-				node = new TreeNode(parent, item, false);
+				item.MergeItems = new ObservableCollection<MergeItem>();
 
+				MergeItem mi = new MergeItem(0, sht1);
+				item.MergeItems.Add(mi);
+
+				mi = new MergeItem(0, sht2);
+				item.MergeItems.Add(mi);
+
+				mi = new MergeItem(0, sht3);
+				item.MergeItems.Add(mi);
+
+				node = new TreeNode(parent, item, false);
 
 				if (i == 0)
 				{
@@ -201,6 +239,8 @@ namespace ClassifierEditor.SampleData
 
 					MakeChildren(node, depth + 1);
 				}
+
+
 				
 				root.AddNode(node);
 			}

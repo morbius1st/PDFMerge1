@@ -23,6 +23,8 @@ namespace AndyShared.SampleFileSupport
 	{
 	#region private fields
 
+		private SampleFileListData sampleFileData;
+
 	#endregion
 	
 	#region ctor
@@ -33,6 +35,10 @@ namespace AndyShared.SampleFileSupport
 	
 		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
+
+		public string Description => sampleFileData?.Header.Description ?? null;
+
+		public string Building => sampleFileData?.Data.Building ?? null;
 	
 	#endregion
 	
@@ -46,7 +52,9 @@ namespace AndyShared.SampleFileSupport
 		{
 			if (!File.Exists(filePath)) throw new FileNotFoundException();
 
-			SampleFileListData sampleFileData = new SampleFileListData();
+			sampleFileData = new SampleFileListData();
+
+			updateProperties();
 
 			try
 			{
@@ -79,6 +87,12 @@ namespace AndyShared.SampleFileSupport
 	#endregion
 
 	#region private methods
+
+		private void updateProperties()
+		{
+			OnPropertyChange("Description");
+			OnPropertyChange("Building");
+		}
 	
 	#endregion
 	

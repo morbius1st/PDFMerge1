@@ -111,6 +111,8 @@
 	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.760}" />
 
 
+	<SolidColorBrush x:Key="Element.Title.Background.Normal" Color="{StaticResource Dark.Blue.400}" />
+	<SolidColorBrush x:Key="Element.Icon.Background.Normal" Color="{StaticResource Blue.400}" />
 	<SolidColorBrush x:Key="Element.Value.Background.Normal" Color="{StaticResource Teal.500}" />
 
 	<SolidColorBrush x:Key="Element.Button.Background.Normal" Color="{StaticResource Amber.200}" />
@@ -152,16 +154,23 @@
 
 	<SolidColorBrush x:Key="TreeViewRow.BorderBrush.Light" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
 
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="{StaticResource Deep.Orange.400}" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="{StaticResource Deep.Orange.400}" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="{StaticResource Deep.Orange.100}" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="{StaticResource Deep.Orange.100}" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill" Color="#FF27C7F7" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF27C7F7" />
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF27C7F7" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill"
+                     Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke"
+                     Color="#FF818181" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill"
+                     Color="#FF595959" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke"
+                     Color="#FF262626" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill"
+                     Color="#FFCCEEFB" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke"
+                     Color="#FF1CC4F7" />
+    <SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill"
+                     Color="#FF82DFFB" />
 
-	<SolidColorBrush x:Key="ContextMenu.Background" Color="{StaticResource Gray.200}" />
+    <SolidColorBrush x:Key="ContextMenu.Background" Color="{StaticResource Gray.200}" />
 	<SolidColorBrush x:Key="ContextMenu.Background.Icons" Color="{StaticResource Gray.220}" />
 	<SolidColorBrush x:Key="ContextMenu.Background.Icons.Divider" Color="{StaticResource Gray.200}" />
 

@@ -167,6 +167,9 @@
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
+    <Compile Include="Windows\WindowClassifyTest.xaml.cs">
+      <DependentUpon>WindowClassifyTest.xaml</DependentUpon>
+    </Compile>
     <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ResourceFiles\XamlResources\ExpanderCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\WindowClassifyTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

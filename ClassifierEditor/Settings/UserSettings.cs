@@ -40,42 +40,29 @@ namespace SettingsManager
 
 
 
-		// public Dictionary<string, string>
-		// 	UserClassfigCfg { get; set; } = new Dictionary<string, string>()
-		// {
-		// 	{"jeffs", "PdfSample 2"}
-		// };
 
-		// // the name of the organization configuration file
-		// [DataMember(Order = 1)]
-		// public string OrgConfigFileName { get; private set; } =
-		// 	"Test File 1 :: jeffs";
+		[DataMember(Order = 100)]
+		public WindowPosition MainWinPos{ get; set; } = new WindowPosition(100,100);
 
-		// // the name of the organization configuration file
-		// [DataMember(Order = 1)]
-		// public string OrgConfigFileName { get; private set; } =
-		// 	"Test File 1 :: jeffs";
-		//
-		// // the folder where the FileName config files are stored
-		// [DataMember(Order = 2)]
-		// public string CatConfigFolder { get; private set; } =
-		// 	@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
-		//
-		// // the name of the FileName config file
-		// [DataMember(Order = 3)]
-		// public string CatConfigFile { get; private set; } =
-		// 	"SheetCategories.xml";
-		//
-		// // the folder with the sample PDF files to categorize
-		// [DataMember(Order = 4)]
-		// public string CatConfigSampleFolder { get; private set; } =
-		// 	@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
-		//
-		// // the folder with the sample PDF files to categorize
-		// [DataMember(Order = 5)]
-		// public string CatConfigSampleFile { get; private set; } =
-		// 	@"PdfSampleFileList.dat";
+		[DataMember(Order = 101)]
+		public WindowPosition WinClassifyPos{ get; set; } = new WindowPosition(100,100);
 	}
 
 #endregion
+
+	[DataContract(Namespace = "")]
+	public class WindowPosition
+	{
+		[DataMember(Order = 1)]
+		public int X { get; set; }
+
+		[DataMember(Order = 2)]
+		public int Y { get; set; }
+		
+		public WindowPosition(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
+	}
 }

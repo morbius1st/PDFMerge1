@@ -256,6 +256,8 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
+		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> us = UserSettings.Admin;
+
 		private ClassificationFile classificationFile;
 
 		// private Configuration config;
@@ -378,7 +380,6 @@ namespace ClassifierEditor.Windows
 		public SampleFileList FileList { get; private set; } = new SampleFileList();
 
 
-
 	#region public property settings
 
 		public bool RememberCollapseState
@@ -464,9 +465,17 @@ namespace ClassifierEditor.Windows
 
 	#region window event methods
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		private void Window_Initialized(object sender, EventArgs e) 
 		{
 			initSettings();
+
+			this.Top = UserSettings.Data.MainWinPos.Y;
+			this.Left = UserSettings.Data.MainWinPos.X;
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+
 
 			// true to create sample data and save to disk
 			// false to read existing data
@@ -526,6 +535,10 @@ namespace ClassifierEditor.Windows
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
+			UserSettings.Data.MainWinPos.X = (int) this.Left;
+			UserSettings.Data.MainWinPos.Y = (int) this.Top;
+			UserSettings.Admin.Write();
+
 			if (Common.SHOW_DEBUG_MESSAGE1)
 				Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
 
@@ -914,7 +927,14 @@ namespace ClassifierEditor.Windows
 			OnSavedAnnouncer.Announce(true);
 		}
 
-		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e) { }
+		private void BtnTestAll_OnClick(object sender, RoutedEventArgs e)
+		{
+			WindowClassifyTest winTest = new WindowClassifyTest();
+
+			winTest.Configure(classificationFile);
+
+			bool? result = winTest.ShowDialog();
+		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -958,7 +978,7 @@ namespace ClassifierEditor.Windows
 
 	}
 
-#region NotBool value converter
+	#region NotBool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class NotBoolConverter : IValueConverter

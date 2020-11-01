@@ -10,9 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
-
 using static UtilityLibrary.MessageUtilities;
 using AndyShared.Support;
+using UtilityLibrary;
 
 #endregion
 
@@ -60,7 +60,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	[DataContract(Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
 	[SuppressMessage("ReSharper", "UnusedMember.Local")]
-	public class TreeNode : INotifyPropertyChanged, ICloneable 
+	public class TreeNode : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
@@ -71,11 +71,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// the list of child TreeNodes
 		/// </summary>
 		private ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
+
 		private ListCollectionView childrenView;
 
 		private TreeNode parent;
 		private int depth;
 		private static int maxDepth = 7;
+
+		private int extItemCountLast;
 
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
@@ -115,8 +118,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// Children = new ObservableCollection<TreeNode>();
 			OnCreated();
 
-			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
-
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
 
 		public TreeNode() : this(null, null, false) { }
@@ -128,13 +130,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			OnCreated();
 
-			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
-
+			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
 
 		private void OnCreated()
 		{
-
 			Children.CollectionChanged += ChildrenOnCollectionChanged;
 
 			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
@@ -146,7 +146,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
-			
+
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVING, OnSavingAnnounce);
 
@@ -158,7 +158,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			IsInitialized = true;
 		}
-		
+
 		[OnDeserializing]
 		private void OnDeserializing(StreamingContext c)
 		{
@@ -319,7 +319,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// public ICollectionView ChildrenView
 		public ListCollectionView ChildrenView
 		{
-			get => childrenView; 
+			get => childrenView;
 
 			private set
 			{
@@ -361,19 +361,31 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public int ItemCount => item.Count;
 
 		[IgnoreDataMember]
-		public int ExtItemCount
+		public int ExtItemCountLast
+		{
+			get => extItemCountLast;
+			set
+			{
+				extItemCountLast = value;
+				OnPropertyChange();
+			}
+		}
+
+		[IgnoreDataMember]
+		public int ExtItemCountCurrent
 		{
 			get
 			{
-				int count = item.Count;
+				int count = item.MergeItemCount;
 
-				foreach (TreeNode node in children)
+				foreach (TreeNode childNode in children)
 				{
-					count += node.ExtItemCount;
+					count += childNode.ExtItemCountCurrent;
 				}
 
 				return count;
 			}
+
 		}
 
 
@@ -425,7 +437,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				OnPropertyChange();
 			}
 		}
-		
+
 		[IgnoreDataMember]
 		public bool IsContextSelected
 		{
@@ -436,7 +448,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				OnPropertyChange();
 			}
 		}
-		
+
 		[IgnoreDataMember]
 		public bool IsContextHighlighted
 		{
@@ -452,11 +464,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public bool IsInitialized
 		{
 			get => isInitialized;
-			set
-			{
-				isInitialized = value;
-			}
-		} 
+			set { isInitialized = value; }
+		}
 
 		[IgnoreDataMember]
 		public bool IsModified
@@ -482,7 +491,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public bool IsMaxDepth => depth >= maxDepth;
 
-
 	#endregion
 
 	#endregion
@@ -492,6 +500,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#endregion
 
 	#region public methods
+
+		public int CountExtItems()
+		{
+			int count = item.MergeItemCount;
+
+			foreach (TreeNode childNode in children)
+			{
+				count += childNode.CountExtItems();
+			}
+
+			ExtItemCountLast = count;
+
+			return count;
+		}
 
 		public void InitializeAllChildrenView()
 		{
@@ -648,6 +670,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			TriState = CheckedState.UNSET;
 		}
 
+		public void UpdateProperties()
+		{
+			OnPropertyChange("Item");
+			OnPropertyChange("ChildrenView");
+			OnPropertyChange("HasChildren");
+			OnPropertyChange("ChildCount");
+			OnPropertyChange("ExtChildCount");
+			OnPropertyChange("ItemCount");
+			OnPropertyChange("ExtItemCount");
+		}
 
 	#endregion
 
@@ -684,9 +716,33 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return count;
 		}
 
+		// private void ExtMergeItemCount(TreeNode node)
+		// {
+		// 	// count my merge items
+		// 	int count = node.item.MergeItems.Count;
+		//
+		// 	Debug.Write("  ".Repeat(tabDepth));
+		// 	Debug.WriteLine("@ ext count start | " + count.ToString("##0") + "  " + item.Title );
+		//
+		// 	tabDepth++;
+		//
+		// 	// sum the count from each child recursevly
+		// 	foreach (TreeNode child in node.children)
+		// 	{
+		// 		count += child.ExtMergeItemCount(child);
+		// 	}
+		//
+		// 	tabDepth--;
+		//
+		// 	Debug.Write("  ".Repeat(tabDepth));
+		// 	Debug.WriteLine("@ ext count end   | " + count.ToString("###") + "  " + item.Title);
+		//
+		//
+		// 	ExtMergeItemCount = count;
+		// }
+
 		public void NotifyChildrenChange()
 		{
-
 			OnPropertyChange("Children");
 			OnPropertyChange("ChildrenView");
 			OnPropertyChange("ChildCount");
@@ -800,7 +856,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-		
 
 	#endregion
 
@@ -827,7 +882,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			if (Common.SHOW_DEBUG_MESSAGE1)
 				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
-				+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
+					+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
 			isModified = false;
 			// isSaving = false;
 		}
@@ -863,12 +918,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return NodeType + "::" + item.Title + "::" + checkedState;
 		}
 
-
 	#endregion
 	}
 
 #endregion
-
 
 
 #region BaseOfTree
@@ -878,6 +931,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	public class BaseOfTree : TreeNode
 	{
 	#region private fields
+
 		private TreeNode selectedNode;
 
 	#endregion
@@ -926,7 +980,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			parent.Children.Remove(contextNode);
 
 			NotifyChildrenChange();
-
 		}
 
 		public void AddNewChild2(TreeNode contextNode)
@@ -1032,8 +1085,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			NotifyChildrenChange();
 		}
 
-
-
 	#endregion
 
 	#region private methods
@@ -1052,7 +1103,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
 		{
 			parent.Children.Insert(index, toAddNode);
-			
 		}
 
 		// parent is the parent of the new location
@@ -1086,7 +1136,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				// remove from the original collection
 				exParent.Children.Remove(existingNode);
-
 			}
 		}
 
@@ -1124,8 +1173,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#endregion
 	}
-	
 
 #endregion
-	
 }

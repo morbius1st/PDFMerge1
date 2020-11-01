@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using System.ComponentModel;
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Windows.Controls;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 
 using AndyShared.FileSupport.FileNameSheetPDF;
@@ -36,7 +39,7 @@ namespace AndyShared.MergeSupport
 	{
 	#region private fields
 
-		private Orator.ConfRoom.Announcer announcer;
+		private Orator.ConfRoom.Announcer toParentAnnounce;
 
 		private bool displayDebugMsgs = false;
 
@@ -48,30 +51,27 @@ namespace AndyShared.MergeSupport
 		// the files do have phase-building information and this needs to be taken
 		// into account
 		private bool usePhBldg = false;
+		private bool isConfigured;
 
 		private Dictionary<string, List<FilePath<FileNameSheetPdf>>> nonApplicableFiles;
 
 		private BaseOfTree treeBase;
+		private SheetFileList fileList;
 
 
 	#endregion
 
 	#region ctor
 
-		public Classify(BaseOfTree treeBase, string phaseBuilding)
+		public Classify()
 		{
 			Orator.Listen("toClassify", OnGetAnnouncement);
-			announcer =	Orator.GetAnnouncer(this, "fromClassify", "");
+			toParentAnnounce =	Orator.GetAnnouncer(this, "fromClassify", "");
 
-			this.treeBase = treeBase;
+			isConfigured = false;
+			this.treeBase = null;
+			assignedPhBldg = null;
 
-			assignedPhBldg = phaseBuilding?.Trim() ?? null;
-
-			if (!assignedPhBldg.IsVoid())
-			{
-				usePhBldg = true;
-				nonApplicableFiles = new Dictionary<string, List<FilePath<FileNameSheetPdf>>>();
-			}
 		}
 
 	#endregion
@@ -88,6 +88,8 @@ namespace AndyShared.MergeSupport
 
 		public bool UsePhaseBulding => usePhBldg;
 
+		public bool IsConfigured => isConfigured;
+
 	#endregion
 
 	#region private properties
@@ -96,41 +98,43 @@ namespace AndyShared.MergeSupport
 
 	#region public methods
 
+		public bool Configure(BaseOfTree treeBase, SheetFileList fileList)
+		{
+			isConfigured = false;
+
+			this.treeBase = treeBase;
+			this.fileList = fileList;
+
+			if (treeBase != null && treeBase.HasChildren &&
+				fileList != null && fileList.Files.Count > 0)
+			{
+				assignedPhBldg = fileList.Building;
+
+				if (!assignedPhBldg.IsVoid())
+				{
+					usePhBldg = true;
+					nonApplicableFiles = new Dictionary<string, List<FilePath<FileNameSheetPdf>>>();
+				}
+
+				isConfigured = true;
+			}
+
+			return isConfigured;
+		}
 
 		/// <summary>
 		/// Process the list of sheet files, using the rules in the<br/>
 		/// ClassificationFile, and place the file into the<br/>
 		/// Classification tree
 		/// </summary>
-
-		public bool Process(SheetFileList fileList)
+		public void Process()
 		{
-			if (treeBase == null || !treeBase.HasChildren ||
-				fileList == null || fileList.Files.Count == 0) return false;
+			if (!isConfigured) return;
 
-			// process each file in the list and categorize
-			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
-			{
-				if (usePhBldg)
-				{
-					if ((!file.FileNameObject.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
-					{
-						if (displayDebugMsgs)
-							announcer.Announce("ignored file| " +
-								file.FileNameObject.SheetNumber + "\n");
+			// await Task.Run(() => { classifyFiles(); });
 
-						addNonApplicableFile(file);
-						continue;
-					}
-				}
+			classifyFiles();
 
-				if (displayDebugMsgs) announcer.Announce("\nprocess file| " + 
-					file.FileNameObject.SheetNumber + "\n");
-
-				classify(treeBase, file, 1);
-			}
-
-			return true;
 		}
 
 	#endregion
@@ -138,15 +142,78 @@ namespace AndyShared.MergeSupport
 	#region private methods
 
 
-		private bool classify(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
+		private void classifyFiles()
+		{
+			preProcessMergeItems();
+
+			processFiles();
+
+			treeBase.CountExtItems();
+		}
+
+
+		private void preProcessMergeItems()
+		{
+			treeBase.Item.MergeItems = new ObservableCollection<MergeItem>();
+
+			foreach (TreeNode childNode in treeBase.Children)
+			{
+				childNode.Item.MergeItems = new ObservableCollection<MergeItem>();
+			}
+
+		}
+
+
+		private void processFiles()
+		{
+			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
+			{
+				// raise an event when the file being process changes - allow the
+				// parent to do something if needed
+				RaiseOnFileChangeEvent(new FileChangeEventArgs(file));
+
+				if (usePhBldg)
+				{
+					if ((!file.FileNameObject.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
+					{
+						if (displayDebugMsgs)
+							toParentAnnounce.Announce("ignored file| " +
+								file.FileNameObject.SheetNumber + "\n");
+
+						addNonApplicableFile(file);
+						continue;
+					}
+				}
+
+				if (displayDebugMsgs)
+					toParentAnnounce.Announce("\nprocess file| " +
+						file.FileNameObject.SheetNumber + "\n");
+
+				classify(treeBase, file, 1);
+			}
+
+		}
+
+
+		/// <summary>
+		/// classify each sheet file against the list of all<br/>
+		/// criteria from treebase down
+		/// </summary>
+		/// <param name="treeNode"></param>
+		/// <param name="sheetFilePath"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private bool classify(TreeNode treeNode, 
+			FilePath<FileNameSheetPdf> sheetFilePath, int depth)
 		{
 			bool matchFlag = false;
 
 			if (displayDebugMsgs)
-				announcer.Announce("classifying|\n");
+				toParentAnnounce.Announce("classifying|\n");
 
 			foreach (TreeNode childNode in treeNode.Children)
 			{
+				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
 				// set flag = false;
 				// scan through each node and determine if the sheetfile matches one of the nodes rules
 				// if it matches:
@@ -174,12 +241,14 @@ namespace AndyShared.MergeSupport
 			if (!matchFlag)
 			{
 				if (displayDebugMsgs)
-					announcer.Announce("adding to| " + 
+					toParentAnnounce.Announce("adding to| " + 
 						treeNode.Item.Title + "\n\n");
 
 				MergeItem mi = new MergeItem(0, sheetFilePath);
 
 				treeNode.Item.MergeItems.Add(mi);
+				treeNode.Item.UpdateMergeProperties();
+				// treeNode.UpdateProperties();
 
 				matchFlag = true;
 			}
@@ -212,7 +281,7 @@ namespace AndyShared.MergeSupport
 
 		public string FormatMergeList(TreeNode node)
 		{
-			if (node.ExtItemCount == 0) return null;
+			if (node.ExtItemCountLast == 0) return null;
 
 			StringBuilder sb = new StringBuilder();
 
@@ -254,7 +323,7 @@ namespace AndyShared.MergeSupport
 
 		private	IEnumerable<MergeItem> GetNtMergeItem(TreeNode node)
 		{
-			if (node.ExtItemCount == 0) yield return null;
+			if (node.ExtItemCountLast == 0) yield return null;
 
 			if (node.ItemCount > 0)
 			{
@@ -268,7 +337,7 @@ namespace AndyShared.MergeSupport
 			{
 				foreach (TreeNode childNode in node.Children)
 				{
-					if (childNode.ExtItemCount > 0)
+					if (childNode.ExtItemCountLast > 0)
 					{
 						foreach (MergeItem mergeItem in GetNtMergeItem(childNode))
 						{
@@ -284,7 +353,7 @@ namespace AndyShared.MergeSupport
 
 		private IEnumerable<TreeNode> GetMergeNodes(TreeNode node)
 		{
-			if (node.ExtItemCount == 0) yield return null;
+			if (node.ExtItemCountLast == 0) yield return null;
 
 			yield return node;
 
@@ -294,7 +363,7 @@ namespace AndyShared.MergeSupport
 				{
 					foreach (TreeNode mergeNode in GetMergeNodes(childNode))
 					{
-						if ((mergeNode?.ExtItemCount ?? 0) > 0)
+						if ((mergeNode?.ExtItemCountLast ?? 0) > 0)
 						{
 							yield return mergeNode;
 						}
@@ -314,7 +383,7 @@ namespace AndyShared.MergeSupport
 		{
 			if (value is bool) displayDebugMsgs = (bool) value;
 
-			announcer.Announce("got announcement| " +
+			toParentAnnounce.Announce("got announcement| " +
 				(displayDebugMsgs ? "display debug messages\n" : "do not display debug messages\n"));
 		}
 
@@ -322,6 +391,24 @@ namespace AndyShared.MergeSupport
 	#endregion
 
 	#region event publishing
+
+		public delegate void OnFileChangeEventHandler(object sender, FileChangeEventArgs e);
+
+		public event Classify.OnFileChangeEventHandler OnFileChange;
+
+		protected virtual void RaiseOnFileChangeEvent(FileChangeEventArgs e)
+		{
+			OnFileChange?.Invoke(this, e);
+		}
+
+		public delegate void TreeNodeChangeEventHandler(object sender, TreeNodeChangeEventArgs e);
+
+		public event Classify.TreeNodeChangeEventHandler OnTreeNodeChange;
+
+		protected virtual void RaiseTreeNodeChangeEvent(TreeNodeChangeEventArgs e)
+		{
+			OnTreeNodeChange?.Invoke(this, e);
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -361,5 +448,25 @@ namespace AndyShared.MergeSupport
 		}
 
 	#endregion
+	}
+
+	public class FileChangeEventArgs : EventArgs
+	{
+		public FilePath<FileNameSheetPdf> SheetFile { get; private set; }
+
+		public FileChangeEventArgs(FilePath<FileNameSheetPdf> sheetFile)
+		{
+			SheetFile = sheetFile;
+		}
+	}
+
+	public class TreeNodeChangeEventArgs : EventArgs
+	{
+		public TreeNode TreeNode { get; private set; }
+
+		public TreeNodeChangeEventArgs(TreeNode treeNode)
+		{
+			TreeNode = treeNode;
+		}
 	}
 }
