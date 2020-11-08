@@ -83,6 +83,12 @@ namespace AndyShared.SampleFileSupport
 				Files.Add(fileName);
 			}
 		}
+
+		public void AddPath(FilePath<FileNameSheetPdf> path)
+		{
+			Files.Add(path);
+			OnPropertyChange("Files");
+		}
 	
 	#endregion
 

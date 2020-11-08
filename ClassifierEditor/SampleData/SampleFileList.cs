@@ -22,18 +22,19 @@ using static UtilityLibrary.CsXmlUtilities;
 
 namespace ClassifierEditor.SampleData
 {
+/*
 	public class SampleFileList : INotifyPropertyChanged
 	{
-	#region private fields
+		#region private fields
 
 		private string fileName;
 
 		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 
-	#endregion
+		#endregion
 
-	#region ctor
+		#region ctor
 
 		public SampleFileList()
 		{
@@ -55,9 +56,9 @@ namespace ClassifierEditor.SampleData
 			OnPropertyChange("Files");
 		}
 
-	#endregion
+		#endregion
 
-	#region public properties
+		#region public properties
 
 		public void AddPath(FilePath<FileNameSheetPdf> path)
 		{
@@ -65,13 +66,13 @@ namespace ClassifierEditor.SampleData
 			OnPropertyChange("Files");
 		}
 
-	#endregion
+		#endregion
 
-	#region private properties
+		#region private properties
 
-	#endregion
+		#endregion
 
-	#region public methods
+		#region public methods
 
 		// public void WriteXml()
 		// {
@@ -128,17 +129,17 @@ namespace ClassifierEditor.SampleData
 		// }
 
 
-//		public void GetFiles()
-//		{
-//			string pattern = "*.pdf";
-//
-//			foreach (string file in
-//				Directory.EnumerateFiles(fileName, pattern,
-//					SearchOption.AllDirectories))
-//			{
-//				Files.Add(new FilePath<FileNameSheetPdf>(file));
-//			}
-//		}
+		//		public void GetFiles()
+		//		{
+		//			string pattern = "*.pdf";
+		//
+		//			foreach (string file in
+		//				Directory.EnumerateFiles(fileName, pattern,
+		//					SearchOption.AllDirectories))
+		//			{
+		//				Files.Add(new FilePath<FileNameSheetPdf>(file));
+		//			}
+		//		}
 
 
 		// public void GetFiles2()
@@ -164,14 +165,14 @@ namespace ClassifierEditor.SampleData
 
 		public void GetFiles()
 		{
-			if (!File.Exists(fileName))throw new FileNotFoundException();
+			if (!File.Exists(fileName)) throw new FileNotFoundException();
 
 			SampleFileData sampleFileData = new SampleFileData();
 
 			try
 			{
 				bool result = CsXmlUtilities.ReadXmlFile(fileName, out sampleFileData);
-				
+
 				if (!result) return;
 
 				sampleFileData.Data.Parse();
@@ -195,17 +196,17 @@ namespace ClassifierEditor.SampleData
 			}
 		}
 
-	#endregion
+		#endregion
 
-	#region private methods
+		#region private methods
 
-	#endregion
+		#endregion
 
-	#region event processing
+		#region event processing
 
-	#endregion
+		#endregion
 
-	#region event handeling
+		#region event handeling
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -214,16 +215,16 @@ namespace ClassifierEditor.SampleData
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-	#endregion
+		#endregion
 
-	#region system overrides
+		#region system overrides
 
 		public override string ToString()
 		{
 			return "this is SampleFileList";
 		}
 
-	#endregion
+		#endregion
 	}
 
 	[DataContract(Name = "SampleFile", Namespace = "")]
@@ -261,10 +262,11 @@ namespace ClassifierEditor.SampleData
 
 			public bool Parse()
 			{
-				SheetList = Sheets?.Split(new [] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+				SheetList = Sheets?.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 				return (SheetList?.Length ?? 0) > 0;
 			}
 		}
-	}
+	}*/
+
 }

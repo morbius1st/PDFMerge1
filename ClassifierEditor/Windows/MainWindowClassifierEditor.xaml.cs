@@ -18,6 +18,7 @@ using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
+using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -301,7 +302,8 @@ namespace ClassifierEditor.Windows
 
 				classificationFile.Initialize();
 
-				FileList = new SampleFileList(classificationFile.SampleFilePath);
+				FileList = new SheetFileList();
+				FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
 
 				string desc = classificationFile.HeaderDescFromMemory;
 
@@ -367,7 +369,7 @@ namespace ClassifierEditor.Windows
 
 		public bool HasContextSelection => contextSelected != null;
 
-		public SampleFileList FileList { get; private set; } = new SampleFileList();
+		public SheetFileList FileList { get; private set; } = new SheetFileList();
 
 
 	#region public property settings

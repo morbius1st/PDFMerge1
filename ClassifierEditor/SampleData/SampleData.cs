@@ -9,6 +9,7 @@ using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.MergeSupport;
+using AndyShared.SampleFileSupport;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
@@ -65,7 +66,7 @@ namespace ClassifierEditor.SampleData
 		// this is only for design time sample data
 		public static BaseOfTree TreeBase { get; set; } // = new BaseOfTree();
 
-		public static SampleFileList FileList2 { get; private set; } = new SampleFileList();
+		public static SheetFileList FileList2 { get; private set; } = new SheetFileList();
 
 		public static TreeNode Temp { get; set; }
 
@@ -105,7 +106,7 @@ namespace ClassifierEditor.SampleData
 			// MakeChildren3();
 		}
 
-		public static void SampleFiles(SampleFileList fileList)
+		public static void SampleFiles(SheetFileList fileList)
 		{
 			FilePath<FileNameSheetPdf> sheet;
 
