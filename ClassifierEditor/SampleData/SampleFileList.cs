@@ -141,26 +141,26 @@ namespace ClassifierEditor.SampleData
 //		}
 
 
-		public void GetFiles2()
-		{
-			if (!File.Exists(fileName))
-			{
-				throw new FileNotFoundException();
-			}
-
-			string file;
-
-			StreamReader fileStream = new StreamReader(fileName);
-
-			while ((file = fileStream.ReadLine()) != null)
-			{
-				file = file.Trim();
-
-				if (file.Length == 0 || file.Substring(0, 1).Equals(@"<")) continue;
-
-				Files.Add(new FilePath<FileNameSheetPdf>(file));
-			}
-		}
+		// public void GetFiles2()
+		// {
+		// 	if (!File.Exists(fileName))
+		// 	{
+		// 		throw new FileNotFoundException();
+		// 	}
+		//
+		// 	string file;
+		//
+		// 	StreamReader fileStream = new StreamReader(fileName);
+		//
+		// 	while ((file = fileStream.ReadLine()) != null)
+		// 	{
+		// 		file = file.Trim();
+		//
+		// 		if (file.Length == 0 || file.Substring(0, 1).Equals(@"<")) continue;
+		//
+		// 		Files.Add(new FilePath<FileNameSheetPdf>(file));
+		// 	}
+		// }
 
 		public void GetFiles()
 		{

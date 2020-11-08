@@ -7,6 +7,12 @@
 		F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z
 	</Geometry>
 
+	<!-- also is the "favorites" icon -->
+	<Geometry x:Key="Icon.Svg.Star">
+		F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z
+	</Geometry>
+
+
 	<Canvas x:Key="DeleteIcon" Name="g6"
 			Width="18"
 			Height="18"

@@ -87,6 +87,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private bool isModified;
 		private bool isExpanded;
+		private bool isExpandedAlt;
 		private bool isNodeSelected;
 		private bool isContextSelected;
 		private int checkedChildCount;
@@ -410,7 +411,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				OnPropertyChange();
 
+				Debug.WriteLine("isexpanded set| " + value.ToString());
+
 				if (rememberExpCollapseState) IsModified = true;
+			}
+		}
+
+		[IgnoreDataMember]
+		public bool IsExpandedAlt
+		{
+			get => isExpandedAlt;
+			set
+			{
+				isExpandedAlt = value;
+				OnPropertyChange();
 			}
 		}
 

@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Tests2.Windows.MainWinSupport
 {
-    class WinTreeDesigns
+    public class WinTreeDesigns
     {
 		// user settings
 		public static readonly double ToggleBtnSize = 11;

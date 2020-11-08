@@ -12,9 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-// using ClassifierEditor.ConfigSupport;
+
 using ClassifierEditor.SampleData;
-// using ClassifierEditor.Tree;
 using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
@@ -22,26 +21,17 @@ using AndyShared.ClassificationFileSupport;
 using AndyShared.Support;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-// using static ClassifierEditor.Tree.CompareOperations;
-// using static ClassifierEditor.Tree.ComparisonOp;
-#pragma warning disable CS0234 // The type or namespace name 'LogicalComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
-#pragma warning restore CS0234 // The type or namespace name 'LogicalComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
-#pragma warning disable CS0234 // The type or namespace name 'ValueComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
-#pragma warning restore CS0234 // The type or namespace name 'ValueComparisonOp' does not exist in the namespace 'AndyShared.ClassificationDataSupport.TreeSupport' (are you missing an assembly reference?)
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using WpfShared.Windows;
 
 #endregion
 
-
-
 // projname: ClassifierEditor
 // itemname: MainWindowClassifierEditor
 // username: jeffs
 // created:  5/2/2020 9:16:20 AM
-
 
 /*
 
@@ -295,7 +285,7 @@ namespace ClassifierEditor.Windows
 
 	#region public properties
 
-		public static SampleData.SampleData SD { get; set; } = new SampleData.SampleData();
+		// public static SampleData.SampleData SD { get; set; } = new SampleData.SampleData();
 
 		public ClassificationFile ClassificationFile
 		{
@@ -1118,6 +1108,5 @@ namespace ClassifierEditor.Windows
 			return null;
 		}
 	}
-#pragma warning disable CS1513 // } expected
+
 }
-#pragma warning restore CS1513 // } expected

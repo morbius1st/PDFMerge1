@@ -9,102 +9,79 @@
 		xmlns:utilityLibrary="clr-namespace:UtilityLibrary"
 		>
 
-	<system:Double x:Key="Button.Height"
-			>
+	<system:Double x:Key="Button.Height">
 		30
 	</system:Double>
-	<system:Double x:Key="Button.Width"
-			>
+	<system:Double x:Key="Button.Width">
 		64
 	</system:Double>
-	<Thickness x:Key="ButtonMargin"
-			>
+	<Thickness x:Key="ButtonMargin">
 		0,0,6,6
 	</Thickness>
 
-	<system:Double x:Key="Font.Size.Header"
-			>
+	<system:Double x:Key="Font.Size.Header">
 		22
 	</system:Double>
 
-	<system:Int32 x:Key="c1"
-			>
+	<system:Int32 x:Key="c1">
 		#FFDDDDDD
 	</system:Int32>
 
-	<SolidColorBrush x:Key="FldrRtFntBrush"
-			>
+	<SolidColorBrush x:Key="FldrRtFntBrush">
 		#FFEEEEEE
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Background"
-			>
+	<SolidColorBrush x:Key="Background">
 		#333333
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill"
-			>
+	<SolidColorBrush x:Key="Path.Favorite.Fill">
 		OrangeRed
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill2"
-			>
+	<SolidColorBrush x:Key="Path.Favorite.Fill2">
 		#FF581A
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Plus.Fill"
-			>
+	<SolidColorBrush x:Key="Path.Plus.Fill">
 		Lime
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.History.Fill"
-			>
+	<SolidColorBrush x:Key="Path.History.Fill">
 		#00efff
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Button.Static.Background"
-			>
+	<SolidColorBrush x:Key="Button.Static.Background">
 		#444444
 	</SolidColorBrush>
 
-	<SolidColorBrush x:Key="MouseOver.Foreground"
-			>
+	<SolidColorBrush x:Key="MouseOver.Foreground">
 		White
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border.Background"
-			>
+	<SolidColorBrush x:Key="MouseOver.Border.Background">
 		#FF3A779B
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border"
-			>
+	<SolidColorBrush x:Key="MouseOver.Border">
 		#FFC7EAFF
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border.Background"
-			>
+	<SolidColorBrush x:Key="Pressed.Border.Background">
 		#FFC4E5F6
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border"
-			>
+	<SolidColorBrush x:Key="Pressed.Border">
 		#FF2C628B
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Foreground"
-			>
+	<SolidColorBrush x:Key="Disabled.Foreground">
 		#FFDDDDDD
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border.Background"
-			>
+	<SolidColorBrush x:Key="Disabled.Border.Background">
 		#FF646464
 	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border"
-			>
+	<SolidColorBrush x:Key="Disabled.Border">
 		#FFADB2B5
 	</SolidColorBrush>
 
 
-	<Geometry x:Key="Icon.Rect"
-			>
+	<Geometry x:Key="Icon.Rect">
 		F1M0,0 32,0 32,32 0,32 0,0z
 	</Geometry>
-	<Geometry x:Key="Icon.Svg.Favorite"
-			>
+	<Geometry x:Key="Icon.Svg.Favorite">
 		F1M0,0 -2,6 3.5,2 -3.5,2 2,6 0,0z
 	</Geometry>
-	<Geometry x:Key="Icon.Svg.SelectFolder"
-			>
+	<Geometry x:Key="Icon.Svg.SelectFolder">
 		F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z
 	</Geometry>
 
@@ -118,18 +95,19 @@
 			>
 		<Border
 				Padding="{TemplateBinding Padding}"
-				SnapsToDevicePixels="True"
 				Background="{TemplateBinding Background}"
 				BorderThickness="{TemplateBinding BorderThickness}"
 				BorderBrush="{TemplateBinding BorderBrush}"
+				SnapsToDevicePixels="True"
 				>
-			<ContentPresenter Content="{TemplateBinding Content}"
+			<ContentPresenter
+					Content="{TemplateBinding Content}"
 					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 					ContentStringFormat="{TemplateBinding ContentStringFormat}"
-					ContentTemplate="{TemplateBinding ContentTemplate}"
 					RecognizesAccessKey="True"
 					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
 					/>
 		</Border>
 		<ControlTemplate.Triggers>
@@ -149,21 +127,22 @@
 			TargetType="{x:Type ButtonBase}"
 			>
 		<Border x:Name="border"
-				SnapsToDevicePixels="True"
 				Background="{TemplateBinding Background}"
 				BorderThickness="{TemplateBinding BorderThickness}"
 				BorderBrush="{TemplateBinding BorderBrush}"
+				SnapsToDevicePixels="True"
 				>
 
-			<ContentPresenter x:Name="cp" Content="{TemplateBinding Content}"
+			<ContentPresenter x:Name="cp"
+					Content="{TemplateBinding Content}"
 					Margin="{TemplateBinding Padding}"
 					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 					ContentStringFormat="{TemplateBinding ContentStringFormat}"
-					ContentTemplate="{TemplateBinding ContentTemplate}"
 					Focusable="False"
 					RecognizesAccessKey="True"
 					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
 					/>
 		</Border>
 		<ControlTemplate.Triggers>
@@ -223,29 +202,23 @@
 		<Setter Property="Margin" Value="12,0,0,10" />
 	</Style>
 
-	<system:Double x:Key="FldrRt.Height"
-			>
+	<system:Double x:Key="FldrRt.Height">
 		30
 	</system:Double>
-	<system:Double x:Key="FldrRt.ObBtnHeight"
-			>
+	<system:Double x:Key="FldrRt.ObBtnHeight">
 		17
 	</system:Double>
-	<system:Double x:Key="FldrRt.TxFntSize"
-			>
+	<system:Double x:Key="FldrRt.TxFntSize">
 		12
 	</system:Double>
-	<system:Double x:Key="FldrRt.FntSize"
-			>
+	<system:Double x:Key="FldrRt.FntSize">
 		12
 	</system:Double>
 
-	<Thickness x:Key="FldrRt.TxFntMargin"
-			>
+	<Thickness x:Key="FldrRt.TxFntMargin">
 		0,0,0,2
 	</Thickness>
-	<Thickness x:Key="FldrRt.ObBtnMargin"
-			>
+	<Thickness x:Key="FldrRt.ObBtnMargin">
 		-1,0,0,0
 	</Thickness>
 

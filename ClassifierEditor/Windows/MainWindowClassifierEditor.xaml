@@ -17,15 +17,15 @@
 		Height="800"
 		MinWidth="1200"
 		MinHeight="800"
+		DataContext="{Binding ElementName=MainWinClsfrEd}"
+		mc:Ignorable="d"
 		FontFamily="Tahoma"
 		FontSize="12"
+		Background="{DynamicResource Window.Background}"
 		d:UseSampleData="True"
 		Closing="MainWin_Closing"
-		DataContext="{Binding ElementName=MainWinClsfrEd}"
 		Initialized="Window_Initialized"
 		Loaded="Window_Loaded"
-		mc:Ignorable="d"
-		Background="{DynamicResource Window.Background}"
 		>
 	<!--  xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"  -->
 	<!--  xmlns:file="clr-namespace:AndyShared.FilesSupport;assembly=WpfShared"  -->
@@ -292,7 +292,7 @@
 				<Setter Property="VerticalContentAlignment" Value="Center" />
 
 				<Style.Triggers>
-					<DataTrigger Binding="{Binding IsNodeSelected, FallbackValue=False}" Value="true">
+					<DataTrigger Value="true" Binding="{Binding IsNodeSelected, FallbackValue=False}">
 						<Setter Property="IsEnabled" Value="true" />
 					</DataTrigger>
 				</Style.Triggers>
@@ -312,11 +312,11 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type Button}">
 							<Border x:Name="Bd"
-									CornerRadius="18"
-									SnapsToDevicePixels="true"
 									Background="{TemplateBinding Background}"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									CornerRadius="18"
+									SnapsToDevicePixels="true"
 									>
 								<ContentPresenter x:Name="contentPresenterBtn"
 										Margin="{TemplateBinding Padding}"
@@ -483,10 +483,10 @@
 						<ControlTemplate TargetType="{x:Type DataGrid}">
 							<Border
 									Padding="{TemplateBinding Padding}"
-									SnapsToDevicePixels="True"
 									Background="{TemplateBinding Background}"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="True"
 									>
 								<ScrollViewer x:Name="DG_ScrollViewer"
 										Focusable="false"
@@ -537,18 +537,18 @@
 												<ScrollBar x:Name="PART_VerticalScrollBar"
 														Grid.Column="2"
 														Grid.Row="1"
-														Margin="0,-1,0,0"
+														Margin="0,0,0,0"
 														Width="{StaticResource BarSizeOutline}"
 														MinWidth="{StaticResource BarSize}"
+														Value="{Binding VerticalOffset,
+																						Mode=OneWay,
+																						RelativeSource={RelativeSource TemplatedParent}}"
+														Background="{StaticResource ScrollBarBkg}"
 														Cursor="Arrow"
 														Maximum="{TemplateBinding ScrollableHeight}"
 														Minimum="0"
 														ViewportSize="{TemplateBinding ViewportHeight}"
 														Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-														Value="{Binding VerticalOffset,
-																						Mode=OneWay,
-																						RelativeSource={RelativeSource TemplatedParent}}"
-														Background="{StaticResource ScrollBarBkg}"
 														Style="{DynamicResource ScrollBarStyle}"
 														/>
 
@@ -578,6 +578,10 @@
 															Grid.Row="0"
 															Height="{StaticResource BarSizeOutline}"
 															MinHeight="{StaticResource BarSize}"
+															Value="{Binding HorizontalOffset,
+																							Mode=OneWay,
+																							RelativeSource={RelativeSource TemplatedParent}}"
+															Background="{StaticResource ScrollBarBkg}"
 															AutomationProperties.AutomationId="HorizontalScrollBar"
 															Cursor="Arrow"
 															Maximum="{TemplateBinding ScrollableWidth}"
@@ -585,10 +589,6 @@
 															Orientation="Horizontal"
 															ViewportSize="{TemplateBinding ViewportWidth}"
 															Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-															Value="{Binding HorizontalOffset,
-																							Mode=OneWay,
-																							RelativeSource={RelativeSource TemplatedParent}}"
-															Background="{StaticResource ScrollBarBkg}"
 															Style="{DynamicResource ScrollBarStyle}"
 															/>
 
@@ -639,8 +639,8 @@
 							<Border x:Name="Border"
 									Margin="00,0,0,0"
 									Padding="20,2,2,2"
-									SnapsToDevicePixels="true"
 									Background="Transparent"
+									SnapsToDevicePixels="true"
 									>
 								<ContentPresenter x:Name="ContentPresenterA" />
 								<VisualStateManager.VisualStateGroups>
@@ -655,8 +655,8 @@
 													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
 													<!--  ReSharper disable once Xaml.InvalidResourceType  -->
 													<EasingColorKeyFrame
-															KeyTime="0"
 															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.C}"
+															KeyTime="0"
 															/>
 													<!--  color of the drop down selected item  -->
 													<!--  Value="{StaticResource SelectedBackgroundColor}  -->
@@ -672,8 +672,8 @@
 													<!--  Storyboard.TargetProperty="(Border.Background).(SolidColorBrush)"  -->
 													<!--  ReSharper disable once Xaml.InvalidResourceType  -->
 													<EasingColorKeyFrame
-															KeyTime="0"
 															Value="{DynamicResource ItemsControl.ListItem.Background.Selected.UnFocused.C}"
+															KeyTime="0"
 															/>
 													<!--  color of the drop down selected item focus lost  -->
 													<!--  Value="{StaticResource SelectedUnfocusedColor}"  -->
@@ -700,16 +700,16 @@
 					</Grid.ColumnDefinitions>
 					<Border x:Name="Border"
 							Grid.Column="0"
-							CornerRadius="2"
 							BorderThickness="1"
+							CornerRadius="2"
 							/>
 					<Border
 							Grid.Column="0"
 							Grid.ColumnSpan="2"
 							Margin="0"
 							Padding="0"
-							CornerRadius="2,0,0,2"
 							Background="Transparent"
+							CornerRadius="2,0,0,2"
 							/>
 					<Path x:Name="Arrow"
 							Grid.Column="0"
@@ -744,8 +744,8 @@
 					>
 
 				<Border x:Name="PART_ContentHost"
-						Focusable="False"
 						Background="{TemplateBinding Background}"
+						Focusable="False"
 						/>
 			</ControlTemplate>
 
@@ -756,8 +756,8 @@
 				<Border
 						Margin="0,0,0,0"
 						Padding="8,0,10,0"
-						CornerRadius="3"
 						BorderThickness="0"
+						CornerRadius="3"
 						>
 					<!--  Background="{StaticResource ItemsControl.Subject.Background.Normal}"  -->
 					<Border.Style>
@@ -811,12 +811,12 @@
 						<ToggleButton x:Name="ToggleButton"
 								Grid.Column="0"
 								Grid.ColumnSpan="2"
-								ClickMode="Press"
-								Focusable="false"
 								Background="{TemplateBinding Background}"
 								IsChecked="{Binding IsDropDownOpen,
 																		Mode=TwoWay,
 																		RelativeSource={RelativeSource TemplatedParent}}"
+								ClickMode="Press"
+								Focusable="false"
 								Template="{StaticResource ComboBoxToggleButton1}"
 								/>
 
@@ -826,8 +826,8 @@
 								Margin="0,0,1,0"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
 								IsHitTestVisible="False"
+								ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
 								ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
 								>
 						</ContentPresenter>
@@ -837,11 +837,11 @@
 								Margin="3,0,3,0"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
-								Focusable="True"
-								Visibility="Hidden"
 								Background="Transparent"
 								Foreground="{TemplateBinding Foreground}"
 								IsReadOnly="{TemplateBinding IsReadOnly}"
+								Focusable="True"
+								Visibility="Hidden"
 								Style="{x:Null}"
 								Template="{StaticResource ComboBoxTextBox}"
 								/>
@@ -850,10 +850,10 @@
 								AllowsTransparency="True"
 								Grid.Column="1"
 								Margin="0"
+								IsOpen="{TemplateBinding IsDropDownOpen}"
 								Focusable="False"
 								Placement="Bottom"
 								PopupAnimation="Slide"
-								IsOpen="{TemplateBinding IsDropDownOpen}"
 								>
 							<!--  IsOpen="{TemplateBinding IsDropDownOpen}"  -->
 
@@ -883,8 +883,8 @@
 										Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"
 										>
 									<StackPanel
-											KeyboardNavigation.DirectionalNavigation="Contained"
 											IsItemsHost="True"
+											KeyboardNavigation.DirectionalNavigation="Contained"
 											/>
 
 								</ScrollViewer>
@@ -903,8 +903,8 @@
 												Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
 												>
 											<EasingColorKeyFrame
-													KeyTime="0"
 													Value="{StaticResource DisabledForegroundColor}"
+													KeyTime="0"
 													/>
 										</ColorAnimationUsingKeyFrames>
 									</Storyboard>
@@ -918,8 +918,8 @@
 												Storyboard.TargetProperty="(UIElement.Visibility)"
 												>
 											<DiscreteObjectKeyFrame
-													KeyTime="0"
 													Value="{x:Static Visibility.Visible}"
+													KeyTime="0"
 													/>
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames
@@ -927,8 +927,8 @@
 												Storyboard.TargetProperty="(UIElement.Visibility)"
 												>
 											<DiscreteObjectKeyFrame
-													KeyTime="0"
 													Value="{x:Static Visibility.Hidden}"
+													KeyTime="0"
 													/>
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
@@ -947,7 +947,7 @@
 					<Trigger Property="IsGrouping" Value="true">
 						<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
 					</Trigger>
-					<Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
+					<Trigger Property="AllowsTransparency" Value="true" SourceName="Popup">
 						<Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
 						<Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
 					</Trigger>
@@ -1027,8 +1027,8 @@
 						<ControlTemplate TargetType="{x:Type CheckBox}">
 							<Grid x:Name="templateRoot"
 									Margin="0"
-									SnapsToDevicePixels="True"
 									Background="Transparent"
+									SnapsToDevicePixels="True"
 									>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
@@ -1198,8 +1198,8 @@
 				<Style.Triggers>
 					<MultiDataTrigger>
 						<MultiDataTrigger.Conditions>
-							<Condition Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" Value="true" />
-							<Condition Binding="{Binding IsNodeSelected}" Value="false" />
+							<Condition Value="true" Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" />
+							<Condition Value="false" Binding="{Binding IsNodeSelected}" />
 						</MultiDataTrigger.Conditions>
 						<Setter Property="IsEnabled" Value="true" />
 					</MultiDataTrigger>
@@ -1212,7 +1212,7 @@
 					>
 				<Setter Property="IsEnabled" Value="False" />
 				<Style.Triggers>
-					<DataTrigger Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" Value="true">
+					<DataTrigger Value="true" Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}">
 						<Setter Property="IsEnabled" Value="true" />
 					</DataTrigger>
 
@@ -1247,11 +1247,11 @@
 					Padding="0,6,0,6"
 					d:DataContext="{Binding ElementName=MainWinClsfrEd,
 																	Path=UserSelected}"
+					Background="{StaticResource ContextMenu.Background}"
+					Foreground="White"
 					Closed="Tv1ContextMenu_OnClosed"
 					HasDropShadow="True"
 					Opened="Tv1ContextMenu_OnOpened"
-					Background="{StaticResource ContextMenu.Background}"
-					Foreground="White"
 					OverridesDefaultStyle="True"
 					>
 
@@ -1320,7 +1320,7 @@
 
 						<ControlTemplate.Triggers>
 
-							<Trigger SourceName="ContextMenuScrollViewer" Property="CanContentScroll" Value="False">
+							<Trigger Property="CanContentScroll" Value="False" SourceName="ContextMenuScrollViewer">
 								<Setter TargetName="OpaqueRect" Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=ContextMenuScrollViewer}" />
 								<Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=ContextMenuScrollViewer}" />
 							</Trigger>
@@ -1341,15 +1341,15 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding CanExpand}" Value="true" />
-										<Condition Binding="{Binding IsExpanded}" Value="false" />
+										<Condition Value="true" Binding="{Binding CanExpand}" />
+										<Condition Value="false" Binding="{Binding IsExpanded}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 								</MultiDataTrigger>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding CanExpand}" Value="true" />
-										<Condition Binding="{Binding IsExpanded}" Value="true" />
+										<Condition Value="true" Binding="{Binding CanExpand}" />
+										<Condition Value="true" Binding="{Binding IsExpanded}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="CommandParameter" Value="{Binding ContextCmdCollapse, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindowClassifierEditor}}}" />
 									<Setter Property="Header" Value="{Binding ContextCmdCollapse, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindowClassifierEditor}}}" />
@@ -1368,8 +1368,8 @@
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindowClassifierEditor}}}"
 						Header="Add Category Before"
-						Click="Tv1ContextMenuAddBefore_OnClick"
 						Style="{StaticResource Tv.context.menuitem.base}"
+						Click="Tv1ContextMenuAddBefore_OnClick"
 						/>
 
 				<MenuItem
@@ -1378,8 +1378,8 @@
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindowClassifierEditor}}}"
 						Header="Add Category After"
-						Click="Tv1ContextMenuAddAfter_OnClick"
 						Style="{StaticResource Tv.context.menuitem.base}"
+						Click="Tv1ContextMenuAddAfter_OnClick"
 						/>
 				<MenuItem
 						CommandParameter="{Binding ContextCmdAddChild,
@@ -1396,10 +1396,10 @@
 								>
 							<Setter Property="IsEnabled" Value="true" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
+								<DataTrigger Value="true" Binding="{Binding Item.IsLocked}">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
-								<DataTrigger Binding="{Binding IsMaxDepth, Converter={StaticResource PassThru}}" Value="true">
+								<DataTrigger Value="true" Binding="{Binding IsMaxDepth, Converter={StaticResource PassThru}}">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -1415,8 +1415,8 @@
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindowClassifierEditor}}}"
 						Header="Move Selected Before"
-						Click="Tv1ContextMenuMoveBefore_OnClick"
 						Style="{StaticResource Tv.context.menuitem.move}"
+						Click="Tv1ContextMenuMoveBefore_OnClick"
 						/>
 
 				<MenuItem
@@ -1425,8 +1425,8 @@
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindowClassifierEditor}}}"
 						Header="Move Selected After"
-						Click="Tv1ContextMenuMoveAfter_OnClick"
 						Style="{StaticResource Tv.context.menuitem.move}"
+						Click="Tv1ContextMenuMoveAfter_OnClick"
 						/>
 
 
@@ -1447,10 +1447,10 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" Value="true" />
-										<Condition Binding="{Binding IsNodeSelected}" Value="false" />
-										<Condition Binding="{Binding Item.IsLocked}" Value="false" />
-										<Condition Binding="{Binding IsMaxDepth}" Value="false" />
+										<Condition Value="true" Binding="{Binding HasSelection, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindowClassifierEditor}}}" />
+										<Condition Value="false" Binding="{Binding IsNodeSelected}" />
+										<Condition Value="false" Binding="{Binding Item.IsLocked}" />
+										<Condition Value="false" Binding="{Binding IsMaxDepth}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="true" />
 								</MultiDataTrigger>
@@ -1476,10 +1476,10 @@
 								>
 							<Setter Property="IsEnabled" Value="True" />
 							<Style.Triggers>
-								<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
+								<DataTrigger Value="true" Binding="{Binding Item.IsFixed}">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
-								<DataTrigger Binding="{Binding Item.IsLocked}" Value="true">
+								<DataTrigger Value="true" Binding="{Binding Item.IsLocked}">
 									<Setter Property="IsEnabled" Value="false" />
 								</DataTrigger>
 							</Style.Triggers>
@@ -1493,8 +1493,8 @@
 																			 RelativeSource={RelativeSource FindAncestor,
 																																			AncestorType={x:Type local:MainWindowClassifierEditor}}}"
 						Header="Duplicate Selected as a Sub-Category"
-						Click="Tv1ContextMenuCopySelAsChild_OnClick"
 						Style="{StaticResource Tv.context.menuitem.clone}"
+						Click="Tv1ContextMenuCopySelAsChild_OnClick"
 						/>
 
 				<Separator Margin="6" />
@@ -1516,9 +1516,9 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding Item.IsLocked}" Value="false" />
-										<Condition Binding="{Binding Item.IsFixed}" Value="false" />
-										<Condition Binding="{Binding IsMaxDepth}" Value="false" />
+										<Condition Value="false" Binding="{Binding Item.IsLocked}" />
+										<Condition Value="false" Binding="{Binding Item.IsFixed}" />
+										<Condition Value="false" Binding="{Binding IsMaxDepth}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="true" />
 								</MultiDataTrigger>
@@ -1570,10 +1570,10 @@
 
 								<ToggleButton x:Name="Expander"
 										VerticalAlignment="Top"
-										ClickMode="Press"
 										IsChecked="{Binding IsExpanded,
 																				RelativeSource={RelativeSource TemplatedParent}}"
 										IsEnabled="true"
+										ClickMode="Press"
 										Style="{StaticResource Tv1ExpandCollapseToggleStyle}"
 										/>
 
@@ -1583,9 +1583,9 @@
 										Grid.Row="0"
 										Margin="0,0.5,4.5,0"
 										Width="Auto"
+										BorderThickness="12,1.5,.5,6"
 										CornerRadius="6"
 										SnapsToDevicePixels="True"
-										BorderThickness="12,1.5,.5,6"
 										>
 									<Border.Style>
 										<Style TargetType="{x:Type Border}">
@@ -1604,9 +1604,9 @@
 
 									<Border x:Name="BD"
 											Margin="-3.5,-.5,.5,-1"
-											CornerRadius="5"
 											BorderThickness="4,0.5,2,0.5"
 											BorderBrush="{StaticResource TreeView.Background}"
+											CornerRadius="5"
 											>
 										<Border.Style>
 											<Style TargetType="{x:Type Border}">
@@ -1622,10 +1622,10 @@
 
 											<Border x:Name="Bd"
 													Padding="{TemplateBinding Padding}"
-													custom:CustomProperties.GenericBoolOne="{Binding IsContextHighlighted}"
-													SnapsToDevicePixels="true"
 													BorderThickness="{TemplateBinding BorderThickness}"
 													BorderBrush="{TemplateBinding BorderBrush}"
+													custom:CustomProperties.GenericBoolOne="{Binding IsContextHighlighted}"
+													SnapsToDevicePixels="true"
 													>
 												<Border.Style>
 													<Style TargetType="{x:Type Border}">
@@ -1634,7 +1634,7 @@
 															<!-- <Trigger Property="IsMouseOver" Value="true"> -->
 															<!-- 	<Setter Property="Background" Value="{StaticResource TreeView.MouseOver.Background}" /> -->
 															<!-- </Trigger> -->
-															<DataTrigger Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}" Value="true">
+															<DataTrigger Value="true" Binding="{Binding Path=(custom:CustomProperties.GenericBoolOne), RelativeSource={RelativeSource Self}}">
 																<Setter Property="Background" Value="{StaticResource TreeView.ContextSelected.Background}" />
 															</DataTrigger>
 															<Trigger Property="IsMouseOver" Value="True">
@@ -1705,7 +1705,7 @@
 								<!-- 	</MultiTrigger.Conditions> -->
 								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ItemsControl.MouseOver.Background}" /> -->
 								<!-- </MultiTrigger> -->
-								<DataTrigger Binding="{Binding Item.CanSelect}" Value="true">
+								<DataTrigger Value="true" Binding="{Binding Item.CanSelect}">
 									<Setter TargetName="PART_Header" Property="IsEnabled" Value="False" />
 								</DataTrigger>
 								<!-- <Setter Property="TextElement.Foreground" Value="Red" /> -->
@@ -1752,18 +1752,18 @@
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TreeView}">
 							<Border x:Name="Bd"
-									SnapsToDevicePixels="true"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="true"
 									>
 								<ScrollViewer x:Name="_tv_scrollviewer_"
 										Padding="{TemplateBinding Padding}"
+										Background="{TemplateBinding Background}"
 										CanContentScroll="false"
 										Focusable="false"
 										HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
 										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 										VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-										Background="{TemplateBinding Background}"
 										Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"
 										>
 									<!--  Template="{DynamicResource Tv1ScrollViewerControlTemplate1}"  -->
@@ -1969,17 +1969,17 @@
 					<ScrollBar x:Name="PART_VerticalScrollBar"
 							Grid.Column="2"
 							Grid.Row="1"
-							Margin="0,-1,0,0"
+							Margin="0,0,0,0"
 							Width="{StaticResource BarSizeOutline}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
 							Cursor="Arrow"
 							Maximum="{TemplateBinding ScrollableHeight}"
 							Minimum="0"
 							ViewportSize="{TemplateBinding ViewportHeight}"
 							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-							Value="{Binding VerticalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							Background="{StaticResource ScrollBarBkg}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
 
@@ -1988,6 +1988,10 @@
 							Grid.Row="2"
 							Height="{StaticResource BarSizeOutline}"
 							MinHeight="{StaticResource BarSize}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
 							AutomationProperties.AutomationId="HorizontalScrollBar"
 							ClipToBounds="True"
 							Cursor="Arrow"
@@ -1996,10 +2000,6 @@
 							Orientation="Horizontal"
 							ViewportSize="{TemplateBinding ViewportWidth}"
 							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-							Value="{Binding HorizontalOffset,
-															Mode=OneWay,
-															RelativeSource={RelativeSource TemplatedParent}}"
-							Background="{StaticResource ScrollBarBkg}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
 
@@ -2025,11 +2025,11 @@
 
 							<Border x:Name="Bd"
 									Padding="0,5,0,5"
-									CornerRadius="6"
-									SnapsToDevicePixels="true"
 									Background="{TemplateBinding Background}"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}"
+									CornerRadius="6"
+									SnapsToDevicePixels="true"
 									>
 								<ScrollViewer
 										Margin="0,0,3,0"
@@ -2055,19 +2055,19 @@
 												Padding="0"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Bottom"
-												CornerRadius="2"
 												BorderThickness="0"
 												BorderBrush="{StaticResource ItemsControl.Item.Alt1.Background.Normal}"
+												CornerRadius="2"
 												>
 											<Border.Style>
 												<Style TargetType="{x:Type Border}">
 													<Setter Property="Background" Value="{StaticResource ItemsControl.Item.Alt1.Background.Normal}" />
 													<Setter Property="Visibility" Value="Collapsed" />
 													<Style.Triggers>
-														<DataTrigger Binding="{Binding Item.CompareOps.Count, FallbackValue=0}" Value="0">
+														<DataTrigger Value="0" Binding="{Binding Item.CompareOps.Count, FallbackValue=0}">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
-														<DataTrigger Binding="{Binding Item.CompareOps, FallbackValue={x:Null}}" Value="{x:Null}">
+														<DataTrigger Value="{x:Null}" Binding="{Binding Item.CompareOps, FallbackValue={x:Null}}">
 															<Setter Property="Visibility" Value="Visible" />
 														</DataTrigger>
 														<Trigger Property="IsEnabled" Value="false">
@@ -2218,9 +2218,9 @@
 								Height="18"
 								Padding="0"
 								HorizontalAlignment="right"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Right"
-								BorderThickness="0"
 								>
 							<Border.Effect>
 								<DropShadowEffect />
@@ -2235,7 +2235,7 @@
 									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
 									<Setter Property="Visibility" Value="Visible" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
+										<DataTrigger Value="true" Binding="{Binding Item.IsFixed}">
 											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2248,12 +2248,12 @@
 									Height="12"
 									VerticalAlignment="Center"
 									FontSize="10"
-									Checked="CkbxLocked_OnChecked"
 									Background="Transparent"
 									Foreground="white"
 									BorderBrush="white"
 									IsChecked="{Binding Path=Item.IsLocked,
 																			Mode=TwoWay}"
+									Checked="CkbxLocked_OnChecked"
 									Style="{DynamicResource Ckbx1Style}"
 									/>
 						</Border>
@@ -2264,11 +2264,11 @@
 								Height="18"
 								Padding="0"
 								HorizontalAlignment="right"
-								CornerRadius="3"
-								DockPanel.Dock="Right"
 								BorderThickness="0"
 								IsEnabled="{Binding Item.IsFixed,
 																		Converter={StaticResource NotBool}}"
+								CornerRadius="3"
+								DockPanel.Dock="Right"
 								>
 							<Border.Effect>
 								<DropShadowEffect />
@@ -2281,7 +2281,7 @@
 									<Setter Property="Background" Value="{StaticResource CheckBox.Background}" />
 									<Setter Property="Visibility" Value="Collapsed" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding Item.IsFixed}" Value="true">
+										<DataTrigger Value="true" Binding="{Binding Item.IsFixed}">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2379,9 +2379,9 @@
 								Height="5"
 								Padding="0"
 								HorizontalAlignment="Left"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
-								BorderThickness="0"
 								Style="{StaticResource ItemsControl.Border.Logical.Background}"
 								/>
 
@@ -2399,9 +2399,9 @@
 								Height="5"
 								Padding="0"
 								HorizontalAlignment="Left"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
-								BorderThickness="0"
 								Style="{StaticResource ItemsControl.Border.Logical.Background}"
 								/>
 
@@ -2409,7 +2409,7 @@
 							<Style TargetType="DockPanel">
 								<Setter Property="Visibility" Value="Visible" />
 								<Style.Triggers>
-									<DataTrigger Binding="{Binding Path=IsFirstCompOp}" Value="true">
+									<DataTrigger Value="true" Binding="{Binding Path=IsFirstCompOp}">
 										<Setter Property="Visibility" Value="Collapsed" />
 									</DataTrigger>
 								</Style.Triggers>
@@ -2427,9 +2427,9 @@
 								Margin="0"
 								Width="100"
 								Padding="0"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
-								BorderThickness="0"
 								>
 							<Border.Style>
 								<Style TargetType="{x:Type Border}">
@@ -2458,9 +2458,9 @@
 
 						<Border x:Name="Bdr2"
 								Margin="5,0,0,0"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
-								BorderThickness="0"
 								>
 							<Border.Style>
 								<Style TargetType="{x:Type Border}">
@@ -2483,9 +2483,9 @@
 
 						<Border
 								Margin="5,0,0,0"
+								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="left"
-								BorderThickness="0"
 								>
 							<Border.Style>
 								<Style TargetType="{x:Type Border}">
@@ -2676,10 +2676,10 @@
 							Margin="0"
 							Width="100"
 							Padding="0"
-							CornerRadius="3"
-							DockPanel.Dock="Left"
 							Background="{StaticResource ListView.Item.Background.Discipline}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="Left"
 							>
 						<Label x:Name="Label11"
 								Content="Compare Condtiion"
@@ -2690,10 +2690,10 @@
 
 					<Border x:Name="Bdr2"
 							Margin="5,0,0,0"
-							CornerRadius="3"
-							DockPanel.Dock="Left"
 							Background="{StaticResource ListView.Item.Background}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="Left"
 							>
 						<Label x:Name="Label12"
 								Content="Is NoOp"
@@ -2705,10 +2705,10 @@
 
 					<Border
 							Margin="5,0,0,0"
-							CornerRadius="3"
-							DockPanel.Dock="left"
 							Background="{StaticResource ListView.Item.Background.Error}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="left"
 							>
 
 						<Label x:Name="Label13"
@@ -2772,9 +2772,9 @@
 						Padding="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						d:DesignWidth="450"
 						BorderThickness="0,0.5,0,0"
 						BorderBrush="White"
+						d:DesignWidth="450"
 						>
 
 					<Grid x:Name="DtGrid1"
@@ -2839,10 +2839,10 @@
 								Height="18"
 								Padding="0"
 								HorizontalAlignment="center"
-								CornerRadius="3"
-								DockPanel.Dock="Left"
 								Background="{StaticResource CheckBox.Background}"
 								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="Left"
 								>
 							<Border.Effect>
 								<DropShadowEffect />
@@ -2854,12 +2854,12 @@
 									Height="12"
 									VerticalAlignment="Center"
 									FontSize="10"
-									Checked="CkbxDisable_OnChecked"
 									Background="Transparent"
 									Foreground="white"
 									BorderBrush="white"
 									IsChecked="{Binding Path=IsDisabled,
 																			Mode=TwoWay}"
+									Checked="CkbxDisable_OnChecked"
 									Style="{DynamicResource Ckbx1Style}"
 									/>
 						</Border>
@@ -2902,9 +2902,9 @@
 											Height="5"
 											Padding="0,0,0,0"
 											HorizontalAlignment="Stretch"
+											BorderThickness="0"
 											CornerRadius="3"
 											DockPanel.Dock="left"
-											BorderThickness="0"
 											Style="{StaticResource ItemsControl.Border.Logical.Background}"
 											>
 									</Border>
@@ -2916,6 +2916,8 @@
 											Height="14"
 											HorizontalAlignment="Center"
 											FontSize="10"
+											BorderThickness="2"
+											IsEditable="False"
 											custom:CustomProperties.DropDownWidth="90.0"
 											DisplayMemberPath="Name"
 											DockPanel.Dock="left"
@@ -2924,8 +2926,6 @@
 																																						 AncestorType={x:Type ListViewItem}},
 																							Path=DataContext.LogicalCompOpCode,
 																							Mode=TwoWay}"
-											BorderThickness="2"
-											IsEditable="False"
 											ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 											ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.LogicalCompareOps}}"
 											FocusVisualStyle="{x:Null}"
@@ -2946,16 +2946,16 @@
 											Height="5"
 											Padding="0"
 											HorizontalAlignment="right"
+											BorderThickness="0"
 											CornerRadius="3"
 											DockPanel.Dock="right"
-											BorderThickness="0"
 											Style="{StaticResource ItemsControl.Border.Logical.Background}"
 											/>
 
 									<StackPanel.Style>
 										<Style TargetType="StackPanel">
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding Path=IsDisabled}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding Path=IsDisabled}">
 													<Setter Property="IsEnabled" Value="false" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -2976,9 +2976,9 @@
 									Margin="5,0,0,0"
 									Width="100"
 									Padding="0"
+									BorderThickness="0"
 									CornerRadius="3"
 									DockPanel.Dock="Left"
-									BorderThickness="0"
 									>
 								<Border.Style>
 									<Style
@@ -2993,12 +2993,12 @@
 										Content="{Binding Item.ComponentName,
 																			FallbackValue='component name'}"
 										HorizontalAlignment="Center"
-										d:DataContext="{Binding DataContext,
-																						RelativeSource={RelativeSource FindAncestor,
-																																					 AncestorType={x:Type ListView}}}"
 										DataContext="{Binding DataContext,
 																					RelativeSource={RelativeSource FindAncestor,
 																																				 AncestorType={x:Type ListView}}}"
+										d:DataContext="{Binding DataContext,
+																						RelativeSource={RelativeSource FindAncestor,
+																																					 AncestorType={x:Type ListView}}}"
 										Background="Transparent"
 										Style="{StaticResource Label.Condition.ComponentName}"
 										>
@@ -3011,15 +3011,15 @@
 									Margin="5,0,0,0"
 									Padding="8,2,2,2"
 									HorizontalAlignment="Left"
-									FontSize="10"
-									custom:CustomProperties.DropDownWidth="180.0"
 									d:DataContext="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
+									FontSize="10"
+									BorderThickness="2"
+									IsEditable="False"
+									custom:CustomProperties.DropDownWidth="180.0"
 									DisplayMemberPath="Name"
 									MaxDropDownHeight="100"
 									SelectedIndex="{Binding ValueCompOpCode,
 																					FallbackValue='1'}"
-									BorderThickness="2"
-									IsEditable="False"
 									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 									ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
@@ -3049,9 +3049,9 @@
 							<!--  value  -->
 							<Border x:Name="Bdr2"
 									Margin="5,0,0,0"
+									BorderThickness="0"
 									CornerRadius="3"
 									DockPanel.Dock="left"
-									BorderThickness="0"
 									>
 								<Border.Style>
 									<Style
@@ -3068,13 +3068,13 @@
 										VerticalAlignment="Center"
 										HorizontalContentAlignment="Center"
 										FontSize="10"
+										Background="Transparent"
+										BorderThickness="0"
 										res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
 										res:TextBoxBehavior.SelectAllTextOnFocus="True"
 										Text="{Binding CompareValue,
 																	 Mode=TwoWay,
 																	 FallbackValue='1'}"
-										Background="Transparent"
-										BorderThickness="0"
 										>
 									<TextBox.Style>
 										<Style
@@ -3101,7 +3101,7 @@
 				<DataTemplate.Triggers>
 
 					<!--  true  -->
-					<DataTrigger Binding="{Binding Path=IsFirstCompOp}" Value="True">
+					<DataTrigger Value="True" Binding="{Binding Path=IsFirstCompOp}">
 						<Setter TargetName="BorderCkBx" Property="Visibility" Value="Hidden" />
 						<Setter TargetName="BtnDeleteCondition" Property="Visibility" Value="Hidden" />
 						<Setter TargetName="DtBorder1" Property="BorderThickness" Value="0" />
@@ -3110,7 +3110,7 @@
 					</DataTrigger>
 
 					<!--  true  -->
-					<DataTrigger Binding="{Binding Path=IsDisabled}" Value="True">
+					<DataTrigger Value="True" Binding="{Binding Path=IsDisabled}">
 						<Setter TargetName="Bdr1" Property="Background" Value="{StaticResource ItemsControl.Title.Background.Disabled}" />
 						<Setter TargetName="Bdr2" Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
 						<Setter TargetName="DpCompare" Property="IsEnabled" Value="false" />
@@ -3475,10 +3475,10 @@
 							Margin="0"
 							Width="100"
 							Padding="0"
-							CornerRadius="3"
-							DockPanel.Dock="Left"
 							Background="{StaticResource ListView.Item.Background.Discipline}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="Left"
 							>
 						<Label x:Name="Label17"
 								Content="Compare Condtiion"
@@ -3489,10 +3489,10 @@
 
 					<Border x:Name="Bdr2"
 							Margin="5,0,0,0"
-							CornerRadius="3"
-							DockPanel.Dock="Left"
 							Background="{StaticResource ListView.Item.Background}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="Left"
 							>
 						<Label x:Name="Label18"
 								Content="Is NoOp"
@@ -3504,10 +3504,10 @@
 
 					<Border
 							Margin="5,0,0,0"
-							CornerRadius="3"
-							DockPanel.Dock="left"
 							Background="{StaticResource ListView.Item.Background.Error}"
 							BorderThickness="0"
+							CornerRadius="3"
+							DockPanel.Dock="left"
 							>
 
 						<Label x:Name="Label19"
@@ -3533,8 +3533,8 @@
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="4*" />
-			<RowDefinition Height="106" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
 
 		</Grid.RowDefinitions>
 
@@ -3619,10 +3619,10 @@
 
 					<TextBox x:Name="tbx32"
 							HorizontalAlignment="Stretch"
-							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							DataContext="{Binding ElementName=MainWinClsfrEd,
 																		Path=ClassificationFile.FolderPathLocal,
 																		FallbackValue='c:\\File Path'}"
+							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -3651,24 +3651,22 @@
 							/>
 				</Border>
 
-				<!--  <Border  -->
-				<!--  Margin="5,0,0,0"  -->
-				<!--  HorizontalAlignment="Stretch"  -->
-				<!--  Style="{StaticResource Border.Settings.Button}"  -->
-				<!--  >  -->
-				<!-- 	<Border.Background> -->
-				<!-- 		<SolidColorBrush Color="{StaticResource Amber.200}" /> -->
-				<!-- 	</Border.Background> -->
-				<!--  <TextBox x:Name="Tbx35"  -->
-				<!--  HorizontalAlignment="Stretch"  -->
-				<!--  Text="{Binding ElementName=MainWinClsfrEd,  -->
-				<!--  Path=ClassificationFile.SampleFileName,  -->
-				<!--  Mode=OneWay,  -->
-				<!--  FallbackValue='Filename'}"  -->
-				<!--  Style="{StaticResource TextBox.Setting.Value}"  -->
-				<!--  >  -->
-				<!-- 	</TextBox> -->
-				<!-- </Border> -->
+				<Border
+						Margin="5,0,0,0"
+						HorizontalAlignment="Stretch"
+						Style="{StaticResource Border.Settings.Button}"
+						>
+
+					<TextBox x:Name="Tbx35"
+							HorizontalAlignment="Stretch"
+							Text="{Binding ElementName=MainWinClsfrEd,
+														 Path=ClassificationFile.SampleFileName,
+														 Mode=OneWay,
+														 FallbackValue='Filename'}"
+							Style="{StaticResource TextBox.Setting.Value}"
+							>
+					</TextBox>
+				</Border>
 
 				<Border
 						Margin="5,0,5,0"
@@ -3825,9 +3823,9 @@
 						HorizontalAlignment="Right"
 						VerticalAlignment="Bottom"
 						DockPanel.Dock="right"
-						Click="BtnDebug_OnClick"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnDebug_OnClick"
 						/>
 
 				<Button x:Name="BtnTestAll"
@@ -3838,9 +3836,9 @@
 						HorizontalAlignment="Right"
 						VerticalAlignment="Bottom"
 						DockPanel.Dock="right"
-						Click="BtnTestAll_OnClick"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnTestAll_OnClick"
 						/>
 			</StackPanel>
 
@@ -3854,13 +3852,13 @@
 						Margin="5"
 						Width="{StaticResource Normal.Button.Width}"
 						Height="{StaticResource Normal.Button.Height}"
-						DockPanel.Dock="right"
 						IsEnabled="{Binding ClassificationFile.IsModified,
 																ElementName=MainWinClsfrEd,
 																Converter={StaticResource NotBool}}"
-						Click="BtnSelect_OnClick"
+						DockPanel.Dock="right"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnSelect_OnClick"
 						/>
 
 				<Button x:Name="BtnCancelChanges"
@@ -3870,8 +3868,8 @@
 						Height="{StaticResource Normal.Button.Height}"
 						DataContext="{Binding ElementName=MainWinClsfrEd}"
 						DockPanel.Dock="right"
-						Click="BtnSave_OnCancelChanges"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnSave_OnCancelChanges"
 						>
 
 					<Button.Style>
@@ -3885,8 +3883,8 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="true" />
-										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+										<Condition Value="true" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 									<Setter Property="ToolTip" Value="Cancel all changes&#x0a;since last save" />
@@ -3894,8 +3892,8 @@
 
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="false" />
-										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+										<Condition Value="false" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="false" />
 									<Setter Property="ToolTip" Value="Finish Editing the&#x0a;Selected Category" />
@@ -3914,8 +3912,8 @@
 						Height="{StaticResource Normal.Button.Height}"
 						DataContext="{Binding ElementName=MainWinClsfrEd}"
 						DockPanel.Dock="right"
-						Click="BtnSave_OnClick"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnSave_OnClick"
 						>
 
 					<Button.Style>
@@ -3929,8 +3927,8 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="true" />
-										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+										<Condition Value="true" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 									<Setter Property="ToolTip" Value="Save Changes" />
@@ -3938,8 +3936,8 @@
 
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" Value="false" />
-										<Condition Binding="{Binding ClassificationFile.IsModified}" Value="true" />
+										<Condition Value="false" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="false" />
 									<Setter Property="ToolTip" Value="Finish Editing the Selected Category" />
@@ -3957,9 +3955,9 @@
 						Width="{StaticResource Normal.Button.Width}"
 						Height="{StaticResource Normal.Button.Height}"
 						DockPanel.Dock="right"
-						Click="BtnDone_OnClick"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnDone_OnClick"
 						/>
 
 			</StackPanel>
@@ -3972,10 +3970,10 @@
 				Grid.Row="0"
 				Grid.ColumnSpan="2"
 				Margin="5,3,5,0"
-				Padding="0,4,0,6"
+				Padding="5,3,0,5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
-				FontSize="13"
+				FontSize="14"
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
 				/>
@@ -4060,10 +4058,10 @@
 								<Setter Property="Content" Value="Done" />
 								<Setter Property="IsEnabled" Value="True" />
 								<Style.Triggers>
-									<DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+									<DataTrigger Value="{x:Null}" Binding="{Binding Item}">
 										<Setter Property="IsEnabled" Value="False" />
 									</DataTrigger>
-									<DataTrigger Binding="{Binding Item.IsModified}" Value="True">
+									<DataTrigger Value="True" Binding="{Binding Item.IsModified}">
 										<Setter Property="Content" Value="Done" />
 									</DataTrigger>
 								</Style.Triggers>
@@ -4169,7 +4167,7 @@
 									>
 								<Setter Property="IsEnabled" Value="False" />
 								<Style.Triggers>
-									<DataTrigger Binding="{Binding HasSelection, ElementName=MainWinClsfrEd}" Value="true">
+									<DataTrigger Value="true" Binding="{Binding HasSelection, ElementName=MainWinClsfrEd}">
 										<Setter Property="IsEnabled" Value="True" />
 									</DataTrigger>
 								</Style.Triggers>
@@ -4198,20 +4196,20 @@
 					Grid.Row="3"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					d:DataContext="{Binding Files,
-																	Source={x:Static sample:SampleData.FileList2}}"
-					AutoGenerateColumns="False"
-					CanUserAddRows="False"
-					DataContext="{Binding FileList.Files,
+					DataContext="{Binding FileList,
 																ElementName=MainWinClsfrEd,
 																FallbackValue={x:Null}}"
-					GridLinesVisibility="Horizontal"
-					HeadersVisibility="None"
-					HorizontalScrollBarVisibility="Visible"
-					VerticalScrollBarVisibility="Visible"
+					d:DataContext="{Binding
+																	Source={x:Static sample:SampleData.FileList2}}"
 					Background="{StaticResource TreeView.Background}"
 					HorizontalGridLinesBrush="{StaticResource TreeViewRow.BorderBrush.Light}"
-					ItemsSource="{Binding}"
+					AutoGenerateColumns="False"
+					CanUserAddRows="False"
+					GridLinesVisibility="Horizontal"
+					HeadersVisibility="None"
+					HorizontalScrollBarVisibility="Auto"
+					VerticalScrollBarVisibility="Visible"
+					ItemsSource="{Binding Files}"
 					CellStyle="{StaticResource Dg.Cell.Base}"
 					RowStyle="{StaticResource Dg.Row.Base}"
 					Style="{DynamicResource Dg1Style}"
@@ -4282,7 +4280,7 @@
 													>
 												<Setter Property="Visibility" Value="Visible" />
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.SheetComponentType, Mode=OneWay}" Value="{x:Null}">
+													<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.SheetComponentType, Mode=OneWay}">
 														<Setter Property="Visibility" Value="Collapsed" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -4314,6 +4312,12 @@
 												Orientation="Horizontal"
 												>
 
+											<Label
+													DataContext="{Binding ElementName=Dg1, Path=DataContext}"
+													Content="{Binding Path=Files.Count}"
+													Style="{StaticResource Dg.CellLabel.Data}"
+													/>
+
 
 											<Border>
 												<StackPanel Orientation="Horizontal">
@@ -4340,9 +4344,10 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.PhaseBldg, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.PhaseBldg, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
+
 														</Style.Triggers>
 													</Style>
 												</Border.Style>
@@ -4372,7 +4377,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Discipline, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Discipline, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4405,7 +4410,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Category, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Category, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4437,7 +4442,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Subcategory, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Subcategory, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4469,7 +4474,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Modifier, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Modifier, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4501,7 +4506,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Submodifier, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Submodifier, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4533,7 +4538,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Identifier, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Identifier, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4565,7 +4570,7 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding FilePathInfo.FileNameObject.Subidentifier, Mode=OneWay}" Value="{x:Null}">
+															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.Subidentifier, Mode=OneWay}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
 														</Style.Triggers>
@@ -4596,14 +4601,14 @@
 				Margin="5"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				d:DataContext="{Binding Source={x:Static sample:SampleData.TreeBase}}"
 				DataContext="{Binding ClassificationFile.TreeBase,
 															ElementName=MainWinClsfrEd}"
-				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				d:DataContext="{Binding Source={x:Static sample:SampleData.TreeBase}}"
+				Background="{StaticResource ItemsControl.Background}"
+				ScrollViewer.HorizontalScrollBarVisibility="Auto"
 				SelectedItemChanged="Tv1_OnSelectedItemChanged"
 				Tag="{Binding ContextCmdDelete,
 											ElementName=MainWinClsfrEd}"
-				Background="{StaticResource ItemsControl.Background}"
 				ItemContainerStyle="{StaticResource Tv1ItemContainerStyle1}"
 				ItemTemplate="{StaticResource Tv1ItemTemplate1}"
 				ItemsSource="{Binding ChildrenView}"

@@ -94,7 +94,9 @@ namespace Tests2.Windows
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 
+#pragma warning disable CS0168 // The variable 'w' is declared but never used
 			WinTreeDesigns w;
+#pragma warning restore CS0168 // The variable 'w' is declared but never used
 			MrgTree.testevent();
 
 			Debug.WriteLine("@debug");

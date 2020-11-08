@@ -70,7 +70,7 @@ namespace ClassifierEditor.Windows
 
 			isConfigured = false;
 
-			// TreeViewTitleIndex = 0;
+			IsExpandedEx = false;
 		}
 
 	#endregion
@@ -229,7 +229,6 @@ namespace ClassifierEditor.Windows
 		}
 
 
-
 		private void initFileList()
 		{
 			testFileList = new SheetFileList();
@@ -330,7 +329,7 @@ namespace ClassifierEditor.Windows
 
 		private void BtnExpand_OnClick(object sender, RoutedEventArgs e)
 		{
-			IsExpandedEx = true;
+			IsExpandedEx = !isExpanded;
 		}
 
 

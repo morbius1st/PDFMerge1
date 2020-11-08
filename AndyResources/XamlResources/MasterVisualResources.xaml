@@ -117,15 +117,6 @@
 
 	<SolidColorBrush x:Key="Element.Button.Background.Normal" Color="{StaticResource Amber.200}" />
 
-
-
-
-
-
-
-
-
-
 	<SolidColorBrush x:Key="Win.Title.Background" Color="{StaticResource Gray.250}" />
 
 	<SolidColorBrush x:Key="ScrollBarBkg" Color="#222222" />

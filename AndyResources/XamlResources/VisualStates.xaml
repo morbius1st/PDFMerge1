@@ -113,14 +113,18 @@
 	<!--#region > Control Specific Brushes-->
 
 	<!--  listbox  -->
+	<!--  listView also  -->
 
+	<!-- dark theme -->
 	<!--  selected active  -->
-	<SolidColorBrush x:Key="Gray.SelectedActive.Background" Color="{StaticResource Gray.900}" />
+	<SolidColorBrush x:Key="Gray.SelectedActive.Dark.Background" Color="{StaticResource Gray.150}" />
+	<SolidColorBrush x:Key="Gray.SelectedActive.Dark.Foreground" Color="{StaticResource Gray.950}" />
 
 	<!--  un-selected  -->
-	<SolidColorBrush x:Key="Gray.UnSelected.Background" Color="{StaticResource Gray.900}" />
-	<SolidColorBrush x:Key="Gray.UnSelected.Foreground" Color="{StaticResource Gray.200}" />
-
+	<SolidColorBrush x:Key="Gray.UnSelected.Dark.Background" Color="{StaticResource Gray.200}" />
+	<SolidColorBrush x:Key="Gray.UnSelected.Dark.Foreground" Color="{StaticResource Gray.800}" />
+	<SolidColorBrush x:Key="Gray.UnSelected.Disabled.Dark.Foreground" Color="{StaticResource Gray.500}" />
+	
 	<!--#endregion-->
 
 	<!--#endregion-->
@@ -145,11 +149,108 @@
 			TargetType="Button"
 			BasedOn="{StaticResource Control.Normal.Style}"
 			/>
-	<!-- <Setter Property="Background" Value="{StaticResource Normal.Disabled.Background}" /> -->
+
 	<!--  listbox item container style  -->
+	<!--  applies to a listview also  -->
+	<!--  light theme  -->
+		<!-- <Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" /> -->
+	<Style x:Key="ListBox.NoHighlight.Dark.ItemContainer"
+			TargetType="{x:Type ListBoxItem}"
+			>
+		<Setter Property="Background" Value="{StaticResource Normal.Disabled.Background}" />
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Opacity" Value="1" />
+		<Setter Property="OpacityMask" Value="Black" />
+		<Setter Property="OverridesDefaultStyle" Value="True" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="SnapsToDevicePixels" Value="True" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ListBoxItem}">
+
+							<!-- Background="{StaticResource Gray.UnSelected.Background}" -->
+					<Border x:Name="Bd"
+							Padding="{TemplateBinding Padding}"
+							SnapsToDevicePixels="true"
+							Background="{TemplateBinding Background}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							>
+						<ContentPresenter
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+								/>
+					</Border>
+							<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Normal.Foreground}" /> -->
+					<ControlTemplate.Triggers>
+						<!-- true -->
+						<Trigger Property="IsEnabled" Value="true">  
+							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
+							<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Gray.SelectedActive.Dark.ForeGround}" /> -->
+							<Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" />
+						</Trigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsMouseOver" Value="True" />
+							</MultiTrigger.Conditions>
+							<!-- <Setter TargetName="Bd" Property="Background" Value="{StaticResource Normal.MouseOver.Background}" /> -->
+							<!-- <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Normal.MouseOver.Border}" /> -->
+						</MultiTrigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Selector.IsSelectionActive" Value="False" />
+								<Condition Property="IsSelected" Value="True" />
+							</MultiTrigger.Conditions>
+							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
+							<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Normal.SelectedInActive.Border}" />
+						</MultiTrigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Selector.IsSelectionActive" Value="True" />
+								<Condition Property="IsSelected" Value="True" />
+							</MultiTrigger.Conditions>
+							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
+							<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Normal.SelectedActive.Border}" />
+						</MultiTrigger>
+						<!-- false -->
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
+							<Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Disabled.Dark.Foreground}" />
+						</Trigger>
+
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+	</Style>
+	
+
+	<!--  listbox  -->
+	<!--  listView also  -->
+
+	<!-- light theme -->
+	<!--  selected active  -->
+	<SolidColorBrush x:Key="Gray.SelectedActive.Background" Color="{StaticResource Gray.900}" />
+
+	<!--  un-selected  -->
+	<SolidColorBrush x:Key="Gray.UnSelected.Background" Color="{StaticResource Gray.900}" />
+	<SolidColorBrush x:Key="Gray.UnSelected.Foreground" Color="{StaticResource Gray.200}" />
+
+	<!--#endregion-->
+
+	<!--  listbox item container style  -->
+	<!--  applies to a listview also  -->
+	<!--  light theme  -->
 	<Style x:Key="ListBox.Normal.ItemContainer"
 			TargetType="{x:Type ListBoxItem}"
 			>
+		<Setter Property="Background" Value="{StaticResource Normal.Disabled.Background}" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Foreground" Value="{StaticResource Gray.UnSelected.Foreground}" />
@@ -165,10 +266,11 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
+							<!-- Background="{StaticResource Gray.UnSelected.Background}" -->
 					<Border x:Name="Bd"
 							Padding="{TemplateBinding Padding}"
 							SnapsToDevicePixels="true"
-							Background="{StaticResource Gray.UnSelected.Background}"
+							Background="{TemplateBinding Background}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							>
@@ -216,7 +318,6 @@
 			</Setter.Value>
 		</Setter>
 		<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-
 	</Style>
 
 	<!--#endregion-->
