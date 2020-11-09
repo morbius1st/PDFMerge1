@@ -12,6 +12,7 @@
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:treeSupport="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
+		xmlns:util="clr-namespace:UtilityLibrary;assembly=WpfShared"
 		Title="MainWindowClassifierEditor"
 		Width="1200"
 		Height="800"
@@ -65,7 +66,6 @@
 			<PathGeometry x:Key="TreeArrow2"
 					Figures="M3.5,3.5 L3.5,8 L8,3.5 z"
 					/>
-
 
 			<Style x:Key="Border.Base"
 					TargetType="Border"
@@ -4199,8 +4199,7 @@
 					DataContext="{Binding FileList,
 																ElementName=MainWinClsfrEd,
 																FallbackValue={x:Null}}"
-					d:DataContext="{Binding
-																	Source={x:Static sample:SampleData.FileList2}}"
+					d:DataContext="{Binding Source={x:Static sample:SampleData.FileList2}}"
 					Background="{StaticResource TreeView.Background}"
 					HorizontalGridLinesBrush="{StaticResource TreeViewRow.BorderBrush.Light}"
 					AutoGenerateColumns="False"
@@ -4220,13 +4219,15 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Grid
-										Margin="-2"
-										Width="{Binding Path=ActualWidth,
-																		FallbackValue=500,
-																		Mode=OneWay,
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}"
-										HorizontalAlignment="Stretch"
+										Margin="-4,0,-2,0"
+
+										
 										>
+									<!-- Width="{Binding Path=ActualWidth, -->
+									<!-- FallbackValue=500, -->
+									<!-- Mode=OneWay, -->
+									<!-- RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}" -->
+
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="*" />
@@ -4288,14 +4289,13 @@
 										</Border.Style>
 									</Border>
 
-
-
 									<StackPanel
 											Grid.Column="0"
 											Grid.Row="0"
 											Margin="6,0,0,0"
 											Orientation="Vertical"
 											>
+
 										<Label x:Name="Label26"
 												Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt,
 																					FallbackValue='filename'}"
@@ -4306,17 +4306,24 @@
 												/>
 
 										<StackPanel
-												Grid.Column="0"
-												Grid.Row="1"
 												Margin="2"
 												Orientation="Horizontal"
 												>
 
-											<Label
-													DataContext="{Binding ElementName=Dg1, Path=DataContext}"
-													Content="{Binding Path=Files.Count}"
-													Style="{StaticResource Dg.CellLabel.Data}"
+											<!--<Label
+													Content="{Binding Building}"
+													Margin="0"
+													Padding="0"
+													DataContext="{Binding DataContext,
+																								ElementName=Dg1,
+																								Mode=OneWay}"
+													d:DataContext="{Binding Source={x:Static sample:SampleData.sd}}"
+													Background="Transparent"
+													Foreground="White"
+													Style="{StaticResource Dg.CellLabel.Title}"
 													/>
+											-->
+											<!--  d:DataContext="{d:DesignInstance sample:SampleData, IsDesignTimeCreatable=True}"  -->
 
 
 											<Border>
@@ -4332,6 +4339,8 @@
 
 													<Label x:Name="Label28b"
 															Content="{Binding FilePathInfo.FileNameObject.PhaseBldg,
+																								Mode=OneWay,
+																								TargetNullValue='--',
 																								FallbackValue=GRN}"
 															Foreground="White"
 															Style="{StaticResource Dg.CellLabel.Data}"
@@ -4344,10 +4353,14 @@
 															>
 														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.PhaseBldg, Mode=OneWay}">
-																<Setter Property="Visibility" Value="Collapsed" />
-															</DataTrigger>
-
+															<MultiDataTrigger>
+																<MultiDataTrigger.Conditions>
+																	<Condition Value="{x:Null}" Binding="{Binding ElementName=Dg1, Path=DataContext.Building}" />
+																	<Condition Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.PhaseBldg}" />
+																</MultiDataTrigger.Conditions>
+																<Setter Property="Visibility" Value="Collapsed">
+																</Setter>
+															</MultiDataTrigger>
 														</Style.Triggers>
 													</Style>
 												</Border.Style>
@@ -4578,13 +4591,8 @@
 												</Border.Style>
 											</Border>
 
-
-
-
-
 										</StackPanel>
 									</StackPanel>
-
 
 								</Grid>
 

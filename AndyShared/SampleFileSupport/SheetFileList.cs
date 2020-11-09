@@ -36,9 +36,21 @@ namespace AndyShared.SampleFileSupport
 		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 
-		public string Description => sampleFileData?.Header.Description ?? null;
+		public string Description => sampleFileData?.Header.Description;
 
-		public string Building => sampleFileData?.Data.Building ?? null;
+		public string Building { 
+			
+			get => sampleFileData?.Data.Building;
+
+			// set
+			// {
+			// 	if (sampleFileData == null) return;
+			//
+			// 	sampleFileData.Data.Building = value;
+			//
+			// 	OnPropertyChange("Building");
+			// }
+	}
 	
 	#endregion
 	
