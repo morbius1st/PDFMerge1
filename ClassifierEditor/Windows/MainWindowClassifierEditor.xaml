@@ -2560,10 +2560,11 @@
 								>
 							<Border.Style>
 								<Style TargetType="{x:Type Border}">
-									<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Normal}" />
+									<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
 									<Style.Triggers>
 										<Trigger Property="IsEnabled" Value="False">
-											<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
+											<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Disabled}" />
+											<Setter Property="TextElement.Foreground" Value="{StaticResource ItemsControl.Text.Disabled.Alt}" />
 										</Trigger>
 									</Style.Triggers>
 								</Style>
@@ -2575,34 +2576,7 @@
 									MinWidth="50"
 									Padding="16,0,16,0"
 									HorizontalContentAlignment="Center"
-									Style="{StaticResource Label.Condition.Value}"
-									/>
-						</Border>
-
-
-						<Border
-								Margin="5,0,0,0"
-								BorderThickness="0"
-								CornerRadius="3"
-								DockPanel.Dock="left"
-								>
-							<Border.Style>
-								<Style TargetType="{x:Type Border}">
-									<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Normal}" />
-									<Style.Triggers>
-										<Trigger Property="IsEnabled" Value="False">
-											<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
-										</Trigger>
-									</Style.Triggers>
-								</Style>
-							</Border.Style>
-
-							<Label
-									Content="{Binding CompareComponentIndex, Mode=OneWay}"
-									MinWidth="50"
-									Padding="16,0,16,0"
-									HorizontalContentAlignment="Center"
-									Style="{StaticResource Label.Condition.Value}"
+									Style="{StaticResource Label.Condition.ComponentName}"
 									/>
 						</Border>
 
@@ -3076,7 +3050,7 @@
 								Margin="0,3,0,0"
 								>
 
-							<Border x:Name="Bdr1"
+							<!--<Border x:Name="Bdr1"
 									Margin="5,0,0,0"
 									Width="100"
 									Padding="0"
@@ -3093,9 +3067,6 @@
 									</Style>
 								</Border.Style>
 
-								<!--  Content="{Binding Item.ComponentName,  -->
-								<!--  FallbackValue='component name'}"  -->
-
 								<Label x:Name="LblComponentName2"
 										Content="{Binding DataContext.Item.ComponentName,
 																			RelativeSource={RelativeSource AncestorType={x:Type ListView}},
@@ -3105,17 +3076,44 @@
 										Background="Transparent"
 										Style="{StaticResource Label.Condition.ComponentName}"
 								>
-										<!-- DataContext="{Binding DataContext, -->
-										<!-- 											RelativeSource={RelativeSource FindAncestor, -->
-										<!-- 																										 AncestorType={x:Type ListView}}}" -->
-										<!-- d:DataContext="{Binding DataContext, -->
-										<!-- 												RelativeSource={RelativeSource FindAncestor, -->
-										<!-- 																											 AncestorType={x:Type ListView}}}" -->
-
-
 
 								</Label>
-							</Border>
+							</Border>-->
+
+								
+							<ComboBox
+									x:Name="Cbx0"
+									Margin="5,0,0,0"
+									Padding="8,2,2,2"
+									FontSize="10"
+									BorderThickness="2"
+									IsEditable="False"
+									custom:CustomProperties.DropDownWidth="100.0"
+									MaxDropDownHeight="150"
+									HorizontalAlignment="Left"
+									DisplayMemberPath="Name"
+									SelectedIndex="{Binding CompareComponentIndex, FallbackValue='1', Mode=TwoWay}"
+									ItemsSource="{Binding Source={x:Static file:FileNameSheetIdentifiers.ShtIds}, 
+										Path=SheetNumberComponentTitles}"
+									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
+									FocusVisualStyle="{x:Null}"
+									Template="{StaticResource ComboBoxTemplate1}"
+									custom:CustomProperties.DropDownBrushh="{StaticResource ItemsControl.PrimeOption.Background.DropDown}"
+									custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.PrimeOption.Background.MouseOver}"
+									custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.PrimeOption.Background.Disabled}"
+							>
+								<ComboBox.Style>
+									<Style
+											TargetType="ComboBox"
+											BasedOn="{StaticResource Cbox1Style1}"
+									>
+										<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
+										<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Normal}" />
+									</Style>
+								</ComboBox.Style>
+							</ComboBox>
+
+
 
 							<ComboBox x:Name="Cbx1"
 									Margin="5,0,0,0"
@@ -3138,8 +3136,6 @@
 									custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.Subject.Background.MouseOver}"
 									custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.Subject.Background.Disabled}"
 									>
-								<!--  SelectedIndex="{Binding CompareOpCode,  -->
-								<!--  FallbackValue='1'}"  -->
 
 								<ComboBox.Style>
 									<Style
@@ -3148,13 +3144,7 @@
 											>
 										<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" />
 										<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Normal}" />
-										<!-- <Style.Triggers> -->
-										<!-- 	<Trigger Property="IsEnabled" Value="false"> -->
-										<!-- 		<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" /> -->
-										<!-- 		<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Disabled}" /> -->
-										<!-- 	</Trigger> -->
-										<!-- -->
-										<!-- </Style.Triggers> -->
+
 									</Style>
 								</ComboBox.Style>
 							</ComboBox>
@@ -3209,38 +3199,6 @@
 								</TextBox>
 							</Border>
 
-	
-							<ComboBox
-									x:Name="Cbx0"
-									Margin="5,0,0,0"
-									Padding="8,2,2,2"
-									FontSize="10"
-									BorderThickness="2"
-									IsEditable="False"
-									custom:CustomProperties.DropDownWidth="100.0"
-									MaxDropDownHeight="150"
-									HorizontalAlignment="Left"
-									DisplayMemberPath="Name"
-									SelectedIndex="{Binding CompareComponentIndex, FallbackValue='1', Mode=TwoWay}"
-									ItemsSource="{Binding Source={x:Static file:FileNameSheetIdentifiers.ShtIds}, 
-										Path=SheetNumberComponentTitles}"
-									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
-									FocusVisualStyle="{x:Null}"
-									Template="{StaticResource ComboBoxTemplate1}"
-									custom:CustomProperties.DropDownBrushh="{StaticResource ItemsControl.PrimeOption.Background.DropDown}"
-									custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.PrimeOption.Background.MouseOver}"
-									custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.PrimeOption.Background.Disabled}"
-							>
-								<ComboBox.Style>
-									<Style
-											TargetType="ComboBox"
-											BasedOn="{StaticResource Cbox1Style1}"
-									>
-										<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
-										<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Normal}" />
-									</Style>
-								</ComboBox.Style>
-							</ComboBox>
 
 						</DockPanel>
 					</Grid>
@@ -3259,10 +3217,10 @@
 
 					<!--  true  -->
 					<DataTrigger Value="True" Binding="{Binding Path=IsDisabled}">
-						<Setter TargetName="Bdr1" Property="Background" Value="{StaticResource ItemsControl.Title.Background.Disabled}" />
 						<Setter TargetName="Bdr2" Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
 						<Setter TargetName="DpCompare" Property="IsEnabled" Value="false" />
 
+						<!-- <Setter TargetName="Bdr1" Property="Background" Value="{StaticResource ItemsControl.Title.Background.Disabled}" /> -->
 						<!-- <Setter TargetName="Tbx1" Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" /> -->
 					</DataTrigger>
 				</DataTemplate.Triggers>

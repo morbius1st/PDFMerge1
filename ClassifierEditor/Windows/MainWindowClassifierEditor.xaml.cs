@@ -12,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-
 using ClassifierEditor.SampleData;
 using SettingsManager;
 using UtilityLibrary;
@@ -21,7 +20,6 @@ using AndyShared.ClassificationFileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using Microsoft.WindowsAPICodePack.Dialogs;
-
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
@@ -313,7 +311,6 @@ namespace ClassifierEditor.Windows
 				OnPropertyChange("ContextSelected");
 				OnPropertyChange("HasSelection");
 				OnPropertyChange("FileList");
-
 			}
 		}
 
@@ -434,7 +431,6 @@ namespace ClassifierEditor.Windows
 
 		private void initSettings()
 		{
-
 			UserSettings.Admin.Read();
 
 			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> i = UserSettings.Admin;
@@ -444,7 +440,6 @@ namespace ClassifierEditor.Windows
 			UserSettingData ud = UserSettings.Data;
 
 			OnPropertyChange("RememberCollapseState");
-
 
 
 			UserSettings.Admin.Write();
@@ -457,7 +452,7 @@ namespace ClassifierEditor.Windows
 
 	#region window event methods
 
-		private void Window_Initialized(object sender, EventArgs e) 
+		private void Window_Initialized(object sender, EventArgs e)
 		{
 			initSettings();
 
@@ -467,13 +462,10 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-
-
 			// true to create sample data and save to disk
 			// false to read existing data
 			if (false)
 			{
-
 				// SampleData.SampleData sd = new SampleData.SampleData();
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
@@ -493,6 +485,12 @@ namespace ClassifierEditor.Windows
 				string fileId = UserSettings.Data.LastClassificationFileId;
 
 				ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
+
+				// listCompOps(BaseOfTree);
+
+				// fixCompOps(BaseOfTree);
+				//
+				// classificationFile.Write(true);
 
 				// inform all of the current setting
 				OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
@@ -525,6 +523,82 @@ namespace ClassifierEditor.Windows
 			OnTnInitAnnouncer.Announce(null);
 		}
 
+
+		private void listCompOps(TreeNode parentNode)
+		{
+			foreach (TreeNode childNode in parentNode.Children)
+			{
+				if (childNode.HasChildren) listCompOps(childNode);
+
+				Debug.WriteLine("");
+				MessageUtilities.logMsgDbLn2("node.title", childNode.Item.Title);
+
+				foreach (ComparisonOperation compOp in childNode.Item.CompareOps)
+				{
+					Debug.WriteLine("");
+					MessageUtilities.logMsgDbLn2("Id", compOp.Id);
+
+					if (compOp.ValueCompareOp != null)
+					{
+						MessageUtilities.logMsgDbLn2("ValueCompareOp.name", compOp.ValueCompareOp.Name);			
+						MessageUtilities.logMsgDbLn2("ValueCompareOp.opcode", compOp.ValueCompareOp.OpCode.ToString());			
+					}
+					else
+					{
+						MessageUtilities.logMsgDbLn2("ValueCompareOp", "is null");	
+					}
+					MessageUtilities.logMsgDbLn2("ValueCompareString", compOp.ValueCompareString);
+
+
+					if (compOp.LogicalCompareOp != null)
+					{
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp.name", compOp.LogicalCompareOp.Name);			
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp.opcode", compOp.LogicalCompareOp.OpCode.ToString());			
+					}
+					else
+					{
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp", "is null");	
+					}
+					MessageUtilities.logMsgDbLn2("LogicalCompareString", compOp.LogicalCompareString);
+
+					MessageUtilities.logMsgDbLn2("CompareComponentIndex", compOp.CompareComponentIndex);
+					MessageUtilities.logMsgDbLn2("CompareComponentName", compOp.CompareComponentName);
+					MessageUtilities.logMsgDbLn2("CompareValue", compOp.CompareValue);
+					
+				}
+
+
+
+
+
+
+			}
+		}
+
+
+
+
+		// private void fixCompOps(TreeNode parentNode)
+		// {
+		// 	foreach (TreeNode childNode in parentNode.Children)
+		// 	{
+		// 		if (childNode.HasChildren) fixCompOps(childNode);
+		//
+		//
+		// 		foreach (ComparisonOperation compOp in childNode.Item.CompareOps)
+		// 		{
+		// 			if (compOp.LogicalCompareOp != null)
+		// 				compOp.LogicalCompareOp =
+		// 					CompareOperations.LogicalCompareOps[compOp.LogicalCompOpCode];
+		//
+		// 			if (compOp.ValueCompareOp != null)
+		// 				compOp.ValueCompareOp =
+		// 					CompareOperations.ValueCompareOps[compOp.ValueCompOpCode];
+		// 		}
+		// 	}
+		// }
+
+
 		private void MainWin_Closing(object sender, CancelEventArgs e)
 		{
 			UserSettings.Data.MainWinPos.X = (int) this.Left;
@@ -539,11 +613,11 @@ namespace ClassifierEditor.Windows
 			{
 				TaskDialogResult result =
 					CommonTaskDialogs.CommonWarningDialog(
-					"Classifier Editor",
-					"There are changes that have not been saved",
-					"Do you want to save your changes?",
-					(TaskDialogStandardButtons.No | TaskDialogStandardButtons.Yes)
-					);
+						"Classifier Editor",
+						"There are changes that have not been saved",
+						"Do you want to save your changes?",
+						(TaskDialogStandardButtons.No | TaskDialogStandardButtons.Yes)
+						);
 
 				// MessageBoxResult result = MessageBox.Show(
 				// 	"There are changes that have not been saved\n"
@@ -574,7 +648,6 @@ namespace ClassifierEditor.Windows
 			TreeNode t = ((TreeNode) tvi?.DataContext) ?? null;
 
 			if (tvi != null) tvi.IsSelected = true;
-
 		}
 
 		// when a selection has been made
@@ -860,7 +933,8 @@ namespace ClassifierEditor.Windows
 				{
 					userSelected.Item.CompareOps.Add(
 						new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "A", 1));
-				} else
+				}
+				else
 				{
 					userSelected.Item.CompareOps.Add(
 						new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) EQUALTO], "A", 1));
@@ -913,7 +987,7 @@ namespace ClassifierEditor.Windows
 
 			OnTnInitAnnouncer.Announce(null);
 		}
-		
+
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -971,11 +1045,9 @@ namespace ClassifierEditor.Windows
 	#endregion
 
 		public void Connect(int connectionId, object target) { }
-
-
 	}
 
-	#region NotBool value converter
+#region NotBool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class NotBoolConverter : IValueConverter
@@ -996,6 +1068,7 @@ namespace ClassifierEditor.Windows
 	}
 
 #endregion
+
 //
 // #region bool to "on" / "off" string value converter
 //
@@ -1042,7 +1115,6 @@ namespace ClassifierEditor.Windows
 
 				return
 					element.FindResource("Lv1DataTemplate0") as DataTemplate;
-
 
 
 				// if (taskitem.ValueCompareOp is LogicalCompareOp)
@@ -1109,11 +1181,9 @@ namespace ClassifierEditor.Windows
 // 				}
 // 			}
 //
-			
 			}
 
 			return null;
 		}
 	}
-
 }

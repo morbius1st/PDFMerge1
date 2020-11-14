@@ -146,7 +146,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				IsModified = true;
 			}
 		}
-
+		
 		[DataMember(Order = 2)]
 		public ValueCompareOp ValueCompareOp
 		{
@@ -373,8 +373,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OpCode = op;
 		}
 
-		[IgnoreDataMember]
-		public abstract string Name { get; set;  }
+		[DataMember]
+		public abstract string Name { get; protected set;  }
 
 		[DataMember]
 		public abstract T OpCode { get; set;  }
@@ -390,7 +390,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public ValueCompareOp(string name, ValueComparisonOp op) : base(name, op) { }
 
-		public override string Name { get; set; }
+		public override string Name { get; protected set; }
 
 		public override ValueComparisonOp OpCode { get; set; }
 	}
@@ -402,7 +402,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public LogicalCompareOp(string name, LogicalComparisonOp op) : base(name, op) { }
 
-		public override string Name { get; set;  }
+		public override string Name { get; protected set;  }
 
 		public override LogicalComparisonOp OpCode { get; set;  }
 	}

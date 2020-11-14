@@ -66,8 +66,8 @@ namespace AndyShared.ClassificationFileSupport
 			// // announce to treenode (treebase) / and components initialized and to initialize
 			// OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
 
-			bool a = !SettingsSupport.ValidateXmlFile(filePath);
-			bool b = !ValidateAgainstUsername(filePathLocal);
+			// bool a = !SettingsSupport.ValidateXmlFile(filePath);
+			// bool b = !ValidateAgainstUsername(filePathLocal);
 
 
 			if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
