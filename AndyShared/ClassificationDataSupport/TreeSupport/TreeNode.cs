@@ -1019,7 +1019,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public void AddNewBefore2(TreeNode contextNode)
 		{
 			TreeNode parent = contextNode.Parent;
-			AddAt2(parent, TempTreeNode(parent), parent.Children.IndexOf(contextNode));
+			TreeNode temp = TempTreeNode(parent);
+			temp.IsNodeSelected = true;
+			AddAt2(parent, temp, parent.Children.IndexOf(contextNode));
 
 			NotifyChildrenChange();
 		}
@@ -1038,7 +1040,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			TreeNode parent = contextNode.Parent;
 
 			TreeNode temp = TempTreeNode(parent);
-
+			temp.IsNodeSelected = true;
 			AddAt2(parent, temp, parent.Children.IndexOf(contextNode) + 1);
 
 			NotifyChildrenChange();

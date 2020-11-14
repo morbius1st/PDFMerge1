@@ -553,7 +553,7 @@ namespace ClassifierEditor.Windows
 				//
 				// if (result == MessageBoxResult.Yes)
 
-				if (result == TaskDialogResult.Ok)
+				if (result == TaskDialogResult.Ok || result == TaskDialogResult.Yes)
 				{
 					e.Cancel = true;
 				}
@@ -658,6 +658,9 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTree.AddNewBefore2(contextSelected);
 
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("ContextSelected");
+
 			ContextDeselect();
 		}
 
@@ -668,6 +671,8 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTree.AddNewAfter2(contextSelected);
 
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("ContextSelected");
 
 			ContextDeselect();
 		}
@@ -854,11 +859,11 @@ namespace ClassifierEditor.Windows
 				if (userSelected.Item.CompareOps.Count == 0)
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "A"));
+						new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "A", 1));
 				} else
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) EQUALTO], "A"));
+						new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) EQUALTO], "A", 1));
 				}
 			}
 		}
@@ -925,7 +930,7 @@ namespace ClassifierEditor.Windows
 
 			winTest.Configure(classificationFile);
 
-			bool? result = winTest.ShowDialog();
+			winTest.Show();
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)

@@ -47,8 +47,8 @@
 
 			<local:Lv1ConditionTemplateSelector x:Key="Lv1ConditionSelector" />
 			<local:Lv2ConditionTemplateSelector x:Key="Lv2ConditionSelector" />
-			<local:NotBoolConverter x:Key="NotBool" />
 
+			<local:NotBoolConverter x:Key="NotBool" />
 			<support:BoolToYesNoConverter x:Key="BoolToYesNo" />
 			<support:NullObjToBool x:Key="NullObjToBool" />
 			<support:PassThroughConverter x:Key="PassThru" />
@@ -762,20 +762,25 @@
 					<!--  Background="{StaticResource ItemsControl.Subject.Background.Normal}"  -->
 					<Border.Style>
 						<Style TargetType="Border">
-							<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" />
+							<Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+							<!-- <Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" /> -->
 
 							<Style.Triggers>
 								<!--  true  -->
 								<Trigger Property="IsMouseOver" Value="true">
-
-									<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.MouseOver}" />
-
+									<Setter Property="Background" 
+											Value="{Binding Path=(custom:CustomProperties.MouseOverBrush), 
+												RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
 								</Trigger>
+									<!-- <Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.MouseOver}" /> -->
 								<Trigger Property="IsEnabled" Value="False">
 									<!--  false  -->
-
-									<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Disabled}" />
+									<Setter Property="TextElement.Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" />
+									<Setter Property="Background" Value="{Binding Path=(custom:CustomProperties.NotEnabledBrush), 
+											RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
 								</Trigger>
+									<!-- <Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Disabled}" /> -->
+
 							</Style.Triggers>
 						</Style>
 					</Border.Style>
@@ -866,9 +871,13 @@
 								<Border x:Name="DropDownBorder"
 										Margin="0"
 										Padding="0"
-										Background="{StaticResource ItemsControl.ListItem.Background.Normal}"
+										Background="{Binding Path=(custom:CustomProperties.DropDownBrush),
+											RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
 										BorderThickness="0"
 										>
+										<!-- Background="{StaticResource ItemsControl.ListItem.Background.Normal}" -->
+									<!-- <Setter Property="Background" Value="{Binding Path=(custom:CustomProperties.NotEnabledBrush),  -->
+									<!-- 		RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/> -->
 									<!--  Background="{TemplateBinding Background}"  -->
 									<Border.BorderBrush>
 										<SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
@@ -1002,14 +1011,12 @@
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
 				<Setter Property="SnapsToDevicePixels" Value="true" />
-				<Setter Property="Template" Value="{StaticResource ComboBoxTemplate1}" />
-
-
-				<Style.Triggers>
-					<Trigger Property="IsEnabled" Value="False">
-						<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" />
-					</Trigger>
-				</Style.Triggers>
+				<!-- <Setter Property="Template" Value="{StaticResource ComboBoxTemplate1}" /> -->
+				<!-- <Style.Triggers> -->
+				<!-- 	<Trigger Property="IsEnabled" Value="False"> -->
+				<!-- 		<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" /> -->
+				<!-- 	</Trigger> -->
+				<!-- </Style.Triggers> -->
 			</Style>
 
 
@@ -2198,11 +2205,7 @@
 								MinWidth="140"
 								DockPanel.Dock="Left"
 								Style="{StaticResource Label.ItemsControl.Header}"
-								>
-
-
-						</Label>
-						<!--  Foreground="White"  -->
+								/>
 
 						<Label x:Name="Label3"
 								Content="{Binding Item.Description}"
@@ -2211,6 +2214,24 @@
 								DockPanel.Dock="Left"
 								Style="{StaticResource Label.ItemsControl.Header}"
 								/>
+
+						<!--  <Label  -->
+						<!--  Content="{Binding Item.Depth}"  -->
+						<!--  Margin="5,2,4,0"  -->
+						<!--  MinWidth="140"  -->
+						<!--  DockPanel.Dock="Left"  -->
+						<!--  Style="{StaticResource Label.ItemsControl.Header}"  -->
+						<!--  />  -->
+
+						<!--  <Label  -->
+						<!--  Content="{Binding Item.ComponentName}"  -->
+						<!--  Margin="5,2,4,0"  -->
+						<!--  MinWidth="140"  -->
+						<!--  DockPanel.Dock="Left"  -->
+						<!--  Style="{StaticResource Label.ItemsControl.Header}"  -->
+						<!--  />  -->
+
+
 
 						<Border
 								Margin="0,0,5,0"
@@ -2443,12 +2464,10 @@
 							</Border.Style>
 
 							<Label x:Name="Label7"
-									Content="{Binding Item.ComponentName,
-																		FallbackValue='component name'}"
+									Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListView}},
+																		Path=DataContext.Item.ComponentName,
+																		Mode=OneWay}"
 									HorizontalAlignment="Center"
-									DataContext="{Binding DataContext,
-																				RelativeSource={RelativeSource FindAncestor,
-																																			 AncestorType={x:Type ListView}}}"
 									Style="{StaticResource Label.Condition.ComponentName}"
 									/>
 						</Border>
@@ -2506,6 +2525,87 @@
 									Style="{StaticResource Label.Condition.Value}"
 									/>
 						</Border>
+
+						<Border
+								Margin="5,0,0,0"
+								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="left"
+								>
+							<Border.Style>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Normal}" />
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+
+							<Label
+									Content="{Binding CompareComponentIndex}"
+									MinWidth="50"
+									Padding="16,0,16,0"
+									HorizontalContentAlignment="Center"
+									Style="{StaticResource Label.Condition.Value}"
+									/>
+						</Border>
+
+						<Border
+								Margin="5,0,0,0"
+								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="left"
+								>
+							<Border.Style>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Normal}" />
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+
+							<Label
+									Content="{Binding CompareComponentName,
+																		Mode=OneWay}"
+									MinWidth="50"
+									Padding="16,0,16,0"
+									HorizontalContentAlignment="Center"
+									Style="{StaticResource Label.Condition.Value}"
+									/>
+						</Border>
+
+
+						<Border
+								Margin="5,0,0,0"
+								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="left"
+								>
+							<Border.Style>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Normal}" />
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="{StaticResource ItemsControl.Value.Background.Disabled}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+
+							<Label
+									Content="{Binding CompareComponentIndex, Mode=OneWay}"
+									MinWidth="50"
+									Padding="16,0,16,0"
+									HorizontalContentAlignment="Center"
+									Style="{StaticResource Label.Condition.Value}"
+									/>
+						</Border>
+
 
 					</DockPanel>
 				</StackPanel>
@@ -2929,6 +3029,10 @@
 											ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 											ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.LogicalCompareOps}}"
 											FocusVisualStyle="{x:Null}"
+											Template="{StaticResource ComboBoxTemplate1}"
+											custom:CustomProperties.DropDownBrushh="{StaticResource ItemsControl.ListItem.Background.Normal}"
+											custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.Subject.Background.MouseOver}"
+											custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.Subject.Background.Disabled}"
 											>
 										<ComboBox.Style>
 											<Style
@@ -2989,19 +3093,25 @@
 									</Style>
 								</Border.Style>
 
+								<!--  Content="{Binding Item.ComponentName,  -->
+								<!--  FallbackValue='component name'}"  -->
+
 								<Label x:Name="LblComponentName2"
-										Content="{Binding Item.ComponentName,
+										Content="{Binding DataContext.Item.ComponentName,
+																			RelativeSource={RelativeSource AncestorType={x:Type ListView}},
+																			Mode=OneWay,
 																			FallbackValue='component name'}"
 										HorizontalAlignment="Center"
-										DataContext="{Binding DataContext,
-																					RelativeSource={RelativeSource FindAncestor,
-																																				 AncestorType={x:Type ListView}}}"
-										d:DataContext="{Binding DataContext,
-																						RelativeSource={RelativeSource FindAncestor,
-																																					 AncestorType={x:Type ListView}}}"
 										Background="Transparent"
 										Style="{StaticResource Label.Condition.ComponentName}"
-										>
+								>
+										<!-- DataContext="{Binding DataContext, -->
+										<!-- 											RelativeSource={RelativeSource FindAncestor, -->
+										<!-- 																										 AncestorType={x:Type ListView}}}" -->
+										<!-- d:DataContext="{Binding DataContext, -->
+										<!-- 												RelativeSource={RelativeSource FindAncestor, -->
+										<!-- 																											 AncestorType={x:Type ListView}}}" -->
+
 
 
 								</Label>
@@ -3023,6 +3133,10 @@
 									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
 									ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
+									Template="{StaticResource ComboBoxTemplate1}"
+									custom:CustomProperties.DropDownBrushh="{StaticResource ItemsControl.ListItem.Background.Normal}"
+									custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.Subject.Background.MouseOver}"
+									custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.Subject.Background.Disabled}"
 									>
 								<!--  SelectedIndex="{Binding CompareOpCode,  -->
 								<!--  FallbackValue='1'}"  -->
@@ -3033,14 +3147,14 @@
 											BasedOn="{StaticResource Cbox1Style1}"
 											>
 										<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Normal}" />
-										<Setter Property="Foreground" Value="White" />
-										<Style.Triggers>
-											<Trigger Property="IsEnabled" Value="false">
-												<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" />
-												<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Disabled}" />
-											</Trigger>
-
-										</Style.Triggers>
+										<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Normal}" />
+										<!-- <Style.Triggers> -->
+										<!-- 	<Trigger Property="IsEnabled" Value="false"> -->
+										<!-- 		<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Disabled}" /> -->
+										<!-- 		<Setter Property="Background" Value="{StaticResource ItemsControl.Subject.Background.Disabled}" /> -->
+										<!-- 	</Trigger> -->
+										<!-- -->
+										<!-- </Style.Triggers> -->
 									</Style>
 								</ComboBox.Style>
 							</ComboBox>
@@ -3094,6 +3208,40 @@
 									</TextBox.Style>
 								</TextBox>
 							</Border>
+
+	
+							<ComboBox
+									x:Name="Cbx0"
+									Margin="5,0,0,0"
+									Padding="8,2,2,2"
+									FontSize="10"
+									BorderThickness="2"
+									IsEditable="False"
+									custom:CustomProperties.DropDownWidth="100.0"
+									MaxDropDownHeight="150"
+									HorizontalAlignment="Left"
+									DisplayMemberPath="Name"
+									SelectedIndex="{Binding CompareComponentIndex, FallbackValue='1', Mode=TwoWay}"
+									ItemsSource="{Binding Source={x:Static file:FileNameSheetIdentifiers.ShtIds}, 
+										Path=SheetNumberComponentTitles}"
+									ItemContainerStyle="{DynamicResource ComboBoxItem1}"
+									FocusVisualStyle="{x:Null}"
+									Template="{StaticResource ComboBoxTemplate1}"
+									custom:CustomProperties.DropDownBrushh="{StaticResource ItemsControl.PrimeOption.Background.DropDown}"
+									custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.PrimeOption.Background.MouseOver}"
+									custom:CustomProperties.NotEnabledBrush="{StaticResource ItemsControl.PrimeOption.Background.Disabled}"
+							>
+								<ComboBox.Style>
+									<Style
+											TargetType="ComboBox"
+											BasedOn="{StaticResource Cbox1Style1}"
+									>
+										<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
+										<Setter Property="Foreground" Value="{StaticResource ItemsControl.Text.Normal}" />
+									</Style>
+								</ComboBox.Style>
+							</ComboBox>
+
 						</DockPanel>
 					</Grid>
 				</Border>
@@ -4218,42 +4366,49 @@
 					<DataGridTemplateColumn CellStyle="{StaticResource Dg.Cell.Base}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Grid
-										Margin="-4,0,-2,0"
+								<!--  <Grid  -->
+								<!--  Margin="-4,0,-2,0"  -->
+								<!--    -->
+								<!--  >  -->
+								<!--  ~1~ Width="{Binding Path=ActualWidth, @1@  -->
+								<!--  ~1~ FallbackValue=500, @1@  -->
+								<!--  ~1~ Mode=OneWay, @1@  -->
+								<!--  ~1~ RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}" @1@  -->
+								<!--    -->
+								<!-- 	<Grid.ColumnDefinitions> -->
+								<!-- 		<ColumnDefinition Width="Auto" /> -->
+								<!-- 		<ColumnDefinition Width="*" /> -->
+								<!--    -->
+								<!-- 	</Grid.ColumnDefinitions> -->
+								<!-- 	<Grid.RowDefinitions> -->
+								<!-- 		<RowDefinition Height="*" /> -->
+								<!-- 	</Grid.RowDefinitions> -->
 
-										
+
+								<!--  <Label  -->
+								<!--  Grid.Column="1"  -->
+								<!--  Grid.Row="0"  -->
+								<!--  Padding="0,0,0,0"  -->
+								<!--  VerticalAlignment="Bottom"  -->
+								<!--  HorizontalAlignment="Right"  -->
+								<!--  Foreground="White"  -->
+								<!--  Content="Hello" />  -->
+
+
+								<DockPanel
+										Margin="-2,0,-2,0"
+										Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}},
+																		Path=ViewportWidth}"
+										HorizontalAlignment="Stretch"
 										>
-									<!-- Width="{Binding Path=ActualWidth, -->
-									<!-- FallbackValue=500, -->
-									<!-- Mode=OneWay, -->
-									<!-- RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}" -->
-
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-
-									</Grid.ColumnDefinitions>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="*" />
-									</Grid.RowDefinitions>
-
-
-									<!--  <Label  -->
 									<!--  Grid.Column="1"  -->
 									<!--  Grid.Row="0"  -->
-									<!--  Padding="0,0,0,0"  -->
-									<!--  VerticalAlignment="Bottom"  -->
-									<!--  HorizontalAlignment="Right"  -->
-									<!--  Foreground="White"  -->
-									<!--  Content="Hello" />  -->
-
 									<Border
-											Grid.Column="1"
-											Grid.Row="0"
 											Margin="0,0,0,5"
 											HorizontalAlignment="Right"
 											VerticalAlignment="Bottom"
 											BorderThickness="1,0,1,0"
+											DockPanel.Dock="Right"
 											>
 										<StackPanel Orientation="Vertical">
 											<Label x:Name="Label27a"
@@ -4289,21 +4444,35 @@
 										</Border.Style>
 									</Border>
 
+									<!--  Grid.Column="0"  -->
+									<!--  Grid.Row="0"  -->
 									<StackPanel
-											Grid.Column="0"
-											Grid.Row="0"
 											Margin="6,0,0,0"
+											DockPanel.Dock="Left"
 											Orientation="Vertical"
 											>
 
-										<Label x:Name="Label26"
-												Content="{Binding FilePathInfo.FileNameObject.FileNameNoExt,
-																					FallbackValue='filename'}"
-												Margin="2,3,0,0"
-												Padding="0"
-												HorizontalAlignment="Stretch"
-												Foreground="White"
-												/>
+										<StackPanel Orientation="Horizontal">
+
+											<Label x:Name="Label25"
+													Content="{Binding FilePathInfo.FileNameObject.SheetNumber,
+																						FallbackValue='filename'}"
+													Margin="2,3,0,0"
+													MinWidth="86"
+													Padding="0,0,10,0"
+													HorizontalAlignment="Stretch"
+													Foreground="White"
+													/>
+
+											<Label x:Name="Label26"
+													Content="{Binding FilePathInfo.FileNameObject.SheetTitle,
+																						FallbackValue='filename'}"
+													Margin="0,3,0,0"
+													Padding="0"
+													HorizontalAlignment="Stretch"
+													Foreground="White"
+													/>
+										</StackPanel>
 
 										<StackPanel
 												Margin="2"
@@ -4594,8 +4763,8 @@
 										</StackPanel>
 									</StackPanel>
 
-								</Grid>
-
+									<!-- </Grid> -->
+								</DockPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

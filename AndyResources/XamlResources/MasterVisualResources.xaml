@@ -79,9 +79,15 @@
 	<SolidColorBrush x:Key="ItemsControl.Title.Background.Normal" Color="{StaticResource Bright.Green.350}" />
 	<SolidColorBrush x:Key="ItemsControl.Title.Background.Disabled" Color="{StaticResource Bright.Green.300}" />
 
+	<SolidColorBrush x:Key="ItemsControl.PrimeOption.Background.Normal" Color="{StaticResource Light.Blue.550}" />
+	<SolidColorBrush x:Key="ItemsControl.PrimeOption.Background.MouseOver" Color="{StaticResource Light.Blue.700}" />
+	<SolidColorBrush x:Key="ItemsControl.PrimeOption.Background.Disabled" Color="{StaticResource Light.Blue.350}" />
+	<SolidColorBrush x:Key="ItemsControl.PrimeOption.Background.DropDown" Color="{StaticResource Light.Blue.400}" />
+
+
 	<SolidColorBrush x:Key="ItemsControl.Subject.Background.Normal" Color="{StaticResource Blue.450}" />
+	<SolidColorBrush x:Key="ItemsControl.Subject.Background.MouseOver" Color="{StaticResource Blue.600}" />
 	<SolidColorBrush x:Key="ItemsControl.Subject.Background.Disabled" Color="{StaticResource Blue.300}" />
-	<SolidColorBrush x:Key="ItemsControl.Subject.Background.MouseOver" Color="{StaticResource Blue.500}" />
 	<!--  e.g. combobox list items  -->
 	<SolidColorBrush x:Key="ItemsControl.ListItem.Background.Normal" Color="{StaticResource Blue.400}" />
 

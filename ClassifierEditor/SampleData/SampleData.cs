@@ -224,6 +224,10 @@ namespace ClassifierEditor.SampleData
 
 				node = new TreeNode(parent, item, false);
 
+				int compComponent = depth - (depth  % 2);
+
+				compComponent = compComponent == 0 ? 1 : compComponent;
+
 				if (i == 0)
 				{
 					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
@@ -234,16 +238,16 @@ namespace ClassifierEditor.SampleData
 				}
 				else if (i == 2)
 				{
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A"));
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A", compComponent));
 					// node = new TreeNode(parent, item, false);
 
 					item.IsFixed = true;
 				}
 				else if (i == 3 || i == 5)
 				{
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", compComponent));
 					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], 
-						ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+						ValueCompareOps[(int) DOES_NOT_EQUAL], "2", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 					item.IsFixed = true;
@@ -259,17 +263,17 @@ namespace ClassifierEditor.SampleData
 				else if (i == 1)
 				{
 
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2", compComponent+1));
 
 					ValueCompOp v = new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR],
-						ValueCompareOps[(int) DOES_NOT_END_WITH], "A");
+						ValueCompareOps[(int) DOES_NOT_END_WITH], "A", compComponent);
 					v.IsDisabled = true;
 
 
 					item.CompareOps.Add(v);
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1"));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_START_WITH], "Z"));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_START_WITH], "Z", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 
@@ -288,8 +292,9 @@ namespace ClassifierEditor.SampleData
 					MakeChildren(node, depth + 1);
 				}
 
+				node.IsExpanded = true;
+				node.IsExpandedAlt = true;
 
-				
 				root.AddNode(node);
 			}
 		}

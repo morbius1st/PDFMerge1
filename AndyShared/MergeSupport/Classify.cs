@@ -218,6 +218,7 @@ namespace AndyShared.MergeSupport
 			if (displayDebugMsgs)
 				toParentAnnounce.Announce("classifying|\n");
 
+			// run through the tree and look for classify matches
 			foreach (TreeNode childNode in treeNode.Children)
 			{
 				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));

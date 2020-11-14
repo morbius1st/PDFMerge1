@@ -1,8 +1,9 @@
 ﻿#region + Using Directives
-using System;
+using System; 
 using System.Windows;
-using System.Windows.Markup;
 using System.Windows.Media;
+using Brush = System.Drawing.Brush;
+using Brushes = System.Drawing.Brushes;
 
 #endregion
 
@@ -12,7 +13,7 @@ using System.Windows.Media;
 
 namespace ClassifierEditor.Windows.Support
 {
-	public class CustomProperties 
+	public class CustomProperties : DependencyObject
 	{
 	#region GenericBoolOne
 
@@ -67,5 +68,63 @@ namespace ClassifierEditor.Windows.Support
 
 	#endregion
 
+	#region MouseOverBrush
+
+		public static readonly DependencyProperty MouseOverBrushProperty = DependencyProperty.RegisterAttached(
+			"MouseOverBrush", typeof(SolidColorBrush), typeof(CustomProperties), new PropertyMetadata(default(SolidColorBrush)));
+
+		public static void SetMouseOverBrush(UIElement e, SolidColorBrush value)
+		{
+			e.SetValue(MouseOverBrushProperty, value);
+		}
+
+		public static SolidColorBrush GetMouseOverBrush(UIElement e)
+		{
+			return (SolidColorBrush) e.GetValue(MouseOverBrushProperty);
+		}
+
+	#endregion
+		
+	#region DropDownBrush
+
+		public static readonly DependencyProperty  DropDownBrushProperty = DependencyProperty.RegisterAttached(
+			"DropDownBrush", typeof(SolidColorBrush), typeof(CustomProperties), new PropertyMetadata(default(SolidColorBrush)));
+
+		public static void SetDropDownBrushh(UIElement e, SolidColorBrush value)
+		{
+			e.SetValue(DropDownBrushProperty, value);
+		}
+
+		public static SolidColorBrush GetDropDownBrush(UIElement e)
+		{
+			return (SolidColorBrush) e.GetValue(DropDownBrushProperty);
+		}
+
+	#endregion
+
+	#region NotEnabledBrush
+
+		public static readonly DependencyProperty NotEnabledBrushProperty = DependencyProperty.RegisterAttached(
+			"NotEnabledBrush", typeof(SolidColorBrush), typeof(CustomProperties), new PropertyMetadata(default(SolidColorBrush)));
+
+		public static void SetNotEnabledBrush(UIElement e, SolidColorBrush value)
+		{
+			e.SetValue(NotEnabledBrushProperty, value);
+		}
+
+		public static SolidColorBrush GetNotEnabledBrush(UIElement e)
+		{
+			return (SolidColorBrush) e.GetValue(NotEnabledBrushProperty);
+		}
+
+	#endregion
+
+
+
+
 	}
+
+	
+
+	
 }

@@ -1,7 +1,7 @@
 ﻿#region + Using Directives
-
 using System;
 using System.Collections.Generic;
+
 
 #endregion
 
@@ -13,6 +13,15 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 	public class FileNameSheetIdentifiers
 	{
+		static FileNameSheetIdentifiers()
+		{
+			initialized = true;
+
+			_fileNameSheetIdentifiers = new FileNameSheetIdentifiers();
+
+			// string a = ShtIds.SheetNumberComponentTitles[0].Name;
+		}
+
 		private static bool initialized = false;
 
 		private static FileNameSheetIdentifiers _fileNameSheetIdentifiers;
@@ -32,18 +41,19 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			}
 		}
 
-		public ShtNumberCompName[] SheetNumberComponentTitles { get; } = new []
+		// value index is not being used - spare
+		public List<ShtNumberCompName> SheetNumberComponentTitles { get; } = new List<ShtNumberCompName>()
 		{
-			new ShtNumberCompName("Sheet Number Type", "Number Type", 0),
-			new ShtNumberCompName(PHBLDG, "Ph/Bld", 0),
-			new ShtNumberCompName(DISCP , "Disc", 0),
-			new ShtNumberCompName(CAT   , "Cat", 0),
-			new ShtNumberCompName(SUBCAT, "SubCat", 0),
-			new ShtNumberCompName(MOD   , "Mod", 0),
-			new ShtNumberCompName(SUBMOD, "SubMod", 0),
-			new ShtNumberCompName(ID    , "Id", 0),
-			new ShtNumberCompName(SUBID , "SubId", 0),
+			new ShtNumberCompName(PHBLDG, "Ph/Bld", 5),
+			new ShtNumberCompName(DISCP , "Disc", 10),
+			new ShtNumberCompName(CAT   , "Cat", 15),
+			new ShtNumberCompName(SUBCAT, "SubCat", 20),
+			new ShtNumberCompName(MOD   , "Mod", 25),
+			new ShtNumberCompName(SUBMOD, "SubMod", 30),
+			new ShtNumberCompName(ID    , "Id", 35),
+			new ShtNumberCompName(SUBID , "SubId", 40),
 		};
+		// new ShtNumberCompName("Sheet Number Type", "Number Type", 0),
 
 		public const string PHBLD  = "PhBldgid";
 		public const string PHBLDG = "Phase/Building";
@@ -459,12 +469,14 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		{
 			public string Name { get; private set; }
 			public string AbbrevName { get; private set; }
+			public int ValueIndex { get; private set; }
 			
 
 			public ShtNumberCompName( string name, string abbrevName, int valueIdx)
 			{
 				Name = name;
 				AbbrevName = abbrevName;
+				ValueIndex = valueIdx;
 			}
 		}
 

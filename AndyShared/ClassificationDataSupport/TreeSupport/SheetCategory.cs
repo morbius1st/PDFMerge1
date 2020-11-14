@@ -1,6 +1,4 @@
 ﻿#region using
-
-// using ClassifierEditor.FilesSupport;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -153,6 +151,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				title = value;
 				OnPropertyChange();
 				IsModified = true;
+
+				if (description == null)
+				{
+					Description = value;
+				}
 			}
 		}
 
@@ -223,6 +226,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public string ComponentName
 		{
+			// get => SheetNumberComponentTitles[Depth].Name ?? ""; 
 			get => ShtIds.SheetNumberComponentTitles[Depth].Name ?? ""; 
 		}
 
@@ -350,9 +354,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public static SheetCategory TempSheetCategory()
 		{
-			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title",
-				$"{tempIdx++:D3} New Node Description");
-			temp.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1"));
+			// SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title",
+			// 	$"{tempIdx++:D3} New Node Description");
+
+			// keep description null
+			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title", null);
+			temp.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", 1));
 
 			return temp;
 		}
