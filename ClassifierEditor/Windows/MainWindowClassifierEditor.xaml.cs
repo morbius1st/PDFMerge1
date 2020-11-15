@@ -247,7 +247,7 @@ namespace ClassifierEditor.Windows
 
 		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> us = UserSettings.Admin;
 
-		private ClassificationFile classificationFile;
+		private static ClassificationFile classificationFile;
 
 		// private Configuration config;
 		private static TreeNode userSelected;
@@ -470,9 +470,9 @@ namespace ClassifierEditor.Windows
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
 
-				classificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+				classificationFile = ClassificationFileAssist.MakeUserClassfFile("PdfSample 1A");
 
-				classificationFile.Initialize();
+				// classificationFile.PreInitialize();
 
 				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
 

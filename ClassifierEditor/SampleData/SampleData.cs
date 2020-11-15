@@ -1,9 +1,12 @@
 ﻿#region using
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
@@ -262,8 +265,57 @@ namespace ClassifierEditor.SampleData
 				} 
 				else if (i == 1)
 				{
+					Debug.WriteLine("Thread id| " + Thread.CurrentThread.ManagedThreadId);
 
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", compComponent));
+					string a;
+
+					foreach (ValueCompareOp op in ValueCompareOps)
+					{
+
+						Debug.WriteLine(op.Name + " :: " + op.OpCodeValue + " :: " + op.OpCode.ToString());
+					}
+
+
+					for (int i1 = 0; i1 < ValueCompareOps.Count; i1++)
+					{
+						try
+						{
+							a = ValueCompareOps[i1].Name;
+							Debug.WriteLine(i1 + " :: " + a + " :: " + ValueCompareOps[i1].OpCodeValue + " :: " + ValueCompareOps[i1].OpCode.ToString());
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(i1 + " :: " + e);
+						}
+					}
+
+					List<ValueCompareOp> l = ValueCompareOps;
+					ValueCompareOp x = l[0];
+					x = l[1];
+					x = l[2];
+					x = l[3];
+					x = l[4];
+
+					a = ValueCompareOps[0].Name;
+					a = ValueCompareOps[1].Name;
+					a = ValueCompareOps[2].Name;
+					a = ValueCompareOps[3].Name;
+					a = ValueCompareOps[4].Name;
+
+
+					int d = ValueCompareOps.Count;
+
+					int b = (int) EQUALTO;
+
+					x = ValueCompareOps[4];
+
+					a = ValueCompareOps[b].Name;
+					x = ValueCompareOps[(int) EQUALTO];
+
+					ValueCompOp c =new ValueCompOp(null, x, "1", compComponent);
+
+
+					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) ValueComparisonOp.EQUALTO], "1", compComponent));
 					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2", compComponent+1));
 
 					ValueCompOp v = new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR],

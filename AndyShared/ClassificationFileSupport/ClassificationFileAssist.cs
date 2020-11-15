@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
 using UtilityLibrary;
@@ -45,6 +46,14 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			return new ClassificationFile(ClassificationFileAssist.AssembleClassfFilePath(fileId,
 				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
+		}
+		
+		public static ClassificationFile MakeUserClassfFile(string fileId)
+		{
+			string a = CompareOperations.ValueCompareOps[0].Name;
+
+			return new ClassificationFile(ClassificationFileAssist.AssembleClassfFilePath(fileId,
+				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath, true);
 		}
 
 		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)

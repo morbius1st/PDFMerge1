@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
@@ -22,17 +23,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	public enum LogicalComparisonOp
 	{
-		// LOCICAL_NO_OP         = 0,
-		LOGICAL_OR            = 0,
+		LOGICAL_NO_OP         = 0,
+		LOGICAL_OR            = 1,
 		LOGICAL_AND           ,
-		LOGICAL_COUNT
+		LOGICAL_COUNT         
 
 	}
 
 	public enum ValueComparisonOp
 	{
 		VALUE_NO_OP           = 0,
-		LESS_THAN_OR_EQUAL    = 1,
+		LESS_THAN_OR_EQUAL    ,
 		LESS_THAN             ,
 		GREATER_THAN_OR_EQUAL ,
 		GREATER_THAN          ,
@@ -46,7 +47,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		MATCHES               ,
 		DOES_NOT_MATCH        ,
 		DOES_NOT_CONTAIN      ,
-		VALUE_COUNT
+		VALUE_COUNT           
+		
 	}
 
 	[DataContract(Namespace = "")]
@@ -130,24 +132,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => ShtIds.SheetNumberComponentTitles[compareComponentIndex].Name;
 		}
 
-		[DataMember(Order = 1)]
-		public LogicalCompareOp LogicalCompareOp
-		{
-			get => logicalCompOp;
-
-			set
-			{
-				if (value == logicalCompOp) return;
-
-				logicalCompOp = value;
-				OnPropertyChange();
-				OnPropertyChange("LogicalCompareString");
-
-				IsModified = true;
-			}
-		}
-		
-		[DataMember(Order = 2)]
+		// [DataMember(Order = 2)]
+		[IgnoreDataMember]
 		public ValueCompareOp ValueCompareOp
 		{
 			get => valueCompOp;
@@ -164,9 +150,63 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
+		[DataMember(Order = 2)]
+		public ValueComparisonOp ValueComparisonOpCode
+		{
+			get => valueCompOp.OpCode;
+			set
+			{
+				if (valueCompOp != null)
+				{
+					if (value == valueCompOp.OpCode) return;
+				}
+
+				ValueCompOpCode = (int) value;
+
+				OnPropertyChange();
+			}
+		}
+
+		// databound to combobox
 		[IgnoreDataMember]
 		public abstract int ValueCompOpCode { get; set; }
 
+		// [DataMember(Order = 1)]
+		[IgnoreDataMember]
+		public LogicalCompareOp LogicalCompareOp
+		{
+			get => logicalCompOp;
+
+			set
+			{
+				if (value == logicalCompOp) return;
+
+				logicalCompOp = value;
+				OnPropertyChange();
+				OnPropertyChange("LogicalCompareString");
+
+				IsModified = true;
+			}
+		}
+
+		[DataMember(Order = 1)]
+		public LogicalComparisonOp LogicalComparisonOpCode
+		{
+			get => logicalCompOp?.OpCode ?? LOGICAL_NO_OP;
+			set
+			{
+				if (logicalCompOp != null)
+				{
+					if (value == logicalCompOp.OpCode) return;
+				}
+
+				LogicalCompOpCode = (int) value;
+
+				OnPropertyChange();
+			}
+		}
+
+		// databound to combobox
 		[IgnoreDataMember]
 		public abstract int LogicalCompOpCode { get; set; }
 
@@ -296,7 +336,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 //			Id = row;
 		}
 
-		[IgnoreDataMember]
+		// [IgnoreDataMember]
 		public override int ValueCompOpCode
 		{
 			get => valueCompOp.OpCodeValue;
@@ -306,7 +346,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 		
-		[IgnoreDataMember]
+		// [IgnoreDataMember]
 		public override int LogicalCompOpCode
 		{
 			get => logicalCompOp?.OpCodeValue ?? 0;
@@ -360,9 +400,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	// comparison conditions
 	// logical conditions
 
-	[DataContract(Namespace = "")]
-	[KnownType(typeof(ValueCompareOp))]
-	[KnownType(typeof(LogicalCompareOp))]
+	// [DataContract(Namespace = "")]
+	// [KnownType(typeof(ValueCompareOp))]
+	// [KnownType(typeof(LogicalCompareOp))]
 	public abstract class ACompareOp<T> where T : Enum
 	{
 		public ACompareOp() {}
@@ -373,13 +413,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OpCode = op;
 		}
 
-		[DataMember]
+		// [DataMember]
 		public abstract string Name { get; protected set;  }
 
-		[DataMember]
+		// [DataMember]
 		public abstract T OpCode { get; set;  }
 
-		[IgnoreDataMember]
+		// [IgnoreDataMember]
 		public int OpCodeValue =>  Convert.ToInt32(OpCode);
 	}
 
@@ -446,7 +486,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 
 				if (!result) break;
-
 			}
 
 			return result;
@@ -458,6 +497,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private static void defineLogicalCompareOps()
 		{
+			
+			Debug.WriteLine("Thread id| " + Thread.CurrentThread.ManagedThreadId);
+
+
 			LogicalCompareOps = new List<LogicalCompareOp>();
 
 			configureCompareOpList(LogicalCompareOps, (int) LOGICAL_COUNT);
@@ -472,7 +515,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			configureCompareOpList(ValueCompareOps, (int) VALUE_COUNT);
 
-			setValueCompareOp(ValueCompareOps, "No Op", VALUE_NO_OP);
+			// setValueCompareOp(ValueCompareOps, "No Op", VALUE_NO_OP);
 			setValueCompareOp(ValueCompareOps, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
 			setValueCompareOp(ValueCompareOps, "Is Less Than", LESS_THAN);
 			setValueCompareOp(ValueCompareOps, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);

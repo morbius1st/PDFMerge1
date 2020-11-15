@@ -45,7 +45,7 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		public ClassificationFile(string filePath, bool fileSelected = false)
+		public ClassificationFile(   string filePath, bool fileNew = false, bool fileSelected = false)
 		{
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
@@ -69,18 +69,23 @@ namespace AndyShared.ClassificationFileSupport
 			// bool a = !SettingsSupport.ValidateXmlFile(filePath);
 			// bool b = !ValidateAgainstUsername(filePathLocal);
 
-
-			if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
-				|| !ValidateAgainstUsername(filePathLocal)
-				)
+			if (!fileNew)
 			{
-				FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
-				return;
+
+				if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
+					|| !ValidateAgainstUsername(filePathLocal)
+					)
+				{
+					FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
+					return;
+				}
+			
+				InitailizeSample(FilePathLocal.FullFilePath);
 			}
+
 
 			PreInitialize();
 
-			InitailizeSample(FilePathLocal.FullFilePath);
 		}
 
 
@@ -304,8 +309,8 @@ namespace AndyShared.ClassificationFileSupport
 
 			InitailizeSample(FilePathLocal.FullFilePath);
 		}
-
-		private void PreInitialize()
+		
+		public void PreInitialize()
 		{
 			dataFile = new BaseDataFile<ClassificationFileData>();
 			dataFile.Configure(FolderPath, FileNameNoExt, FileNameExtNoSep);
@@ -330,7 +335,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public void Write(bool createBackup = true)
 		{
-			if (createBackup)
+			if (createBackup && dataFile!=null && dataFile.Initialized)
 			{
 				// string filename = dataFile.Path.
 				string newFileName = dataFile.Path.FileNameNoExt + FilePathUtil.EXT_SEPARATOR
