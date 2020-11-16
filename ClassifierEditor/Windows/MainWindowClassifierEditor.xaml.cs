@@ -300,17 +300,12 @@ namespace ClassifierEditor.Windows
 
 				classificationFile.Initialize();
 
-				FileList = new SheetFileList();
-				FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
+				// FileList = new SheetFileList();
+				// FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
 
 				string desc = classificationFile.HeaderDescFromMemory;
 
-				OnPropertyChange();
-				OnPropertyChange("BaseOfTree");
-				OnPropertyChange("UserSelected");
-				OnPropertyChange("ContextSelected");
-				OnPropertyChange("HasSelection");
-				OnPropertyChange("FileList");
+				UpdateProperties();
 			}
 		}
 
@@ -448,6 +443,17 @@ namespace ClassifierEditor.Windows
 			MachSettings.Admin.Write();
 		}
 
+		private void UpdateProperties()
+
+		{
+			OnPropertyChange("ClassificationFile");
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("UserSelected");
+			OnPropertyChange("ContextSelected");
+			OnPropertyChange("HasSelection");
+			OnPropertyChange("FileList");
+		}
+
 	#endregion
 
 	#region window event methods
@@ -464,19 +470,20 @@ namespace ClassifierEditor.Windows
 		{
 			// true to create sample data and save to disk
 			// false to read existing data
-			if (false)
+			if (true)
 			{
-				// SampleData.SampleData sd = new SampleData.SampleData();
-
-				// classificationFile = ClassificationFileAssist.GetUserClassfFile("(jeffs) PdfSample 1A");
-
+				// temp code to create a new classification file 
 				classificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+
+				UpdateProperties();
 
 				classificationFile.Initialize();
 
-				SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
-
-				classificationFile.Write();
+				if (!classificationFile.FilePathLocal.IsFound)
+				{
+					SampleData.SampleData.Sample(classificationFile.Data.BaseOfTree);
+					classificationFile.Write();
+				}
 			}
 			else
 			{
@@ -540,42 +547,36 @@ namespace ClassifierEditor.Windows
 
 					if (compOp.ValueCompareOp != null)
 					{
-						MessageUtilities.logMsgDbLn2("ValueCompareOp.name", compOp.ValueCompareOp.Name);			
-						MessageUtilities.logMsgDbLn2("ValueCompareOp.opcode", compOp.ValueCompareOp.OpCode.ToString());			
+						MessageUtilities.logMsgDbLn2("ValueCompareOp.name", compOp.ValueCompareOp.Name);
+						MessageUtilities.logMsgDbLn2("ValueCompareOp.opcode", compOp.ValueCompareOp.OpCode.ToString());
 					}
 					else
 					{
-						MessageUtilities.logMsgDbLn2("ValueCompareOp", "is null");	
+						MessageUtilities.logMsgDbLn2("ValueCompareOp", "is null");
 					}
+
 					MessageUtilities.logMsgDbLn2("ValueCompareString", compOp.ValueCompareString);
 
 
 					if (compOp.LogicalCompareOp != null)
 					{
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp.name", compOp.LogicalCompareOp.Name);			
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp.opcode", compOp.LogicalCompareOp.OpCode.ToString());			
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp.name", compOp.LogicalCompareOp.Name);
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp.opcode",
+							compOp.LogicalCompareOp.OpCode.ToString());
 					}
 					else
 					{
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp", "is null");	
+						MessageUtilities.logMsgDbLn2("LogicalCompareOp", "is null");
 					}
+
 					MessageUtilities.logMsgDbLn2("LogicalCompareString", compOp.LogicalCompareString);
 
 					MessageUtilities.logMsgDbLn2("CompareComponentIndex", compOp.CompareComponentIndex);
 					MessageUtilities.logMsgDbLn2("CompareComponentName", compOp.CompareComponentName);
 					MessageUtilities.logMsgDbLn2("CompareValue", compOp.CompareValue);
-					
 				}
-
-
-
-
-
-
 			}
 		}
-
-
 
 
 		// private void fixCompOps(TreeNode parentNode)

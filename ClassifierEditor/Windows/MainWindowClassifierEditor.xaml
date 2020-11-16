@@ -2580,6 +2580,62 @@
 									/>
 						</Border>
 
+						<Border
+								Margin="5,0,0,0"
+								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="left"
+								>
+							<Border.Style>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Disabled}" />
+											<Setter Property="TextElement.Foreground" Value="{StaticResource ItemsControl.Text.Disabled.Alt}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+
+							<Label
+									Content="{Binding LogicalComparisonOpCode,
+																		Mode=OneWay}"
+									MinWidth="50"
+									Padding="16,0,16,0"
+									HorizontalContentAlignment="Center"
+									Style="{StaticResource Label.Condition.ComponentName}"
+									/>
+						</Border>
+
+						<Border
+								Margin="5,0,0,0"
+								BorderThickness="0"
+								CornerRadius="3"
+								DockPanel.Dock="left"
+								>
+							<Border.Style>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Normal}" />
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="{StaticResource ItemsControl.PrimeOption.Background.Disabled}" />
+											<Setter Property="TextElement.Foreground" Value="{StaticResource ItemsControl.Text.Disabled.Alt}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Border.Style>
+
+							<Label
+									Content="{Binding ValueComparisonOpCode,
+																		Mode=OneWay}"
+									MinWidth="50"
+									Padding="16,0,16,0"
+									HorizontalContentAlignment="Center"
+									Style="{StaticResource Label.Condition.ComponentName}"
+									/>
+						</Border>
+
 
 					</DockPanel>
 				</StackPanel>

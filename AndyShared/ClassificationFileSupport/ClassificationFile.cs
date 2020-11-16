@@ -223,7 +223,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public string SampleFileNameNoExt => sampleFile?.SampleFilePath?.FileNameNoExt ?? "";
 
-		public string SampleFileFolderPath => sampleFile.SampleFilePath.FolderPath;
+		public string SampleFileFolderPath => sampleFile.SampleFilePath?.FolderPath;
 
 		// status
 		public bool CanEdit => IsInitialized && IsUserClassfFile;

@@ -411,7 +411,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				OnPropertyChange();
 
-				Debug.WriteLine("isexpanded set| " + value.ToString());
+				// Debug.WriteLine("isexpanded set| " + value.ToString());
 
 				if (rememberExpCollapseState) IsModified = true;
 			}

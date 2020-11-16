@@ -22,8 +22,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	public enum LogicalComparisonOp
 	{
-		// LOCICAL_NO_OP         = 0,
-		LOGICAL_OR            = 0,
+		LOGICAL_NO_OP         = 0,
+		LOGICAL_OR            = 1,
 		LOGICAL_AND           ,
 		LOGICAL_COUNT
 
@@ -65,6 +65,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		protected bool isInitialized;
 		protected bool isModified;
+
+		private LogicalComparisonOp logicalComparisonOpCode = LOGICAL_NO_OP;
+		private ValueComparisonOp valueComparisonOpCode = VALUE_NO_OP;
 
 		private Orator.ConfRoom.Announcer OnModifiedAnnouncer;
 
@@ -130,6 +133,22 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => ShtIds.SheetNumberComponentTitles[compareComponentIndex].Name;
 		}
 
+
+
+		[DataMember(Order = 3)]
+		public LogicalComparisonOp LogicalComparisonOpCode
+		{
+			get => logicalComparisonOpCode;
+			// get => logicalCompOp?.OpCode ?? LOGICAL_NO_OP;
+			set
+			{
+				logicalComparisonOpCode = value;
+			}
+		}
+
+		[IgnoreDataMember]
+		public abstract int LogicalCompOpCode { get; set; }
+
 		[DataMember(Order = 1)]
 		public LogicalCompareOp LogicalCompareOp
 		{
@@ -146,6 +165,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				IsModified = true;
 			}
 		}
+
+		[DataMember(Order = 4)]
+		public ValueComparisonOp ValueComparisonOpCode
+		{
+			get => valueComparisonOpCode;
+			// get => valueCompOp?.OpCode ?? VALUE_NO_OP;
+			set
+			{
+				valueComparisonOpCode = value;
+			}
+		}
+
+		[IgnoreDataMember]
+		public abstract int ValueCompOpCode { get; set; }
 		
 		[DataMember(Order = 2)]
 		public ValueCompareOp ValueCompareOp
@@ -164,11 +197,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[IgnoreDataMember]
-		public abstract int ValueCompOpCode { get; set; }
 
-		[IgnoreDataMember]
-		public abstract int LogicalCompOpCode { get; set; }
 
 		[DataMember(Order = 5)]
 		public string CompareValue
