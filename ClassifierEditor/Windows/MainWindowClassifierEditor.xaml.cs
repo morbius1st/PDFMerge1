@@ -300,8 +300,8 @@ namespace ClassifierEditor.Windows
 
 				classificationFile.Initialize();
 
-				// FileList = new SheetFileList();
-				// FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
+				FileList = new SheetFileList();
+				FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
 
 				string desc = classificationFile.HeaderDescFromMemory;
 
@@ -933,12 +933,12 @@ namespace ClassifierEditor.Windows
 				if (userSelected.Item.CompareOps.Count == 0)
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "A", 1));
+						new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "A", 1));
 				}
 				else
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) EQUALTO], "A", 1));
+						new ValueCompOp(LOGICAL_AND, EQUALTO, "A", 1));
 				}
 			}
 		}

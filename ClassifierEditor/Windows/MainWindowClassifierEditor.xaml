@@ -2580,7 +2580,7 @@
 									/>
 						</Border>
 
-						<Border
+						<!--<Border
 								Margin="5,0,0,0"
 								BorderThickness="0"
 								CornerRadius="3"
@@ -2634,7 +2634,7 @@
 									HorizontalContentAlignment="Center"
 									Style="{StaticResource Label.Condition.ComponentName}"
 									/>
-						</Border>
+						</Border>-->
 
 
 					</DockPanel>

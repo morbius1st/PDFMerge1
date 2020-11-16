@@ -238,16 +238,16 @@ namespace ClassifierEditor.SampleData
 				}
 				else if (i == 2)
 				{
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A", compComponent));
+					// item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, STARTS_WITH, "A", compComponent));
 					// node = new TreeNode(parent, item, false);
 
 					item.IsFixed = true;
 				}
 				else if (i == 3 || i == 5)
 				{
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], 
-						ValueCompareOps[(int) DOES_NOT_EQUAL], "2", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 					item.IsFixed = true;
@@ -263,17 +263,16 @@ namespace ClassifierEditor.SampleData
 				else if (i == 1)
 				{
 
-					item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) DOES_NOT_EQUAL], "2", compComponent+1));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent+1));
 
-					ValueCompOp v = new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR],
-						ValueCompareOps[(int) DOES_NOT_END_WITH], "A", compComponent);
+					ValueCompOp v = new ValueCompOp(LOGICAL_OR,DOES_NOT_END_WITH, "A", compComponent);
 					v.IsDisabled = true;
 
 
 					item.CompareOps.Add(v);
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_AND], ValueCompareOps[(int) GREATER_THAN_OR_EQUAL], "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LogicalCompareOps[(int) LOGICAL_OR], ValueCompareOps[(int) DOES_NOT_START_WITH], "Z", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, GREATER_THAN_OR_EQUAL, "1", compComponent));
+					item.CompareOps.Add(new ValueCompOp(LOGICAL_OR, DOES_NOT_START_WITH, "Z", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 

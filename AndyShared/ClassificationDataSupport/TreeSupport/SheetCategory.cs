@@ -359,7 +359,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			// keep description null
 			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title", null);
-			temp.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) EQUALTO], "1", 1));
+			temp.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", 1));
 
 			return temp;
 		}
