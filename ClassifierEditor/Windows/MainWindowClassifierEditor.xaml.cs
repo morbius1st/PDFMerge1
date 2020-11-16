@@ -470,7 +470,7 @@ namespace ClassifierEditor.Windows
 		{
 			// true to create sample data and save to disk
 			// false to read existing data
-			if (true)
+			if (false)
 			{
 				// temp code to create a new classification file 
 				classificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
