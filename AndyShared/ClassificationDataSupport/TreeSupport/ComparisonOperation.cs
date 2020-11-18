@@ -534,6 +534,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			setLogicalCompareOp(LogicalCompareOps, "And", LOGICAL_AND);
 			setLogicalCompareOp(LogicalCompareOps, "Or", LOGICAL_OR);
+
 		}
 		
 		private static void defineValueCompareOps()
