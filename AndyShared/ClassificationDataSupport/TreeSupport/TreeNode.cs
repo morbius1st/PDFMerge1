@@ -111,6 +111,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
+			// Debug.WriteLine("@TreeNode ctor| item.title| " + parent.Item.Title 
+			// 	+ " parent depth| " + parent.depth );
+
 			this.parent = parent;
 			this.item = item;
 			Depth = parent.depth + 1;
@@ -122,7 +125,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
 
-		public TreeNode() : this(null, null, false) { }
+		public TreeNode() : this(null, null, false)
+		{
+			// Debug.WriteLine("@TreeNode ctor| empty treenode created");
+
+		}
 
 		protected  TreeNode(SheetCategory item, bool isExpanded)
 		{
@@ -136,6 +143,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnCreated()
 		{
+
 			Children.CollectionChanged += ChildrenOnCollectionChanged;
 
 			// childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;	
@@ -143,17 +151,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ oncreated");
 
 			// listen to parent, initialize
-			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+			Orator.Listen(OratorRooms.TN_INIT, OnAnnouncedTnInit);
 
 			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+			Orator.Listen(OratorRooms.SAVED, OnAnnouncedSaved);
 
 			// listen to parent, changes have been saved
 			Orator.Listen(OratorRooms.SAVING, OnSavingAnnounce);
 
-			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnounceRemExCollapseState);
-
+			RemExCollapseListenConfig();
 
 			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
@@ -171,6 +177,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			OnCreated();
 
+			// Debug.WriteLine("@TreeNode onDeserialized| is expanded?");
 			if (!rememberExpCollapseState) isExpanded = false;
 		}
 
@@ -180,9 +187,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	if (!rememberExpCollapseState) isExpanded = false;
 		// }
 
+		private void RemExCollapseListenConfig()
+		{
+			// listen to parent, changes have been saved
+			Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnouncedRemExCollapseState);
+
+			rememberExpCollapseState = (bool) (Orator.GetLastValue(OratorRooms.TN_REM_EXCOLLAPSE_STATE) ?? false);
+
+		}
+
 	#endregion
 
 	#region public properties
+
+		// public static int Ct = 0;
 
 		// the actual tree data item
 		[DataMember(Order = 20)]
@@ -195,10 +213,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				if (item == null) return;
 
+				// Ct++;
+
 				item.Depth = depth;
 
 				OnPropertyChange();
-				item.UpdateProperties();
 			}
 		}
 
@@ -565,7 +584,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public static TreeNode TempTreeNode(TreeNode parent)
 		{
-			TreeNode temp = new TreeNode(parent, SheetCategory.TempSheetCategory(), false);
+			TreeNode temp = new TreeNode(parent, SheetCategory.TempSheetCategory(parent.depth), false);
 
 			return temp;
 		}
@@ -880,19 +899,22 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// isSaving = true;
 		}
 
-		private void OnAnnounceRemExCollapseState(object sender, object value)
+		private void OnAnnouncedRemExCollapseState(object sender, object value)
 		{
+			
 			rememberExpCollapseState = (bool) (value ?? false);
+
+			Debug.WriteLine("@TreeNode onAnnounced| remember?| " + rememberExpCollapseState.ToString());
 		}
 
-		private void OnAnnounceTnInit(object sender, object value)
+		private void OnAnnouncedTnInit(object sender, object value)
 		{
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
 			isInitialized = true;
 			isModified = false;
 		}
 
-		private void OnAnnounceSaved(object sender, object value)
+		private void OnAnnouncedSaved(object sender, object value)
 		{
 			if (Common.SHOW_DEBUG_MESSAGE1)
 				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
@@ -999,7 +1021,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public void AddNewChild2(TreeNode contextNode)
 		{
 			TreeNode temp = TempTreeNode(contextNode);
-
+			
 			temp.IsNodeSelected = true;
 
 			contextNode.Children.Add(temp);
@@ -1031,6 +1053,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			toAddNode.Depth = ++contextNode.Depth;
 			TreeNode parent = contextNode.Parent;
+
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode));
 		}
 
@@ -1040,7 +1063,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			TreeNode parent = contextNode.Parent;
 
 			TreeNode temp = TempTreeNode(parent);
+
 			temp.IsNodeSelected = true;
+
 			AddAt2(parent, temp, parent.Children.IndexOf(contextNode) + 1);
 
 			NotifyChildrenChange();
@@ -1051,6 +1076,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			TreeNode parent = contextNode.Parent;
 			toAddNode.Depth = parent.Depth + 1;
+
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode) + 1);
 		}
 

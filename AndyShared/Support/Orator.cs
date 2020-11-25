@@ -106,6 +106,24 @@ namespace AndyShared.Support
 			}
 		}
 
+		public static object GetLastValue(string room)
+		{
+			if (conferenceCenter.ContainsKey(room))
+			{
+				return conferenceCenter[room].LastValue;
+			}
+
+			return null;
+		}
+
+		public static void ClearLastValue(string room)
+		{
+			if (conferenceCenter.ContainsKey(room))
+			{
+				conferenceCenter[room].LastValue = null;
+			}
+		}
+
 		public class ConfRoom
 		{
 			public int Listeners { get; set; }
@@ -114,14 +132,17 @@ namespace AndyShared.Support
 
 			public string Description { get; set; }
 
+			public object LastValue { get; set; }
+
 			public delegate void MeditatorEventHandler(object sender, object value);
 
 			public event MeditatorEventHandler MeditatorEvent;
 
 			public void RaiseMeditatorEvent(object sender, object value)
 			{
-				MeditatorEvent?.Invoke(sender, value);
+				LastValue = value;
 
+				MeditatorEvent?.Invoke(sender, value);
 			}
 
 			public class Announcer

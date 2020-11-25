@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,9 +12,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ClassifierEditor.SampleData;
+using WpfShared.Windows;
 using SettingsManager;
 using UtilityLibrary;
-using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
@@ -23,7 +22,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using WpfShared.Windows;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 
 #endregion
 
@@ -243,6 +242,8 @@ namespace ClassifierEditor.Windows
 		public string ContextCmdExpand { get; }            = "Expand";
 		public string ContextCmdCollapse { get; }          = "Collapse";
 
+		public AndyShared.ClassificationDataSupport.TreeSupport.CheckedState bot;
+
 	#region private fields
 
 		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> us = UserSettings.Admin;
@@ -263,7 +264,6 @@ namespace ClassifierEditor.Windows
 		private Orator.ConfRoom.Announcer OnSavingAnnouncer;
 
 	#endregion
-
 
 	#region ctor
 
@@ -487,10 +487,18 @@ namespace ClassifierEditor.Windows
 			}
 			else
 			{
+				// sd = new SampleData.SampleData();
+
 				UserSettingData a = UserSettings.Data;
 
+				// Debug.WriteLine("@MainWin load| load user settings");
 				string fileId = UserSettings.Data.LastClassificationFileId;
 
+				// Debug.WriteLine("@MainWin load| announce remember");
+				// inform all of the current setting
+				OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+
+				// Debug.WriteLine("@MainWin load| load classification file");
 				ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 
 				// listCompOps(BaseOfTree);
@@ -500,7 +508,7 @@ namespace ClassifierEditor.Windows
 				// classificationFile.Write(true);
 
 				// inform all of the current setting
-				OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+				// OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
 
 				// classificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
 				//
@@ -526,10 +534,15 @@ namespace ClassifierEditor.Windows
 			//
 			// List<LogicalCompareOp> LogicalCompareOps = CompareOperations.LogicalCompareOps;
 
+			// TreeNode tn = SampleData.SampleData.Temp;
+
+			
+
+			string f = SampleData.SampleData.FullFilePath;
+
 			// cancel any startup modifications
 			OnTnInitAnnouncer.Announce(null);
 		}
-
 
 		private void listCompOps(TreeNode parentNode)
 		{
@@ -665,8 +678,6 @@ namespace ClassifierEditor.Windows
 				UserSelected = null;
 				return;
 			}
-
-			// Debug.WriteLine("@ selected changed 1| " + selected.Item.Title);
 
 			UserSelected = selected;
 			BaseOfTree.SelectedNode = userSelected;
@@ -933,12 +944,12 @@ namespace ClassifierEditor.Windows
 				if (userSelected.Item.CompareOps.Count == 0)
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "A", 1));
+						new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "A", userSelected.Depth));
 				}
 				else
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(LOGICAL_AND, EQUALTO, "A", 1));
+						new ValueCompOp(LOGICAL_AND, EQUALTO, "A", userSelected.Depth));
 				}
 			}
 		}
@@ -1045,7 +1056,7 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-		public void Connect(int connectionId, object target) { }
+
 	}
 
 #region NotBool value converter
@@ -1143,6 +1154,8 @@ namespace ClassifierEditor.Windows
 	{
 		public static int MasterIdIdx;
 
+		
+
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			FrameworkElement element = container as FrameworkElement;
@@ -1153,35 +1166,16 @@ namespace ClassifierEditor.Windows
 
 				taskitem.Id = MasterIdIdx++;
 
+				// if (taskitem.ValueCompOpCode == (int) VALUE_NO_OP)
 				if (taskitem.ValueCompOpCode == (int) VALUE_NO_OP)
 				{
+
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
 				}
 
 				return
 					element.FindResource("Lv2DataTemplate0") as DataTemplate;
-//
-//
-// #pragma warning disable CS0184 // The given expression is never of the provided ('LogicalCompareOp') type
-// 				if (taskitem.ValueCompareOp is LogicalCompareOp)
-// #pragma warning restore CS0184 // The given expression is never of the provided ('LogicalCompareOp') type
-// 				{
-// 					return
-// 						element.FindResource("Lv2DataTemplate2") as DataTemplate;
-// 				}
-// 				else if (taskitem.ValueCompareOp.OpCodeValue == (int) NO_OP)
-// 				{
-// 					return
-// 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
-// 				}
-// 				else
-// 				{
-// 					return
-// 						element.FindResource("Lv2DataTemplate1") as DataTemplate;
-// 				}
-// 			}
-//
 			}
 
 			return null;

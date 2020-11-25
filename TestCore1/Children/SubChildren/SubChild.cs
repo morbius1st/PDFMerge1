@@ -5,30 +5,40 @@ using TestCore1.Meditator;
 
 namespace TestCore1.Children.SubChildren
 {
-	class SubChild
+	public class SubChild
 	{
 		private int index;
 
-		private Orator.ConfRoom.Announcer xModified;
+		// private Orator.ConfRoom.Announcer xModified;
 		private Orator.ConfRoom.Announcer2 xModified2;
+
 
 	#region ctor
 
 		public SubChild()
 		{
-			MiddleMan.Outgoing += MiddleManOnOutgoing;
+			// MiddleMan.Outgoing += MiddleManOnOutgoing;
 
 			index = ++Program.count;
 
 			Console.WriteLine("@ subchild " + index + "| created");
 
-			xModified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
+			// xModified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
 			xModified2 = Orator.GetAnnouncer2(this, Program.MODIFY_EVT_NAME);
 		}
+
+		public Orator.ConfRoom.Announcer2 Ann2 => xModified2;
 
 		public void ConfigListener(string room)
 		{
 			Orator.Listen(room, OnIntEvent);
+
+			object lv = Orator.GetLastValue(room);
+
+			if (lv != null)
+			{
+				Console.WriteLine("@ subchild " + index + "| got lastValue| " + lv.ToString());
+			}
 		}
 
 		private bool modified;
@@ -44,7 +54,7 @@ namespace TestCore1.Children.SubChildren
 
 				Console.WriteLine("@ subchild " + index + "| sending| " + value);
 
-				MiddleMan.RaiseIsModifiedEvent(this, value);
+				// MiddleMan.RaiseIsModifiedEvent(this, value);
 			}
 		}
 
@@ -58,7 +68,7 @@ namespace TestCore1.Children.SubChildren
 				+ " type| " + value.GetType()
 				+ "\n");
 
-			xModified.Announce(this, "from subchild " + index + "| I am modified");
+			// xModified.Announce(this, "from subchild " + index + "| I am modified");
 			xModified2.Announce("from subchild " + index + "| I am modified 2");
 		}
 

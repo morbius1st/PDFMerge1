@@ -38,9 +38,6 @@ namespace SettingsManager
 		[DataMember(Order = 2)]
 		public bool RememberNodeExpandState { get; set; } = false;
 
-
-
-
 		[DataMember(Order = 100)]
 		public WindowPosition MainWinPos{ get; set; } = new WindowPosition(100,100);
 

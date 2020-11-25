@@ -116,7 +116,7 @@
 
 	<SolidColorBrush x:Key="ItemsControl.Text.Normal" Color="{StaticResource Gray.950}" />
 	<SolidColorBrush x:Key="ItemsControl.Text.Disabled" Color="{StaticResource Gray.600}" />
-	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.760}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.730}" />
 
 
 	<SolidColorBrush x:Key="Element.Title.Background.Normal" Color="{StaticResource Dark.Blue.400}" />

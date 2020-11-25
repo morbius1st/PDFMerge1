@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Windows.Data;
+using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.Support;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
@@ -122,18 +124,38 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				OnPropertyChange();
 				OnPropertyChange("CompareComponentName");
+				OnPropertyChange("CompNameData");
 
 				IsModified = true;
 			}
 		}
 
 		[IgnoreDataMember]
+		public ShtNumberCompName CompNameData => ShtIds.SheetNumberComponentTitles[compareComponentIndex];
+
+		[IgnoreDataMember]
 		public string CompareComponentName
 		{
 			get => ShtIds.SheetNumberComponentTitles[compareComponentIndex].Name;
 		}
-
-
+		//
+		// [IgnoreDataMember]
+		// public string CompareComponentDescPreface
+		// {
+		// 	get =>ShtIds.SheetNumberComponentTitles[compareComponentIndex].Neumonic.Preface;
+		// }
+		//
+		// [IgnoreDataMember]
+		// public string CompareComponentDescBody
+		// {
+		// 	get =>ShtIds.SheetNumberComponentTitles[compareComponentIndex].Neumonic.Body;
+		// }
+		//
+		// [IgnoreDataMember]
+		// public string CompareComponentDescSuffix
+		// {
+		// 	get =>ShtIds.SheetNumberComponentTitles[compareComponentIndex].Neumonic.Suffix;
+		// }
 
 		[DataMember(Order = 3)]
 		public LogicalComparisonOp LogicalComparisonOpCode
@@ -162,6 +184,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == logicalCompOp) return;
 
 				logicalCompOp = value;
+
+				logicalComparisonOpCode = value.OpCode;
+
 				OnPropertyChange();
 				OnPropertyChange("LogicalCompareString");
 
@@ -196,6 +221,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == valueCompOp) return;
 
 				valueCompOp = value;
+
+				valueComparisonOpCode = value.OpCode;
+
 				OnPropertyChange();
 				OnPropertyChange("ValueCompareString");
 
@@ -357,6 +385,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => valueCompOp?.OpCodeValue ?? 0;
 			set
 			{
+				// ValueCompareOp = ValueCompareOps[value];
 				if (value == 0)
 				{
 					ValueCompareOp = null;
@@ -375,6 +404,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => logicalCompOp?.OpCodeValue ?? 0;
 			set
 			{
+				// LogicalCompareOp = LogicalCompareOps[value];
 				if (value == 0)
 				{
 					LogicalCompareOp = null;
@@ -492,7 +522,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public static List<LogicalCompareOp> LogicalCompareOps { get; private set; }
 
+		// public static ICollectionView LogicalView { get; private set; }
+
 		public static List<ValueCompareOp> ValueCompareOps { get; private set; }
+
+		// public static ICollectionView ValueView { get; private set; }
 
 		public static bool Compare(string value, ObservableCollection<ComparisonOperation> CompareOps)
 		{
@@ -532,10 +566,24 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			configureCompareOpList(LogicalCompareOps, (int) LOGICAL_COUNT);
 
+			setLogicalCompareOp(LogicalCompareOps, "No Op", LOGICAL_NO_OP);
 			setLogicalCompareOp(LogicalCompareOps, "And", LOGICAL_AND);
 			setLogicalCompareOp(LogicalCompareOps, "Or", LOGICAL_OR);
 
+			// defineLogicalView();
+
 		}
+
+		// private static void defineLogicalView()
+		// {
+		// 	LogicalView = CollectionViewSource.GetDefaultView(LogicalCompareOps);
+		//
+		// 	LogicalView.Filter = item =>
+		// 	{
+		// 		LogicalCompareOp op = item as LogicalCompareOp;
+		// 		return op.OpCode != LogicalComparisonOp.LOGICAL_NO_OP;
+		// 	};
+		// }
 		
 		private static void defineValueCompareOps()
 		{
@@ -558,7 +606,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			setValueCompareOp(ValueCompareOps, "Does Not End with", DOES_NOT_END_WITH);
 			setValueCompareOp(ValueCompareOps, "Matches the Pattern", MATCHES);
 			setValueCompareOp(ValueCompareOps, "Does Not Match the Pattern", DOES_NOT_MATCH);
+
+			// defineValueView();
 		}
+
+		// private static void defineValueView()
+		// {
+			// ValueView = CollectionViewSource.GetDefaultView(ValueCompareOps);
+			//
+			// ValueView.Filter = item =>
+			// {
+			// 	ValueCompareOp op = item as ValueCompareOp;
+			// 	return op.OpCode != ValueComparisonOp.VALUE_NO_OP;
+			// };
+		// }
 
 		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ValueComparisonOp op)
 		{

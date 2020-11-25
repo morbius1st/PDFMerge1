@@ -205,6 +205,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public int Count => MergeItemCount;
 
+		// public static int Cs = 0;
+
 		[IgnoreDataMember]
 		public int Depth
 		{
@@ -217,8 +219,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ depth| changed");
 
+				// Cs++;
+
+				// compareOps[0].CompareComponentIndex = depth;
+
 				OnPropertyChange();
 				OnPropertyChange("ComponentName");
+				UpdateProperties();
 				IsModified = true;
 			}
 		}
@@ -352,14 +359,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("MergeItemCount");
 		}
 
-		public static SheetCategory TempSheetCategory()
+		public static SheetCategory TempSheetCategory(int depth = 0)
 		{
 			// SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title",
 			// 	$"{tempIdx++:D3} New Node Description");
 
 			// keep description null
 			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title", null);
-			temp.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", 1));
+
+			temp.depth = depth;
+
+			temp.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", temp.depth));
 
 			return temp;
 		}

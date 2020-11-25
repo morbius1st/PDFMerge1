@@ -29,6 +29,7 @@ namespace TestCore1.Meditator
 				rooms[i, 1] = kvp.Value.Description;
 				rooms[i, 2] = kvp.Value.Listeners.ToString();
 				rooms[i, 3] = kvp.Value.Annoncers.ToString();
+				
 				i++;
 			}
 
@@ -65,27 +66,46 @@ namespace TestCore1.Meditator
 			}
 		}
 
-		public static void Announcer(object sender, string room, object value)
+		// public static void Announcer(object sender, string room, object value)
+		// {
+		// 	if (conferenceCenter.ContainsKey(room))
+		// 	{
+		// 		conferenceCenter[room].RaiseMeditatorEvent(sender, value);
+		// 	}
+		// }
+
+		// // first version - dropping
+		// public static ConfRoom.Announcer GetAnnouncer(string room, string description = null)
+		// {
+		// 	if (!conferenceCenter.ContainsKey(room))
+		// 	{
+		// 		conferenceCenter.Add(room, new ConfRoom() {Description = description});
+		// 	}
+		//
+		// 	conferenceCenter[room].Annoncers += 1;
+		//
+		// 	return new ConfRoom.Announcer((sender, value) => conferenceCenter[room].RaiseMeditatorEvent(sender, value));
+		// }
+
+		
+		public static object GetLastValue(string room)
 		{
 			if (conferenceCenter.ContainsKey(room))
 			{
-				conferenceCenter[room].RaiseMeditatorEvent(sender, value);
+				return conferenceCenter[room].LastValue;
 			}
+
+			return null;
 		}
 
-		// first version - dropping
-		public static ConfRoom.Announcer GetAnnouncer(string room, string description = null)
+		public static void ClearLastValue(string room)
 		{
-			if (!conferenceCenter.ContainsKey(room))
+			if (conferenceCenter.ContainsKey(room))
 			{
-				conferenceCenter.Add(room, new ConfRoom() {Description = description});
+				conferenceCenter[room].LastValue = null;
 			}
-
-			conferenceCenter[room].Annoncers += 1;
-
-			return new ConfRoom.Announcer((sender, value) => conferenceCenter[room].RaiseMeditatorEvent(sender, value));
 		}
-		
+
 		// second version - use this
 		public static ConfRoom.Announcer2 GetAnnouncer2(object owner, string room, string description = null)
 		{
@@ -116,30 +136,34 @@ namespace TestCore1.Meditator
 
 			public string Description { get; set; }
 
+			public object LastValue { get; set; }
+
 			public delegate void MeditatorEventHandler(object sender, object value);
 
 			public event ConfRoom.MeditatorEventHandler MeditatorEvent;
 
 			public void RaiseMeditatorEvent(object sender, object value)
 			{
+				LastValue = value;
+
 				MeditatorEvent?.Invoke(sender, value);
 
 			}
 
-			public class Announcer
-			{
-				private MeditatorEventHandler evt { get; set; }
-
-				public Announcer(MeditatorEventHandler evt)
-				{
-					this.evt = evt;
-				}
-
-				public void Announce(object sender, object value)
-				{
-					evt?.Invoke(sender, value);
-				}
-			}
+			// public class Announcer
+			// {
+			// 	private MeditatorEventHandler evt { get; set; }
+			//
+			// 	public Announcer(MeditatorEventHandler evt)
+			// 	{
+			// 		this.evt = evt;
+			// 	}
+			//
+			// 	public void Announce(object sender, object value)
+			// 	{
+			// 		evt?.Invoke(sender, value);
+			// 	}
+			// }
 
 			public class Announcer2
 			{
@@ -163,7 +187,7 @@ namespace TestCore1.Meditator
 		}
 	}
 
-
+/*
 	public class MiddleMan
 	{
 		public delegate void IsModifiedEventHandler(object sender, bool value);
@@ -228,6 +252,7 @@ namespace TestCore1.Meditator
 			NonMonitoredOut?.Invoke(who, value);
 		}
 
+		
 
 	#region system overrides
 
@@ -238,4 +263,6 @@ namespace TestCore1.Meditator
 
 	#endregion
 	}
+
+	*/
 }

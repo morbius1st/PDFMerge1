@@ -1,7 +1,8 @@
 ﻿#region + Using Directives
 using System;
 using System.Collections.Generic;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 #endregion
 
@@ -44,14 +45,14 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		// value index is not being used - spare
 		public List<ShtNumberCompName> SheetNumberComponentTitles { get; } = new List<ShtNumberCompName>()
 		{
-			new ShtNumberCompName(PHBLDG, "Ph/Bld", 5),
-			new ShtNumberCompName(DISCP , "Disc", 10),
-			new ShtNumberCompName(CAT   , "Cat", 15),
-			new ShtNumberCompName(SUBCAT, "SubCat", 20),
-			new ShtNumberCompName(MOD   , "Mod", 25),
-			new ShtNumberCompName(SUBMOD, "SubMod", 30),
-			new ShtNumberCompName(ID    , "Id", 35),
-			new ShtNumberCompName(SUBID , "SubId", 40),
+			new ShtNumberCompName(PHBLDG, new NeumonicString(            "(" ,"A", " x.x-xz)"), "Ph/Bld", 5),
+			new ShtNumberCompName(DISCP , new NeumonicString(          "(x " ,"A", "x.x-xz)") , "Disc"  , 10),
+			new ShtNumberCompName(CAT   , new NeumonicString(         "(x y" ,"0", ".x-xz)")  , "Cat"   , 15),
+			new ShtNumberCompName(SUBCAT, new NeumonicString(       "(x yx." ,"0", "-xz)")    , "SubCat", 20),
+			new ShtNumberCompName(MOD   , new NeumonicString(     "(x yx.x-" ,"0", ")")       , "Mod"   , 25),
+			new ShtNumberCompName(SUBMOD, new NeumonicString    ("(x yx.x-x" ,"A", ")")       , "SubMod", 30),
+			new ShtNumberCompName(ID    , new NeumonicString(  "(x yx.x-xz(" ,"A", "))")      , "Id"    , 35),
+			new ShtNumberCompName(SUBID , new NeumonicString("(x yx.x-xz(x/" ,"A", "))")      , "SubId" , 40),
 		};
 		// new ShtNumberCompName("Sheet Number Type", "Number Type", 0),
 
@@ -64,6 +65,16 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public const string SUBMOD = "SubModifier";
 		public const string ID     = "Identifier";
 		public const string SUBID  = "SubIdentifier";
+
+		// public const string PHBLD  = "PhBldgid ";
+		// public const string PHBLDG = "Phase/Building (A x.x-x)";
+		// public const string DISCP  = "Discipline ";
+		// public const string CAT    = "Category ";
+		// public const string SUBCAT = "SubCategory ";
+		// public const string MOD    = "Modifier ";
+		// public const string SUBMOD = "SubModifier ";
+		// public const string ID     = "Identifier ";
+		// public const string SUBID  = "SubIdentifier )";
 
 		private const string SEP   = "sep";
 		private const string SEPR  = "Separator";
@@ -465,20 +476,37 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 				SeqCtrlNextReqd next = SeqCtrlNextReqd.NOT_USED) : base(use, proceed, next) { }
 		}
 
-		public struct ShtNumberCompName
-		{
-			public string Name { get; private set; }
-			public string AbbrevName { get; private set; }
-			public int ValueIndex { get; private set; }
-			
+	}
 
-			public ShtNumberCompName( string name, string abbrevName, int valueIdx)
-			{
-				Name = name;
-				AbbrevName = abbrevName;
-				ValueIndex = valueIdx;
-			}
+	public struct ShtNumberCompName
+	{
+		public string Name { get; private set; }
+		public NeumonicString Neumonic { get; private set; }
+		public string AbbrevName { get; private set; }
+		public int ValueIndex { get; private set; }
+
+		public ShtNumberCompName(   string name, NeumonicString neumonicStr, string abbrevName, int valueIdx)
+		{
+			Name = name;
+			Neumonic = neumonicStr;
+			AbbrevName = abbrevName;
+			ValueIndex = valueIdx;
+
 		}
 
+	}
+
+	public struct NeumonicString
+	{
+		public string Preface { get; private set; }
+		public string Body { get; private set; }
+		public string Suffix { get; private set; }
+
+		public NeumonicString(string preface, string body, string suffix)
+		{
+			Preface = preface;
+			Body = body;
+			Suffix = suffix;
+		}
 	}
 }

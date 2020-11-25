@@ -13,7 +13,7 @@ using TestCore1.Meditator;
 
 namespace TestCore1.Children
 {
-	public class Child : INotifyPropertyChanged
+	public class Child // : INotifyPropertyChanged
 	{
 		private SubChild s0;
 		private SubChild s1;
@@ -21,7 +21,7 @@ namespace TestCore1.Children
 
 		private bool initialized = false;
 
-		private Orator.ConfRoom.Announcer Modified;
+		// private Orator.ConfRoom.Announcer Modified;
 		private Orator.ConfRoom.Announcer2 Modified2;
 
 	#region ctor
@@ -30,10 +30,13 @@ namespace TestCore1.Children
 		{
 			Console.WriteLine("@ child| created");
 
+			/*
 			MiddleMan.Outgoing += MiddleManOnOutgoing;
 			MiddleMan.Initialize += MiddleManOnInitialize;
 			MiddleMan.MonitoredOut += MiddleManOnMonitoredOut;
 			MiddleMan.NonMonitoredOut += MiddleMan_NonMonitoredOut;
+
+			*/
 
 			s0 = new SubChild();
 			s0.ConfigListener(Program.INIT_EVT_NAME);
@@ -44,13 +47,16 @@ namespace TestCore1.Children
 			s2 = new SubChild();
 			s2.ConfigListener(Program.INIT_EVT_NAME);
 
-
 			Orator.Listen(Program.INIT_EVT_NAME, OnIntEvent);
 
-			Modified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
+			// Modified = Orator.GetAnnouncer(Program.MODIFY_EVT_NAME);
 			Modified2 = Orator.GetAnnouncer2(this, Program.MODIFY_EVT_NAME);
-
 		}
+
+	#endregion
+
+		public SubChild S0 => s0;
+
 
 		private void OnIntEvent(object sender, object value)
 		{
@@ -59,12 +65,12 @@ namespace TestCore1.Children
 				+ "   type| " + value.GetType()
 				+ "\n");
 
-			Modified.Announce(this, "from child| I am modified");
+			// Modified.Announce(this, "from child| I am modified");
 			Modified2.Announce("from child| I am modified 2");
 		}
 
 
-
+		/*
 		private void MiddleMan_NonMonitoredOut(object sender, string value)
 		{
 			Console.WriteLine("\n@ child| nonmonitored event received");
@@ -83,7 +89,6 @@ namespace TestCore1.Children
 
 		}
 
-
 		private bool isModified;
 
 		public bool IsModified
@@ -97,12 +102,13 @@ namespace TestCore1.Children
 
 				Console.WriteLine("\n@ child| @ modified| sending| " + value + "\n-");
 
-				MiddleMan.RaiseIsModifiedEvent(this, value);
+				// MiddleMan.RaiseIsModifiedEvent(this, value);
 
 				OnPropertyChange();
 			}
 		}
 
+		
 		private string monitoredText;
 
 		public string MonitoredText
@@ -137,6 +143,7 @@ namespace TestCore1.Children
 			}
 		}
 
+		
 		private void MiddleManOnInitialize(object sender, bool value)
 		{
 			initialized = value;
@@ -159,25 +166,31 @@ namespace TestCore1.Children
 			Console.WriteLine("");
 		}
 
-	#endregion
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
+		
 		private void OnMonitoredProperty01Change([CallerMemberName] string memberName = "")
 		{
 			Console.WriteLine("@ child| *************");
 			Console.WriteLine("@ child| at event");
-
+		
 			if (initialized) IsModified = true;
-
+		
 			OnPropertyChange(memberName);
-
+		
 		}
+
+		
+
+
+	#endregion
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
+		*/
 
 	#region system overrides
 

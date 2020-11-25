@@ -33,6 +33,8 @@ namespace ClassifierEditor.SampleData
 
 		private static BaseOfTree root;
 
+		private  static TreeNode temp;
+
 	#endregion
 
 	#region ctor
@@ -69,7 +71,15 @@ namespace ClassifierEditor.SampleData
 
 		public static SheetFileList FileList2 { get; private set; } = new SheetFileList();
 
-		public static TreeNode Temp { get; set; }
+		public static TreeNode Temp
+		{
+			get => temp;
+			set
+			{
+				temp = value;
+				OnPropertyChange_S();
+			}
+		}
 
 		public static string FullFilePath { get; set; } = "this is a file path";
 
@@ -88,7 +98,7 @@ namespace ClassifierEditor.SampleData
 			}
 		}
 
-		public static SampleData sd = new SampleData();
+		// public static SampleData sd = new SampleData();
 
 	#endregion
 
@@ -100,6 +110,9 @@ namespace ClassifierEditor.SampleData
 
 		public static void Sample(BaseOfTree tn)
 		{
+			// TreeNode.Ct = 0;
+			// SheetCategory.Cs = 0;
+
 			root = tn;
 
 			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
@@ -209,7 +222,7 @@ namespace ClassifierEditor.SampleData
 				}
 
 				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
-				item.Depth = depth + 1;
+				// item.Depth = depth + 1;
 
 				item.MergeItems = new ObservableCollection<MergeItem>();
 
