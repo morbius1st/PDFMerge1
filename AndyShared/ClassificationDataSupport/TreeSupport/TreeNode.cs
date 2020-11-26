@@ -959,7 +959,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 #endregion
 
-
 #region BaseOfTree
 
 	[DataContract(Namespace = "", IsReference = true)]

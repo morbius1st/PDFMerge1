@@ -1260,6 +1260,8 @@
 			</Style>
 
 			<!--
+				either means that the menu option is not affected - it could be either enabled or disabled
+				
 				options
 				WHEN	          default     IsFixed			  Isfixed      IsLocked      IsMaxDepth
 				.               state       == true       == false     == true       == true;
@@ -1369,6 +1371,8 @@
 
 				</ContextMenu.Template>
 
+
+				<!--  menu item: expand / collapse  -->
 				<MenuItem Click="Tv1ContextMenuExpand_OnClick">
 					<MenuItem.Style>
 						<Style
@@ -1402,6 +1406,7 @@
 
 				<Separator Margin="6" />
 
+				<!--  menu item: add before  -->
 				<MenuItem
 						CommandParameter="{Binding ContextCmdAddBefore,
 																			 Mode=OneWay,
@@ -2412,26 +2417,26 @@
 			</HierarchicalDataTemplate>
 			-->
 
-			
+
 			<DataTemplate x:Key="componentDescription2"
 					DataType="file:ShtNumberCompName"
-			>
+					>
 				<StackPanel
 						Margin="0"
 						DataContext="{Binding Path=DataContext,
 																	RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
 						Orientation="Horizontal"
-				>
-					<!-- -->
-					<!-- <Label -->
-					<!-- 		Content="{Binding Name, -->
-					<!-- 											FallbackValue='* Discipline', -->
-					<!-- 											Mode=OneWay}" -->
-					<!-- 		Padding="0,0,5,0" -->
-					<!-- 		VerticalAlignment="Center" -->
-					<!-- 		HorizontalContentAlignment="Center" -->
-					<!-- 		Style="{StaticResource Label.Condition.ComponentName}" -->
-					<!-- /> -->
+						>
+					<!--    -->
+					<!--  <Label  -->
+					<!--  Content="{Binding Name,  -->
+					<!--  FallbackValue='* Discipline',  -->
+					<!--  Mode=OneWay}"  -->
+					<!--  Padding="0,0,5,0"  -->
+					<!--  VerticalAlignment="Center"  -->
+					<!--  HorizontalContentAlignment="Center"  -->
+					<!--  Style="{StaticResource Label.Condition.ComponentName}"  -->
+					<!--  />  -->
 
 					<Label
 							Content="{Binding Neumonic.Preface,
@@ -2439,87 +2444,27 @@
 																Mode=OneWay}"
 							Margin="0"
 							Width="Auto"
-							Padding="0,0,0,1"
+							Padding="0,0,0,2"
 							VerticalAlignment="Center"
 							FontSize="10"
 							Style="{StaticResource Label.Condition.ComponentName}"
-					/>
+							/>
 					<Label
 							Content="{Binding Path=Neumonic.Body,
 																FallbackValue='A',
 																Mode=OneWay}"
 							Margin="0"
 							Width="Auto"
-							Padding="2,0,2,0"
+							Padding="2,0,2,1"
 							VerticalAlignment="Center"
 							FontSize="14"
 							Style="{StaticResource Label.Condition.ComponentDescBody}"
-					/>
+							/>
 					<Label
 							Content="{Binding Path=Neumonic.Suffix,
 																FallbackValue='.x-xy)',
 																Mode=OneWay}"
-							Margin="0,0,0,1"
-							Width="Auto"
-							Padding="0"
-							VerticalAlignment="Center"
-							FontSize="10"
-							Style="{StaticResource Label.Condition.ComponentName}"
-					/>
-
-				</StackPanel>
-			</DataTemplate>
-
-
-			<DataTemplate x:Key="componentDescription"
-					DataType="treeSupport:ComparisonOperation"
-					>
-				<StackPanel
-						Margin="0"
-						MinWidth="75"
-						DataContext="{Binding Path=DataContext,
-																	RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
-						Orientation="Horizontal"
-						>
-
-
-					<Label
-							Content="{Binding CompareComponentName,
-																FallbackValue='* Discipline',
-																Mode=OneWay}"
-							Padding="0,0,5,0"
-							VerticalAlignment="Center"
-							HorizontalContentAlignment="Center"
-							Style="{StaticResource Label.Condition.ComponentName}"
-							/>
-
-					<Label
-							Content="{Binding Path=CompareComponentDescPreface,
-																FallbackValue='(x ',
-																Mode=OneWay}"
-							Margin="0"
-							Width="Auto"
-							Padding="0,0,0,1"
-							VerticalAlignment="Center"
-							FontSize="10"
-							Style="{StaticResource Label.Condition.ComponentName}"
-							/>
-					<Label
-							Content="{Binding Path=CompareComponentDescBody,
-																FallbackValue='A',
-																Mode=OneWay}"
-							Margin="0"
-							Width="Auto"
-							Padding="2,0,2,0"
-							VerticalAlignment="Center"
-							FontSize="14"
-							Style="{StaticResource Label.Condition.ComponentDescBody}"
-							/>
-					<Label
-							Content="{Binding Path=CompareComponentDescSuffix,
-																FallbackValue='.x-xy)',
-																Mode=OneWay}"
-							Margin="0,0,0,1"
+							Margin="0,0,0,2"
 							Width="Auto"
 							Padding="0"
 							VerticalAlignment="Center"
@@ -2529,6 +2474,66 @@
 
 				</StackPanel>
 			</DataTemplate>
+
+			<!--    -->
+			<!--  <DataTemplate x:Key="componentDescription"  -->
+			<!--  DataType="treeSupport:ComparisonOperation"  -->
+			<!--  >  -->
+			<!--  <StackPanel  -->
+			<!--  Margin="0"  -->
+			<!--  MinWidth="75"  -->
+			<!--  DataContext="{Binding Path=DataContext,  -->
+			<!--  RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"  -->
+			<!--  Orientation="Horizontal"  -->
+			<!--  >  -->
+			<!--    -->
+			<!--    -->
+			<!--  <Label  -->
+			<!--  Content="{Binding CompareComponentName,  -->
+			<!--  FallbackValue='* Discipline',  -->
+			<!--  Mode=OneWay}"  -->
+			<!--  Padding="0,0,5,0"  -->
+			<!--  VerticalAlignment="Center"  -->
+			<!--  HorizontalContentAlignment="Center"  -->
+			<!--  Style="{StaticResource Label.Condition.ComponentName}"  -->
+			<!--  />  -->
+			<!--    -->
+			<!--  <Label  -->
+			<!--  Content="{Binding Path=CompareComponentDescPreface,  -->
+			<!--  FallbackValue='(x ',  -->
+			<!--  Mode=OneWay}"  -->
+			<!--  Margin="0"  -->
+			<!--  Width="Auto"  -->
+			<!--  Padding="0,0,0,1"  -->
+			<!--  VerticalAlignment="Center"  -->
+			<!--  FontSize="10"  -->
+			<!--  Style="{StaticResource Label.Condition.ComponentName}"  -->
+			<!--  />  -->
+			<!--  <Label  -->
+			<!--  Content="{Binding Path=CompareComponentDescBody,  -->
+			<!--  FallbackValue='A',  -->
+			<!--  Mode=OneWay}"  -->
+			<!--  Margin="0"  -->
+			<!--  Width="Auto"  -->
+			<!--  Padding="2,0,2,0"  -->
+			<!--  VerticalAlignment="Center"  -->
+			<!--  FontSize="14"  -->
+			<!--  Style="{StaticResource Label.Condition.ComponentDescBody}"  -->
+			<!--  />  -->
+			<!--  <Label  -->
+			<!--  Content="{Binding Path=CompareComponentDescSuffix,  -->
+			<!--  FallbackValue='.x-xy)',  -->
+			<!--  Mode=OneWay}"  -->
+			<!--  Margin="0,0,0,1"  -->
+			<!--  Width="Auto"  -->
+			<!--  Padding="0"  -->
+			<!--  VerticalAlignment="Center"  -->
+			<!--  FontSize="10"  -->
+			<!--  Style="{StaticResource Label.Condition.ComponentName}"  -->
+			<!--  />  -->
+			<!--    -->
+			<!-- 	</StackPanel> -->
+			<!-- </DataTemplate> -->
 
 
 			<DataTemplate x:Key="Lv1DataTemplate0"
@@ -2537,8 +2542,7 @@
 
 				<StackPanel Orientation="Vertical">
 
-					<DockPanel
-							x:Name="dp_lv1_logical"
+					<DockPanel x:Name="dp_lv1_logical"
 							Margin="38,6,0,6"
 							LastChildFill="False"
 							>
@@ -2607,8 +2611,7 @@
 
 					</DockPanel>
 
-					<DockPanel
-							x:Name="dp_lv1_condition"
+					<DockPanel x:Name="dp_lv1_condition"
 							Margin="0"
 							HorizontalAlignment="left"
 							>
@@ -2616,7 +2619,7 @@
 
 						<Border x:Name="bdr_lv1_component"
 								Margin="5,0,0,0"
-								Padding="18,0,18,0"
+								Padding="18,0,18,2"
 								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="left"
@@ -2637,27 +2640,27 @@
 							<StackPanel Orientation="Horizontal">
 								<Label
 										Content="{Binding Path=CompareComponentName,
-																FallbackValue='* Discipline',
-																Mode=OneWay}"
+																			FallbackValue='* Discipline',
+																			Mode=OneWay}"
 										Margin="0,0,5,0"
 										Padding="0"
 										VerticalAlignment="Center"
 										HorizontalContentAlignment="Center"
 										Style="{StaticResource Label.Condition.ComponentName}"
-								/>
+										/>
 								<ContentControl
 										DataContext="{Binding Path=CompNameData}"
 										IsEnabled="{Binding Path=IsEnabled,
-																			RelativeSource={RelativeSource AncestorType={x:Type Border}}}"
-										ContentTemplate="{StaticResource componentDescription2}" />
+																				RelativeSource={RelativeSource AncestorType={x:Type Border}}}"
+										ContentTemplate="{StaticResource componentDescription2}"
+										/>
 							</StackPanel>
 
 						</Border>
 
-						<Border 
-								x:Name="bdr_lv1_condition"
+						<Border x:Name="bdr_lv1_condition"
 								Margin="5,0,0,0"
-								Padding="18,0,18,0"
+								Padding="18,0,18,2"
 								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="Left"
@@ -2675,16 +2678,15 @@
 
 							<Label x:Name="Label8"
 									Content="{Binding ValueCompareString}"
-									Padding="0"
 									Margin="0,0,0,0"
+									Padding="0"
 									Style="{StaticResource Label.Condition.Condition}"
 									/>
 						</Border>
 
-						<Border
-								x:Name="bdr_lv1_value"
+						<Border x:Name="bdr_lv1_value"
 								Margin="5,0,0,0"
-								Padding="4,0,4,0"
+								Padding="4,0,4,2"
 								BorderThickness="0"
 								CornerRadius="3"
 								DockPanel.Dock="left"
@@ -2702,9 +2704,9 @@
 
 							<Label x:Name="Label9"
 									Content="{Binding CompareValue}"
+									Margin="0,0,0,0"
 									MinWidth="50"
 									Padding="14,0,14,0"
-									Margin="0,0,0,0"
 									HorizontalContentAlignment="Center"
 									Style="{StaticResource Label.Condition.Value}"
 									/>
@@ -2832,11 +2834,11 @@
 							Margin="2,0,2,0"
 							HorizontalAlignment="left"
 							VerticalAlignment="Stretch"
-					>
+							>
 						<Grid.RowDefinitions>
 							<!-- <RowDefinition x:Name="DtGrid1R1" Height="28" /> -->
-							<RowDefinition Height="*"/>
-							<RowDefinition Height="*"/>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
 						<Grid.ColumnDefinitions>
@@ -2946,13 +2948,13 @@
 										Orientation="Horizontal"
 										>
 
-									<Border
-											x:Name="bdr_logical_horiz_bar_left"
-											Margin="0,0,0,0"
+									<Border x:Name="bdr_logical_horiz_bar_left"
+											Margin="0,0,0,5"
 											Width="{StaticResource LogicalHorizBarWidth}"
 											Height="5"
 											Padding="0,0,0,0"
 											HorizontalAlignment="Stretch"
+											VerticalAlignment="Center"
 											BorderThickness="0"
 											CornerRadius="3"
 											DockPanel.Dock="left"
@@ -2964,10 +2966,9 @@
 									<ComboBox x:Name="Cbx2"
 											Margin="5,0,5,4"
 											Width="70"
-											Padding="0,0,0,0"
 											MinHeight="16"
+											Padding="0"
 											HorizontalAlignment="Center"
-											
 											FontSize="{StaticResource ConditionFontSize}"
 											BorderThickness="2"
 											custom:CustomProperties.MouseOverBrush="{StaticResource ItemsControl.Subject.Background.MouseOver}"
@@ -2980,23 +2981,22 @@
 																																						 AncestorType={x:Type ListViewItem}},
 																							Path=DataContext.LogicalCompOpCode,
 																							Mode=TwoWay}"
-											
 											ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.LogicalCompareOps}}"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ComboBoxTemplate1}"
 											>
-										<!-- ItemContainerStyle="{DynamicResource ComboBoxItem1}" -->
+										<!--  ItemContainerStyle="{DynamicResource ComboBoxItem1}"  -->
 										<!--  DisplayMemberPath="Name"  -->
 										<ComboBox.ItemTemplate>
 											<DataTemplate x:Name="Cbx2_Dt1">
 												<TextBlock
-														
 														Margin="0"
+														Padding="0,0,0,2"
 														Text="{Binding Path=Name}"
 														>
 													<TextBlock.Style>
 														<Style TargetType="TextBlock">
-															<Setter Property="Foreground" Value="White"/>
+															<Setter Property="Foreground" Value="White" />
 															<Setter Property="Visibility" Value="Visible" />
 															<Style.Triggers>
 																<DataTrigger Value="0" Binding="{Binding Path=OpCodeValue}">
@@ -3024,8 +3024,8 @@
 										</ComboBox.Style>
 									</ComboBox>
 
-									<Border
-											x:Name="bdr_logical_horiz_bar_right"
+									<Border x:Name="bdr_logical_horiz_bar_right"
+											Margin="0,0,0,5"
 											Width="{StaticResource LogicalHorizBarWidth}"
 											Height="5"
 											Padding="0"
@@ -3101,47 +3101,43 @@
 									SelectedIndex="{Binding CompareComponentIndex,
 																					FallbackValue='1',
 																					Mode=TwoWay}"
-									
 									ItemsSource="{Binding Source={x:Static file:FileNameSheetIdentifiers.ShtIds},
 																				Path=SheetNumberComponentTitles}"
 									FocusVisualStyle="{x:Null}"
 									Template="{StaticResource ComboBoxTemplate1}"
-							>
+									>
 								<!--  ItemContainerStyle="{DynamicResource ComboBoxItem1}"  -->
-								<!-- ItemTemplate="{StaticResource componentDescription}" -->
+								<!--  ItemTemplate="{StaticResource componentDescription}"  -->
 
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-										<Grid
-												IsSharedSizeScope="True"
-										>
+										<Grid IsSharedSizeScope="True">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="90" />
-												<ColumnDefinition/>
+												<ColumnDefinition />
 											</Grid.ColumnDefinitions>
 											<Label
+													Content="{Binding Name,
+																						FallbackValue='* Discipline',
+																						Mode=OneWay}"
 													Grid.Column="0"
 													Grid.Row="0"
-													Content="{Binding Name,
-																FallbackValue='* Discipline',
-																Mode=OneWay}"
-													Padding="0"
 													Margin="0,0,5,0"
+													Padding="0,0,0,2.5"
 													VerticalAlignment="Center"
 													HorizontalContentAlignment="Center"
 													Style="{StaticResource Label.Condition.ComponentName}"
-											/>
-											<ContentControl
+													/>
+											<ContentControl x:Name="cbx0_cc"
 													Grid.Column="1"
 													Grid.Row="0"
-													x:Name="cbx0_cc"
-
 													IsEnabled="{Binding Path=IsEnabled,
-																			RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-													ContentTemplate="{StaticResource componentDescription2}" />
+																							RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+													ContentTemplate="{StaticResource componentDescription2}"
+													/>
 										</Grid>
 									</DataTemplate>
-									<!-- DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ComboBoxItem}}}" -->
+									<!--  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ComboBoxItem}}}"  -->
 
 								</ComboBox.ItemTemplate>
 
@@ -3173,23 +3169,23 @@
 									MaxDropDownHeight="200"
 									SelectedIndex="{Binding ValueCompOpCode,
 																					FallbackValue='1'}"
-									
 									ItemsSource="{Binding Source={x:Static treeSupport:CompareOperations.ValueCompareOps}}"
 									FocusVisualStyle="{x:Null}"
 									Template="{StaticResource ComboBoxTemplate1}"
 									>
-								<!-- ItemContainerStyle="{DynamicResource ComboBoxItem1}" -->
+								<!--  ItemContainerStyle="{DynamicResource ComboBoxItem1}"  -->
 								<!--  ItemTemplateSelector="{x:Null}"  -->
 								<!--  DisplayMemberPath="Name"  -->
 								<ComboBox.ItemTemplate>
 									<DataTemplate x:Name="Cbx1_Dt1">
 										<TextBlock
 												Margin="0"
+												Padding="0,0,0,2"
 												Text="{Binding Path=Name}"
 												>
 											<TextBlock.Style>
 												<Style TargetType="TextBlock">
-													<Setter Property="Foreground" Value="White"/>
+													<Setter Property="Foreground" Value="White" />
 													<Setter Property="Visibility" Value="Visible" />
 													<Style.Triggers>
 														<DataTrigger Value="0" Binding="{Binding Path=OpCodeValue}">
@@ -4005,8 +4001,8 @@
 						Click="BtnDebug_OnClick"
 						/>
 
-				<Button x:Name="BtnTestAll"
-						Content="Test All"
+				<Button x:Name="BtnClassify"
+						Content="Classify"
 						Margin="5"
 						Width="{StaticResource Normal.Button.Width}"
 						Height="{StaticResource Normal.Button.Height}"
@@ -4015,7 +4011,7 @@
 						DockPanel.Dock="right"
 						Style="{StaticResource Button.Normal.Style}"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnTestAll_OnClick"
+						Click="BtnClassify_OnClick"
 						/>
 			</StackPanel>
 
@@ -4046,7 +4042,7 @@
 						DataContext="{Binding ElementName=MainWinClsfrEd}"
 						DockPanel.Dock="right"
 						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnSave_OnCancelChanges"
+						Click="BtnCancelChanges_OnClick"
 						>
 
 					<Button.Style>
@@ -4081,8 +4077,7 @@
 					</Button.Style>
 				</Button>
 
-
-				<Button x:Name="BtnDSave"
+				<Button x:Name="BtnSave"
 						Content="Save"
 						Margin="5"
 						Width="{StaticResource Normal.Button.Width}"
@@ -4124,7 +4119,6 @@
 						</Style>
 					</Button.Style>
 				</Button>
-
 
 				<Button x:Name="BtDone"
 						Content="Done"

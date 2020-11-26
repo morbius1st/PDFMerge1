@@ -196,11 +196,78 @@ namespace AndyShared.MergeSupport
 					toParentAnnounce.Announce("\nprocess file| " +
 						file.FileNameObject.SheetNumber + "\n");
 
-				classify(treeBase, file, 1);
+				classify2(treeBase, file, 0);
 			}
 
 		}
 
+		/// <summary>
+		/// classify each sheet file against the list of all<br/>
+		/// criteria from treebase down
+		/// </summary>
+		/// <param name="treeNode"></param>
+		/// <param name="sheetFilePath"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private bool classify2(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
+		{
+			CompareOperations.depth = depth;
+
+			bool localMatchFlag;
+			bool matchFlag = false;
+
+			Debug.WriteLine("\n\n\n" + "  ".Repeat(depth) + "Classifying| " + sheetFilePath.FileNameObject.SheetID);
+
+
+			// run through the tree and look for classify matches
+			foreach (TreeNode childNode in treeNode.Children)
+			{
+				Debug.WriteLine("\n\n"+"  ".Repeat(depth) + "Classifying against| " + childNode.Item.Title);
+
+				localMatchFlag = false;
+
+				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
+
+				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
+				{
+					Debug.WriteLine("  ".Repeat(depth) + "Classifying| compare is| true");
+					if (childNode.HasChildren)
+					{
+						Debug.WriteLine("  ".Repeat(depth) + "Classifying| check children");
+						// return true if categorized
+						localMatchFlag = classify2(childNode, sheetFilePath, depth + 1);
+					}
+
+					// if false, not previously categorized
+					if (!localMatchFlag)
+					{
+						Debug.WriteLine("  ".Repeat(depth) + "Classifying| save merge item to| " + childNode.Item.Title);
+
+						MergeItem mi = new MergeItem(0, sheetFilePath);
+						childNode.Item.MergeItems.Add(mi);
+						childNode.Item.UpdateMergeProperties();
+					}
+					
+					// now categorized
+					matchFlag = true;
+				}
+			}
+
+			// worst case, at depth zero and not matchflag is false
+			if (!matchFlag && depth == 0)
+			{
+				MergeItem mi = new MergeItem(0, sheetFilePath);
+				treeNode.Item.MergeItems.Add(mi);
+				treeNode.Item.UpdateMergeProperties();
+				
+				matchFlag = true;
+			}
+
+			// return true when categorized
+			// else return false
+			return matchFlag;
+		}
+		
 
 		/// <summary>
 		/// classify each sheet file against the list of all<br/>
@@ -234,6 +301,7 @@ namespace AndyShared.MergeSupport
 
 				// does the current sheetfile match the current
 				// if sheetfile matches childclassfnode.sheetcategory.compareops
+
 				if (CompareOperations.Compare(sheetFilePath.FileNameObject[depth], childNode.Item.CompareOps))
 				{
 					matchFlag = classify(childNode, sheetFilePath, depth + 1);

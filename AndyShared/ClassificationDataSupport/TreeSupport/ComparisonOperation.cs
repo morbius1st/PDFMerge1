@@ -1,4 +1,5 @@
 ﻿#region using directives
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,10 +11,12 @@ using System.Text.RegularExpressions;
 using System.Windows.Data;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.Support;
+using UtilityLibrary;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
+
 #endregion
 
 // username: jeffs
@@ -21,14 +24,12 @@ using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
-
 	public enum LogicalComparisonOp
 	{
 		LOGICAL_NO_OP         = 0,
 		LOGICAL_OR            = 1,
 		LOGICAL_AND           ,
 		LOGICAL_COUNT
-
 	}
 
 	public enum ValueComparisonOp
@@ -92,7 +93,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// listen to parent, initialize
 			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
 		}
-		
+
 		[OnDeserialized]
 		private void OnDeserialized(StreamingContext c)
 		{
@@ -209,7 +210,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		[IgnoreDataMember]
 		public abstract int ValueCompOpCode { get; set; }
-		
+
 		// [DataMember(Order = 2)]
 		[IgnoreDataMember]
 		public ValueCompareOp ValueCompareOp
@@ -235,7 +236,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string CompareValue
 		{
 			get => compareValue;
-			set
+			set 
 			{
 				if (value == compareValue) return;
 
@@ -256,6 +257,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				isDsableCompOp = value;
 
 				OnPropertyChange();
+
+				IsModified = true;
 			}
 		}
 
@@ -283,9 +286,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 			}
 		}
-
-
-
 
 	#endregion
 
@@ -326,7 +326,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-
 	#endregion
 
 	#region system overrides
@@ -337,7 +336,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		public abstract object Clone();
-
 
 	#endregion
 	}
@@ -363,7 +361,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 ////			Id = row;
 //		}
 
-		
 		public ValueCompOp(LogicalComparisonOp l_op_code,
 			ValueComparisonOp v_op_code,
 			string value,
@@ -376,7 +373,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			CompareValue = value;
 			CompareComponentIndex = compComponentIndex;
 			IsDisabled = disable;
-//			Id = row;
+
+			isInitialized = true;
 		}
 
 		[IgnoreDataMember]
@@ -389,15 +387,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == 0)
 				{
 					ValueCompareOp = null;
-				} 
+				}
 				else
 				{
 					ValueCompareOp = ValueCompareOps[value];
 				}
-
 			}
 		}
-		
+
 		[IgnoreDataMember]
 		public override int LogicalCompOpCode
 		{
@@ -408,7 +405,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == 0)
 				{
 					LogicalCompareOp = null;
-				} 
+				}
 				else
 				{
 					LogicalCompareOp = LogicalCompareOps[value];
@@ -418,7 +415,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override object Clone()
 		{
-			ValueCompOp clone = new ValueCompOp(logicalComparisonOpCode, valueComparisonOpCode, compareValue, 
+			ValueCompOp clone = new ValueCompOp(logicalComparisonOpCode, valueComparisonOpCode, compareValue,
 				compareComponentIndex, isDsableCompOp);
 
 			return clone;
@@ -465,7 +462,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	[KnownType(typeof(LogicalCompareOp))]
 	public abstract class ACompareOp<T> where T : Enum
 	{
-		public ACompareOp() {}
+		public ACompareOp() { }
 
 		public ACompareOp(string name, T op)
 		{
@@ -498,7 +495,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	[DataContract(Namespace = "")]
 	public class LogicalCompareOp : ACompareOp<LogicalComparisonOp>
 	{
-		public LogicalCompareOp() {}
+		public LogicalCompareOp() { }
 
 		public LogicalCompareOp(string name, LogicalComparisonOp op) : base(name, op) { }
 
@@ -528,6 +525,58 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// public static ICollectionView ValueView { get; private set; }
 
+		public static int depth = 0;
+
+		public static bool Compare2(FileNameSheetPdf Pdf,  
+			ObservableCollection<ComparisonOperation> compareOps)
+		{
+			int count = 0;
+			bool result = false;
+			int compIdx;
+			string compValue = "";
+
+			Debug.WriteLine("\n" + "  ".Repeat(depth) + "Comparing| " + Pdf.SheetID);
+			Debug.WriteLine("  ".Repeat(depth) + "Compare count| " + compareOps.Count);
+			
+			foreach (ComparisonOperation compOp in compareOps)
+			{
+				if (compOp.IsDisabled) continue;
+
+				compIdx = compOp.CompareComponentIndex;
+
+				compValue = Pdf[compIdx];
+
+				Debug.WriteLine("  ".Repeat(depth) + "Compare value| " + compValue);
+
+				if (compOp.IsFirstCompOp)
+				{
+					Debug.WriteLine("  ".Repeat(depth) + count++ + "  1st Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+					result = compare(compValue, compOp);
+				}
+				else
+				{
+					if (compOp.LogicalCompareOp.OpCode.Equals(LOGICAL_AND))
+					{
+						Debug.WriteLine("  ".Repeat(depth) + count++ + "  AND Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+						result &= compare(compValue, compOp);
+					}
+					else
+					{
+						Debug.WriteLine("  ".Repeat(depth) + count++ + "  OR  Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+						result |= compare(compValue, compOp);
+					}
+
+					Debug.WriteLine("  ".Repeat(depth) + "   *** Partial Result| " + result);
+
+					if (!result) break;
+				}
+			}
+
+			Debug.WriteLine("  ".Repeat(depth) + "   *** Final Result| " + result);
+			return result;
+		}
+
+
 		public static bool Compare(string value, ObservableCollection<ComparisonOperation> CompareOps)
 		{
 			bool result = false;
@@ -535,7 +584,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			foreach (ComparisonOperation compareOp in CompareOps)
 			{
 				if (compareOp.IsDisabled) continue;
-				
+
 				if (compareOp.IsFirstCompOp)
 				{
 					result = compare(value, compareOp);
@@ -550,7 +599,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 
 				if (!result) break;
-
 			}
 
 			return result;
@@ -571,7 +619,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			setLogicalCompareOp(LogicalCompareOps, "Or", LOGICAL_OR);
 
 			// defineLogicalView();
-
 		}
 
 		// private static void defineLogicalView()
@@ -584,7 +631,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 		return op.OpCode != LogicalComparisonOp.LOGICAL_NO_OP;
 		// 	};
 		// }
-		
+
 		private static void defineValueCompareOps()
 		{
 			ValueCompareOps = new List<ValueCompareOp>();
@@ -612,20 +659,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// private static void defineValueView()
 		// {
-			// ValueView = CollectionViewSource.GetDefaultView(ValueCompareOps);
-			//
-			// ValueView.Filter = item =>
-			// {
-			// 	ValueCompareOp op = item as ValueCompareOp;
-			// 	return op.OpCode != ValueComparisonOp.VALUE_NO_OP;
-			// };
+		// ValueView = CollectionViewSource.GetDefaultView(ValueCompareOps);
+		//
+		// ValueView.Filter = item =>
+		// {
+		// 	ValueCompareOp op = item as ValueCompareOp;
+		// 	return op.OpCode != ValueComparisonOp.VALUE_NO_OP;
+		// };
 		// }
 
 		private static void  setValueCompareOp(List<ValueCompareOp> list, string name, ValueComparisonOp op)
 		{
 			list[(int) op] = new ValueCompareOp(name, op);
 		}
-		
+
 		private static void setLogicalCompareOp(List<LogicalCompareOp> list, string name, LogicalComparisonOp op)
 		{
 			list[(int) op] = new LogicalCompareOp(name, op);
@@ -633,7 +680,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private static void configureCompareOpList<T>(List<T> conditionList, int count)  where T : new()
 		{
-			for (var i = 0; i <count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				conditionList.Add(new T());
 			}
@@ -737,7 +784,5 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 	#endregion
-
 	}
-
 }

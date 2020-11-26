@@ -286,6 +286,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == isFixed) return;
 
 				isFixed = value;
+				IsModified = true;
 				OnPropertyChange();
 			}
 		}
@@ -306,6 +307,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == isLocked) return;
 
 				isLocked = value;
+				IsModified = true;
 				OnPropertyChange();
 
 			}

@@ -697,13 +697,14 @@
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
+
 								<ToggleButton x:Name="Expander"
 										Grid.Column="0"
 										Grid.Row="0"
 										Height="{StaticResource BkMrkItemRowHeightDbl}"
 										VerticalAlignment="Top"
 										IsChecked="{Binding IsExpandedAlt,
-																				Mode=TwoWay}"
+																				Mode=TwoWay, FallbackValue=false}"
 										ClickMode="Press"
 										Style="{StaticResource ExpandCollapseToggleStyle}"
 										/>
