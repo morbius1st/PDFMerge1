@@ -16,6 +16,7 @@ using AndyShared.ClassificationFileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
+using ClassifySheets.Tests;
 using static UtilityLibrary.MessageUtilities;
 
 #endregion
@@ -35,7 +36,9 @@ namespace ClassifySheets.Windows
 	#region private fields
 
 		private Classify classify;
+
 		private ClassificationFile classificationFile;
+
 		// the list of files to categorize;
 		private SheetFileList testFileList;
 
@@ -43,7 +46,6 @@ namespace ClassifySheets.Windows
 
 		private FileNameSheetPdf fp;
 		private static TreeNode userSelected;
-
 
 
 		private string classfFileArg;
@@ -69,6 +71,7 @@ namespace ClassifySheets.Windows
 		private Progress<string> p1String;
 
 		private Progress<double> p2Double;
+		private Progress<double> p2Double2;
 		private Progress<string> p2String;
 		private Progress<string> p2msg;
 
@@ -92,6 +95,7 @@ namespace ClassifySheets.Windows
 			p1String = new Progress<string>(value => Lbl1Content = value);
 
 			p2Double = new Progress<double>(value => Pb2.Value = value);
+			p2Double2 = new Progress<double>(value => Pb2Value = value);
 			p2String = new Progress<string>(value => lbl2.Content = value);
 			p2msg = new Progress<string>(value => Tbx2Message += value);
 		}
@@ -229,6 +233,7 @@ namespace ClassifySheets.Windows
 				pb2Value = value;
 
 				OnPropertyChange();
+				OnPropertyChange("BaseOfTree");
 			}
 		}
 
@@ -252,8 +257,6 @@ namespace ClassifySheets.Windows
 			{
 				testFileList = new SheetFileList();
 				testFileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
-
-				
 			}
 
 			OnPropertyChange("ClassificationFile");
@@ -324,13 +327,13 @@ namespace ClassifySheets.Windows
 			{
 				Debug.Write("Outer Exception| ");
 				Debug.WriteLine(ex);
-			
+
 				Debug.Write("Inner Exception| ");
 				Debug.WriteLine(ex.InnerException?.Message ?? "None");
-			
+
 				Environment.Exit(1);
 			}
-			
+
 			classificationFile.Initialize();
 
 			announcer = Orator.GetAnnouncer(this, "toClassify");
@@ -354,7 +357,6 @@ namespace ClassifySheets.Windows
 
 		private async Task WinStart()
 		{
-
 			Tbx1Message = "Building is| " + testFileList.Building + "\n\n";
 			Tbx2Message = "";
 
@@ -496,7 +498,7 @@ namespace ClassifySheets.Windows
 				{
 					((IProgress<double>) p2Double).Report(++pb2Count);
 					((IProgress<string>) p2String).Report(childNode.Item.Title
-						+ " (" + pb2Count + ")");
+						+ " (" + pb2Count + ") ");
 				}
 			}
 		}
@@ -552,7 +554,7 @@ namespace ClassifySheets.Windows
 		// 		((IProgress<string>) p2msg).Report ("\n");
 		// 	}
 		// }
-		
+
 		private void formatNodeDescription(TreeNode node, bool showMerge)
 		{
 			string marginStr = "  ".Repeat(node.Depth);
@@ -584,8 +586,10 @@ namespace ClassifySheets.Windows
 			{
 				Tbx2Message += (" item count | ");
 				Tbx2Message += (node.ItemCount.ToString("##0"));
-				Tbx2Message += (" ex item count| ");
+				Tbx2Message += (" ex last item count| ");
 				Tbx2Message += (node.ExtItemCountLast.ToString("##0"));
+				Tbx2Message += (" ex Mi count| ");
+				Tbx2Message += (node.ExtMergeItemCountCurrent.ToString("##0"));
 				Tbx2Message += ("\n");
 
 
@@ -606,9 +610,7 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-
-
-		private async Task enumerateMergeItems()
+		private void enumerateMergeItems()
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
@@ -633,7 +635,9 @@ namespace ClassifySheets.Windows
 		// 	await Task.Run(enumerateMergeNodes);
 		// }
 
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 		private async Task enumerateMergeNodes()
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
@@ -668,7 +672,7 @@ namespace ClassifySheets.Windows
 			await Task.Run(A);
 		}
 
-		private int delay = 250;
+		private int delay = 350;
 
 
 		private async Task tbx2RunProgress()
@@ -690,25 +694,30 @@ namespace ClassifySheets.Windows
 			await Task.Run(() => { testTbx2C(); } );
 
 			Tbx1Progress += "*** test C complete ***\n";
+
+			Tbx1Progress += "*** running async test D ***\n";
+
+			testTbx2D();
+
+			Tbx1Progress += "*** test D complete ***\n";
 		}
 
 		// "ordinary" update to text box
 		private void testTbx2A()
 		{
 			Pb2Value = 0;
+			Pb2MaximumValue = 5;
 			Lbl2Content = "";
-			Pb2MaximumValue = 10;
 			Tbx2Message = "";
 
 			Thread.Sleep(50);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
 			{
 				Tbx2Message += "** A ** this is " + i.ToString("00") + "\n";
 
 				Thread.Sleep(delay);
 			}
-
 		}
 
 		// async update to text box but using the "ordinary" property
@@ -722,7 +731,7 @@ namespace ClassifySheets.Windows
 
 			Thread.Sleep(delay);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
 			{
 				msg = "this is " + i.ToString("00");
 
@@ -735,7 +744,6 @@ namespace ClassifySheets.Windows
 			}
 
 			Thread.Sleep(75);
-
 		}
 
 		private void subTestTbx2B(int i)
@@ -756,7 +764,7 @@ namespace ClassifySheets.Windows
 
 			Thread.Sleep(delay);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
 			{
 				msg = "this is " + i.ToString("00");
 
@@ -768,6 +776,13 @@ namespace ClassifySheets.Windows
 			}
 		}
 
+		private void testTbx2D()
+		{
+			Test01 t01 = new Test01();
+			t01.Configure(p2Double, p2msg, p2String);
+
+			t01.Go(0, 10, delay);
+		}
 
 		//
 		// // async update to text box but using the "ordinary" property
@@ -824,9 +839,23 @@ namespace ClassifySheets.Windows
 
 		private void go()
 		{
+			Pb2Value = 0;
+			Pb2MaximumValue = 98;
+
+			
 
 			classify.Configure(BaseOfTree, TestFileList);
+			classify.ConfigureAsyncReporting(p2Double2); // , p2String);
 			classify.Process();
+
+			BaseOfTree.CountExtItems();
+
+			// OnPropertyChange("Classify");
+			BaseOfTree.CountExtItems();
+			BaseOfTree.UpdateProperties();
+			OnPropertyChange("BaseOfTree");
+
+			ListTreeBase(true);
 
 		}
 
@@ -845,7 +874,8 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-
+		// classify the sheets based on the classify routines / system
+		// process the classification on a different thread
 		private async void BtnClassify_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "Start";
@@ -855,15 +885,19 @@ namespace ClassifySheets.Windows
 			await Task.Run(() => { go(); } );
 		}
 
+		// list the contents of treebase
+		// run async
 		private async void BtnListBase_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "Start";
 
-			Thread.Sleep(150);
+			// Thread.Sleep(150);
 
 			await Task.Run(() => { ListTreeBase(true); } );
 		}
 
+		// run a series of test routines
+		// run them async & not async
 		private async void BtnProgress_OnClick(object sender, RoutedEventArgs e)
 		{
 			// TestProgressBar();
@@ -885,27 +919,32 @@ namespace ClassifySheets.Windows
 			await tbx2RunProgress();
 		}
 
-
+		// show listings of the information
 		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "";
 			tbx2Message += classify.FormatMergeList(BaseOfTree);
 			tbx2Message += "\n\n\n";
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 			await Task.Run(() => { enumerateMergeItems(); } );
-				
-			Tbx2Message += "\n";
-			await Task.Run(() => { enumerateMergeNodes(); } );
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 
+			Tbx2Message += "\n";
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
+			await Task.Run(() => { enumerateMergeNodes(); } );
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 		}
 
-
+		// classify the data
 		private async void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx1Message = "";
 			Tbx2Message = "";
 			Tbx1Message += "Before classify\n";
 
-			await Task.Run(() => { go(); } );
+			// await Task.Run(() => { go(); } );
+
+			go();
 
 			Tbx1Message += "\nSheets have been classified\n";
 
@@ -931,7 +970,6 @@ namespace ClassifySheets.Windows
 		private void ClassifyOnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
 		{
 			Tbx2Message += "classify / node changed| " + e.TreeNode.Item.Title + "\n";
-
 		}
 
 		private void classifyOnFileChange(object sender, FileChangeEventArgs e)
@@ -959,8 +997,6 @@ namespace ClassifySheets.Windows
 			return "this is MainWindow";
 		}
 
-		#endregion
-
-
+	#endregion
 	}
 }

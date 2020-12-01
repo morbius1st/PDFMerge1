@@ -335,8 +335,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[IgnoreDataMember]
 		// public ICollectionView ChildrenView
+		[IgnoreDataMember]
 		public ListCollectionView ChildrenView
 		{
 			get => childrenView;
@@ -375,6 +375,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
+		[IgnoreDataMember]
+		public object ChildrenCollectLock { get; set; }
+
+		[IgnoreDataMember]
+		public int ChildrenCollectLockIdx { get; set; }
+
+
+
 	#region item properties
 
 		[IgnoreDataMember]
@@ -392,7 +400,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public int ExtItemCountCurrent
+		public int ExtMergeItemCountCurrent
 		{
 			get
 			{
@@ -400,15 +408,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				foreach (TreeNode childNode in children)
 				{
-					count += childNode.ExtItemCountCurrent;
+					count += childNode.ExtMergeItemCountCurrent;
 				}
 
 				return count;
 			}
 
 		}
-
-
 
 	#endregion
 
@@ -711,7 +717,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("ChildCount");
 			OnPropertyChange("ExtChildCount");
 			OnPropertyChange("ItemCount");
-			OnPropertyChange("ExtItemCount");
+			OnPropertyChange("ExtItemCountLast");
+			OnPropertyChange("ExtMergeItemCountCurrent");
+
+			// OnPropertyChange("ExtItemCount");
 		}
 
 	#endregion

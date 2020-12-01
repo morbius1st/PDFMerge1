@@ -90,6 +90,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private bool isModified;
 		private bool isLocked;
 		private bool isFixed;
+		private bool isVisible = true;
+
 
 		private Orator.ConfRoom.Announcer onModifiedAnnouncer;
 
@@ -205,8 +207,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public int Count => MergeItemCount;
 
-		// public static int Cs = 0;
-
 		[IgnoreDataMember]
 		public int Depth
 		{
@@ -321,7 +321,24 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
+		public bool IsVisible
+		{
+			get => isVisible;
+			set
+			{
+				isVisible = value;
+
+				OnPropertyChange();
+			}
+		}
+
+		[IgnoreDataMember]
 		public bool HasMergeItems => MergeItemCount > 0;
+
+		// this is the index for lock associated with the
+		// merge items collection
+		[IgnoreDataMember]
+		public int MergeItemLockIdx { get; set; }
 
 	#endregion
 

@@ -1,4 +1,5 @@
-﻿#region using directives
+﻿// #define SHOWTICKS
+#region using directives
 
 using System;
 using System.ComponentModel;
@@ -47,12 +48,26 @@ namespace AndyShared.ClassificationFileSupport
 
 		public ClassificationFile(string filePath, bool fileSelected = false)
 		{
+
+
+		#if SHOWTICKS
+			tickNow = System.DateTime.Now.Ticks;
+			ticksStart = tickNow;
+			tickPrior = tickNow;
+
+			showTicks("classF/start @1");
+		#endif
+
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
 			if (!filePathLocal.IsValid) return;
 
 			// setup inter-class communication
 			// tell parent, I have been modified announcer
+
+		#if SHOWTICKS
+			showTicks("classF/start @2");
+		#endif
 
 			// listen to parent, initialize
 			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
@@ -69,6 +84,9 @@ namespace AndyShared.ClassificationFileSupport
 			// bool a = !SettingsSupport.ValidateXmlFile(filePath);
 			// bool b = !ValidateAgainstUsername(filePathLocal);
 
+		#if SHOWTICKS
+			showTicks("classF/start @3");
+		#endif
 
 			if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
 				|| !ValidateAgainstUsername(filePathLocal)
@@ -78,13 +96,39 @@ namespace AndyShared.ClassificationFileSupport
 				return;
 			}
 
+		#if SHOWTICKS
+			showTicks("classF/start @4");
+		#endif
+
 			PreInitialize();
 
+		#if SHOWTICKS
+			showTicks("classF/start @5");
+		#endif
+
 			InitailizeSample(FilePathLocal.FullFilePath);
+
+		#if SHOWTICKS
+			showTicks("classF/start @6");
+		#endif
 		}
 
-
 	#endregion
+
+	#if SHOWTICKS
+		private long ticksStart;
+		private long tickPrior;
+		private long tickNow;
+
+
+		private void showTicks(string title)
+		{
+			tickNow = DateTime.Now.Ticks;
+			Debug.Print(title + "|  " + (tickNow - ticksStart)
+				+ "  diff| " + (tickNow - tickPrior));
+			tickPrior =  tickNow;
+		}
+	#endif
 
 	#region public properties
 

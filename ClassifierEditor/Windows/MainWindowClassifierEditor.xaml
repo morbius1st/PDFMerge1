@@ -2446,7 +2446,7 @@
 							Width="Auto"
 							Padding="0,0,0,2"
 							VerticalAlignment="Center"
-							FontSize="10"
+							FontSize="12"
 							Style="{StaticResource Label.Condition.ComponentName}"
 							/>
 					<Label
@@ -2468,7 +2468,7 @@
 							Width="Auto"
 							Padding="0"
 							VerticalAlignment="Center"
-							FontSize="10"
+							FontSize="12"
 							Style="{StaticResource Label.Condition.ComponentName}"
 							/>
 
@@ -4347,21 +4347,36 @@
 						</Button.Style>
 					</Button>
 
-
 				</Grid>
 			</Border>
 
-			<Label x:Name="Label25"
-					Content="Test Sheet Files"
+			<DockPanel
 					Grid.Column="0"
 					Grid.Row="2"
 					Margin="0,0,0,6"
-					Padding="2,3,2,4"
-					VerticalAlignment="Center"
-					FontSize="13"
+					HorizontalAlignment="Stretch"
 					Background="{StaticResource Win.Title.Background}"
-					Foreground="White"
-					/>
+					>
+				<Label x:Name="Label25"
+						Content="Test Sheet Files"
+						Margin="0,0,0,0"
+						Padding="2,3,2,4"
+						VerticalAlignment="Center"
+						FontSize="13"
+						Foreground="White"
+						DockPanel.Dock="Left"
+						/>
+				<Label
+						Content="{Binding FileList.Files.Count, FallbackValue=0}"
+						ContentStringFormat="{} ({0})"
+						Margin="0,0,0,0"
+						Padding="2,3,2,4"
+						FontSize="13"
+						Foreground="White"
+						DockPanel.Dock="Left"
+						/>
+
+			</DockPanel>
 
 			<DataGrid x:Name="Dg1"
 					Grid.Column="0"
@@ -4390,34 +4405,6 @@
 					<DataGridTemplateColumn CellStyle="{StaticResource Dg.Cell.Base}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<!--  <Grid  -->
-								<!--  Margin="-4,0,-2,0"  -->
-								<!--    -->
-								<!--  >  -->
-								<!--  ~1~ Width="{Binding Path=ActualWidth, @1@  -->
-								<!--  ~1~ FallbackValue=500, @1@  -->
-								<!--  ~1~ Mode=OneWay, @1@  -->
-								<!--  ~1~ RelativeSource={RelativeSource AncestorType={x:Type DataGridCellsPanel}}}" @1@  -->
-								<!--    -->
-								<!-- 	<Grid.ColumnDefinitions> -->
-								<!-- 		<ColumnDefinition Width="Auto" /> -->
-								<!-- 		<ColumnDefinition Width="*" /> -->
-								<!--    -->
-								<!-- 	</Grid.ColumnDefinitions> -->
-								<!-- 	<Grid.RowDefinitions> -->
-								<!-- 		<RowDefinition Height="*" /> -->
-								<!-- 	</Grid.RowDefinitions> -->
-
-
-								<!--  <Label  -->
-								<!--  Grid.Column="1"  -->
-								<!--  Grid.Row="0"  -->
-								<!--  Padding="0,0,0,0"  -->
-								<!--  VerticalAlignment="Bottom"  -->
-								<!--  HorizontalAlignment="Right"  -->
-								<!--  Foreground="White"  -->
-								<!--  Content="Hello" />  -->
-
 
 								<DockPanel
 										Margin="-2,0,-2,0"

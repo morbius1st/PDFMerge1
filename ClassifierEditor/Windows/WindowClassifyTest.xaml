@@ -13,8 +13,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Title="Classify Confirmation"
 		Width="600"
-		MinWidth="600"
 		Height="800"
+		MinWidth="600"
 		MinHeight="800"
 		DataContext="{Binding ElementName=WinClassfTest}"
 		mc:Ignorable="d"
@@ -37,13 +37,15 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<convert:BoolOr x:Key="BoolOr" />
+			<convert:EqualsToBool x:Key="Equals" />
 
 			<SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3" />
 			<SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
 			<SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
+
 			<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
-			<SolidColorBrush x:Key="Path.Plus.Star.Fill2" Color="OrangeRed" />
 			<SolidColorBrush x:Key="Path.Plus.Star.Fill" Color="{m:XmalColor R=255, B=0, G=48}" />
+			<SolidColorBrush x:Key="Path.Plus.Star.Fill2" Color="OrangeRed" />
 
 
 			<SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="#FF5593FF" />
@@ -89,15 +91,18 @@
 					/>
 
 
-			<Style x:Key="Lable.Root" TargetType="Label">
+			<Style x:Key="Lable.Root"
+					TargetType="Label"
+					>
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="HorizontalAlignment" Value="Left" />
 				<Setter Property="Margin" Value="0" />
 				<Setter Property="Padding" Value="0" />
 			</Style>
 
-			<Style x:Key="Label.Base" BasedOn="{StaticResource Lable.Root}"
+			<Style x:Key="Label.Base"
 					TargetType="{x:Type Label}"
+					BasedOn="{StaticResource Lable.Root}"
 					>
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Foreground" Value="White" />
@@ -221,10 +226,6 @@
 				<Setter Property="BorderBrush" Value="{StaticResource Element.Title.Background.Normal}" />
 			</Style>
 
-
-
-
-
 			<ControlTemplate x:Key="ScrollViewerControlTemplate1"
 					TargetType="{x:Type ScrollViewer}"
 					>
@@ -329,6 +330,65 @@
 					<!--  />  -->
 				</Grid>
 			</ControlTemplate>
+
+			<Style x:Key="ExpandCollapseToggleStyle"
+					TargetType="{x:Type ToggleButton}"
+					>
+				<Setter Property="Focusable" Value="False" />
+				<Setter Property="Width" Value="20" />
+				<Setter Property="Height" Value="20" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ToggleButton}">
+							<Border x:Name="bdr_toggle"
+									Width="20"
+									Height="20"
+									Padding="0"
+									>
+								<!--  Background="#222222"  -->
+								<Path x:Name="ExpandPath"
+										Width="10"
+										Height="10"
+										Data="M 0,0 4,8 8,0 z"
+										Fill="red"
+										RenderTransformOrigin="0.5,0.5"
+										Stretch="UniformToFill"
+										StrokeThickness="0"
+										>
+									<Path.RenderTransform>
+										<RotateTransform Angle="270" CenterX="0" CenterY="0" />
+									</Path.RenderTransform>
+								</Path>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsChecked" Value="true">
+									<Setter TargetName="ExpandPath" Property="RenderTransform">
+										<Setter.Value>
+											<RotateTransform Angle="0" />
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill}" />
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" />
+									<Setter TargetName="bdr_toggle" Property="Background" Value="Transparent" />
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="true">
+									<!-- <Setter TargetName="bdr_toggle" Property="Background" Value="#666666"/> -->
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" />
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" />
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsMouseOver" Value="True" />
+										<Condition Property="IsChecked" Value="True" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}" />
+									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 
 			<Style x:Key="TextBoxStyle1"
 					TargetType="{x:Type TextBox}"
@@ -435,27 +495,98 @@
 															>
 													</Path>
 												</Border>
-												<Border Style="{StaticResource Border.BookMark.Title}">
+												<Border
+														DockPanel.Dock="Left"
+														Style="{StaticResource Border.BookMark.Title}"
+														>
 
 													<DockPanel>
-														<Label x:Name="Lbl01"
-																Content="{Binding Item.MergeItems.Count}"
+
+
+														<!--  for this, has the extended count of child items  -->
+														<Label
+																Content="{Binding ExtItemCountLast}"
+																Margin="5,0,0,4"
+																Padding="0"
 																ContentStringFormat="{}({0})"
 																Style="{StaticResource Label.BookMark.Title}"
 																/>
-														<!--    -->
-														<!--  <Label  -->
-														<!--  Content="{Binding ExtItemCountLast}"  -->
-														<!--  Margin="5,0,0,5"  -->
-														<!--  Style="{StaticResource Label.BookMark.Title}"  -->
-														<!--  />  -->
-														<!--    -->
-														<!--    -->
+
+														<!--  for this, not the complete count  -->
 														<!--  <Label  -->
 														<!--  Content="{Binding ExtItemCountCurrent}"  -->
+														<!--  ContentStringFormat="{}curr({0})"  -->
 														<!--  Margin="5,0,0,5"  -->
 														<!--  Style="{StaticResource Label.BookMark.Title}"  -->
 														<!--  />  -->
+
+														<!--  this has the local count of child items  -->
+
+
+														<DockPanel>
+
+															<ToggleButton x:Name="Lv2_visibility"
+																	Margin="0,1,0,0"
+																	Height="{StaticResource BkMrkItemRowHeightDbl}"
+																	VerticalAlignment="Center"
+																	Background="Transparent"
+																	IsChecked="{Binding Item.IsVisible,
+																											Mode=TwoWay,
+																											FallbackValue=false}"
+																	ClickMode="Press"
+																	DockPanel.Dock="Left"
+																	>
+																<ToggleButton.Style>
+																	<Style
+																			TargetType="ToggleButton"
+																			BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+																			>
+																		<Setter Property="Visibility" Value="Visible" />
+																	</Style>
+																</ToggleButton.Style>
+															</ToggleButton>
+
+															<Label
+																	Content="{Binding Item.MergeItems.Count}"
+																	Margin="0,0,0,4"
+																	Padding="0"
+																	ContentStringFormat="{}({0})"
+																	>
+																<Label.Style>
+																	<Style
+																			TargetType="Label"
+																			BasedOn="{StaticResource Label.BookMark.Title}"
+																			>
+																		<Setter Property="Visibility" Value="Visible" />
+																		<Style.Triggers>
+
+																			<DataTrigger Value="true">
+																				<DataTrigger.Binding>
+																					<MultiBinding Converter="{StaticResource Equals}">
+																						<Binding Path="Item.MergeItemCount" />
+																						<Binding Path="ExtItemCountLast" />
+																					</MultiBinding>
+																				</DataTrigger.Binding>
+																				<Setter Property="Visibility" Value="Collapsed" />
+																			</DataTrigger>
+																		</Style.Triggers>
+																	</Style>
+																</Label.Style>
+															</Label>
+
+															<DockPanel.Style>
+																<Style TargetType="DockPanel">
+																	<Setter Property="Visibility" Value="Visible" />
+																	<Style.Triggers>
+																		<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
+																			<Setter Property="Visibility" Value="Collapsed">
+																			</Setter>
+																		</DataTrigger>
+																	</Style.Triggers>
+																</Style>
+															</DockPanel.Style>
+
+														</DockPanel>
 
 														<Label x:Name="Lbl02"
 																Content="{Binding ElementName=WinClassfTest,
@@ -470,7 +601,6 @@
 													</DockPanel>
 
 												</Border>
-
 											</DockPanel>
 
 											<!--  part of Lv1 header  -->
@@ -484,8 +614,8 @@
 													ScrollViewer.CanContentScroll="False"
 													ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 													ScrollViewer.VerticalScrollBarVisibility="Disabled"
-													ItemsSource="{Binding Item.MergeItems}"
 													ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
+													ItemsSource="{Binding Item.MergeItems}"
 													>
 
 												<ListView.ItemTemplate>
@@ -528,7 +658,8 @@
 																	Grid.Row="0"
 																	Margin="0,0,10,2"
 																	Padding="0,2,0,0"
-																	Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+																	Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																											 Path=Foreground}"
 																	Style="{StaticResource Label.Base}"
 																	/>
 															<Label x:Name="Lbl04"
@@ -537,7 +668,8 @@
 																	Grid.Row="0"
 																	Margin="10,0,10,2"
 																	Padding="0,2,0,0"
-																	Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+																	Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																											 Path=Foreground}"
 																	Style="{StaticResource Label.Base}"
 																	/>
 
@@ -546,10 +678,14 @@
 												</ListView.ItemTemplate>
 												<ListView.Style>
 													<Style TargetType="ListView">
+														<Setter Property="Visibility" Value="Visible" />
 														<Style.Triggers>
-															<DataTrigger Value="false" Binding="{Binding ElementName=WinClassfTest, Path=IsExpandedEx}">
+															<DataTrigger Value="false" Binding="{Binding Item.IsVisible}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
+															<!-- <DataTrigger Value="false" Binding="{Binding ElementName=WinClassfTest, Path=IsExpandedEx}"> -->
+															<!-- 	<Setter Property="Visibility" Value="Collapsed" /> -->
+															<!-- </DataTrigger> -->
 														</Style.Triggers>
 													</Style>
 												</ListView.Style>
@@ -596,82 +732,24 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ExpandCollapseToggleStyle"
-					TargetType="{x:Type ToggleButton}"
-					>
-				<Setter Property="Focusable" Value="False" />
-				<Setter Property="Width" Value="16" />
-				<Setter Property="Height" Value="16" />
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="{x:Type ToggleButton}">
-							<Border
-									Width="16"
-									Height="16"
-									Padding="0"
-									Background="#222222"
-									>
-								<Path x:Name="ExpandPath"
-										Width="10"
-										Height="10"
-										Data="M 0,0 4,8 8,0 z"
-										Fill="red"
-										RenderTransformOrigin="0.5,0.5"
-										Stretch="UniformToFill"
-										StrokeThickness="0"
-										>
-									<Path.RenderTransform>
-										<RotateTransform Angle="270" CenterX="0" CenterY="0" />
-									</Path.RenderTransform>
-								</Path>
-							</Border>
-							<ControlTemplate.Triggers>
-								<Trigger Property="IsChecked" Value="true">
-									<Setter TargetName="ExpandPath" Property="RenderTransform">
-										<Setter.Value>
-											<RotateTransform Angle="0" />
-										</Setter.Value>
-									</Setter>
-									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill}" />
-									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" />
-								</Trigger>
-								<Trigger Property="IsMouseOver" Value="True">
-									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" />
-									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" />
-								</Trigger>
-								<MultiTrigger>
-									<MultiTrigger.Conditions>
-										<Condition Property="IsMouseOver" Value="True" />
-										<Condition Property="IsChecked" Value="True" />
-									</MultiTrigger.Conditions>
-									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}" />
-									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}" />
-								</MultiTrigger>
-							</ControlTemplate.Triggers>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-
-
 			<!-- <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
 			<Style x:Key="Tv1_ItemContainerStyle"
 					TargetType="{x:Type TreeViewItem}"
 					>
-				<Setter Property="IsExpanded">
-					<Setter.Value>
-						<MultiBinding Converter="{StaticResource BoolOr}">
-							<Binding
-									Mode="TwoWay"
-									Path="IsExpandedAlt"
-									/>
-							<Binding
-									ElementName="WinClassfTest"
-									Mode="OneWay"
-									Path="IsExpandedEx"
-									/>
-						</MultiBinding>
-					</Setter.Value>
+				<Setter Property="IsExpanded" Value="{Binding IsExpandedAlt}">
+					<!-- <Setter.Value> -->
+					<!-- 	<MultiBinding Converter="{StaticResource BoolOr}"> -->
+					<!--  <Binding  -->
+					<!--  Mode="TwoWay"  -->
+					<!--  Path="IsExpandedAlt"  -->
+					<!--  />  -->
+					<!--  <Binding  -->
+					<!--  ElementName="WinClassfTest"  -->
+					<!--  Mode="OneWay"  -->
+					<!--  Path="IsExpandedEx"  -->
+					<!--  />  -->
+					<!-- 	</MultiBinding> -->
+					<!-- </Setter.Value> -->
 				</Setter>
 
 				<Setter Property="Visibility" Value="Visible" />
@@ -682,7 +760,6 @@
 				<Setter Property="Padding" Value="1,0,0,0" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-				<!-- <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" /> -->
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate x:Name="Ct01"
@@ -704,7 +781,8 @@
 										Height="{StaticResource BkMrkItemRowHeightDbl}"
 										VerticalAlignment="Top"
 										IsChecked="{Binding IsExpandedAlt,
-																				Mode=TwoWay, FallbackValue=false}"
+																				Mode=TwoWay,
+																				FallbackValue=false}"
 										ClickMode="Press"
 										Style="{StaticResource ExpandCollapseToggleStyle}"
 										/>
@@ -748,7 +826,7 @@
 								</Trigger>
 								<Trigger Property="IsSelected" Value="true">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-									<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
@@ -756,7 +834,7 @@
 										<Condition Property="IsSelectionActive" Value="false" />
 									</MultiTrigger.Conditions>
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
-									<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" /> -->
 								</MultiTrigger>
 								<Trigger Property="IsEnabled" Value="false">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -777,7 +855,6 @@
 					</Trigger>
 				</Style.Triggers>
 			</Style>
-
 
 
 			<!--  <Style x:Key="Lv1_LvStyle"  -->
@@ -1243,7 +1320,6 @@
 				</Setter>
 			</Style>
 
-
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -1457,53 +1533,74 @@
 
 		</StackPanel>
 
-		<Button x:Name="BtnExpand"
-				Grid.Column="1"
-				Grid.Row="6"
-				Margin="5,5,100,5"
-				Width="{StaticResource Normal.Button.Width}"
-				Height="{StaticResource Normal.Button.Height}"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Bottom"
-				DockPanel.Dock="right"
-				Template="{StaticResource Button.Normal.ControlTemplate}"
-				Click="BtnExpand_OnClick"
-				>
-			<Button.Style>
-				<Style
-						TargetType="Button"
-						BasedOn="{StaticResource Button.Normal.Style}"
-						>
-					<Setter Property="Content" Value="" />
-					<Style.Triggers>
-						<DataTrigger Value="true" Binding="{Binding IsExpandedEx}">
-							<Setter Property="Content" Value="Collapse">
-							</Setter>
-						</DataTrigger>
-						<DataTrigger Value="false" Binding="{Binding IsExpandedEx}">
-							<Setter Property="Content" Value="Expand">
-							</Setter>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</Button.Style>
-
-		</Button>
-
-		<Button x:Name="BtnDone"
-				Content="Done"
+		<StackPanel
 				Grid.Column="1"
 				Grid.Row="6"
 				Margin="5"
-				Width="{StaticResource Normal.Button.Width}"
-				Height="{StaticResource Normal.Button.Height}"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Bottom"
-				DockPanel.Dock="right"
-				Style="{StaticResource Button.Normal.Style}"
-				Template="{StaticResource Button.Normal.ControlTemplate}"
-				Click="BtnDone_OnClick"
-				/>
+				HorizontalAlignment="right"
+				Orientation="Horizontal"
+				>
+			<Button x:Name="BtnDebug"
+					Content="Debug"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					DockPanel.Dock="right"
+					Style="{StaticResource Button.Normal.Style}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					Click="BtnDebug_OnClick"
+					/>
+
+			<Button x:Name="BtnExpand"
+					Content="{Binding ExpCollapseState,
+														FallbackValue='Collapse to Tree'}"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					FontSize="11"
+					DockPanel.Dock="right"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					Click="BtnExpand_OnClick"
+					>
+				<Button.Style>
+					<Style
+							TargetType="Button"
+							BasedOn="{StaticResource Button.Normal.Style}"
+							>
+						<!-- <Setter Property="Content" Value="Collapse All" /> -->
+						<!-- <Style.Triggers> -->
+						<!-- 	<DataTrigger Value="true" Binding="{Binding IsExpandedEx}"> -->
+						<!-- 		<Setter Property="Content" Value="Collapse All"> -->
+						<!-- 		</Setter> -->
+						<!-- 	</DataTrigger> -->
+						<!-- 	<DataTrigger Value="false" Binding="{Binding IsExpandedEx}"> -->
+						<!-- 		<Setter Property="Content" Value="Expand All"> -->
+						<!-- 		</Setter> -->
+						<!-- 	</DataTrigger> -->
+						<!-- </Style.Triggers> -->
+					</Style>
+				</Button.Style>
+
+			</Button>
+
+			<Button x:Name="BtnDone"
+					Content="Done"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					DockPanel.Dock="right"
+					Style="{StaticResource Button.Normal.Style}"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					Click="BtnDone_OnClick"
+					/>
+		</StackPanel>
+
 
 		<Label x:Name="Label21"
 				Content="{Binding TreeViewTitle,
@@ -1531,6 +1628,23 @@
 				FontSize="12"
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
+				/>
+
+		<ProgressBar
+				x:Name="Pb1"
+				Grid.Column="0"
+				Grid.Row="3"
+				Grid.ColumnSpan="2"
+				Margin="5,3,5,0"
+				Height="2"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="top"
+				HorizontalContentAlignment="Stretch"
+				Background="Transparent"
+				BorderThickness="0"
+				Value="{Binding Pb1_Value}"
+				Maximum="{Binding Pb1_MaximumValue}"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				/>
 
 		<TreeView x:Name="Tv1"
@@ -1586,36 +1700,120 @@
 								</Path>
 							</Border>
 
-
 							<Border
 									DockPanel.Dock="Left"
 									Style="{StaticResource Border.BookMark.Title}"
 									>
+
 								<DockPanel>
 
+									<!--  for this, has the extended count of child items  -->
 									<Label
-											Content="{Binding Item.MergeItems.Count}"
+											Content="{Binding ExtItemCountLast}"
+											Margin="5,0,0,4"
+											Padding="0"
 											ContentStringFormat="{}({0})"
 											Style="{StaticResource Label.BookMark.Title}"
 											/>
 
-									<!--  <Label Margin="5,0,0,5"  -->
-									<!--  Content="{Binding ExtItemCountLast}"  -->
-									<!--  Style="{StaticResource Label.BookMark.Title}" />  -->
-									<!--    -->
-									<!--    -->
-									<!--  <Label Margin="5,0,0,5"  -->
+									<!--  for this, not the complete count  -->
+									<!--  <Label  -->
 									<!--  Content="{Binding ExtItemCountCurrent}"  -->
-									<!--  Style="{StaticResource Label.BookMark.Title}" />  -->
+									<!--  ContentStringFormat="{}curr({0})"  -->
+									<!--  Margin="5,0,0,5"  -->
+									<!--  Style="{StaticResource Label.BookMark.Title}"  -->
+									<!--  />  -->
+
+									<!--  this has the local count of child items  -->
+
+
+									<DockPanel>
+
+										<ToggleButton x:Name="Lv1_visibility"
+												Margin="0,1,0,0"
+												Height="{StaticResource BkMrkItemRowHeightDbl}"
+												VerticalAlignment="Center"
+												Background="Transparent"
+												IsChecked="{Binding Item.IsVisible,
+																						Mode=TwoWay,
+																						FallbackValue=false}"
+												ClickMode="Press"
+												DockPanel.Dock="Left"
+												>
+											<ToggleButton.Style>
+												<Style
+														TargetType="ToggleButton"
+														BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+														>
+													<Setter Property="Visibility" Value="Visible" />
+													<!-- <Style.Triggers> -->
+													<!-- 	<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> -->
+													<!-- 		<Setter Property="Visibility" Value="Collapsed"> -->
+													<!-- 		</Setter> -->
+													<!-- 	</DataTrigger> -->
+													<!-- </Style.Triggers> -->
+												</Style>
+											</ToggleButton.Style>
+										</ToggleButton>
+
+										<Label
+												Content="{Binding Item.MergeItems.Count}"
+												Margin="0,0,0,4"
+												Padding="0"
+												ContentStringFormat="{}({0})"
+												>
+											<Label.Style>
+												<Style
+														TargetType="Label"
+														BasedOn="{StaticResource Label.BookMark.Title}"
+														>
+													<Setter Property="Visibility" Value="Visible" />
+													<Style.Triggers>
+
+														<DataTrigger Value="true">
+															<DataTrigger.Binding>
+																<MultiBinding Converter="{StaticResource Equals}">
+																	<Binding Path="Item.MergeItemCount" />
+																	<Binding Path="ExtItemCountLast" />
+																</MultiBinding>
+															</DataTrigger.Binding>
+															<Setter Property="Visibility" Value="Collapsed" />
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</Label.Style>
+										</Label>
+
+										<DockPanel.Style>
+											<Style TargetType="DockPanel">
+												<Setter Property="Visibility" Value="Visible" />
+												<Style.Triggers>
+													<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
+														<Setter Property="Visibility" Value="Collapsed">
+														</Setter>
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</DockPanel.Style>
+
+									</DockPanel>
 
 									<Label
 											Content="{Binding Path=Item.Title,
 																				FallbackValue=title}"
+											Margin="0,0,0,2"
 											Style="{StaticResource Label.BookMark.Title}"
 											/>
-								</DockPanel>
-							</Border>
+									<!--    -->
+									<!--  <Label  -->
+									<!--  Content="{Binding Path=Item.IsVisible,  -->
+									<!--  FallbackValue='unknown'}"  -->
+									<!--  Style="{StaticResource Label.BookMark.Title}"  -->
+									<!--  />  -->
 
+								</DockPanel>
+
+							</Border>
 						</DockPanel>
 
 
@@ -1634,12 +1832,11 @@
 									VerticalContentAlignment="Bottom"
 									Background="Transparent"
 									BorderThickness="0"
-									
 									ScrollViewer.CanContentScroll="False"
 									ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 									ScrollViewer.VerticalScrollBarVisibility="Disabled"
-									ItemsSource="{Binding Item.MergeItems}"
 									ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
+									ItemsSource="{Binding Item.MergeItems}"
 									>
 								<ListView.ItemTemplate>
 
@@ -1679,7 +1876,8 @@
 													Grid.Row="0"
 													Margin="0,0,10,2"
 													Padding="0,2,0,0"
-													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																							 Path=Foreground}"
 													Style="{StaticResource Label.Base}"
 													/>
 											<Label
@@ -1688,7 +1886,8 @@
 													Grid.Row="0"
 													Margin="10,0,10,2"
 													Padding="0,2,0,0"
-													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																							 Path=Foreground}"
 													Style="{StaticResource Label.Base}"
 													/>
 
@@ -1701,9 +1900,12 @@
 								<Style TargetType="DockPanel">
 									<Setter Property="Visibility" Value="Visible" />
 									<Style.Triggers>
-										<DataTrigger Value="false" Binding="{Binding IsExpandedEx, ElementName=WinClassfTest}">
+										<DataTrigger Value="false" Binding="{Binding Item.IsVisible}">
 											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
+										<!-- <DataTrigger Value="false" Binding="{Binding IsExpandedEx, ElementName=WinClassfTest}"> -->
+										<!-- 	<Setter Property="Visibility" Value="Collapsed" /> -->
+										<!-- </DataTrigger> -->
 									</Style.Triggers>
 								</Style>
 							</DockPanel.Style>
@@ -1758,9 +1960,9 @@
 					ScrollViewer.CanContentScroll="False"
 					ScrollViewer.HorizontalScrollBarVisibility="Visible"
 					ScrollViewer.VerticalScrollBarVisibility="Visible"
-					ItemsSource="{Binding}"
 					ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
-								>
+					ItemsSource="{Binding}"
+					>
 				<!--  Style="{DynamicResource Lv1_LvStyle}"  -->
 
 				<ListView.ItemTemplate>
@@ -1794,8 +1996,8 @@
 									IsTabStop="False"
 									DockPanel.Dock="Bottom"
 									Focusable="False"
-									ItemsSource="{Binding Value}"
 									ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
+									ItemsSource="{Binding Value}"
 									>
 
 								<ListView.ItemTemplate>
@@ -1839,7 +2041,8 @@
 													Grid.Row="0"
 													Margin="0,0,5,0"
 													Padding="0"
-													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																							 Path=Foreground}"
 													Style="{StaticResource Label.Base}"
 													/>
 
@@ -1849,7 +2052,8 @@
 													Grid.Row="0"
 													Margin="0,0,5,0"
 													Padding="0"
-													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=Foreground}"
+													Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}},
+																							 Path=Foreground}"
 													Style="{StaticResource Label.Base}"
 													/>
 
@@ -1891,6 +2095,7 @@
 				VerticalScrollBarVisibility="Visible"
 				Visibility="Collapsed"
 				/>
+
 
 
 

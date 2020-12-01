@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,14 @@ using UtilityLibrary;
 
 namespace ClassifierEditor.Windows
 {
+	public enum Exp_Collapse_State
+	{
+		EXP_ALL,		// exp tree & show listviews
+		EXP_TREE,		// exp tree & hide listviews
+		COLLAPSE_ALL	// collapse all
+
+	}
+
 	/// <summary>
 	/// Interaction logic for WindowClassifyTest.xaml
 	/// </summary>
@@ -32,11 +41,10 @@ namespace ClassifierEditor.Windows
 	{
 		private bool displayDebugMsgs = false;
 
+	#region private fields
 
 		private string[] TreeViewTitleList = new [] {"Initial BookMark Tree", "Final BookMark Tree"};
-
-
-	#region private fields
+		private string[] expCollapseStateList = new [] {"Collapse to Tree", "Collapse All", "Expand All"};
 
 		private int treeViewTitleIndex = 0;
 
@@ -51,14 +59,15 @@ namespace ClassifierEditor.Windows
 
 		private bool isConfigured;
 		
-		private bool isExpanded;
+		private bool isExpandedEx;
 
 		private string tbx1Message;
 
-		// private string phaseBldg;
+		private Exp_Collapse_State expCollapseState = Exp_Collapse_State.EXP_TREE;
 
-		// private FileNameSheetPdf fp;
-		// private static TreeNode userSelected;
+		private double pb1Value;
+		private double pb1MaxValue = 0;
+		private Progress<double> pb1ProgressValue;
 
 	#endregion
 
@@ -70,13 +79,12 @@ namespace ClassifierEditor.Windows
 
 			isConfigured = false;
 
-			IsExpandedEx = false;
+			pb1ProgressValue = new Progress<double>(value => Pb1Value = value);
 		}
 
 	#endregion
 
 	#region public properties
-
 
 		public bool ShowNonApplicableFiles => (classify?.NonApplicableFilesTotalCount?? 0) > 0;
 
@@ -162,17 +170,9 @@ namespace ClassifierEditor.Windows
 
 		public string PhaseBuilding => testFileList?.Building;
 
-		public string IsConfigured => isConfigured.ToString();
+		public string ExpCollapseState => expCollapseStateList[(int) expCollapseState];
 
-		public bool IsExpandedEx
-		{
-			get => isExpanded;
-			private set
-			{
-				isExpanded = value;
-				OnPropertyChange();
-			}
-		}
+		public string IsConfigured => isConfigured.ToString();
 
 		public string Tbx1Message
 		{
@@ -181,6 +181,27 @@ namespace ClassifierEditor.Windows
 			private set
 			{
 				tbx1Message = value;
+
+				OnPropertyChange();
+			}
+		}
+
+		public double Pb1MaximumValue
+		{
+			get => pb1MaxValue;
+			set
+			{
+				pb1MaxValue = value;
+				OnPropertyChange();
+			}
+		}
+
+		public double Pb1Value
+		{
+			get => pb1Value;
+			set
+			{
+				pb1Value = value;
 
 				OnPropertyChange();
 			}
@@ -228,35 +249,98 @@ namespace ClassifierEditor.Windows
 			OnPropertyChange("IsConfigured");
 		}
 
-
 		private void initFileList()
 		{
 			testFileList = new SheetFileList();
 			testFileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
 		}
 
-		private void go()
+		private async void go()
 		{
-			// Tbx1Message = "*** Classification Started ***\n";
+
+			BaseOfTree.Item.Description = "TreeBase from ClassifyTest";
 
 			if (!classify.Configure(BaseOfTree, TestFileList)) return;
 
-			// await Task.Run(() => { result = classify.Process(); });
+			classify.ConfigureAsyncReporting(pb1ProgressValue);
 
-			classify.Process();
+			await Task.Run(() => { classify.Process(); });
+
+			// classify.Process();
+
+			expCollapseState = Exp_Collapse_State.EXP_ALL;
+
+			ExpandCollapseTree(BaseOfTree);
+
+			TreeViewTitleIndex = 1;
 
 			OnPropertyChange("Classify");
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("TreeBaseTitle");
+			OnPropertyChange("ExpCollapseState");
 			OnPropertyChange("ShowNonApplicableFiles");
 			OnPropertyChange("NonApplicableFilesDescription");
 
-			// int c = BaseOfTree.CountExtItems();
+			Debug.WriteLine("@classify-go / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
-			// Tbx1Message += "*** Classification Complete ***\n";
-			//
-			// BaseOfTree b = BaseOfTree;
-			//
-			// Tbx1Message += classify.FormatMergeList(BaseOfTree);
 		}
+
+		private void ExpandCollapseTree(TreeNode node)
+		{
+			ExpCollapseNode(node);
+
+			expandCollapseTree(node);
+		}
+
+		private void expandCollapseTree(TreeNode parent)
+		{
+			foreach (TreeNode child in parent.ChildrenView)
+			{
+				if (child.HasChildren) ExpandCollapseTree(child);
+
+				ExpCollapseNode(child);
+			}
+		}
+
+		private void ExpCollapseNode(TreeNode node)
+		{
+			if (expCollapseState == Exp_Collapse_State.COLLAPSE_ALL)
+			{
+				node.IsExpandedAlt = false;
+			}
+			else
+			{
+				node.IsExpandedAlt = true;
+			}
+
+			if (node.Item.HasMergeItems)
+			{
+				if (expCollapseState == Exp_Collapse_State.EXP_ALL)
+				{
+					node.Item.IsVisible = true;
+				}
+				else
+				{
+					node.Item.IsVisible = false;
+				}
+
+			}
+		}
+
+		private void adjustExpCollapseState()
+		{
+			if (expCollapseState == Exp_Collapse_State.COLLAPSE_ALL)
+			{
+				expCollapseState = Exp_Collapse_State.EXP_ALL;
+			}
+			else
+			{
+				expCollapseState = (Exp_Collapse_State) (1 + (int) expCollapseState);
+			}
+
+			OnPropertyChange("ExpCollapseState");
+		}
+
 
 	#endregion
 
@@ -301,20 +385,34 @@ namespace ClassifierEditor.Windows
 
 		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
 		{
+			// Debug.WriteLine("@classify-test / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
+
+			// await Task.Run(() => { go(); });
 			go();
 
-			IsExpandedEx = true;
+			// Debug.WriteLine("@classify-test / 2| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
-			TreeViewTitleIndex = 1;
+			// IsExpandedEx = true;
 
-			OnPropertyChange("TreeBaseTitle");
-
-			// updateProperties();
+			// expCollapseState = Exp_Collapse_State.EXP_ALL;
 			//
-			// ClassificationFile.UpdateProperties();
-			// BaseOfTree.UpdateProperties();
-			// BaseOfTree.Item.UpdateProperties();
-			// BaseOfTree.Item.UpdateMergeProperties();
+			// ExpandCollapse(BaseOfTree);
+			//
+			// TreeViewTitleIndex = 1;
+			//
+			// OnPropertyChange("TreeBaseTitle");
+			// OnPropertyChange("BaseOfTree");
+
+			// Debug.WriteLine("@classify-test / 3| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
+
+		}
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			// Debug.WriteLine("@classify-test / 11| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
+
+			OnPropertyChange("BaseOfTree");
+
+			Debug.WriteLine("@debug");
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -329,9 +427,12 @@ namespace ClassifierEditor.Windows
 
 		private void BtnExpand_OnClick(object sender, RoutedEventArgs e)
 		{
-			IsExpandedEx = !isExpanded;
-		}
+			// IsExpandedEx = !isExpandedEx;
 
+			adjustExpCollapseState();
+
+			ExpandCollapseTree(BaseOfTree);
+		}
 
 		// private void Classify_OnFileChange(object sender, FileChangeEventArgs e)
 		// {

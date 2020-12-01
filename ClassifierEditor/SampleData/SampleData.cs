@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.MergeSupport;
 using AndyShared.SampleFileSupport;
@@ -41,6 +42,7 @@ namespace ClassifierEditor.SampleData
 
 		static SampleData()
 		{
+
 			TreeBase = new BaseOfTree();
 
 			Sample(TreeBase);

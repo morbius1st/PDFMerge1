@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassifySheets", "ClassifyS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests1", "Tests1\Tests1.csproj", "{98F37C54-3BF0-42CF-9B3E-855B9D45AAD7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWpf1", "TestWpf1\TestWpf1.csproj", "{B02F286C-4227-4D10-870F-FF8B117E6586}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AndyShared\AndyShared.projitems*{98f37c54-3bf0-42cf-9b3e-855b9d45aad7}*SharedItemsImports = 4
@@ -346,6 +348,24 @@ Global
 		{98F37C54-3BF0-42CF-9B3E-855B9D45AAD7}.Release|x64.Build.0 = Release|Any CPU
 		{98F37C54-3BF0-42CF-9B3E-855B9D45AAD7}.Release|x86.ActiveCfg = Release|Any CPU
 		{98F37C54-3BF0-42CF-9B3E-855B9D45AAD7}.Release|x86.Build.0 = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|Any CPU.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|x64.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|x64.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|x86.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.All|x86.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|x64.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Debug|x86.Build.0 = Debug|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|x64.ActiveCfg = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|x64.Build.0 = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|x86.ActiveCfg = Release|Any CPU
+		{B02F286C-4227-4D10-870F-FF8B117E6586}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

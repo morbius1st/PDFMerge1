@@ -180,7 +180,7 @@ namespace AndyShared.Support
 
 #endregion
 
-#region not bool value converter
+#region bool "or" value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class BoolOr : IMultiValueConverter
@@ -212,5 +212,28 @@ namespace AndyShared.Support
 	}
 
 #endregion
+
+#region bool "or" value converter
+
+	[ValueConversion(typeof(object), typeof(bool))]
+	public class EqualsToBool : IMultiValueConverter
+	{
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (values.Length < 2 ||
+				!(values[0].GetType() == values[1].GetType())) return false;
+
+			return values[0].Equals(values[1]);
+		}
+
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
+
 
 }

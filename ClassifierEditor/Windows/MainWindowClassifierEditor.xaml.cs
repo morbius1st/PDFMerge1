@@ -1,4 +1,5 @@
-﻿#region using
+﻿// #define SHOWTICKS
+#region using
 
 using System;
 using System.Collections.Generic;
@@ -230,6 +231,8 @@ namespace ClassifierEditor.Windows
 	/// </summary>
 	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
 	{
+	#region public fields
+
 		public string ContextCmdDelete { get; }            = "delete";
 		public string ContextCmdAddChild { get; }          = "addChild";
 		public string ContextCmdAddBefore { get; }         = "addBefore";
@@ -242,7 +245,15 @@ namespace ClassifierEditor.Windows
 		public string ContextCmdExpand { get; }            = "Expand";
 		public string ContextCmdCollapse { get; }          = "Collapse";
 
-		public AndyShared.ClassificationDataSupport.TreeSupport.CheckedState bot;
+	#endregion
+
+		// public AndyShared.ClassificationDataSupport.TreeSupport.CheckedState bot;
+
+	#if SHOWTICKS
+		private long ticksStart;
+		private long tickPrior;
+		private long tickNow;
+	#endif
 
 	#region private fields
 
@@ -269,7 +280,19 @@ namespace ClassifierEditor.Windows
 
 		public MainWindowClassifierEditor()
 		{
+		#if SHOWTICKS
+			tickNow = System.DateTime.Now.Ticks;
+			ticksStart = tickNow;
+			tickPrior = tickNow;
+
+			showTicks("start @1");
+		#endif
+
 			InitializeComponent();
+
+		#if SHOWTICKS
+			showTicks("start @2");
+			#endif
 
 			OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
 			OnSavingAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVING, "Before Modifications get saved");
@@ -278,9 +301,23 @@ namespace ClassifierEditor.Windows
 				"Remember Exp-Collapse State");
 
 			// SampleData.SampleData SD = new SampleData.SampleData();
+
+		#if SHOWTICKS
+			showTicks("start @3");
+		#endif
 		}
 
 	#endregion
+
+	#if SHOWTICKS
+		private void showTicks(string title)
+		{
+			tickNow = DateTime.Now.Ticks;
+			Debug.Print(title + "|  " + (tickNow - ticksStart)
+				+ "  diff| " + (tickNow - tickPrior));
+			tickPrior =  tickNow;
+		}
+	#endif
 
 	#region public properties
 
@@ -426,7 +463,15 @@ namespace ClassifierEditor.Windows
 
 		private void initSettings()
 		{
+		#if SHOWTICKS
+			showTicks("setg @1");
+		#endif
+
 			UserSettings.Admin.Read();
+
+		#if SHOWTICKS
+			showTicks("setg @2");
+		#endif
 
 			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> i = UserSettings.Admin;
 
@@ -434,13 +479,33 @@ namespace ClassifierEditor.Windows
 
 			UserSettingData ud = UserSettings.Data;
 
+		#if SHOWTICKS
+			showTicks("setg @5");
+		#endif
+
 			OnPropertyChange("RememberCollapseState");
 
+		#if SHOWTICKS
+			showTicks("setg @6");
+		#endif
 
 			UserSettings.Admin.Write();
 
+		#if SHOWTICKS
+			showTicks("setg @7");
+		#endif
+
 			MachSettings.Admin.Read();
+
+		#if SHOWTICKS
+			showTicks("setg @8");
+		#endif
+
 			MachSettings.Admin.Write();
+
+		#if SHOWTICKS
+			showTicks("setg @9");
+		#endif
 		}
 
 		private void UpdateProperties()
@@ -460,14 +525,26 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
+		#if SHOWTICKS
+			showTicks("init @1");
+		#endif
+
 			initSettings();
 
 			this.Top = UserSettings.Data.MainWinPos.Y;
 			this.Left = UserSettings.Data.MainWinPos.X;
+
+		#if SHOWTICKS
+			showTicks("init @2");
+		#endif
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+		#if SHOWTICKS
+			showTicks("load @1");
+		#endif
+
 			// true to create sample data and save to disk
 			// false to read existing data
 			if (false)
@@ -487,27 +564,68 @@ namespace ClassifierEditor.Windows
 			}
 			else
 			{
-				// sd = new SampleData.SampleData();
 
-				UserSettingData a = UserSettings.Data;
+				if (false)
+				{
+				#if SHOWTICKS
+					showTicks("load @3");
+					#endif
 
-				// Debug.WriteLine("@MainWin load| load user settings");
-				string fileId = UserSettings.Data.LastClassificationFileId;
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
 
-				// Debug.WriteLine("@MainWin load| announce remember");
-				// inform all of the current setting
-				OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+				#if SHOWTICKS
+					showTicks("load @3.1");
+				#endif
 
-				// Debug.WriteLine("@MainWin load| load classification file");
-				ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
+					WindowClassifyTest winTest = new WindowClassifyTest();
+
+				#if SHOWTICKS
+					showTicks("load @3.2");
+				#endif
+
+					bool init = winTest.Configure(ClassificationFile);
+
+				#if SHOWTICKS
+					showTicks("load @3.3");
+				#endif
+
+					if (init) winTest.ShowDialog();
+				}
+				else
+				{
+				#if SHOWTICKS
+					showTicks("load @4");
+				#endif
+
+					UserSettingData a = UserSettings.Data;
+
+					// Debug.WriteLine("@MainWin load| load user settings");
+					string fileId = UserSettings.Data.LastClassificationFileId;
+
+					// Debug.WriteLine("@MainWin load| announce remember");
+					// inform all of the current setting
+					OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
+
+					// Debug.WriteLine("@MainWin load| load classification file");
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileId);
+				}
 			}
 
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
 
-			string f = SampleData.SampleData.FullFilePath;
+			// string f = SampleData.SampleData.FullFilePath;
 
 			// cancel any startup modifications
+
+		#if SHOWTICKS
+			showTicks("load @5");
+		#endif
+
 			OnTnInitAnnouncer.Announce(null);
+
+		#if SHOWTICKS
+			showTicks("load @6");
+		#endif
 		}
 
 		private void listCompOps(TreeNode parentNode)
@@ -1040,11 +1158,13 @@ namespace ClassifierEditor.Windows
 
 		private void BtnClassify_OnClick(object sender, RoutedEventArgs e)
 		{
+
 			WindowClassifyTest winTest = new WindowClassifyTest();
 
 			bool init = winTest.Configure(classificationFile);
 
 			if (init) winTest.Show();
+
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)

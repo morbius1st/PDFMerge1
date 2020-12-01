@@ -1,4 +1,6 @@
-﻿#region using directives
+﻿// #define SHOW
+
+#region using directives
 
 using System;
 using System.Collections.Generic;
@@ -525,18 +527,31 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// public static ICollectionView ValueView { get; private set; }
 
-		public static int depth = 0;
+		private static int depth = 0;
+
+		public static int Depth
+		{
+			get => depth;
+			set
+			{
+				depth = value * 2 + 2;
+			}
+		}
 
 		public static bool Compare2(FileNameSheetPdf Pdf,  
 			ObservableCollection<ComparisonOperation> compareOps)
 		{
+#pragma warning disable CS0219 // The variable 'count' is assigned but its value is never used
 			int count = 0;
+#pragma warning restore CS0219 // The variable 'count' is assigned but its value is never used
 			bool result = false;
 			int compIdx;
 			string compValue = "";
 
-			Debug.WriteLine("\n" + "  ".Repeat(depth) + "Comparing| " + Pdf.SheetID);
-			Debug.WriteLine("  ".Repeat(depth) + "Compare count| " + compareOps.Count);
+		#if SHOW
+			Debug.WriteLine("\t".Repeat(depth) + "Comparing| " + Pdf.SheetID);
+			Debug.WriteLine("\t".Repeat(depth) + "Compare count| " + compareOps.Count);
+		#endif
 			
 			foreach (ComparisonOperation compOp in compareOps)
 			{
@@ -546,33 +561,46 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				compValue = Pdf[compIdx];
 
-				Debug.WriteLine("  ".Repeat(depth) + "Compare value| " + compValue);
+			#if SHOW
+				Debug.WriteLine("\t".Repeat(depth) + "Compare idx| " + compIdx + " :: " + compOp.CompareComponentName);
+				Debug.WriteLine("\t".Repeat(depth) + "Compare value| " + compValue);
+			#endif
 
 				if (compOp.IsFirstCompOp)
 				{
-					Debug.WriteLine("  ".Repeat(depth) + count++ + "  1st Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+				#if SHOW
+					Debug.WriteLine("\t".Repeat(depth) + count++ + "  1st Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+				#endif
 					result = compare(compValue, compOp);
 				}
 				else
 				{
 					if (compOp.LogicalCompareOp.OpCode.Equals(LOGICAL_AND))
 					{
-						Debug.WriteLine("  ".Repeat(depth) + count++ + "  AND Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+					#if SHOW
+						Debug.WriteLine("\t".Repeat(depth) + count++ + "  AND Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue); 
+					#endif
 						result &= compare(compValue, compOp);
 					}
 					else
 					{
-						Debug.WriteLine("  ".Repeat(depth) + count++ + "  OR  Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+					#if SHOW
+						Debug.WriteLine("\t".Repeat(depth) + count++ + "  OR  Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue);
+					#endif
 						result |= compare(compValue, compOp);
 					}
 
-					Debug.WriteLine("  ".Repeat(depth) + "   *** Partial Result| " + result);
+				#if SHOW
+					Debug.WriteLine("\t".Repeat(depth) + "   *** Partial Result| " + result);
+				#endif
 
 					if (!result) break;
 				}
 			}
 
-			Debug.WriteLine("  ".Repeat(depth) + "   *** Final Result| " + result);
+		#if SHOW
+			Debug.WriteLine("\t".Repeat(depth) + "   *** Final Result| " + result);
+		#endif
 			return result;
 		}
 
@@ -689,6 +717,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private static bool compare(string value, ComparisonOperation compareOp)
 		{
 			bool result = false;
+
+			if (value == null) return result;
 
 			switch (compareOp.ValueCompareOp.OpCode)
 			{

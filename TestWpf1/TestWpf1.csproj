@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0B187F3D-CE82-49B8-AED2-ED64CE56F70D}</ProjectGuid>
+    <ProjectGuid>{B02F286C-4227-4D10-870F-FF8B117E6586}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ClassifySheets</RootNamespace>
-    <AssemblyName>ClassifySheets</AssemblyName>
+    <RootNamespace>TestWpf1</RootNamespace>
+    <AssemblyName>TestWpf1</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,32 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSLibraryIo">
-      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -76,81 +51,46 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfShared">
-      <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
+    <Compile Include="Adjust\AdjustMergeItems.cs" />
+    <Compile Include="Data\ExtendedData.cs" />
+    <Compile Include="Data\MergeData.cs" />
+    <Compile Include="Data\Nodes.cs" />
+    <Compile Include="Data\SampleData.cs" />
+    <Page Include="Windows\MainWinTestWpf1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
+      <Link>.Linked\CsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
-      <Link>Settings\HeadingSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\.LinkOnly\MachineSettings.cs">
-      <Link>Settings\MachineSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\.LinkOnly\SiteSettings.cs">
-      <Link>Settings\SiteSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
-      <Link>Settings\SuiteSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
-      <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
-    </Compile>
-    <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
-    <Page Include="..\AndyResources\XamlResources\Andy.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\Andy.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\MainWinClassifySheets.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.Linked\CsUtilities.cs</Link>
+    </Compile>
+    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
+      <Link>.Linked\MessageUtilities.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\Test01.cs" />
-    <Compile Include="Windows\MainWinClassifySheets.xaml.cs">
-      <DependentUpon>MainWinClassifySheets.xaml</DependentUpon>
+    <Compile Include="Windows\MainWinTestWpf1.xaml.cs">
+      <DependentUpon>MainWinTestWpf1.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ResourceFiles\XamlResources\MasterColorList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ResourceFiles\XamlResources\VisualStates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
