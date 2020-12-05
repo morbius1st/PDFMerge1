@@ -24,11 +24,22 @@ namespace TestWpf1.Data
 
 		private string extName;
 		private int extNumber;
+		private int lockIdx = 0;
 
 		public ExtendedData(string name)
 		{
 			extNumber = masterExtNumber++;
 			extName = name + extNumber.ToString(" 000");
+		}
+
+		public int LockIdx
+		{
+			get => lockIdx;
+			set
+			{
+				lockIdx = value;
+				OnPropertyChange();
+			}
 		}
 
 		public ObservableCollection<MergeData> MergeInfo

@@ -94,13 +94,6 @@ namespace TestWpf1.Data
 
 		public int MergeCount => extData.MergeCount;
 
-		// public void ExtdCount()
-		// {
-		// 	ExtCount = exCount();
-		//
-		// 	OnPropertyChange("ExtCount");
-		// }
-
 		public int exCount()
 		{
 			int count = childNodes?.Count ?? 0;
@@ -118,31 +111,6 @@ namespace TestWpf1.Data
 			return count;
 		}
 
-		// protected int exCount(Node node)
-		// {
-		// 	int count = node.Count;
-		//
-		// 	if (node.childNodes != null)
-		// 	{
-		// 		foreach (Node child in node.childNodes)
-		// 		{
-		// 			if (child.Count > 0)
-		// 			{
-		// 				count += exCount(child);
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	return count;
-		// }
-
-		// public void ExtdMergeCount()
-		// {
-		// 	ExtMergeCount = exMergeCount();
-		//
-		// 	OnPropertyChange("ExtMergeCount");
-		// }
-
 		public int exMergeCount()
 		{
 			int count = extData.MergeCount;
@@ -159,24 +127,6 @@ namespace TestWpf1.Data
 
 			return count;
 		}
-
-		// protected int exMergeCount(Node node)
-		// {
-		// 	int count = node.ExtData?.MergeCount ?? 0;
-		//
-		// 	if (node.childNodes != null)
-		// 	{
-		// 		foreach (Node child in node.childNodes)
-		// 		{
-		// 			if (child.Count > 0)
-		// 			{
-		// 				count += exMergeCount(child);
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	return count;
-		// }
 
 		public void ClrMergeItems()
 		{

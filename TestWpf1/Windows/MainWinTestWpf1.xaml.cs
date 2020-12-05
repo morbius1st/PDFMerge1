@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using TestWpf1.Adjust;
@@ -25,6 +26,9 @@ namespace TestWpf1.Windows
 
 		private int testCount;
 
+		private static string tbxMessage = null;
+		private static MainWinTestWpf1 me;
+
 	#endregion
 
 	#region ctor
@@ -32,11 +36,15 @@ namespace TestWpf1.Windows
 		public MainWinTestWpf1()
 		{
 			InitializeComponent();
+
+			me = this;
 		}
 
 	#endregion
 
 	#region public properties
+
+		public string TbxMessage => tbxMessage;
 
 		public int TestCount
 		{
@@ -62,6 +70,25 @@ namespace TestWpf1.Windows
 
 	#region public methods
 
+		public static void SetMsg(string msg)
+		{
+			tbxMessage = msg;
+			OnPropertyChangeStatic("TbxMessage");
+		}
+
+		public static void AppendMsg(string msg)
+		{
+			tbxMessage += msg;
+			OnPropertyChangeStatic("TbxMessage");
+		}
+		
+		public static void AppendMsgLine(string msg)
+		{
+			tbxMessage += msg + "\n";
+			OnPropertyChangeStatic("TbxMessage");
+		}
+
+
 	#endregion
 
 	#region private methods
@@ -79,6 +106,14 @@ namespace TestWpf1.Windows
 	#endregion
 
 	#region event consuming
+						
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			SampleData sd = Sd;
+
+			Debug.WriteLine("@debug");
+		}
+
 		
 		private void BtnClear_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -106,6 +141,13 @@ namespace TestWpf1.Windows
 	#endregion
 
 	#region event publishing
+
+		public static event PropertyChangedEventHandler PropertyChangedStatic;
+
+		private static void OnPropertyChangeStatic([CallerMemberName] string memberName = "")
+		{
+			PropertyChangedStatic?.Invoke(me, new PropertyChangedEventArgs(memberName));
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

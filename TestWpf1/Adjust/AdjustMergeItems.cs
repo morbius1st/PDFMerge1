@@ -7,6 +7,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using TestWpf1.Data;
@@ -24,13 +25,13 @@ namespace TestWpf1.Adjust
 		private int[] order;
 		private int[] test;
 
-		private int testIdx = 0;
-
 		private SampleData sd;
 
-		public void Process()
+		public async void Process()
 		{
-			processTree(sd.TreeRoot);
+			// processTree(sd.TreeRoot);
+
+			await Task.Run(() => { processTree(sd.TreeRoot); });
 		}
 
 		public int Configure(SampleData sd)
@@ -39,27 +40,29 @@ namespace TestWpf1.Adjust
 
 			this.sd.TreeRoot.exCount();
 			int qty = createTestArray(this.sd.TreeRoot.ExtCount);
-			// listTest(qty);
 
 			return qty;
 		}
 
-		private void processTree(Node node)
+		private async void processTree(Node node)
 		{
+			int qty = 3;
+
 			foreach (Node child in node.ChildNodes)
 			{
-				if (testIdx >= test.Length) break;
+				// if (testIdx >= test.Length) break;
 
-				if (child.Number == test[testIdx])
+				// if (child.Number == test[testIdx])
+				if (true)
 				{
-					// Debug.WriteLine("testing| " + child.Name);
+					// qty = test[testIdx] % 10;
+					// testIdx++;
 
-					int qty = test[testIdx] % 10;
-					testIdx++;
+					// child.ExtData.MergeInfo = new ObservableCollection<MergeData>();
 
-					child.ExtData.MergeInfo = new ObservableCollection<MergeData>();
+					await Task.Run(() => { adjust(child, qty); });
 
-					adjust(child, qty);
+					// adjust(child, qty);
 				}
 
 				if (child.Count > 0) processTree(child);
@@ -72,12 +75,12 @@ namespace TestWpf1.Adjust
 			{
 				MergeData md = new MergeData("MergeData");
 
+				Thread.Sleep(20);
+
 				child.ExtData.MergeInfo.Add(md);
 			}
 
 			child.ExtData.UpdateProperties();
-
-			// Debug.WriteLine("adjusted| " + child.Name + " :: " + child.ExtData.ExtName + " (" + child.ExtData.MergeCount + " vs " + qty + ")");
 		}
 
 		private int createTestArray(int qty)
@@ -117,7 +120,5 @@ namespace TestWpf1.Adjust
 				Debug.WriteLine("index| " + i + " :: item number| " + array[i]);
 			}
 		}
-
-
 	}
 }

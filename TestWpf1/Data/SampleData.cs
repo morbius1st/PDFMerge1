@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using TestWpf1.Windows;
 
 #endregion
 
@@ -25,9 +27,6 @@ namespace TestWpf1.Data
 		private static int maxNodes = 20;
 		private static int maxDepth = 4;
 
-		private int extCount;
-		private int extMrgCount;
-
 		public static BaseOfTree Root { get; set; }  = new BaseOfTree("Root of Tree");
 
 		public BaseOfTree TreeRoot { get; set; } = new BaseOfTree("Tree Root");
@@ -45,24 +44,17 @@ namespace TestWpf1.Data
 			SampleInfo(TreeRoot);
 		}
 
-		// // public int ExtendedCount() => extendedCount(Root);
-		// public int ExtendedCount => extCount;
-		//
-		// public int ExtendedMergeCount => extMrgCount;
-		//
-		// public void UpdateCounts()
-		// {
-		// 	extCount = TreeRoot.ExtCount;
-		// 	extMrgCount = TreeRoot.ExtMergeCount;
-		// }
-
-		private static void SampleInfo(Node node)
+		private static void SampleInfo(Node parent)
 		{
-			node.ChildNodes = new ObservableCollection<Node>();
-			node.ExtData = new ExtendedData("ExtendedData");
+			parent.ChildNodes = new ObservableCollection<Node>();
+			parent.ExtData = new ExtendedData("ExtendedData");
+			parent.ExtData.MergeInfo = new ObservableCollection<MergeData>();
 
-			sampleInfo(node, 0, maxNodes);
+			parent.ExtData.MergeInfo.CollectionChanged += MergeInfoOnCollectionChanged;
+
+			sampleInfo(parent, 0, maxNodes);
 		}
+
 
 		private static void sampleInfo(Node parent, int depth, int numNodes)
 		{
@@ -75,8 +67,10 @@ namespace TestWpf1.Data
 				child = new Node("ChildNode");
 				child.ChildNodes = new ObservableCollection<Node>();
 				child.ExtData = new ExtendedData("ExtendedData");
+				child.ExtData.MergeInfo = new ObservableCollection<MergeData>();
+				child.ExtData.LockIdx = 0;
 
-				// Debug.WriteLine("ExtData made for| " + child.ExtData.ExtName + "  (" + child.Name + ")");
+				// child.ExtData.MergeInfo.CollectionChanged += MergeInfoOnCollectionChanged;
 
 				parent.ChildNodes.Add(child);
 
@@ -93,6 +87,14 @@ namespace TestWpf1.Data
 				}
 			}
 		}
+
+		private static void MergeInfoOnCollectionChanged(object sender,
+			NotifyCollectionChangedEventArgs e)
+		{
+			MergeData md = e.NewItems[0] as MergeData;
+			MainWinTestWpf1.AppendMsgLine("Collection Changed| " + md.MergeName);
+		}
+
 
 	}
 }
