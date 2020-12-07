@@ -144,7 +144,7 @@ namespace AndyShared.MergeSupport
 		{
 			if (!isConfigured) return;
 
-			classifyFiles3();
+			classifyFiles();
 
 			UpdateProperties();
 

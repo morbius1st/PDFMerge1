@@ -8,14 +8,14 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using TestWpf1.Windows;
+using TestWpf2.Windows;
 
 #endregion
 
 // user name: jeffs
 // created:   11/29/2020 12:00:48 PM
 
-namespace TestWpf1.Data
+namespace TestWpf2.Data
 {
 	// public static class Container
 	// {
@@ -24,8 +24,8 @@ namespace TestWpf1.Data
 
 	public class SampleData
 	{
-		private static int maxNodes = 15;
-		private static int maxDepth = 3;
+		private static int maxNodes = 5;
+		private static int maxDepth = 2;
 
 		public static BaseOfTree Root { get; set; }  = new BaseOfTree("Root of Tree");
 
@@ -68,7 +68,7 @@ namespace TestWpf1.Data
 				child.ChildNodes = new ObservableCollection<Node>();
 				child.ExtData = new ExtendedData("ExtendedData");
 				child.ExtData.MergeInfo = new ObservableCollection<MergeData>();
-				// child.ExtData.LockIdx = 0;
+				child.ExtData.LockIdx = 0;
 
 				// child.ExtData.MergeInfo.CollectionChanged += MergeInfoOnCollectionChanged;
 
@@ -92,7 +92,7 @@ namespace TestWpf1.Data
 			NotifyCollectionChangedEventArgs e)
 		{
 			MergeData md = e.NewItems[0] as MergeData;
-			MainWinTestWpf1.me.TbxMessage = "Collection Changed| " + md.MergeName;
+			MainWinTestWpf2.AppendMsgLine("Collection Changed| " + md.MergeName);
 		}
 
 

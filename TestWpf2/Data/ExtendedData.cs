@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 // user name: jeffs
 // created:   11/29/2020 12:02:18 PM
 
-namespace TestWpf1.Data
+namespace TestWpf2.Data
 {
 	public class ExtendedData : INotifyPropertyChanged
 	{
@@ -30,7 +30,6 @@ namespace TestWpf1.Data
 		{
 			extNumber = masterExtNumber++;
 			extName = name + extNumber.ToString(" 000");
-			ToBeProcessed = false;
 		}
 
 		public int LockIdx
@@ -75,8 +74,6 @@ namespace TestWpf1.Data
 		{
 			OnPropertyChange("MergeCount");
 		}
-
-		public bool ToBeProcessed { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
