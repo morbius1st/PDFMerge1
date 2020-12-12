@@ -10,19 +10,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using AndyShared.ClassificationDataSupport.TreeSupport;
-
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.SampleFileSupport;
-
 using AndyShared.Support;
-
 using UtilityLibrary;
 
 #endregion
@@ -78,7 +74,6 @@ namespace AndyShared.MergeSupport
 			isConfigured = false;
 			this.treeBase = null;
 			assignedPhBldg = null;
-
 		}
 
 	#endregion
@@ -105,12 +100,6 @@ namespace AndyShared.MergeSupport
 
 	#region public methods
 
-		public void ConfigureAsyncReporting(Progress<double> pbDouble) // , Progress<string> pbString)
-		{
-			this.pbDouble = pbDouble;
-			// this.pbString = pbString;
-		}
-
 		public bool Configure(BaseOfTree treeBase, SheetFileList fileList)
 		{
 			isConfigured = false;
@@ -135,6 +124,12 @@ namespace AndyShared.MergeSupport
 			return isConfigured;
 		}
 
+		public void ConfigureAsyncReporting(Progress<double> pbDouble) // , Progress<string> pbString)
+		{
+			this.pbDouble = pbDouble;
+			// this.pbString = pbString;
+		}
+
 		/// <summary>
 		/// Process the list of sheet files, using the rules in the<br/>
 		/// ClassificationFile, and place the file into the<br/>
@@ -147,7 +142,6 @@ namespace AndyShared.MergeSupport
 			classifyFiles();
 
 			UpdateProperties();
-
 		}
 
 	#endregion
@@ -156,7 +150,6 @@ namespace AndyShared.MergeSupport
 
 		private void UpdateProperties()
 		{
-			
 			OnPropertyChange("NonApplicableFiles");
 			OnPropertyChange("NonApplicableFilesTotalCount");
 		}
@@ -173,7 +166,221 @@ namespace AndyShared.MergeSupport
 
 			treeBase.CountExtItems();
 		}
-		
+
+		// go thorugh the whole tree and prep for a new set of merge items
+		// 1. reset the merge items collection
+		private void preProcessMergeItems()
+		{
+			treeBase.Item.MergeItems = new ObservableCollection<MergeItem>();
+
+			preProcessMI(treeBase);
+		}
+
+		private void preProcessMI(TreeNode parent)
+		{
+			foreach (TreeNode child in parent.Children)
+			{
+				if (child.HasChildren) preProcessMI(child);
+
+				child.Item.MergeItems = new ObservableCollection<MergeItem>();
+			}
+		}
+
+		private void processFiles()
+		{
+			int fileCount = 0;
+			string msg;
+
+			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
+			{
+				// msg = "Processing file| " + fileCount.ToString("000");
+				// ((IProgress<string>) pbString)?.Report(msg);
+				((IProgress<double>) pbDouble)?.Report(fileCount++);
+
+				Thread.Sleep(10);
+
+				// Debug.WriteLine("*** Processing| " + file.FileNameObject.SheetID);
+				// raise an event when the file being process changes - allow the
+				// parent to do something if needed
+				RaiseOnFileChangeEvent(new FileChangeEventArgs(file));
+
+				if (usePhBldg)
+				{
+					if ((!file.FileNameObject.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
+					{
+						if (displayDebugMsgs)
+							toParentAnnounce.Announce("ignored file| " +
+								file.FileNameObject.SheetNumber + "\n");
+
+						addNonApplicableFile(file);
+						continue;
+					}
+				}
+
+				if (displayDebugMsgs)
+					toParentAnnounce.Announce("\nprocess file| " +
+						file.FileNameObject.SheetNumber + "\n");
+
+				classify2(treeBase, file, 0);
+			}
+		}
+
+		/// <summary>
+		/// classify each sheet file against the list of all<br/>
+		/// criteria from treebase down
+		/// </summary>
+		/// <param name="treeNode"></param>
+		/// <param name="sheetFilePath"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private bool classify2(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
+		{
+			bool localMatchFlag;
+			bool matchFlag = false;
+
+		#if SHOW
+			if (depth == 0) 
+			{
+				Debug.WriteLine("\n\n*** Classifying| " + sheetFilePath.FileNameObject.SheetID);
+				Debug.Write("\n");
+			}
+		#endif
+
+
+			// run through the tree and look for classify matches
+			foreach (TreeNode childNode in treeNode.Children)
+			{
+			#if SHOW
+				Debug.WriteLine("\t\t".Repeat(depth) + "Classifying against| " + childNode.Item.Title);
+			#endif
+
+				CompareOperations.Depth = depth;
+
+				localMatchFlag = false;
+
+				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
+
+				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
+				{
+				#if SHOW
+					Debug.WriteLine("***"+"\t\t".Repeat(depth) + "\tClassifying| compare is| true");
+				#endif
+
+					if (childNode.HasChildren)
+					{
+					#if SHOW
+						Debug.WriteLine("\t\t".Repeat(depth) + "\tClassifying| check children");
+					#endif
+
+						localMatchFlag = classify2(childNode, sheetFilePath, depth + 1);
+					}
+
+
+					if (!localMatchFlag)
+					{
+					#if SHOW
+						// Debug.WriteLine("\t\t".Repeat(depth) + "\t\tClassifying| ************************");
+						Debug.WriteLine("***" + "\t\t".Repeat(depth) + "\t\tClassifying| *** save merge item to| " + childNode.Item.Title);
+						// Debug.WriteLine("\t\t".Repeat(depth) + "\t\tClassifying| ************************");
+					#endif
+
+						MergeItem mi = new MergeItem(0, sheetFilePath);
+						childNode.Item.MergeItems.Add(mi);
+						childNode.Item.UpdateMergeProperties();
+					}
+
+					// now categorized
+					matchFlag = true;
+				}
+			}
+
+			// worst case, at depth zero and not matchflag is false
+			if (!matchFlag && depth == 0)
+			{
+			#if SHOW
+				Debug.WriteLine("***" + "\t\t".Repeat(depth) + "\t\tClassifying| *** save merge item to PARENT| " + treeNode.Item.Title);
+			#endif
+				MergeItem mi = new MergeItem(0, sheetFilePath);
+				treeNode.Item.MergeItems.Add(mi);
+				treeNode.Item.UpdateMergeProperties();
+
+				matchFlag = true;
+			}
+
+			// return true when categorized
+			// else return false
+			return matchFlag;
+		}
+
+
+		/*
+
+		/// <summary>
+		/// classify each sheet file against the list of all<br/>
+		/// criteria from treebase down
+		/// </summary>
+		/// <param name="treeNode"></param>
+		/// <param name="sheetFilePath"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private bool classify(TreeNode treeNode,
+			FilePath<FileNameSheetPdf> sheetFilePath, int depth)
+		{
+			bool matchFlag = false;
+
+			if (displayDebugMsgs)
+				toParentAnnounce.Announce("classifying|\n");
+
+			// run through the tree and look for classify matches
+			foreach (TreeNode childNode in treeNode.Children)
+			{
+				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
+				// set flag = false;
+				// scan through each node and determine if the sheetfile matches one of the nodes rules
+				// if it matches:
+				//    if there are no children treenodes, set matchflag = false
+				//    if there are children, scan the next level
+				//        if the next level returns true, sheetfile was classified in a lower level, set flag = return value == true
+				//        if the next level return false (this will not happen)
+				//
+				// if flag = false, it does not match, add to this level's sheet category.mergeitems / return true (was classified)
+
+				// does the current sheetfile match the current
+				// if sheetfile matches childclassfnode.sheetcategory.compareops
+
+				if (CompareOperations.Compare(sheetFilePath.FileNameObject[depth], childNode.Item.CompareOps))
+				{
+					matchFlag = classify(childNode, sheetFilePath, depth + 1);
+
+					break;
+				}
+			}
+
+			// if match flag is already true, do not do the following
+			// which will return true
+			// else, do the following which will also cause true to be returned
+			// false cannot be returned
+			if (!matchFlag)
+			{
+				if (displayDebugMsgs)
+					toParentAnnounce.Announce("adding to| " +
+						treeNode.Item.Title + "\n\n");
+
+				MergeItem mi = new MergeItem(0, sheetFilePath);
+
+				treeNode.Item.MergeItems.Add(mi);
+				treeNode.Item.UpdateMergeProperties();
+				// treeNode.UpdateProperties();
+
+				matchFlag = true;
+			}
+
+			return matchFlag;
+		}
+
+		*/
+
+		/*
 		private async void classifyFiles3()
 		{
 			TreeNode t = treeBase;
@@ -197,30 +404,7 @@ namespace AndyShared.MergeSupport
 			// 	child.UpdateProperties();
 			// 	child.Item.UpdateProperties();
 			// }
-
 		}
-
-		// go thorugh the whole tree and prep for a new set of merge items
-		// 1. reset the merge items collection
-		private void preProcessMergeItems()
-		{
-			treeBase.Item.MergeItems = new ObservableCollection<MergeItem>();
-
-			preProcessMI(treeBase);
-		}
-
-		
-		private void preProcessMI(TreeNode parent)
-		{
-			foreach (TreeNode child in parent.Children)
-			{
-				if (child.HasChildren) preProcessMI(child);
-
-				child.Item.MergeItems = new ObservableCollection<MergeItem>();
-
-			}
-		}
-
 
 		// go thorugh the whole tree and prep for a new set of merge items
 		// 1. reset the merge items collection
@@ -236,18 +420,16 @@ namespace AndyShared.MergeSupport
 
 				mergeTreeLocks.Add(new object());
 
-				BindingOperations.EnableCollectionSynchronization(treeBase.Item.MergeItems, 
+				BindingOperations.EnableCollectionSynchronization(treeBase.Item.MergeItems,
 					mergeTreeLocks[treeBase.Item.MergeItemLockIdx]);
-			} 
+			}
 			else
 			{
-
 				treeBase.Item.UpdateMergeProperties();
 				treeBase.Item.UpdateProperties();
 				treeBase.UpdateProperties();
 
 				BindingOperations.DisableCollectionSynchronization(treeBase.Item.MergeItems);
-
 			}
 
 			preProcessMI3(treeBase, preOrPostProcess);
@@ -260,7 +442,7 @@ namespace AndyShared.MergeSupport
 				parent.ChildrenCollectLockIdx = mergeTreeLocks.Count;
 				mergeTreeLocks.Add(new object());
 
-				BindingOperations.EnableCollectionSynchronization(parent.Children, 
+				BindingOperations.EnableCollectionSynchronization(parent.Children,
 					mergeTreeLocks[parent.ChildrenCollectLockIdx]);
 			}
 			else
@@ -283,22 +465,21 @@ namespace AndyShared.MergeSupport
 					// add an object to be a future lock
 					mergeTreeLocks.Add(new object());
 
-					BindingOperations.EnableCollectionSynchronization(child.Item.MergeItems, 
+					BindingOperations.EnableCollectionSynchronization(child.Item.MergeItems,
 						mergeTreeLocks[child.Item.MergeItemLockIdx]);
 				}
 				else
 				{
 					BindingOperations.DisableCollectionSynchronization(child.Item.MergeItems);
-					
+
 					child.Item.UpdateMergeProperties();
 					child.Item.UpdateProperties();
 					child.UpdateProperties();
 				}
-
 			}
 		}
 
-		
+
 		private async void processFiles3()
 		{
 			int fileCount = 0;
@@ -322,10 +503,7 @@ namespace AndyShared.MergeSupport
 
 				classify3(treeBase, file, 0);
 			}
-
 		}
-
-
 
 		/// <summary>
 		/// classify each sheet file against the list of all<br/>
@@ -371,7 +549,7 @@ namespace AndyShared.MergeSupport
 					{
 					#if SHOW
 						Debug.WriteLine("\t\t".Repeat(depth) + "\tClassifying| check children");
-						#endif
+					#endif
 
 						localMatchFlag = classify2(childNode, sheetFilePath, depth + 1);
 					}
@@ -384,7 +562,7 @@ namespace AndyShared.MergeSupport
 						// Debug.WriteLine("\t\t".Repeat(depth) + "\t\tClassifying| ************************");
 					#endif
 
-						lock(mergeTreeLocks[childNode.ChildrenCollectLockIdx])
+						lock (mergeTreeLocks[childNode.ChildrenCollectLockIdx])
 						{
 							lock (mergeTreeLocks[childNode.Item.MergeItemLockIdx])
 							{
@@ -392,9 +570,8 @@ namespace AndyShared.MergeSupport
 								childNode.Item.MergeItems.Add(mi);
 							}
 						}
-
 					}
-					
+
 					// now categorized
 					matchFlag = true;
 				}
@@ -423,201 +600,8 @@ namespace AndyShared.MergeSupport
 			// else return false
 			return matchFlag;
 		}
-		
+		*/
 
-
-		private void processFiles()
-		{
-			int fileCount = 0;
-			string msg;
-
-			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
-			{
-				// msg = "Processing file| " + fileCount.ToString("000");
-				// ((IProgress<string>) pbString)?.Report(msg);
-				((IProgress<double>) pbDouble)?.Report(fileCount++);
-
-				Thread.Sleep(10);
-
-				// Debug.WriteLine("*** Processing| " + file.FileNameObject.SheetID);
-				// raise an event when the file being process changes - allow the
-				// parent to do something if needed
-				RaiseOnFileChangeEvent(new FileChangeEventArgs(file));
-
-				if (usePhBldg)
-				{
-					if ((!file.FileNameObject.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
-					{
-						if (displayDebugMsgs)
-							toParentAnnounce.Announce("ignored file| " +
-								file.FileNameObject.SheetNumber + "\n");
-
-						addNonApplicableFile(file);
-						continue;
-					}
-				}
-
-				if (displayDebugMsgs)
-					toParentAnnounce.Announce("\nprocess file| " +
-						file.FileNameObject.SheetNumber + "\n");
-
-				classify2(treeBase, file, 0);
-			}
-
-		}
-
-
-
-		/// <summary>
-		/// classify each sheet file against the list of all<br/>
-		/// criteria from treebase down
-		/// </summary>
-		/// <param name="treeNode"></param>
-		/// <param name="sheetFilePath"></param>
-		/// <param name="depth"></param>
-		/// <returns></returns>
-		private bool classify2(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
-		{
-
-			bool localMatchFlag;
-			bool matchFlag = false;
-
-		#if SHOW
-			if (depth == 0) 
-			{
-				Debug.WriteLine("\n\n*** Classifying| " + sheetFilePath.FileNameObject.SheetID);
-				Debug.Write("\n");
-			}
-		#endif
-
-
-			// run through the tree and look for classify matches
-			foreach (TreeNode childNode in treeNode.Children)
-			{
-			#if SHOW
-				Debug.WriteLine("\t\t".Repeat(depth) + "Classifying against| " + childNode.Item.Title);
-			#endif
-
-				CompareOperations.Depth = depth;
-
-				localMatchFlag = false;
-
-				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
-
-				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
-				{
-				#if SHOW
-					Debug.WriteLine("***"+"\t\t".Repeat(depth) + "\tClassifying| compare is| true");
-				#endif
-
-					if (childNode.HasChildren)
-					{
-					#if SHOW
-						Debug.WriteLine("\t\t".Repeat(depth) + "\tClassifying| check children");
-						#endif
-
-						localMatchFlag = classify2(childNode, sheetFilePath, depth + 1);
-					}
-
-					
-					if (!localMatchFlag)
-					{
-					#if SHOW
-						// Debug.WriteLine("\t\t".Repeat(depth) + "\t\tClassifying| ************************");
-						Debug.WriteLine("***" + "\t\t".Repeat(depth) + "\t\tClassifying| *** save merge item to| " + childNode.Item.Title);
-						// Debug.WriteLine("\t\t".Repeat(depth) + "\t\tClassifying| ************************");
-					#endif
-
-						MergeItem mi = new MergeItem(0, sheetFilePath);
-						childNode.Item.MergeItems.Add(mi);
-						childNode.Item.UpdateMergeProperties();
-					}
-					
-					// now categorized
-					matchFlag = true;
-				}
-			}
-
-			// worst case, at depth zero and not matchflag is false
-			if (!matchFlag && depth == 0)
-			{
-			#if SHOW
-				Debug.WriteLine("***" + "\t\t".Repeat(depth) + "\t\tClassifying| *** save merge item to PARENT| " + treeNode.Item.Title);
-			#endif
-				MergeItem mi = new MergeItem(0, sheetFilePath);
-				treeNode.Item.MergeItems.Add(mi);
-				treeNode.Item.UpdateMergeProperties();
-				
-				matchFlag = true;
-			}
-
-			// return true when categorized
-			// else return false
-			return matchFlag;
-		}
-		
-
-		/// <summary>
-		/// classify each sheet file against the list of all<br/>
-		/// criteria from treebase down
-		/// </summary>
-		/// <param name="treeNode"></param>
-		/// <param name="sheetFilePath"></param>
-		/// <param name="depth"></param>
-		/// <returns></returns>
-		private bool classify(TreeNode treeNode, 
-			FilePath<FileNameSheetPdf> sheetFilePath, int depth)
-		{
-			bool matchFlag = false;
-
-			if (displayDebugMsgs)
-				toParentAnnounce.Announce("classifying|\n");
-
-			// run through the tree and look for classify matches
-			foreach (TreeNode childNode in treeNode.Children)
-			{
-				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
-				// set flag = false;
-				// scan through each node and determine if the sheetfile matches one of the nodes rules
-				// if it matches:
-				//    if there are no children treenodes, set matchflag = false
-				//    if there are children, scan the next level
-				//        if the next level returns true, sheetfile was classified in a lower level, set flag = return value == true
-				//        if the next level return false (this will not happen)
-				//
-				// if flag = false, it does not match, add to this level's sheet category.mergeitems / return true (was classified)
-
-				// does the current sheetfile match the current
-				// if sheetfile matches childclassfnode.sheetcategory.compareops
-
-				if (CompareOperations.Compare(sheetFilePath.FileNameObject[depth], childNode.Item.CompareOps))
-				{
-					matchFlag = classify(childNode, sheetFilePath, depth + 1);
-
-					break;
-				}
-			}
-
-			// if match flag is already true, do not do the following
-			// which will return true
-			// else, do the following which will also cause true to be returned
-			// false cannot be returned
-			if (!matchFlag)
-			{
-				if (displayDebugMsgs)
-					toParentAnnounce.Announce("adding to| " + 
-						treeNode.Item.Title + "\n\n");
-
-				MergeItem mi = new MergeItem(0, sheetFilePath);
-
-				treeNode.Item.MergeItems.Add(mi);
-				treeNode.Item.UpdateMergeProperties();
-				// treeNode.UpdateProperties();
-
-				matchFlag = true;
-			}
-			return matchFlag;
-		}
 
 		private void addNonApplicableFile(FilePath<FileNameSheetPdf> file)
 		{
@@ -627,10 +611,10 @@ namespace AndyShared.MergeSupport
 			{
 				nonApplicableFiles.Add(phBld, new List<FilePath<FileNameSheetPdf>>());
 			}
-			
+
 			nonApplicableFiles[phBld].Add(file);
 		}
-		
+
 		private int countIgnoredFiles()
 		{
 			int count = 0;
@@ -684,7 +668,6 @@ namespace AndyShared.MergeSupport
 			return sb.Length > 0 ? sb.ToString() : null;
 		}
 
-
 		private	IEnumerable<MergeItem> GetNtMergeItem(TreeNode node)
 		{
 			if (node.ExtItemCountLast == 0) yield return null;
@@ -708,7 +691,6 @@ namespace AndyShared.MergeSupport
 							yield return mergeItem;
 						}
 					}
-
 				}
 			}
 
@@ -738,7 +720,6 @@ namespace AndyShared.MergeSupport
 			yield return null;
 		}
 
-
 	#endregion
 
 	#region event consuming
@@ -750,7 +731,6 @@ namespace AndyShared.MergeSupport
 			toParentAnnounce.Announce("got announcement| " +
 				(displayDebugMsgs ? "display debug messages\n" : "do not display debug messages\n"));
 		}
-
 
 	#endregion
 
@@ -791,7 +771,7 @@ namespace AndyShared.MergeSupport
 			{
 				if (mi != null) yield return mi;
 			}
-		
+
 			yield break;
 		}
 

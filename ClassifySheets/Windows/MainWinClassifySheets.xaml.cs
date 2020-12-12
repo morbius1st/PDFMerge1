@@ -352,10 +352,10 @@ namespace ClassifySheets.Windows
 		{
 			Thread.Sleep(300);
 
-			await WinStart();
+			await WinStartAsync();
 		}
 
-		private async Task WinStart()
+		private async Task WinStartAsync()
 		{
 			Tbx1Message = "Building is| " + testFileList.Building + "\n\n";
 			Tbx2Message = "";
@@ -635,9 +635,7 @@ namespace ClassifySheets.Windows
 		// 	await Task.Run(enumerateMergeNodes);
 		// }
 
-#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-		private async Task enumerateMergeNodes()
-#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+		private void enumerateMergeNodes()
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
@@ -923,14 +921,10 @@ namespace ClassifySheets.Windows
 			Tbx2Message = "";
 			tbx2Message += classify.FormatMergeList(BaseOfTree);
 			tbx2Message += "\n\n\n";
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 			await Task.Run(() => { enumerateMergeItems(); } );
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 
 			Tbx2Message += "\n";
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 			await Task.Run(() => { enumerateMergeNodes(); } );
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
 		}
 
 		// classify the data
