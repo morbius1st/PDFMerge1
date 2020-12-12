@@ -78,14 +78,6 @@
 			<!-- 	<Setter Property="Foreground" Value="White" /> -->
 			<!-- </Style> -->
 
-			<Style x:Key="Button.Base" TargetType="Button">
-				<Setter Property="Margin" Value="5,0,0,0"/>
-				<Setter Property="Padding" Value="0"/>
-				<Setter Property="Height" Value="35"/>
-				<Setter Property="Width" Value="90"/>
-			</Style>
-
-
 			<Style x:Key="Label.Settings.Title"
 					TargetType="Label"
 					BasedOn="{StaticResource Label.Base}"
@@ -781,48 +773,69 @@
 
 			<Button x:Name="BtnDebug"
 					Content="Debug"
-					Style="{StaticResource Button.Base}"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					Style="{StaticResource Button.Normal.Style}"
 					Click="BtnDebug_OnClick"
+					/>
+
+			<Button x:Name="BtnClassify"
+					Content="Classify"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information.  Similar to 'go'&#10;but does a bit less"
+					Style="{StaticResource Button.Normal.Style}"
+					Click="BtnClassify_OnClick"
 					/>
 
 			<Button x:Name="BtnListBase"
 					Content="List Base"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
 					ToolTip="List the contents of TreeBase&#10;Routine is in Classify.cs"
-					Style="{StaticResource Button.Base}"
+					Style="{StaticResource Button.Normal.Style}"
 					Click="BtnListBase_OnClick"
-					/>
-
-			<Button x:Name="BtnShow"
-					Content="Show/List"
-					ToolTip="Show various listings&#10;of the information"
-					Style="{StaticResource Button.Base}"
-					Click="BtnShow_OnClick"
 					/>
 
 			<Button x:Name="BtnProgress"
 					Content="Progress"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
 					ToolTip="Run a series of test&#10;routines.  Run them&#10;async and not async"
-					Style="{StaticResource Button.Base}"
+					Style="{StaticResource Button.Normal.Style}"
 					Click="BtnProgress_OnClick"
 					/>
 
-			<Button x:Name="BtnClassify"
-					Content="Classify /&#10;Test Lite"
-					ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information.  Similar to 'go'&#10;but does a bit less"
-					Style="{StaticResource Button.Base}"
-					Click="BtnClassify_OnClick"
+			<Button x:Name="BtnShow"
+					Content="Show"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					ToolTip="Show various listings&#10;of the information"
+					Style="{StaticResource Button.Normal.Style}"
+					Click="BtnShow_OnClick"
 					/>
 
 			<Button x:Name="BtnGo"
-					Content="Go / Test"
+					Content="Go"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
 					ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information"
-					Style="{StaticResource Button.Base}"
+					Style="{StaticResource Button.Normal.Style}"
 					Click="BtnGo_OnClick"
 					/>
 
 			<Button x:Name="BtnExit"
 					Content="Exit"
-					Style="{StaticResource Button.Base}"
+					Margin="5,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					Style="{StaticResource Button.Normal.Style}"
 					Click="BtnExit_OnClick"
 					/>
 		</StackPanel>

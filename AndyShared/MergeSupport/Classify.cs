@@ -222,6 +222,7 @@ namespace AndyShared.MergeSupport
 		}
 
 
+
 		// go thorugh the whole tree and prep for a new set of merge items
 		// 1. reset the merge items collection
 		// 2. create a collection lock

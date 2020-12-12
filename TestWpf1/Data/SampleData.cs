@@ -24,19 +24,12 @@ namespace TestWpf1.Data
 
 	public class SampleData
 	{
-
-	#region fields
-
 		private static int maxNodes = 15;
 		private static int maxDepth = 3;
 
-		private int[] items;
-		private int[] order;
-		private int[] test;
+		public static BaseOfTree Root { get; set; }  = new BaseOfTree("Root of Tree");
 
-	#endregion
-
-	#region ctor
+		public BaseOfTree TreeRoot { get; set; } = new BaseOfTree("Tree Root");
 
 		static SampleData()
 		{
@@ -51,26 +44,6 @@ namespace TestWpf1.Data
 			SampleInfo(TreeRoot);
 		}
 
-	#endregion
-
-	#region public properties
-
-		public static BaseOfTree Root { get; set; }  = new BaseOfTree("Root of Tree");
-
-		public BaseOfTree TreeRoot { get; set; } = new BaseOfTree("Tree Root");
-
-		public int[] TestItems => this.test;
-
-	#endregion
-
-		public int CreateTestArray(int count)
-		{
-			return createTestArray(count);
-		}
-
-
-	#region private methods
-
 		private static void SampleInfo(Node parent)
 		{
 			parent.ChildNodes = new ObservableCollection<Node>();
@@ -81,6 +54,7 @@ namespace TestWpf1.Data
 
 			sampleInfo(parent, 0, maxNodes);
 		}
+
 
 		private static void sampleInfo(Node parent, int depth, int numNodes)
 		{
@@ -121,45 +95,6 @@ namespace TestWpf1.Data
 			MainWinTestWpf1.me.TbxMessage = "Collection Changed| " + md.MergeName;
 		}
 
-		private int createTestArray(int qty)
-		{
-			items = new int[qty];
-			order = new int[qty];
-
-			Random rnd = new Random();
-
-			for (int i = 0; i < qty; i++)
-			{
-				items[i] = i;
-				order[i] = rnd.Next();
-			}
-
-			Array.Sort(order, items);
-
-			int amt = (1 * qty) / 4;
-
-			test = new int[amt];
-
-			for (int i = 0; i < amt; i++)
-			{
-				test[i] = items[i];
-			}
-
-			Array.Sort(test);
-
-			return amt;
-		}
-
-		private void listTest(int[] array)
-		{
-			Debug.WriteLine("*** array length | " + array.Length);
-			for (int i = 0; i < array.Length; i++)
-			{
-				Debug.WriteLine("index| " + i + " :: item number| " + array[i]);
-			}
-		}
-
-	#endregion
 
 	}
 }
