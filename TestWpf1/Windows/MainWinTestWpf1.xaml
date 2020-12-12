@@ -6,13 +6,16 @@
 		xmlns:data="clr-namespace:TestWpf1.Data"
 		xmlns:local="clr-namespace:TestWpf1.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		Title="MainWindow"
-		Width="800"
-		Height="450"
+		Width="1000"
+		Height="550"
 		DataContext="{Binding ElementName=mainWinTestWpf1}"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
->
+		>
+
+
 	<Window.Resources>
 
 		<Style x:Key="TreeViewItemFocusVisual">
@@ -26,6 +29,14 @@
 		</Style>
 
 
+		<x:Static x:Key="WAITING"
+				Member="local:PauseState.WAITING"
+				/>
+		<x:Static x:Key="RUNNING"
+				Member="local:PauseState.RUNNING"
+				/>
+
+
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="#FF595959" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="#FF262626" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
@@ -37,6 +48,69 @@
 				/>
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Fill" Color="#FFFFFFFF" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Stroke" Color="#FF818181" />
+
+
+
+		<Style x:Key="button.base"
+				TargetType="Button"
+				BasedOn="{StaticResource Button.Normal.Style}"
+				>
+			<Setter Property="Margin" Value="5,0,0,0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
+		</Style>
+
+		<Style x:Key="button.ok.on.waiting"
+				TargetType="Button"
+				BasedOn="{StaticResource button.base}"
+				>
+			<Setter Property="IsEnabled" Value="false" />
+			<Setter Property="Background" Value="LightCyan" />
+			<Style.Triggers>
+				<DataTrigger Value="{StaticResource WAITING}" Binding="{Binding PauseStateValue}">
+					<Setter Property="IsEnabled" Value="true" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="button.ok.on.not.waiting"
+				TargetType="Button"
+				BasedOn="{StaticResource button.base}"
+				>
+			<Setter Property="IsEnabled" Value="True" />
+			<Setter Property="Background" Value="LightBlue" />
+			<Style.Triggers>
+				<DataTrigger Value="{StaticResource WAITING}" Binding="{Binding PauseStateValue}">
+					<Setter Property="IsEnabled" Value="False" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="button.ok.on.running"
+				TargetType="Button"
+				BasedOn="{StaticResource button.base}"
+				>
+			<Setter Property="IsEnabled" Value="false" />
+			<Setter Property="Background" Value="LightPink" />
+			<Style.Triggers>
+				<DataTrigger Value="{StaticResource RUNNING}" Binding="{Binding PauseStateValue}">
+					<Setter Property="IsEnabled" Value="true" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="button.ok.on.not.running"
+				TargetType="Button"
+				BasedOn="{StaticResource button.base}"
+				>
+			<Setter Property="IsEnabled" Value="true" />
+			<Setter Property="Background" Value="LightGoldenrodYellow" />
+			<Style.Triggers>
+				<DataTrigger Value="{StaticResource RUNNING}" Binding="{Binding PauseStateValue}">
+					<Setter Property="IsEnabled" Value="false" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 
 
 		<Style x:Key="ExpandCollapseToggleStyle"
@@ -186,9 +260,9 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="7*" />
-			<ColumnDefinition Width="7*" />
-			<ColumnDefinition Width="4*" />
+			<ColumnDefinition Width="12*" />
+			<ColumnDefinition Width="12*" />
+			<ColumnDefinition Width="10*" />
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
@@ -200,7 +274,8 @@
 		<ProgressBar x:Name="Pb1"
 				Grid.Column="0"
 				Grid.Row="0"
-				Height="3"
+				Margin="0,0,18,0"
+				Height="2"
 				VerticalAlignment="Bottom"
 				Value="{Binding Pb1Value}"
 				Background="Transparent"
@@ -208,7 +283,17 @@
 				Maximum="{Binding Pb1MaxValue}"
 				/>
 
-
+		<ProgressBar x:Name="Pb2"
+				Grid.Column="1"
+				Grid.Row="0"
+				Margin="0,0,18,0"
+				Height="2"
+				VerticalAlignment="Bottom"
+				Value="{Binding Pb2Value}"
+				Background="Transparent"
+				BorderThickness="0"
+				Maximum="{Binding Pb2MaxValue}"
+				/>
 
 		<DockPanel
 				Grid.Column="0"
@@ -220,46 +305,57 @@
 
 			<Button x:Name="BtnDebug"
 					Content="Debug"
-					Margin="5,0,0,0"
 					Width="70"
 					Height="30"
-					VerticalAlignment="Bottom"
+					Style="{StaticResource button.ok.on.not.running}"
 					Click="BtnDebug_OnClick"
+					/>
+
+			<Button x:Name="BtnPauseResumeTask"
+					Content="{Binding PauseStateMessage}"
+					Width="70"
+					Height="30"
+					Style="{StaticResource button.ok.on.not.waiting}"
+					Click="BtnPauseResumeTask_OnClick"
+					/>
+
+			<Button x:Name="BtnCancelTask"
+					Content="Cancel Task"
+					Width="70"
+					Height="30"
+					Style="{StaticResource button.ok.on.running}"
+					Click="BtnCancelTask_OnClick"
 					/>
 
 			<Button x:Name="BtnTestProgress"
 					Content="Test ProgBar"
-					Margin="5,0,0,0"
 					Width="70"
 					Height="30"
-					VerticalAlignment="Bottom"
+					Style="{StaticResource button.ok.on.waiting}"
 					Click="BtnTestProgBar_OnClick"
 					/>
 
 			<Button x:Name="BtnClear"
 					Content="Clear"
-					Margin="5,0,0,0"
 					Width="70"
 					Height="30"
-					VerticalAlignment="Bottom"
+					Style="{StaticResource button.ok.on.waiting}"
 					Click="BtnClear_OnClick"
 					/>
 
 			<Button x:Name="BtnCount"
 					Content="Count"
-					Margin="5,0,0,0"
 					Width="70"
 					Height="30"
-					VerticalAlignment="Bottom"
+					Style="{StaticResource button.ok.on.not.running}"
 					Click="BtnCount_OnClick"
 					/>
 
 			<Button x:Name="BtnTest"
 					Content="Test"
-					Margin="5,0,0,0"
 					Width="70"
 					Height="30"
-					VerticalAlignment="Bottom"
+					Style="{StaticResource button.ok.on.waiting}"
 					Click="BtnTest_OnClick"
 					/>
 
@@ -272,6 +368,49 @@
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
 				>
+
+			<StackPanel
+					DockPanel.Dock="Top"
+					Orientation="Horizontal"
+					>
+				<Label
+						Content="Task Status"
+						Margin="0"
+						Width="120"
+						Padding="0"
+						Foreground="White"
+						/>
+				<Label
+						Content="{Binding Path=ProcessStatus,
+															Mode=OneWay,
+															TargetNullValue='n/a',
+															FallbackValue='0'}"
+						Margin="0,0,0,0"
+						Padding="0"
+						Foreground="White"
+						/>
+			</StackPanel>
+
+			<StackPanel
+					DockPanel.Dock="Top"
+					Orientation="Horizontal"
+					>
+				<Label
+						Content="Pause Status Value"
+						Margin="0"
+						Width="120"
+						Padding="0"
+						Foreground="White"
+						/>
+				<Label
+						Content="{Binding Path=PauseStateValue,
+															Mode=OneWay,
+															FallbackValue='0'}"
+						Margin="0,0,0,0"
+						Padding="0"
+						Foreground="White"
+						/>
+			</StackPanel>
 
 			<StackPanel
 					DockPanel.Dock="Top"
@@ -336,9 +475,7 @@
 						/>
 			</StackPanel>
 
-
 		</DockPanel>
-
 
 		<TextBox x:Name="Tbx1"
 				Grid.Column="1"
@@ -347,6 +484,7 @@
 				Foreground="White"
 				Text="{Binding TbxMessage,
 											 Mode=OneWay}"
+				VerticalScrollBarVisibility="Visible"
 				/>
 
 
@@ -358,6 +496,7 @@
 				d:DataContext="{Binding Source={x:Static local:MainWinTestWpf1.Sd},
 																Path=Root}"
 				Background="Transparent"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				ItemContainerStyle="{StaticResource TreeViewItemStyle1}"
 				ItemsSource="{Binding Path=ChildNodes}"
 				>
@@ -476,9 +615,6 @@
 							</DockPanel.Style>
 
 						</DockPanel>
-
-
-
 
 					</DockPanel>
 				</HierarchicalDataTemplate>

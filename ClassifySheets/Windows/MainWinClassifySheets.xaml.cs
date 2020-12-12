@@ -842,8 +842,6 @@ namespace ClassifySheets.Windows
 			Pb2Value = 0;
 			Pb2MaximumValue = 98;
 
-			
-
 			classify.Configure(BaseOfTree, TestFileList);
 			classify.ConfigureAsyncReporting(p2Double2); // , p2String);
 			classify.Process();
@@ -936,7 +934,7 @@ namespace ClassifySheets.Windows
 		}
 
 		// classify the data
-		private async void BtnGo_OnClick(object sender, RoutedEventArgs e)
+		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx1Message = "";
 			Tbx2Message = "";

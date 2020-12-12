@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
@@ -27,213 +28,107 @@ namespace TestWpf1.Adjust
 	public class AdjustMergeItems
 	{
 		private IProgress<double> pb1ProgressDbl;
-
-		private int[] items;
-		private int[] order;
-		private int[] test;
+		private IProgress<double> pb2ProgressDbl;
 
 		private List<object> lockList = new List<object>();
 
 		private int testIdx = 0;
 		private int itemIdx = 0;
 
+		private CancellationToken cancelToken;
 
 		private SampleData sd;
 
-		public async void testPbUpdate(IProgress<double> pb1Double, double max)
-		{
-			pb1ProgressDbl = pb1Double;
+		private bool pauseTask;
 
-			await Task.Run(
-				() =>
-				{
-					tstPb(max);
-				});
+	#region public methods
+
+		public bool PauseTask(bool pause)
+		{
+			if (MainWinTestWpf1.me.ProcessStatus != TaskStatus.Running) return false;
+
+			pb2ProgressDbl.Report(0);
+
+			pauseTask = pause;
+
+			return true;
 		}
 
-		private void tstPb(double max)
+		public int Configure(SampleData sdx,
+			IProgress<double> pb1Dbl,
+			IProgress<double> pb2Dbl)
 		{
-			for (double i = 0; i < max; i++)
-			{
-				Thread.Sleep(50);
-				pb1ProgressDbl.Report(i + 1);
-			}
+			pb1ProgressDbl = pb1Dbl;
+			pb2ProgressDbl = pb2Dbl;
+
+			sd = sdx;
+
+			sd.TreeRoot.exCount();
+
+			// return createTestArray(sd.TreeRoot.ExtCount);
+
+			return sd.CreateTestArray(sd.TreeRoot.ExtCount);
 		}
 
-		public int Configure(SampleData sd, IProgress<double> pb1Double)
+		public void PreProcess(Node parent)
 		{
-			this.pb1ProgressDbl = pb1Double;
+			testIdx = 0;
+			itemIdx = 0;
 
-			this.sd = sd;
-
-			this.sd.TreeRoot.exCount();
-			int qty = createTestArray(this.sd.TreeRoot.ExtCount);
-
-			return qty;
+			preProcess(parent);
 		}
 
-		public void Process(Thread t)
+		public void Process(CancellationToken cancelToken)
 		{
-			// Thread.CurrentThread.IsBackground = false;
+			Thread.CurrentThread.Name = "ProcessAsync";
+
+			this.cancelToken = cancelToken;
+
+			MainWinTestWpf1.me.UpdateProcessStatus();
 
 			MainWinTestWpf1.me.TbxMessage = "Process started\n";
-			MainWinTestWpf1.me.AppendMsgLine("thread id| "
+			MainWinTestWpf1.me.AppendMsgLine("thread curr id| "
 				+ Thread.CurrentThread.ManagedThreadId);
 
-			MainWinTestWpf1.me.AppendMsgLine("thread main| " + 
-				t.ThreadState.ToString());
-			MainWinTestWpf1.me.AppendMsgLine("thread curr| " + 
+			MainWinTestWpf1.me.AppendMsgLine("thread curr state| " +
 				Thread.CurrentThread.ThreadState.ToString());
 
 			sd.TreeRoot.ExtData.MergeInfo = null;
 			sd.TreeRoot.ExtData.ToBeProcessed = false;
-
-			// testIdx = 0;
-
-			// Debug.WriteLine("*** pre-processing| ***");
-			// preProcess(sd.TreeRoot);
 
 			testIdx = 0;
 			itemIdx = 0;
 
 			Debug.WriteLine("*** process tree| ***");
 
-			// await Task.Run(() => { processTree(sd.TreeRoot); });
+
 			processTree2(sd.TreeRoot);
-
-			MainWinTestWpf1.me.TbxMessage = "Process ended\n";
 		}
 
-		
-		private void processTree2(Node node)
-		{
-			int qty ; //= 3;
+	#endregion
 
-			foreach (Node child in node.ChildNodes)
-			{
-				// Debug.WriteLine("processing child| " + child.Name + " :: " + child.Number + " (" + testIdx + ")");
+	#region private methods
 
-				// if (testIdx >= test.Length) break;
-
-				if (child.ExtData.ToBeProcessed)
-				{
-					// Debug.WriteLine("processing| item index" + itemIdx + "  (" + child.Number + ")");
-
-					qty = child.Number % 10;
-
-					// await Task.Run(() => { adj(child, qty); });
-					// adjust(child, qty);
-					adj2(child, qty);
-
-					itemIdx++;
-				}
-
-				testIdx++;
-
-				if (child.Count > 0) processTree2(child);
-
-			}
-		}
-		
-		private void adj2(Node child, int qty)
-		{
-			pb1ProgressDbl.Report(itemIdx);
-
-			Debug.WriteLine("adjusting| " + child.Name + "  (" + child.Number);
-
-			object loc = lockList[child.ExtData.LockIdx];
-
-			lock (loc)
-			{
-				for (int i = 0; i < qty; i++)
-				{
-					MergeData md = new MergeData("MergeData");
-					child.ExtData.MergeInfo.Add(md);
-
-					Thread.Sleep(10);
-				}
-			}
-
-			child.ExtData.UpdateProperties();
-		}
-
-
-		private void processTree1(Node node)
-		{
-			int qty ; //= 3;
-
-			foreach (Node child in node.ChildNodes)
-			{
-				Debug.WriteLine("processing child| " + child.Name + " :: " + child.Number);
-
-				if (testIdx >= test.Length) break;
-
-				if (child.ExtData.ToBeProcessed)
-				{
-					Debug.WriteLine("processing| " + testIdx + "  (" + test[testIdx] + ")");
-
-					qty = test[testIdx] % 10;
-
-					// await Task.Run(() => { adj(child, qty); });
-					adjust(child, qty);
-
-					testIdx++;
-				}
-
-				if (child.Count > 0) processTree1(child);
-			}
-		}
-
-		private async void adjust(Node child, int qty)
-		{
-			await Task.Run(
-				() => { adj(child, qty); });
-		}
-
-		private void adj(Node child, int qty)
-		{
-			pb1ProgressDbl.Report(testIdx);
-
-			Debug.WriteLine("adjusting| " + testIdx + "  (" + test[testIdx]);
-
-			object loc = lockList[child.ExtData.LockIdx];
-
-			lock (loc)
-			{
-				for (int i = 0; i < qty; i++)
-				{
-					MergeData md = new MergeData("MergeData");
-					child.ExtData.MergeInfo.Add(md);
-
-					// Thread.Sleep(20);
-				}
-			}
-
-			child.ExtData.UpdateProperties();
-		}
-
-
-
-		public void preProcess(Node parent)
+		private void preProcess(Node parent)
 		{
 			foreach (Node child in parent.ChildNodes)
 			{
 				Debug.WriteLine("pre processing child| " + child.Name + " :: " + child.Number);
 
-				if (testIdx >= test.Length)
+				if (testIdx >= sd.TestItems.Length)
 				{
 					Debug.WriteLine("pre processing child| break ***");
 					break;
 				}
-				// if (testIdx > 10) break;
 
-				// if (true)
-				if (child.Number == test[testIdx])
+				if (child.Number == sd.TestItems[testIdx])
 				{
-					Debug.WriteLine("pre processing| " + testIdx + "  (" + test[testIdx] + ")");
+					Debug.WriteLine("pre processing| " + testIdx + "  (" + sd.TestItems[testIdx] + ")");
 
 					child.ExtData.ToBeProcessed = true;
 					child.ExtData.MergeInfo = new ObservableCollection<MergeData>();
+					child.ExtData.MergeInfo.CollectionChanged += MergeInfo_CollectionChanged;
+					
 
 					child.ExtData.LockIdx = lockList.Count;
 
@@ -255,42 +150,83 @@ namespace TestWpf1.Adjust
 			}
 		}
 
-		private int createTestArray(int qty)
+		private void processTree2(Node node)
 		{
-			items = new int[qty];
-			order = new int[qty];
+			int qty;
 
-			Random rnd = new Random();
-
-			for (int i = 0; i < qty; i++)
+			foreach (Node child in node.ChildNodes)
 			{
-				items[i] = i;
-				order[i] = rnd.Next();
+				MainWinTestWpf1.me.UpdateProcessStatus();
+
+				if (cancelToken.IsCancellationRequested)
+				{
+					MainWinTestWpf1.me.AppendMsgLine("preoceetree2| cancel requested");
+					break;
+				}
+
+				if (pauseTask) pause();
+
+				if (child.ExtData.ToBeProcessed)
+				{
+					qty = child.Number % 10;
+
+					modify(child, qty);
+
+					itemIdx++;
+				}
+
+				testIdx++;
+
+				if (child.Count > 0) processTree2(child);
 			}
-
-			Array.Sort(order, items);
-
-			int amt = (1 * qty) / 4;
-
-			test = new int[amt];
-
-			for (int i = 0; i < amt; i++)
-			{
-				test[i] = items[i];
-			}
-
-			Array.Sort(test);
-
-			return amt;
 		}
 
-		private void listTest(int[] array)
+		private void modify(Node child, int qty)
 		{
-			Debug.WriteLine("*** array length | " + array.Length);
-			for (int i = 0; i < array.Length; i++)
+			pb1ProgressDbl.Report(itemIdx);
+
+			Debug.WriteLine("adjusting| " + child.Name + "  (" + child.Number + ")" + "  (" + itemIdx + ")");
+
+			object loc = lockList[child.ExtData.LockIdx];
+
+			lock (loc)
 			{
-				Debug.WriteLine("index| " + i + " :: item number| " + array[i]);
+				for (int i = 0; i < qty; i++)
+				{
+					MergeData md = new MergeData("MergeData");
+					child.ExtData.MergeInfo.Add(md);
+
+					Thread.Sleep(10);
+				}
+			}
+
+			child.ExtData.UpdateProperties();
+		}
+
+		private void pause()
+		{
+			double i = MainWinTestWpf1.me.Pb2MaxValue;
+
+			while (pauseTask)
+			{
+				pb2ProgressDbl.Report(i);
+
+				Thread.Sleep(500);
+
+				if (--i < 0 ) break;
 			}
 		}
+
+	#endregion
+
+	#region event consuming
+
+		private void MergeInfo_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			Debug.WriteLine("collection changed| " + e.Action.ToString());
+		}
+
+	#endregion
+
 	}
 }

@@ -21,12 +21,24 @@ using TestWpf1.Data;
 
 namespace TestWpf1.Windows
 {
+	
+	public enum PauseState
+	{
+		WAITING,
+		RUNNING,
+		PAUSED
+	}
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWinTestWpf1 : Window, INotifyPropertyChanged
 	{
 	#region private fields
+
+		private string[] pauseStateMsg = new [] {"Waiting", "Pause", "Resume"};
+
+		private PauseState pauseState;
 
 		private int testCount;
 
@@ -35,10 +47,17 @@ namespace TestWpf1.Windows
 
 		private double pb1Value;
 		private double pb1MaxValue;
-
 		private Progress<double> pb1Double;
+		
+		private double pb2Value;
+		private double pb2MaxValue;
+		private Progress<double> pb2Double;
 
-		public delegate void pbxTest();
+		private Task task;
+
+		private CancellationTokenSource cancelToken;
+
+		private AdjustMergeItems adj;
 
 	#endregion
 
@@ -50,11 +69,19 @@ namespace TestWpf1.Windows
 
 			me = this;
 
-			// pb1Double = new Progress<double>(value => Pb1Value = value);
-			pb1Double = new Progress<double>(value => Pb1.Value = value);
+			adj = new AdjustMergeItems();
 
 			Pb1Value = 0;
 			Pb1MaxValue = 100;
+			pb1Double = new Progress<double>(value => Pb1.Value = value);
+
+			Pb2Value = 0;
+			Pb2MaxValue = 100;
+			pb2Double = new Progress<double>(value => Pb2.Value = value);
+
+			PauseStateValue = PauseState.WAITING;
+
+			UpdateProcessStatus();
 		}
 
 	#endregion
@@ -107,6 +134,45 @@ namespace TestWpf1.Windows
 			}
 		}
 
+		public double Pb2Value
+		{
+			get => pb2Value;
+			set
+			{
+				pb2Value = value;
+				OnPropertyChange();
+			}
+		}
+
+		public double Pb2MaxValue
+		{
+			get => pb2MaxValue;
+			set
+			{
+				pb2MaxValue = value;
+				OnPropertyChange();
+			}
+		}
+
+		public TaskStatus? ProcessStatus => task?.Status ?? null;
+
+		public string PauseStateMessage => pauseStateMsg[(int) pauseState];
+
+		public PauseState PauseStateValue
+		{
+			get => pauseState;
+			set
+			{
+				if (value == pauseState) return;
+				if (value < PauseState.WAITING || value > PauseState.PAUSED) return;
+
+				pauseState = value;
+
+				OnPropertyChange();
+				OnPropertyChange("PauseStateMessage");
+			}
+		}
+
 	#endregion
 
 	#region private properties
@@ -133,11 +199,37 @@ namespace TestWpf1.Windows
 			OnPropertyChange("TbxMessage");
 		}
 
+		public void UpdateProcessStatus()
+		{
+			OnPropertyChange("ProcessStatus");
+		}
+
 	#endregion
 
 	#region private methods
 
-		private void UpdateCounts()
+		private void clear()
+		{
+			PauseStateValue = PauseState.WAITING;
+
+			Pb1Value = 0;
+			Pb1MaxValue = 100;
+			
+			Pb2Value = 0;
+			Pb2MaxValue = 100;
+
+			SetMsg("");
+
+			Sd.TreeRoot.ClrMergeItems();
+			updateCounts();
+
+			task.Dispose();
+			task = null;
+
+			UpdateProcessStatus();
+		}
+
+		private void updateCounts()
 		{
 			Sd.TreeRoot.exCount();
 			Sd.TreeRoot.exMergeCount();
@@ -146,7 +238,7 @@ namespace TestWpf1.Windows
 			OnPropertyChange("ExtendedMergeCount");
 		}
 
-		private async void testPb1()
+		private async void testPb1Async()
 		{
 			Pb1Value = 0;
 			Pb1MaxValue = 100;
@@ -165,25 +257,88 @@ namespace TestWpf1.Windows
 			}
 		}
 
-		private void testPb2()
+		private async void modifyAsync()
 		{
-			AdjustMergeItems adj = new AdjustMergeItems();
+			TestCount = adj.Configure(Sd, pb1Double, pb2Double);
+
+			TbxMessage = "Pre-process started\n";
+
+			adj.PreProcess(Sd.TreeRoot);
+
+			TbxMessage = "Process started\n";
+			AppendMsgLine("thread main id| " +
+				Thread.CurrentThread.ManagedThreadId);
+			AppendMsgLine("thread main state| " +
+				Thread.CurrentThread.ThreadState.ToString());
 
 			Pb1Value = 0;
-			Pb1MaxValue = 100;
+			Pb1MaxValue = testCount;
 
-			adj.testPbUpdate(pb1Double, Pb1MaxValue);
+			cancelToken = new CancellationTokenSource();
+
+			CancellationToken ct = cancelToken.Token;
+
+			task = Task.Run(() => { adj.Process(ct); }, ct);
+			
+			PauseStateValue = PauseState.RUNNING;
+
+			UpdateProcessStatus();
+
+			await task;
+
+			taskComplete();
+
+			UpdateProcessStatus();
+
+			PauseStateValue = PauseState.WAITING;
+
+			TbxMessage = "Test complete\n";
+			AppendMsgLine("thread main state| " +
+				Thread.CurrentThread.ThreadState.ToString());
+		}
+
+		private void taskComplete()
+		{
+			TbxMessage = "task completed\n";
+
+			if (cancelToken.IsCancellationRequested)
+			{
+				AppendMsgLine("task complete| task cancel requested");
+			}
+			else
+			{
+				updateCounts();
+			}
 		}
 
 	#endregion
 
 	#region event consuming
 
+		private void BtnCancelTask_OnClick(object sender, RoutedEventArgs e)
+		{
+			cancelToken.Cancel();
+		}
+
+		private void BtnPauseResumeTask_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (PauseStateValue == PauseState.RUNNING)
+			{
+				if (!adj.PauseTask(true)) return;
+
+				PauseStateValue = PauseState.PAUSED;
+			}
+			else
+			{
+				if (!adj.PauseTask(false)) return;
+
+				PauseStateValue = PauseState.RUNNING;
+			}
+		}
+
 		private void BtnTestProgBar_OnClick(object sender, RoutedEventArgs e)
 		{
-			testPb1();
-
-			// testPb2();
+			testPb1Async();
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
@@ -193,50 +348,23 @@ namespace TestWpf1.Windows
 			Debug.WriteLine("@debug");
 		}
 
-
 		private void BtnClear_OnClick(object sender, RoutedEventArgs e)
 		{
-			Pb1Value = 0;
-			Pb1MaxValue = 100;
-
-			SetMsg("");
-
-			Sd.TreeRoot.ClrMergeItems();
-			UpdateCounts();
+			clear();
 		}
 
 		private void BtnCount_OnClick(object sender, RoutedEventArgs e)
 		{
-			UpdateCounts();
+			updateCounts();
 		}
 
-		private async void BtnTest_OnClick(object sender, RoutedEventArgs e)
+		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
 		{
-			AdjustMergeItems adj = new AdjustMergeItems();
+			TbxMessage = "btn test started\n";
 
-			TestCount = adj.Configure(Sd, pb1Double);
+			modifyAsync();
 
-			Pb1Value = 0;
-			Pb1MaxValue = testCount;
-
-			MainWinTestWpf1.me.TbxMessage = "Pre-process started\n";
-
-			adj.preProcess(Sd.TreeRoot);
-
-			MainWinTestWpf1.me.TbxMessage = "Process started\n";
-			MainWinTestWpf1.me.AppendMsgLine("thread id| " +
-				Thread.CurrentThread.ManagedThreadId);
-			MainWinTestWpf1.me.AppendMsgLine("thread main| " + 
-				Thread.CurrentThread.ThreadState.ToString());
-			
-			await Task.Run(() => { adj.Process(Thread.CurrentThread); } );
-			// adj.Process();
-
-			MainWinTestWpf1.me.TbxMessage = "Test complete\n";
-			MainWinTestWpf1.me.AppendMsgLine("thread main| " + 
-				Thread.CurrentThread.ThreadState.ToString());
-
-			UpdateCounts();
+			TbxMessage = "btn test complete\n";
 		}
 
 	#endregion
@@ -268,4 +396,5 @@ namespace TestWpf1.Windows
 
 	#endregion
 	}
+
 }

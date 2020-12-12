@@ -18,6 +18,8 @@ namespace TestWpf1.Data
 {
 	public class Node : INotifyPropertyChanged
 	{
+	#region fields
+
 		public static int masterNumber = 0;
 
 		private ObservableCollection<Node> childNodes;
@@ -29,11 +31,19 @@ namespace TestWpf1.Data
 		protected int extCount;
 		protected int extMergeCount;
 
+	#endregion
+
+	#region ctor
+
 		public Node(string name)
 		{
 			number = masterNumber++;
 			this.name = name + number.ToString(" 000");
 		}
+
+	#endregion
+
+	#region public methods
 
 		public ObservableCollection<Node> ChildNodes
 		{
@@ -94,6 +104,10 @@ namespace TestWpf1.Data
 
 		public int MergeCount => extData.MergeCount;
 
+	#endregion
+
+	#region public methods
+
 		public int exCount()
 		{
 			int count = childNodes?.Count ?? 0;
@@ -146,6 +160,10 @@ namespace TestWpf1.Data
 			OnPropertyChange("ExtMergeCount");
 		}
 
+	#endregion
+
+	#region event publishing
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
@@ -153,10 +171,16 @@ namespace TestWpf1.Data
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
+	#endregion
+
+	#region system overrides
+
 		public override string ToString()
 		{
 			return "This is Node| " + name;
 		}
+
+	#endregion
 	}
 
 	public class BaseOfTree : Node
