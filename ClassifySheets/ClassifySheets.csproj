@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Windows\Support\ProgressBarManager.cs" />
     <Page Include="..\AndyResources\XamlResources\Andy.xaml">
       <Link>Windows\ResourceFiles\XamlResources\Andy.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -177,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
-    <Folder Include="Windows\Support\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

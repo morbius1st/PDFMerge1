@@ -30,7 +30,6 @@ namespace TestWpf2.Data
 		{
 			extNumber = masterExtNumber++;
 			extName = name + extNumber.ToString(" 000");
-			ToBeProcessed = false;
 		}
 
 		public int LockIdx
@@ -75,8 +74,6 @@ namespace TestWpf2.Data
 		{
 			OnPropertyChange("MergeCount");
 		}
-
-		public bool ToBeProcessed { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using UtilityLibrary;
 using AndyShared.MergeSupport;
 using AndyShared.ClassificationDataSupport.TreeSupport;
@@ -75,6 +76,32 @@ namespace ClassifySheets.Windows
 		private Progress<string> p2String;
 		private Progress<string> p2msg;
 
+		private double pbProgVal;
+		private Progress<double> pbProgValue;
+
+
+
+		private SolidColorBrush[] timerFgBrushes = new []{Brushes.SpringGreen, 
+			Brushes.Yellow, Brushes.DarkOrange, Brushes.Red};
+
+		private PbTimerColorEnum pbTimerIndex = PbTimerColorEnum.GREEN;
+
+		private double pbTimerMax;
+		private double pbTimerVal;
+		private double pb2BrkPt1;
+		private double pb2BrkPt2;
+		private double pb2BrkPt3;
+
+		private Progress<double> pbTimerValue;
+
+		public enum PbTimerColorEnum
+		{
+			GREEN = 0,
+			YELLOW = 1,
+			ORANGE = 2,
+			RED = 3
+		}
+
 	#endregion
 
 	#region ctor
@@ -98,6 +125,9 @@ namespace ClassifySheets.Windows
 			p2Double2 = new Progress<double>(value => Pb2Value = value);
 			p2String = new Progress<string>(value => lbl2.Content = value);
 			p2msg = new Progress<string>(value => Tbx2Message += value);
+
+			pbProgValue = new Progress<double>(value => PbProgValue = value);
+			pbTimerValue = new Progress<double>(value => PbTimerValue = value);
 		}
 
 	#endregion
@@ -135,6 +165,8 @@ namespace ClassifySheets.Windows
 				OnPropertyChange("HasSelection");
 			}
 		}
+
+		public Classify Classify => classify;
 
 		public string Tbx1Message
 		{
@@ -237,6 +269,59 @@ namespace ClassifySheets.Windows
 			}
 		}
 
+		public double PbProgValue
+		{
+			get => pbProgVal;
+			set
+			{
+				pbProgVal = value;
+
+				OnPropertyChange();
+			}
+		}
+				
+		public double PbTimerValue
+		{
+			get => pbTimerVal;
+			set
+			{
+				pbTimerVal = value;
+
+				OnPropertyChange();
+
+				SetTimerUpdateFg();
+			}
+		}
+
+		public double PbTimerMax
+		{
+			get => pbTimerMax;
+			set
+			{
+				pbTimerMax = value;
+
+				OnPropertyChange();
+				
+				pb2BrkPt1 = value * 0.60;
+				pb2BrkPt2 = value * 0.40;
+				pb2BrkPt3 = value * 0.20;
+			}
+		}
+
+		public SolidColorBrush PbTimerForeground => timerFgBrushes[(int) pbTimerIndex];
+
+		public PbTimerColorEnum PbTimerColorIndex
+		{
+			get => pbTimerIndex;
+			set
+			{
+				pbTimerIndex = value;
+
+				PbTimerForeground = timerFgBrushes[(int) pbTimerIndex];
+
+			}
+		}
+
 	#endregion
 
 	#region private properties
@@ -268,6 +353,31 @@ namespace ClassifySheets.Windows
 	#endregion
 
 	#region private methods
+
+		private void SetTimerUpdateFg()
+		{
+			// pbTimdeValue just set - determine which color
+
+			int test = (int) (pbTimerMax / pbTimerVal * 100);
+
+			if (test > 50)
+			{
+				PbTimerColorIndex = PbTimerColorEnum.GREEN;
+			} 
+			else if (test > 25)
+			{
+				PbTimerColorIndex = PbTimerColorEnum.YELLOW;
+			} 
+			else if (test > 15)
+			{
+				PbTimerColorIndex = PbTimerColorEnum.ORANGE;
+			} 
+			else
+			{
+				PbTimerColorIndex = PbTimerColorEnum.RED;
+			}
+
+		}
 
 		// private void Tbx2MsgConcat(string msg)
 		// {
@@ -305,7 +415,6 @@ namespace ClassifySheets.Windows
 			classificationFile.Initialize();
 		}
 
-
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			getCmdLineArgs();
@@ -339,6 +448,7 @@ namespace ClassifySheets.Windows
 			announcer = Orator.GetAnnouncer(this, "toClassify");
 
 			classify = new Classify();
+
 			classify.OnFileChange += classifyOnFileChange;
 			classify.OnTreeNodeChange += ClassifyOnTreeNodeChange;
 
@@ -363,7 +473,6 @@ namespace ClassifySheets.Windows
 			await Task.Run(() => { ListSampleFileList(); } );
 			await Task.Run(() => { ListTreeBase(true); } );
 		}
-
 
 		private void getCmdLineArgs()
 		{
@@ -672,7 +781,6 @@ namespace ClassifySheets.Windows
 
 		private int delay = 350;
 
-
 		private async Task tbx2RunProgress()
 		{
 			Tbx1Progress = "*** running test A ***\n";
@@ -841,23 +949,53 @@ namespace ClassifySheets.Windows
 			Pb2MaximumValue = 98;
 
 			classify.Configure(BaseOfTree, TestFileList);
-			classify.ConfigureAsyncReporting(p2Double2); // , p2String);
+			classify.ConfigureAsyncReporting(pbProgValue);
 			classify.Process();
 
 			BaseOfTree.CountExtItems();
 
-			// OnPropertyChange("Classify");
 			BaseOfTree.CountExtItems();
 			BaseOfTree.UpdateProperties();
 			OnPropertyChange("BaseOfTree");
 
 			ListTreeBase(true);
 
+			if (classify.HasNonApplicableFiles)
+			{
+				Tbx1Message += "ignored files| " +
+					classify.NonApplicableFilesTotalCount;
+			}
 		}
+
+
 
 	#endregion
 
 	#region event consuming
+
+		// classify the data
+		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
+		{
+			Tbx1Message = "";
+			Tbx2Message = "";
+			Tbx1Message += "Before classify\n";
+
+			go();
+
+			Tbx1Message += "\nSheets have been classified\n";
+		}
+
+		// classify the sheets based on the classify routines / system
+		// process the classification on a different thread
+		private async void BtnGoLite_OnClick(object sender, RoutedEventArgs e)
+		{
+			Tbx2Message = "Start";
+
+			classify = new Classify();
+
+			await Task.Run(() => { go(); } );
+		}
+
 
 		private void OnGetAnnouncement(object sender, object value)
 		{
@@ -868,17 +1006,6 @@ namespace ClassifySheets.Windows
 					Tbx1Message += (string) value;
 				}
 			}
-		}
-
-		// classify the sheets based on the classify routines / system
-		// process the classification on a different thread
-		private async void BtnClassify_OnClick(object sender, RoutedEventArgs e)
-		{
-			Tbx2Message = "Start";
-
-			classify = new Classify();
-
-			await Task.Run(() => { go(); } );
 		}
 
 		// list the contents of treebase
@@ -925,28 +1052,6 @@ namespace ClassifySheets.Windows
 
 			Tbx2Message += "\n";
 			await Task.Run(() => { enumerateMergeNodes(); } );
-		}
-
-		// classify the data
-		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
-		{
-			Tbx1Message = "";
-			Tbx2Message = "";
-			Tbx1Message += "Before classify\n";
-
-			// await Task.Run(() => { go(); } );
-
-			go();
-
-			Tbx1Message += "\nSheets have been classified\n";
-
-			if (classify.HasNonApplicableFiles)
-			{
-				Tbx1Message += "ignored files| " +
-					classify.NonApplicableFilesTotalCount;
-			}
-
-			// await Task.Run(() => { ListTreeBase(true); } );
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)

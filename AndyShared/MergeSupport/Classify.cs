@@ -59,8 +59,8 @@ namespace AndyShared.MergeSupport
 
 		private List<Object> mergeTreeLocks;
 
-		private Progress<double> pbDouble;
-		// private Progress<string> pbString;
+		private IProgress<double> pbProgress;
+
 
 	#endregion
 
@@ -124,10 +124,10 @@ namespace AndyShared.MergeSupport
 			return isConfigured;
 		}
 
-		public void ConfigureAsyncReporting(Progress<double> pbDouble) // , Progress<string> pbString)
+		public void ConfigureAsyncReporting(IProgress<double> pbDouble) // , Progress<string> pbString)
 		{
-			this.pbDouble = pbDouble;
-			// this.pbString = pbString;
+			this.pbProgress = pbDouble;
+
 		}
 
 		/// <summary>
@@ -156,13 +156,9 @@ namespace AndyShared.MergeSupport
 
 		private void classifyFiles()
 		{
-			TreeNode t = treeBase;
-
 			preProcessMergeItems();
 
 			processFiles();
-
-			// await Task.Run(processFiles);
 
 			treeBase.CountExtItems();
 		}
@@ -195,7 +191,7 @@ namespace AndyShared.MergeSupport
 			{
 				// msg = "Processing file| " + fileCount.ToString("000");
 				// ((IProgress<string>) pbString)?.Report(msg);
-				((IProgress<double>) pbDouble)?.Report(fileCount++);
+				pbProgress?.Report(fileCount++);
 
 				Thread.Sleep(10);
 

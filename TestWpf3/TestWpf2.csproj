@@ -57,7 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Adjust\AdjustMergeItems.cs" />
     <Compile Include="Data\ExtendedData.cs" />
     <Compile Include="Data\MergeData.cs" />
     <Compile Include="Data\Nodes.cs" />
@@ -79,6 +78,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modify\Modify.cs" />
     <Compile Include="Windows\MainWinTestWpf2.xaml.cs">
       <DependentUpon>MainWinTestWpf2.xaml</DependentUpon>
       <SubType>Code</SubType>

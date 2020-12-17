@@ -13,7 +13,11 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "MachSettings", Namespace = "")]
+#pragma warning disable CS0060 // Inconsistent accessibility: base class 'MachSettingInfoBase<T>' is less accessible than class 'MachSettingInfo<T>'
+#pragma warning disable CS0246 // The type or namespace name 'MachSettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
 	public class MachSettingInfo<T> : MachSettingInfoBase<T>
+#pragma warning restore CS0246 // The type or namespace name 'MachSettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning restore CS0060 // Inconsistent accessibility: base class 'MachSettingInfoBase<T>' is less accessible than class 'MachSettingInfo<T>'
 		where T : new()
 	{
 		public MachSettingInfo()
@@ -24,7 +28,13 @@ namespace SettingsManager
 			Notes = "any notes go here";
 		}
 
+#pragma warning disable CS0051 // Inconsistent accessibility: parameter type 'SettingInfoBase<T>' is less accessible than method 'MachSettingInfo<T>.UpgradeFromPrior(SettingInfoBase<T>)'
+#pragma warning disable CS0507 // 'MachSettingInfo<T>.UpgradeFromPrior(SettingInfoBase<T>)': cannot change access modifiers when overriding 'internal' inherited member 'SettingInfoBase<T>.UpgradeFromPrior(SettingInfoBase<T>)'
+#pragma warning disable CS0246 // The type or namespace name 'SettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+#pragma warning restore CS0246 // The type or namespace name 'SettingInfoBase<>' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning restore CS0507 // 'MachSettingInfo<T>.UpgradeFromPrior(SettingInfoBase<T>)': cannot change access modifiers when overriding 'internal' inherited member 'SettingInfoBase<T>.UpgradeFromPrior(SettingInfoBase<T>)'
+#pragma warning restore CS0051 // Inconsistent accessibility: parameter type 'SettingInfoBase<T>' is less accessible than method 'MachSettingInfo<T>.UpgradeFromPrior(SettingInfoBase<T>)'
 	}
 
 	#endregion
