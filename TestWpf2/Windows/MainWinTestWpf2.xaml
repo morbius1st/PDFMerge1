@@ -79,7 +79,11 @@
 				BasedOn="{StaticResource Button.Base}"
 				>
 			<Setter Property="IsEnabled" Value="True" />
-			<Setter Property="Background" Value="LightBlue" />
+			<Setter Property="Background" >
+				<Setter.Value>
+					<SolidColorBrush Color="{StaticResource Amber.700}"/>
+				</Setter.Value>
+			</Setter>
 			<Style.Triggers>
 				<DataTrigger Value="{StaticResource WAITING}" Binding="{Binding Adjust.PauseStateValue}">
 					<Setter Property="IsEnabled" Value="False" />
@@ -544,6 +548,7 @@
 						<DockPanel HorizontalAlignment="Stretch">
 
 							<Label
+									
 									Content="{Binding ExtData.ExtName}"
 									Margin="5,0,0,0"
 									Padding="0"

@@ -66,11 +66,6 @@
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v40.cs">
-      <Link>.Linked\SettingsMgr.-v40.cs</Link>
-    </Compile>
-    <Compile Include="Settings\AppSettings40.cs" />
-    <Compile Include="Settings\SettingsUser40.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +74,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestClasses\BaseClass.cs" />
+    <Compile Include="TestClasses\Derived1.cs" />
+    <Compile Include="TestClasses\Derived2.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

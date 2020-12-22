@@ -56,6 +56,8 @@ namespace TestWpf2.Adjust
 
 		private Task task;
 
+		private Thread processThread;
+
 	#region ctor
 
 		// public AdjustMergeItems()
@@ -128,6 +130,27 @@ namespace TestWpf2.Adjust
 			return null;
 		}
 
+		// not using this
+		public bool? PauseTask2(bool? pause)
+		{
+			if (ProcessStatus != TaskStatus.Running
+				|| pauseState == PauseState.WAITING) return null;
+
+			if (pauseState == PauseState.RUNNING && (pause == null || pause.Value))
+			{
+				pauseTask = true;
+				return true;
+			} 
+			else if (pauseState == PauseState.PAUSED && (pause == null || !pause.Value))
+			{
+				processThread.Interrupt();
+				pauseTask = false;
+				return false;
+			}
+
+			return null;
+		}
+
 
 		public void UpdateTaskStatus2(PauseState state)
 		{
@@ -168,9 +191,13 @@ namespace TestWpf2.Adjust
 
 		public void ProcessTree2()
 		{
+
+			processThread = Thread.CurrentThread;
+			processThread.Name = "ProcessTree";
+
 		#if DEBUG
 
-			Thread.CurrentThread.Name = "ProcessAsync";
+			// Thread.CurrentThread.Name = "ProcessAsync";
 
 			MainWinTestWpf2.me.AppendMsgLine("Process started");
 			MainWinTestWpf2.me.AppendMsgLine("thread curr id| "
@@ -306,7 +333,7 @@ namespace TestWpf2.Adjust
 					break;
 				}
 
-				if (pauseTask) pause();
+				if (pauseTask) pause2();
 
 				if (child.ExtData.ToBeProcessed)
 				{
@@ -361,6 +388,23 @@ namespace TestWpf2.Adjust
 				Thread.Sleep(50);
 
 				if (--i < 0 ) pauseTask = false;
+			}
+
+			UpdateTaskStatus2(PauseState.RUNNING);
+		}
+
+		// not using this
+		private void pause2()
+		{
+			UpdateTaskStatus2(PauseState.PAUSED);
+
+			try
+			{
+				Thread.Sleep(Timeout.Infinite);
+			}
+			catch
+			{
+
 			}
 
 			UpdateTaskStatus2(PauseState.RUNNING);

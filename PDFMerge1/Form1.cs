@@ -196,8 +196,12 @@ namespace PDFMerge1
 
 		void testInsert(PdfMergeTree tree)
 		{
+#pragma warning disable CS0219 // The variable 'toFind' is assigned but its value is never used
 			string toFind = "Cover Page";
+#pragma warning restore CS0219 // The variable 'toFind' is assigned but its value is never used
+#pragma warning disable CS0219 // The variable 'insert' is assigned but its value is never used
 			string insert = "this is a test";
+#pragma warning restore CS0219 // The variable 'insert' is assigned but its value is never used
 		}
 
 		private FileList selectFiles(List<string> files, string rootFolder)

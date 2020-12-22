@@ -780,6 +780,7 @@
 				Orientation="Horizontal"
 				>
 
+
 			<Button x:Name="BtnDebug"
 					Content="Debug"
 					Style="{StaticResource Button.Base}"
@@ -800,20 +801,20 @@
 					Click="BtnShow_OnClick"
 					/>
 
-			<Button x:Name="BtnProgress"
-					Content="Progress"
-					ToolTip="Run a series of test&#10;routines.  Run them&#10;async and not async"
-					Style="{StaticResource Button.Base}"
-					Click="BtnProgress_OnClick"
-					/>
+			<!-- <Button x:Name="BtnProgress" -->
+			<!-- 		Content="Progress" -->
+			<!-- 		ToolTip="Run a series of test&#10;routines.  Run them&#10;async and not async" -->
+			<!-- 		Style="{StaticResource Button.Base}" -->
+			<!-- 		Click="BtnProgress_OnClick" -->
+			<!-- 		/> -->
 
-			<Button x:Name="BtnClassify"
-					Content="Go /&#10;Test Lite"
-					TextBlock.TextAlignment="Center"
-					ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information.  Similar to 'go'&#10;but does a bit less"
-					Style="{StaticResource Button.Base}"
-					Click="BtnGoLite_OnClick"
-					/>
+			<!-- <Button x:Name="BtnClassify" -->
+			<!-- 		Content="Go /&#10;Test Lite" -->
+			<!-- 		TextBlock.TextAlignment="Center" -->
+			<!-- 		ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information.  Similar to 'go'&#10;but does a bit less" -->
+			<!-- 		Style="{StaticResource Button.Base}" -->
+			<!-- 		Click="BtnGoLite_OnClick" -->
+			<!-- 		/> -->
 
 			<Button x:Name="BtnGo"
 					Content="Go /&#10;Test"

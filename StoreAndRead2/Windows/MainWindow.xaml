@@ -18,6 +18,25 @@
 		</SolidColorBrush>
 	</Window.Resources>
 	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+
+		<Button
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="5"
+				Width="70"
+				HorizontalAlignment="Right"
+				Content="Press Me"
+				Click="ButtonBase_OnClick"
+				/>
 
 	</Grid>
 </Window>

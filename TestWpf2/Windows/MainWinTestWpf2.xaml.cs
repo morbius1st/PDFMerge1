@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -41,7 +42,7 @@ namespace TestWpf2.Windows
 
 		private double pb2Value;
 		private double pb2MaxValue;
-		private Progress<double> pb2Double;
+		private IProgress<double> pb2Double;
 
 		private double pb2BrkPt1;
 		private double pb2BrkPt2;
@@ -52,6 +53,7 @@ namespace TestWpf2.Windows
 		private SolidColorBrush[] pb2FgBrushes = new []{Brushes.SpringGreen, 
 			Brushes.Yellow, Brushes.DarkOrange, Brushes.Red};
 
+		private bool pauseTask;
 
 		// private string[] pauseStateMsg = new [] {"Waiting", "Pause", "Resume"};
 		// private PauseState pauseState;
@@ -256,7 +258,6 @@ namespace TestWpf2.Windows
 			OnPropertyChange("Pb2ForeGround");
 		}
 
-
 		private void clear()
 		{
 			// PauseStateValue = PauseState.WAITING;
@@ -390,6 +391,42 @@ namespace TestWpf2.Windows
 			if (!pause.Value) Pb2Value = 0;
 		}
 
+		private void pausePb()
+		{
+			if (!pauseTask)
+			{
+				pauseTask = true;
+
+				Task.Run(() => { pauseTimer(); } );
+			}
+			else
+			{
+				pauseTask = false;
+			}
+
+			updatePb2(adj.PauseTask2(pauseTask));
+		}
+
+		private void pauseTimer()
+		{
+			double d = pb2MaxValue;
+
+			while (pauseTask)
+			{
+				pb2Double.Report(d);
+
+				Thread.Sleep(50);
+
+				if (--d < 0)
+				{
+					pausePb();
+
+				}
+
+			}
+		}
+
+
 	#endregion
 
 	#region event consuming
@@ -412,7 +449,7 @@ namespace TestWpf2.Windows
 
 		private void BtnPauseResumeTask_OnClick(object sender, RoutedEventArgs e)
 		{
-			updatePb2(adj.PauseTask(null));
+			pausePb();
 		}
 
 		private void BtnTestProgBar_OnClick(object sender, RoutedEventArgs e)

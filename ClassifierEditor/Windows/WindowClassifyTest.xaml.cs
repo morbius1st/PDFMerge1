@@ -249,6 +249,16 @@ namespace ClassifierEditor.Windows
 			OnPropertyChange("IsConfigured");
 		}
 
+		private void updateClassifyProperties()
+		{
+			OnPropertyChange("Classify");
+			OnPropertyChange("BaseOfTree");
+			OnPropertyChange("TreeBaseTitle");
+			OnPropertyChange("ExpCollapseState");
+			OnPropertyChange("ShowNonApplicableFiles");
+			OnPropertyChange("NonApplicableFilesDescription");
+		}
+
 		private void initFileList()
 		{
 			testFileList = new SheetFileList();
@@ -257,8 +267,9 @@ namespace ClassifierEditor.Windows
 
 		private async void go()
 		{
-
 			BaseOfTree.Item.Description = "TreeBase from ClassifyTest";
+
+			classify = new Classify();
 
 			if (!classify.Configure(BaseOfTree, TestFileList)) return;
 
@@ -274,12 +285,7 @@ namespace ClassifierEditor.Windows
 
 			TreeViewTitleIndex = 1;
 
-			OnPropertyChange("Classify");
-			OnPropertyChange("BaseOfTree");
-			OnPropertyChange("TreeBaseTitle");
-			OnPropertyChange("ExpCollapseState");
-			OnPropertyChange("ShowNonApplicableFiles");
-			OnPropertyChange("NonApplicableFilesDescription");
+			updateClassifyProperties();
 
 			Debug.WriteLine("@classify-go / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
