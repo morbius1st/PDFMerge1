@@ -275,7 +275,8 @@ namespace ClassifierEditor.Windows
 
 			classify.ConfigureAsyncReporting(pb1ProgressValue);
 
-			await Task.Run(() => { classify.Process(); });
+			// todo: fix run() => classify.process()
+			// await Task.Run(() => { classify.Process(); });
 
 			// classify.Process();
 

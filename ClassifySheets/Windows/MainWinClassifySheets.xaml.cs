@@ -53,7 +53,7 @@ namespace ClassifySheets.Windows
 
 		private bool displayDebugMsgs = true;
 
-		public string tbx1Message;
+		private string tbx1Message;
 		private string tbx2Message;
 		private string tbx1Progress;
 
@@ -69,28 +69,6 @@ namespace ClassifySheets.Windows
 		private double pb2Value;
 		private string lbl2Content;
 
-		// BackgroundWorker bw1 = new BackgroundWorker();
-		// BackgroundWorker bw2 = new BackgroundWorker();
-
-		// public enum PbTimerColorEnum
-		// {
-		// 	GREEN = 0,
-		// 	YELLOW = 1,
-		// 	ORANGE = 2,
-		// 	RED = 3
-		// }
-
-		// private SolidColorBrush[] timerFgBrushes = new []{Brushes.SpringGreen, 
-		// 	Brushes.Yellow, Brushes.DarkOrange, Brushes.Red};
-		//
-		// private PbTimerColorEnum pbTimerColorIndex = PbTimerColorEnum.GREEN;
-		//
-		// private double pbTimerMax;
-		// private double pbTimerVal;
-		// private double pb2BrkPt1;
-		// private double pb2BrkPt2;
-		// private double pb2BrkPt3;
-
 		private double pbProgVal;
 		private double pbProgMax;
 		private Progress<double> pbProgValue;
@@ -104,14 +82,6 @@ namespace ClassifySheets.Windows
 
 			InitializeComponent();
 
-			// bw1.WorkerReportsProgress = true;
-			// bw1.ProgressChanged += Bw1OnProgressChanged;
-			// bw1.DoWork += Bw1OnDoWork;
-
-			// bw2.WorkerReportsProgress = true;
-			// bw2.ProgressChanged += Bw2OnProgressChanged;
-			// bw2.DoWork += Bw2OnDoWork;
-
 			p1Double = new Progress<double>(value => Pb1Value = value);
 			p1String = new Progress<string>(value => Lbl1Content = value);
 
@@ -123,8 +93,6 @@ namespace ClassifySheets.Windows
 			// pbProgValue = new Progress<double>(value => PbProgValue = value);
 			pbProgValue = new Progress<double>(value => Pb2.Value = value);
 
-
-			// pbTimerValue = new Progress<double>(value => PbTimerValue = value);
 		}
 
 	#endregion
@@ -285,49 +253,6 @@ namespace ClassifySheets.Windows
 				OnPropertyChange();
 			}
 		}
-				
-		// public double PbTimerValue
-		// {
-		// 	get => pbTimerVal;
-		// 	set
-		// 	{
-		// 		pbTimerVal = value;
-		//
-		// 		OnPropertyChange();
-		//
-		// 		SetTimerUpdateFg();
-		// 	}
-		// }
-		//
-		// public double PbTimerMax
-		// {
-		// 	get => pbTimerMax;
-		// 	set
-		// 	{
-		// 		pbTimerMax = value;
-		//
-		// 		OnPropertyChange();
-		// 		
-		// 		pb2BrkPt1 = value * 0.60;
-		// 		pb2BrkPt2 = value * 0.40;
-		// 		pb2BrkPt3 = value * 0.20;
-		// 	}
-		// }
-		//
-		// public SolidColorBrush PbTimerForeground => timerFgBrushes[(int) pbTimerColorIndex];
-		//
-		// public PbTimerColorEnum PbTimerColorIndex
-		// {
-		// 	get => pbTimerColorIndex;
-		// 	set
-		// 	{
-		// 		pbTimerColorIndex = value;
-		//
-		// 		OnPropertyChange("PbTimerForeground");
-		//
-		// 	}
-		// }
-
 
 	#endregion
 
@@ -365,41 +290,6 @@ namespace ClassifySheets.Windows
 	#endregion
 
 	#region private methods
-
-		// private void SetTimerUpdateFg(double value)
-		// {
-		// 	PbTimerColorEnum newIdx;
-		//
-		// 	if (value > pb2BrkPt1)
-		// 	{
-		// 		newIdx = PbTimerColorEnum.GREEN;
-		// 	}
-		// 	else if (value > pb2BrkPt2)
-		// 	{
-		// 		newIdx = PbTimerColorEnum.YELLOW;
-		// 	} 
-		// 	else if (value > pb2BrkPt3)
-		// 	{
-		// 		newIdx = PbTimerColorEnum.ORANGE;
-		// 	}
-		// 	else
-		// 	{
-		// 		newIdx = PbTimerColorEnum.RED;
-		// 	}
-		//
-		// 	if (newIdx == pbTimerColorIndex) return;
-		//
-		// 	PbTimerColorIndex = newIdx;
-		// }
-
-		// private void Tbx2MsgConcat(string msg)
-		// {
-		// 	// Debug.WriteLine("win| @ concat");
-		// 	string result = string.Concat(tbx2Message, msg);
-		//
-		// 	((IProgress<string>) p2msg).Report(
-		// 		result);
-		// }
 
 		private void configClassfFile()
 		{
@@ -476,51 +366,176 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-		private void ListSampleFileList()
+		private void go()
 		{
-			Pb2Value = 0;
-			Lbl2Content = "";
-			Pb2MaximumValue = BaseOfTree.ExtChildCount;
-			Tbx2Message = "";
-			StringBuilder sb;
+			prepClassify();
 
-			int i = 0;
+			classify.PreProcess();
 
-			((IProgress<string>) p1String).Report("Starting");
-			((IProgress<double>) p1Double).Report(i);
+			classify.Process3();
 
-
-			foreach (FilePath<FileNameSheetPdf> filePath in TestFileList.Files)
-			{
-				fp = filePath.FileNameObject;
-
-				sb = new StringBuilder();
-
-				((IProgress<string>) p1String).Report(fp.SheetNumber);
-
-				sb.Append(i++.ToString("D3"));
-				sb.Append(" |  ").Append((fp.SheetComponentType.ToString()).PadRight(7));
-				sb.Append(" |  ").Append((fp.PhaseBldg    ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Discipline   ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Category     ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Subcategory  ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Modifier     ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Submodifier  ?? "?").PadRight(3));
-				sb.Append(" |  ").Append((fp.Identifier   ?? "?").PadRight(7));
-				sb.Append(" |  ").Append((fp.Subidentifier ?? "?").PadRight(7));
-				sb.Append(" |  ").Append(fp.SheetNumber.PadRight(12));
-				sb.Append(" |  ").Append(fp.SheetTitle);
-
-				sb.Append(nl);
-
-				Tbx1Message += sb.ToString();
-
-				((IProgress<double>) p1Double).Report(i);
-			}
-
-			// OnPropertyChange("Tbx1Message");
 		}
 
+		private void prepClassify()
+		{
+			Pb2Value = 0;
+			Pb2MaximumValue = testFileList.Files.Count;
+
+			classify.Configure(BaseOfTree, TestFileList);
+			classify.ConfigureAsyncReporting(pbProgValue);
+		}
+
+
+	#endregion
+
+	#region event consuming
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			getCmdLineArgs();
+
+			configClassfFile();
+
+			try
+			{
+				if (classfFileArg.IsVoid())
+				{
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+				}
+				else
+				{
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Write("Outer Exception| ");
+				Debug.WriteLine(ex);
+
+				Debug.Write("Inner Exception| ");
+				Debug.WriteLine(ex.InnerException?.Message ?? "None");
+
+				Environment.Exit(1);
+			}
+
+			classificationFile.Initialize();
+
+			announcer = Orator.GetAnnouncer(this, "toClassify");
+
+			Classify = new Classify();
+
+			classify.OnFileChange += classifyOnFileChange;
+			classify.OnTreeNodeChange += ClassifyOnTreeNodeChange;
+			classify.OnCompletion += Classify_OnCompletion;
+
+			Orator.Listen("fromClassify", OnGetAnnouncement);
+
+			// tell classify to display debug messages
+			announcer.Announce(displayDebugMsgs);
+		}
+
+		
+
+		private async void MainWin_ContentRendered(object sender, EventArgs e)
+		{
+			Thread.Sleep(300);
+
+			await WinStartAsync();
+		}
+
+		// classify the data
+		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
+		{
+			go();
+		}
+
+
+		private void OnGetAnnouncement(object sender, object value)
+		{
+			if (displayDebugMsgs)
+			{
+				if (value is string)
+				{
+					Tbx1Message += (string) value;
+				}
+			}
+		}
+
+		// list the contents of treebase
+		// run async
+		private async void BtnListBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Tbx2Message = "Start";
+
+			await Task.Run(() => { ListTreeBase(true); } );
+		}
+
+		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
+		{
+			Tbx2Message = "";
+			tbx2Message += classify.FormatMergeList(BaseOfTree);
+			tbx2Message += "\n\n\n";
+			await Task.Run(() => { enumerateMergeItems(); } );
+
+			Tbx2Message += "\n";
+			await Task.Run(() => { enumerateMergeNodes(); } );
+		}
+
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("win| @ Debug");
+		}
+
+		private void BtnExit_OnClick(object sender, RoutedEventArgs e)
+		{
+			Environment.Exit(0);
+		}
+
+		private void ClassifyOnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
+		{
+			Tbx2Message += "classify / node changed| " + e.TreeNode.Item.Title + "\n";
+		}
+
+		private void classifyOnFileChange(object sender, FileChangeEventArgs e)
+		{
+			if (e.SheetFile == null) return;
+			Tbx2Message += "classify / file changed| " + e.SheetFile.FileNameObject.SheetNumber + "\n";
+		}
+
+		private void Classify_OnCompletion(object sender)
+		{
+			if (classify.Status != ClassifyStatus.SUCESSFUL) return;
+
+			BaseOfTree.CountExtItems();
+			BaseOfTree.UpdateProperties();
+			
+			UpdateProperties();
+		}
+
+	#endregion
+
+	#region event publishing
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
+		}
+
+	#endregion
+
+	#region system overrides
+
+		public override string ToString()
+		{
+			return "this is MainWindow";
+		}
+
+	#endregion
+
+
+		
 		private int pb2Count;
 
 		private void ListTreeBase(bool showMerge = false)
@@ -574,58 +589,6 @@ namespace ClassifySheets.Windows
 				}
 			}
 		}
-		//
-		// private void formatNodeDescription2(TreeNode node, bool showMerge)
-		// {
-		// 	string marginStr = "  ".Repeat(node.Depth);
-		// 	int margin = marginStr.Length;
-		//
-		//
-		// 	((IProgress<string>) p2msg).Report (node.NodeType.ToString().PadRight(12));
-		// 	((IProgress<string>) p2msg).Report ("| Depth| ");
-		// 	((IProgress<string>) p2msg).Report (node.Depth.ToString().PadRight(5));
-		// 	((IProgress<string>) p2msg).Report ("|");
-		// 	((IProgress<string>) p2msg).Report ((marginStr + ">" + node.Item.Title).PadRight(35));
-		// 	((IProgress<string>) p2msg).Report ("< ");
-		//
-		// 	if (!showMerge)
-		// 	{
-		// 		((IProgress<string>) p2msg).Report ("ops count| ");
-		// 		((IProgress<string>) p2msg).Report (node.Item.CompareOps.Count.ToString("##0"));
-		//
-		// 		if (node.ChildCount != 0)
-		// 		{
-		// 			((IProgress<string>) p2msg).Report (" child count| ");
-		// 			((IProgress<string>) p2msg).Report (node.ChildCount.ToString("##0"));
-		// 			((IProgress<string>) p2msg).Report (" ex child count| ");
-		// 			((IProgress<string>) p2msg).Report (node.ExtChildCount.ToString("##0"));
-		// 		}
-		// 	}
-		//
-		// 	if (showMerge)
-		// 	{
-		// 		((IProgress<string>) p2msg).Report (" item count| ");
-		// 		((IProgress<string>) p2msg).Report (node.ItemCount.ToString("##0"));
-		// 		((IProgress<string>) p2msg).Report (" ex item count| ");
-		// 		((IProgress<string>) p2msg).Report (node.ExtItemCount.ToString("##0"));
-		// 		((IProgress<string>) p2msg).Report ("\n");
-		//
-		//
-		// 		if (node.Item.MergeItemCount != 0)
-		// 		{
-		// 			foreach (MergeItem mi in node.Item.MergeItems)
-		// 			{
-		// 				((IProgress<string>) p2msg).Report (" ".Repeat(20));
-		// 				((IProgress<string>) p2msg).Report (mi.FilePath.FileNameNoExt);
-		// 				((IProgress<string>) p2msg).Report ("\n");
-		// 			}
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		((IProgress<string>) p2msg).Report ("\n");
-		// 	}
-		// }
 
 		private void formatNodeDescription(TreeNode node, bool showMerge)
 		{
@@ -701,11 +664,6 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-		// private async Task runEnumerateMergeNodes()
-		// {
-		// 	await Task.Run(enumerateMergeNodes);
-		// }
-
 		private void enumerateMergeNodes()
 		{
 			Pb2Value = 0;
@@ -736,452 +694,53 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-		/*
-		private async Task tbx1RunProgress(Action A)
-		{
-			await Task.Run(A);
-		}
-
-		private int delay = 350;
-
-		private async Task tbx2RunProgress()
-		{
-			Tbx1Progress = "*** running test A ***\n";
-
-			testTbx2A();
-
-			Tbx1Progress += "*** test A complete ***\n";
-
-			Tbx1Progress += "*** running async test B ***\n";
-
-			await Task.Run(() => { testTbx2B(); } );
-
-			Tbx1Progress += "*** test B complete ***\n";
-
-			Tbx1Progress += "*** running async test C ***\n";
-
-			await Task.Run(() => { testTbx2C(); } );
-
-			Tbx1Progress += "*** test C complete ***\n";
-
-			Tbx1Progress += "*** running async test D ***\n";
-
-			testTbx2D();
-
-			Tbx1Progress += "*** test D complete ***\n";
-		}
-
-		// "ordinary" update to text box
-		private void testTbx2A()
+		
+		private void ListSampleFileList()
 		{
 			Pb2Value = 0;
-			Pb2MaximumValue = 5;
 			Lbl2Content = "";
+			Pb2MaximumValue = BaseOfTree.ExtChildCount;
 			Tbx2Message = "";
+			StringBuilder sb;
 
-			Thread.Sleep(50);
+			int i = 0;
 
-			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
+			((IProgress<string>) p1String).Report("Starting");
+			((IProgress<double>) p1Double).Report(i);
+
+
+			foreach (FilePath<FileNameSheetPdf> filePath in TestFileList.Files)
 			{
-				Tbx2Message += "** A ** this is " + i.ToString("00") + "\n";
+				fp = filePath.FileNameObject;
 
-				Thread.Sleep(delay);
-			}
-		}
+				sb = new StringBuilder();
 
-		// async update to text box but using the "ordinary" property
-		private void testTbx2B()
-		{
-			Pb2Value = 0;
-			Lbl2Content = "";
-			Pb2MaximumValue = 10;
-			// Tbx2Message = "";
-			string msg;
+				((IProgress<string>) p1String).Report(fp.SheetNumber);
 
-			Thread.Sleep(delay);
+				sb.Append(i++.ToString("D3"));
+				sb.Append(" |  ").Append((fp.SheetComponentType.ToString()).PadRight(7));
+				sb.Append(" |  ").Append((fp.PhaseBldg    ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Discipline   ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Category     ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Subcategory  ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Modifier     ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Submodifier  ?? "?").PadRight(3));
+				sb.Append(" |  ").Append((fp.Identifier   ?? "?").PadRight(7));
+				sb.Append(" |  ").Append((fp.Subidentifier ?? "?").PadRight(7));
+				sb.Append(" |  ").Append(fp.SheetNumber.PadRight(12));
+				sb.Append(" |  ").Append(fp.SheetTitle);
 
-			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
-			{
-				msg = "this is " + i.ToString("00");
+				sb.Append(nl);
 
-				subTestTbx2B(i);
+				Tbx1Message += sb.ToString();
 
-				((IProgress<string>) p2String).Report(msg);
-				((IProgress<double>) p2Double).Report(i);
-
-				Thread.Sleep(delay);
-			}
-
-			Thread.Sleep(75);
-		}
-
-		private void subTestTbx2B(int i)
-		{
-			Tbx2Message += "** B ** this is " + i.ToString("00") + "\n";
-		}
-
-		// async update to text box but using the 
-		// async method
-		private void testTbx2C()
-		{
-			Pb2Value = 0;
-			Lbl2Content = "";
-			Pb2MaximumValue = 10;
-			// Tbx2Message = "";
-			string msg;
-
-			Thread.Sleep(delay);
-
-			for (int i = 0+1; i < Pb2MaximumValue+1; i++)
-			{
-				msg = "this is " + i.ToString("00");
-
-				((IProgress<string>) p2msg).Report("** C ** this is " + i.ToString("00") + "\n");
-				((IProgress<string>) p2String).Report(msg);
-				((IProgress<double>) p2Double).Report(i);
-
-				Thread.Sleep(delay);
-			}
-		}
-
-		private void testTbx2D()
-		{
-			Test01 t01 = new Test01();
-			t01.Configure(p2Double, p2msg, p2String);
-
-			t01.Go(0, 10, delay);
-		}
-
-		
-		// async update to text box but using the "ordinary" property
-		private void testTbx2B(bool test)
-		{
-			Pb2Value = 0;
-			Lbl2Content = "";
-			Pb2MaximumValue = 50;
-			Tbx2Message = "";
-			pb2Count = 0;
-		
-			string msg;
-		
-			StringBuilder sb = new StringBuilder();
-		
-			Thread.Sleep(50);
-		
-			((IProgress<string>) p2String).Report("Starting");
-		
-			for (int i = 0; i < 50; i++)
-			{
-				msg = "this is " + i.ToString("000");
-				((IProgress<string>) p2String).Report(msg);
-				sb.AppendLine(msg);
-				((IProgress<double>) p2Double).Report(++pb2Count);
-				// Thread.Sleep(50);
-			}
-		
-			Tbx2Message = sb.ToString();
-		}
-		
-		
-		private void testTbx2C(bool test)
-		{
-			Pb2Value = 0;
-			Lbl2Content = "";
-			Pb2MaximumValue = 50;
-			Tbx2Message = "";
-			pb2Count = 0;
-		
-			Thread.Sleep(50);
-		
-			((IProgress<string>) p2String).Report("Starting");
-		
-			for (int i = 0; i < 50; i++)
-			{
-				Tbx2Message += "this is " + i.ToString("000") + "\n";
-		
-				((IProgress<double>) p2Double).Report(++pb2Count);
-				Thread.Sleep(50);
-			}
-		}
-*/
-
-		private void go()
-		{
-			prepClassify();
-
-			classify.PreProcess();
-
-			classify.Process3();
-
-			// BaseOfTree.CountExtItems();
-			// BaseOfTree.UpdateProperties();
-			//
-			// UpdateProperties();
-		}
-
-		private void prepClassify()
-		{
-			Pb2Value = 0;
-			Pb2MaximumValue = testFileList.Files.Count;
-
-			classify.Configure(BaseOfTree, TestFileList);
-			classify.ConfigureAsyncReporting(pbProgValue);
-		}
-
-
-		private void test()
-		{
-			// Pb2Value = 0;
-			// Pb2MaximumValue = 20;
-
-			Debug.WriteLine("win| classify test before");
-
-			prepClassify();
-
-			// classify.configTest(p2Double, Pb2MaximumValue);
-			// classify.Test();
-
-			classify.PreProcess();
-
-			classify.Process3();
-
-			Debug.WriteLine("win| classify test after");
-
-			// BaseOfTree.CountExtItems();
-			// BaseOfTree.UpdateProperties();
-			//
-			// UpdateProperties();
-		}
-
-
-	#endregion
-
-	#region event consuming
-
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			getCmdLineArgs();
-
-			configClassfFile();
-
-			try
-			{
-				if (classfFileArg.IsVoid())
-				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
-				}
-				else
-				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.Write("Outer Exception| ");
-				Debug.WriteLine(ex);
-
-				Debug.Write("Inner Exception| ");
-				Debug.WriteLine(ex.InnerException?.Message ?? "None");
-
-				Environment.Exit(1);
+				((IProgress<double>) p1Double).Report(i);
 			}
 
-			classificationFile.Initialize();
-
-			announcer = Orator.GetAnnouncer(this, "toClassify");
-
-			Classify = new Classify();
-
-			classify.OnFileChange += classifyOnFileChange;
-			classify.OnTreeNodeChange += ClassifyOnTreeNodeChange;
-			classify.OnCompletion += Classify_OnCompletion;
-
-			Orator.Listen("fromClassify", OnGetAnnouncement);
-
-			// tell classify to display debug messages
-			announcer.Announce(displayDebugMsgs);
-		}
-
-		
-
-		private async void MainWin_ContentRendered(object sender, EventArgs e)
-		{
-			Thread.Sleep(300);
-
-			await WinStartAsync();
+			// OnPropertyChange("Tbx1Message");
 		}
 
 
-		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
-		{
-			string x = "A";
-
-			if (x.Equals("A"))
-			{
-				aBtnGo_OnClick();
-			}
-			else
-			{
-				bBtnGo_OnClick();
-			}
-
-		}
-
-
-		private void bBtnGo_OnClick()
-		{
-			Debug.WriteLine("win| test before");
-
-			test();
-
-			Debug.WriteLine("win| test after");
-		}
-
-		// classify the data
-		private void aBtnGo_OnClick()
-		{
-			// Tbx1Message = "";
-			//
-			// Tbx2Message = "";
-			// Tbx1Message += "Before go\n";
-
-			Debug.WriteLine("win| go before");
-			go();
-
-			Debug.WriteLine("win| test after");
-
-			// Tbx1Message += "\nSheets have been classified\n";
-			//
-			// ListTreeBase(true);
-			//
-			// if (classify.HasNonApplicableFiles)
-			// {
-			// 	Tbx1Message += "ignored files| " +
-			// 		classify.NonApplicableFilesTotalCount;
-			// }
-		}
-
-		// classify the sheets based on the classify routines / system
-		// process the classification on a different thread
-		// private async void BtnGoLite_OnClick(object sender, RoutedEventArgs e)
-		// {
-		// 	Tbx2Message = "Go Lite| Start\n";
-		//
-		// 	await Task.Run(() => { go(); } );
-		//
-		// 	Tbx2Message += "Go Lite| Start\n";
-		//
-		// }
-
-		private void OnGetAnnouncement(object sender, object value)
-		{
-			if (displayDebugMsgs)
-			{
-				if (value is string)
-				{
-					Tbx1Message += (string) value;
-				}
-			}
-		}
-
-		// list the contents of treebase
-		// run async
-		private async void BtnListBase_OnClick(object sender, RoutedEventArgs e)
-		{
-			Tbx2Message = "Start";
-
-			// Thread.Sleep(150);
-
-			await Task.Run(() => { ListTreeBase(true); } );
-		}
-
-		// run a series of test routines
-		// run them async & not async
-		// private async void BtnProgress_OnClick(object sender, RoutedEventArgs e)
-		// {
-		// 	// TestProgressBar();
-		// 	// bw1.RunWorkerAsync();
-		//
-		// 	// Tbx1Progress += "past backgroundworker\n";
-		//
-		// 	// bw2.RunWorkerAsync();
-		//
-		// 	// await progress();
-		// 	// await progress2();
-		// 	// await progress3();
-		// 	// await tbx1RunProgress(() => { DoTask2(px, pz); } );
-		//
-		// 	// Tbx1Progress += "past progress().\nprogress bars updated\n";
-		//
-		// 	// await tbx2RunProgress();
-		//
-		// 	// await tbx2RunProgress();
-		// }
-
-		// show listings of the information
-
-		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
-		{
-			Tbx2Message = "";
-			tbx2Message += classify.FormatMergeList(BaseOfTree);
-			tbx2Message += "\n\n\n";
-			await Task.Run(() => { enumerateMergeItems(); } );
-
-			Tbx2Message += "\n";
-			await Task.Run(() => { enumerateMergeNodes(); } );
-		}
-
-		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
-		{
-			Debug.WriteLine("win| @ Debug");
-		}
-
-		private void BtnExit_OnClick(object sender, RoutedEventArgs e)
-		{
-			Environment.Exit(0);
-		}
-
-		private void ClassifyOnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
-		{
-			Tbx2Message += "classify / node changed| " + e.TreeNode.Item.Title + "\n";
-		}
-
-		private void classifyOnFileChange(object sender, FileChangeEventArgs e)
-		{
-			if (e.SheetFile == null) return;
-			Tbx2Message += "classify / file changed| " + e.SheetFile.FileNameObject.SheetNumber + "\n";
-		}
-
-		private void Classify_OnCompletion(object sender)
-		{
-			if (classify.Status != ClassifyStatus.SUCESSFUL) return;
-
-			BaseOfTree.CountExtItems();
-			BaseOfTree.UpdateProperties();
-			
-			UpdateProperties();
-		}
-
-	#endregion
-
-	#region event publishing
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
-		}
-
-	#endregion
-
-	#region system overrides
-
-		public override string ToString()
-		{
-			return "this is MainWindow";
-		}
-
-	#endregion
 	}
+
 }
