@@ -288,7 +288,7 @@ namespace ClassifierEditor.Windows
 
 			updateClassifyProperties();
 
-			Debug.WriteLine("@classify-go / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
+			// Debug.WriteLine("@classify-go / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
 		}
 

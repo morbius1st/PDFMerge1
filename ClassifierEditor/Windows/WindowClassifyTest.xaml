@@ -1709,7 +1709,7 @@
 
 									<!--  for this, has the extended count of child items  -->
 									<Label
-											Content="{Binding ExtItemCountLast}"
+											Content="{Binding ExtMergeItemCount}"
 											Margin="5,0,0,4"
 											Padding="0"
 											ContentStringFormat="{}({0})"
@@ -1774,7 +1774,7 @@
 															<DataTrigger.Binding>
 																<MultiBinding Converter="{StaticResource Equals}">
 																	<Binding Path="Item.MergeItemCount" />
-																	<Binding Path="ExtItemCountLast" />
+																	<Binding Path="ExtMergeItemCount" />
 																</MultiBinding>
 															</DataTrigger.Binding>
 															<Setter Property="Visibility" Value="Collapsed" />

@@ -70,7 +70,9 @@ namespace ClassifySheets.Windows
 		private string lbl2Content;
 
 		private double pbProgVal;
+#pragma warning disable CS0169 // The field 'MainWinClassifySheets.pbProgMax' is never used
 		private double pbProgMax;
+#pragma warning restore CS0169 // The field 'MainWinClassifySheets.pbProgMax' is never used
 		private Progress<double> pbProgValue;
 
 	#endregion
@@ -424,17 +426,17 @@ namespace ClassifySheets.Windows
 
 			Classify = new Classify();
 
-			classify.OnFileChange += classifyOnFileChange;
-			classify.OnTreeNodeChange += ClassifyOnTreeNodeChange;
-			classify.OnCompletion += Classify_OnCompletion;
+			classify.OnFileChange += classify_OnFileChange;
+			classify.OnTreeNodeChange += classify_OnTreeNodeChange;
+#pragma warning disable CS1061 // 'Classify' does not contain a definition for 'OnClassifyCompletion' and no accessible extension method 'OnClassifyCompletion' accepting a first argument of type 'Classify' could be found (are you missing a using directive or an assembly reference?)
+			classify.OnClassifyCompletion += classify_OnClassifyCompletion;
+#pragma warning restore CS1061 // 'Classify' does not contain a definition for 'OnClassifyCompletion' and no accessible extension method 'OnClassifyCompletion' accepting a first argument of type 'Classify' could be found (are you missing a using directive or an assembly reference?)
 
 			Orator.Listen("fromClassify", OnGetAnnouncement);
 
 			// tell classify to display debug messages
 			announcer.Announce(displayDebugMsgs);
 		}
-
-		
 
 		private async void MainWin_ContentRendered(object sender, EventArgs e)
 		{
@@ -448,7 +450,6 @@ namespace ClassifySheets.Windows
 		{
 			go();
 		}
-
 
 		private void OnGetAnnouncement(object sender, object value)
 		{
@@ -491,22 +492,23 @@ namespace ClassifySheets.Windows
 			Environment.Exit(0);
 		}
 
-		private void ClassifyOnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
+		private void classify_OnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
 		{
 			Tbx2Message += "classify / node changed| " + e.TreeNode.Item.Title + "\n";
 		}
 
-		private void classifyOnFileChange(object sender, FileChangeEventArgs e)
+		private void classify_OnFileChange(object sender, FileChangeEventArgs e)
 		{
 			if (e.SheetFile == null) return;
 			Tbx2Message += "classify / file changed| " + e.SheetFile.FileNameObject.SheetNumber + "\n";
 		}
 
-		private void Classify_OnCompletion(object sender)
+		private void classify_OnClassifyCompletion(object sender)
 		{
 			if (classify.Status != ClassifyStatus.SUCESSFUL) return;
 
-			BaseOfTree.CountExtItems();
+			BaseOfTree.CountExtMergeItems();
+
 			BaseOfTree.UpdateProperties();
 			
 			UpdateProperties();
@@ -534,8 +536,6 @@ namespace ClassifySheets.Windows
 
 	#endregion
 
-
-		
 		private int pb2Count;
 
 		private void ListTreeBase(bool showMerge = false)
@@ -622,9 +622,11 @@ namespace ClassifySheets.Windows
 				Tbx2Message += (" item count | ");
 				Tbx2Message += (node.ItemCount.ToString("##0"));
 				Tbx2Message += (" ex last item count| ");
-				Tbx2Message += (node.ExtItemCountLast.ToString("##0"));
-				Tbx2Message += (" ex Mi count| ");
-				Tbx2Message += (node.ExtMergeItemCountCurrent.ToString("##0"));
+#pragma warning disable CS1061 // 'TreeNode' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'TreeNode' could be found (are you missing a using directive or an assembly reference?)
+				Tbx2Message += (node.ExtMergeItemCount.ToString("##0"));
+#pragma warning restore CS1061 // 'TreeNode' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'TreeNode' could be found (are you missing a using directive or an assembly reference?)
+				// Tbx2Message += (" ex Mi count| ");
+				// Tbx2Message += (node.ExtMergeItemCountCurrent.ToString("##0"));
 				Tbx2Message += ("\n");
 
 
@@ -649,7 +651,9 @@ namespace ClassifySheets.Windows
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
-			Pb2MaximumValue = BaseOfTree.ExtItemCountLast;
+#pragma warning disable CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
+			Pb2MaximumValue = BaseOfTree.ExtMergeItemCount;
+#pragma warning restore CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
 			pb2Count = 0;
 
 			Tbx2Message += "Report: *** enumerateMergeItems ***\n";
@@ -668,7 +672,9 @@ namespace ClassifySheets.Windows
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
-			Pb2MaximumValue = BaseOfTree.ExtItemCountLast;
+#pragma warning disable CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
+			Pb2MaximumValue = BaseOfTree.ExtMergeItemCount;
+#pragma warning restore CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
 			pb2Count = 0;
 
 			Tbx2Message += "Report: *** enumerateMergeNodes ***\n";
@@ -694,7 +700,6 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-		
 		private void ListSampleFileList()
 		{
 			Pb2Value = 0;

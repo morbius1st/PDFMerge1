@@ -192,7 +192,7 @@ namespace AndyShared.MergeSupport
 
 			Status = ClassifyStatus.SUCESSFUL;
 
-			RaiseOnCompletionEvent();
+			RaiseOnClassifyCompletionEvent();
 
 		}
 
@@ -234,11 +234,12 @@ namespace AndyShared.MergeSupport
 
 				classify3(treeBase, file, 0);
 
+				// treeBase.UpdateProperties();
+
 			}
 
 			Status = ClassifyStatus.COMPLETE;
 		}
-
 
 		private bool classify3(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
 		{
@@ -269,12 +270,14 @@ namespace AndyShared.MergeSupport
 							MergeItem mi = new MergeItem(0, sheetFilePath);
 							childNode.Item.MergeItems.Add(mi);
 							childNode.Item.UpdateMergeProperties();
+							
 						}
 					}
 
 					// now categorized
 					matchFlag = true;
 				}
+				// childNode.UpdateProperties();
 			}
 
 			// worst case, at depth zero and not matchflag is false
@@ -286,6 +289,8 @@ namespace AndyShared.MergeSupport
 					treeNode.Item.MergeItems.Add(mi);
 					treeNode.Item.UpdateMergeProperties();
 				}
+
+				// treeNode.UpdateProperties();
 
 				matchFlag = true;
 			}
@@ -344,7 +349,7 @@ namespace AndyShared.MergeSupport
 
 		public string FormatMergeList(TreeNode node)
 		{
-			if (node.ExtItemCountLast == 0) return null;
+			if (node.ExtMergeItemCount == 0) return null;
 
 			StringBuilder sb = new StringBuilder();
 
@@ -385,7 +390,7 @@ namespace AndyShared.MergeSupport
 
 		private	IEnumerable<MergeItem> GetNtMergeItem(TreeNode node)
 		{
-			if (node.ExtItemCountLast == 0) yield return null;
+			if (node.ExtMergeItemCount == 0) yield return null;
 
 			if (node.ItemCount > 0)
 			{
@@ -399,7 +404,7 @@ namespace AndyShared.MergeSupport
 			{
 				foreach (TreeNode childNode in node.Children)
 				{
-					if (childNode.ExtItemCountLast > 0)
+					if (childNode.ExtMergeItemCount > 0)
 					{
 						foreach (MergeItem mergeItem in GetNtMergeItem(childNode))
 						{
@@ -414,7 +419,7 @@ namespace AndyShared.MergeSupport
 
 		private IEnumerable<TreeNode> GetMergeNodes(TreeNode node)
 		{
-			if (node.ExtItemCountLast == 0) yield return null;
+			if (node.ExtMergeItemCount == 0) yield return null;
 
 			yield return node;
 
@@ -424,7 +429,7 @@ namespace AndyShared.MergeSupport
 				{
 					foreach (TreeNode mergeNode in GetMergeNodes(childNode))
 					{
-						if ((mergeNode?.ExtItemCountLast ?? 0) > 0)
+						if ((mergeNode?.ExtMergeItemCount ?? 0) > 0)
 						{
 							yield return mergeNode;
 						}
@@ -458,13 +463,13 @@ namespace AndyShared.MergeSupport
 
 	#region event publishing
 
-		public delegate void OnCompletionEventHandler(object sender);
+		public delegate void OnClassifyCompletionEventHandler(object sender);
 
-		public event Classify.OnCompletionEventHandler OnCompletion;
+		public event OnClassifyCompletionEventHandler OnClassifyCompletion;
 
-		protected virtual void RaiseOnCompletionEvent()
+		protected virtual void RaiseOnClassifyCompletionEvent()
 		{
-			OnCompletion?.Invoke(this);
+			OnClassifyCompletion?.Invoke(this);
 		}
 
 

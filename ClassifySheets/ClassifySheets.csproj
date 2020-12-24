@@ -103,6 +103,7 @@
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
+    <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\Support\ProgressBarManager.cs" />

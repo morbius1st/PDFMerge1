@@ -7,6 +7,7 @@
 		xmlns:local="clr-namespace:ClassifySheets.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:mergeSupport="clr-namespace:AndyShared.MergeSupport;assembly=WpfShared"
+		xmlns:sample="clr-namespace:ClassifySheets.SampleData"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:treeSupport="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"
 		Title="MainWindow"
@@ -324,11 +325,12 @@
 										Width="10"
 										Height="10"
 										Data="M 0,0 4,8 8,0 z"
-										Fill="red"
 										RenderTransformOrigin="0.5,0.5"
 										Stretch="UniformToFill"
 										StrokeThickness="0"
+										Fill="{TemplateBinding Foreground}"
 										>
+										<!--Fill="red"-->
 									<Path.RenderTransform>
 										<RotateTransform Angle="270" CenterX="0" CenterY="0" />
 									</Path.RenderTransform>
@@ -398,12 +400,13 @@
 										Grid.Row="0"
 										Margin="0"
 										Height="{StaticResource BkMrkItemRowHeightDbl}"
-										HorizontalAlignment="Left"
+										HorizontalAlignment="Right"
 										VerticalAlignment="Top"
 										IsChecked="{Binding IsExpandedAlt,
 																				Mode=TwoWay,
 																				FallbackValue=false}"
 										ClickMode="Press"
+										Foreground="red"
 										Style="{StaticResource ExpandCollapseToggleStyle}"
 										/>
 								<!--  IsChecked="{Binding IsExpanded,  -->
@@ -544,15 +547,15 @@
 														<!-- 		ContentStringFormat="{}last({0})" -->
 														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
 														<!-- /> -->
+														<!-- -->
+														<!-- <Label -->
+														<!-- 		Content="{Binding ExtMergeItemCountCurrent}" -->
+														<!-- 		Margin="5,0,0,5" -->
+														<!-- 		ContentStringFormat="{}({0})" -->
+														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
+														<!-- /> -->
 
-														<Label
-																Content="{Binding ExtMergeItemCountCurrent}"
-																Margin="5,0,0,5"
-																ContentStringFormat="{}({0})"
-																Style="{StaticResource Label.BookMark.Title}"
-														/>
-
-														<DockPanel>
+														<!-- <DockPanel> -->
 
 															<ToggleButton x:Name="Lv2_visibility"
 																	Margin="0,1,0,0"
@@ -571,51 +574,78 @@
 																			BasedOn="{StaticResource ExpandCollapseToggleStyle}"
 																			>
 																		<Setter Property="Visibility" Value="Visible" />
+																		<Setter Property="Foreground" Value="Red"/>
+																		<Setter Property="IsEnabled" Value="True"/>
+																		<Style.Triggers> 
+																			<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> 
+																				<Setter Property="IsEnabled" Value="False"/>
+																				<Setter Property="Foreground" Value="PaleVioletRed"/>
+																			</DataTrigger> 
+																		</Style.Triggers> 
 																	</Style>
 																</ToggleButton.Style>
 															</ToggleButton>
+																				<!--<Setter Property="Visibility" Value="Collapsed"/>--> 
 
-															<Label
-																	Content="{Binding Item.MergeItems.Count}"
-																	Margin="0,0,0,4"
+
+															<!-- <Label -->
+															<!-- 		Content="{Binding ItemCount}" -->
+															<!-- 		Margin="5,0,0,0" -->
+															<!-- 		Padding="0" -->
+															<!-- 		ContentStringFormat="{}Items:({0})" -->
+															<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
+															<!-- /> -->
+
+															<!--<Label
+																	Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
+																	Margin="3,0,5,0"
 																	Padding="0"
 																	ContentStringFormat="{}({0})"
-																	>
-																<Label.Style>
-																	<Style
-																			TargetType="Label"
-																			BasedOn="{StaticResource Label.BookMark.Title}"
-																			>
-																		<Setter Property="Visibility" Value="Visible" />
-																		<Style.Triggers>
+																	Style="{StaticResource Label.BookMark.Title}"
+															/>-->
+																	<!-- ContentStringFormat="{}extMrgItmCount:({0})" -->
 
-																			<DataTrigger Value="true">
-																				<DataTrigger.Binding>
-																					<MultiBinding Converter="{StaticResource Equals}">
-																						<Binding Path="Item.MergeItemCount" />
-																						<Binding Path="ExtItemCountLast" />
-																					</MultiBinding>
-																				</DataTrigger.Binding>
-																				<Setter Property="Visibility" Value="Collapsed" />
-																			</DataTrigger>
-																		</Style.Triggers>
-																	</Style>
-																</Label.Style>
-															</Label>
+															<!-- <Label -->
+															<!-- 		Content="{Binding Item.MergeItems.Count}" -->
+															<!-- 		Margin="3,0,0,0" -->
+															<!-- 		Padding="0" -->
+															<!-- 		ContentStringFormat="{}MrgItmCount:({0})" -->
+															<!-- > -->
+															<!-- 	<Label.Style> -->
+															<!-- 		<Style -->
+															<!-- 				TargetType="Label" -->
+															<!-- 				BasedOn="{StaticResource Label.BookMark.Title}" -->
+															<!-- 				> -->
+															<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
+															<!-- 			~1~ <Style.Triggers> @1@ -->
+															<!-- 			~1~ @1@ -->
+															<!-- 			~1~ 	<DataTrigger Value="true"> @1@ -->
+															<!-- 			~1~ 		<DataTrigger.Binding> @1@ -->
+															<!-- 			~1~ 			<MultiBinding Converter="{StaticResource Equals}"> @1@ -->
+															<!-- 			~1~ 				<Binding Path="Item.MergeItemCount" /> @1@ -->
+															<!-- 			~1~ 				<Binding Path="ExtItemCountLast" /> @1@ -->
+															<!-- 			~1~ 			</MultiBinding> @1@ -->
+															<!-- 			~1~ 		</DataTrigger.Binding> @1@ -->
+															<!-- 			~1~ 		<Setter Property="Visibility" Value="Collapsed" /> @1@ -->
+															<!-- 			~1~ 	</DataTrigger> @1@ -->
+															<!-- 			~1~ </Style.Triggers> @1@ -->
+															<!-- 		</Style> -->
+															<!-- 	</Label.Style> -->
+															<!-- </Label> -->
 
-															<DockPanel.Style>
-																<Style TargetType="DockPanel">
-																	<Setter Property="Visibility" Value="Visible" />
-																	<Style.Triggers>
-																		<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
-																			<Setter Property="Visibility" Value="Collapsed">
-																			</Setter>
-																		</DataTrigger>
-																	</Style.Triggers>
-																</Style>
-															</DockPanel.Style>
-
-														</DockPanel>
+														<!-- 	<DockPanel.Style> -->
+														<!-- 		<Style TargetType="DockPanel"> -->
+														<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
+														<!-- 			<Style.Triggers> -->
+														<!-- 				<DataTrigger Value="0" Binding="{Binding ExtMergeItemCount}"> -->
+														<!-- 					<Setter Property="Visibility" Value="Collapsed"> -->
+														<!-- 					</Setter> -->
+														<!-- 				</DataTrigger> -->
+														<!-- 			</Style.Triggers>--> 
+														<!-- 		</Style> -->
+														<!-- 	</DockPanel.Style> -->
+														<!-- -->
+														<!-- </DockPanel> -->
 
 														<Label x:Name="Lbl02"
 																Content="{Binding ElementName=WinClassfTest,
@@ -626,6 +656,21 @@
 																DockPanel.Dock="Left"
 																Style="{StaticResource Label.BookMark.Title}"
 																/>
+
+														<!-- <Label -->
+														<!-- 		Content="Merge Items" -->
+														<!-- 		Margin="15,0,5,0" -->
+														<!-- 		Padding="0" -->
+														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
+														<!-- /> -->
+
+														<Label
+																Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
+																Margin="3,0,5,0"
+																Padding="0"
+																ContentStringFormat="{}( {0} Total Merge Items )"
+																Style="{StaticResource Label.BookMark.Title}"
+														/>
 
 													</DockPanel>
 
@@ -1105,6 +1150,7 @@
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				DataContext="{Binding Path=BaseOfTree}"
+				d:DataContext="{x:Static sample:SampleData.TreeBase}"
 				Background="Transparent"
 				Foreground="White"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -1157,25 +1203,7 @@
 
 								<DockPanel>
 
-									<!-- <Label -->
-									<!-- 		Content="{Binding ExtItemCountLast}" -->
-									<!-- 		Margin="5,0,0,4" -->
-									<!-- 		Padding="0" -->
-									<!-- 		ContentStringFormat="{}last({0})" -->
-									<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-									<!-- 		/> -->
-
-									<Label
-											Content="{Binding ExtMergeItemCountCurrent}"
-											Margin="5,0,0,5"
-											ContentStringFormat="{}({0})"
-											Style="{StaticResource Label.BookMark.Title}"
-											/>
-
-									<!--  this has the local count of child items  -->
-
-
-									<DockPanel>
+									<!-- <DockPanel> -->
 
 										<ToggleButton x:Name="Lv1_visibility"
 												Margin="0,1,0,0"
@@ -1186,6 +1214,7 @@
 																						Mode=TwoWay,
 																						FallbackValue=false}"
 												ClickMode="Press"
+
 												DockPanel.Dock="Left"
 												>
 											<ToggleButton.Style>
@@ -1194,57 +1223,77 @@
 														BasedOn="{StaticResource ExpandCollapseToggleStyle}"
 														>
 													<Setter Property="Visibility" Value="Visible" />
-													<!-- <Style.Triggers> -->
-													<!-- 	<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> -->
-													<!-- 		<Setter Property="Visibility" Value="Collapsed"> -->
-													<!-- 		</Setter> -->
-													<!-- 	</DataTrigger> -->
-													<!-- </Style.Triggers> -->
+													<Setter Property="Foreground" Value="Red"/>
+													<Setter Property="IsEnabled" Value="True"/>
+													 <Style.Triggers> 
+													 	<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> 
+													 		<Setter Property="IsEnabled" Value="False"/>
+													 		<Setter Property="Foreground" Value="PaleVioletRed"/>
+													 	</DataTrigger> 
+													 </Style.Triggers> 
 												</Style>
 											</ToggleButton.Style>
 										</ToggleButton>
 
-										<Label
-												Content="{Binding Item.MergeItems.Count}"
-												Margin="0,0,0,4"
+										<!-- <Label -->
+										<!-- 		Content="{Binding ItemCount}" -->
+										<!-- 		Margin="5,0,0,0" -->
+										<!-- 		Padding="0" -->
+										<!-- 		ContentStringFormat="{}Items:({0})" -->
+										<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
+										<!-- 		/> -->
+
+										<!--<Label
+												Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
+												Margin="3,0,5,0"
 												Padding="0"
 												ContentStringFormat="{}({0})"
-												>
-											<Label.Style>
-												<Style
-														TargetType="Label"
-														BasedOn="{StaticResource Label.BookMark.Title}"
-														>
-													<Setter Property="Visibility" Value="Visible" />
-													<Style.Triggers>
+												Style="{StaticResource Label.BookMark.Title}"
+												/>-->
 
-														<DataTrigger Value="true">
-															<DataTrigger.Binding>
-																<MultiBinding Converter="{StaticResource Equals}">
-																	<Binding Path="Item.MergeItemCount" />
-																	<Binding Path="ExtItemCountLast" />
-																</MultiBinding>
-															</DataTrigger.Binding>
-															<Setter Property="Visibility" Value="Collapsed" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</Label.Style>
-										</Label>
+												<!-- ContentStringFormat="{}extMrgItmCount:({0})" -->
 
-										<DockPanel.Style>
-											<Style TargetType="DockPanel">
-												<Setter Property="Visibility" Value="Visible" />
-												<Style.Triggers>
-													<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
-														<Setter Property="Visibility" Value="Collapsed">
-														</Setter>
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</DockPanel.Style>
+										<!-- <Label -->
+										<!-- 		Content="{Binding Item.MergeItems.Count}" -->
+										<!-- 		Margin="3,0,0,0" -->
+										<!-- 		Padding="0" -->
+										<!-- 		ContentStringFormat="{}MrgItmCount:({0})" -->
+										<!-- 		> -->
+										<!-- 	<Label.Style> -->
+										<!-- 		<Style -->
+										<!-- 				TargetType="Label" -->
+										<!-- 				BasedOn="{StaticResource Label.BookMark.Title}" -->
+										<!-- 				> -->
+										<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
+										<!-- 			~1~ <Style.Triggers> @1@ -->
+										<!-- 			~1~ @1@ -->
+										<!-- 			~1~ 	<DataTrigger Value="true"> @1@ -->
+										<!-- 			~1~ 		<DataTrigger.Binding> @1@ -->
+										<!-- 			~1~ 			<MultiBinding Converter="{StaticResource Equals}"> @1@ -->
+										<!-- 			~1~ 				<Binding Path="Item.MergeItemCount" /> @1@ -->
+										<!-- 			~1~ 				<Binding Path="ExtItemCountLast" /> @1@ -->
+										<!-- 			~1~ 			</MultiBinding> @1@ -->
+										<!-- 			~1~ 		</DataTrigger.Binding> @1@ -->
+										<!-- 			~1~ 		<Setter Property="Visibility" Value="Collapsed" /> @1@ -->
+										<!-- 			~1~ 	</DataTrigger> @1@ -->
+										<!-- 			~1~ </Style.Triggers> @1@ -->
+										<!-- 		</Style> -->
+										<!-- 	</Label.Style> -->
+										<!-- </Label> -->
 
-									</DockPanel>
+									<!-- 	<DockPanel.Style> -->
+									<!-- 		<Style TargetType="DockPanel"> -->
+									<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
+									<!-- 			 <Style.Triggers>  -->
+									<!-- 			 	<DataTrigger Value="0" Binding="{Binding ExtMergeItemCount}">  -->
+									<!-- 			 		<Setter Property="Visibility" Value="Collapsed">  -->
+									<!-- 			 		</Setter>  -->
+									<!-- 			 	</DataTrigger>  -->
+									<!-- 			 </Style.Triggers>-->  
+									<!-- 		</Style> -->
+									<!-- 	</DockPanel.Style> -->
+									<!-- -->
+									<!-- </DockPanel> -->
 
 									<Label
 											Content="{Binding Path=Item.Title,
@@ -1252,12 +1301,21 @@
 											Margin="0,0,0,2"
 											Style="{StaticResource Label.BookMark.Title}"
 											/>
-									<!--    -->
-									<!--  <Label  -->
-									<!--  Content="{Binding Path=Item.IsVisible,  -->
-									<!--  FallbackValue='unknown'}"  -->
-									<!--  Style="{StaticResource Label.BookMark.Title}"  -->
-									<!--  />  -->
+
+									<!--<Label
+											Content="Merge Items"
+											Margin="15,0,5,0"
+											Padding="0"
+											Style="{StaticResource Label.BookMark.Title}"
+									/>-->
+
+									<Label
+												Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
+												Margin="5,0,5,0"
+												Padding="0"
+												ContentStringFormat="{}( {0} Total Merge Items )"
+												Style="{StaticResource Label.BookMark.Title}"
+												/>
 
 								</DockPanel>
 

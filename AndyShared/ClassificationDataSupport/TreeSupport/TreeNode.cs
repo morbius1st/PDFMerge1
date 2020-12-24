@@ -65,12 +65,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#region private fields
 
 		// properties
-		private SheetCategory item;
+		protected SheetCategory item;
 
 		/// <summary>
 		/// the list of child TreeNodes
 		/// </summary>
-		private ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
+		protected ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
 
 		private ListCollectionView childrenView;
 
@@ -78,7 +78,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private int depth;
 		private static int maxDepth = 7;
 
-		private int extItemCountLast;
+		private int extMergeItemCount;
+		// protected int extItemCountCurrent;
+		// private int extMgrCountCurr;
 
 		private CheckedState checkedState = CheckedState.UNCHECKED;
 		private CheckedState triState = CheckedState.UNSET;
@@ -389,32 +391,49 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public int ItemCount => item.Count;
 
 		[IgnoreDataMember]
-		public int ExtItemCountLast
+		public int ExtMergeItemCount
 		{
-			get => extItemCountLast;
+			get => extMergeItemCount;
 			set
 			{
-				extItemCountLast = value;
+				extMergeItemCount = value;
 				OnPropertyChange();
 			}
 		}
 
-		[IgnoreDataMember]
-		public int ExtMergeItemCountCurrent
-		{
-			get
-			{
-				int count = item.MergeItemCount;
-
-				foreach (TreeNode childNode in children)
-				{
-					count += childNode.ExtMergeItemCountCurrent;
-				}
-
-				return count;
-			}
-
-		}
+		// [IgnoreDataMember]
+		// public virtual int ExtMergeItemCountCurrent
+		// {
+		// 	get => extItemCountCurrent;
+		// 	// {
+		// 	// 	int count = item.MergeItemCount;
+		// 	//
+		// 	// 	foreach (TreeNode childNode in children)
+		// 	// 	{
+		// 	// 		count += childNode.ExtMergeItemCountCurrent;
+		// 	// 	}
+		// 	//
+		// 	// 	return count;
+		// 	// }
+		// 	
+		// 	set
+		// 	{
+		// 		if (value != -1) return;
+		//
+		// 			int count = item.MergeItemCount;
+		// 		
+		// 			foreach (TreeNode childNode in children)
+		// 			{
+		// 				childNode.ExtMergeItemCountCurrent = -1;
+		// 				count += childNode.ExtMergeItemCountCurrent;
+		// 			}
+		//
+		// 			extItemCountCurrent = count;
+		//
+		// 			OnPropertyChange();
+		// 	}
+		//
+		// }
 
 	#endregion
 
@@ -540,16 +559,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region public methods
 
-		public int CountExtItems()
+		public int CountExtMergeItems()
 		{
 			int count = item.MergeItemCount;
 
 			foreach (TreeNode childNode in children)
 			{
-				count += childNode.CountExtItems();
+				count += childNode.CountExtMergeItems();
 			}
 
-			ExtItemCountLast = count;
+			ExtMergeItemCount = count;
 
 			return count;
 		}
@@ -711,14 +730,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void UpdateProperties()
 		{
-			OnPropertyChange("Item");
-			OnPropertyChange("ChildrenView");
-			OnPropertyChange("HasChildren");
-			OnPropertyChange("ChildCount");
-			OnPropertyChange("ExtChildCount");
-			OnPropertyChange("ItemCount");
-			OnPropertyChange("ExtItemCountLast");
-			OnPropertyChange("ExtMergeItemCountCurrent");
+			OnPropertyChange(nameof(Item));
+			OnPropertyChange(nameof(ChildrenView));
+			OnPropertyChange(nameof(HasChildren));
+			OnPropertyChange(nameof(ChildCount));
+			OnPropertyChange(nameof(ExtChildCount));
+			OnPropertyChange(nameof(ItemCount));
+			OnPropertyChange(nameof(ExtMergeItemCount));
+			// OnPropertyChange(nameof(ExtMergeItemCountCurrent));
 
 			// OnPropertyChange("ExtItemCount");
 		}
@@ -977,6 +996,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#region private fields
 
 		private TreeNode selectedNode;
+		// private int extMergeItemCountCurrent;
 
 	#endregion
 
@@ -1017,6 +1037,27 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#endregion
 
 	#region public methods
+		//
+		// public int ExtMergeItemCountCurrent
+		// {
+		// 	get => extMergeItemCountCurrent;
+		// 	set
+		// 	{
+		// 		if (value != -1) return;
+		//
+		// 		int count = item.MergeItemCount;
+		// 		
+		// 		foreach (TreeNode childNode in children)
+		// 		{
+		// 			childNode.ExtMergeItemCountCurrent = -1;
+		// 			count += childNode.ExtMergeItemCountCurrent;
+		// 		}
+		//
+		// 		extMergeItemCountCurrent = count;
+		//
+		// 		OnPropertyChange();
+		// 	}
+		// }
 
 		public void RemoveNode2(TreeNode contextNode)
 		{
