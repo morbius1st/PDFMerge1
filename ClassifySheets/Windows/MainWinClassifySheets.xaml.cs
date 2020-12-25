@@ -622,11 +622,7 @@ namespace ClassifySheets.Windows
 				Tbx2Message += (" item count | ");
 				Tbx2Message += (node.ItemCount.ToString("##0"));
 				Tbx2Message += (" ex last item count| ");
-#pragma warning disable CS1061 // 'TreeNode' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'TreeNode' could be found (are you missing a using directive or an assembly reference?)
 				Tbx2Message += (node.ExtMergeItemCount.ToString("##0"));
-#pragma warning restore CS1061 // 'TreeNode' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'TreeNode' could be found (are you missing a using directive or an assembly reference?)
-				// Tbx2Message += (" ex Mi count| ");
-				// Tbx2Message += (node.ExtMergeItemCountCurrent.ToString("##0"));
 				Tbx2Message += ("\n");
 
 
@@ -651,21 +647,26 @@ namespace ClassifySheets.Windows
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
-#pragma warning disable CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
 			Pb2MaximumValue = BaseOfTree.ExtMergeItemCount;
-#pragma warning restore CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
+
 			pb2Count = 0;
 
 			Tbx2Message += "Report: *** enumerateMergeItems ***\n";
 
+			int count = 0;
+
 			foreach (MergeItem mi in classify.EnumerateMergeItems())
 			{
+				count++;
 				Tbx2Message += ( "merge item| " + mi.FilePath.FileNameObject.SheetNumber + " :: "
 					+ mi.FilePath.FileNameObject.SheetTitle + "\n");
 
 				((IProgress<string>) p2String).Report(mi.FilePath.FileNameObject.SheetNumber);
 				((IProgress<double>) p2Double).Report(++pb2Count);
 			}
+
+			Tbx2Message += "Report: *** enumerateMergeItems - complete (total of| " + count
+				+ ") merge items ***\n";
 		}
 
 		private void enumerateMergeNodes()
