@@ -62,29 +62,14 @@
 				<Setter Property="Foreground" Value="White" />
 			</Style>
 
-			<!--  <Style x:Key="Lable.Root"  -->
-			<!--  TargetType="Label"  -->
-			<!--  >  -->
-			<!-- 	<Setter Property="VerticalAlignment" Value="Center" /> -->
-			<!-- 	<Setter Property="HorizontalAlignment" Value="Left" /> -->
-			<!-- 	<Setter Property="Margin" Value="0" /> -->
-			<!-- 	<Setter Property="Padding" Value="0" /> -->
-			<!-- </Style> -->
-			<!--    -->
-			<!--  <Style x:Key="Label.Base"  -->
-			<!--  TargetType="{x:Type Label}"  -->
-			<!--  BasedOn="{StaticResource Lable.Root}"  -->
-			<!--  >  -->
-			<!-- 	<Setter Property="Background" Value="Transparent" /> -->
-			<!-- 	<Setter Property="Foreground" Value="White" /> -->
-			<!-- </Style> -->
-
-			<Style x:Key="Button.Base" TargetType="Button">
-				<Setter Property="Margin" Value="5,0,0,0"/>
-				<Setter Property="Padding" Value="0"/>
-				<Setter Property="Height" Value="35"/>
-				<Setter Property="Width" Value="90"/>
-				<Setter Property="TextBlock.TextAlignment" Value="Center"/>
+			<Style x:Key="Button.Base"
+					TargetType="Button"
+					>
+				<Setter Property="Margin" Value="5,0,0,0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Height" Value="35" />
+				<Setter Property="Width" Value="90" />
+				<Setter Property="TextBlock.TextAlignment" Value="Center" />
 			</Style>
 
 
@@ -105,8 +90,6 @@
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 			</Style>
 
-
-
 			<Style x:Key="StackPanel.Base"
 					TargetType="StackPanel"
 					>
@@ -122,7 +105,6 @@
 				<Setter Property="Orientation" Value="Horizontal" />
 				<Setter Property="Margin" Value="5,5,0,0" />
 			</Style>
-
 
 			<Style x:Key="Border.Settings.Base"
 					TargetType="Border"
@@ -165,7 +147,6 @@
 				<Setter Property="Stretch" Value="UniformToFill" />
 			</Style>
 
-
 			<Style x:Key="Border.BookMark.Base"
 					TargetType="Border"
 					>
@@ -187,7 +168,6 @@
 				<Setter Property="BorderBrush" Value="{StaticResource Element.Value.Background.Normal}" />
 			</Style>
 
-
 			<Style x:Key="Border.BookMark.Icon"
 					TargetType="Border"
 					BasedOn="{StaticResource Border.BookMark.Base}"
@@ -198,7 +178,6 @@
 				<Setter Property="Background" Value="{StaticResource Element.Icon.Background.Normal}" />
 				<Setter Property="BorderBrush" Value="{StaticResource Element.Title.Background.Normal}" />
 			</Style>
-
 
 			<ControlTemplate x:Key="ScrollViewerControlTemplate1"
 					TargetType="{x:Type ScrollViewer}"
@@ -222,7 +201,6 @@
 							Grid.Row="2"
 							Fill="Transparent"
 							/>
-					<!--  Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  -->
 
 					<ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
 							Content="{TemplateBinding Content}"
@@ -253,20 +231,6 @@
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
 
-					<!--  <ScrollBar x:Name="PART_VerticalScrollBar"  -->
-					<!--  Grid.Column="2"  -->
-					<!--  Grid.Row="1"  -->
-					<!--  AutomationProperties.AutomationId="VerticalScrollBar"  -->
-					<!--  Cursor="Arrow"  -->
-					<!--  Maximum="{TemplateBinding ScrollableHeight}"  -->
-					<!--  Minimum="0"  -->
-					<!--  ViewportSize="{TemplateBinding ViewportHeight}"  -->
-					<!--  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"  -->
-					<!--  Value="{Binding VerticalOffset,  -->
-					<!--  Mode=OneWay,  -->
-					<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
-					<!--  />  -->
-
 					<ScrollBar x:Name="PART_HorizontalScrollBar"
 							Grid.Column="0"
 							Grid.Row="2"
@@ -286,22 +250,6 @@
 							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
 							Style="{DynamicResource ScrollBarStyle}"
 							/>
-
-
-					<!--  <ScrollBar x:Name="PART_HorizontalScrollBar"  -->
-					<!--  Grid.Column="1"  -->
-					<!--  Grid.Row="2"  -->
-					<!--  AutomationProperties.AutomationId="HorizontalScrollBar"  -->
-					<!--  Cursor="Arrow"  -->
-					<!--  Maximum="{TemplateBinding ScrollableWidth}"  -->
-					<!--  Minimum="0"  -->
-					<!--  Orientation="Horizontal"  -->
-					<!--  ViewportSize="{TemplateBinding ViewportWidth}"  -->
-					<!--  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"  -->
-					<!--  Value="{Binding HorizontalOffset,  -->
-					<!--  Mode=OneWay,  -->
-					<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
-					<!--  />  -->
 				</Grid>
 			</ControlTemplate>
 
@@ -320,17 +268,15 @@
 									Height="20"
 									Padding="0"
 									>
-								<!--  Background="#222222"  -->
 								<Path x:Name="ExpandPath"
 										Width="10"
 										Height="10"
 										Data="M 0,0 4,8 8,0 z"
+										Fill="{TemplateBinding Foreground}"
 										RenderTransformOrigin="0.5,0.5"
 										Stretch="UniformToFill"
 										StrokeThickness="0"
-										Fill="{TemplateBinding Foreground}"
 										>
-										<!--Fill="red"-->
 									<Path.RenderTransform>
 										<RotateTransform Angle="270" CenterX="0" CenterY="0" />
 									</Path.RenderTransform>
@@ -348,7 +294,6 @@
 									<Setter TargetName="bdr_toggle" Property="Background" Value="Transparent" />
 								</Trigger>
 								<Trigger Property="IsMouseOver" Value="true">
-									<!-- <Setter TargetName="bdr_toggle" Property="Background" Value="#666666"/> -->
 									<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" />
 									<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" />
 								</Trigger>
@@ -366,7 +311,6 @@
 				</Setter>
 			</Style>
 
-			<!-- <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" /> -->
 			<Style x:Key="Tv1_ItemContainerStyle"
 					TargetType="{x:Type TreeViewItem}"
 					>
@@ -384,7 +328,6 @@
 						<ControlTemplate x:Name="Ct01"
 								TargetType="{x:Type TreeViewItem}"
 								>
-							<!-- <ColumnDefinition Width="{StaticResource BkMrkIconWidth}" /> -->
 							<Grid x:Name="GdTvi01">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="25" />
@@ -402,16 +345,13 @@
 										Height="{StaticResource BkMrkItemRowHeightDbl}"
 										HorizontalAlignment="Right"
 										VerticalAlignment="Top"
+										Foreground="red"
 										IsChecked="{Binding IsExpandedAlt,
 																				Mode=TwoWay,
 																				FallbackValue=false}"
 										ClickMode="Press"
-										Foreground="red"
 										Style="{StaticResource ExpandCollapseToggleStyle}"
 										/>
-								<!--  IsChecked="{Binding IsExpanded,  -->
-								<!--  RelativeSource={RelativeSource TemplatedParent}}"  -->
-
 
 								<Border x:Name="Bd"
 										Grid.Column="1"
@@ -427,7 +367,6 @@
 											ContentSource="Header"
 											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 											/>
-									<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
 								</Border>
 								<ItemsPresenter x:Name="ItemsHost"
 										Grid.Column="1"
@@ -435,13 +374,6 @@
 										/>
 							</Grid>
 							<ControlTemplate.Triggers>
-								<!-- <MultiDataTrigger> -->
-								<!-- 	<MultiDataTrigger.Conditions> -->
-								<!-- 		<Condition Value="0" Binding="{Binding ExtItemCountLast}" /> -->
-								<!-- 		<Condition Value="1" Binding="{Binding ElementName=WinClassfTest, Path=TreeViewTitleIndex}" /> -->
-								<!-- 	</MultiDataTrigger.Conditions> -->
-								<!-- 	<Setter Property="Visibility" Value="Collapsed" /> -->
-								<!-- </MultiDataTrigger> -->
 								<Trigger Property="IsExpanded" Value="false">
 									<Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
 								</Trigger>
@@ -480,12 +412,9 @@
 				</Style.Triggers>
 			</Style>
 
-
-
 			<Style x:Key="Tv1_TvStyle"
 					TargetType="{x:Type TreeView}"
 					>
-
 				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 				<Setter Property="BorderBrush" Value="LightSlateGray" />
 				<Setter Property="BorderThickness" Value="1" />
@@ -540,112 +469,34 @@
 
 													<DockPanel>
 
-														<!-- <Label -->
-														<!-- 		Content="{Binding ExtItemCountLast}" -->
-														<!-- 		Margin="5,0,0,4" -->
-														<!-- 		Padding="0" -->
-														<!-- 		ContentStringFormat="{}last({0})" -->
-														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-														<!-- /> -->
-														<!-- -->
-														<!-- <Label -->
-														<!-- 		Content="{Binding ExtMergeItemCountCurrent}" -->
-														<!-- 		Margin="5,0,0,5" -->
-														<!-- 		ContentStringFormat="{}({0})" -->
-														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-														<!-- /> -->
-
-														<!-- <DockPanel> -->
-
-															<ToggleButton x:Name="Lv2_visibility"
-																	Margin="0,1,0,0"
-																	Height="{StaticResource BkMrkItemRowHeightDbl}"
-																	VerticalAlignment="Center"
-																	Background="Transparent"
-																	IsChecked="{Binding Item.IsVisible,
-																											Mode=TwoWay,
-																											FallbackValue=false}"
-																	ClickMode="Press"
-																	DockPanel.Dock="Left"
-																	>
-																<ToggleButton.Style>
-																	<Style
-																			TargetType="ToggleButton"
-																			BasedOn="{StaticResource ExpandCollapseToggleStyle}"
-																			>
-																		<Setter Property="Visibility" Value="Visible" />
-																		<Setter Property="Foreground" Value="Red"/>
-																		<Setter Property="IsEnabled" Value="True"/>
-																		<Style.Triggers> 
-																			<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> 
-																				<Setter Property="IsEnabled" Value="False"/>
-																				<Setter Property="Foreground" Value="PaleVioletRed"/>
-																			</DataTrigger> 
-																		</Style.Triggers> 
-																	</Style>
-																</ToggleButton.Style>
-															</ToggleButton>
-																				<!--<Setter Property="Visibility" Value="Collapsed"/>--> 
-
-
-															<!-- <Label -->
-															<!-- 		Content="{Binding ItemCount}" -->
-															<!-- 		Margin="5,0,0,0" -->
-															<!-- 		Padding="0" -->
-															<!-- 		ContentStringFormat="{}Items:({0})" -->
-															<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-															<!-- /> -->
-
-															<!--<Label
-																	Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
-																	Margin="3,0,5,0"
-																	Padding="0"
-																	ContentStringFormat="{}({0})"
-																	Style="{StaticResource Label.BookMark.Title}"
-															/>-->
-																	<!-- ContentStringFormat="{}extMrgItmCount:({0})" -->
-
-															<!-- <Label -->
-															<!-- 		Content="{Binding Item.MergeItems.Count}" -->
-															<!-- 		Margin="3,0,0,0" -->
-															<!-- 		Padding="0" -->
-															<!-- 		ContentStringFormat="{}MrgItmCount:({0})" -->
-															<!-- > -->
-															<!-- 	<Label.Style> -->
-															<!-- 		<Style -->
-															<!-- 				TargetType="Label" -->
-															<!-- 				BasedOn="{StaticResource Label.BookMark.Title}" -->
-															<!-- 				> -->
-															<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
-															<!-- 			~1~ <Style.Triggers> @1@ -->
-															<!-- 			~1~ @1@ -->
-															<!-- 			~1~ 	<DataTrigger Value="true"> @1@ -->
-															<!-- 			~1~ 		<DataTrigger.Binding> @1@ -->
-															<!-- 			~1~ 			<MultiBinding Converter="{StaticResource Equals}"> @1@ -->
-															<!-- 			~1~ 				<Binding Path="Item.MergeItemCount" /> @1@ -->
-															<!-- 			~1~ 				<Binding Path="ExtItemCountLast" /> @1@ -->
-															<!-- 			~1~ 			</MultiBinding> @1@ -->
-															<!-- 			~1~ 		</DataTrigger.Binding> @1@ -->
-															<!-- 			~1~ 		<Setter Property="Visibility" Value="Collapsed" /> @1@ -->
-															<!-- 			~1~ 	</DataTrigger> @1@ -->
-															<!-- 			~1~ </Style.Triggers> @1@ -->
-															<!-- 		</Style> -->
-															<!-- 	</Label.Style> -->
-															<!-- </Label> -->
-
-														<!-- 	<DockPanel.Style> -->
-														<!-- 		<Style TargetType="DockPanel"> -->
-														<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
-														<!-- 			<Style.Triggers> -->
-														<!-- 				<DataTrigger Value="0" Binding="{Binding ExtMergeItemCount}"> -->
-														<!-- 					<Setter Property="Visibility" Value="Collapsed"> -->
-														<!-- 					</Setter> -->
-														<!-- 				</DataTrigger> -->
-														<!-- 			</Style.Triggers>--> 
-														<!-- 		</Style> -->
-														<!-- 	</DockPanel.Style> -->
-														<!-- -->
-														<!-- </DockPanel> -->
+														<ToggleButton x:Name="Lv2_visibility"
+																Margin="0,1,0,0"
+																Height="{StaticResource BkMrkItemRowHeightDbl}"
+																VerticalAlignment="Center"
+																Background="Transparent"
+																IsChecked="{Binding Item.IsVisible,
+																										Mode=TwoWay,
+																										FallbackValue=false}"
+																ClickMode="Press"
+																DockPanel.Dock="Left"
+																>
+															<ToggleButton.Style>
+																<Style
+																		TargetType="ToggleButton"
+																		BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+																		>
+																	<Setter Property="Visibility" Value="Visible" />
+																	<Setter Property="Foreground" Value="Red" />
+																	<Setter Property="IsEnabled" Value="True" />
+																	<Style.Triggers>
+																		<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
+																			<Setter Property="IsEnabled" Value="False" />
+																			<Setter Property="Foreground" Value="PaleVioletRed" />
+																		</DataTrigger>
+																	</Style.Triggers>
+																</Style>
+															</ToggleButton.Style>
+														</ToggleButton>
 
 														<Label x:Name="Lbl02"
 																Content="{Binding ElementName=WinClassfTest,
@@ -657,23 +508,17 @@
 																Style="{StaticResource Label.BookMark.Title}"
 																/>
 
-														<!-- <Label -->
-														<!-- 		Content="Merge Items" -->
-														<!-- 		Margin="15,0,5,0" -->
-														<!-- 		Padding="0" -->
-														<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-														<!-- /> -->
-
 														<Label
-																Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
+																Content="{Binding ExtMergeItemCount,
+																									Mode=OneWay,
+																									FallbackValue=0}"
 																Margin="3,0,5,0"
 																Padding="0"
 																ContentStringFormat="{}( {0} Total Merge Items )"
 																Style="{StaticResource Label.BookMark.Title}"
-														/>
+																/>
 
 													</DockPanel>
-
 												</Border>
 											</DockPanel>
 
@@ -720,10 +565,6 @@
 																	Stretch="UniformToFill"
 																	StrokeThickness="0"
 																	>
-																<!--  Data="M 0,0 4,8 8,0 z"  -->
-																<!-- <Path.RenderTransform> -->
-																<!-- 	<RotateTransform Angle="270" CenterX="0" CenterY="0" /> -->
-																<!-- </Path.RenderTransform> -->
 															</Path>
 
 															<Label x:Name="Lbl03"
@@ -757,9 +598,6 @@
 															<DataTrigger Value="false" Binding="{Binding Item.IsVisible}">
 																<Setter Property="Visibility" Value="Collapsed" />
 															</DataTrigger>
-															<!-- <DataTrigger Value="false" Binding="{Binding ElementName=WinClassfTest, Path=IsExpandedEx}"> -->
-															<!-- 	<Setter Property="Visibility" Value="Collapsed" /> -->
-															<!-- </DataTrigger> -->
 														</Style.Triggers>
 													</Style>
 												</ListView.Style>
@@ -825,7 +663,6 @@
 				Orientation="Horizontal"
 				>
 
-
 			<Button x:Name="BtnDebug"
 					Content="Debug"
 					Style="{StaticResource Button.Base}"
@@ -845,21 +682,6 @@
 					Style="{StaticResource Button.Base}"
 					Click="BtnShow_OnClick"
 					/>
-
-			<!-- <Button x:Name="BtnProgress" -->
-			<!-- 		Content="Progress" -->
-			<!-- 		ToolTip="Run a series of test&#10;routines.  Run them&#10;async and not async" -->
-			<!-- 		Style="{StaticResource Button.Base}" -->
-			<!-- 		Click="BtnProgress_OnClick" -->
-			<!-- 		/> -->
-
-			<!-- <Button x:Name="BtnClassify" -->
-			<!-- 		Content="Go /&#10;Test Lite" -->
-			<!-- 		TextBlock.TextAlignment="Center" -->
-			<!-- 		ToolTip="Classify the data&#10;using the classification&#10;system and standard&#10;information.  Similar to 'go'&#10;but does a bit less" -->
-			<!-- 		Style="{StaticResource Button.Base}" -->
-			<!-- 		Click="BtnGoLite_OnClick" -->
-			<!-- 		/> -->
 
 			<Button x:Name="BtnGo"
 					Content="Go /&#10;Test"
@@ -887,7 +709,6 @@
 				Foreground="White"
 				/>
 
-
 		<ProgressBar Name="Pb1"
 				Grid.Column="0"
 				Grid.Row="2"
@@ -902,8 +723,6 @@
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				/>
 
-
-
 		<Label Name="lbl2"
 				Grid.Column="1"
 				Grid.Row="2"
@@ -913,9 +732,6 @@
 				VerticalAlignment="Center"
 				Foreground="White"
 				/>
-		<!--  Content="{Binding Path=Lbl2Content,  -->
-		<!--  FallbackValue=|}"  -->
-
 
 		<ProgressBar Name="Pb2"
 				Grid.Column="1"
@@ -929,7 +745,6 @@
 				Maximum="{Binding Pb2MaximumValue}"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				/>
-		<!--  Value="{Binding Pb2Value}"  -->
 
 		<TextBox Name="Tbx1Prog"
 				Grid.Column="1"
@@ -943,8 +758,6 @@
 											 Mode=OneWay}"
 				VerticalScrollBarVisibility="Visible"
 				/>
-
-
 
 		<TextBox Name="Tbx1Msg"
 				Grid.Column="0"
@@ -1036,10 +849,7 @@
 						/>
 
 			</StackPanel>
-
 		</StackPanel>
-
-
 
 		<StackPanel
 				Grid.Column="0"
@@ -1114,7 +924,7 @@
 			</StackPanel>
 		</StackPanel>
 
-		<!-- #FF06B025 -->
+		<!--  #FF06B025  -->
 		<ProgressBar Name="PbProgress"
 				Grid.Column="2"
 				Grid.Row="2"
@@ -1125,7 +935,8 @@
 				Background="Transparent"
 				BorderThickness="0"
 				Maximum="{Binding Pb2MaximumValue}"
-				ScrollViewer.VerticalScrollBarVisibility="Disabled">
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				>
 
 		</ProgressBar>
 
@@ -1140,7 +951,7 @@
 				BorderThickness="0"
 				Maximum="{Binding Pb2MaximumValue}"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
-		/>
+				/>
 
 		<TreeView x:Name="Tv1"
 				Grid.Column="2"
@@ -1167,7 +978,6 @@
 						DataType="treeSupport:TreeNode"
 						ItemsSource="{Binding Children}"
 						>
-					<!--  ItemsSource="{Binding ChildrenView}"  -->
 
 					<Grid HorizontalAlignment="Stretch">
 						<Grid.ColumnDefinitions>
@@ -1203,97 +1013,34 @@
 
 								<DockPanel>
 
-									<!-- <DockPanel> -->
-
-										<ToggleButton x:Name="Lv1_visibility"
-												Margin="0,1,0,0"
-												Height="{StaticResource BkMrkItemRowHeightDbl}"
-												VerticalAlignment="Center"
-												Background="Transparent"
-												IsChecked="{Binding Item.IsVisible,
-																						Mode=TwoWay,
-																						FallbackValue=false}"
-												ClickMode="Press"
-
-												DockPanel.Dock="Left"
-												>
-											<ToggleButton.Style>
-												<Style
-														TargetType="ToggleButton"
-														BasedOn="{StaticResource ExpandCollapseToggleStyle}"
-														>
-													<Setter Property="Visibility" Value="Visible" />
-													<Setter Property="Foreground" Value="Red"/>
-													<Setter Property="IsEnabled" Value="True"/>
-													 <Style.Triggers> 
-													 	<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}"> 
-													 		<Setter Property="IsEnabled" Value="False"/>
-													 		<Setter Property="Foreground" Value="PaleVioletRed"/>
-													 	</DataTrigger> 
-													 </Style.Triggers> 
-												</Style>
-											</ToggleButton.Style>
-										</ToggleButton>
-
-										<!-- <Label -->
-										<!-- 		Content="{Binding ItemCount}" -->
-										<!-- 		Margin="5,0,0,0" -->
-										<!-- 		Padding="0" -->
-										<!-- 		ContentStringFormat="{}Items:({0})" -->
-										<!-- 		Style="{StaticResource Label.BookMark.Title}" -->
-										<!-- 		/> -->
-
-										<!--<Label
-												Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
-												Margin="3,0,5,0"
-												Padding="0"
-												ContentStringFormat="{}({0})"
-												Style="{StaticResource Label.BookMark.Title}"
-												/>-->
-
-												<!-- ContentStringFormat="{}extMrgItmCount:({0})" -->
-
-										<!-- <Label -->
-										<!-- 		Content="{Binding Item.MergeItems.Count}" -->
-										<!-- 		Margin="3,0,0,0" -->
-										<!-- 		Padding="0" -->
-										<!-- 		ContentStringFormat="{}MrgItmCount:({0})" -->
-										<!-- 		> -->
-										<!-- 	<Label.Style> -->
-										<!-- 		<Style -->
-										<!-- 				TargetType="Label" -->
-										<!-- 				BasedOn="{StaticResource Label.BookMark.Title}" -->
-										<!-- 				> -->
-										<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
-										<!-- 			~1~ <Style.Triggers> @1@ -->
-										<!-- 			~1~ @1@ -->
-										<!-- 			~1~ 	<DataTrigger Value="true"> @1@ -->
-										<!-- 			~1~ 		<DataTrigger.Binding> @1@ -->
-										<!-- 			~1~ 			<MultiBinding Converter="{StaticResource Equals}"> @1@ -->
-										<!-- 			~1~ 				<Binding Path="Item.MergeItemCount" /> @1@ -->
-										<!-- 			~1~ 				<Binding Path="ExtItemCountLast" /> @1@ -->
-										<!-- 			~1~ 			</MultiBinding> @1@ -->
-										<!-- 			~1~ 		</DataTrigger.Binding> @1@ -->
-										<!-- 			~1~ 		<Setter Property="Visibility" Value="Collapsed" /> @1@ -->
-										<!-- 			~1~ 	</DataTrigger> @1@ -->
-										<!-- 			~1~ </Style.Triggers> @1@ -->
-										<!-- 		</Style> -->
-										<!-- 	</Label.Style> -->
-										<!-- </Label> -->
-
-									<!-- 	<DockPanel.Style> -->
-									<!-- 		<Style TargetType="DockPanel"> -->
-									<!-- 			<Setter Property="Visibility" Value="Visible" /> -->
-									<!-- 			 <Style.Triggers>  -->
-									<!-- 			 	<DataTrigger Value="0" Binding="{Binding ExtMergeItemCount}">  -->
-									<!-- 			 		<Setter Property="Visibility" Value="Collapsed">  -->
-									<!-- 			 		</Setter>  -->
-									<!-- 			 	</DataTrigger>  -->
-									<!-- 			 </Style.Triggers>-->  
-									<!-- 		</Style> -->
-									<!-- 	</DockPanel.Style> -->
-									<!-- -->
-									<!-- </DockPanel> -->
+									<ToggleButton x:Name="Lv1_visibility"
+											Margin="0,1,0,0"
+											Height="{StaticResource BkMrkItemRowHeightDbl}"
+											VerticalAlignment="Center"
+											Background="Transparent"
+											IsChecked="{Binding Item.IsVisible,
+																					Mode=TwoWay,
+																					FallbackValue=false}"
+											ClickMode="Press"
+											DockPanel.Dock="Left"
+											>
+										<ToggleButton.Style>
+											<Style
+													TargetType="ToggleButton"
+													BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+													>
+												<Setter Property="Visibility" Value="Visible" />
+												<Setter Property="Foreground" Value="Red" />
+												<Setter Property="IsEnabled" Value="True" />
+												<Style.Triggers>
+													<DataTrigger Value="0" Binding="{Binding Item.MergeItems.Count}">
+														<Setter Property="IsEnabled" Value="False" />
+														<Setter Property="Foreground" Value="PaleVioletRed" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</ToggleButton.Style>
+									</ToggleButton>
 
 									<Label
 											Content="{Binding Path=Item.Title,
@@ -1302,23 +1049,17 @@
 											Style="{StaticResource Label.BookMark.Title}"
 											/>
 
-									<!--<Label
-											Content="Merge Items"
-											Margin="15,0,5,0"
-											Padding="0"
-											Style="{StaticResource Label.BookMark.Title}"
-									/>-->
-
 									<Label
-												Content="{Binding ExtMergeItemCount, Mode=OneWay, FallbackValue=0}"
-												Margin="5,0,5,0"
-												Padding="0"
-												ContentStringFormat="{}( {0} Total Merge Items )"
-												Style="{StaticResource Label.BookMark.Title}"
-												/>
+											Content="{Binding ExtMergeItemCount,
+																				Mode=OneWay,
+																				FallbackValue=0}"
+											Margin="5,0,5,0"
+											Padding="0"
+											ContentStringFormat="{}( {0} Total Merge Items )"
+											Style="{StaticResource Label.BookMark.Title}"
+											/>
 
 								</DockPanel>
-
 							</Border>
 						</DockPanel>
 
@@ -1329,7 +1070,6 @@
 								Grid.ColumnSpan="2"
 								>
 
-							<!--  Tv1 item  -->
 							<ListView x:Name="Lv1"
 									Margin="{StaticResource Listview.ItemList.Margin}"
 									HorizontalAlignment="Stretch"
@@ -1371,9 +1111,6 @@
 													Stretch="UniformToFill"
 													StrokeThickness="0"
 													>
-												<!-- <Path.RenderTransform> -->
-												<!-- 	<RotateTransform Angle="270" CenterX="0" CenterY="0" /> -->
-												<!-- </Path.RenderTransform> -->
 											</Path>
 
 											<Label
@@ -1409,9 +1146,6 @@
 										<DataTrigger Value="false" Binding="{Binding Item.IsVisible}">
 											<Setter Property="Visibility" Value="Collapsed" />
 										</DataTrigger>
-										<!-- <DataTrigger Value="false" Binding="{Binding IsExpandedEx, ElementName=WinClassfTest}"> -->
-										<!-- 	<Setter Property="Visibility" Value="Collapsed" /> -->
-										<!-- </DataTrigger> -->
 									</Style.Triggers>
 								</Style>
 							</DockPanel.Style>

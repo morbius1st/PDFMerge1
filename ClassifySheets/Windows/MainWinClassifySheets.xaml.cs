@@ -48,7 +48,6 @@ namespace ClassifySheets.Windows
 		private FileNameSheetPdf fp;
 		private static TreeNode userSelected;
 
-
 		private string classfFileArg;
 
 		private bool displayDebugMsgs = true;
@@ -70,9 +69,9 @@ namespace ClassifySheets.Windows
 		private string lbl2Content;
 
 		private double pbProgVal;
-#pragma warning disable CS0169 // The field 'MainWinClassifySheets.pbProgMax' is never used
+
 		private double pbProgMax;
-#pragma warning restore CS0169 // The field 'MainWinClassifySheets.pbProgMax' is never used
+
 		private Progress<double> pbProgValue;
 
 	#endregion
@@ -81,20 +80,16 @@ namespace ClassifySheets.Windows
 
 		public MainWinClassifySheets()
 		{
-
 			InitializeComponent();
 
 			p1Double = new Progress<double>(value => Pb1Value = value);
 			p1String = new Progress<string>(value => Lbl1Content = value);
 
 			p2Double = new Progress<double>(value => Pb2.Value = value);
-			// p2Double2 = new Progress<double>(value => Pb2Value = value);
+
 			p2String = new Progress<string>(value => lbl2.Content = value);
-			// p2msg = new Progress<string>(value => Tbx2Message += value);
 
-			// pbProgValue = new Progress<double>(value => PbProgValue = value);
 			pbProgValue = new Progress<double>(value => Pb2.Value = value);
-
 		}
 
 	#endregion
@@ -129,7 +124,6 @@ namespace ClassifySheets.Windows
 				userSelected = value;
 
 				OnPropertyChange();
-				// OnPropertyChange(nameof(HasSelection));
 			}
 		}
 
@@ -270,8 +264,6 @@ namespace ClassifySheets.Windows
 
 			classificationFile.Initialize();
 
-			// treeBase = classificationFile?.TreeBase ?? null;
-
 			if (!classificationFile.SampleFilePath.IsVoid())
 			{
 				testFileList = new SheetFileList();
@@ -375,7 +367,6 @@ namespace ClassifySheets.Windows
 			classify.PreProcess();
 
 			classify.Process3();
-
 		}
 
 		private void prepClassify()
@@ -386,7 +377,6 @@ namespace ClassifySheets.Windows
 			classify.Configure(BaseOfTree, TestFileList);
 			classify.ConfigureAsyncReporting(pbProgValue);
 		}
-
 
 	#endregion
 
@@ -428,9 +418,7 @@ namespace ClassifySheets.Windows
 
 			classify.OnFileChange += classify_OnFileChange;
 			classify.OnTreeNodeChange += classify_OnTreeNodeChange;
-#pragma warning disable CS1061 // 'Classify' does not contain a definition for 'OnClassifyCompletion' and no accessible extension method 'OnClassifyCompletion' accepting a first argument of type 'Classify' could be found (are you missing a using directive or an assembly reference?)
 			classify.OnClassifyCompletion += classify_OnClassifyCompletion;
-#pragma warning restore CS1061 // 'Classify' does not contain a definition for 'OnClassifyCompletion' and no accessible extension method 'OnClassifyCompletion' accepting a first argument of type 'Classify' could be found (are you missing a using directive or an assembly reference?)
 
 			Orator.Listen("fromClassify", OnGetAnnouncement);
 
@@ -462,8 +450,6 @@ namespace ClassifySheets.Windows
 			}
 		}
 
-		// list the contents of treebase
-		// run async
 		private async void BtnListBase_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "Start";
@@ -474,7 +460,7 @@ namespace ClassifySheets.Windows
 		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "";
-			tbx2Message += classify.FormatMergeList(BaseOfTree);
+			tbx2Message += MrgSupport.FormatMergeList(BaseOfTree);
 			tbx2Message += "\n\n\n";
 			await Task.Run(() => { enumerateMergeItems(); } );
 
@@ -510,7 +496,7 @@ namespace ClassifySheets.Windows
 			BaseOfTree.CountExtMergeItems();
 
 			BaseOfTree.UpdateProperties();
-			
+
 			UpdateProperties();
 		}
 
@@ -548,9 +534,6 @@ namespace ClassifySheets.Windows
 
 			((IProgress<string>) p2String).Report("Starting");
 
-			// StringBuilder sb = new StringBuilder();
-
-			// Tbx2MsgConcat("***** List Tree Base ***\n\n");
 			Tbx2Message += ("***** List Tree Base ***\n\n");
 
 			formatNodeDescription(classificationFile.TreeBase, showMerge);
@@ -568,10 +551,6 @@ namespace ClassifySheets.Windows
 		{
 			((IProgress<double>) p2Double).Report(++pb2Count);
 			((IProgress<string>) p2String).Report(node.Item.Title + " (" + pb2Count + ")");
-			// Tbx2Message += pb2Count.ToString("000 ") + node.Item.Title + "\n";
-			// Thread.Sleep(50);
-
-			// StringBuilder sb = new StringBuilder();
 
 			foreach (TreeNode childNode in node.Children)
 			{
@@ -655,7 +634,7 @@ namespace ClassifySheets.Windows
 
 			int count = 0;
 
-			foreach (MergeItem mi in classify.EnumerateMergeItems())
+			foreach (MergeItem mi in MrgSupport.EnumerateMergeItems(BaseOfTree))
 			{
 				count++;
 				Tbx2Message += ( "merge item| " + mi.FilePath.FileNameObject.SheetNumber + " :: "
@@ -673,14 +652,13 @@ namespace ClassifySheets.Windows
 		{
 			Pb2Value = 0;
 			Lbl2Content = "";
-#pragma warning disable CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
 			Pb2MaximumValue = BaseOfTree.ExtMergeItemCount;
-#pragma warning restore CS1061 // 'BaseOfTree' does not contain a definition for 'ExtItemMergeCount' and no accessible extension method 'ExtItemMergeCount' accepting a first argument of type 'BaseOfTree' could be found (are you missing a using directive or an assembly reference?)
+
 			pb2Count = 0;
 
 			Tbx2Message += "Report: *** enumerateMergeNodes ***\n";
 
-			foreach (TreeNode node in classify.EnumerateMergeNodes())
+			foreach (TreeNode node in MrgSupport.EnumerateMergeNodes(BaseOfTree))
 			{
 				string margin = "  ".Repeat(node.Depth);
 
@@ -742,11 +720,6 @@ namespace ClassifySheets.Windows
 
 				((IProgress<double>) p1Double).Report(i);
 			}
-
-			// OnPropertyChange("Tbx1Message");
 		}
-
-
 	}
-
 }
