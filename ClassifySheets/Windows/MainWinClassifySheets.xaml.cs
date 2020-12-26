@@ -229,13 +229,14 @@ namespace ClassifySheets.Windows
 
 		public double Pb2Value
 		{
-			get => pb2Value;
+			// get => pb2Value;
 			set
 			{
 				pb2Value = value;
+				((IProgress<double>) pbProgValue).Report(value);
 
-				OnPropertyChange();
-				OnPropertyChange(nameof(BaseOfTree));
+				// OnPropertyChange();
+				// OnPropertyChange(nameof(BaseOfTree));
 			}
 		}
 
@@ -426,6 +427,14 @@ namespace ClassifySheets.Windows
 			announcer.Announce(displayDebugMsgs);
 		}
 
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			Pb2Value = 0;
+
+			Debug.WriteLine("win| @ Debug");
+
+		}
+
 		private async void MainWin_ContentRendered(object sender, EventArgs e)
 		{
 			Thread.Sleep(300);
@@ -466,11 +475,6 @@ namespace ClassifySheets.Windows
 
 			Tbx2Message += "\n";
 			await Task.Run(() => { enumerateMergeNodes(); } );
-		}
-
-		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
-		{
-			Debug.WriteLine("win| @ Debug");
 		}
 
 		private void BtnExit_OnClick(object sender, RoutedEventArgs e)

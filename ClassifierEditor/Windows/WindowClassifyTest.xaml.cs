@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
-using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.MergeSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
@@ -65,7 +52,7 @@ namespace ClassifierEditor.Windows
 
 		private Exp_Collapse_State expCollapseState = Exp_Collapse_State.EXP_TREE;
 
-		private double pb1Value;
+		// private double pb1Value;
 		private double pb1MaxValue = 0;
 		private Progress<double> pb1ProgressValue;
 
@@ -79,7 +66,8 @@ namespace ClassifierEditor.Windows
 
 			isConfigured = false;
 
-			pb1ProgressValue = new Progress<double>(value => Pb1Value = value);
+			pb1ProgressValue = new Progress<double>(value => Pb1.Value = value);
+
 		}
 
 	#endregion
@@ -198,12 +186,15 @@ namespace ClassifierEditor.Windows
 
 		public double Pb1Value
 		{
-			get => pb1Value;
+			// get => pb1Value;
 			set
 			{
-				pb1Value = value;
+				// pb1Value = value;
 
-				OnPropertyChange();
+				// OnPropertyChange();
+
+				((IProgress<double>) pb1ProgressValue).Report(value);
+
 			}
 		}
 
@@ -267,18 +258,18 @@ namespace ClassifierEditor.Windows
 
 		private async void go()
 		{
-			BaseOfTree.Item.Description = "TreeBase from ClassifyTest";
+			Pb1Value = 0;
+			Pb1MaximumValue = testFileList.Files.Count;
 
-			classify = new Classify();
+			BaseOfTree.Item.Description = "TreeBase from ClassifyTest";
 
 			if (!classify.Configure(BaseOfTree, TestFileList)) return;
 
 			classify.ConfigureAsyncReporting(pb1ProgressValue);
 
-			// todo: fix run() => classify.process()
-			// await Task.Run(() => { classify.Process(); });
+			classify.PreProcess();
 
-			// classify.Process();
+			classify.Process3();
 
 			expCollapseState = Exp_Collapse_State.EXP_ALL;
 
@@ -364,6 +355,7 @@ namespace ClassifierEditor.Windows
 			announcer = Orator.GetAnnouncer(this, "toClassify");
 
 			classify = new Classify();
+			classify.OnClassifyCompletion += Classify_OnClassifyCompletion;
 			// classify.OnFileChange += Classify_OnFileChange;
 			// classify.OnTreeNodeChange += Classify_OnTreeNodeChange;
 
@@ -413,6 +405,7 @@ namespace ClassifierEditor.Windows
 			// Debug.WriteLine("@classify-test / 3| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
 		}
+
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
 			// Debug.WriteLine("@classify-test / 11| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
@@ -439,6 +432,17 @@ namespace ClassifierEditor.Windows
 			adjustExpCollapseState();
 
 			ExpandCollapseTree(BaseOfTree);
+		}
+
+		private void Classify_OnClassifyCompletion(object sender)
+		{
+			if (classify.Status != ClassifyStatus.SUCESSFUL) return;
+
+			BaseOfTree.CountExtMergeItems();
+
+			BaseOfTree.UpdateProperties();
+
+			updateProperties();
 		}
 
 		// private void Classify_OnFileChange(object sender, FileChangeEventArgs e)
