@@ -331,99 +331,6 @@ namespace AndyShared.MergeSupport
 			return count;
 		}
 
-		// public string FormatMergeList(TreeNode node)
-		// {
-		// 	if (node.ExtMergeItemCount == 0) return null;
-		//
-		// 	StringBuilder sb = new StringBuilder();
-		//
-		// 	sb.Append(" ".Repeat(node.Depth * 2));
-		// 	sb.Append("\\").AppendLine(node.Item.Title);
-		//
-		// 	if (node.ItemCount > 0)
-		// 	{
-		// 		foreach (MergeItem item in node.Item.MergeItems)
-		// 		{
-		// 			string shtnum = item.FilePath.FileNameObject.SheetNumber;
-		//
-		// 			if (!shtnum.IsVoid())
-		// 			{
-		// 				sb.Append(" ".Repeat(node.Depth * 2 + 4));
-		// 				sb.Append(">");
-		// 				sb.Append(item.FilePath.FileNameObject.SheetNumber);
-		// 				sb.AppendLine();
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	if (node.ChildCount > 0)
-		// 	{
-		// 		foreach (TreeNode childNode in node.Children)
-		// 		{
-		// 			string result = FormatMergeList(childNode);
-		//
-		// 			if (!result.IsVoid())
-		// 			{
-		// 				sb.Append(result);
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	return sb.Length > 0 ? sb.ToString() : null;
-		// }
-
-		// private	IEnumerable<MergeItem> GetNtMergeItem(TreeNode node)
-		// {
-		// 	if (node.ExtMergeItemCount == 0) yield return null;
-		//
-		// 	if (node.ItemCount > 0)
-		// 	{
-		// 		foreach (MergeItem mi in node.Item.MergeItems)
-		// 		{
-		// 			yield return  mi;
-		// 		}
-		// 	}
-		//
-		// 	if (node.ChildCount > 0)
-		// 	{
-		// 		foreach (TreeNode childNode in node.Children)
-		// 		{
-		// 			if (childNode.ExtMergeItemCount > 0)
-		// 			{
-		// 				foreach (MergeItem mergeItem in GetNtMergeItem(childNode))
-		// 				{
-		// 					yield return mergeItem;
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	yield return null;
-		// }
-
-		// private IEnumerable<TreeNode> GetMergeNodes(TreeNode node)
-		// {
-		// 	if (node.ExtMergeItemCount == 0) yield return null;
-		//
-		// 	yield return node;
-		//
-		// 	if (node.ChildCount > 0)
-		// 	{
-		// 		foreach (TreeNode childNode in node.Children)
-		// 		{
-		// 			foreach (TreeNode mergeNode in GetMergeNodes(childNode))
-		// 			{
-		// 				if ((mergeNode?.ExtMergeItemCount ?? 0) > 0)
-		// 				{
-		// 					yield return mergeNode;
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		//
-		// 	yield return null;
-		// }
-
 		private void setCancelToken()
 		{
 			cancelTokenSrc = new CancellationTokenSource();
@@ -497,27 +404,6 @@ namespace AndyShared.MergeSupport
 	#endregion
 
 	#region system overrides
-
-		// public IEnumerable<MergeItem> EnumerateMergeItems()
-		// {
-		// 	foreach (MergeItem mi in GetNtMergeItem(treeBase))
-		// 	{
-		// 		if (mi != null) yield return mi;
-		// 	}
-		//
-		// 	yield break;
-		// }
-		//
-		// public IEnumerable<TreeNode> EnumerateMergeNodes()
-		// {
-		// 	foreach (TreeNode node in GetMergeNodes(treeBase))
-		// 	{
-		// 		if (node != null) yield return node;
-		// 	}
-		//
-		//
-		// 	yield break;
-		// }
 
 		public override string ToString()
 		{

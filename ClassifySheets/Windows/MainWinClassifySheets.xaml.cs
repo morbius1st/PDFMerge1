@@ -70,7 +70,7 @@ namespace ClassifySheets.Windows
 
 		private double pbProgVal;
 
-		private double pbProgMax;
+		// private double pbProgMax;
 
 		private Progress<double> pbProgValue;
 

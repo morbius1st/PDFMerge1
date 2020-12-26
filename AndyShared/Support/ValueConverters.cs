@@ -180,7 +180,85 @@ namespace AndyShared.Support
 
 #endregion
 
-#region bool "or" value converter
+#region int valus comparison
+
+	/// <summary>
+	/// based on the string provided return<br/>
+	/// if null: the first string<br/>
+	/// if not null: the second string<br/>
+	/// this uses a specialized collection which must be referenced<br/>
+	/// here as well as in the XAML file ('xmlns:cs="clr-namespace:System.Collections.Specialized;assembly=System" ')
+	/// </summary>
+	[ValueConversion(typeof(Int32), typeof(bool))]
+	public class Int32Comparison : IValueConverter
+	{
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (parameter == null) return false;
+
+			string[] p = ((string) parameter).Split(' ');
+
+			if (p.Length != 2 || p[0].IsVoid() || p[1].IsVoid()) return false;
+
+			int test;
+
+			bool result = Int32.TryParse((string) p[1], out test);
+			if (!result) return false;
+
+			result = false;
+
+			switch (p[0])
+			{
+			case ">":
+				{
+					result = (Int32) value > test;
+					break;
+				}
+			case "<":
+				{
+					result = (Int32) value < test;
+					break;
+				}
+			case "!=":
+				{
+					result = (Int32) value != test;
+					break;
+				}
+			case ">=":
+				{
+					result = (Int32) value >= test;
+					break;
+				}
+			case "<=":
+				{
+					result = (Int32) value >= test;
+					break;
+				}
+			case "==":
+				{
+					result = (Int32) value == test;
+					break;
+				}
+			}
+
+
+			return result;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
+
+
+
+
+#region multi bool "or" value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class BoolOr : IMultiValueConverter
@@ -213,7 +291,7 @@ namespace AndyShared.Support
 
 #endregion
 
-#region bool "or" value converter
+#region multi "equals to" value converter
 
 	[ValueConversion(typeof(object), typeof(bool))]
 	public class EqualsToBool : IMultiValueConverter
@@ -233,7 +311,5 @@ namespace AndyShared.Support
 	}
 
 #endregion
-
-
-
+	
 }

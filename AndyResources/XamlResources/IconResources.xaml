@@ -6,6 +6,10 @@
 	<Geometry x:Key="Icon.Svg.SelectFolder">
 		F1M 1.5,0 1.5,4., 5.5,4. 5.5,7. 1.5,7. 1.5,11. -1.5,11. -1.5,7. -5.5,7. -5.5,4. -1.5,4. -1.5,0 1.5,0 z
 	</Geometry>
+	
+	<Geometry x:Key="Icon.Svg.Dash">
+		F1M 5.5,4. 5.5,7. -5.5,7. -5.5,4.z
+	</Geometry>
 
 	<!-- also is the "favorites" icon -->
 	<Geometry x:Key="Icon.Svg.Star">

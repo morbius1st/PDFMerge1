@@ -21,19 +21,33 @@
 		>
 	<Window.Resources>
 
+				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" /> -->
+				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" /> -->
+
+				<!-- <ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/MasterVisualResources.xaml" /> -->
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/ScrollBar.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<!--<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
-			</ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary.MergedDictionaries>-->
+
+
 
 			<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
 			<SolidColorBrush x:Key="Path.Plus.Star.Fill" Color="OrangeRed" />
 
 			<convert:BoolOr x:Key="BoolOr" />
 			<convert:EqualsToBool x:Key="Equals" />
+			<convert:Int32Comparison x:Key="IntCompare" />
 
 			<sys:Double x:Key="Title.Width">130</sys:Double>
 
@@ -48,7 +62,7 @@
 
 			<Thickness x:Key="Listview.ItemList.Margin"
 					Bottom="5"
-					Left="25"
+					Left="0"
 					Right="0"
 					Top="0"
 					/>
@@ -253,8 +267,7 @@
 				</Grid>
 			</ControlTemplate>
 
-
-			<Style x:Key="ExpandCollapseToggleStyle"
+			<Style x:Key="ExpandCollapseToggleStyle01"
 					TargetType="{x:Type ToggleButton}"
 					>
 				<Setter Property="Focusable" Value="False" />
@@ -263,6 +276,7 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ToggleButton}">
+							
 							<Border x:Name="bdr_toggle"
 									Width="20"
 									Height="20"
@@ -282,6 +296,7 @@
 									</Path.RenderTransform>
 								</Path>
 							</Border>
+
 							<ControlTemplate.Triggers>
 								<Trigger Property="IsChecked" Value="true">
 									<Setter TargetName="ExpandPath" Property="RenderTransform">
@@ -311,6 +326,85 @@
 				</Setter>
 			</Style>
 
+			<Style x:Key="ExpandCollapseToggleStyle02"
+					TargetType="{x:Type ToggleButton}"
+					>
+				<Setter Property="Focusable" Value="False" />
+				<Setter Property="Width" Value="25" />
+				<Setter Property="Height" Value="20" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate 
+								
+								TargetType="{x:Type ToggleButton}">
+							
+							<Border Style="{StaticResource Border.BookMark.Icon}">
+								<Path x:Name="Plus"
+										Style="{StaticResource Path.BookMark.Icon}"
+								>
+								</Path>
+							</Border>
+
+							<ControlTemplate.Triggers>
+
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding Path=IsExpandedAlt}" Value="true"/>
+										<Condition Binding="{Binding Path=ChildCount, Converter={StaticResource IntCompare}, ConverterParameter='> 0'}" Value="true"/>
+									</MultiDataTrigger.Conditions>
+									<Setter TargetName="Plus" Property="RenderTransform">
+										<Setter.Value>
+											<RotateTransform Angle="45"
+													CenterX="6"
+													CenterY="6" />
+										</Setter.Value>
+									</Setter>
+									
+								</MultiDataTrigger>
+
+
+
+								<!-- <Trigger Property="IsChecked" Value="true"> -->
+								<!-- 	<Setter TargetName="Plus" Property="RenderTransform"> -->
+								<!-- 		<Setter.Value> -->
+								<!-- 			<RotateTransform Angle="45" -->
+								<!-- 											 CenterX="6" -->
+								<!-- 											 CenterY="6" /> -->
+								<!-- 		</Setter.Value> -->
+								<!-- 	</Setter> -->
+								<!-- 	<Setter TargetName="Plus" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill2}" /> -->
+								<!-- 	~1~ <Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" /> @1@ -->
+								<!-- 	~1~ <Setter TargetName="bdr_toggle" Property="Background" Value="Transparent" /> @1@ -->
+								<!-- 	~1~ <Setter TargetName="Plus" Property="Data" Value="{StaticResource Icon.Svg.Dash}"/> @1@ -->
+								<!-- 	~1~ <Setter TargetName="Plus" Property="Stretch" Value="Uniform"/> @1@ -->
+								<!-- </Trigger> -->
+
+
+								<DataTrigger Binding="{Binding Path=ChildCount}" Value="0">
+									<Setter TargetName="Plus" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill2}" />
+									<Setter TargetName="Plus" Property="Data" Value="{StaticResource Icon.Svg.Dash}"/>
+									<Setter TargetName="Plus" Property="Stretch" Value="Uniform"/>
+								</DataTrigger>
+
+
+								<!-- <Trigger Property="IsMouseOver" Value="true"> -->
+								<!-- 	<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" /> -->
+								<!-- 	<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" /> -->
+								<!-- </Trigger> -->
+								<!-- <MultiTrigger> -->
+								<!-- 	<MultiTrigger.Conditions> -->
+								<!-- 		<Condition Property="IsMouseOver" Value="True" /> -->
+								<!-- 		<Condition Property="IsChecked" Value="True" /> -->
+								<!-- 	</MultiTrigger.Conditions> -->
+								<!-- 	<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}" /> -->
+								<!-- 	<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}" /> -->
+								<!-- </MultiTrigger> -->
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 			<Style x:Key="Tv1_ItemContainerStyle"
 					TargetType="{x:Type TreeViewItem}"
 					>
@@ -328,7 +422,9 @@
 						<ControlTemplate x:Name="Ct01"
 								TargetType="{x:Type TreeViewItem}"
 								>
-							<Grid x:Name="GdTvi01">
+							<Grid x:Name="GdTvi01"
+									
+									>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="25" />
 									<ColumnDefinition Width="*" />
@@ -350,7 +446,7 @@
 																				Mode=TwoWay,
 																				FallbackValue=false}"
 										ClickMode="Press"
-										Style="{StaticResource ExpandCollapseToggleStyle}"
+										Style="{StaticResource ExpandCollapseToggleStyle02}"
 										/>
 
 								<Border x:Name="Bd"
@@ -363,6 +459,7 @@
 										BorderBrush="{TemplateBinding BorderBrush}"
 										SnapsToDevicePixels="true"
 										>
+
 									<ContentPresenter x:Name="PART_Header"
 											ContentSource="Header"
 											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -377,9 +474,9 @@
 								<Trigger Property="IsExpanded" Value="false">
 									<Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
 								</Trigger>
-								<Trigger Property="HasItems" Value="false">
-									<Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
-								</Trigger>
+								<!-- <Trigger Property="HasItems" Value="false"> -->
+								<!-- 	<Setter TargetName="Expander" Property="Visibility" Value="Hidden" /> -->
+								<!-- </Trigger> -->
 								<Trigger Property="IsSelected" Value="true">
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
 									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
@@ -462,6 +559,7 @@
 															>
 													</Path>
 												</Border>
+
 												<Border
 														DockPanel.Dock="Left"
 														Style="{StaticResource Border.BookMark.Title}"
@@ -483,7 +581,7 @@
 															<ToggleButton.Style>
 																<Style
 																		TargetType="ToggleButton"
-																		BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+																		BasedOn="{StaticResource ExpandCollapseToggleStyle01}"
 																		>
 																	<Setter Property="Visibility" Value="Visible" />
 																	<Setter Property="Foreground" Value="Red" />
@@ -542,7 +640,7 @@
 															DataType="mergeSupport:MergeItem"
 															>
 														<Grid x:Name="Gd03"
-																Margin="3,0,0,0"
+																Margin="6,0,0,0"
 																>
 
 															<Grid.ColumnDefinitions>
@@ -604,7 +702,9 @@
 											</ListView>
 										</StackPanel>
 
-										<ItemsPresenter DockPanel.Dock="Bottom" />
+										<ItemsPresenter DockPanel.Dock="Bottom" 
+												Margin="25,0,0,0"
+												/>
 
 									</DockPanel>
 								</ScrollViewer>
@@ -979,7 +1079,8 @@
 						ItemsSource="{Binding Children}"
 						>
 
-					<Grid HorizontalAlignment="Stretch">
+					<Grid 
+							HorizontalAlignment="Stretch">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
@@ -996,15 +1097,16 @@
 								Grid.ColumnSpan="2"
 								HorizontalAlignment="Stretch"
 								>
-							<Border
-									DockPanel.Dock="Left"
-									Style="{StaticResource Border.BookMark.Icon}"
-									>
-								<Path x:Name="Plus"
-										Style="{StaticResource Path.BookMark.Icon}"
-										>
-								</Path>
-							</Border>
+
+							<!-- <Border -->
+							<!-- 		DockPanel.Dock="Left" -->
+							<!-- 		Style="{StaticResource Border.BookMark.Icon}" -->
+							<!-- 		> -->
+							<!-- 	<Path x:Name="Plus" -->
+							<!-- 			Style="{StaticResource Path.BookMark.Icon}" -->
+							<!-- 			> -->
+							<!-- 	</Path> -->
+							<!-- </Border> -->
 
 							<Border
 									DockPanel.Dock="Left"
@@ -1027,7 +1129,7 @@
 										<ToggleButton.Style>
 											<Style
 													TargetType="ToggleButton"
-													BasedOn="{StaticResource ExpandCollapseToggleStyle}"
+													BasedOn="{StaticResource ExpandCollapseToggleStyle01}"
 													>
 												<Setter Property="Visibility" Value="Visible" />
 												<Setter Property="Foreground" Value="Red" />
@@ -1088,7 +1190,7 @@
 
 									<DataTemplate DataType="mergeSupport:MergeItem">
 										<Grid x:Name="Gd01"
-												Margin="5,0,5,0"
+												Margin="3,0,5,0"
 												>
 
 											<Grid.ColumnDefinitions>
