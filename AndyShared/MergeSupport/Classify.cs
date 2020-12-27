@@ -201,7 +201,7 @@ namespace AndyShared.MergeSupport
 
 			Status = ClassifyStatus.RUNNING;
 
-			int fileCount = 0;
+			int fileCount = 1;
 
 			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
 			{
@@ -237,6 +237,8 @@ namespace AndyShared.MergeSupport
 
 			foreach (TreeNode childNode in treeNode.Children)
 			{
+				// Thread.Sleep(100);
+
 				CompareOperations.Depth = depth;
 
 				localMatchFlag = false;
@@ -258,7 +260,6 @@ namespace AndyShared.MergeSupport
 							MergeItem mi = new MergeItem(0, sheetFilePath);
 							childNode.Item.MergeItems.Add(mi);
 							childNode.Item.UpdateMergeProperties();
-							
 						}
 					}
 
@@ -321,6 +322,8 @@ namespace AndyShared.MergeSupport
 
 		private int countIgnoredFiles()
 		{
+			if (nonApplicableFiles == null) return 0;
+
 			int count = 0;
 
 			foreach (KeyValuePair<string, List<FilePath<FileNameSheetPdf>>> kvp in nonApplicableFiles)

@@ -232,22 +232,22 @@ namespace ClassifierEditor.Windows
 
 		private void updateProperties()
 		{
-			OnPropertyChange("TestFileList");
-			OnPropertyChange("TestFileDescription");
-			OnPropertyChange("ClassificationFile");
-			OnPropertyChange("BaseOfTree");
-			OnPropertyChange("PhaseBuilding");
-			OnPropertyChange("IsConfigured");
+			OnPropertyChange(nameof(BaseOfTree));
+			OnPropertyChange(nameof(TestFileList));
+			OnPropertyChange(nameof(TestFileDescription));
+			OnPropertyChange(nameof(ClassificationFile));
+			OnPropertyChange(nameof(PhaseBuilding));
+			OnPropertyChange(nameof(IsConfigured));
 		}
 
 		private void updateClassifyProperties()
 		{
-			OnPropertyChange("Classify");
-			OnPropertyChange("BaseOfTree");
-			OnPropertyChange("TreeBaseTitle");
-			OnPropertyChange("ExpCollapseState");
-			OnPropertyChange("ShowNonApplicableFiles");
-			OnPropertyChange("NonApplicableFilesDescription");
+			OnPropertyChange(nameof(Classify));
+			OnPropertyChange(nameof(BaseOfTree));
+			OnPropertyChange(nameof(TreeBaseTitle));
+			OnPropertyChange(nameof(ExpCollapseState));
+			OnPropertyChange(nameof(ShowNonApplicableFiles));
+			OnPropertyChange(nameof(NonApplicableFilesDescription));
 		}
 
 		private void initFileList()
@@ -271,13 +271,13 @@ namespace ClassifierEditor.Windows
 
 			classify.Process3();
 
-			expCollapseState = Exp_Collapse_State.EXP_ALL;
-
-			ExpandCollapseTree(BaseOfTree);
-
-			TreeViewTitleIndex = 1;
-
-			updateClassifyProperties();
+			// expCollapseState = Exp_Collapse_State.EXP_ALL;
+			//
+			// ExpandCollapseTree(BaseOfTree);
+			//
+			// TreeViewTitleIndex = 1;
+			//
+			// updateClassifyProperties();
 
 			// Debug.WriteLine("@classify-go / 1| ext merge item count| " + BaseOfTree.ExtMergeItemCountCurrent);
 
@@ -352,6 +352,9 @@ namespace ClassifierEditor.Windows
 
 		private void WinClassfTest_Loaded(object sender, RoutedEventArgs e)
 		{
+			Pb1Value = 0;
+			Pb1MaximumValue = 100;
+
 			announcer = Orator.GetAnnouncer(this, "toClassify");
 
 			classify = new Classify();
@@ -442,7 +445,14 @@ namespace ClassifierEditor.Windows
 
 			BaseOfTree.UpdateProperties();
 
-			updateProperties();
+			TreeViewTitleIndex = 1;
+
+			expCollapseState = Exp_Collapse_State.EXP_ALL;
+			
+			ExpandCollapseTree(BaseOfTree);
+			
+			updateClassifyProperties();
+			
 		}
 
 		// private void Classify_OnFileChange(object sender, FileChangeEventArgs e)

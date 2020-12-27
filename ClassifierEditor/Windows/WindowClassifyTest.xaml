@@ -58,7 +58,7 @@
 			<SolidColorBrush x:Key="Expander.Disabled.Circle.Fill" Color="#FFE6E6E6" />
 			<SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="#FF707070" />
 			<SolidColorBrush x:Key="Expander.Static.Circle.Fill" Color="#FFFFFFFF" />
-			<SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="#FF333333" />
+			<SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="#FF555555" />
 			<SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="#FF333333" />
 
 
@@ -112,7 +112,7 @@
 					TargetType="Label"
 					BasedOn="{StaticResource Label.Base}"
 					>
-				<Setter Property="Padding" Value="15,0,15,1" />
+				<Setter Property="Padding" Value="10,0,10,1" />
 			</Style>
 
 			<Style x:Key="Label.BookMark.Title"
@@ -449,7 +449,7 @@
 					>
 
 				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Padding" Value="1" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -857,54 +857,54 @@
 			</Style>
 
 
-			<!--  <Style x:Key="Lv1_LvStyle"  -->
-			<!--  TargetType="{x:Type ListView}"  -->
-			<!--  >  -->
-			<!-- 	<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" /> -->
-			<!-- 	<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" /> -->
-			<!-- 	<Setter Property="BorderThickness" Value="1" /> -->
-			<!-- 	<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" /> -->
-			<!-- 	<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" /> -->
-			<!-- 	<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" /> -->
-			<!-- 	<Setter Property="ScrollViewer.CanContentScroll" Value="true" /> -->
-			<!-- 	<Setter Property="ScrollViewer.PanningMode" Value="Both" /> -->
-			<!-- 	<Setter Property="Stylus.IsFlicksEnabled" Value="False" /> -->
-			<!-- 	<Setter Property="VerticalContentAlignment" Value="Center" /> -->
-			<!-- 	<Setter Property="Template"> -->
-			<!-- 		<Setter.Value> -->
-			<!-- 			<ControlTemplate TargetType="{x:Type ListView}"> -->
-			<!--  <Border x:Name="Bd"  -->
-			<!--  Padding="1"  -->
-			<!--  Background="{TemplateBinding Background}"  -->
-			<!--  BorderThickness="{TemplateBinding BorderThickness}"  -->
-			<!--  BorderBrush="{TemplateBinding BorderBrush}"  -->
-			<!--  SnapsToDevicePixels="true"  -->
-			<!--  >  -->
-			<!--  <ScrollViewer  -->
-			<!--  Padding="{TemplateBinding Padding}"  -->
-			<!--  Focusable="false"  -->
-			<!--  Template="{DynamicResource ScrollViewerControlTemplate1}"  -->
-			<!--  >  -->
-			<!-- 						<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" /> -->
-			<!-- 					</ScrollViewer> -->
-			<!-- 				</Border> -->
-			<!-- 				<ControlTemplate.Triggers> -->
-			<!-- 					<Trigger Property="IsEnabled" Value="false"> -->
-			<!-- 						<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" /> -->
-			<!-- 						<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border2}" /> -->
-			<!-- 					</Trigger> -->
-			<!-- 					<MultiTrigger> -->
-			<!-- 						<MultiTrigger.Conditions> -->
-			<!-- 							<Condition Property="IsGrouping" Value="true" /> -->
-			<!-- 							<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" /> -->
-			<!-- 						</MultiTrigger.Conditions> -->
-			<!-- 						<Setter Property="ScrollViewer.CanContentScroll" Value="false" /> -->
-			<!-- 					</MultiTrigger> -->
-			<!-- 				</ControlTemplate.Triggers> -->
-			<!-- 			</ControlTemplate> -->
-			<!-- 		</Setter.Value> -->
-			<!-- 	</Setter> -->
-			<!-- </Style> -->
+			 <Style x:Key="Lv1_LvStyle"
+			 TargetType="{x:Type ListView}"
+			 >
+				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListView}">
+			 <Border x:Name="Bd"
+			 Padding="1"
+			 Background="{TemplateBinding Background}"
+			 BorderThickness="{TemplateBinding BorderThickness}"
+			 BorderBrush="{TemplateBinding BorderBrush}"
+			 SnapsToDevicePixels="true"
+			 >
+			 <ScrollViewer
+			 Padding="{TemplateBinding Padding}"
+			 Focusable="false"
+			 Template="{DynamicResource ScrollViewerControlTemplate1}"
+			 >
+									<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="false">
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border2}" />
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsGrouping" Value="true" />
+										<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 
 			<!--    -->
 			<!--  <Style x:Key="ExpanderRightHeaderStyle"  -->
@@ -1255,7 +1255,7 @@
 								<DockPanel HorizontalAlignment="Stretch">
 									<ToggleButton x:Name="HeaderSite"
 											Content="{TemplateBinding Header}"
-											Margin="1"
+											Margin="0"
 											MinWidth="0"
 											MinHeight="0"
 											Padding="{TemplateBinding Padding}"
@@ -1385,6 +1385,7 @@
 																		Path=ClassificationFile.FileName,
 																		FallbackValue='file'}"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"
+							IsReadOnly="True"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -1412,6 +1413,7 @@
 				<Border Style="{StaticResource Border.Settings.Button}">
 					<TextBox x:Name="Tbx34"
 							HorizontalAlignment="Stretch"
+							IsReadOnly="True"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -1438,6 +1440,7 @@
 
 				<Border Style="{StaticResource Border.Settings.Button}">
 					<TextBox x:Name="Tbx38"
+							IsReadOnly="True"
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -1482,64 +1485,108 @@
 				</Border>
 			</DockPanel>
 
-
-
-			<DockPanel Margin="0,0,0,0">
-
-				<Button x:Name="BtnTest"
-						Content="Test"
-						Margin="0,15,0,15"
-						Width="{StaticResource Normal.Button.Width}"
-						Height="{StaticResource Normal.Button.Height}"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Bottom"
-						DockPanel.Dock="right"
-						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnTest_OnClick"
-						>
-					<Button.Style>
-						<Style
-								TargetType="Button"
-								BasedOn="{StaticResource Button.Normal.Style}"
-								>
-						</Style>
-					</Button.Style>
-					<Button.Triggers>
-						<EventTrigger
-								RoutedEvent="Button.Click"
-								SourceName="BtnTest"
-								>
-							<BeginStoryboard Name="BtnTestStoryBoard">
-								<Storyboard>
-									<BooleanAnimationUsingKeyFrames
-											Storyboard.TargetName="BtnTest"
-											Storyboard.TargetProperty="IsEnabled"
-											>
-										<DiscreteBooleanKeyFrame
-												Value="False"
-												KeyTime="00:00:00.0"
-												/>
-									</BooleanAnimationUsingKeyFrames>
-								</Storyboard>
-							</BeginStoryboard>
-
-						</EventTrigger>
-					</Button.Triggers>
-				</Button>
-
-
-			</DockPanel>
+			<!--    -->
+			<!--    -->
+			<!-- <DockPanel Margin="0,0,0,0"> -->
+			<!--    -->
+			<!--  <Button x:Name="BtnTest2"  -->
+			<!--  Content="Test"  -->
+			<!--  Margin="0,15,0,15"  -->
+			<!--  Width="{StaticResource Normal.Button.Width}"  -->
+			<!--  Height="{StaticResource Normal.Button.Height}"  -->
+			<!--  HorizontalAlignment="Left"  -->
+			<!--  VerticalAlignment="Bottom"  -->
+			<!--  DockPanel.Dock="right"  -->
+			<!--  Template="{StaticResource Button.Normal.ControlTemplate}"  -->
+			<!--  Click="BtnTest_OnClick"  -->
+			<!--  >  -->
+			<!-- 		<Button.Style> -->
+			<!--  <Style  -->
+			<!--  TargetType="Button"  -->
+			<!--  BasedOn="{StaticResource Button.Normal.Style}"  -->
+			<!--  >  -->
+			<!-- 			</Style> -->
+			<!-- 		</Button.Style> -->
+			<!-- 		<Button.Triggers> -->
+			<!--  <EventTrigger  -->
+			<!--  RoutedEvent="Button.Click"  -->
+			<!--  SourceName="BtnTest2"  -->
+			<!--  >  -->
+			<!-- 				<BeginStoryboard Name="BtnTestStoryBoard"> -->
+			<!-- 					<Storyboard> -->
+			<!--  <BooleanAnimationUsingKeyFrames  -->
+			<!--  Storyboard.TargetName="BtnTest2"  -->
+			<!--  Storyboard.TargetProperty="IsEnabled"  -->
+			<!--  >  -->
+			<!--  <DiscreteBooleanKeyFrame  -->
+			<!--  Value="False"  -->
+			<!--  KeyTime="00:00:00.0"  -->
+			<!--  />  -->
+			<!-- 						</BooleanAnimationUsingKeyFrames> -->
+			<!-- 					</Storyboard> -->
+			<!-- 				</BeginStoryboard> -->
+			<!--    -->
+			<!-- 			</EventTrigger> -->
+			<!-- 		</Button.Triggers> -->
+			<!-- 	</Button> -->
+			<!--    -->
+			<!--    -->
+			<!-- </DockPanel> -->
 
 
 		</StackPanel>
 
-		<StackPanel
-				Grid.Column="1"
+		<DockPanel
+				Grid.Column="0"
 				Grid.Row="6"
+				Grid.ColumnSpan="2"
 				Margin="5"
-				HorizontalAlignment="right"
-				Orientation="Horizontal"
+				HorizontalAlignment="Stretch"
 				>
+
+			<Button x:Name="BtnTest"
+					Content="Test"
+					Margin="0,0,0,0"
+					Width="{StaticResource Normal.Button.Width}"
+					Height="{StaticResource Normal.Button.Height}"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Bottom"
+					DockPanel.Dock="Left"
+					Template="{StaticResource Button.Normal.ControlTemplate}"
+					Click="BtnTest_OnClick"
+					>
+				<Button.Style>
+					<Style
+							TargetType="Button"
+							BasedOn="{StaticResource Button.Normal.Style}"
+							>
+					</Style>
+				</Button.Style>
+				<Button.Triggers>
+					<EventTrigger
+							RoutedEvent="Button.Click"
+							SourceName="BtnTest"
+							>
+						<BeginStoryboard>
+							<Storyboard>
+								<BooleanAnimationUsingKeyFrames
+										Storyboard.TargetName="BtnTest"
+										Storyboard.TargetProperty="IsEnabled"
+										>
+									<DiscreteBooleanKeyFrame
+											Value="False"
+											KeyTime="00:00:00.0"
+											/>
+								</BooleanAnimationUsingKeyFrames>
+							</Storyboard>
+						</BeginStoryboard>
+
+					</EventTrigger>
+				</Button.Triggers>
+			</Button>
+
+
+
 			<Button x:Name="BtnDebug"
 					Content="Debug"
 					Margin="5,0,0,0"
@@ -1571,17 +1618,7 @@
 							TargetType="Button"
 							BasedOn="{StaticResource Button.Normal.Style}"
 							>
-						<!-- <Setter Property="Content" Value="Collapse All" /> -->
-						<!-- <Style.Triggers> -->
-						<!-- 	<DataTrigger Value="true" Binding="{Binding IsExpandedEx}"> -->
-						<!-- 		<Setter Property="Content" Value="Collapse All"> -->
-						<!-- 		</Setter> -->
-						<!-- 	</DataTrigger> -->
-						<!-- 	<DataTrigger Value="false" Binding="{Binding IsExpandedEx}"> -->
-						<!-- 		<Setter Property="Content" Value="Expand All"> -->
-						<!-- 		</Setter> -->
-						<!-- 	</DataTrigger> -->
-						<!-- </Style.Triggers> -->
+
 					</Style>
 				</Button.Style>
 
@@ -1599,7 +1636,7 @@
 					Template="{StaticResource Button.Normal.ControlTemplate}"
 					Click="BtnDone_OnClick"
 					/>
-		</StackPanel>
+		</DockPanel>
 
 
 		<Label x:Name="Label21"
@@ -1608,7 +1645,7 @@
 				Grid.Column="0"
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
-				Margin="5,0,5,0"
+				Margin="5,10,5,0"
 				Padding="2,1,2,2"
 				VerticalAlignment="Bottom"
 				FontSize="14"
@@ -1630,8 +1667,7 @@
 				Foreground="White"
 				/>
 
-		<ProgressBar
-				x:Name="Pb1"
+		<ProgressBar x:Name="Pb1"
 				Grid.Column="0"
 				Grid.Row="3"
 				Grid.ColumnSpan="2"
@@ -1642,10 +1678,10 @@
 				HorizontalContentAlignment="Stretch"
 				Background="Transparent"
 				BorderThickness="0"
-				Value="{Binding Pb1_Value}"
-				Maximum="{Binding Pb1_MaximumValue}"
+				Maximum="{Binding Pb1MaximumValue}"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				/>
+				<!-- Value="{Binding Pb1_Value}" -->
 
 		<TreeView x:Name="Tv1"
 				Grid.Column="0"
@@ -1923,22 +1959,24 @@
 				Grid.Column="0"
 				Grid.Row="4"
 				Grid.ColumnSpan="2"
-				Margin="-1"
+				Margin="5,0,5,0"
 				MaxHeight="140"
-				Padding="0"
+
+				Padding="-1"
 				HorizontalAlignment="Stretch"
-				IsExpanded="True"
+				IsExpanded="true"
 				ExpandDirection="Down"
 				Style="{DynamicResource Exp1_Style}"
 				>
 
 			<Expander.Header>
-				<DockPanel HorizontalAlignment="Stretch">
+				<DockPanel HorizontalAlignment="Stretch"
+				>
 					<Label x:Name="Label24"
 							Content="{Binding NonApplicableFilesDescription,
 																FallbackValue='count'}"
-							Margin="0,0,0,0"
-							Padding="2,1,2,2"
+							Margin="0,0,-1,0"
+							Padding="5,1,2,2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Center"
 							HorizontalContentAlignment="Stretch"
@@ -1962,8 +2000,9 @@
 					ScrollViewer.VerticalScrollBarVisibility="Visible"
 					ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
 					ItemsSource="{Binding}"
+					Style="{DynamicResource Lv1_LvStyle}"
 					>
-				<!--  Style="{DynamicResource Lv1_LvStyle}"  -->
+
 
 				<ListView.ItemTemplate>
 					<DataTemplate>
