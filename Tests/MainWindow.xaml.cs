@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -46,11 +47,54 @@ using static Tests.PathSupport.FileTypeSheetPdf;
 
 namespace Tests
 {
+		public class ClcomboboxBinding : INotifyPropertyChanged
+		{
+			private string employeeName;
+			private string employeeDept;
+
+			public ClcomboboxBinding(string employeeName, string employeeDept)
+			{
+				this.employeeName = employeeName;
+				this.employeeDept = employeeDept;
+			}
+
+			public string EmployeeDept
+			{
+				get => employeeDept;
+				set
+				{
+					employeeDept = value;
+					OnPropertyChange();
+				}
+			}
+
+			public string EmployeeName
+			{
+				get => employeeName;
+				set
+				{
+					employeeName = value;
+					
+				}
+			}
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			private void OnPropertyChange([CallerMemberName] string memberName = "")
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+			}
+		}
+
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+		public ObservableCollection<ClcomboboxBinding> comboBoxLoad = new ObservableCollection<ClcomboboxBinding>();
+
+
 
 
 		private bool doNameTest;
@@ -88,7 +132,27 @@ namespace Tests
 			h = new Helpers();
 
 			FilePath<FileNameSimple> f = new FilePath<FileNameSimple>();
+
+			loadComboBox();
+
 		}
+
+		private void loadComboBox()
+		{
+				ClcomboboxBinding c = new ClcomboboxBinding("John", "dept1");
+				comboBoxLoad.Add(c);
+				c = new ClcomboboxBinding("Jane", "dept2");
+				comboBoxLoad.Add(c);
+				c = new ClcomboboxBinding("Bob", "dept3");
+				comboBoxLoad.Add(c);
+				c = new ClcomboboxBinding("Chuck", "dept4");
+				comboBoxLoad.Add(c);
+				c = new ClcomboboxBinding("james", "dept5");
+				comboBoxLoad.Add(c);
+		}
+
+		public  ObservableCollection<ClcomboboxBinding> ComboBoxLoad => comboBoxLoad;
+
 
 		private void MainWin_Loaded(object sender, RoutedEventArgs e)
 		{

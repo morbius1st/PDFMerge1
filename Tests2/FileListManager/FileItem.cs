@@ -119,6 +119,9 @@ namespace Tests2.FileListManager
 				string p = null;
 				string[] names = OutlinePath.FolderNames;
 
+				if (names == null) return "";
+
+
 				for (int i = 0; i < names.Length; i++ )
 				{
 					p += " |  [" + i + "] " + names[i];

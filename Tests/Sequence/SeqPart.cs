@@ -24,6 +24,7 @@ namespace Tests.Sequence
 		private string code;
 		private string title;
 		private string description;
+		private string test;
 
 		public SeqPart(string code, string title, string description)
 		{
@@ -37,8 +38,8 @@ namespace Tests.Sequence
 			get => code;
 			set
 			{
-				OnPropertyChange();
 				code = value;
+				OnPropertyChange();
 			}
 		}
 
@@ -47,8 +48,8 @@ namespace Tests.Sequence
 			get => title;
 			set
 			{
-				OnPropertyChange();
 				title = value;
+				OnPropertyChange();
 			}
 		}
 
@@ -57,8 +58,18 @@ namespace Tests.Sequence
 			get => description;
 			set
 			{
-				OnPropertyChange();
 				description = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string Test
+		{
+			get => test;
+			set
+			{
+				test = value;
+				OnPropertyChange();
 			}
 		}
 

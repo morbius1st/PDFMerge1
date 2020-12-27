@@ -41,9 +41,11 @@ namespace Tests.Sequence
 			Parts = new List<SeqPart>(2);
 
 			sp = new SeqPart("A1", "Title A1", "desc A1");
+			sp.Test = "John";
 			Parts.Add(sp);
 
 			sp = new SeqPart("A2", "Title A2", "desc A2");
+			sp.Test = "Jane";
 			Parts.Add(sp);
 
 			si = new SeqItem("test");
@@ -54,9 +56,11 @@ namespace Tests.Sequence
 			Parts = new List<SeqPart>(2);
 
 			sp = new SeqPart("B1", "Title B1", "desc B1");
+			sp.Test = "Chuck";
 			Parts.Add(sp);
 
 			sp = new SeqPart("B2", "Title B2", "desc B2");
+			sp.Test = "Bob";
 			Parts.Add(sp);
 
 			si = new SeqItem("test");

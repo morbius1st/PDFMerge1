@@ -123,8 +123,86 @@
 				<Setter Property="Foreground" Value="Red" />
 			</Style>
 
+
+			<Style x:Key="ListViewItemStyle1"
+					TargetType="{x:Type ListViewItem}"
+					>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListViewItem}">
+							<Grid />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" />
+
+
+			<Style x:Key="Lv02ItemStyle2"
+					TargetType="{x:Type ListViewItem}"
+					>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListViewItem}">
+							<Border x:Name="BorderA">
+								<ContentPresenter />
+								<Border.Triggers>
+
+									<!--  padding for gap when mouse hovers element  -->
+									<EventTrigger
+											RoutedEvent="DragEnter"
+											SourceName="BorderA"
+											>
+										<BeginStoryboard>
+											<Storyboard>
+												<ThicknessAnimation
+														Storyboard.TargetProperty="Padding"
+														From="0,0,0,0"
+														To="0,25,0,0"
+														Duration="0:0:0.5"
+														AutoReverse="False"
+														BeginTime="0:0:0"
+														/>
+											</Storyboard>
+										</BeginStoryboard>
+									</EventTrigger>
+
+									<!--  back to normal padding  -->
+									<EventTrigger
+											RoutedEvent="DragLeave"
+											SourceName="BorderA"
+											>
+										<BeginStoryboard>
+											<Storyboard>
+												<ThicknessAnimation
+														Storyboard.TargetProperty="Padding"
+														From="0,25,0,0"
+														To="0,0,0,0"
+														Duration="0:0:0.5"
+														AutoReverse="False"
+														BeginTime="0:0:0"
+														/>
+											</Storyboard>
+										</BeginStoryboard>
+									</EventTrigger>
+
+								</Border.Triggers>
+							</Border>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
+
+
 		</ResourceDictionary>
 	</Window.Resources>
+
+
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />
@@ -651,6 +729,8 @@
 
 		</ListView>
 
+		<!--  ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"  -->
+
 		<ListView x:Name="lv02"
 				Grid.Column="1"
 				Grid.Row="1"
@@ -658,18 +738,20 @@
 				Height="200"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
-				DataContext="{Binding ElementName=mainWin,
-															Mode=OneWay,
-															Path=FileList}"
+				DataContext="{Binding FileList,
+															ElementName=mainWin,
+															Mode=OneWay}"
 				d:DataContext="{Binding Source={StaticResource flx},
 																Mode=OneWay,
 																Path=fileItems2}"
 				Background="#444444"
 				Foreground="White"
 				ScrollViewer.CanContentScroll="False"
+				ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"
 				ItemTemplate="{DynamicResource lv01DataTemplate}"
 				ItemsSource="{Binding}"
 				>
+
 			<ListView.Resources>
 				<DataTemplate x:Key="lv01DataTemplate"
 						DataType="filelist:FileItem"
@@ -755,6 +837,7 @@
 					</Border>
 				</DataTemplate>
 			</ListView.Resources>
+
 		</ListView>
 
 
@@ -1105,4 +1188,5 @@
 				Minimum="0"
 				/>
 	</Grid>
+
 </Window>

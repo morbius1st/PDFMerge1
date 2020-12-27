@@ -359,46 +359,13 @@
 													CenterY="6" />
 										</Setter.Value>
 									</Setter>
-									
 								</MultiDataTrigger>
-
-
-
-								<!-- <Trigger Property="IsChecked" Value="true"> -->
-								<!-- 	<Setter TargetName="Plus" Property="RenderTransform"> -->
-								<!-- 		<Setter.Value> -->
-								<!-- 			<RotateTransform Angle="45" -->
-								<!-- 											 CenterX="6" -->
-								<!-- 											 CenterY="6" /> -->
-								<!-- 		</Setter.Value> -->
-								<!-- 	</Setter> -->
-								<!-- 	<Setter TargetName="Plus" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill2}" /> -->
-								<!-- 	~1~ <Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}" /> @1@ -->
-								<!-- 	~1~ <Setter TargetName="bdr_toggle" Property="Background" Value="Transparent" /> @1@ -->
-								<!-- 	~1~ <Setter TargetName="Plus" Property="Data" Value="{StaticResource Icon.Svg.Dash}"/> @1@ -->
-								<!-- 	~1~ <Setter TargetName="Plus" Property="Stretch" Value="Uniform"/> @1@ -->
-								<!-- </Trigger> -->
-
 
 								<DataTrigger Binding="{Binding Path=ChildCount}" Value="0">
 									<Setter TargetName="Plus" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill2}" />
 									<Setter TargetName="Plus" Property="Data" Value="{StaticResource Icon.Svg.Dash}"/>
 									<Setter TargetName="Plus" Property="Stretch" Value="Uniform"/>
 								</DataTrigger>
-
-
-								<!-- <Trigger Property="IsMouseOver" Value="true"> -->
-								<!-- 	<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}" /> -->
-								<!-- 	<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}" /> -->
-								<!-- </Trigger> -->
-								<!-- <MultiTrigger> -->
-								<!-- 	<MultiTrigger.Conditions> -->
-								<!-- 		<Condition Property="IsMouseOver" Value="True" /> -->
-								<!-- 		<Condition Property="IsChecked" Value="True" /> -->
-								<!-- 	</MultiTrigger.Conditions> -->
-								<!-- 	<Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}" /> -->
-								<!-- 	<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}" /> -->
-								<!-- </MultiTrigger> -->
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
 					</Setter.Value>
@@ -409,7 +376,6 @@
 					TargetType="{x:Type TreeViewItem}"
 					>
 				<Setter Property="IsExpanded" Value="{Binding IsExpandedAlt}" />
-
 				<Setter Property="Visibility" Value="Visible" />
 				<Setter Property="Width" Value="Auto" />
 				<Setter Property="Background" Value="Transparent" />
@@ -481,6 +447,8 @@
 									<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
 									<!-- <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" /> -->
 								</Trigger>
+
+
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
 										<Condition Property="IsSelected" Value="true" />
@@ -549,6 +517,8 @@
 												DockPanel.Dock="Top"
 												Orientation="Vertical"
 												>
+
+
 											<DockPanel x:Name="Dp02"
 													HorizontalAlignment="Stretch"
 													>
@@ -1183,7 +1153,7 @@
 									ScrollViewer.CanContentScroll="False"
 									ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 									ScrollViewer.VerticalScrollBarVisibility="Disabled"
-									ItemContainerStyle="{DynamicResource ListBox.NoHighlight.Dark.ItemContainer}"
+									ItemContainerStyle="{StaticResource ListBox.NoHighlight.Dark.ItemContainer}"
 									ItemsSource="{Binding Item.MergeItems}"
 									>
 								<ListView.ItemTemplate>
