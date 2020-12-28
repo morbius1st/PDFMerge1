@@ -72,6 +72,10 @@ namespace Sylvester.Settings
 
 		public static FilePath<FileNameSimple> GetPriorFolder(FolderType index)
 		{
+			if (UserSettings.Data.PriorFolders == null || UserSettings.Data.PriorFolders.Length <1) return null;
+
+			// SettingsMgr<UserSettingInfo30> u = UserSettings.Admin;
+
 			return UserSettings.Data.PriorFolders[index.Value()];
 		}
 
