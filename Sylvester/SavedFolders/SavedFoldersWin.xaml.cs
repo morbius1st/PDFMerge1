@@ -9,10 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-
+using SettingsManager;
 using Sylvester.Process;
 using Sylvester.SavedFolders.SubFolder;
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using Sylvester.Windows;
 using UtilityLibrary;
 
@@ -135,7 +135,7 @@ namespace Sylvester.SavedFolders
 #pragma warning restore CS0219 // The variable 'title' is assigned but its value is never used
 
 				return winTitle + " " +
-					AppSettingData30.SavedFolderOperationDesc[(int) savedFolderOperation, 0];
+					AppSettingData.SavedFolderOperationDesc[(int) savedFolderOperation, 0];
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace Sylvester.SavedFolders
 				OnPropertyChange();
 				OnPropertyChange("WinTitle");
 
-				Message = AppSettingData30.SavedFolderOperationDesc[(int) savedFolderOperation, 1];
+				Message = AppSettingData.SavedFolderOperationDesc[(int) savedFolderOperation, 1];
 			}
 		}
 

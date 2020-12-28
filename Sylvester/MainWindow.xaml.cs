@@ -8,9 +8,10 @@ using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using SettingsManager;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using Sylvester.Windows;
 using UtilityLibrary;
 

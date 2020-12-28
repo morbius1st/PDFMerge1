@@ -9,7 +9,7 @@ using System.Windows;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using Sylvester.UserControls;
 using UtilityLibrary;
 

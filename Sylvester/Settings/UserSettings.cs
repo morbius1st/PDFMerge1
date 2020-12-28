@@ -1,4 +1,8 @@
 ﻿using System.Runtime.Serialization;
+using SettingsManager;
+using Sylvester.Process;
+using UtilityLibrary;
+using Sylvester.FileSupport;
 
 // projname: SettingsManagerV40
 // itemname: UserSettingInfoInfo60
@@ -30,14 +34,33 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class UserSettingData
+	public partial class UserSettingData
 	{
+		public UserSettingData()
+		{
+			initializeSavedFolders();
+			initializeWindowLayout();
+
+			for (var i = 0; i < PriorFolders.Length; i++)
+			{
+				PriorFolders[i] = new FilePath<FileNameSimple>();
+			}
+		}
+
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";
-		
+
 		[DataMember(Order = 2)]
 		public bool RememberNodeExpandState { get; set; } = false;
 
+		[DataMember]
+		public string DefaultVolume = @"C:";
+
+		[DataMember]
+		public SheetTitleCase SheetTitleCase = SheetTitleCase.TO_CAP_EA_WORD;
+
+		[DataMember]
+		public FilePath<FileNameSimple>[] PriorFolders = new FilePath<FileNameSimple>[2];
 
 
 		// public Dictionary<string, string>

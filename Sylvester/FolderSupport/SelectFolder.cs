@@ -1,7 +1,8 @@
 ﻿#region + Using Directives
 
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Sylvester.Settings;
+using SettingsManager;
+// using Sylvester.Settings;
 using UtilityLibrary;
 
 #endregion

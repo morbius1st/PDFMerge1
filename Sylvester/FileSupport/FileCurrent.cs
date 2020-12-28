@@ -1,6 +1,7 @@
 ﻿using System;
+using SettingsManager;
 using Sylvester.Process;
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using UtilityLibrary;
 using static Sylvester.Support.Support;
 

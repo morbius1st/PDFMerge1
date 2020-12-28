@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using SettingsManager;
 
 // projname: SettingsManagerV40
 // itemname: AppSettingInfo60
@@ -35,8 +36,8 @@ namespace SettingsManager
 		[DataMember(Order = 1)]
 		public string Name { get; set; } = "Andy";
 
-		// [DataMember(Order = 2)]
-		// public bool AllowPropertyEditing { get; set; } = false;
+		[DataMember(Order = 2)]
+		public bool AllowPropertyEditing { get; set; } = false;
 	}
 
 #endregion

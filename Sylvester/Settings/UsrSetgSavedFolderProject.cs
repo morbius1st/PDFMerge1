@@ -9,8 +9,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using SettingsManager;
 
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using UtilityLibrary;
 
 namespace Sylvester.SavedFolders

@@ -6,10 +6,11 @@
 		xmlns:filesupport="clr-namespace:Sylvester.FileSupport"
 		xmlns:local="clr-namespace:Sylvester"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:setg="clr-namespace:Sylvester.Settings"
+		xmlns:setg="clr-namespace:SettingsManager"
 		xmlns:support="clr-namespace:Sylvester.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
+		xmlns:settingsManager="clr-namespace:SettingsManager"
 		Name="mainwin"
 		Title="Sylvester"
 		Width="{Binding ElementName=mainwin,
@@ -372,14 +373,14 @@
 						Orientation="Horizontal"
 						>
 					<Label
-							Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
 																Path=[0]}"
 							Margin="5,0,0,1"
 							Style="{StaticResource control}"
 							/>
 
 					<RadioButton
-							Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
 																Path=[1]}"
 							IsChecked="{Binding Path=UseExistingCaseShtTitle,
 																	FallbackValue=false}"
@@ -388,7 +389,7 @@
 							/>
 
 					<RadioButton
-							Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
 																Path=[2]}"
 							IsChecked="{Binding Path=ForceUpperCaseShtTitle,
 																	FallbackValue=false}"
@@ -397,7 +398,7 @@
 							/>
 
 					<RadioButton
-							Content="{Binding Source={x:Static setg:AppSettingData30.SettingSheetNameCase},
+							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
 																Path=[3]}"
 							IsChecked="{Binding Path=ForceWordCapShtTitle,
 																	FallbackValue=false}"

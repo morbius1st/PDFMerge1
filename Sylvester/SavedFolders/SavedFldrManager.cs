@@ -12,10 +12,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-
+using SettingsManager;
 using Sylvester.FileSupport;
 using Sylvester.Process;
-using Sylvester.Settings;
+// using Sylvester.Settings;
 using UtilityLibrary;
 
 namespace Sylvester.SavedFolders

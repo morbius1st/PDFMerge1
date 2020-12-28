@@ -17,9 +17,9 @@ using UtilityLibrary;
 // created:  2/22/2020 11:08:26 AM
 
 
-namespace Sylvester.Settings
+namespace SettingsManager
 {
-	public partial class UserSettingData30
+	public partial class UserSettingData
 	{
 		private void initializeWindowLayout()
 		{

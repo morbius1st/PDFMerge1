@@ -5,10 +5,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using SettingManager;
-
+using SettingsManager;
 using Sylvester.FileSupport;
 using Sylvester.Process;
 using Sylvester.SavedFolders;
+// using Sylvester.Settings;
 using Sylvester.Windows;
 using UtilityLibrary;
 
@@ -20,7 +21,7 @@ using UtilityLibrary;
 // username: jeffs
 // created:  11/16/2019 6:02:58 AM
 
-namespace Sylvester.Settings
+namespace SettingsManager
 {
 	public sealed class SetgMgr
 	{
@@ -309,16 +310,24 @@ namespace Sylvester.Settings
 
 	#region window layout
 
+#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetMainWindowLayout => GetWindowLayout(WindowId.WINDOW_MAIN);
+#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
+#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetSavedFolderLayout => GetWindowLayout(WindowId.DIALOG_SAVED_FOLDERS);
+#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 
 
+#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetWindowLayout(WindowId id)
+#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		{
 			return UserSettings.Data.SavedWinLocationInfo[(int) id];
 		}
 
+#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static void SetWindowLayout(WindowId id, WindowLayout layout)
+#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		{
 			UserSettings.Data.SavedWinLocationInfo[(int) id] = layout;
 

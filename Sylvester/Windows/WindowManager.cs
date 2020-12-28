@@ -1,7 +1,8 @@
 ﻿#region + Using Directives
 
 using System.Windows;
-using Sylvester.Settings;
+using SettingsManager;
+// using Sylvester.Settings;
 
 using static UtilityLibrary.ScreenParameters;
 
