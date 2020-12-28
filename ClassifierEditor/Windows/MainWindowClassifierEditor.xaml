@@ -3740,7 +3740,7 @@
 					Margin="0,0,4,0"
 					Padding="5,0,0,3"
 					VerticalAlignment="Top"
-					FontSize="13"
+					FontSize="{StaticResource Header.Title.L2.Font.Size}"
 					Background="{StaticResource Win.Title.Background}"
 					Foreground="White"
 					/>
@@ -4147,7 +4147,7 @@
 				Padding="5,3,0,5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
-				FontSize="14"
+				FontSize="{StaticResource Header.Title.L1.Font.Size}"
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
 				/>
@@ -4176,7 +4176,7 @@
 					Margin="0,4,0,0"
 					Padding="2,3,2,4"
 					VerticalAlignment="Center"
-					FontSize="13"
+					FontSize="{StaticResource Header.Title.L2.Font.Size}"
 					Background="{StaticResource Win.Title.Background}"
 					Foreground="White"
 					/>

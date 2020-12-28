@@ -164,6 +164,9 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
+      <Link>Resources\XAML\XmalMarkup.cs</Link>
+    </Compile>
     <Compile Include="FileSupport\FileRevision.cs" />
     <Compile Include="FileSupport\FileRenameManager.cs" />
     <AdditionalFiles Include="UserControls\Icons.xaml.cs">
@@ -211,6 +214,16 @@
       <DependentUpon>ObliqueButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
+    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
+      <Link>Resources\XAML\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
+      <Link>Resources\XAML\VisualStates.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="lvTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -364,6 +377,7 @@
   <ItemGroup>
     <Resource Include="Sylvester.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

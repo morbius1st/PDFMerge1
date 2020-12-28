@@ -13,21 +13,12 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary
-						Source="/Sylvester;component/Resources/XAML/AppResources.xaml"
-						/>
-				<ResourceDictionary
-						Source="/Sylvester;component/Resources/XAML/SvgResources.xaml"
-						/>
-				<ResourceDictionary
-						Source="Resources/XAML/NarrowScrollBar.xaml"
-						/>
+				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/VisualStates.xaml" />
+				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/AppResources.xaml" />
+				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/SvgResources.xaml" />
+				<ResourceDictionary Source="/Sylvester;component/Resources/XAML/NarrowScrollBar.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-
-
-
-
-
 		</ResourceDictionary>
 
 	</Application.Resources>
