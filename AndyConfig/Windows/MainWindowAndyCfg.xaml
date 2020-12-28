@@ -1,31 +1,35 @@
-﻿<Window
+﻿<Window x:Name="MainWinAndyCfg"
 		x:Class="AndyConfig.Windows.MainWindowAndyCfg"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:as="clr-namespace:AndySharedResources.SVG"
+		xmlns:configSupport="clr-namespace:AndyShared.ConfigSupport;assembly=WpfShared"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:windows="clr-namespace:AndyConfig.Windows"
-		xmlns:as="clr-namespace:AndySharedResources.SVG"
-		xmlns:configSupport="clr-namespace:AndyShared.ConfigSupport;assembly=WpfShared"
-		x:Name="MainWinAndyCfg"
 		Title="MainWindowAndyCfg"
-		Width="950"
+		Width="1050"
 		Height="850"
-		Loaded="MainWindow_OnLoaded"
+		MinWidth="1050"
+		MinHeight="850"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
+		Loaded="MainWindow_OnLoaded"
 		>
 	<Window.Resources>
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/Andy.xaml" />
-				<ResourceDictionary Source="/../AndyResources/SVG/File-Open-00.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/SVG/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-				<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Pair-00.xaml" /> -->
-				<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Project-00.xaml" /> -->
+			<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Pair-00.xaml" /> -->
+			<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Project-00.xaml" /> -->
 
 			<!-- <local:BoolToFileFoundConverter x:Key="BoolToFileFoundConverter"/> -->
 			<windows:BoolToMessage x:Key="BoolToMessage" />
@@ -53,15 +57,13 @@
 
 			<SolidColorBrush x:Key="Button.Apply.Background" Color="{StaticResource Blue.500}" />
 
-			<PathGeometry
-					x:Key="Direction.Arrow.Geom"
+			<PathGeometry x:Key="Direction.Arrow.Geom"
 					Figures="M 0,0 5,10 0,20 2,20 7,10 2,0  z"
 					FillRule="EvenOdd"
 					>
 			</PathGeometry>
 
-			<Style
-					x:Key="Border.DetailBar"
+			<Style x:Key="Border.DetailBar"
 					TargetType="Border"
 					>
 				<Setter Property="Margin" Value="5,5,0,0" />
@@ -70,8 +72,7 @@
 
 			</Style>
 
-			<Style
-					x:Key="Border.Setting.Id"
+			<Style x:Key="Border.Setting.Id"
 					TargetType="Border"
 					>
 				<Setter Property="Margin" Value="0,5,0,0" />
@@ -84,8 +85,7 @@
 				<Setter Property="Background" Value="DimGray" />
 			</Style>
 
-			<Style
-					x:Key="Label.Base"
+			<Style x:Key="Label.Base"
 					TargetType="Label"
 					>
 				<Setter Property="Padding" Value="0" />
@@ -98,8 +98,7 @@
 				</Style.Triggers>
 			</Style>
 
-			<Style
-					x:Key="Label.Setting.Id"
+			<Style x:Key="Label.Setting.Id"
 					TargetType="Label"
 					BasedOn="{StaticResource Label.Base}"
 					>
@@ -111,8 +110,7 @@
 
 			</Style>
 
-			<Style
-					x:Key="Label.Setting.Base"
+			<Style x:Key="Label.Setting.Base"
 					TargetType="Label"
 					BasedOn="{StaticResource Label.Base}"
 					>
@@ -129,8 +127,7 @@
 			</Style>
 
 
-			<Style
-					x:Key="Label.Setting.Found"
+			<Style x:Key="Label.Setting.Found"
 					TargetType="Label"
 					BasedOn="{StaticResource Label.Setting.Base}"
 					>
@@ -144,8 +141,7 @@
 			</Style>
 
 
-			<Style
-					x:Key="Dg1CellStyleBase"
+			<Style x:Key="Dg1CellStyleBase"
 					TargetType="DataGridCell"
 					>
 				<Setter Property="Background" Value="Transparent" />
@@ -160,8 +156,7 @@
 				<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 			</Style>
 
-			<Style
-					x:Key="Dg1CellStyleName"
+			<Style x:Key="Dg1CellStyleName"
 					TargetType="DataGridCell"
 					BasedOn="{StaticResource Dg1CellStyleBase}"
 					>
@@ -170,16 +165,14 @@
 				<Setter Property="Padding" Value="0,0,0,0" />
 			</Style>
 
-			<Style
-					x:Key="Dg1CellStyleFound"
+			<Style x:Key="Dg1CellStyleFound"
 					TargetType="DataGridCell"
 					BasedOn="{StaticResource Dg1CellStyleBase}"
 					>
 				<Setter Property="HorizontalAlignment" Value="Center" />
 			</Style>
 
-			<Style
-					x:Key="Dg1ColHdrStyle"
+			<Style x:Key="Dg1ColHdrStyle"
 					TargetType="DataGridColumnHeader"
 					>
 				<Setter Property="Background" Value="Transparent" />
@@ -193,8 +186,7 @@
 			</Style>
 
 
-			<Style
-					x:Key="TextBlock.In.Button"
+			<Style x:Key="TextBlock.In.Button"
 					TargetType="TextBlock"
 					>
 				<Setter Property="Foreground" Value="White" />
@@ -205,16 +197,14 @@
 				</Style.Triggers>
 			</Style>
 
-			<ControlTemplate
-					x:Key="Dg1CellTemplate1"
+			<ControlTemplate x:Key="Dg1CellTemplate1"
 					TargetType="DataGridCell"
 					>
-				<Border
-						x:Name="Bd"
-						SnapsToDevicePixels="True"
+				<Border x:Name="Bd"
 						Background="{TemplateBinding Background}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
+						SnapsToDevicePixels="True"
 						>
 					<ContentPresenter
 							Content="{TemplateBinding Content}"
@@ -224,11 +214,11 @@
 							/>
 				</Border>
 				<ControlTemplate.Triggers>
-					<DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value=" true">
+					<DataTrigger Value=" true" Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}">
 						<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
 						<Setter TargetName="Bd" Property="BorderThickness" Value="1" />
 					</DataTrigger>
-					<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="true">
+					<DataTrigger Value="true" Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}">
 						<Setter Property="BorderThickness" Value="1" />
 						<Setter TargetName="Bd" Property="BorderBrush" Value="Transparent" />
 					</DataTrigger>
@@ -246,21 +236,17 @@
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
 
-			<ControlTemplate
-					x:Key="Btn1Template1"
+			<ControlTemplate x:Key="Btn1Template1"
 					TargetType="{x:Type Button}"
-					
 					>
-				<Border
-						x:Name="border"
-						CornerRadius="4"
-						SnapsToDevicePixels="True"
+				<Border x:Name="border"
 						Background="{TemplateBinding Background}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
+						CornerRadius="4"
+						SnapsToDevicePixels="True"
 						>
-					<ContentPresenter
-							x:Name="contentPresenter"
+					<ContentPresenter x:Name="contentPresenter"
 							Content="{TemplateBinding Content}"
 							Margin="{TemplateBinding Padding}"
 							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -270,7 +256,6 @@
 							RecognizesAccessKey="True"
 							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
-							
 							/>
 				</Border>
 				<ControlTemplate.Triggers>
@@ -295,11 +280,10 @@
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
 
-			<Style
-					x:Key="Dg1RowStyle"
+			<Style x:Key="Dg1RowStyle"
 					TargetType="DataGridRow"
 					>
-				
+
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 				<Style.Triggers>
@@ -311,22 +295,19 @@
 			</Style>
 
 
-			<ControlTemplate
-					x:Key="Dg6ExpanderTemplate1"
+			<ControlTemplate x:Key="Dg6ExpanderTemplate1"
 					TargetType="{x:Type Expander}"
-					
 					>
-				
+
 				<Border
-						CornerRadius="3"
-						SnapsToDevicePixels="True"
 						Background="{TemplateBinding Background}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
+						CornerRadius="3"
+						SnapsToDevicePixels="True"
 						>
 					<DockPanel>
-						<ToggleButton
-								x:Name="HeaderSite"
+						<ToggleButton x:Name="HeaderSite"
 								Content="{TemplateBinding Header}"
 								Margin="1"
 								MinWidth="0"
@@ -339,11 +320,11 @@
 								FontStretch="{TemplateBinding FontStretch}"
 								FontStyle="{TemplateBinding FontStyle}"
 								FontWeight="{TemplateBinding FontWeight}"
-								DockPanel.Dock="Top"
 								Foreground="{TemplateBinding Foreground}"
 								IsChecked="{Binding IsExpanded,
 																		Mode=TwoWay,
 																		RelativeSource={RelativeSource TemplatedParent}}"
+								DockPanel.Dock="Top"
 								FocusVisualStyle="{x:Null}"
 								ContentTemplate="{TemplateBinding HeaderTemplate}"
 								>
@@ -372,8 +353,7 @@
 										<Setter.Value>
 											<ControlTemplate TargetType="{x:Type ToggleButton}">
 												<Border Padding="{TemplateBinding Padding}">
-													<Grid
-															x:Name="Grd"
+													<Grid x:Name="Grd"
 															SnapsToDevicePixels="False"
 															>
 														<Grid.Style>
@@ -394,8 +374,7 @@
 														<!--  Fill="White"  -->
 														<!--  Stroke="#FF333333"  -->
 														<!--  />  -->
-														<Rectangle
-																x:Name="Rect"
+														<Rectangle x:Name="Rect"
 																Width="15"
 																Height="15"
 																HorizontalAlignment="Center"
@@ -403,8 +382,7 @@
 																Fill="Transparent"
 																StrokeThickness="0"
 																/>
-														<Path
-																x:Name="arrow"
+														<Path x:Name="arrow"
 																Margin="0,0,0,0"
 																HorizontalAlignment="Center"
 																VerticalAlignment="Center"
@@ -424,7 +402,6 @@
 																RecognizesAccessKey="True"
 																SnapsToDevicePixels="True"
 																ContentTemplate="{TemplateBinding ContentTemplate}"
-																
 																/>
 													</Grid>
 												</Border>
@@ -457,8 +434,7 @@
 								</Style>
 							</ToggleButton.Style>
 						</ToggleButton>
-						<ContentPresenter
-								x:Name="ExpandSite"
+						<ContentPresenter x:Name="ExpandSite"
 								Content="{TemplateBinding Content}"
 								Margin="{TemplateBinding Padding}"
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -754,6 +730,111 @@
 			</ControlTemplate>
 
 
+			<ControlTemplate x:Key="SvMain_ControlTemplate1"
+					TargetType="{x:Type ScrollViewer}"
+					>
+				<Grid x:Name="Grid"
+						Background="{TemplateBinding Background}"
+						>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Rectangle x:Name="Corner"
+							Grid.Column="2"
+							Grid.Row="2"
+							Fill="Transparent"
+							/>
+					<ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+							Content="{TemplateBinding Content}"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Margin="{TemplateBinding Padding}"
+							CanContentScroll="{TemplateBinding CanContentScroll}"
+							CanHorizontallyScroll="False"
+							CanVerticallyScroll="False"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							/>
+
+					<ScrollBar x:Name="PART_VerticalScrollBar"
+							Grid.Column="2"
+							Grid.Row="1"
+							Margin="0,0,0,0"
+							Width="{StaticResource BarSizeOutline}"
+							MinWidth="{StaticResource BarSize}"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							Style="{DynamicResource ScrollBarStyle}"
+					/>
+
+					<ScrollBar x:Name="PART_HorizontalScrollBar"
+							Grid.Column="0"
+							Grid.Row="2"
+							Grid.ColumnSpan="2"
+							Height="{StaticResource BarSizeOutline}"
+							MinHeight="{StaticResource BarSize}"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							Background="{StaticResource ScrollBarBkg}"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							Style="{DynamicResource ScrollBarStyle}"
+					/>
+
+
+					<!--<ScrollBar x:Name="PART_VerticalScrollBar"
+							Grid.Column="1"
+							Grid.Row="0"
+							Value="{Binding VerticalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							AutomationProperties.AutomationId="VerticalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableHeight}"
+							Minimum="0"
+							ViewportSize="{TemplateBinding ViewportHeight}"
+							Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+							/>
+					<ScrollBar x:Name="PART_HorizontalScrollBar"
+							Grid.Column="0"
+							Grid.Row="1"
+							Value="{Binding HorizontalOffset,
+															Mode=OneWay,
+															RelativeSource={RelativeSource TemplatedParent}}"
+							AutomationProperties.AutomationId="HorizontalScrollBar"
+							Cursor="Arrow"
+							Maximum="{TemplateBinding ScrollableWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							ViewportSize="{TemplateBinding ViewportWidth}"
+							Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+							/>-->
+
+
+				</Grid>
+			</ControlTemplate>
+
+
 
 
 		</ResourceDictionary>
@@ -772,8 +853,8 @@
 					Width="90"
 					Height="30"
 					HorizontalAlignment="Right"
-					Click="BtnDebug_OnClick"
 					Style="{StaticResource Button.Normal.Style}"
+					Click="BtnDebug_OnClick"
 					/>
 
 			<Button
@@ -782,18 +863,18 @@
 					Width="90"
 					Height="30"
 					HorizontalAlignment="Right"
-					Click="BtnDone_OnClick"
 					Style="{StaticResource Button.Normal.Style}"
+					Click="BtnDone_OnClick"
 					/>
 		</StackPanel>
 
-		<ScrollViewer
-				x:Name="SvMain"
+		<ScrollViewer x:Name="SvMain"
 				Margin="0,10,5,0"
 				Padding="0,0,5,0"
 				VerticalContentAlignment="Bottom"
-				HorizontalScrollBarVisibility="Hidden"
+				HorizontalScrollBarVisibility="Visible"
 				VerticalScrollBarVisibility="Auto"
+				Template="{DynamicResource SvMain_ControlTemplate1}"
 				>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -887,7 +968,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SuiteSettingPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SuiteSettingPath}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -922,41 +1003,38 @@
 								Style="{StaticResource Label.Setting.Base}"
 								/>
 
-						<Button
-								x:Name="BtnSelectSiteFolder"
+						<Button x:Name="BtnSelectSiteFolder"
 								Grid.Column="1"
 								Grid.Row="2"
 								Margin="0,-2,0,3"
 								Width="22"
 								Height="22"
 								HorizontalAlignment="Center"
-								ToolTip="Select Site Settings File's Root Path"
 								Background="Transparent"
 								BorderThickness="0"
-								Click="BtnSelectSiteFolder_OnClick"
+								ToolTip="Select Site Settings File's Root Path"
 								FocusVisualStyle="{x:Null}"
+								Click="BtnSelectSiteFolder_OnClick"
 								>
 							<Button.Content>
 								<Viewbox Child="{StaticResource File-Open-00}" />
 							</Button.Content>
 						</Button>
 
-						<Label
-								x:Name="RootPathHint"
+						<Label x:Name="RootPathHint"
 								Grid.Column="2"
 								Grid.Row="2"
 								Foreground="{StaticResource Label.Foreground.Disabled}"
 								>
 							<Label.Style>
-								<Style
-										x:Name="lblStyle1"
+								<Style x:Name="lblStyle1"
 										TargetType="Label"
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Setter Property="Content" Value="Location has not been chosen.  Please select a location" />
 									<Setter Property="Visibility" Value="Collapsed" />
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SiteSettingsRootPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=Suite.SiteSettingsRootPath}">
 											<Setter Property="Visibility" Value="Visible" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -992,8 +1070,7 @@
 
 
 
-						<Border
-								x:Name="BdrSuite1"
+						<Border x:Name="BdrSuite1"
 								Grid.Column="0"
 								Grid.Row="3"
 								Grid.ColumnSpan="3"
@@ -1003,15 +1080,14 @@
 
 							<StackPanel
 									Margin="5,0,0,0"
-									Orientation="Vertical"
 									IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																			Path=Suite.SuiteSettingsFileExists}"
+									Orientation="Vertical"
 									>
 
 
 								<StackPanel Orientation="Horizontal">
-									<ToggleButton
-											x:Name="SuiteDetailsToggleButton"
+									<ToggleButton x:Name="SuiteDetailsToggleButton"
 											Width="15"
 											Height="15"
 											IsChecked="false"
@@ -1031,13 +1107,12 @@
 
 								<Grid Margin="15,5,0,0">
 									<Grid.Style>
-										<Style
-												x:Name="grdStyle1"
+										<Style x:Name="grdStyle1"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=SuiteDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=SuiteDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -1227,7 +1302,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=Site.SiteSettingsFolderPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=Site.SiteSettingsFolderPath}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -1235,8 +1310,7 @@
 							</Label.Style>
 						</Label>
 
-						<Border
-								x:Name="BdrSite1"
+						<Border x:Name="BdrSite1"
 								Grid.Column="0"
 								Grid.Row="2"
 								Grid.ColumnSpan="3"
@@ -1246,16 +1320,15 @@
 
 							<StackPanel
 									Margin="5,0,0,0"
-									Orientation="Vertical"
 									IsEnabled="{Binding ElementName=MainWinAndyCfg,
 																			FallbackValue=false,
 																			Path=Site.SiteSettingsFileExists}"
+									Orientation="Vertical"
 									>
 
 								<StackPanel Orientation="Horizontal">
 
-									<ToggleButton
-											x:Name="SiteDetailsToggleButton"
+									<ToggleButton x:Name="SiteDetailsToggleButton"
 											Width="15"
 											Height="15"
 											IsChecked="false"
@@ -1275,13 +1348,12 @@
 
 								<Grid Margin="15,5,0,0">
 									<Grid.Style>
-										<Style
-												x:Name="GrdStyle2"
+										<Style x:Name="GrdStyle2"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=SiteDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=SiteDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -1468,7 +1540,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstallSeedFileFolder}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstallSeedFileFolder}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -1518,8 +1590,7 @@
 
 								<StackPanel Orientation="Horizontal">
 
-									<ToggleButton
-											x:Name="SeedInstalledFilesDetailsToggleButton"
+									<ToggleButton x:Name="SeedInstalledFilesDetailsToggleButton"
 											Width="15"
 											Height="15"
 											IsChecked="false"
@@ -1539,13 +1610,12 @@
 
 								<Grid Margin="15,3,0,0">
 									<Grid.Style>
-										<Style
-												x:Name="grdStyle3"
+										<Style x:Name="grdStyle3"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=SeedInstalledFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=SeedInstalledFilesDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -1571,14 +1641,13 @@
 											Padding="0"
 											>
 										<Label.Style>
-											<Style
-													x:Name="lblStyle4"
+											<Style x:Name="lblStyle4"
 													TargetType="Label"
 													BasedOn="{StaticResource Label.Setting.Base}"
 													>
 												<Setter Property="Visibility" Value="Collapsed" />
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
+													<DataTrigger Value="0" Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}">
 														<Setter Property="Visibility" Value="Visible" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1594,12 +1663,11 @@
 											Orientation="Horizontal"
 											>
 										<StackPanel.Style>
-											<Style
-													x:Name="spStyle1"
+											<Style x:Name="spStyle1"
 													TargetType="StackPanel"
 													>
 												<Style.Triggers>
-													<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}" Value="0">
+													<DataTrigger Value="0" Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedInstalled.InstalledSeedFilesCount, FallbackValue=0}">
 														<Setter Property="Visibility" Value="Collapsed" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -1607,37 +1675,35 @@
 										</StackPanel.Style>
 
 
-										<Border
-												x:Name="BdrDg"
+										<Border x:Name="BdrDg"
 												Margin="0,5,5,0"
 												HorizontalAlignment="Stretch"
-												CornerRadius="5"
 												Background="{StaticResource DataGrid.Background}"
 												BorderThickness="1"
 												BorderBrush="{StaticResource DataGrid.Background}"
+												CornerRadius="5"
 												>
 
-											<DataGrid
-													x:Name="Dg1"
+											<DataGrid x:Name="Dg1"
 													Margin="5,3,5,3"
 													Width="450"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
-													AutoGenerateColumns="false"
-													CanUserAddRows="False"
 													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Mode=TwoWay,
 																								FallbackValue={x:Null},
 																								Path=SeedInstalled.View}"
+													Background="Transparent"
+													BorderThickness="0"
+													HorizontalGridLinesBrush="Black"
+													AutoGenerateColumns="false"
+													CanUserAddRows="False"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													PreviewMouseLeftButtonUp="Dg1_OnPreviewMouseLeftButtonUp"
 													SelectionChanged="Dg1_SelectionChanged"
 													SelectionMode="Single"
-													Background="Transparent"
-													BorderThickness="0"
-													HorizontalGridLinesBrush="Black"
 													ItemsSource="{Binding}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
 													RowStyle="{StaticResource Dg1RowStyle}"
@@ -1667,8 +1733,7 @@
 
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate DataType="{x:Type configSupport:ConfigSeedFile}">
-																<CheckBox
-																		x:Name="ckbx"
+																<CheckBox x:Name="ckbx"
 																		Margin="0"
 																		Padding="0"
 																		HorizontalAlignment="Center"
@@ -1684,7 +1749,6 @@
 													</DataGridTemplateColumn>
 
 													<DataGridTextColumn
-															
 															Width="*"
 															Binding="{Binding FileName,
 																								Mode=OneWay,
@@ -1713,8 +1777,7 @@
 										</Border>
 
 										<!--  Content="Save &amp; Apply"  -->
-										<Button
-												x:Name="BtnSeedSaveApply"
+										<Button x:Name="BtnSeedSaveApply"
 												Margin="5,5,5,8"
 												Width="90"
 												Height="40"
@@ -1724,9 +1787,9 @@
 												BorderThickness="2"
 												BorderBrush="DeepSkyBlue"
 												IsEnabled="true"
-												Click="BtnSeedSaveApply_OnClick"
 												FocusVisualStyle="{x:Null}"
 												Template="{StaticResource Btn1Template1}"
+												Click="BtnSeedSaveApply_OnClick"
 												>
 											<Button.Content>
 												<Grid
@@ -1845,7 +1908,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedSite.SiteSeedFolderPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedSite.SiteSeedFolderPath}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -1958,11 +2021,10 @@
 
 								<StackPanel Orientation="Horizontal">
 
-									<ToggleButton
-											x:Name="SeedFilesDetailsToggleButton"
+									<ToggleButton x:Name="SeedFilesDetailsToggleButton"
 											Width="15"
 											Height="15"
-											IsChecked="false"
+											IsChecked="False"
 											FocusVisualStyle="{x:Null}"
 											Template="{StaticResource ToggleButton.Details}"
 											>
@@ -1979,13 +2041,12 @@
 
 								<Grid Margin="15,3,0,0">
 									<Grid.Style>
-										<Style
-												x:Name="grdStyle4"
+										<Style x:Name="grdStyle4"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=SeedFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=SeedFilesDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -2008,34 +2069,32 @@
 											Margin="5,5,5,8"
 											Orientation="Horizontal"
 											>
-										<Border
-												x:Name="BdrDg4"
+										<Border x:Name="BdrDg4"
 												Margin="0,5,5,0"
 												HorizontalAlignment="Stretch"
-												CornerRadius="5"
 												Background="{StaticResource DataGrid.Background}"
 												BorderThickness="1"
 												BorderBrush="{StaticResource DataGrid.Background}"
+												CornerRadius="5"
 												>
 
-											<DataGrid
-													x:Name="Dg4"
+											<DataGrid x:Name="Dg4"
 													Margin="5,3,5,3"
 													Width="450"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
-													AutoGenerateColumns="false"
-													CanUserAddRows="False"
 													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Path=SeedSite.View}"
+													Background="Transparent"
+													BorderThickness="0"
+													HorizontalGridLinesBrush="Black"
+													AutoGenerateColumns="false"
+													CanUserAddRows="False"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													SelectionChanged="Dg4_SelectionChanged"
 													SelectionMode="Single"
-													Background="Transparent"
-													BorderThickness="0"
-													HorizontalGridLinesBrush="Black"
 													ItemsSource="{Binding}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
 													RowStyle="{StaticResource Dg1RowStyle}"
@@ -2075,8 +2134,7 @@
 
 														<DataGridTemplateColumn.CellTemplate>
 															<DataTemplate DataType="{x:Type configSupport:ConfigSeedFile}">
-																<CheckBox
-																		x:Name="ckbx"
+																<CheckBox x:Name="ckbx"
 																		Margin="0"
 																		Padding="0"
 																		HorizontalAlignment="Center"
@@ -2091,7 +2149,7 @@
 																		<Style TargetType="CheckBox">
 																			<Setter Property="IsEnabled" Value="True" />
 																			<Style.Triggers>
-																				<DataTrigger Binding="{Binding Status, Mode=OneWay, FallbackValue={x:Null}}" Value="{StaticResource OK}">
+																				<DataTrigger Value="{StaticResource OK}" Binding="{Binding Status, Mode=OneWay, FallbackValue={x:Null}}">
 																					<Setter Property="IsEnabled" Value="False" />
 																				</DataTrigger>
 																			</Style.Triggers>
@@ -2174,8 +2232,7 @@
 										</Border>
 
 
-										<Button
-												x:Name="BtnSeedApply4"
+										<Button x:Name="BtnSeedApply4"
 												Margin="5,5,5,8"
 												Width="90"
 												Height="40"
@@ -2185,9 +2242,9 @@
 												BorderThickness="2"
 												BorderBrush="DeepSkyBlue"
 												IsEnabled="true"
-												Click="Btn_SiteSeedApply_OnClick"
 												FocusVisualStyle="{x:Null}"
 												Template="{StaticResource Btn1Template1}"
+												Click="Btn_SiteSeedApply_OnClick"
 												>
 											<Button.Content>
 												<Grid
@@ -2302,7 +2359,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedLocal.LocalSeedFolderPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=SeedLocal.LocalSeedFolderPath}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2347,8 +2404,7 @@
 
 								<StackPanel Orientation="Horizontal">
 
-									<ToggleButton
-											x:Name="LocalSeedFilesDetailsToggleButton"
+									<ToggleButton x:Name="LocalSeedFilesDetailsToggleButton"
 											Width="15"
 											Height="15"
 											IsChecked="false"
@@ -2371,13 +2427,12 @@
 										HorizontalAlignment="Stretch"
 										>
 									<Grid.Style>
-										<Style
-												x:Name="grdStyle5"
+										<Style x:Name="grdStyle5"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=LocalSeedFilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=LocalSeedFilesDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -2400,31 +2455,29 @@
 											Margin="5,5,5,8"
 											Orientation="Horizontal"
 											>
-										<Border
-												x:Name="BdrDg5"
+										<Border x:Name="BdrDg5"
 												Margin="0,5,5,0"
 												HorizontalAlignment="Stretch"
-												CornerRadius="5"
 												Background="{StaticResource DataGrid.Background}"
 												BorderThickness="1"
 												BorderBrush="{StaticResource DataGrid.Background}"
+												CornerRadius="5"
 												>
 
-											<DataGrid
-													x:Name="Dg5"
+											<DataGrid x:Name="Dg5"
 													Margin="5,3,5,3"
 													Width="450"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
+													Background="Transparent"
+													BorderThickness="0"
+													HorizontalGridLinesBrush="Black"
 													AutoGenerateColumns="false"
 													CanUserAddRows="False"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													SelectionMode="Single"
-													Background="Transparent"
-													BorderThickness="0"
-													HorizontalGridLinesBrush="Black"
 													ItemsSource="{Binding ElementName=MainWinAndyCfg,
 																								Path=SeedLocal.View}"
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
@@ -2592,7 +2645,7 @@
 										BasedOn="{StaticResource Label.Setting.Base}"
 										>
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationFiles.AllClassifFolderPath}" Value="{x:Null}">
+										<DataTrigger Value="{x:Null}" Binding="{Binding ElementName=MainWinAndyCfg, Path=ClassificationFiles.AllClassifFolderPath}">
 											<Setter Property="IsEnabled" Value="False" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -2618,8 +2671,7 @@
 
 								<StackPanel Orientation="Horizontal">
 
-									<ToggleButton
-											x:Name="FilesDetailsToggleButton"
+									<ToggleButton x:Name="FilesDetailsToggleButton"
 											Width="15"
 											Height="15"
 											IsChecked="false"
@@ -2637,19 +2689,17 @@
 
 								<!--#region > Details-->
 
-								<Grid
-										x:Name="grid6"
+								<Grid x:Name="grid6"
 										Margin="15,3,0,0"
 										HorizontalAlignment="Stretch"
 										>
 									<Grid.Style>
-										<Style
-												x:Name="grdStyle6"
+										<Style x:Name="grdStyle6"
 												TargetType="Grid"
 												>
 											<Setter Property="Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding ElementName=FilesDetailsToggleButton, Path=IsChecked}" Value="True">
+												<DataTrigger Value="True" Binding="{Binding ElementName=FilesDetailsToggleButton, Path=IsChecked}">
 													<Setter Property="Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -2662,34 +2712,34 @@
 									</Grid.ColumnDefinitions>
 
 									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="Auto" />
 										<!-- <RowDefinition Height="*" /> -->
 									</Grid.RowDefinitions>
-									<!-- -->
-									<!-- <Label -->
-									<!-- 		Content="Selected User Name" -->
-									<!-- 		Grid.Column="0" -->
-									<!-- 		Grid.Row="1" -->
-									<!-- 		Margin="5,5,5,8" -->
-									<!-- 		Padding="0" -->
-									<!-- 		Style="{StaticResource Label.Setting.Base}" /> -->
-									<!-- -->
-									<!-- <Label -->
-									<!-- 		Content="{Binding ElementName=MainWinAndyCfg, -->
-									<!-- 								Path=UserNameSelected, -->
-									<!-- 								Mode=OneWay, -->
-									<!-- 								FallbackValue='None Selected', -->
-									<!-- 								Converter={StaticResource NullStrToMessage}, -->
-									<!-- 								ConverterParameter='None Selected'}" -->
-									<!-- 		Grid.Column="1" -->
-									<!-- 		Grid.Row="1"> -->
+									<!--    -->
+									<!--  <Label  -->
+									<!--  Content="Selected User Name"  -->
+									<!--  Grid.Column="0"  -->
+									<!--  Grid.Row="1"  -->
+									<!--  Margin="5,5,5,8"  -->
+									<!--  Padding="0"  -->
+									<!--  Style="{StaticResource Label.Setting.Base}" />  -->
+									<!--    -->
+									<!--  <Label  -->
+									<!--  Content="{Binding ElementName=MainWinAndyCfg,  -->
+									<!--  Path=UserNameSelected,  -->
+									<!--  Mode=OneWay,  -->
+									<!--  FallbackValue='None Selected',  -->
+									<!--  Converter={StaticResource NullStrToMessage},  -->
+									<!--  ConverterParameter='None Selected'}"  -->
+									<!--  Grid.Column="1"  -->
+									<!--  Grid.Row="1">  -->
 									<!-- 	<Label.Style> -->
-									<!-- 		<Style -->
-									<!-- 				TargetType="Label" -->
-									<!-- 				BasedOn="{StaticResource Label.Setting.Base}"> -->
+									<!--  <Style  -->
+									<!--  TargetType="Label"  -->
+									<!--  BasedOn="{StaticResource Label.Setting.Base}">  -->
 									<!-- 			<Style.Triggers> -->
-									<!-- 				<DataTrigger Binding="{Binding ElementName=MainWinAndyCfg,  -->
-									<!-- 				Path=UserNameSelected}" Value="{x:Null}"> -->
+									<!--  <DataTrigger Binding="{Binding ElementName=MainWinAndyCfg,  -->
+									<!--  Path=UserNameSelected}" Value="{x:Null}">  -->
 									<!-- 					<Setter Property="IsEnabled" Value="False" /> -->
 									<!-- 				</DataTrigger> -->
 									<!-- 			</Style.Triggers> -->
@@ -2706,36 +2756,33 @@
 											Margin="5,5,5,5"
 											Orientation="Horizontal"
 											>
-										<Border
-												x:Name="BdrDg6"
+										<Border x:Name="BdrDg6"
 												Margin="0,5,5,0"
 												HorizontalAlignment="Stretch"
-												CornerRadius="5"
 												Background="{StaticResource DataGrid.Background}"
 												BorderThickness="1"
 												BorderBrush="{StaticResource DataGrid.Background}"
+												CornerRadius="5"
 												>
 
-											<DataGrid
-													x:Name="Dg6"
+											<DataGrid x:Name="Dg6"
 													Margin="5,3,5,3"
-													Width="550"
+													Width="800"
 													MinHeight="30"
 													HorizontalAlignment="Stretch"
 													HorizontalContentAlignment="Stretch"
-													AutoGenerateColumns="false"
-													CanUserAddRows="False"
 													DataContext="{Binding ElementName=MainWinAndyCfg,
 																								Path=ClassificationFiles}"
+													Background="Transparent"
+													BorderThickness="0"
+													HorizontalGridLinesBrush="Black"
+													AutoGenerateColumns="false"
+													CanUserAddRows="False"
 													GridLinesVisibility="None"
 													HeadersVisibility="Column"
 													RowDetailsVisibilityMode="Visible"
 													SelectionMode="Single"
-													Background="Transparent"
-													BorderThickness="0"
-													HorizontalGridLinesBrush="Black"
 													ItemsSource="{Binding Path=View}"
-													
 													ColumnHeaderStyle="{StaticResource Dg1ColHdrStyle}"
 													RowStyle="{StaticResource Dg1RowStyle}"
 													>
@@ -2747,35 +2794,31 @@
 																<Setter Property="Template">
 																	<Setter.Value>
 																		<ControlTemplate TargetType="GroupItem">
-																			<Expander
-																					
-																					x:Name="expdr06"
+																			<Expander x:Name="expdr06"
 																					HorizontalAlignment="Stretch"
 																					HorizontalContentAlignment="Stretch"
+																					Background="Transparent"
+																					Collapsed="expdr06_Collapsed"
 																					Expanded="expdr06_Expanded"
 																					Tag="{Binding Path=Name}"
-																					Background="Transparent"
 																					Template="{StaticResource Dg6ExpanderTemplate1}"
-																								Collapsed="expdr06_Collapsed">
-																				<Expander.Header
-																						
-																						>
+																					>
+																				<Expander.Header>
 																					<DockPanel HorizontalAlignment="Stretch">
-																						<TextBlock
-																								x:Name="tbkUsrName"
+																						<TextBlock x:Name="tbkUsrName"
 																								Padding="5,0,0,0"
+																								Foreground="Black"
 																								Text="{Binding Path=Name}"
-																								Foreground="Black"
 																								/>
 																						<TextBlock
 																								Padding="5,0,0,0"
+																								Foreground="Black"
 																								Text="{Binding Path=ItemCount}"
-																								Foreground="Black"
 																								/>
 																						<TextBlock
 																								Padding="5,0,0,0"
-																								Text="Items"
 																								Foreground="Black"
+																								Text="Items"
 																								/>
 																					</DockPanel>
 																				</Expander.Header>
@@ -2790,7 +2833,7 @@
 												</DataGrid.GroupStyle>
 
 
-												<DataGrid.Columns >
+												<DataGrid.Columns>
 													<DataGridTextColumn
 															Width="140"
 															MinWidth="140"
@@ -2854,6 +2897,31 @@
 															<DataTemplate>
 																<Label
 																		Content="File Name"
+																		Margin="0,0,10,-1.5"
+																		Padding="5,0,0,2"
+																		HorizontalAlignment="Stretch"
+																		HorizontalContentAlignment="left"
+																		Foreground="White"
+																		BorderThickness="0,0,0,2.5"
+																		BorderBrush="Blue"
+																		/>
+															</DataTemplate>
+														</DataGridTextColumn.HeaderTemplate>
+													</DataGridTextColumn>
+
+													<!--  MinWidth="140"  -->
+													<DataGridTextColumn
+															Width="250"
+															Binding="{Binding SampleFileName,
+																								Mode=OneWay,
+																								FallbackValue='name'}"
+															Header="File Name"
+															CellStyle="{StaticResource Dg1CellStyleName}"
+															>
+														<DataGridTextColumn.HeaderTemplate>
+															<DataTemplate>
+																<Label
+																		Content="Sample File"
 																		Margin="0,0,10,-1.5"
 																		Padding="5,0,0,2"
 																		HorizontalAlignment="Stretch"

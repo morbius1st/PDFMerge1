@@ -53,7 +53,7 @@ namespace AODeliverable
 			win.rtbStatus.Document.Blocks.Clear();
 			win.rtbSettings.Document.Blocks.Clear();
 
-			config();
+			// config();
 
 			bool? result = sfMgr.ChoseFolder();
 

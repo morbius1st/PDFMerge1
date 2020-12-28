@@ -163,6 +163,11 @@ namespace AndyShared.ConfigMgrShared
 
 		private void GetLocalSeedFiles()
 		{
+			// if (localSeedFolderPath?.FolderPath == null) return;
+
+			if (!localSeedFolderPath.IsValid) return;
+
+
 			bool result = ConfigSeedFileSupport.GetFiles(seedFiles,
 				localSeedFolderPath.FolderPath, ConfigSeedFileSupport.SEED_PATTERN, 
 				SearchOption.AllDirectories, false, true);
@@ -183,6 +188,10 @@ namespace AndyShared.ConfigMgrShared
 
 		private void GetSiteSeedFiles()
 		{
+			// if (SiteSettings.Path?.SettingFolderPath == null) return;
+
+			if (!SiteSettings.Path.SettingFolderPathIsValid) return;
+
 			string siteSeedFilesFolderpath =
 				SiteSettings.Path.SettingFolderPath + FilePathUtil.PATH_SEPARATOR
 				+ ConfigSeedFileSupport.SEED_FOLDER_SITE;

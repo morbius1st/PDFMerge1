@@ -102,6 +102,9 @@ namespace AndyShared.ConfigMgr
 
 		public void Initialize(string rootPath)
 		{
+			SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
+
+
 			if (Initalized) return;
 
 			Initalized = true;
@@ -143,6 +146,8 @@ namespace AndyShared.ConfigMgr
 
 		private void RootPathChanged(string rootPath)
 		{
+			SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
+
 			SiteSettings.Path.RootFolderPath = rootPath;
 
 			if (!SiteSettings.Path.SettingFolderPathIsValid) return;

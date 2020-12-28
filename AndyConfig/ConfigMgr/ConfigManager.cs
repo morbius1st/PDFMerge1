@@ -115,7 +115,6 @@ namespace AndyShared.ConfigMgr
 
 			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
 
-
 		}
 
 	#endregion

@@ -119,14 +119,13 @@ namespace AndyConfig.Windows
 		{
 			InitializeComponent();
 
-
 			// ClassfFile<ClassificationFileData>
 			// 	ClsFile1 = new ClassfFile<ClassificationFileData>();
 
-			BaseDataFile<ClassificationFileData>
-				ClsFile1 = new BaseDataFile<ClassificationFileData>();
-
-			ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1", "xml");
+			// BaseDataFile<ClassificationFileData>
+			// 	ClsFile1 = new BaseDataFile<ClassificationFileData>();
+			//
+			// ClsFile1.Configure(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs", "(jeffs) PdfSample 1", "xml");
 		}
 
 	#endregion
@@ -168,7 +167,22 @@ namespace AndyConfig.Windows
 
 		#endregion
 
-		#region event processing
+		#region event consuming
+
+		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			cfgMgr = new ConfigManager();
+
+			cfgMgr.Initialize();
+
+			OnPropertyChange("Suite");
+			OnPropertyChange("Site");
+			OnPropertyChange("SeedInstalled");
+			OnPropertyChange("SeedSite");
+			OnPropertyChange("SeedLocal");
+			OnPropertyChange("User");
+		}
+
 
 		private void BtnSeedSaveApply_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -243,6 +257,10 @@ namespace AndyConfig.Windows
 			Dg1.BeginEdit();
 		}
 
+		private void Dg4_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
 
 		private void expdr06_Expanded(object sender, RoutedEventArgs e)
 		{
@@ -260,19 +278,7 @@ namespace AndyConfig.Windows
 			UserNameSelected = null;
 		}
 
-		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-		{
-			cfgMgr = new ConfigManager();
 
-			cfgMgr.Initialize();
-
-			OnPropertyChange("Suite");
-			OnPropertyChange("Site");
-			OnPropertyChange("SeedInstalled");
-			OnPropertyChange("SeedSite");
-			OnPropertyChange("SeedLocal");
-			OnPropertyChange("User");
-		}
 
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -284,12 +290,6 @@ namespace AndyConfig.Windows
 
 
 		#endregion
-
-		private void Dg4_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-		}
-
 	}
 
 	[ValueConversion(typeof(bool), typeof(string))]

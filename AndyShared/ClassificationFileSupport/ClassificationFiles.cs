@@ -76,7 +76,7 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
-		public bool UserClassificationFolderPathExists => File.Exists(userClassfFolderPath);
+		public bool UserClassificationFolderPathExists => Directory.Exists(userClassfFolderPath);
 
 	#endregion
 
@@ -92,7 +92,7 @@ namespace AndyShared.ClassificationFileSupport
 
 			Initialized = true;
 
-			OnPropertyChange("Initialized");
+			OnPropertyChange(nameof(Initialized));
 
 			allClassfFolderPath = MachSettings.Path.SettingFolderPath +
 				FilePathConstants.USER_STORAGE_FOLDER;
@@ -167,6 +167,7 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			OnPropertyChange("AllClassifFolderPath");
 			OnPropertyChange("UserClassfFolderPath");
+			                  
 			OnPropertyChange("UserClassificationFolderPathExists");
 		}
 

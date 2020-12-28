@@ -11,7 +11,9 @@ using UtilityLibrary;
 using AndyShared;
 using AndyShared.ConfigMgrShared;
 using AndyShared.ConfigSupport;
+#pragma warning disable CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 using UtilityLibrary;
+#pragma warning restore CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
@@ -160,7 +162,6 @@ namespace AndyShared.ConfigMgr
 
 			View.SortDescriptions.Clear();
 			View.SortDescriptions.Add(new SortDescription("FileName", ListSortDirection.Ascending));
-
 		}
 
 		// adjust the config file's list based on the actual list in

@@ -153,11 +153,11 @@ namespace AndyConfig.ConfigMgr
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("Initalized");
-			OnPropertyChange("SuiteSettingPath");
-			OnPropertyChange("SuiteSettingsFileExists");
-			OnPropertyChange("SiteRootPath");
-			OnPropertyChange("SiteSettingsRootPathIsValid");
+			OnPropertyChange(nameof(Initalized));
+			OnPropertyChange(nameof(SuiteSettingPath));
+			OnPropertyChange(nameof(SuiteSettingsFileExists));
+			OnPropertyChange(nameof(SiteSettingsRootPath));
+			OnPropertyChange(nameof(SiteSettingsRootPathIsValid));
 		}
 
 		private void IssuePathChangeEvent()

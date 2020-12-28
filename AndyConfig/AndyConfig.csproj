@@ -160,6 +160,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
       <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +196,9 @@
     </Compile>
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
+      <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
     <Compile Include="ConfigMgr\ConfigManager.cs" />
     <Compile Include="ConfigMgr\ConfigSeedInstalled.cs" />
