@@ -122,7 +122,7 @@
 					BasedOn="{StaticResource Label.Foreground.Black}"
 					>
 				<Setter Property="FontSize" Value="12" />
-				<Setter Property="Margin" Value="0,-2,0,0" />
+				<Setter Property="Margin" Value="0,-4,0,0" />
 				<Setter Property="HorizontalContentAlignment" Value="Center" />
 			</Style>
 
@@ -185,10 +185,9 @@
 					TargetType="Button"
 					BasedOn="{StaticResource Button.Style.Standard.Left}"
 			>
-				<Setter Property="Height" Value="30"/>
+				<Setter Property="Height" Value="28"/>
 				<Setter Property="Width" Value="65"/>
 			</Style>
-
 
 			<Style x:Key="Button.Style.Std.Left.A"
 					TargetType="Button"
@@ -532,7 +531,7 @@
 	</Window.Resources>
 
 	<Grid
-			Margin="5"
+			Margin="5,5,5,0"
 			>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*" MinWidth="240" />
@@ -545,9 +544,9 @@
 			<RowDefinition />
 			<RowDefinition Height="Auto" MinHeight="40" MaxHeight="{StaticResource Height.Bottom.Row}" />
 		</Grid.RowDefinitions>
-
+		
 		<Label
-				Content="Folder Favorites"
+				Content="{Binding ElementName=SavedFolderWin, Path=WinTitle, Mode=OneWay, FallbackValue='Favorites'}"
 				Grid.Column="0"
 				Grid.Row="0"
 				Grid.ColumnSpan="3"
@@ -581,10 +580,12 @@
 					<StackPanel Orientation="Vertical">
 						<Label
 								Content="Add a"
+
 								Style="{StaticResource Label.Button.StackedText}"
 								/>
 						<Label
 								Content="Project"
+
 								Style="{StaticResource Label.Button.StackedText}"
 								/>
 					</StackPanel>
@@ -892,7 +893,7 @@
 		<StackPanel
 				Grid.Column="2"
 				Grid.Row="2"
-				Margin="0,10,0,0"
+				Margin="0,10,0,5"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Bottom"
 				Orientation="Horizontal"
