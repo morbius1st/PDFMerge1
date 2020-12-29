@@ -33,6 +33,7 @@ namespace Sylvester.FileSupport
 		public static string StatusMsgMissing { get; } = "Ignore";
 		public static string StatusMsgNotMatches { get; } = "Rename";
 		public static string StatusMsgNotSelected { get; } = "Not Selected";
+		public static string StatusMsgSelected { get; } = "Selected";
 
 		private string matchedSheetNumber = "";
 		private string matchedSeparator = "";
@@ -73,20 +74,14 @@ namespace Sylvester.FileSupport
 			}
 		}
 
-		public bool FileNew => SheetTitleMatches == MatchStatus.NEW_FILE &&
-			SeparationMatches == MatchStatus.NEW_FILE && SheetTitleMatches == MatchStatus.NEW_FILE;
-
-		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
-			SeparationMatches == MatchStatus.DOES_MATCH && SheetTitleMatches == MatchStatus.DOES_MATCH;
-
 		public string StatusMessage
 		{
 			get
 			{
-				if (!Selected) return StatusMsgNotSelected;
 				if (FileNew) return StatusMsgMissing;
 				if (FileMatches) return StatusMsgMatches;
-				return StatusMsgNotMatches;
+				if (!Selected) return StatusMsgNotSelected;
+				return StatusMsgSelected;
 			}
 		}
 
@@ -174,6 +169,14 @@ namespace Sylvester.FileSupport
 
 			}
 		}
+
+		public bool FileNew => SheetTitleMatches == MatchStatus.NEW_FILE &&
+			SeparationMatches == MatchStatus.NEW_FILE && SheetTitleMatches == MatchStatus.NEW_FILE;
+
+		public bool FileMatches => SheetNumberMatches == MatchStatus.DOES_MATCH &&
+			SeparationMatches == MatchStatus.DOES_MATCH && SheetTitleMatches == MatchStatus.DOES_MATCH;
+
+
 
 	}
 }

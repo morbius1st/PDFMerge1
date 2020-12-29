@@ -25,7 +25,7 @@
 		DataContext="{Binding ElementName=mainwin,
 													Path=pm}"
 		mc:Ignorable="d"
-		Background="#333333"
+		Background="{DynamicResource Window.Background}"
 		Initialized="Mainwin_Initialized"
 		Loaded="Mainwin_Loaded"
 		>
@@ -174,7 +174,7 @@
 	<Grid Margin="7,0,7,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="5" />
 			<ColumnDefinition Width="1.1*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -195,7 +195,7 @@
 				Margin="0,5,0,4"
 				Padding="3,0,0,0"
 				HorizontalAlignment="Stretch"
-				FontSize="{StaticResource Header.Title.L2.Font.Size}"
+				FontSize="{StaticResource Header.Title.L1.Font.Size}"
 				Background="{StaticResource Win.Title.Background}"
 				Style="{StaticResource control}"
 				/>
@@ -364,16 +364,16 @@
 					Height="18"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
-			>
+					>
 
 				<Border
-						DockPanel.Dock="Right"
 						Margin="5,0,0,0"
 						Padding="0"
 						HorizontalAlignment="right"
 						Background="{StaticResource Element.Value.Background.Normal}"
 						BorderThickness="0"
 						CornerRadius="3"
+						DockPanel.Dock="Right"
 						>
 					<RadioButton
 							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
@@ -389,13 +389,13 @@
 
 
 				<Border
-						DockPanel.Dock="Right"
 						Margin="5,0,0,0"
 						Padding="0"
 						HorizontalAlignment="right"
 						Background="{StaticResource Element.Value.Background.Normal}"
 						BorderThickness="0"
 						CornerRadius="3"
+						DockPanel.Dock="Right"
 						>
 					<RadioButton
 							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
@@ -410,13 +410,13 @@
 
 
 				<Border
-						DockPanel.Dock="Right"
 						Margin="5,0,0,0"
 						Padding="0"
 						HorizontalAlignment="right"
 						Background="{StaticResource Element.Value.Background.Normal}"
 						BorderThickness="0"
 						CornerRadius="3"
+						DockPanel.Dock="Right"
 						>
 					<RadioButton
 							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
@@ -429,17 +429,16 @@
 							/>
 				</Border>
 
-				
+
 				<Border
-						DockPanel.Dock="Right"
 						Margin="0,0,0,0"
 						Padding="0"
 						HorizontalAlignment="Stretch"
 						Background="{StaticResource Label.Status.Title.Background}"
 						BorderThickness="0"
 						CornerRadius="3"
-						
-				>
+						DockPanel.Dock="Right"
+						>
 					<Label
 							Content="{Binding Source={x:Static setg:AppSettingData.SettingSheetNameCase},
 																Path=[0]}"
@@ -447,7 +446,7 @@
 							Padding="0,0,0,1"
 							HorizontalAlignment="Stretch"
 							Style="{StaticResource control}"
-					/>
+							/>
 				</Border>
 
 
@@ -496,7 +495,7 @@
 					Content="Scan"
 					Grid.Column="0"
 					Grid.Row="2"
-					Margin="0,8,0,0"
+					Margin="0,40,0,0"
 					Width="{StaticResource Button.Width}"
 					Height="{StaticResource Button.Height}"
 					HorizontalAlignment="Left"
@@ -520,21 +519,15 @@
 					Grid.Column="0"
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
-					Margin="0,13,0,8"
+					Margin="0,5,0,5"
 					DataContext="{Binding pm.FileCollectionCurrent,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue='this is text'}"
 					FolderType="CURRENT"
-					TitleBarMargin="80,0,0,0"
+					TitleBarMargin="90,0,0,0"
 					Style="{StaticResource HeaderControl.FolderRoute.Style}"
 					>
-				<!--  FontSize="12"  -->
-				<!--  ObliqueButtonHeight="17"  -->
-				<!--  FolderRouteHeight="30"  -->
-				<!--  TextFontSize="12"  -->
-				<!--  TextMargin="0,0,0,2"  -->
-				<!--  ObliqueButtonMargin="-1,0,0,0"  -->
 
 			</local:HeaderControl>
 
@@ -550,6 +543,7 @@
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
+					Background="#222222"
 					CanSelect="False"
 					CheckBoxVisibility="Hidden"
 					/>
@@ -597,7 +591,7 @@
 					Content="Scan"
 					Grid.Column="0"
 					Grid.Row="2"
-					Margin="0,8,0,0"
+					Margin="0,40,0,0"
 					Width="{StaticResource Button.Width}"
 					Height="{StaticResource Button.Height}"
 					HorizontalAlignment="Left"
@@ -621,13 +615,13 @@
 					Grid.Column="0"
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
-					Margin="0,13,0,8"
+					Margin="0,5,0,5"
 					DataContext="{Binding pm.FileCollectionRevision,
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
 					FolderType="REVISION"
-					TitleBarMargin="80,0,0,0"
+					TitleBarMargin="90,0,0,0"
 					Style="{StaticResource HeaderControl.FolderRoute.Style}"
 					/>
 			<!--  FontSize="12"  -->
@@ -647,6 +641,7 @@
 																ElementName=mainwin,
 																Mode=OneWay,
 																FallbackValue={x:Null}}"
+					Background="#222222"
 					/>
 
 		</Grid>
@@ -800,13 +795,16 @@
 																FallbackValue={x:Null}}"
 					d:DataContext="{Binding ElementName=mainwin,
 																	Path=pm.CvFinal}"
-					Background="#333333"
+					Background="#222222"
 					Foreground="White"
 					IsSynchronizedWithCurrentItem="True"
 					ScrollViewer.CanContentScroll="False"
+					ScrollViewer.HorizontalScrollBarVisibility="Auto"
+					ScrollViewer.VerticalScrollBarVisibility="Auto"
 					ItemContainerStyle="{DynamicResource ListViewItemStyle2}"
 					ItemTemplate="{DynamicResource DataTemplateTest2}"
 					ItemsSource="{Binding}"
+					Style="{StaticResource lvtestStyle1}"
 					>
 
 				<ListView.Resources>
@@ -1046,7 +1044,6 @@
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
-
 
 
 					<DataTemplate x:Key="DataTemplateTest2" x:Name="DataTemplateTest2"

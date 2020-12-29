@@ -214,6 +214,11 @@
       <DependentUpon>ObliqueButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
+    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
+      <Link>Resources\XAML\MasterColorList.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Resources\XAML\MasterVisualResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

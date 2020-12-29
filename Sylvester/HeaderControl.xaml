@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<UserControl Name="headerControl"
 		x:Class="Sylvester.HeaderControl"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,14 +9,13 @@
 		xmlns:support="clr-namespace:Sylvester.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:user="clr-namespace:Sylvester.UserControls"
-		Name="headerControl"
+		mc:Ignorable="d"
 		d:DataContext="{Binding pm.FileCollectionCurrent,
 														RelativeSource={RelativeSource FindAncestor,
 																													 AncestorType={x:Type local:MainWindow}},
 														Mode=OneWay,
 														FallbackValue='this is text'}"
 		d:DesignWidth="600"
-		mc:Ignorable="d"
 		>
 
 
@@ -24,8 +23,7 @@
 
 		<support:IntGreaterThanConverter x:Key="IntGtConv" />
 
-		<Style
-				x:Key="label"
+		<Style x:Key="label"
 				TargetType="Label"
 				>
 			<Setter Property="Foreground" Value="White" />
@@ -36,25 +34,27 @@
 			<Setter Property="VerticalAlignment" Value="Bottom" />
 		</Style>
 
-		<Style
-				x:Key="lblStats"
+		<Style x:Key="lblStats"
 				TargetType="Label"
 				BasedOn="{StaticResource label}"
 				>
-			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 
-		<Style
-				x:Key="lblCount"
+		<Style x:Key="lblCount"
 				TargetType="Label"
 				BasedOn="{StaticResource label}"
 				>
-			<Setter Property="ContentStringFormat" Value="D5" />
-			<Setter Property="Margin" Value="6,0,0,0" />
+			<Setter Property="ContentStringFormat" Value="D4" />
+			<Setter Property="Margin" Value="0,0,20,0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 
-		<Style
-				x:Key="FileSummary.Panel"
+		<Style x:Key="FileSummary.Panel"
 				TargetType="StackPanel"
 				>
 			<Setter Property="Width" Value="120" />
@@ -62,50 +62,48 @@
 		</Style>
 
 
-		<Style
-				x:Key="FileSummary.Panel.Hide"
+		<Style x:Key="FileSummary.Panel.Hide"
 				TargetType="StackPanel"
-		>
+				>
 			<Setter Property="Visibility" Value="Visible" />
-			<Setter Property="Orientation" Value="Horizontal"/>
+			<Setter Property="Orientation" Value="Horizontal" />
 			<Style.Triggers>
 				<MultiDataTrigger>
 					<MultiDataTrigger.Conditions>
-						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0" />
-						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
-						<Condition Binding="{Binding Path=HasFolder}" Value="true" />
+						<Condition Value="0" Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" />
+						<Condition Value="true" Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" />
+						<Condition Value="true" Binding="{Binding Path=HasFolder}" />
 					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Collapsed" />
 				</MultiDataTrigger>
 			</Style.Triggers>
 		</Style>
 
-		<!-- <Style -->
-		<!-- 		x:Key="FileSummary.Panel.Show" -->
-		<!-- 		TargetType="StackPanel" -->
-		<!-- 		> -->
+		<!--  <Style  -->
+		<!--  x:Key="FileSummary.Panel.Show"  -->
+		<!--  TargetType="StackPanel"  -->
+		<!--  >  -->
 		<!-- 	<Setter Property="Orientation" Value="Horizontal" /> -->
 		<!-- 	<Setter Property="Visibility" Value="Visible" /> -->
 		<!-- 	<Style.Triggers> -->
-		<!-- 		<DataTrigger -->
-		<!-- 				Binding="{Binding Path=FilesFound, -->
-		<!-- 													FallbackValue=''}" -->
-		<!-- 				Value="0" -->
-		<!-- 				> -->
+		<!--  <DataTrigger  -->
+		<!--  Binding="{Binding Path=FilesFound,  -->
+		<!--  FallbackValue=''}"  -->
+		<!--  Value="0"  -->
+		<!--  >  -->
 		<!-- 			<Setter Property="Visibility" Value="Collapsed" /> -->
 		<!-- 		</DataTrigger> -->
-		<!-- 		<DataTrigger -->
-		<!-- 				Binding="{Binding Path=SheetPdfs, -->
-		<!-- 													FallbackValue=''}" -->
-		<!-- 				Value="0" -->
-		<!-- 				> -->
+		<!--  <DataTrigger  -->
+		<!--  Binding="{Binding Path=SheetPdfs,  -->
+		<!--  FallbackValue=''}"  -->
+		<!--  Value="0"  -->
+		<!--  >  -->
 		<!-- 			<Setter Property="Visibility" Value="Collapsed" /> -->
 		<!-- 		</DataTrigger> -->
 		<!-- 	</Style.Triggers> -->
 		<!-- </Style> -->
 
-		<Style
-				x:Key="FileSummary.Panel.Show"
+		<Style x:Key="FileSummary.Panel.Show"
 				TargetType="StackPanel"
 				BasedOn="{StaticResource FileSummary.Panel}"
 				>
@@ -113,9 +111,9 @@
 			<Style.Triggers>
 				<MultiDataTrigger>
 					<MultiDataTrigger.Conditions>
-						<Condition Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" Value="0" />
-						<Condition Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" Value="true" />
-						<Condition Binding="{Binding Path=HasFolder}" Value="true" />
+						<Condition Value="0" Binding="{Binding Path=SheetPdfs, FallbackValue='0'}" />
+						<Condition Value="true" Binding="{Binding Path=FilesFound, FallbackValue='0', Converter={StaticResource IntGtConv}, ConverterParameter='0'}" />
+						<Condition Value="true" Binding="{Binding Path=HasFolder}" />
 					</MultiDataTrigger.Conditions>
 					<Setter Property="Visibility" Value="Visible" />
 				</MultiDataTrigger>
@@ -138,9 +136,9 @@
 				>
 
 			<Grid
-					Margin="0,0,0,5"
+					Margin="0,0,0,0"
 					VerticalAlignment="Stretch"
-					DockPanel.Dock="Top"
+					DockPanel.Dock="Bottom"
 					>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -150,11 +148,14 @@
 						Grid.Row="0"
 						Orientation="Horizontal"
 						>
+					<!--  Margin="{Binding ElementName=headerControl,  -->
+					<!--  Path=TitleBarMargin}"  -->
 					<Label
-							Content="File Summary |"
+							Content="File Summary"
 							Margin="{Binding ElementName=headerControl,
 															 Path=TitleBarMargin}"
-							Width="80"
+							Width="100"
+							VerticalAlignment="Center"
 							Style="{StaticResource label}"
 							/>
 
@@ -169,63 +170,79 @@
 					</StackPanel>
 
 					<StackPanel Style="{StaticResource FileSummary.Panel.Hide}">
-						<StackPanel
-								Width="80"
-								Style="{StaticResource FileSummary.Panel}"
-								>
+
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="80" />
+								<ColumnDefinition Width="50" />
+								<ColumnDefinition Width="80" />
+								<ColumnDefinition Width="50" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="15" />
+								<RowDefinition Height="15" />
+							</Grid.RowDefinitions>
+
 							<Label
 									Content="Total"
+									Grid.Column="0"
+									Grid.Row="0"
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
 									Content="{Binding Path=FilesFound,
 																		FallbackValue=0}"
+									Grid.Column="1"
+									Grid.Row="0"
 									Style="{StaticResource lblCount}"
 									/>
-						</StackPanel>
-
-						<StackPanel Style="{StaticResource FileSummary.Panel}">
 							<Label
 									Content="Sheets PDF's"
+									Grid.Column="2"
+									Grid.Row="0"
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
 									Content="{Binding Path=SheetPdfs,
 																		FallbackValue=0}"
+									Grid.Column="3"
+									Grid.Row="0"
 									Style="{StaticResource lblCount}"
 									/>
-						</StackPanel>
-
-						<StackPanel Style="{StaticResource FileSummary.Panel}">
 							<Label
 									Content="Other PDF's"
+									Grid.Column="0"
+									Grid.Row="1"
 									Foreground="LightGray"
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
 									Content="{Binding Path=NonSheetPdfsFiles,
 																		FallbackValue=0}"
+									Grid.Column="1"
+									Grid.Row="1"
 									Foreground="LightGray"
 									Style="{StaticResource lblCount}"
 									/>
-						</StackPanel>
-
-						<StackPanel Style="{StaticResource FileSummary.Panel}">
 							<Label
 									Content="Other Files"
+									Grid.Column="2"
+									Grid.Row="1"
 									Foreground="#bababa"
 									Style="{StaticResource lblStats}"
 									/>
 							<Label
 									Content="{Binding Path=OtherFiles,
 																		FallbackValue=0}"
+									Grid.Column="3"
+									Grid.Row="1"
 									Foreground="#bababa"
 									Style="{StaticResource lblCount}"
 									/>
-						</StackPanel>
+						</Grid>
+
 					</StackPanel>
-
-
 
 				</StackPanel>
 			</Grid>
@@ -233,16 +250,16 @@
 			<!--  <DockPanel Margin="0,0,0,0"  -->
 			<!--  HorizontalAlignment="Stretch"  -->
 			<!--  >  -->
-			<user:FolderRoute
-					x:Name="FolderRoute"
-					Margin="0,9,0,0"
+			<user:FolderRoute x:Name="FolderRoute"
+
+					Margin="0,0,0,3"
 					Height="{Binding ElementName=headerControl,
 													 Path=FolderRouteHeight,
 													 FallbackValue=24}"
 					VerticalAlignment="Bottom"
 					FontBrush="{Binding ElementName=headerControl,
 															Path=FontBrush}"
-					DockPanel.Dock="Bottom"
+					DockPanel.Dock="Top"
 					ObliqueButtonHeight="{Binding ElementName=headerControl,
 																				Path=ObliqueButtonHeight}"
 					ObliqueButtonMargin="{Binding ElementName=headerControl,
@@ -259,11 +276,7 @@
 				<user:FolderRoute.Style>
 					<Style TargetType="user:FolderRoute">
 						<Style.Triggers>
-							<DataTrigger
-									Binding="{Binding ElementName=headerControl,
-																		Path=HideDirectory}"
-									Value="true"
-									>
+							<DataTrigger Value="true" Binding="{Binding ElementName=headerControl, Path=HideDirectory}">
 								<Setter Property="Visibility" Value="Hidden" />
 							</DataTrigger>
 						</Style.Triggers>

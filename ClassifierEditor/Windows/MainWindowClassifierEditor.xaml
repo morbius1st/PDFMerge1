@@ -500,6 +500,7 @@
 										>
 									<ScrollViewer.Template>
 										<ControlTemplate TargetType="{x:Type ScrollViewer}">
+
 											<Grid>
 												<Grid.ColumnDefinitions>
 													<ColumnDefinition Width="Auto" />
