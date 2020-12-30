@@ -5,20 +5,11 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		>
 
+	<SolidColorBrush x:Key="ScrollBarBkg">#222222</SolidColorBrush>
 
-	<SolidColorBrush x:Key="ScrollBarBkg">
-		#222222
-	</SolidColorBrush>
-
-	<sys:Double x:Key="BarSize">
-		6
-	</sys:Double>
-	<sys:Double x:Key="BarSizeOutline">
-		8
-	</sys:Double>
-	<sys:Double x:Key="RepeatButtonLength">
-		11
-	</sys:Double>
+	<sys:Double x:Key="BarSize">6</sys:Double>
+	<sys:Double x:Key="BarSizeOutline">8</sys:Double>
+	<sys:Double x:Key="RepeatButtonLength">11</sys:Double>
 
 	<ControlTemplate x:Key="ScrollViewerNarrow"
 			TargetType="{x:Type ScrollViewer}"

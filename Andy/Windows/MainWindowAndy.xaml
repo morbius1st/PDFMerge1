@@ -1,0 +1,106 @@
+﻿<Window
+		x:Class="Andy.Windows.MainWindowAndy"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:Andy.Windows"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
+		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:f="clr-namespace:AndySharedResources.XamlResources.FolderRte"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		x:Name="MainWinAndy"
+		Title="Andy - Pdf Organizer and Merger"
+		Width="1400"
+		Height="800"
+		MinWidth="1400"
+		MinHeight="800"
+		mc:Ignorable="d"
+		FontFamily="Tahoma"
+		FontSize="12"
+		DataContext="{Binding ElementName=MainWinClsfrEd}"
+		Background="{StaticResource Window.Background}"
+		d:UseSampleData="True"
+		>
+	<Window.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+
+				
+
+			</ResourceDictionary.MergedDictionaries>
+
+		<Style x:Key="Button.Local" TargetType="Button" BasedOn="{StaticResource Button.Base}"></Style>
+		<Style x:Key="Label.Local" TargetType="Label" BasedOn="{StaticResource Label.Base}"></Style>
+
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<Grid
+			Margin="5"
+			>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="30" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="30" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Label x:Name="Label01"
+				Content="Drawing Sheet PDF Merger"
+				Grid.Column="0"
+				Grid.Row="0"
+				Grid.ColumnSpan="5"
+				Margin="0,0,0,5"
+				Padding="5,3,0,5"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Top"
+				FontSize="{StaticResource Header.Title.L1.Font.Size}"
+				Background="{StaticResource Win.Title.Background}"
+				Foreground="White"
+		/>
+
+		<!-- <Button -->
+		<!-- 		Content="This is a test" -->
+		<!-- 		Grid.Column="0" -->
+		<!-- 		Grid.Row="1" -->
+		<!-- 		VerticalAlignment="Top" -->
+		<!-- 		Style="{StaticResource Button.Local}" -->
+		<!-- 		/> -->
+		<!-- -->
+		<!-- <Label -->
+		<!-- 		Content="This is a test" -->
+		<!-- 		Margin="0,40,0,0" -->
+		<!-- 		Grid.Column="0" -->
+		<!-- 		Grid.Row="1" -->
+		<!-- 		VerticalAlignment="Top" -->
+		<!-- 		Style="{StaticResource Label.Local}" -->
+		<!-- /> -->
+
+		<DockPanel
+				Grid.Column="0"
+				Grid.Row="1"
+				
+				>
+
+			<!-- <f:FolderRoute></f:FolderRoute> -->
+
+
+		</DockPanel>
+
+
+
+
+
+	</Grid>
+
+</Window>

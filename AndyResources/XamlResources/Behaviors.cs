@@ -34,9 +34,7 @@ namespace AndySharedResources.XamlResources
 			DependencyProperty.RegisterAttached(
 				"SelectAllTextOnFocus",
 				typeof (bool),
-#pragma warning disable CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs'.
-				typeof (TextBoxBehavior),
-#pragma warning restore CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs'.
+				typeof (AndySharedResources.XamlResources.TextBoxBehavior),
 				new UIPropertyMetadata(false, OnSelectAllTextOnFocusChanged));
 
 		private static void OnSelectAllTextOnFocusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -79,9 +77,9 @@ namespace AndySharedResources.XamlResources
 {
 
     public static readonly DependencyProperty UpdatePropertySourceWhenEnterPressedProperty = DependencyProperty.RegisterAttached(
-#pragma warning disable CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs'.
+#pragma warning disable CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
             "UpdatePropertySourceWhenEnterPressed", typeof(DependencyProperty), typeof(InputBindingsManager), new PropertyMetadata(null, OnUpdatePropertySourceWhenEnterPressedPropertyChanged));
-#pragma warning restore CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\..\AndyResources\XamlResources\Behaviors.cs'.
+#pragma warning restore CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 
     static InputBindingsManager()
     {

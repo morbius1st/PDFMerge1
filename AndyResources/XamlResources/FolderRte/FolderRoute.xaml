@@ -1,0 +1,173 @@
+﻿<UserControl x:Name="folderRoute"
+		x:Class="AndySharedResources.XamlResources.FolderRte.FolderRoute"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:AndySharedResources.XamlResources.FolderRte"
+		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		mc:Ignorable="d"
+		d:DesignHeight="23"
+		d:DesignWidth="250"
+		>
+	<UserControl.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/../AndyResources/XamlResources/ScrollViewerNarrow2.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+
+			<local:PathTypeVisibilityConverter x:Key="PathTypeVisibilityConverter" />
+
+			<Style x:Key="ObliqueButtonStyle"
+					TargetType="local:ObliqueButton"
+					>
+				<Setter Property="ObliqueButtonMargin" Value="0" />
+				<Setter Property="Height" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonHeight, FallbackValue=14}" />
+				<Setter Property="Visibility">
+					<Setter.Value>
+						<MultiBinding
+								Converter="{StaticResource PathTypeVisibilityConverter}"
+								FallbackValue="Visible"
+								Mode="OneWay"
+								>
+							<Binding
+									ElementName="folderRoute"
+									Path="ProposedObliqueButtonType"
+									/>
+							<Binding
+									FallbackValue="4"
+									Path="ObliqueButtonType"
+									RelativeSource="{RelativeSource Self}"
+									/>
+							<Binding />
+						</MultiBinding>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ObBtnStyle"
+					TargetType="local:ObliqueButton"
+					BasedOn="{StaticResource ObliqueButtonStyle}"
+					>
+				<Setter Property="ObliqueButtonMargin" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonMargin}" />
+			</Style>
+
+			<Style x:Key="ObBtn"
+					TargetType="local:ObliqueButton"
+					BasedOn="{StaticResource ObliqueButtonStyle}"
+					>
+				<Setter Property="FontBrush" Value="{Binding ElementName=folderRoute, Path=FontBrush, FallbackValue=white}" />
+				<Setter Property="TextMargin" Value="{Binding ElementName=folderRoute, Path=TextMargin, FallbackValue='0,0,0,0'}" />
+				<Setter Property="FontSize" Value="{Binding ElementName=folderRoute, Path=TextFontSize, FallbackValue=8.0}" />
+				<Setter Property="ObliqueButtonMargin" Value="0" />
+				<Setter Property="ObliqueButtonType" Value="TEXT" />
+				<Setter Property="ShowArrow" Value="True" />
+				<Setter Property="ShowText" Value="True" />
+				<Setter Property="BorderBrush" Value="Gray" />
+				<Setter Property="DockPanel.Dock" Value="Left" />
+			</Style>
+
+			<Style x:Key="ObText"
+					TargetType="local:ObliqueButton"
+					BasedOn="{StaticResource ObBtn}"
+					>
+				<Setter Property="ObliqueButtonMargin" Value="{Binding ElementName=folderRoute, Path=ObliqueButtonMargin}" />
+			</Style>
+
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<DockPanel x:Name="PathDockPanel"
+			Margin="0"
+			Width="{Binding ElementName=folderRoute,
+											Path=ActualWidth}"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			>
+		<DockPanel Margin="0,0,12,0">
+			<Rectangle
+					Width="Auto"
+					Height="8"
+					DockPanel.Dock="Bottom"
+					Fill="Transparent"
+					/>
+
+
+			<!--  the favorites button  -->
+			<local:ObliqueButton x:Name="BtnFav"
+					BorderBrush="Gray"
+					FavoritesBrush="OrangeRed"
+					Button.Click="InnerButton_Favorites"
+					DockPanel.Dock="Left"
+					Index="-1"
+					ObliqueButtonType="FAVORITES"
+					ShowFavorite="True"
+					Style="{StaticResource ObBtnStyle}"
+					/>
+			<!--  ObliqueButtonType="4"  -->
+
+			<!--  the history button  -->
+			<local:ObliqueButton x:Name="BtnHistory"
+					BorderBrush="Gray"
+					HistoryBrush="#00efff"
+					Button.Click="InnerButton_History"
+					DockPanel.Dock="Left"
+					Index="-1"
+					ObliqueButtonType="HISTORY"
+					ShowHistory="True"
+					Style="{StaticResource ObBtnStyle}"
+					/>
+			<!--  ObliqueButtonType="8"  -->
+
+			<!--  the Select folder button  -->
+			<local:ObliqueButton x:Name="BtnSelFolder"
+					BorderBrush="Gray"
+					PlusBrush="Lime"
+					Button.Click="InnerButton_SelectFolder"
+					DockPanel.Dock="Left"
+					Index="-1"
+					ObliqueButtonType="SELECTFOLDER"
+					ShowPlus="True"
+					Style="{StaticResource ObBtnStyle}"
+					/>
+
+		</DockPanel>
+
+
+		<!--  ObliqueButtonType="2"  -->
+		<ScrollViewer x:Name="ScrollBar"
+				Margin="-6,0,0,0"
+				Padding="0"
+				
+				VerticalContentAlignment="Stretch"
+				HorizontalScrollBarVisibility="Visible"
+				VerticalScrollBarVisibility="Hidden"
+				Template="{StaticResource ScrollViewerNarrow2}"
+				>
+			<!--  the folder path names  -->
+			<DockPanel Name="SpPath"
+					Height="{Binding ElementName=folderRoute,
+													 Path=ObliqueButtonHeight,
+													 FallbackValue=14}"
+					>
+				<local:ObliqueButton x:Name="BtnText"
+						Margin="0,0,0,0"
+						Padding="0"
+						VerticalAlignment="Stretch"
+						VerticalContentAlignment="Stretch"
+						FontSize="{Binding ElementName=folderRoute,
+															 Path=TextFontSize}"
+						Button.Click="InnerButton_Click"
+						Index="-1"
+						Style="{StaticResource ObBtn}"
+						/>
+
+			</DockPanel>
+		</ScrollViewer>
+
+
+	</DockPanel>
+</UserControl>

@@ -20,52 +20,22 @@
 	<system:Int32 x:Key="c1">#FFDDDDDD</system:Int32>
 
 
-	<SolidColorBrush x:Key="FldrRtFntBrush">
-		#FFEEEEEE
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Background">
-		#333333
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill">
-		OrangeRed
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Favorite.Fill2">
-		#FF581A
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.Plus.Fill">
-		Lime
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Path.History.Fill">
-		#00efff
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Button.Static.Background">
-		#444444
-	</SolidColorBrush>
+	<SolidColorBrush x:Key="FldrRtFntBrush" Color="#FFEEEEEE" />
+	<SolidColorBrush x:Key="Background">#333333</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill">OrangeRed</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Favorite.Fill2">#FF581A</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
+	<SolidColorBrush x:Key="Path.History.Fill">#00efff</SolidColorBrush>
+	<SolidColorBrush x:Key="Button.Static.Background">#444444</SolidColorBrush>
 
-	<SolidColorBrush x:Key="MouseOver.Foreground">
-		White
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border.Background">
-		#FF3A779B
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="MouseOver.Border">
-		#FFC7EAFF
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border.Background">
-		#FFC4E5F6
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Pressed.Border">
-		#FF2C628B
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Foreground">
-		#FFDDDDDD
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border.Background">
-		#FF646464
-	</SolidColorBrush>
-	<SolidColorBrush x:Key="Disabled.Border">
-		#FFADB2B5
-	</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Foreground">White</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border.Background">#FF3A779B</SolidColorBrush>
+	<SolidColorBrush x:Key="MouseOver.Border">#FFC7EAFF</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border.Background">#FFC4E5F6</SolidColorBrush>
+	<SolidColorBrush x:Key="Pressed.Border">#FF2C628B</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Foreground">#FFDDDDDD</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border.Background">#FF646464</SolidColorBrush>
+	<SolidColorBrush x:Key="Disabled.Border">#FFADB2B5</SolidColorBrush>
 
 
 	<Geometry x:Key="Icon.Rect">
@@ -252,7 +222,7 @@
 		<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
 		<Setter Property="BorderThickness" Value="1" />
-		
+
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -269,7 +239,6 @@
 							BorderThickness="{TemplateBinding BorderThickness}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							SnapsToDevicePixels="true"
-							
 							>
 						<ScrollViewer
 								Margin="0"
@@ -277,9 +246,7 @@
 								Focusable="false"
 								Template="{StaticResource ScrollViewerNarrow}"
 								>
-							<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-									
-									/>
+							<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
 					</Border>
 					<ControlTemplate.Triggers>

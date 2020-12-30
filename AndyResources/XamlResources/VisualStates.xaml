@@ -11,9 +11,7 @@
 		<ResourceDictionary Source="MasterColorList.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 
-	<Color x:Key="Blue.Medium">
-		#FF26A0DA
-	</Color>
+	<Color x:Key="Blue.Medium">#FF26A0DA</Color>
 
 	<!--
 		button
@@ -115,7 +113,7 @@
 	<!--  listbox  -->
 	<!--  listView also  -->
 
-	<!-- dark theme -->
+	<!--  dark theme  -->
 	<!--  selected active  -->
 	<SolidColorBrush x:Key="Gray.SelectedActive.Dark.Background" Color="{StaticResource Gray.150}" />
 	<SolidColorBrush x:Key="Gray.SelectedActive.Dark.Foreground" Color="{StaticResource Gray.950}" />
@@ -124,7 +122,7 @@
 	<SolidColorBrush x:Key="Gray.UnSelected.Dark.Background" Color="{StaticResource Gray.200}" />
 	<SolidColorBrush x:Key="Gray.UnSelected.Dark.Foreground" Color="{StaticResource Gray.800}" />
 	<SolidColorBrush x:Key="Gray.UnSelected.Disabled.Dark.Foreground" Color="{StaticResource Gray.500}" />
-	
+
 	<!--#endregion-->
 
 	<!--#endregion-->
@@ -150,10 +148,35 @@
 			BasedOn="{StaticResource Control.Normal.Style}"
 			/>
 
+	<Style x:Key="Content.Base" TargetType="ContentControl" BasedOn="{StaticResource Control.Normal.Style}">
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+
+	<Style x:Key="Label.Base" TargetType="Label" BasedOn="{StaticResource Content.Base}">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="BorderThickness" Value="0" />
+	</Style>
+
+	<Style x:Key="Button.Base" TargetType="Button" BasedOn="{StaticResource Content.Base}">
+		<Setter Property="Template" Value="{DynamicResource Button.Normal.ControlTemplate}"/>
+		<Setter Property="Height" Value="{StaticResource Normal.Button.Height}"/>
+		<Setter Property="Width" Value="{StaticResource Normal.Button.Width}"/>
+
+	</Style>
+
+
+	<!--#endregion-->
+
+	<!--#region > ListBox.NoHighlight.Dark.ItemContainer-->
+
 	<!--  listbox item container style  -->
 	<!--  applies to a listview also  -->
 	<!--  light theme  -->
-		<!-- <Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" /> -->
+	<!-- <Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" /> -->
 	<Style x:Key="ListBox.NoHighlight.Dark.ItemContainer"
 			TargetType="{x:Type ListBoxItem}"
 			>
@@ -172,13 +195,13 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
-							<!-- Background="{StaticResource Gray.UnSelected.Background}" -->
+					<!--  Background="{StaticResource Gray.UnSelected.Background}"  -->
 					<Border x:Name="Bd"
 							Padding="{TemplateBinding Padding}"
-							SnapsToDevicePixels="true"
 							Background="{TemplateBinding Background}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							BorderBrush="{TemplateBinding BorderBrush}"
+							SnapsToDevicePixels="true"
 							>
 						<ContentPresenter
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -186,10 +209,10 @@
 								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 								/>
 					</Border>
-							<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Normal.Foreground}" /> -->
+					<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Normal.Foreground}" /> -->
 					<ControlTemplate.Triggers>
-						<!-- true -->
-						<Trigger Property="IsEnabled" Value="true">  
+						<!--  true  -->
+						<Trigger Property="IsEnabled" Value="true">
 							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
 							<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Gray.SelectedActive.Dark.ForeGround}" /> -->
 							<Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" />
@@ -217,7 +240,7 @@
 							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
 							<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Normal.SelectedActive.Border}" />
 						</MultiTrigger>
-						<!-- false -->
+						<!--  false  -->
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter TargetName="Bd" Property="Background" Value="{StaticResource Gray.UnSelected.Dark.Background}" />
 							<Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Disabled.Dark.Foreground}" />
@@ -229,12 +252,15 @@
 		</Setter>
 		<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
 	</Style>
-	
+
+	<!--#endregion-->
+
+	<!--#region > ListBox.Normal.ItemContaine (light)-->
 
 	<!--  listbox  -->
 	<!--  listView also  -->
 
-	<!-- light theme -->
+	<!--  light theme  -->
 	<!--  selected active  -->
 	<SolidColorBrush x:Key="Gray.SelectedActive.Background" Color="{StaticResource Gray.900}" />
 
@@ -242,7 +268,7 @@
 	<SolidColorBrush x:Key="Gray.UnSelected.Background" Color="{StaticResource Gray.900}" />
 	<SolidColorBrush x:Key="Gray.UnSelected.Foreground" Color="{StaticResource Gray.200}" />
 
-	<!--#endregion-->
+
 
 	<!--  listbox item container style  -->
 	<!--  applies to a listview also  -->
@@ -266,13 +292,12 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
-							<!-- Background="{StaticResource Gray.UnSelected.Background}" -->
 					<Border x:Name="Bd"
 							Padding="{TemplateBinding Padding}"
-							SnapsToDevicePixels="true"
 							Background="{TemplateBinding Background}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							BorderBrush="{TemplateBinding BorderBrush}"
+							SnapsToDevicePixels="true"
 							>
 						<ContentPresenter
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -322,17 +347,17 @@
 
 	<!--#endregion-->
 
-	<!--#region > Control Templates-->
+	<!--#region > Button.Normal.Control Templates-->
 
 	<ControlTemplate x:Key="Button.Normal.ControlTemplate"
 			TargetType="Button"
 			>
 		<Border x:Name="border"
 				Padding="{TemplateBinding Padding}"
-				SnapsToDevicePixels="True"
 				Background="{TemplateBinding Background}"
 				BorderThickness="{TemplateBinding BorderThickness}"
 				BorderBrush="{TemplateBinding BorderBrush}"
+				SnapsToDevicePixels="True"
 				>
 			<Border x:Name="bdr1"
 					Margin="0,0,-1,-1"
@@ -349,8 +374,8 @@
 						RecognizesAccessKey="True"
 						SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 						ContentTemplate="{TemplateBinding ContentTemplate}"
+				
 						/>
-				<!--  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  -->
 			</Border>
 		</Border>
 		<ControlTemplate.Triggers>

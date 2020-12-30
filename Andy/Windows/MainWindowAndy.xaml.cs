@@ -15,7 +15,7 @@ namespace Andy.Windows
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged
+	public partial class MainWindowAndy : Window, INotifyPropertyChanged
 	{
 		#region private fields
 
@@ -23,7 +23,7 @@ namespace Andy.Windows
 
 		#region ctor
 
-		public MainWindow()
+		public MainWindowAndy()
 		{
 			InitializeComponent();
 		}

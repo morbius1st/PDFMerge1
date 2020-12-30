@@ -35,6 +35,9 @@ namespace SettingsManager
 	public class UserSettingData
 	{
 		[DataMember(Order = 1)]
+		public string LastClassificationFileId { get; set; } = "PdfSample 1";
+
+		[DataMember(Order = 2)]
 		public int UserSettingsValue { get; set; } = 7;
 	}
 

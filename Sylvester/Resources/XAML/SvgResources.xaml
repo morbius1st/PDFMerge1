@@ -7,47 +7,22 @@
 		>
 
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-00.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-01.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-02.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-03.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-04.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-05.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/Folder-Pair-06.xaml"
-				/>
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-00.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-01.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-02.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-03.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-04.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-05.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/Folder-Pair-06.xaml" />
 
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/folder-project-00.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/folder-project-01.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/folder-project-02.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/folder-project-03.xaml"
-				/>
-		<ResourceDictionary
-				Source="/Sylvester;component/Resources/SVG/folder-project-04.xaml"
-				/>
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-00.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-01.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-02.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-03.xaml" />
+		<ResourceDictionary Source="/Sylvester;component/Resources/SVG/folder-project-04.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 
-	<specialized:ListDictionary x:Key="Folder-Project-Icons"
-			>
+	<specialized:ListDictionary x:Key="Folder-Project-Icons">
 		<Viewbox x:Key="{x:Static sylvester:App.Icon_FolderProject00}"
 				Child="{StaticResource Folder-Project-00}"
 				/>
@@ -65,8 +40,7 @@
 				/>
 	</specialized:ListDictionary>
 
-	<specialized:ListDictionary x:Key="Folder-Pair-Icons"
-			>
+	<specialized:ListDictionary x:Key="Folder-Pair-Icons">
 		<Viewbox x:Key="{x:Static sylvester:App.Icon_FolderPair00}"
 				Child="{StaticResource Folder-Pair-00}"
 				/>

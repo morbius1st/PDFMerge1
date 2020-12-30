@@ -7,6 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using AndySharedResources.XamlResources;
+using AndySharedResources.XamlResources.FolderRte;
+
 #endregion
 
 // projname: Andy
