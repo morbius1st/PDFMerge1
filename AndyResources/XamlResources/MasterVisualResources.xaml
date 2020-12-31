@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:xs="clr-namespace:AndySharedResources.XamlResources"
-		>
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:xs="clr-namespace:AndySharedResources.XamlResources">
 
 	<sys:Double x:Key="Header.Title.L1.Font.Size">20</sys:Double>
 	<sys:Double x:Key="Header.Title.L2.Font.Size">16</sys:Double>
@@ -33,13 +32,11 @@
 	<!--#endregion-->
 
 	<!--  save for future reference  -->
-	<xs:ScBrush x:Key="ItemsControl.Border.B"
-			A="#BB"
-			color="{StaticResource Light.Blue.760}"
-			/>
-	<xs:XmalColor x:Key="XmalColor"
-			Color="{StaticResource Gray.150}"
-			/>
+	<xs:ScBrush
+		x:Key="ItemsControl.Border.B"
+		A="#BB"
+		color="{StaticResource Light.Blue.760}" />
+	<xs:XmalColor x:Key="XmalColor" Color="{StaticResource Gray.150}" />
 
 	<SolidColorBrush x:Key="ItemsControl.Border.Frame" Color="{xs:XmalColor A=#BB, Color={StaticResource Light.Blue.760}}" />
 
@@ -75,12 +72,8 @@
 	<!--  e.g. combobox list items  -->
 	<SolidColorBrush x:Key="ItemsControl.ListItem.Background.Normal" Color="{StaticResource Blue.400}" />
 
-	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.C"
-			Color="{StaticResource Blue.550}"
-			/>
-	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.UnFocused.C"
-			Color="{StaticResource Blue.500}"
-			/>
+	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.C" Color="{StaticResource Blue.550}" />
+	<xs:XmalColor x:Key="ItemsControl.ListItem.Background.Selected.UnFocused.C" Color="{StaticResource Blue.500}" />
 
 	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected" ResourceKey="Blue.550" />
 	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected.UnFocused" ResourceKey="Blue.500" />

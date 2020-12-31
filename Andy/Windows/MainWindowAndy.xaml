@@ -27,11 +27,13 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 
-				
+				<ResourceDictionary Source="/XamlResources/ScrollBarMetrics.xaml" />
+				<ResourceDictionary Source="/XamlResources/ScrollBar.xaml" />
+				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
 
 			</ResourceDictionary.MergedDictionaries>
 
-		<Style x:Key="Button.Local" TargetType="Button" BasedOn="{StaticResource Button.Base}"></Style>
+			<Style x:Key="Button.Local" TargetType="Button" BasedOn="{StaticResource Button.Base}"></Style>
 		<Style x:Key="Label.Local" TargetType="Label" BasedOn="{StaticResource Label.Base}"></Style>
 
 		</ResourceDictionary>
@@ -60,7 +62,7 @@
 				Grid.Column="0"
 				Grid.Row="0"
 				Grid.ColumnSpan="5"
-				Margin="0,0,0,5"
+				Margin="0,0,0,0"
 				Padding="5,3,0,5"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
@@ -68,6 +70,86 @@
 				Background="{StaticResource Win.Title.Background}"
 				Foreground="White"
 		/>
+
+		<ScrollViewer
+				Grid.Column="0"
+				Grid.Row="1"	
+				Height="100"
+				Width="100"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Left"
+				HorizontalScrollBarVisibility="Visible"
+				VerticalScrollBarVisibility="Visible"
+				Template="{StaticResource ScrollViewerNarrow2}"
+		>
+
+			<WrapPanel 
+						VerticalAlignment="Top"
+						HorizontalAlignment="Left"
+						Width="150"
+						Height="150"
+					>
+				<Rectangle
+				Margin="3"
+						Fill="Red"
+						Width="30"
+						Height="30"
+						
+						/>				
+				<Rectangle
+				Margin="3"
+						Fill="Blue"
+						Width="45"
+						Height="40"
+						
+						/>
+				
+				<Rectangle
+									Margin="3"
+									Fill="Green"
+									Width="25"
+									Height="20"
+						
+							/>
+
+						<Rectangle
+									Margin="3"
+									Fill="OrangeRed"
+									Width="35"
+									Height="60"
+						
+							/>
+
+							
+						<Rectangle
+									Margin="3"
+									Fill="LimeGreen"
+									Width="75"
+									Height="60"
+						
+							/>
+							
+							
+						<Rectangle
+									Margin="3"
+									Fill="Purple"
+									Width="75"
+									Height="60"
+						
+							/>
+
+						<Rectangle
+									Margin="3"
+									Fill="Gray"
+									Width="55"
+									Height="60"
+						
+							/>
+
+
+
+			</WrapPanel>
+		</ScrollViewer>
 
 		<!-- <Button -->
 		<!-- 		Content="This is a test" -->

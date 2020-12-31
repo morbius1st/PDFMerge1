@@ -1,11 +1,10 @@
 ﻿<ResourceDictionary
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		mc:Ignorable="d"
-		>
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	mc:Ignorable="d">
 	<!--  xmlns:sys="clr-namespace:System;assembly=mscorlib"  -->
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="MasterColorList.xaml" />
@@ -129,42 +128,49 @@
 
 	<!--#region > Styles-->
 
-	<Style x:Key="Control.Normal.Style"
-			TargetType="Control"
-			>
+	<Style x:Key="Control.Normal.Style" TargetType="Control">
 		<Setter Property="Background" Value="{StaticResource Normal.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Normal.Border}" />
 		<Setter Property="BorderThickness" Value="{StaticResource Normal.BorderThickness}" />
 		<Setter Property="Foreground" Value="{StaticResource Normal.Foreground}" />
 	</Style>
 
-	<Style x:Key="ListBox.Normal.Style"
-			TargetType="ListBox"
-			BasedOn="{StaticResource Control.Normal.Style}"
-			/>
+	<Style
+		x:Key="ListBox.Normal.Style"
+		BasedOn="{StaticResource Control.Normal.Style}"
+		TargetType="ListBox" />
 
-	<Style x:Key="Button.Normal.Style"
-			TargetType="Button"
-			BasedOn="{StaticResource Control.Normal.Style}"
-			/>
+	<Style
+		x:Key="Button.Normal.Style"
+		BasedOn="{StaticResource Control.Normal.Style}"
+		TargetType="Button" />
 
-	<Style x:Key="Content.Base" TargetType="ContentControl" BasedOn="{StaticResource Control.Normal.Style}">
-		<Setter Property="Margin" Value="0"/>
-		<Setter Property="Padding" Value="0"/>
-		<Setter Property="HorizontalAlignment" Value="Left"/>
-		<Setter Property="VerticalAlignment" Value="Center"/>
+	<Style
+		x:Key="Content.Base"
+		BasedOn="{StaticResource Control.Normal.Style}"
+		TargetType="ContentControl">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
 	</Style>
 
-	<Style x:Key="Label.Base" TargetType="Label" BasedOn="{StaticResource Content.Base}">
+	<Style
+		x:Key="Label.Base"
+		BasedOn="{StaticResource Content.Base}"
+		TargetType="Label">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Foreground" Value="White" />
 		<Setter Property="BorderThickness" Value="0" />
 	</Style>
 
-	<Style x:Key="Button.Base" TargetType="Button" BasedOn="{StaticResource Content.Base}">
-		<Setter Property="Template" Value="{DynamicResource Button.Normal.ControlTemplate}"/>
-		<Setter Property="Height" Value="{StaticResource Normal.Button.Height}"/>
-		<Setter Property="Width" Value="{StaticResource Normal.Button.Width}"/>
+	<Style
+		x:Key="Button.Base"
+		BasedOn="{StaticResource Content.Base}"
+		TargetType="Button">
+		<Setter Property="Template" Value="{DynamicResource Button.Normal.ControlTemplate}" />
+		<Setter Property="Height" Value="{StaticResource Normal.Button.Height}" />
+		<Setter Property="Width" Value="{StaticResource Normal.Button.Width}" />
 
 	</Style>
 
@@ -177,9 +183,7 @@
 	<!--  applies to a listview also  -->
 	<!--  light theme  -->
 	<!-- <Setter Property="TextElement.Foreground" Value="{StaticResource Gray.UnSelected.Dark.Foreground}" /> -->
-	<Style x:Key="ListBox.NoHighlight.Dark.ItemContainer"
-			TargetType="{x:Type ListBoxItem}"
-			>
+	<Style x:Key="ListBox.NoHighlight.Dark.ItemContainer" TargetType="{x:Type ListBoxItem}">
 		<Setter Property="Background" Value="{StaticResource Normal.Disabled.Background}" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="0" />
@@ -196,18 +200,17 @@
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
 					<!--  Background="{StaticResource Gray.UnSelected.Background}"  -->
-					<Border x:Name="Bd"
-							Padding="{TemplateBinding Padding}"
-							Background="{TemplateBinding Background}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							SnapsToDevicePixels="true"
-							>
+					<Border
+						x:Name="Bd"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						SnapsToDevicePixels="true">
 						<ContentPresenter
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-								/>
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 					</Border>
 					<!-- <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource Normal.Foreground}" /> -->
 					<ControlTemplate.Triggers>
@@ -273,9 +276,7 @@
 	<!--  listbox item container style  -->
 	<!--  applies to a listview also  -->
 	<!--  light theme  -->
-	<Style x:Key="ListBox.Normal.ItemContainer"
-			TargetType="{x:Type ListBoxItem}"
-			>
+	<Style x:Key="ListBox.Normal.ItemContainer" TargetType="{x:Type ListBoxItem}">
 		<Setter Property="Background" Value="{StaticResource Normal.Disabled.Background}" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="1" />
@@ -292,18 +293,17 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
 
-					<Border x:Name="Bd"
-							Padding="{TemplateBinding Padding}"
-							Background="{TemplateBinding Background}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							SnapsToDevicePixels="true"
-							>
+					<Border
+						x:Name="Bd"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						SnapsToDevicePixels="true">
 						<ContentPresenter
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-								/>
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsEnabled" Value="true">
@@ -349,33 +349,30 @@
 
 	<!--#region > Button.Normal.Control Templates-->
 
-	<ControlTemplate x:Key="Button.Normal.ControlTemplate"
-			TargetType="Button"
-			>
-		<Border x:Name="border"
-				Padding="{TemplateBinding Padding}"
-				Background="{TemplateBinding Background}"
-				BorderThickness="{TemplateBinding BorderThickness}"
-				BorderBrush="{TemplateBinding BorderBrush}"
-				SnapsToDevicePixels="True"
-				>
-			<Border x:Name="bdr1"
-					Margin="0,0,-1,-1"
-					BorderThickness="{StaticResource Normal.Default.BorderThickness.Inner}"
-					BorderBrush="Transparent"
-					>
+	<ControlTemplate x:Key="Button.Normal.ControlTemplate" TargetType="Button">
+		<Border
+			x:Name="border"
+			Padding="{TemplateBinding Padding}"
+			Background="{TemplateBinding Background}"
+			BorderBrush="{TemplateBinding BorderBrush}"
+			BorderThickness="{TemplateBinding BorderThickness}"
+			SnapsToDevicePixels="True">
+			<Border
+				x:Name="bdr1"
+				Margin="0,0,-1,-1"
+				BorderBrush="Transparent"
+				BorderThickness="{StaticResource Normal.Default.BorderThickness.Inner}">
 
-				<ContentPresenter x:Name="contentPresenter"
-						Content="{TemplateBinding Content}"
-						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-						VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-						ContentStringFormat="{TemplateBinding ContentStringFormat}"
-						Focusable="False"
-						RecognizesAccessKey="True"
-						SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-						ContentTemplate="{TemplateBinding ContentTemplate}"
-				
-						/>
+				<ContentPresenter
+					x:Name="contentPresenter"
+					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					Content="{TemplateBinding Content}"
+					ContentStringFormat="{TemplateBinding ContentStringFormat}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
+					Focusable="False"
+					RecognizesAccessKey="True"
+					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 			</Border>
 		</Border>
 		<ControlTemplate.Triggers>

@@ -65,7 +65,6 @@
 		<!-- 			/> -->
 		<!-- </ScrollViewer> -->
 
-
 		<StackPanel
 				Margin="{StaticResource margin}"
 				Orientation="Vertical"

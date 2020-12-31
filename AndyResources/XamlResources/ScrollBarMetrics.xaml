@@ -1,0 +1,15 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+	<sys:Double x:Key="BarSize">6</sys:Double>
+	<sys:Double x:Key="BarSizeOutline">12</sys:Double>
+	<sys:Double x:Key="RepeatButtonLength">10</sys:Double>
+	<sys:Double x:Key="RepeatButtonWidth">10</sys:Double>
+	<sys:Double x:Key="RepeatButtonIconLength">8</sys:Double>
+	<sys:Double x:Key="RepeatButtonIconGirth">8</sys:Double>
+	<sys:Double x:Key="RepeatButtonIconMargin">-5</sys:Double>
+
+
+</ResourceDictionary>

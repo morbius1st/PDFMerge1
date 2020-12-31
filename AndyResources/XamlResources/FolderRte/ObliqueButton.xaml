@@ -19,12 +19,12 @@
 	<UserControl.Resources>
 
 		<ResourceDictionary>
-			<!-- <ResourceDictionary.MergedDictionaries> -->
-			<!-- 	<ResourceDictionary Source="../../SVG/IconStar.xaml" /> -->
-			<!-- 	<ResourceDictionary Source="../../SVG/IconHistory.xaml" /> -->
-			<!-- 	<ResourceDictionary Source="../../SVG/IconPlus.xaml" /> -->
-			<!-- 	<ResourceDictionary Source="../../SVG/IconTriangleOblique.xaml" /> -->
-			<!-- </ResourceDictionary.MergedDictionaries> -->
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="../../SVG/IconStar.xaml" />
+				<ResourceDictionary Source="../../SVG/IconHistory.xaml" />
+				<ResourceDictionary Source="../../SVG/IconPlus.xaml" />
+				<ResourceDictionary Source="../../SVG/IconTriangleOblique.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
 			<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red" />
 			<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Blue" />

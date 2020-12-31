@@ -15,7 +15,10 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/../AndyResources/XamlResources/ScrollViewerNarrow2.xaml" />
+				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
+				<!-- <ResourceDictionary Source="/../SVG/IconHistory.xaml" /> -->
+				<!-- <ResourceDictionary Source="/../SVG/IconStar.xaml" /> -->
+				<!-- <ResourceDictionary Source="/../SVG/IconPlus.xaml" /> -->
 			</ResourceDictionary.MergedDictionaries>
 
 

@@ -1,25 +1,26 @@
-﻿<Application x:Class="Andy.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Andy"
-             StartupUri="Windows/MainWindowAndy.xaml">
-    <Application.Resources>
+﻿<Application
+	x:Class="Andy.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:Andy"
+	StartupUri="Windows/MainWindowAndy.xaml">
+	<Application.Resources>
 
-      <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-					<ResourceDictionary Source="/XamlResources/MasterColorList.xaml" />
-					<ResourceDictionary Source="/XamlResources/VisualStates.xaml" />
-					<ResourceDictionary Source="/XamlResources/MasterVisualResources.xaml" />
-					<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow2.xaml" />
-					<ResourceDictionary Source="/SVG/IconStar.xaml" />
-					<ResourceDictionary Source="/SVG/IconHistory.xaml" />
-					<ResourceDictionary Source="/SVG/IconPlus.xaml" />
-					<ResourceDictionary Source="/SVG/IconTriangleOblique.xaml" />
-					<!-- <ResourceDictionary Source="/XamlResources/FolderRte/ObliqueButton.xaml" /> -->
-					<!-- <ResourceDictionary Source="/XamlResources/FolderRte/FolderRoute.xaml" /> -->
-				</ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/XamlResources/MasterColorList.xaml" />
+				<ResourceDictionary Source="/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="/XamlResources/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
+				<ResourceDictionary Source="/SVG/IconStar.xaml" />
+				<ResourceDictionary Source="/SVG/IconHistory.xaml" />
+				<ResourceDictionary Source="/SVG/IconPlus.xaml" />
+				<ResourceDictionary Source="/SVG/IconTriangleOblique.xaml" />
+				<!-- <ResourceDictionary Source="/XamlResources/FolderRte/ObliqueButton.xaml" /> -->
+				<!-- <ResourceDictionary Source="/XamlResources/FolderRte/FolderRoute.xaml" /> -->
+			</ResourceDictionary.MergedDictionaries>
 
-			</ResourceDictionary>
+		</ResourceDictionary>
 
-		</Application.Resources>
+	</Application.Resources>
 </Application>

@@ -34,7 +34,9 @@ namespace AndySharedResources.XamlResources
 			DependencyProperty.RegisterAttached(
 				"SelectAllTextOnFocus",
 				typeof (bool),
+#pragma warning disable CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 				typeof (AndySharedResources.XamlResources.TextBoxBehavior),
+#pragma warning restore CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 				new UIPropertyMetadata(false, OnSelectAllTextOnFocusChanged));
 
 		private static void OnSelectAllTextOnFocusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
