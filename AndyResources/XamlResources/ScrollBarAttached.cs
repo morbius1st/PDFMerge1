@@ -31,7 +31,8 @@ namespace AndyResources.XamlResources
 	#region TrackWidth
 
 		public static readonly DependencyProperty TrackWidthProperty = DependencyProperty.RegisterAttached(
-			"TrackWidth", typeof(double), typeof(ScrollBarAttached), new PropertyMetadata(4.0));
+			"TrackWidth", typeof(double), typeof(ScrollBarAttached), new FrameworkPropertyMetadata(4.0,
+			FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public static void SetTrackWidth(UIElement e, double value)
 		{
@@ -130,7 +131,6 @@ namespace AndyResources.XamlResources
 
 	#endregion
 
-		
 	#region IconMarginLeft
 
 		public static readonly DependencyProperty IconMarginLeftProperty = DependencyProperty.RegisterAttached(
@@ -148,7 +148,6 @@ namespace AndyResources.XamlResources
 
 	#endregion
 
-		
 	#region IconMarginRight
 
 		public static readonly DependencyProperty IconMarginRightProperty = DependencyProperty.RegisterAttached(
