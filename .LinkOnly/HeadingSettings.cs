@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace SettingsManager
+﻿namespace SettingsManager
 {
 	internal partial class Heading
 	{

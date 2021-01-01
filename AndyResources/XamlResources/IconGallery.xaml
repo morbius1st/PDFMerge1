@@ -1,21 +1,22 @@
-﻿<Window x:Name="iconGallery"
-		x:Class="AndySharedResources.XamlResources.IconGallery"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:local="clr-namespace:AndySharedResources.XamlResources"
-		xmlns:f="clr-namespace:AndySharedResources.XamlResources.FolderRte"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		Title="Icon Gallery"
-		Width="1000"
-		Height="600"
-		DataContext="{Binding ElementName=MainWinClsfrEd}"
-		mc:Ignorable="d"
-		FontFamily="Tahoma"
-		FontSize="16"
-		Background="#333333"
-		>
+﻿<Window
+	x:Class="AndySharedResources.XamlResources.IconGallery"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:f="clr-namespace:AndySharedResources.XamlResources.FolderRte"
+	xmlns:local="clr-namespace:AndyResources.XamlResources"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:custom="clr-namespace:AndyResources.XamlResources"
+	x:Name="iconGallery"
+	Title="Icon Gallery"
+	Width="1000"
+	Height="600"
+	Background="#333333"
+	DataContext="{Binding ElementName=MainWinClsfrEd}"
+	FontFamily="Tahoma"
+	FontSize="16"
+	mc:Ignorable="d">
 
 	<Window.Resources>
 
@@ -50,488 +51,385 @@
 	</Window.Resources>
 
 	<WrapPanel>
-		
-		<!-- <ScrollViewer -->
-		<!-- 		 -->
-		<!-- 		Height="120" -->
-		<!-- 		Width="120" -->
-		<!-- 		Template="{StaticResource ScrollViewerNarrow2}" -->
-		<!-- > -->
-		<!-- 	<Rectangle -->
-		<!-- 			Height="200" -->
-		<!-- 			Width="20" -->
-		<!-- 			Fill="Blue" -->
-		<!-- 			 -->
-		<!-- 			/> -->
-		<!-- </ScrollViewer> -->
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<ScrollViewer
+			Width="120"
+			Height="120"
+			custom:ScrollBarAttached.TrackWidth="4"
+			custom:ScrollBarAttached.ScrollBarWidth="10"
+			ScrollViewer.HorizontalScrollBarVisibility="Visible"
+			Template="{StaticResource ScrollViewerNarrow}">
+			<Grid>
+				<Rectangle
+					Grid.Row="0"
+					Grid.Column="0"
+					Width="20"
+					Height="160"
+					Fill="Blue" />
+				<Rectangle
+					Grid.Row="0"
+					Grid.Column="0"
+					Height="20"
+					Width="160"
+					Fill="Blue" />
+			</Grid>
+
+
+		</ScrollViewer>
+
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Not}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Not}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Not"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Not"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Triangle.Oblique}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Triangle.Oblique}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Triangle"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Triangle"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Oblique"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Oblique"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Triangle}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Triangle}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Triangle"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Triangle"
+				Style="{StaticResource Label.Base}" />
 
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Check.Mark}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Check.Mark}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Check"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Check"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Mark"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
-		</StackPanel>
-		
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
-			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Left}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
-
-			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
-			<Label
-					Content="Left"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Mark"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Down}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Left}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Down"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Left"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Right}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Down}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Right"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Down"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Up}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Right}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Up"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Right"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-	
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-		>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Left2}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-			/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Up}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Left"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-		</StackPanel>
-			
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-		>
-			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Dn2}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-			/>
-
-			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-			<Label
-					Content="Dn2"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-		</StackPanel>
-			
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-		>
-			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Right2}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-			/>
-
-			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-			<Label
-					Content="Right2"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-		</StackPanel>
-			
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-		>
-			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Up2}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-			/>
-
-			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
-			<Label
-					Content="Up2"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-			/>
+				HorizontalAlignment="Center"
+				Content="Up"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
 
-			<ContentControl
-					Margin="3"
-					Foreground="{StaticResource fill}"
-					>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
+			<Path
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Left2}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
+
+			<Label
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
+			<Label
+				HorizontalAlignment="Center"
+				Content="Left"
+				Style="{StaticResource Label.Base}" />
+		</StackPanel>
+
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
+			<Path
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Dn2}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
+
+			<Label
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
+			<Label
+				HorizontalAlignment="Center"
+				Content="Dn2"
+				Style="{StaticResource Label.Base}" />
+		</StackPanel>
+
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
+			<Path
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Right2}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
+
+			<Label
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
+			<Label
+				HorizontalAlignment="Center"
+				Content="Right2"
+				Style="{StaticResource Label.Base}" />
+		</StackPanel>
+
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
+			<Path
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Up2}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
+
+			<Label
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
+			<Label
+				HorizontalAlignment="Center"
+				Content="Up2"
+				Style="{StaticResource Label.Base}" />
+		</StackPanel>
+
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
+
+			<ContentControl Margin="3" Foreground="{StaticResource fill}">
 				<Viewbox
-						Margin="3"
-						Width="{StaticResource width}"
-						Height="{StaticResource height}"
-						Child="{StaticResource DeleteIcon}"
-						/>
+					Width="{StaticResource width}"
+					Height="{StaticResource height}"
+					Margin="3"
+					Child="{StaticResource DeleteIcon}" />
 			</ContentControl>
 
 			<Label
-					Content="Delete"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Delete"
+				Style="{StaticResource Label.Base}" />
 
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Svg.Dash}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Svg.Dash}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Dash"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Dash"
+				Style="{StaticResource Label.Base}" />
 
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Svg.History}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Svg.History}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="History"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="History"
+				Style="{StaticResource Label.Base}" />
 
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Tree}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Tree}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Tree"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Tree"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{StaticResource Icon.Arrow.Tree2}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{StaticResource Icon.Arrow.Tree2}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Arrow"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Arrow"
+				Style="{StaticResource Label.Base}" />
 			<Label
-					Content="Tree2"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Tree2"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{DynamicResource Icon.Svg.Star}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{DynamicResource Icon.Svg.Star}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Star"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Star"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{DynamicResource Icon.Rect}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{DynamicResource Icon.Rect}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Rect"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"
-					/>
+				HorizontalAlignment="Center"
+				Content="Rect"
+				Style="{StaticResource Label.Base}" />
 		</StackPanel>
 
-		<StackPanel
-				Margin="{StaticResource margin}"
-				Orientation="Vertical"
-				>
+		<StackPanel Margin="{StaticResource margin}" Orientation="Vertical">
 			<Path
-					Margin="3"
-					Width="{StaticResource width}"
-					Height="{StaticResource height}"
-					Data="{DynamicResource Icon.Svg.Plus}"
-					Fill="{StaticResource fill}"
-					Stretch="Uniform"
-					/>
+				Width="{StaticResource width}"
+				Height="{StaticResource height}"
+				Margin="3"
+				Data="{DynamicResource Icon.Svg.Plus}"
+				Fill="{StaticResource fill}"
+				Stretch="Uniform" />
 
 			<Label
-					Content="Plus"
-					HorizontalAlignment="Center"
-					Style="{StaticResource Label.Base}"/>
+				HorizontalAlignment="Center"
+				Content="Plus"
+				Style="{StaticResource Label.Base}" />
 
 		</StackPanel>
 

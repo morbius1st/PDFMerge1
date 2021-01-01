@@ -1,7 +1,6 @@
 ﻿#region + Using Directives
 
 using System;
-using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -13,7 +12,6 @@ using System.Windows.Media;
 
 namespace AndySharedResources.XamlResources
 {
-
 	[MarkupExtensionReturnType(typeof(System.Windows.Media.Color))]
 	public class XmalColor : MarkupExtension
 	{
@@ -38,7 +36,7 @@ namespace AndySharedResources.XamlResources
 		{
 			get
 			{
-				return ((byte) (r.HasValue ? r.Value : c.HasValue ? c.Value.R : 255));
+				return ((byte)(r.HasValue ? r.Value : c.HasValue ? c.Value.R : 255));
 			}
 			set
 			{
@@ -50,31 +48,31 @@ namespace AndySharedResources.XamlResources
 		{
 			get
 			{
-				return ((byte) (g.HasValue ? g.Value : c.HasValue ? c.Value.G : 255));
+				return ((byte)(g.HasValue ? g.Value : c.HasValue ? c.Value.G : 255));
 			}
 			set
 			{
 				g = value;
 			}
 		}
-		
+
 		public byte B
 		{
 			get
 			{
-				return ((byte) (b.HasValue ? b.Value : c.HasValue ? c.Value.B : 255));
+				return ((byte)(b.HasValue ? b.Value : c.HasValue ? c.Value.B : 255));
 			}
 			set
 			{
 				b = value;
 			}
 		}
-		
+
 		public byte A
 		{
 			get
 			{
-				return ((byte) (a.HasValue ? a.Value : c.HasValue ? c.Value.A : 255));
+				return ((byte)(a.HasValue ? a.Value : c.HasValue ? c.Value.A : 255));
 			}
 			set
 			{
@@ -94,12 +92,9 @@ namespace AndySharedResources.XamlResources
 
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
-			return (System.Windows.Media.Color) ToColor();
+			return (System.Windows.Media.Color)ToColor();
 		}
 	}
-
-
-	// <Setter Property="Background" Value="{custom:ScBrush color={StaticResource Gray.150}, A=#2f}"></Setter>
 
 	[MarkupExtensionReturnType(typeof(Brush))]
 	public class ScBrush : MarkupExtension
@@ -131,7 +126,7 @@ namespace AndySharedResources.XamlResources
 		public System.Windows.Media.Brush ToBrush()
 		{
 			return new SolidColorBrush(Color.FromArgb(
-				(byte) (A.HasValue ? A.Value : 255), R, G, B));
+				(byte)(A.HasValue ? A.Value : 255), R, G, B));
 		}
 
 		public override object ProvideValue(IServiceProvider serviceProvider)

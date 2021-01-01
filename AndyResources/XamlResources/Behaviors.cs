@@ -1,11 +1,4 @@
 ﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,7 +15,7 @@ namespace AndySharedResources.XamlResources
 	{
 		public static bool GetSelectAllTextOnFocus(TextBox textBox)
 		{
-			return (bool) textBox.GetValue(SelectAllTextOnFocusProperty);
+			return (bool)textBox.GetValue(SelectAllTextOnFocusProperty);
 		}
 
 		public static void SetSelectAllTextOnFocus(TextBox textBox, bool value)
@@ -33,9 +26,9 @@ namespace AndySharedResources.XamlResources
 		public static readonly DependencyProperty SelectAllTextOnFocusProperty =
 			DependencyProperty.RegisterAttached(
 				"SelectAllTextOnFocus",
-				typeof (bool),
+				typeof(bool),
 #pragma warning disable CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
-				typeof (AndySharedResources.XamlResources.TextBoxBehavior),
+				typeof(AndySharedResources.XamlResources.TextBoxBehavior),
 #pragma warning restore CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 				new UIPropertyMetadata(false, OnSelectAllTextOnFocusChanged));
 
@@ -46,7 +39,7 @@ namespace AndySharedResources.XamlResources
 
 			if (e.NewValue is bool == false) return;
 
-			if ((bool) e.NewValue)
+			if ((bool)e.NewValue)
 			{
 				textBox.GotFocus += SelectAll;
 				textBox.PreviewMouseDown += IgnoreMouseButton;
@@ -76,87 +69,87 @@ namespace AndySharedResources.XamlResources
 	}
 
 	public static class InputBindingsManager
-{
-
-    public static readonly DependencyProperty UpdatePropertySourceWhenEnterPressedProperty = DependencyProperty.RegisterAttached(
-#pragma warning disable CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
-            "UpdatePropertySourceWhenEnterPressed", typeof(DependencyProperty), typeof(InputBindingsManager), new PropertyMetadata(null, OnUpdatePropertySourceWhenEnterPressedPropertyChanged));
-#pragma warning restore CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
-
-    static InputBindingsManager()
-    {
-
-    }
-
-    public static void SetUpdatePropertySourceWhenEnterPressed(DependencyObject dp, DependencyProperty value)
-    {
-		
-
-        dp.SetValue(UpdatePropertySourceWhenEnterPressedProperty, value);
-
-    }
-
-    public static DependencyProperty GetUpdatePropertySourceWhenEnterPressed(DependencyObject dp)
 	{
 
-		if (dp is TextBox) ((TextBox) dp).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+		public static readonly DependencyProperty UpdatePropertySourceWhenEnterPressedProperty = DependencyProperty.RegisterAttached(
+#pragma warning disable CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
+			"UpdatePropertySourceWhenEnterPressed", typeof(DependencyProperty), typeof(InputBindingsManager), new PropertyMetadata(null, OnUpdatePropertySourceWhenEnterPressedPropertyChanged));
+#pragma warning restore CS0436 // The type 'InputBindingsManager' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'InputBindingsManager' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 
-        return (DependencyProperty)dp.GetValue(UpdatePropertySourceWhenEnterPressedProperty);
-    }
+		static InputBindingsManager()
+		{
 
-    private static void OnUpdatePropertySourceWhenEnterPressedPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
-    {
-        UIElement element = dp as UIElement;
+		}
 
-        if (element == null)
-        {
-            return;
-        }
+		public static void SetUpdatePropertySourceWhenEnterPressed(DependencyObject dp, DependencyProperty value)
+		{
 
-        if (e.OldValue != null)
-        {
-            element.PreviewKeyDown -= HandlePreviewKeyDown;
-        }
 
-        if (e.NewValue != null)
-        {
-            element.PreviewKeyDown += new KeyEventHandler(HandlePreviewKeyDown);
-        }
-    }
+			dp.SetValue(UpdatePropertySourceWhenEnterPressedProperty, value);
 
-    static void HandlePreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter)
-        {
-            DoUpdateSource(e.Source);
-        }
-    }
+		}
 
-    static void DoUpdateSource(object source)
-    {
-        DependencyProperty property =
-            GetUpdatePropertySourceWhenEnterPressed(source as DependencyObject);
+		public static DependencyProperty GetUpdatePropertySourceWhenEnterPressed(DependencyObject dp)
+		{
 
-        if (property == null)
-        {
-            return;
-        }
+			if (dp is TextBox) ((TextBox)dp).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 
-        UIElement elt = source as UIElement;
+			return (DependencyProperty)dp.GetValue(UpdatePropertySourceWhenEnterPressedProperty);
+		}
 
-        if (elt == null)
-        {
-            return;
-        }
+		private static void OnUpdatePropertySourceWhenEnterPressedPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+		{
+			UIElement element = dp as UIElement;
 
-        BindingExpression binding = BindingOperations.GetBindingExpression(elt, property);
+			if (element == null)
+			{
+				return;
+			}
 
-        if (binding != null)
-        {
-            binding.UpdateSource();
-        }
-    }
-}
+			if (e.OldValue != null)
+			{
+				element.PreviewKeyDown -= HandlePreviewKeyDown;
+			}
+
+			if (e.NewValue != null)
+			{
+				element.PreviewKeyDown += new KeyEventHandler(HandlePreviewKeyDown);
+			}
+		}
+
+		static void HandlePreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				DoUpdateSource(e.Source);
+			}
+		}
+
+		static void DoUpdateSource(object source)
+		{
+			DependencyProperty property =
+				GetUpdatePropertySourceWhenEnterPressed(source as DependencyObject);
+
+			if (property == null)
+			{
+				return;
+			}
+
+			UIElement elt = source as UIElement;
+
+			if (elt == null)
+			{
+				return;
+			}
+
+			BindingExpression binding = BindingOperations.GetBindingExpression(elt, property);
+
+			if (binding != null)
+			{
+				binding.UpdateSource();
+			}
+		}
+	}
 
 
 }

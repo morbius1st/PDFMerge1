@@ -123,6 +123,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollBarAttached.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\Behaviors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\FolderRoute.xaml.cs">
       <DependentUpon>FolderRoute.xaml</DependentUpon>

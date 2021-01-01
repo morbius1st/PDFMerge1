@@ -1,14 +1,14 @@
-﻿<Application x:Name="app"
-		x:Class="Sylvester.App"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:generic="clr-namespace:System.Collections;assembly=mscorlib"
-		xmlns:local="clr-namespace:Sylvester"
-		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:user="clr-namespace:Sylvester.UserControls"
-		StartupUri="MainWindow.xaml"
-		>
+﻿<Application
+	x:Class="Sylvester.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:generic="clr-namespace:System.Collections;assembly=mscorlib"
+	xmlns:local="clr-namespace:Sylvester"
+	xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:user="clr-namespace:Sylvester.UserControls"
+	x:Name="app"
+	StartupUri="MainWindow.xaml">
 	<Application.Resources>
 
 		<ResourceDictionary>

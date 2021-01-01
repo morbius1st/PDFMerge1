@@ -7,11 +7,11 @@
 
 namespace SettingsManager
 {
-#region info class
+	#region info class
 
 	[DataContract(Name = "MachSettings", Namespace = "")]
 	internal class MachSettingInfo<T> : MachSettingInfoBase<T>
-		where T : new ()
+		where T : new()
 	{
 		public MachSettingInfo()
 		{
@@ -22,9 +22,9 @@ namespace SettingsManager
 		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
-#endregion
+	#endregion
 
-#region user data class
+	#region user data class
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
@@ -35,5 +35,5 @@ namespace SettingsManager
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";
 	}
 
-#endregion
+	#endregion
 }

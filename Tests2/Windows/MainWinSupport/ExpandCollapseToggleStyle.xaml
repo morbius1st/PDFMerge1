@@ -1,52 +1,45 @@
 ﻿<ResourceDictionary
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:local="clr-namespace:Tests2.Windows.MainWinSupport"
-		>
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:Tests2.Windows.MainWinSupport">
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary
-				Source="WinTreeDesigns.xaml"
-				/>
+		<ResourceDictionary Source="WinTreeDesigns.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 
 	<!--  Toggle Button  -->
-	<Style x:Key="ExpandCollapseToggleStyle"
-			TargetType="ToggleButton"
-			>
+	<Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate
-						TargetType="ToggleButton"
-						>
-					<Grid Name="grid_toggle_btn"
+				<ControlTemplate TargetType="ToggleButton">
+					<Grid
+						Name="grid_toggle_btn"
+						Width="{StaticResource ToggleButtonWidth}"
+						Height="{StaticResource ToggleButtonHeight}"
+						SnapsToDevicePixels="True">
+						<!--  Rectangle pixels size by resource  -->
+						<Rectangle
+							Name="rect_toggle_btn"
 							Width="{StaticResource ToggleButtonWidth}"
 							Height="{StaticResource ToggleButtonHeight}"
-							SnapsToDevicePixels="True"
-							>
-						<!--  Rectangle pixels size by resource  -->
-						<Rectangle Name="rect_toggle_btn"
-								Width="{StaticResource ToggleButtonWidth}"
-								Height="{StaticResource ToggleButtonHeight}"
-								Fill="{StaticResource ToggleButtonFill}"
-								SnapsToDevicePixels="true"
-								Stroke="{StaticResource ToggleButtonStroke}"
-								/>
+							Fill="{StaticResource ToggleButtonFill}"
+							SnapsToDevicePixels="true"
+							Stroke="{StaticResource ToggleButtonStroke}" />
 						<!--  Vertical line inside rectangle  -->
 
-						<Rectangle x:Name="ExpandPathVert_toggle_btn"
-								Width="1"
-								Height="{StaticResource ToggleButtonPlusHeight}"
-								SnapsToDevicePixels="true"
-								Stroke="{StaticResource ToggleButtonPlusVertLine}"
-								/>
+						<Rectangle
+							x:Name="ExpandPathVert_toggle_btn"
+							Width="1"
+							Height="{StaticResource ToggleButtonPlusHeight}"
+							SnapsToDevicePixels="true"
+							Stroke="{StaticResource ToggleButtonPlusVertLine}" />
 						<!--  Horizontal line inside rectangle  -->
-						<Rectangle x:Name="ExpandPathHoriz_toggle_btn"
-								Width="{StaticResource ToggleButtonPlusWidth}"
-								Height="1"
-								SnapsToDevicePixels="true"
-								Stroke="{StaticResource ToggleButtonPlusHorizLine}"
-								/>
+						<Rectangle
+							x:Name="ExpandPathHoriz_toggle_btn"
+							Width="{StaticResource ToggleButtonPlusWidth}"
+							Height="1"
+							SnapsToDevicePixels="true"
+							Stroke="{StaticResource ToggleButtonPlusHorizLine}" />
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsChecked" Value="True">

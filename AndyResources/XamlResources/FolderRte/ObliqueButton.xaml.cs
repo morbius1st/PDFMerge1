@@ -23,7 +23,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public int Index
 		{
-			get { return (int) GetValue(IndexProperty); }
+			get { return (int)GetValue(IndexProperty); }
 			set { SetValue(IndexProperty, value); }
 		}
 
@@ -33,17 +33,17 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public string SelectedFolder
 		{
-			get { return (string) GetValue(SelectedFolderProperty); }
+			get { return (string)GetValue(SelectedFolderProperty); }
 			set { SetValue(SelectedFolderProperty, value); }
 		}
-		
+
 		// text value
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
 			"Text", typeof(string), typeof(ObliqueButton), new PropertyMetadata(default(string)));
 
 		public string Text
 		{
-			get { return (string) GetValue(TextProperty); }
+			get { return (string)GetValue(TextProperty); }
 			set { SetValue(TextProperty, value); }
 		}
 
@@ -52,16 +52,16 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public Thickness TextMargin
 		{
-			get { return (Thickness) GetValue(TextMarginProperty); }
+			get { return (Thickness)GetValue(TextMarginProperty); }
 			set { SetValue(TextMarginProperty, value); }
 		}
-		
+
 		public static readonly DependencyProperty ObliqueButtonMarginProperty = DependencyProperty.Register(
 			"ObliqueButtonMargin", typeof(Thickness), typeof(ObliqueButton), new PropertyMetadata(new Thickness(0)));
 
 		public Thickness ObliqueButtonMargin
 		{
-			get { return (Thickness) GetValue(ObliqueButtonMarginProperty); }
+			get { return (Thickness)GetValue(ObliqueButtonMarginProperty); }
 			set { SetValue(ObliqueButtonMarginProperty, value); }
 		}
 
@@ -71,7 +71,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowText
 		{
-			get { return (bool) GetValue(ShowTextProperty); }
+			get { return (bool)GetValue(ShowTextProperty); }
 			set { SetValue(ShowTextProperty, value); }
 		}
 
@@ -81,7 +81,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowArrow
 		{
-			get { return (bool) GetValue(ShowArrowProperty); }
+			get { return (bool)GetValue(ShowArrowProperty); }
 			set { SetValue(ShowArrowProperty, value); }
 		}
 
@@ -91,7 +91,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowFavorite
 		{
-			get { return (bool) GetValue(ShowFavoriteProperty); }
+			get { return (bool)GetValue(ShowFavoriteProperty); }
 			set { SetValue(ShowFavoriteProperty, value); }
 		}
 
@@ -101,7 +101,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowPlus
 		{
-			get { return (bool) GetValue(ShowPlusProperty); }
+			get { return (bool)GetValue(ShowPlusProperty); }
 			set { SetValue(ShowPlusProperty, value); }
 		}
 
@@ -110,7 +110,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowHistory
 		{
-			get { return (bool) GetValue(ShowHistoryProperty); }
+			get { return (bool)GetValue(ShowHistoryProperty); }
 			set { SetValue(ShowHistoryProperty, value); }
 		}
 
@@ -120,7 +120,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool ShowBorder
 		{
-			get { return (bool) GetValue(ShowBorderProperty); }
+			get { return (bool)GetValue(ShowBorderProperty); }
 			set { SetValue(ShowBorderProperty, value); }
 		}
 
@@ -131,7 +131,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public SolidColorBrush FontBrush
 		{
-			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
+			get { return (SolidColorBrush)GetValue(FontBrushProperty); }
 			set { SetValue(FontBrushProperty, value); }
 		}
 
@@ -141,7 +141,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public SolidColorBrush FavoritesBrush
 		{
-			get { return (SolidColorBrush) GetValue(FavoritesBrushProperty); }
+			get { return (SolidColorBrush)GetValue(FavoritesBrushProperty); }
 			set { SetValue(FavoritesBrushProperty, value); }
 		}
 
@@ -152,7 +152,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public SolidColorBrush PlusBrush
 		{
-			get { return (SolidColorBrush) GetValue(PlusBrushProperty); }
+			get { return (SolidColorBrush)GetValue(PlusBrushProperty); }
 			set { SetValue(PlusBrushProperty, value); }
 		}
 
@@ -162,21 +162,21 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public SolidColorBrush HistoryBrush
 		{
-			get { return (SolidColorBrush) GetValue(HistoryBrushProperty); }
+			get { return (SolidColorBrush)GetValue(HistoryBrushProperty); }
 			set { SetValue(HistoryBrushProperty, value); }
 		}
 
 
 
-//		// type of oblique button
-//		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
-//			"ObliqueButtonType", typeof(int), typeof(ObliqueButton), new PropertyMetadata(0));
-//
-//		public int ObliqueButtonType
-//		{
-//			get { return (int) GetValue(ObliqueButtonTypeProperty); }
-//			set { SetValue(ObliqueButtonTypeProperty, value); }
-//		}
+		//		// type of oblique button
+		//		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
+		//			"ObliqueButtonType", typeof(int), typeof(ObliqueButton), new PropertyMetadata(0));
+		//
+		//		public int ObliqueButtonType
+		//		{
+		//			get { return (int) GetValue(ObliqueButtonTypeProperty); }
+		//			set { SetValue(ObliqueButtonTypeProperty, value); }
+		//		}
 
 
 		public static readonly DependencyProperty ObliqueButtonTypeProperty = DependencyProperty.Register(
@@ -184,7 +184,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public ObliqueButtonType ObliqueButtonType
 		{
-			get { return (ObliqueButtonType) GetValue(ObliqueButtonTypeProperty); }
+			get { return (ObliqueButtonType)GetValue(ObliqueButtonTypeProperty); }
 			set { SetValue(ObliqueButtonTypeProperty, value); }
 		}
 
@@ -194,7 +194,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool SkewBeginning
 		{
-			get { return (bool) GetValue(SkewBeginningProperty); }
+			get { return (bool)GetValue(SkewBeginningProperty); }
 			set { SetValue(SkewBeginningProperty, value); }
 		}
 
@@ -204,7 +204,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool SkewMiddle
 		{
-			get { return (bool) GetValue(SkewMiddleProperty); }
+			get { return (bool)GetValue(SkewMiddleProperty); }
 			set { SetValue(SkewMiddleProperty, value); }
 		}
 
@@ -214,7 +214,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public bool SkewEnd
 		{
-			get { return (bool) GetValue(SkewEndProperty); }
+			get { return (bool)GetValue(SkewEndProperty); }
 			set { SetValue(SkewEndProperty, value); }
 		}
 	}

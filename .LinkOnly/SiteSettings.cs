@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using AndyShared.ConfigSupport;
+
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using AndyShared.ConfigSupport;
 
 // Solution:     SettingsManager
 // Project:       SettingsManagerV70
@@ -10,11 +10,11 @@ using AndyShared.ConfigSupport;
 
 namespace SettingsManager
 {
-#region info class
+	#region info class
 
 	[DataContract(Name = "SiteSettings", Namespace = "")]
 	internal class SiteSettingInfo<T> : SiteSettingInfoBase<T>
-		where T : new ()
+		where T : new()
 	{
 		public SiteSettingInfo()
 		{
@@ -26,9 +26,9 @@ namespace SettingsManager
 		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
-#endregion
+	#endregion
 
-#region user data class
+	#region user data class
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
@@ -46,10 +46,10 @@ namespace SettingsManager
 			};
 
 		// public SortedDictionary<string, ConfigSeedFile> InstalledSeedFiles { get; set; }
-//			= new Dictionary<string, ConfigSeedFile>()
-//			{
-//				{"Andy :: No User",  new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "")}
-//			};
+		//			= new Dictionary<string, ConfigSeedFile>()
+		//			{
+		//				{"Andy :: No User",  new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "")}
+		//			};
 		//
 		//
 		// public string MakeKey(string userName, string id)
@@ -58,5 +58,5 @@ namespace SettingsManager
 		// }
 	}
 
-#endregion
+	#endregion
 }

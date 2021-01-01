@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using UtilityLibrary;
+﻿using System.Runtime.Serialization;
 
 
 // projname: SettingsManagerV40
@@ -12,11 +8,11 @@ using UtilityLibrary;
 
 namespace SettingsManager
 {
-#region info class
+	#region info class
 
 	[DataContract(Name = "SuiteSettings", Namespace = "")]
 	internal class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
-		where T : new ()
+		where T : new()
 	{
 		public SuiteSettingInfo()
 		{
@@ -27,9 +23,9 @@ namespace SettingsManager
 		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
-#endregion
+	#endregion
 
-#region suite data class
+	#region suite data class
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
@@ -38,7 +34,7 @@ namespace SettingsManager
 	{
 		[DataMember(Order = 1)]
 		public string SiteRootPath { get; set; }
-//			= @"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData" ;
+		//			= @"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData" ;
 
 		// [DataMember(Order = 1)]
 		// public List<ConfigFile> SeedFiles { get; set; }
@@ -53,5 +49,5 @@ namespace SettingsManager
 		// 	};
 	}
 
-#endregion
+	#endregion
 }

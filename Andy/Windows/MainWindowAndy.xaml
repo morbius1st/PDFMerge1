@@ -6,9 +6,12 @@
 		xmlns:local="clr-namespace:Andy.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
-		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:f="clr-namespace:AndySharedResources.XamlResources.FolderRte"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:custom="clr-namespace:AndyResources.XamlResources"
+
+
 		x:Name="MainWinAndy"
 		Title="Andy - Pdf Organizer and Merger"
 		Width="1400"
@@ -28,8 +31,8 @@
 			<ResourceDictionary.MergedDictionaries>
 
 				<ResourceDictionary Source="/XamlResources/ScrollBarMetrics.xaml" />
-				<ResourceDictionary Source="/XamlResources/ScrollBar.xaml" />
 				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
+				<!-- <ResourceDictionary Source="/XamlResources/ScrollBar.xaml" /> -->
 
 			</ResourceDictionary.MergedDictionaries>
 
@@ -74,20 +77,29 @@
 		<ScrollViewer
 				Grid.Column="0"
 				Grid.Row="1"	
-				Height="100"
-				Width="100"
+				Height="200"
+				Width="200"
 				VerticalAlignment="Top"
 				HorizontalAlignment="Left"
 				HorizontalScrollBarVisibility="Visible"
 				VerticalScrollBarVisibility="Visible"
-				Template="{StaticResource ScrollViewerNarrow2}"
+				Template="{StaticResource ScrollViewerNarrow}"
+				custom:ScrollBarAttached.ScrollBarWidth="8.0"
+				custom:ScrollBarAttached.TrackWidth="4.0"
+				custom:ScrollBarAttached.RepeatButtonLength="10.0"
+				custom:ScrollBarAttached.RepeatButtonIconLength="8.0"
+				custom:ScrollBarAttached.RepeatButtonIconGirth="6.0"
+				custom:ScrollBarAttached.IconMarginTop="0,0,0,0"
+				custom:ScrollBarAttached.IconMarginBottom="0,0,0,0"
+				custom:ScrollBarAttached.IconMarginLeft="0,0,0,0"
+				custom:ScrollBarAttached.IconMarginRight="0,0,0,0"
 		>
 
 			<WrapPanel 
 						VerticalAlignment="Top"
 						HorizontalAlignment="Left"
-						Width="150"
-						Height="150"
+						Width="250"
+						Height="250"
 					>
 				<Rectangle
 				Margin="3"

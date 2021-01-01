@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:local="clr-namespace:Tests2.Windows.MainWinSupport"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		>
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:Tests2.Windows.MainWinSupport"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
 	<!--  <x:Static x:Key="TvBranchFontSize"  -->
 	<!--  Member="local:WinTreeDesigns.TvBranchFontSize"  -->
@@ -21,87 +20,49 @@
 	<!--  Member="local:WinTreeDesigns.TvRowHeightHalf"  -->
 	<!--  />  -->
 
-	<x:Static x:Key="TvTreeMarginLeft"
-			Member="local:WinTreeDesigns.TvTreeMargLeft"
-			/>
+	<x:Static x:Key="TvTreeMarginLeft" Member="local:WinTreeDesigns.TvTreeMargLeft" />
 
-	<x:Static x:Key="TvTreeMarginRight"
-			Member="local:WinTreeDesigns.TvTreeMargRight"
-			/>
+	<x:Static x:Key="TvTreeMarginRight" Member="local:WinTreeDesigns.TvTreeMargRight" />
 
 
-	<x:Static x:Key="TvVertConnThk"
-			Member="local:WinTreeDesigns.TvVertConnThk"
-			/>
+	<x:Static x:Key="TvVertConnThk" Member="local:WinTreeDesigns.TvVertConnThk" />
 
-	<x:Static x:Key="TvHorizConnThk"
-			Member="local:WinTreeDesigns.TvHorizConnThk"
-			/>
+	<x:Static x:Key="TvHorizConnThk" Member="local:WinTreeDesigns.TvHorizConnThk" />
 
 
-	<x:Static x:Key="TvToggBtnColWidthRight"
-			Member="local:WinTreeDesigns.TvToggBtnColWidthRight"
-			/>
+	<x:Static x:Key="TvToggBtnColWidthRight" Member="local:WinTreeDesigns.TvToggBtnColWidthRight" />
 
-	<x:Static x:Key="TvToggBtnColWidthLeft"
-			Member="local:WinTreeDesigns.TvToggBtnColWidthLeft"
-			/>
+	<x:Static x:Key="TvToggBtnColWidthLeft" Member="local:WinTreeDesigns.TvToggBtnColWidthLeft" />
 
 
-	<x:Static x:Key="ToggleButtonWidth"
-			Member="local:WinTreeDesigns.ToggleBtnWidth"
-			/>
+	<x:Static x:Key="ToggleButtonWidth" Member="local:WinTreeDesigns.ToggleBtnWidth" />
 
-	<x:Static x:Key="ToggleButtonHeight"
-			Member="local:WinTreeDesigns.ToggleBtnHeight"
-			/>
+	<x:Static x:Key="ToggleButtonHeight" Member="local:WinTreeDesigns.ToggleBtnHeight" />
 
-	<x:Static x:Key="ToggleButtonPlusWidth"
-			Member="local:WinTreeDesigns.ToggleBtnPlusWidth"
-			/>
+	<x:Static x:Key="ToggleButtonPlusWidth" Member="local:WinTreeDesigns.ToggleBtnPlusWidth" />
 
-	<x:Static x:Key="ToggleButtonPlusHeight"
-			Member="local:WinTreeDesigns.ToggleBtnPlusHeight"
-			/>
+	<x:Static x:Key="ToggleButtonPlusHeight" Member="local:WinTreeDesigns.ToggleBtnPlusHeight" />
 
-	<x:Static x:Key="ToggleBtnMargin"
-			Member="local:WinTreeDesigns.ToggleBtnMargin"
-			/>
+	<x:Static x:Key="ToggleBtnMargin" Member="local:WinTreeDesigns.ToggleBtnMargin" />
 
-	<x:Static x:Key="ToggleBtnHorizLineHeightChecked"
-			Member="local:WinTreeDesigns.ToggleBtnHorizLineHeightChecked"
-			/>
+	<x:Static x:Key="ToggleBtnHorizLineHeightChecked" Member="local:WinTreeDesigns.ToggleBtnHorizLineHeightChecked" />
 
 
-	<SolidColorBrush x:Key="ToggleButtonPlusVertLine"
-			Color="Black"
-			/>
-	<SolidColorBrush x:Key="ToggleButtonPlusHorizLine"
-			Color="Black"
-			/>
-	<SolidColorBrush x:Key="ToggleButtonPlusHorizLineChecked"
-			Color="Red"
-			/>
+	<SolidColorBrush x:Key="ToggleButtonPlusVertLine" Color="Black" />
+	<SolidColorBrush x:Key="ToggleButtonPlusHorizLine" Color="Black" />
+	<SolidColorBrush x:Key="ToggleButtonPlusHorizLineChecked" Color="Red" />
 
-	<SolidColorBrush x:Key="VertConnectorLine"
-			Color="White"
-			/>
+	<SolidColorBrush x:Key="VertConnectorLine" Color="White" />
 
-	<SolidColorBrush x:Key="HorizConnectorLine"
-			Color="#FFB6B6B6"
-			/>
+	<SolidColorBrush x:Key="HorizConnectorLine" Color="#FFB6B6B6" />
 
-	<SolidColorBrush x:Key="ToggleButtonStroke"
-			Color="#FF868686"
-			/>
+	<SolidColorBrush x:Key="ToggleButtonStroke" Color="#FF868686" />
 
-	<Color x:Key="ToggleButtonFillStart"
-			>
+	<Color x:Key="ToggleButtonFillStart">
 		#FF6F6F6F
 	</Color>
 
-	<Color x:Key="ToggleButtonFillEnd"
-			>
+	<Color x:Key="ToggleButtonFillEnd">
 		#FFE6E6E6
 	</Color>
 

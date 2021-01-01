@@ -7,16 +7,15 @@ using System.Windows.Data;
 using System.Windows.Media;
 
 using UtilityLibrary;
-using AndySharedResources.XamlResources.FolderRte;
 
 namespace AndySharedResources.XamlResources.FolderRte
 {
 	public enum ObliqueButtonType
 	{
-		TEXT         = 1,
+		TEXT = 1,
 		SELECTFOLDER = 2,
-		FAVORITES    = 4,
-		HISTORY      = 8
+		FAVORITES = 4,
+		HISTORY = 8
 	}
 
 
@@ -40,7 +39,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 		public int SelectedIndex { get; private set; }
 		public string SelectedFolder { get; private set; }
 
-//		public FilePath<FileNameSimple> SelectedPath => path;
+		//		public FilePath<FileNameSimple> SelectedPath => path;
 
 		public FilePath<FileNameSimple> Path
 		{
@@ -53,23 +52,23 @@ namespace AndySharedResources.XamlResources.FolderRte
 			}
 		}
 
-//		public FilePath<FileNameSimple> Path
-//		{
-//			get => Path;
-//			set
-//			{
-//				SetPath(value);
-//			}
-//		}
+		//		public FilePath<FileNameSimple> Path
+		//		{
+		//			get => Path;
+		//			set
+		//			{
+		//				SetPath(value);
+		//			}
+		//		}
 
-//		public void AssignEvents(FolderManager fm)
-//		{
-//			PathChange += fm.onPathPathChangeEvent;
-//			SelectFolder += fm.onPathSelectFolderEvent;
-//			Favorites += fm.onPathFavoriteEvent;
-//			History += fm.onPathHistoryEvent;
-//
-//		}
+		//		public void AssignEvents(FolderManager fm)
+		//		{
+		//			PathChange += fm.onPathPathChangeEvent;
+		//			SelectFolder += fm.onPathSelectFolderEvent;
+		//			Favorites += fm.onPathFavoriteEvent;
+		//			History += fm.onPathHistoryEvent;
+		//
+		//		}
 
 		private void clearObliqueButtons()
 		{
@@ -97,8 +96,8 @@ namespace AndySharedResources.XamlResources.FolderRte
 			}
 			else
 			{
-//				path = newPath;
-//				SetValue(FilePathProperty, path);
+				//				path = newPath;
+				//				SetValue(FilePathProperty, path);
 
 				AddPath(newPath);
 
@@ -106,7 +105,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 				SelectedIndex = newPath.Depth;
 			}
 
-//			RaisePathChangeEvent();
+			//			RaisePathChangeEvent();
 		}
 
 		private void AddPath(FilePath<FileNameSimple> path)
@@ -130,11 +129,11 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 			if (index == 0)
 			{
-				ob.Style = (Style) folderRoute.FindResource("ObBtn");
+				ob.Style = (Style)folderRoute.FindResource("ObBtn");
 			}
 			else
 			{
-				ob.Style = (Style) folderRoute.FindResource("ObText");
+				ob.Style = (Style)folderRoute.FindResource("ObText");
 			}
 
 			ob.InnerButton.Click += InnerButton_Click;
@@ -160,13 +159,13 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		private void InnerButton_Click(object sender, RoutedEventArgs e)
 		{
-			Button b = (Button) sender;
+			Button b = (Button)sender;
 
 			ObliqueButton ob = b.Tag as ObliqueButton;
 
-			SelectedIndex = (int) ob.Tag;
+			SelectedIndex = (int)ob.Tag;
 			SelectedFolder = ob.Text;
-//			Path = se + @"\";
+			//			Path = se + @"\";
 
 			if (SelectedIndex > 0)
 			{
@@ -185,7 +184,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 			}
 		}
 
-	#region event handeling
+		#region event handeling
 
 		// event 1, a folder was selected
 		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
@@ -227,16 +226,16 @@ namespace AndySharedResources.XamlResources.FolderRte
 			History?.Invoke(this, new EventArgs());
 		}
 
-	#endregion
+		#endregion
 
-	#region control properties
+		#region control properties
 
 		public static readonly DependencyProperty FontBrushProperty = DependencyProperty.Register(
 			"FontBrush", typeof(SolidColorBrush), typeof(FolderRoute), new PropertyMetadata(Brushes.White));
 
 		public SolidColorBrush FontBrush
 		{
-			get { return (SolidColorBrush) GetValue(FontBrushProperty); }
+			get { return (SolidColorBrush)GetValue(FontBrushProperty); }
 			set { SetValue(FontBrushProperty, value); }
 		}
 
@@ -246,7 +245,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public int ProposedObliqueButtonType
 		{
-			get { return (int) GetValue(ProposedObliqueButtonTypeProperty); }
+			get { return (int)GetValue(ProposedObliqueButtonTypeProperty); }
 			set { SetValue(ProposedObliqueButtonTypeProperty, value); }
 		}
 
@@ -255,7 +254,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public Thickness ObliqueButtonMargin
 		{
-			get { return (Thickness) GetValue(ObliqueButtonMarginProperty); }
+			get { return (Thickness)GetValue(ObliqueButtonMarginProperty); }
 			set { SetValue(ObliqueButtonMarginProperty, value); }
 		}
 
@@ -265,7 +264,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public Thickness TextMargin
 		{
-			get { return (Thickness) GetValue(TextMarginProperty); }
+			get { return (Thickness)GetValue(TextMarginProperty); }
 			set { SetValue(TextMarginProperty, value); }
 		}
 
@@ -274,7 +273,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public double TextFontSize
 		{
-			get { return (double) GetValue(TextFontSizeProperty); }
+			get { return (double)GetValue(TextFontSizeProperty); }
 			set { SetValue(TextFontSizeProperty, value); }
 		}
 
@@ -283,7 +282,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public double ObliqueButtonHeight
 		{
-			get { return (double) GetValue(ObliqueButtonHeightProperty); }
+			get { return (double)GetValue(ObliqueButtonHeightProperty); }
 			set { SetValue(ObliqueButtonHeightProperty, value); }
 		}
 
@@ -294,7 +293,7 @@ namespace AndySharedResources.XamlResources.FolderRte
 
 		public FilePath<FileNameSimple> FilePath
 		{
-			get => (FilePath<FileNameSimple>) GetValue(FilePathProperty);
+			get => (FilePath<FileNameSimple>)GetValue(FilePathProperty);
 			set
 			{
 				Path = value;
@@ -302,23 +301,23 @@ namespace AndySharedResources.XamlResources.FolderRte
 			}
 		}
 
-	#endregion
+		#endregion
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
-			int proposedPathType = (int) values[0];
+			int proposedPathType = (int)values[0];
 			if (values[1] == DependencyProperty.UnsetValue) return true;
 
-			int buttonType = (int) values[1];
+			int buttonType = (int)values[1];
 
 			if (proposedPathType == 0 || buttonType == 0) return Visibility.Visible;
 
 			int x = (proposedPathType & buttonType);
 
-			Visibility v =  x == 0 ? Visibility.Collapsed : Visibility.Visible;
+			Visibility v = x == 0 ? Visibility.Collapsed : Visibility.Visible;
 
 			return v;
 		}
