@@ -8,7 +8,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:sampleFileSupport="clr-namespace:AndyShared.SampleFileSupport"
 		xmlns:sampledata="clr-namespace:WpfShared.SampleData"
 		xmlns:support="clr-namespace:AndyShared.Support"

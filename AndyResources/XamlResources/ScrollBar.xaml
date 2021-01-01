@@ -107,9 +107,10 @@
 
 					<!--  Width="{TemplateBinding Width}"  -->
 					<Border BorderThickness="0,0,0,0">
+							<!-- Width="{Binding RelativeSource={RelativeSource Self}, Path=(custom:ScrollBarAttached.TrackWidth)}" -->
 						<Rectangle
 							x:Name="rectangle"
-							Width="{Binding RelativeSource={RelativeSource Self}, Path=(custom:ScrollBarAttached.TrackWidth)}"
+							Width="{DynamicResource TrackWidth}"
 							Height="{TemplateBinding Height}"
 							Fill="{StaticResource ScrollBar.Thumb.Static}"
 							SnapsToDevicePixels="True" />
@@ -137,10 +138,11 @@
 
 					<Border BorderThickness="0,0,0,0">
 						<!--  Height="{TemplateBinding Height}"  -->
+							<!-- Height="{Binding RelativeSource={RelativeSource Self}, Path=(custom:ScrollBarAttached.TrackWidth)}" -->
 						<Rectangle
 							x:Name="rectangle"
 							Width="{TemplateBinding Width}"
-							Height="{Binding RelativeSource={RelativeSource Self}, Path=(custom:ScrollBarAttached.TrackWidth)}"
+							Height="{DynamicResource TrackWidth}"
 							Fill="{StaticResource ScrollBar.Thumb.Static}"
 							SnapsToDevicePixels="True" />
 					</Border>

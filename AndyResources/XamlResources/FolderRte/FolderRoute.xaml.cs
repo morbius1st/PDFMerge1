@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 using UtilityLibrary;
 
-namespace AndySharedResources.XamlResources.FolderRte
+namespace AndyResources.XamlResources.FolderRte
 {
 	public enum ObliqueButtonType
 	{

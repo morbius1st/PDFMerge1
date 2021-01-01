@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-using static AndySharedResources.XamlResources.FolderRte.ObliqueButtonType;
+using static AndyResources.XamlResources.FolderRte.ObliqueButtonType;
 
-namespace AndySharedResources.XamlResources.FolderRte
+namespace AndyResources.XamlResources.FolderRte
 {
 	/// <summary>
 	/// Interaction logic for ObliqueButton.xaml

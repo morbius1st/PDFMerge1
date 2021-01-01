@@ -7,7 +7,7 @@ using System;
 
 using UtilityLibrary;
 
-namespace AndySharedResources.XamlResources.FolderRte
+namespace AndyResources.XamlResources.FolderRte
 {
 	public class PathChangeArgs : EventArgs
 	{

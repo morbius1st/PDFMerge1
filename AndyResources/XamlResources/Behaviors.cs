@@ -9,7 +9,7 @@ using System.Windows.Input;
 // username: jeffs
 // created:  6/7/2020 6:19:51 AM
 
-namespace AndySharedResources.XamlResources
+namespace AndyResources.XamlResources
 {
 	public class TextBoxBehavior
 	{
@@ -28,7 +28,7 @@ namespace AndySharedResources.XamlResources
 				"SelectAllTextOnFocus",
 				typeof(bool),
 #pragma warning disable CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
-				typeof(AndySharedResources.XamlResources.TextBoxBehavior),
+				typeof(TextBoxBehavior),
 #pragma warning restore CS0436 // The type 'TextBoxBehavior' in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs' conflicts with the imported type 'TextBoxBehavior' in 'WpfShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'B:\Programming\VisualStudioProjects\PDFMerge1\AndyResources\XamlResources\Behaviors.cs'.
 				new UIPropertyMetadata(false, OnSelectAllTextOnFocusChanged));
 

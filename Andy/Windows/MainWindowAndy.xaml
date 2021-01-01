@@ -7,7 +7,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
-		xmlns:f="clr-namespace:AndySharedResources.XamlResources.FolderRte"
+		xmlns:f="clr-namespace:AndyResources.XamlResources.FolderRte"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:custom="clr-namespace:AndyResources.XamlResources"
 
@@ -30,7 +30,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 
-				<ResourceDictionary Source="/XamlResources/ScrollBarMetrics.xaml" />
+				<!-- <ResourceDictionary Source="/XamlResources/ScrollBarMetrics.xaml" /> -->
 				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
 				<!-- <ResourceDictionary Source="/XamlResources/ScrollBar.xaml" /> -->
 
@@ -162,7 +162,9 @@
 
 			</WrapPanel>
 		</ScrollViewer>
-		
+
+
+
 		<ScrollViewer
 				Grid.Column="2"
 				Grid.Row="1"	

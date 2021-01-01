@@ -26,7 +26,9 @@ namespace AndyShared.Support
 		public static void TaskDialog_Opened(object sender, EventArgs e)
 		{
 			TaskDialog td = sender as TaskDialog;
-			td.Icon = td.Icon = td.Icon;
+			
+			// td.Icon = td.Icon = td.Icon;
+			td.Icon = td.Icon;
 			if (td.FooterIcon != TaskDialogStandardIcon.None)
 			{
 				td.FooterIcon = td.FooterIcon;

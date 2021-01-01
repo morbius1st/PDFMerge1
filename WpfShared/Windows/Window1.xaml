@@ -6,7 +6,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:xs="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:xs="clr-namespace:AndyResources.XamlResources"
 		Title="Window1"
 		Width="800"
 		Height="450"

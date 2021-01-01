@@ -5,7 +5,7 @@
 		xmlns:convert="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:ClassifierEditor.Windows"
-		xmlns:m="clr-namespace:AndySharedResources.XamlResources;assembly=WpfShared"
+		xmlns:m="clr-namespace:AndyResources.XamlResources;assembly=WpfShared"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:mergeSupport="clr-namespace:AndyShared.MergeSupport;assembly=WpfShared"
 		xmlns:node="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport;assembly=WpfShared"

@@ -1,10 +1,10 @@
 ﻿<UserControl x:Name="folderRoute"
-		x:Class="AndySharedResources.XamlResources.FolderRte.FolderRoute"
+		x:Class="AndyResources.XamlResources.FolderRte.FolderRoute"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:local="clr-namespace:AndySharedResources.XamlResources.FolderRte"
-		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:local="clr-namespace:AndyResources.XamlResources.FolderRte"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		mc:Ignorable="d"
@@ -148,7 +148,7 @@
 				VerticalContentAlignment="Stretch"
 				HorizontalScrollBarVisibility="Visible"
 				VerticalScrollBarVisibility="Hidden"
-				Template="{StaticResource ScrollViewerNarrow2}"
+				Template="{StaticResource ScrollViewerNarrow}"
 				>
 			<!--  the folder path names  -->
 			<DockPanel Name="SpPath"

@@ -10,7 +10,7 @@ using System.Windows.Media;
 // created:   5/9/2020 10:23:38 PM
 
 
-namespace AndySharedResources.XamlResources
+namespace AndyResources.XamlResources
 {
 	[MarkupExtensionReturnType(typeof(System.Windows.Media.Color))]
 	public class XmalColor : MarkupExtension

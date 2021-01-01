@@ -10,7 +10,7 @@
 		xmlns:custom="clr-namespace:ClassifierEditor.Windows.Support"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
-		xmlns:res="clr-namespace:AndySharedResources.XamlResources"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:util="clr-namespace:UtilityLibrary;assembly=WpfShared"
 		Title="Sheet Organization File Editor"
