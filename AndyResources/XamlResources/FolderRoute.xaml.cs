@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 using UtilityLibrary;
 
-namespace AndyResources.XamlResources.FolderRte
+namespace AndyResources.XamlResources
 {
 	public enum ObliqueButtonType
 	{
@@ -32,7 +32,8 @@ namespace AndyResources.XamlResources.FolderRte
 		{
 			InitializeComponent();
 
-			BtnText.Text = "";
+			BtnText.Text = "Hello";
+			// Path = new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 flat");
 		}
 
 		public bool IsPathValid => Path.IsValid;
@@ -159,9 +160,12 @@ namespace AndyResources.XamlResources.FolderRte
 
 		private void InnerButton_Click(object sender, RoutedEventArgs e)
 		{
-			Button b = (Button)sender;
 
-			ObliqueButton ob = b.Tag as ObliqueButton;
+
+			// Button b = (Button)sender;
+
+			// ObliqueButton ob = b.Tag as ObliqueButton;
+			ObliqueButton ob = sender as ObliqueButton;
 
 			SelectedIndex = (int)ob.Tag;
 			SelectedFolder = ob.Text;
@@ -286,10 +290,8 @@ namespace AndyResources.XamlResources.FolderRte
 			set { SetValue(ObliqueButtonHeightProperty, value); }
 		}
 
-		public static readonly DependencyProperty FilePathProperty =
-			DependencyProperty.Register("FilePath",
-				typeof(FilePath<FileNameSimple>), typeof(FolderRoute),
-				new PropertyMetadata(null));
+		public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath",
+				typeof(FilePath<FileNameSimple>), typeof(FolderRoute), new PropertyMetadata(null));
 
 		public FilePath<FileNameSimple> FilePath
 		{

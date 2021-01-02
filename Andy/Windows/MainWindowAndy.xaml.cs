@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using UtilityLibrary;
 
 #endregion
 
@@ -19,6 +20,9 @@ namespace Andy.Windows
 	{
 		#region private fields
 
+			private int btnType = 0;
+
+
 		#endregion
 
 		#region ctor
@@ -26,12 +30,28 @@ namespace Andy.Windows
 		public MainWindowAndy()
 		{
 			InitializeComponent();
+
+			FldrRoute.Path = new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 flat");
+			FldrRoute.ProposedObliqueButtonType = btnType;
+
+
 		}
 
 		#endregion
 
 		#region public properties
 
+			public int BtnType
+			{
+				get => btnType;
+				set
+				{
+					btnType = value;
+					OnPropertyChange();
+
+					FldrRoute.ProposedObliqueButtonType = value;
+				}
+			}
 		#endregion
 
 		#region private properties
@@ -70,5 +90,9 @@ namespace Andy.Windows
 
 		#endregion
 
+			private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+			{
+				 ++BtnType;
+			}
 	}
 }

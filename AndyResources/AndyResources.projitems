@@ -81,15 +81,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\FolderRoute.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)XamlResources\FolderRoute.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\ObliqueButton.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)XamlResources\ObliqueButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\IconGallery.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)XamlResources\Gallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,10 +109,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\ScrollViewerVariable.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)XamlResources\VisualStates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,19 +125,16 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollBarAttached.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\Behaviors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\PathChangeArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\PathChangeArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\XmalMarkup.cs" />
-		
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollViewerVariable.xaml.cs" >
-			<DependentUpon>ScrollViewerVariable.xaml</DependentUpon>
-		</Compile>
-		
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\FolderRoute.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRoute.xaml.cs">
       <DependentUpon>FolderRoute.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\ObliqueButton.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ObliqueButton.xaml.cs">
       <DependentUpon>ObliqueButton.xaml</DependentUpon>
     </Compile>
-
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\" />
   </ItemGroup>
 </Project>

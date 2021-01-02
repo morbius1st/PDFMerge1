@@ -1,21 +1,19 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
-using static AndyResources.XamlResources.FolderRte.ObliqueButtonType;
+using static AndyResources.XamlResources.ObliqueButtonType;
 
-namespace AndyResources.XamlResources.FolderRte
+namespace AndyResources.XamlResources
 {
 	/// <summary>
 	/// Interaction logic for ObliqueButton.xaml
 	/// </summary>
-	public partial class ObliqueButton : UserControl
+	public partial class ObliqueButton 
 	{
 		public ObliqueButton()
 		{
 			InitializeComponent();
 		}
-
 
 		// index value
 		public static readonly DependencyProperty IndexProperty = DependencyProperty.Register(
@@ -23,8 +21,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public int Index
 		{
-			get { return (int)GetValue(IndexProperty); }
-			set { SetValue(IndexProperty, value); }
+			get => (int)GetValue(IndexProperty);
+			set => SetValue(IndexProperty, value);
 		}
 
 		// the name of the selected folder
@@ -33,8 +31,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public string SelectedFolder
 		{
-			get { return (string)GetValue(SelectedFolderProperty); }
-			set { SetValue(SelectedFolderProperty, value); }
+			get => (string)GetValue(SelectedFolderProperty);
+			set => SetValue(SelectedFolderProperty, value);
 		}
 
 		// text value
@@ -43,8 +41,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public string Text
 		{
-			get { return (string)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
+			get => (string)GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
 
 		public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(
@@ -52,8 +50,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public Thickness TextMargin
 		{
-			get { return (Thickness)GetValue(TextMarginProperty); }
-			set { SetValue(TextMarginProperty, value); }
+			get => (Thickness)GetValue(TextMarginProperty);
+			set => SetValue(TextMarginProperty, value);
 		}
 
 		public static readonly DependencyProperty ObliqueButtonMarginProperty = DependencyProperty.Register(
@@ -61,8 +59,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public Thickness ObliqueButtonMargin
 		{
-			get { return (Thickness)GetValue(ObliqueButtonMarginProperty); }
-			set { SetValue(ObliqueButtonMarginProperty, value); }
+			get => (Thickness)GetValue(ObliqueButtonMarginProperty);
+			set => SetValue(ObliqueButtonMarginProperty, value);
 		}
 
 		// show the text?
@@ -71,8 +69,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowText
 		{
-			get { return (bool)GetValue(ShowTextProperty); }
-			set { SetValue(ShowTextProperty, value); }
+			get => (bool)GetValue(ShowTextProperty);
+			set => SetValue(ShowTextProperty, value);
 		}
 
 		// show the arrow?
@@ -81,8 +79,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowArrow
 		{
-			get { return (bool)GetValue(ShowArrowProperty); }
-			set { SetValue(ShowArrowProperty, value); }
+			get => (bool)GetValue(ShowArrowProperty);
+			set => SetValue(ShowArrowProperty, value);
 		}
 
 		// show the favorites symbol
@@ -91,8 +89,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowFavorite
 		{
-			get { return (bool)GetValue(ShowFavoriteProperty); }
-			set { SetValue(ShowFavoriteProperty, value); }
+			get => (bool)GetValue(ShowFavoriteProperty);
+			set => SetValue(ShowFavoriteProperty, value);
 		}
 
 		// show the plus symbol
@@ -101,8 +99,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowPlus
 		{
-			get { return (bool)GetValue(ShowPlusProperty); }
-			set { SetValue(ShowPlusProperty, value); }
+			get => (bool)GetValue(ShowPlusProperty);
+			set => SetValue(ShowPlusProperty, value);
 		}
 
 		public static readonly DependencyProperty ShowHistoryProperty = DependencyProperty.Register(
@@ -110,8 +108,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowHistory
 		{
-			get { return (bool)GetValue(ShowHistoryProperty); }
-			set { SetValue(ShowHistoryProperty, value); }
+			get => (bool)GetValue(ShowHistoryProperty);
+			set => SetValue(ShowHistoryProperty, value);
 		}
 
 		// show the border?
@@ -120,8 +118,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool ShowBorder
 		{
-			get { return (bool)GetValue(ShowBorderProperty); }
-			set { SetValue(ShowBorderProperty, value); }
+			get => (bool)GetValue(ShowBorderProperty);
+			set => SetValue(ShowBorderProperty, value);
 		}
 
 
@@ -131,8 +129,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public SolidColorBrush FontBrush
 		{
-			get { return (SolidColorBrush)GetValue(FontBrushProperty); }
-			set { SetValue(FontBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(FontBrushProperty);
+			set => SetValue(FontBrushProperty, value);
 		}
 
 		// color for the favorites symbol
@@ -141,8 +139,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public SolidColorBrush FavoritesBrush
 		{
-			get { return (SolidColorBrush)GetValue(FavoritesBrushProperty); }
-			set { SetValue(FavoritesBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(FavoritesBrushProperty);
+			set => SetValue(FavoritesBrushProperty, value);
 		}
 
 		// color for the favorites symbol
@@ -152,8 +150,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public SolidColorBrush PlusBrush
 		{
-			get { return (SolidColorBrush)GetValue(PlusBrushProperty); }
-			set { SetValue(PlusBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(PlusBrushProperty);
+			set => SetValue(PlusBrushProperty, value);
 		}
 
 		// color for the history symbol
@@ -162,8 +160,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public SolidColorBrush HistoryBrush
 		{
-			get { return (SolidColorBrush)GetValue(HistoryBrushProperty); }
-			set { SetValue(HistoryBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(HistoryBrushProperty);
+			set => SetValue(HistoryBrushProperty, value);
 		}
 
 
@@ -184,8 +182,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public ObliqueButtonType ObliqueButtonType
 		{
-			get { return (ObliqueButtonType)GetValue(ObliqueButtonTypeProperty); }
-			set { SetValue(ObliqueButtonTypeProperty, value); }
+			get => (ObliqueButtonType)GetValue(ObliqueButtonTypeProperty);
+			set => SetValue(ObliqueButtonTypeProperty, value);
 		}
 
 		// skew the first part of the contents
@@ -194,8 +192,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool SkewBeginning
 		{
-			get { return (bool)GetValue(SkewBeginningProperty); }
-			set { SetValue(SkewBeginningProperty, value); }
+			get => (bool)GetValue(SkewBeginningProperty);
+			set => SetValue(SkewBeginningProperty, value);
 		}
 
 		// skew the first part of the contents
@@ -204,8 +202,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool SkewMiddle
 		{
-			get { return (bool)GetValue(SkewMiddleProperty); }
-			set { SetValue(SkewMiddleProperty, value); }
+			get => (bool)GetValue(SkewMiddleProperty);
+			set => SetValue(SkewMiddleProperty, value);
 		}
 
 		// skew the first part of the contents
@@ -214,8 +212,8 @@ namespace AndyResources.XamlResources.FolderRte
 
 		public bool SkewEnd
 		{
-			get { return (bool)GetValue(SkewEndProperty); }
-			set { SetValue(SkewEndProperty, value); }
+			get => (bool)GetValue(SkewEndProperty);
+			set => SetValue(SkewEndProperty, value);
 		}
 	}
 

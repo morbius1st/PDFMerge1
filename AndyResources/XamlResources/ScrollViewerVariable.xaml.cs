@@ -1,11 +1,7 @@
 ﻿#region + Using Directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 #endregion
 
@@ -14,31 +10,36 @@ using System.Windows;
 
 namespace AndyResources.XamlResources
 {
-	public partial class ScrollViewerVariable { }
-
-	public partial class ScrollViewerVariableAttached
+	public partial class ScrollViewerVariable : UserControl
 	{
+
 	#region ScrollBarWidth
 
-		public static readonly DependencyProperty ScrollBarWidthProperty = DependencyProperty.RegisterAttached(
-			"ScrollBarWidth", typeof(double), typeof(ScrollBarAttached), new PropertyMetadata(8.0));
+		public static readonly DependencyProperty ScrollBarWidthProperty = DependencyProperty.Register(
+			"ScrollBarWidth", typeof(double), typeof(ScrollViewerVariable), new PropertyMetadata(8.0));
 
-		public static void SetScrollBarWidth(UIElement element, double value)
+		public double ScrollBarWidth
 		{
-			element.SetValue(ScrollBarWidthProperty, value);
+			get => (double) GetValue(ScrollBarWidthProperty);
+			set => SetValue(ScrollBarWidthProperty, value);
 		}
 
-		public static double GetScrollBarWidth(UIElement element)
-		{
-			return (double) element.GetValue(ScrollBarWidthProperty);
-		}
+		// public static void SetScrollBarWidth(UIElement element, double value)
+		// {
+		// 	element.SetValue(ScrollBarWidthProperty, value);
+		// }
+		//
+		// public static double GetScrollBarWidth(UIElement element)
+		// {
+		// 	return (double) element.GetValue(ScrollBarWidthProperty);
+		// }
 
 	#endregion
 
 	#region TrackWidth
 
 		public static readonly DependencyProperty TrackWidthProperty = DependencyProperty.RegisterAttached(
-			"TrackWidth", typeof(double), typeof(ScrollBarAttached), new FrameworkPropertyMetadata(4.0,
+			"TrackWidth", typeof(double), typeof(ScrollViewerVariable), new FrameworkPropertyMetadata(4.0,
 				FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public static void SetTrackWidth(UIElement e, double value)
@@ -56,7 +57,7 @@ namespace AndyResources.XamlResources
 	#region RepeatButtonLength
 
 		public static readonly DependencyProperty RepeatButtonLengthProperty = DependencyProperty.RegisterAttached(
-			"RepeatButtonLength", typeof(double), typeof(ScrollBarAttached), new PropertyMetadata(8.0));
+			"RepeatButtonLength", typeof(double), typeof(ScrollViewerVariable), new PropertyMetadata(8.0));
 
 		public static void SetRepeatButtonLength(UIElement e, double value)
 		{
@@ -73,7 +74,7 @@ namespace AndyResources.XamlResources
 	#region RepeatButtonIconLength
 
 		public static readonly DependencyProperty RepeatButtonIconLengthProperty = DependencyProperty.RegisterAttached(
-			"RepeatButtonIconLength", typeof(double), typeof(ScrollBarAttached), new PropertyMetadata(6.0));
+			"RepeatButtonIconLength", typeof(double), typeof(ScrollViewerVariable), new PropertyMetadata(6.0));
 
 		public static void SetRepeatButtonIconLength(UIElement e, double value)
 		{
@@ -90,7 +91,7 @@ namespace AndyResources.XamlResources
 	#region RepeatButtonIconGirth
 
 		public static readonly DependencyProperty RepeatButtonIconGirthProperty = DependencyProperty.RegisterAttached(
-			"RepeatButtonIconGirth", typeof(double), typeof(ScrollBarAttached), new PropertyMetadata(6.0));
+			"RepeatButtonIconGirth", typeof(double), typeof(ScrollViewerVariable), new PropertyMetadata(6.0));
 
 		public static void SetRepeatButtonIconGirth(UIElement e, double value)
 		{
@@ -107,7 +108,7 @@ namespace AndyResources.XamlResources
 	#region IconMarginTop
 
 		public static readonly DependencyProperty IconMarginTopProperty = DependencyProperty.RegisterAttached(
-			"IconMarginTop", typeof(Thickness), typeof(ScrollBarAttached),
+			"IconMarginTop", typeof(Thickness), typeof(ScrollViewerVariable),
 			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public static void SetIconMarginTop(UIElement e, Thickness value)
@@ -125,7 +126,7 @@ namespace AndyResources.XamlResources
 	#region IconMarginBottom
 
 		public static readonly DependencyProperty IconMarginBottomProperty = DependencyProperty.RegisterAttached(
-			"IconMarginBottom", typeof(Thickness), typeof(ScrollBarAttached),
+			"IconMarginBottom", typeof(Thickness), typeof(ScrollViewerVariable),
 			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public static void SetIconMarginBottom(UIElement e, Thickness value)
@@ -143,7 +144,7 @@ namespace AndyResources.XamlResources
 	#region IconMarginLeft
 
 		public static readonly DependencyProperty IconMarginLeftProperty = DependencyProperty.RegisterAttached(
-			"IconMarginLeft", typeof(Thickness), typeof(ScrollBarAttached),
+			"IconMarginLeft", typeof(Thickness), typeof(ScrollViewerVariable),
 			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public static void SetIconMarginLeft(UIElement e, Thickness value)
@@ -161,7 +162,7 @@ namespace AndyResources.XamlResources
 	#region IconMarginRight
 
 		public static readonly DependencyProperty IconMarginRightProperty = DependencyProperty.RegisterAttached(
-			"IconMarginRight", typeof(Thickness), typeof(ScrollBarAttached),
+			"IconMarginRight", typeof(Thickness), typeof(ScrollViewerVariable),
 			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public static void SetIconMarginRight(UIElement e, Thickness value)
