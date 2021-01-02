@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 
+
 namespace Felix.Windows
 {
 	/// <summary>

@@ -769,7 +769,7 @@
 							Grid.Row="1"
 							Margin="0,0,0,0"
 							Width="{StaticResource BarSizeOutline}"
-							MinWidth="{StaticResource BarSize}"
+							MinWidth="{StaticResource BarSizeOutline}"
 							Value="{Binding VerticalOffset,
 															Mode=OneWay,
 															RelativeSource={RelativeSource TemplatedParent}}"
@@ -787,7 +787,7 @@
 							Grid.Row="2"
 							Grid.ColumnSpan="2"
 							Height="{StaticResource BarSizeOutline}"
-							MinHeight="{StaticResource BarSize}"
+							MinHeight="{StaticResource BarSizeOutline}"
 							Value="{Binding HorizontalOffset,
 															Mode=OneWay,
 															RelativeSource={RelativeSource TemplatedParent}}"
@@ -976,6 +976,8 @@
 								</Style>
 							</Label.Style>
 						</Label>
+
+
 
 						<!--  <Label Grid.Column="2"  -->
 						<!--  Grid.Row="1"  -->

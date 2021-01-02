@@ -93,27 +93,28 @@ namespace AndyShared.ConfigMgr
 			// the below are interrelated to each other
 
 			// Suite = ConfigSuite.Instance;
+
 			Suite.Initialize();
+			Suite.OnSiteRootPathChanged += Site.SuiteOnSiteRootPathChanged;
 
 			// Site = ConfigSite.Instance;
 			Site.Initialize(Suite.SiteSettingsRootPath);
+			Site.OnInstalledSeedFileCollectionChanged += SeedSite.OnInstalledSeedFileCollectionChanged;
 
-			Suite.OnSiteRootPathChanged += Site.SuiteOnOnSiteRootPathChanged;
 
 			// SeedInstalled = ConfigSeedInstalled.Instance;
 			SeedInstalled.Initialize();
-
 			SeedInstalled.OnInstalledSeedCollectionUpdated += Site.OnInstalledSeedCollectionUpdated;
+
 
 			// SeedSite = ConfigSeedSite.Instance;
 			SeedSite.Initialize();
+			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
 
-			Site.OnInstalledSeedFileCollectionChanged += SeedSite.OnInstalledSeedFileCollectionChanged;
 
 			// SeedLocal = ConfigSeedLocal.Instance;
 			SeedLocal.Initialize();
 
-			SeedSite.OnSeedSiteCollectionUpdated += SeedLocal.OnSeedSiteCollectionUpdated;
 
 		}
 

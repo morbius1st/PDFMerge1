@@ -1,24 +1,17 @@
 ﻿#region + Using Directives
 
 #endregion
-
-
-// projname: Sylvester.FolderSupport
-// itemname: SavedFolderManager
-// username: jeffs
-// created:  1/20/2020 8:55:27 PM
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using SettingsManager;
-using Sylvester.FileSupport;
-using Sylvester.Process;
+
 // using Sylvester.Settings;
 using UtilityLibrary;
 
-namespace Sylvester.SavedFolders
+namespace WpfShared.Dialogs.SavedFolders
 {
 	public enum SavedFolderType
 	{
@@ -54,8 +47,12 @@ namespace Sylvester.SavedFolders
 
 		private string title;
 
+#pragma warning disable CS0169 // The field 'SavedFolderManager.favoritesMgr' is never used
 		private static SavedFolderManager favoritesMgr;
+#pragma warning restore CS0169 // The field 'SavedFolderManager.favoritesMgr' is never used
+#pragma warning disable CS0169 // The field 'SavedFolderManager.historyMgr' is never used
 		private static SavedFolderManager historyMgr;
+#pragma warning restore CS0169 // The field 'SavedFolderManager.historyMgr' is never used
 
 
 	#endregion

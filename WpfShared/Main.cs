@@ -1,10 +1,6 @@
 ﻿#region + Using Directives
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WpfShared.Windows;
 
 #endregion
@@ -18,6 +14,7 @@ namespace WpfShared
 	public class Program
 	{
 		public static WindowManager WinMgr = null;
+		private static App app = null;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -33,13 +30,22 @@ namespace WpfShared
 		{
 			Initalize();
 
-			WinMgr.Start();
+			StartWin(WindowId.DIALOG_SELECT_CLASSF_FILE);
 		}
 
 		private static void Initalize()
 		{
+			app = new App();
+			app.InitializeComponent();
+
 			WinMgr = new WindowManager();
 		}
+
+		public static void StartWin(WindowId which)
+		{
+			WinMgr.Show(which);
+			}
+
 
 	}
 }

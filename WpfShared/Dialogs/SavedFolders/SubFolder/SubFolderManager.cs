@@ -9,10 +9,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SettingsManager;
-using Sylvester.FolderSupport;
-using Sylvester.Process;
+using WpfShared.Dialogs.FolderSupport;
+// using Sylvester.Process;
 // using Sylvester.Settings;
-using Sylvester.UserControls;
+// using Sylvester.UserControls;
 using UtilityLibrary;
 
 #endregion
@@ -24,7 +24,7 @@ using UtilityLibrary;
 // created:  2/29/2020 8:46:02 AM
 
 
-namespace Sylvester.SavedFolders.SubFolder
+namespace WpfShared.Dialogs.SavedFolders.SubFolder
 {
 	public class SubFolderManager : INotifyPropertyChanged
 	{

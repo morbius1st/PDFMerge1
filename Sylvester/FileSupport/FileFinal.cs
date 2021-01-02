@@ -39,9 +39,7 @@ namespace Sylvester.FileSupport
 		private string matchedSeparator = "";
 		private string matchedSheetTitle = "";
 		private FileCurrent fileCurrent;
-#pragma warning disable CS0169 // The field 'FileFinal.isChecked' is never used
 		private bool isChecked;
-#pragma warning restore CS0169 // The field 'FileFinal.isChecked' is never used
 
 		public FileFinal() { }
 

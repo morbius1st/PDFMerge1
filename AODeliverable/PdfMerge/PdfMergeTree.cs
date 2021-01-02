@@ -152,9 +152,7 @@ namespace AODeliverable.PdfMerge
 //			return i;
 //		}
 //
-#pragma warning disable CS0169 // The field 'PdfMergeTree.priorDepth' is never used
 		private int priorDepth;
-#pragma warning restore CS0169 // The field 'PdfMergeTree.priorDepth' is never used
 
 		public override string ToString()
 		{

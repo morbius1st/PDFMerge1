@@ -190,6 +190,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBarMetrics.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBarMetrics.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
       <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

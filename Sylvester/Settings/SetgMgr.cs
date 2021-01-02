@@ -310,24 +310,18 @@ namespace SettingsManager
 
 	#region window layout
 
-#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetMainWindowLayout => GetWindowLayout(WindowId.WINDOW_MAIN);
-#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
-#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetSavedFolderLayout => GetWindowLayout(WindowId.DIALOG_SAVED_FOLDERS);
-#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 
 
-#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static WindowLayout GetWindowLayout(WindowId id)
-#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		{
+			WindowLayout w = UserSettings.Data.SavedWinLocationInfo[(int) id];
+
 			return UserSettings.Data.SavedWinLocationInfo[(int) id];
 		}
 
-#pragma warning disable CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		public static void SetWindowLayout(WindowId id, WindowLayout layout)
-#pragma warning restore CS0246 // The type or namespace name 'WindowLayout' could not be found (are you missing a using directive or an assembly reference?)
 		{
 			UserSettings.Data.SavedWinLocationInfo[(int) id] = layout;
 
@@ -339,7 +333,6 @@ namespace SettingsManager
 		{
 			winMgr.RestoreWinPosition(win, GetWindowLayout(id));
 		}
-
 
 		public static void RestoreWindowLayout(WindowId id, Window win)
 		{

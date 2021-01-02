@@ -41,24 +41,14 @@ namespace ClassifySheets.Windows.Support
 
 	#region private fields
 
-#pragma warning disable CS0649 // Field 'ProgressBarManager.progBars' is never assigned to, and will always have its default value null
 		private List<PbData> progBars;
-#pragma warning restore CS0649 // Field 'ProgressBarManager.progBars' is never assigned to, and will always have its default value null
 
-#pragma warning disable CS0169 // The field 'ProgressBarManager.pb' is never used
 		private ProgressBar pb;
-#pragma warning restore CS0169 // The field 'ProgressBarManager.pb' is never used
 
-#pragma warning disable CS0169 // The field 'ProgressBarManager.pbValue' is never used
 		private double pbValue;
-#pragma warning restore CS0169 // The field 'ProgressBarManager.pbValue' is never used
-#pragma warning disable CS0169 // The field 'ProgressBarManager.pbMaxValue' is never used
 		private double pbMaxValue;
-#pragma warning restore CS0169 // The field 'ProgressBarManager.pbMaxValue' is never used
 
-#pragma warning disable CS0649 // Field 'ProgressBarManager.pbDouble' is never assigned to, and will always have its default value null
 		private IProgress<double> pbDouble;
-#pragma warning restore CS0649 // Field 'ProgressBarManager.pbDouble' is never assigned to, and will always have its default value null
 
 	#endregion
 

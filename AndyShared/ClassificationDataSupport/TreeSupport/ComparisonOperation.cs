@@ -541,9 +541,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public static bool Compare2(FileNameSheetPdf Pdf,  
 			ObservableCollection<ComparisonOperation> compareOps)
 		{
-#pragma warning disable CS0219 // The variable 'count' is assigned but its value is never used
 			int count = 0;
-#pragma warning restore CS0219 // The variable 'count' is assigned but its value is never used
 			bool result = false;
 			int compIdx;
 			string compValue = "";

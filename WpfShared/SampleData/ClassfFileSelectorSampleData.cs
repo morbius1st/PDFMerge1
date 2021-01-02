@@ -21,9 +21,7 @@ namespace WpfShared.SampleData
 
 		// private static SampleFiles sampleFiles = null;
 
-#pragma warning disable CS0169 // The field 'ClassfFileSelectorSampleData.selectedSampleFile' is never used
 		private static SampleFile selectedSampleFile;
-#pragma warning restore CS0169 // The field 'ClassfFileSelectorSampleData.selectedSampleFile' is never used
 
 		static ClassfFileSelectorSampleData()
 		{

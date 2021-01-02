@@ -77,9 +77,7 @@ namespace PDFMerge1.MergerSupport
 						logMsgFmtln("output file", "exists: overwrite allowed");
 						return true;
 					}
-#pragma warning disable CS0168 // The variable 'ex' is declared but never used
 					catch (Exception ex)
-#pragma warning restore CS0168 // The variable 'ex' is declared but never used
 					{
 						logMsgFmtln("result", "fail - file is not accessible or is open elsewhere");
 						return false;
@@ -199,9 +197,7 @@ namespace PDFMerge1.MergerSupport
 							logMsgln(" added(-no-) pages");
 						}
 					}
-#pragma warning disable CS0168 // The variable 'ex' is declared but never used
 					catch (Exception ex)
-#pragma warning restore CS0168 // The variable 'ex' is declared but never used
 					{
 						logMsgFmtln("corrupted PDF found");
 

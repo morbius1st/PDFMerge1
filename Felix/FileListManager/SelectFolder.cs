@@ -1,4 +1,7 @@
 ﻿#region + Using Directives
+using Felix.Settings;
+using Felix.Support;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 #endregion
 
@@ -9,9 +12,6 @@
 // created:  11/2/2019 2:56:07 PM
 
 
-using Felix.Settings;
-using Felix.Support;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Felix.FileListManager
 {

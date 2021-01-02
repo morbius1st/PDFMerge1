@@ -19,7 +19,7 @@
 		MinWidth="700"
 		MinHeight="650"
 		mc:Ignorable="d"
-		>
+				Closing="winClsFileMgr_Closing">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

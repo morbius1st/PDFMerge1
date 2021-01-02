@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AndyConfig.ConfigMgr;
 using SettingsManager;
@@ -102,8 +103,7 @@ namespace AndyShared.ConfigMgr
 
 		public void Initialize(string rootPath)
 		{
-			SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
-
+			// SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
 
 			if (Initalized) return;
 
@@ -112,11 +112,6 @@ namespace AndyShared.ConfigMgr
 			RootPathChanged(rootPath);
 
 			OnPropertyChange("Initalized");
-		}
-
-		public void SuiteOnOnSiteRootPathChanged(object sender, PathChangedEventArgs e)
-		{
-			RootPathChanged(e.Path);
 		}
 
 		public void Read()
@@ -136,25 +131,32 @@ namespace AndyShared.ConfigMgr
 
 		private void UpdateProperties()
 		{
-			OnPropertyChange("SiteSettingsFileExists");
-			OnPropertyChange("SiteSettingsRootPath");
-			OnPropertyChange("SiteSettingsFileName");
-			OnPropertyChange("SiteSettingsFilePath");
-			OnPropertyChange("Info");
+			OnPropertyChange(nameof(SiteSettingsFileExists));
+			OnPropertyChange(nameof(SiteSettingsFolderPath));
+			OnPropertyChange(nameof(SiteSettingsRootPath));
+			OnPropertyChange(nameof(SiteSettingsFileName));
+			OnPropertyChange(nameof(Info));
 		}
 
 
 		private void RootPathChanged(string rootPath)
 		{
-			SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
-
 			SiteSettings.Path.RootFolderPath = rootPath;
 
-			if (!SiteSettings.Path.SettingFolderPathIsValid) return;
+			// SettingsMgr<SiteSettingPath, SiteSettingInfo<SiteSettingData>, SiteSettingData> s = SiteSettings.Admin;
+			// Debug.WriteLine("is path valid| " + SiteSettings.Path.SettingFolderPathIsValid);
+			// Debug.WriteLine("path is| " + SiteSettings.Path.RootFolderPath);
+			// Debug.WriteLine("path is| " + SiteSettings.Path.SettingFolderPath);
+			//
+			// // if (!SiteSettings.Path.SettingFolderPathIsValid) return;
+			if (!SiteSettings.Path.RootFolderPathIsValid) return;
 
 			Read();
 
+			RaiseOnInstalledSeedFileCollectionChangedEvent();
+
 			UpdateProperties();
+
 
 		}
 
@@ -182,6 +184,13 @@ namespace AndyShared.ConfigMgr
 	#endregion
 
 	#region event handeling
+
+		
+		public void SuiteOnSiteRootPathChanged(object sender, PathChangedEventArgs e)
+		{
+			RootPathChanged(e.Path);
+		}
+
 
 		public void OnInstalledSeedCollectionUpdated(object sender)
 		{

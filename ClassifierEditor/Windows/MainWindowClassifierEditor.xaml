@@ -547,7 +547,7 @@
 														Grid.Row="1"
 														Margin="0,0,0,0"
 														Width="{StaticResource BarSizeOutline}"
-														MinWidth="{StaticResource BarSize}"
+														MinWidth="{StaticResource BarSizeOutline}"
 														Value="{Binding VerticalOffset,
 																						Mode=OneWay,
 																						RelativeSource={RelativeSource TemplatedParent}}"
@@ -585,7 +585,7 @@
 															Grid.Column="1"
 															Grid.Row="0"
 															Height="{StaticResource BarSizeOutline}"
-															MinHeight="{StaticResource BarSize}"
+															MinHeight="{StaticResource BarSizeOutline}"
 															Value="{Binding HorizontalOffset,
 																							Mode=OneWay,
 																							RelativeSource={RelativeSource TemplatedParent}}"
@@ -2034,7 +2034,7 @@
 							Grid.Column="1"
 							Grid.Row="2"
 							Height="{StaticResource BarSizeOutline}"
-							MinHeight="{StaticResource BarSize}"
+							MinHeight="{StaticResource BarSizeOutline}"
 							Value="{Binding HorizontalOffset,
 															Mode=OneWay,
 															RelativeSource={RelativeSource TemplatedParent}}"

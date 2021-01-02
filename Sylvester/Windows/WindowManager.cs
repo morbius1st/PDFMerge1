@@ -8,12 +8,10 @@ using static UtilityLibrary.ScreenParameters;
 
 #endregion
 
-
 // projname: Sylvester.Windows
 // itemname: WindowManager
 // username: jeffs
 // created:  2/22/2020 11:04:44 AM
-
 
 namespace Sylvester.Windows
 {
@@ -51,7 +49,6 @@ namespace Sylvester.Windows
 				win.Left = meleft;
 			}
 		}
-
 
 		public void RestoreWinLayout(Window win, WindowLayout layout)
 		{

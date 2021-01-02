@@ -62,7 +62,8 @@ namespace AndyShared.SampleFileSupport
 
 		public void ReadSampleSheetFileList(string filePath)
 		{
-			if (!File.Exists(filePath)) throw new FileNotFoundException();
+			if (!File.Exists(filePath)) return;
+			// if (!File.Exists(filePath)) throw new FileNotFoundException();
 
 			sampleFileData = new SampleFileListData();
 

@@ -10,6 +10,7 @@ using AndyShared.ClassificationFileSupport;
 using WpfShared.Dialogs;
 using WpfShared.SampleData;
 using AndyShared.SampleFileSupport;
+using SettingsManager;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
@@ -31,6 +32,9 @@ namespace WpfShared.Windows
 
 	#region private fields
 
+		private WindowId winId = WindowId.DIALOG_SELECT_CLASSF_FILE;
+		private WindowManager winMgr = new WindowManager();
+
 		private ClassificationFiles cfgClsFiles = null;
 
 		private ClassificationFile selected;
@@ -40,7 +44,6 @@ namespace WpfShared.Windows
 		private SampleFile selectedSampleFile;
 
 		private ICollectionView view;
-
 
 		private Balloon b;
 
@@ -63,7 +66,11 @@ namespace WpfShared.Windows
 		{
 			InitializeComponent();
 
+			UserSettings.Admin.Read();
+
 			initialize();
+
+			initWindowLocation();
 
 		}
 
@@ -175,6 +182,13 @@ namespace WpfShared.Windows
 
 	#region private methods
 
+		private void initWindowLocation()
+		{
+			WindowLayout layout = UserSettings.Data.GetWindowLayout(winId);
+
+			winMgr.RestoreWinLayout(this, UserSettings.Data.GetWindowLayout(winId));
+		}
+
 		private void initialize()
 		{
 			cfgClsFiles = ClassificationFiles.Instance;
@@ -240,6 +254,11 @@ namespace WpfShared.Windows
 
 	#region event handeling
 
+		private void winClsFileMgr_Closing(object sender, CancelEventArgs e)
+		{
+			UserSettings.Data.SetWindowLayout(winId, winMgr.GetWinLayout(this, winId));
+		}
+
 		private int beforeIdx;
 
 		private void CbxSampleFiles_DropDownOpened(object sender, EventArgs e)
@@ -276,6 +295,8 @@ namespace WpfShared.Windows
 
 		private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
 		{
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> u = UserSettings.Admin;
+
 			selected = null;
 			DialogResult = false;
 
@@ -443,6 +464,8 @@ namespace WpfShared.Windows
 			return "this is ClassificationFileSelector";
 		}
 
-	#endregion
+		#endregion
+
+
 	}
 }

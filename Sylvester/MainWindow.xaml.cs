@@ -201,7 +201,6 @@ namespace Sylvester
 			OnPropertyChange("pm");
 		}
 
-
 		// operation buttons
 		private void BtnReadBoth_Click(object sender, RoutedEventArgs e)
 		{
@@ -236,7 +235,6 @@ namespace Sylvester
 		{
 			pm.RenameFiles();
 		}
-
 
 		// favs and history
 		private void BtnFavorites_OnClick(object sender, RoutedEventArgs e)

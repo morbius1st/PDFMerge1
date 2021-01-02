@@ -15,13 +15,9 @@ namespace PDFMerge1
 	class SelectFolder
 	{
 
-#pragma warning disable CS0414 // The field 'SelectFolder.maxFileNameLen' is assigned but its value is never used
 		private int maxFileNameLen = 0;
-#pragma warning restore CS0414 // The field 'SelectFolder.maxFileNameLen' is assigned but its value is never used
 
-#pragma warning disable CS0169 // The field 'SelectFolder.error' is never used
 		private string error;
-#pragma warning restore CS0169 // The field 'SelectFolder.error' is never used
 
 		
 		

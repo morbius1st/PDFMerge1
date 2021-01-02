@@ -163,9 +163,11 @@
     <Compile Include="Dialogs\DialogRequestValues.xaml.cs">
       <DependentUpon>DialogRequestValues.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\DialogSupport\PathChangeArgs.cs" />
     <Compile Include="SampleData\ClassfFileSelectorSampleData.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="Windows\Balloon\Balloon.cs" />
     <Compile Include="Windows\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
@@ -239,7 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".Linked\" />
-    <Folder Include="Dialogs\DialogSupport\" />
+    <Folder Include="SavedFolders\SubFolder\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>
@@ -252,6 +254,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\AODeliverable\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"</PostBuildEvent>
+copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\Felix\bin\x86\debug"</PostBuildEvent>
   </PropertyGroup>
 </Project>

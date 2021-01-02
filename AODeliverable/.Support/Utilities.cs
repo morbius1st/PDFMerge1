@@ -26,9 +26,7 @@ namespace AODeliverable.Support
 	{
 		internal static bool VerifyOutputFile(string outputPathFile)
 		{
-#pragma warning disable CS0168 // The variable 'message' is declared but never used
 			string[] message;
-#pragma warning restore CS0168 // The variable 'message' is declared but never used
 
 			if (outputPathFile == null ||
 				outputPathFile.Length < 3) return false;
@@ -48,9 +46,7 @@ namespace AODeliverable.Support
 
 						return true;
 					}
-#pragma warning disable CS0168 // The variable 'ex' is declared but never used
 					catch (Exception ex)
-#pragma warning restore CS0168 // The variable 'ex' is declared but never used
 					{
 						Program.win.AppendStatusMessage(
 							new [] {"result", "fail - file is not accessible or is open elsewhere"});
@@ -174,9 +170,7 @@ namespace AODeliverable.Support
 					return doc.GetPageNumber(dict);
 
 				}
-#pragma warning disable CS0168 // The variable 'e' is declared but never used
 				catch (Exception e)
-#pragma warning restore CS0168 // The variable 'e' is declared but never used
 				{
 					return -2;
 				}
