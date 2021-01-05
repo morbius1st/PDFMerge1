@@ -191,9 +191,9 @@
 				Orientation="Vertical">
 
 				<fr:FolderRoute
-						Height="25"
-						FontSize="12"
-						
+						Height="24"
+						FontSize="11"
+						HorizontalContentAlignment="Right"
 						/>
 
 		</StackPanel>

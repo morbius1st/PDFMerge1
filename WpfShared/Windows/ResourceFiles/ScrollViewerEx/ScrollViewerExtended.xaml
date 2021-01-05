@@ -554,7 +554,7 @@
 				>
 			<Setter Property="Width" Value="{Binding ElementName=scrollViewerExtended, Path=ScrollBarWidth, FallbackValue=18}" />
 			<Setter Property="AutomationProperties.AutomationId" Value="VerticalScrollBar" />
-			<Setter Property="MinWidth" Value="10" />
+			<Setter Property="MinWidth" Value="4" />
 			<Setter Property="Cursor" Value="Arrow" />
 			<Setter Property="Maximum" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ScrollableHeight}" />
 			<Setter Property="Minimum" Value="0" />
@@ -570,7 +570,7 @@
 				BasedOn="{StaticResource ScrollBarStyle}"
 				>
 			<Setter Property="Height" Value="{Binding ElementName=scrollViewerExtended, Path=ScrollBarWidth, FallbackValue=18}" />
-			<Setter Property="MinHeight" Value="10" />
+			<Setter Property="MinHeight" Value="4" />
 			<Setter Property="AutomationProperties.AutomationId" Value="HorizontalScrollBar" />
 			<Setter Property="Cursor" Value="Arrow" />
 			<Setter Property="Maximum" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ScrollableWidth}" />

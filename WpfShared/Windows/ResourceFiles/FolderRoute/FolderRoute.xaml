@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="fldrRoute"
+﻿<UserControl x:Name="FldrRoute"
 		x:Class="WpfShared.Windows.ResourceFiles.FolderRoute.FolderRoute"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,11 +10,12 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		mc:Ignorable="d"
 		d:DesignWidth="450"
-		d:DesignHeight="25"
+		d:DesignHeight="24"
 		>
 	<UserControl.Style>
 		<Style TargetType="UserControl">
-			<Setter Property="FontSize" Value="8" />
+			<Setter Property="FontSize" Value="11" />
+			<Setter Property="HorizontalContentAlignment" Value="Right" />
 		</Style>
 	</UserControl.Style>
 
@@ -49,11 +50,11 @@
 			<SolidColorBrush x:Key="Disabled.Border.Background" Color="#FF646464" />
 			<SolidColorBrush x:Key="Disabled.Border" Color="#FFADB2B5" />
 
-				<!-- <Setter Property="Height" Value="Auto" /> -->
-			<Style x:Key="Icon.Base"
+			<!-- <Setter Property="Height" Value="Auto" /> -->
+			<Style x:Key="Path.Base"
 					TargetType="Path"
 					>
-				<Setter Property="Margin" Value="3,1,3,1" />
+				<Setter Property="Margin" Value="0,1,7,1" />
 				<Setter Property="MaxHeight" Value="100" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="HorizontalAlignment" Value="Center" />
@@ -64,28 +65,28 @@
 			<Path x:Key="Star"
 					Data="{StaticResource Icon.Svg.Star}"
 					Fill="{StaticResource Path.Favorite.Fill}"
-					Style="{StaticResource Icon.Base}"
+					Style="{StaticResource Path.Base}"
 					/>
 
 			<Path x:Key="History"
 					Data="{StaticResource Icon.Svg.History}"
 					Fill="{StaticResource Path.History.Fill}"
-					Style="{StaticResource Icon.Base}"
+					Style="{StaticResource Path.Base}"
 					/>
 
 			<Path x:Key="Plus"
 					Data="{StaticResource Icon.Svg.Plus}"
 					Fill="{StaticResource Path.Plus.Fill}"
-					Style="{StaticResource Icon.Base}"
+					Style="{StaticResource Path.Base}"
 					/>
 
 			<Path x:Key="Arrow"
+					Margin="0,0,3,0"
 					Width="20"
-					Margin="0"
 					HorizontalAlignment="Right"
 					Data="{StaticResource Icon.Triangle.Oblique}"
 					Fill="{StaticResource Path.Arrow.Fill}"
-					Style="{StaticResource Icon.Base}"
+					Style="{StaticResource Path.Base}"
 					/>
 
 
@@ -105,33 +106,37 @@
 					TargetType="skb:SkewedButton"
 					BasedOn="{StaticResource Skb.Base}"
 					>
-
 				<Setter Property="BorderBrush" Value="{StaticResource Static.Border}" />
 				<Setter Property="BorderThickness" Value="0,0,2,0" />
+			</Style>
+
+			<Style x:Key="Tblk.Base"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="2,0,14,2" />
+				<Setter Property="HorizontalAlignment" Value="Right" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="FontSize" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=FontSize}" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="TextAlignment" Value="Right" />
 			</Style>
 
 
 
 			<TextBlock x:Key="Sptblk"
-					Margin="0"
-					Padding="4,0,10,2"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Center"
-					FontSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-														 Path=FontSize}"
-					Background="Transparent"
-					Foreground="White"
-					TextAlignment="Right"
 					Text="Empty Text Text Text"
+					Style="{StaticResource Tblk.Base}"
 					/>
 
 
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<DockPanel 
+	<DockPanel
 			Margin="0"
-			Width="{Binding ElementName=fldrRoute,
+			Width="{Binding ElementName=FldrRoute,
 											Path=ActualWidth}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
@@ -146,20 +151,19 @@
 					/>
 			<skb:SkewedButton
 					Index="-1"
-
 					Icon="{StaticResource Star}"
 					Style="{StaticResource Skb.Icon}"
-			/>
+					/>
 			<skb:SkewedButton
 					Index="-1"
 					Icon="{StaticResource History}"
 					Style="{StaticResource Skb.Icon}"
-			/>
+					/>
 			<skb:SkewedButton
 					Index="-1"
 					Icon="{StaticResource Plus}"
 					Style="{StaticResource Skb.Icon}"
-			/>
+					/>
 		</DockPanel>
 
 		<sve:ScrollViewerExtended
@@ -169,28 +173,26 @@
 				VerticalScrollBarVisibility="Hidden"
 				RepeatButtonLength="12"
 				RepeatButtonIconLength="12"
-				RepeatButtonIconGirth="8"
-				IconMarginLeft="-2,-5,-5,-5"
-				IconMarginRight="-5,-5,-3,-5"
-				ThumbWidth="6"
+				RepeatButtonIconGirth="6"
+				IconMarginLeft="0"
+				IconMarginRight="0"
+				ThumbWidth="4"
 				>
 
 			<DockPanel
-					HorizontalAlignment="Right"
+					Margin="0"
 					Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}},
 													 Path=ViewportHeight}"
-					Margin="0,0,5,0"
+					HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+																				Path=HorizontalContentAlignment,
+																				FallbackValue='Right'}"
 					>
-
 				<skb:SkewedButton
-
 						Index="-1"
 						TextBlk="{StaticResource Sptblk}"
 						Icon="{StaticResource Arrow}"
 						Style="{StaticResource Skb.Base}"
 						/>
-
-
 
 			</DockPanel>
 		</sve:ScrollViewerExtended>
