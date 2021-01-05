@@ -1,4 +1,10 @@
 ﻿#region + Using Directives
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using SettingsManager;
+using UtilityLibrary;
 
 #endregion
 
@@ -7,16 +13,6 @@
 // itemname: SavedFolderManager
 // username: jeffs
 // created:  1/20/2020 8:55:27 PM
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using SettingsManager;
-using Sylvester.FileSupport;
-using Sylvester.Process;
-// using Sylvester.Settings;
-using UtilityLibrary;
 
 namespace Sylvester.SavedFolders
 {

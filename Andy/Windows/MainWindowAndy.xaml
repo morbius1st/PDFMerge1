@@ -6,29 +6,43 @@
 		xmlns:local="clr-namespace:Andy.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
-		xmlns:res="clr-namespace:AndyResources.XamlResources"
-		xmlns:f="clr-namespace:AndyResources.XamlResources"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:custom="clr-namespace:AndyResources.XamlResources"
-		xmlns:utilityLibrary="clr-namespace:UtilityLibrary;assembly=WpfShared"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
+
 		Title="Andy - Pdf Organizer and Merger"
 		Width="1400"
 		Height="800"
 		MinWidth="1400"
 		MinHeight="800"
-		DataContext="{Binding ElementName=MainWinClsfrEd}"
+		DataContext="{Binding ElementName=MainWinAndy}"
 		mc:Ignorable="d"
 		FontFamily="Tahoma"
 		FontSize="12"
 		Background="{StaticResource Window.Background}"
 		d:UseSampleData="True"
 		>
+	<!-- xmlns:andyres="clr-namespace:AndyResources.XamlResources;assembly=WpfShared" -->
+		<!-- xmlns:f="clr-namespace:AndyResources.XamlResources" -->
+		<!-- xmlns:res="clr-namespace:AndyResources.XamlResources" -->
+		<!-- xmlns:custom="clr-namespace:AndyResources.XamlResources" -->
 	<Window.Resources>
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/XamlResources/ScrollViewerNarrow.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
+				 <ResourceDictionary Source="ResourceFiles/XamlResources/ScrollViewerNarrow.xaml" /> 
+				<ResourceDictionary Source="ResourceFiles/SVG/IconStar.xaml" />
+				<ResourceDictionary Source="ResourceFiles/SVG/IconHistory.xaml" />
+				<ResourceDictionary Source="ResourceFiles/SVG/IconPlus.xaml" />
+				<ResourceDictionary Source="ResourceFiles/SVG/IconTriangleOblique.xaml" />
+				<!-- <ResourceDictionary Source="pack://application:,,,/WpfShared;component/Windows/ResourceFiles/XamlResources/ObliqueButton.xaml" /> -->
+				<!-- <ResourceDictionary Source="pack://application:,,,/WpfShared;component/Windows/ResourceFiles/XamlResources/FolderRoute.xaml" /> -->
 
+				
+				
 			</ResourceDictionary.MergedDictionaries>
 
 			<Style x:Key="Button.Local"
@@ -73,21 +87,64 @@
 				Foreground="White"
 				/>
 
-		<f:FolderRoute x:Name="FldrRoute"
+		 <res:FolderRoute x:Name="FldrRoute" 
+		 		Grid.Column="0" 
+		 		Grid.Row="2" 
+		 		VerticalAlignment="Top" 
+		 		Height="35" 
+		 		FontBrush="White" 
+		 		TextFontSize="14" 
+		 		ObliqueButtonHeight="20.0" 
+		 		ObliqueButtonMargin="0" 
+		 		ProposedObliqueButtonType="0" 
+		 		TextMargin="0" 
+		 		res:ScrollBarAttached.ScrollBarWidth="12.0" 
+		 		res:ScrollBarAttached.TrackWidth="8.0" 
+		 		res:ScrollBarAttached.RepeatButtonLength="10.0" 
+		 		res:ScrollBarAttached.RepeatButtonIconLength="14.0" 
+		 		res:ScrollBarAttached.RepeatButtonIconGirth="10.0" 
+		 		res:ScrollBarAttached.IconMarginTop="0,0,0,0" 
+		 		res:ScrollBarAttached.IconMarginBottom="0,0,0,0" 
+		 		res:ScrollBarAttached.IconMarginLeft="0,0,0,0" 
+		 		res:ScrollBarAttached.IconMarginRight="0,0,0,0" 
+		 		 
+		 /> 
+
+		<ScrollViewer
 				Grid.Column="0"
-				Grid.Row="2"
-				VerticalAlignment="Top"
-				Height="35"
-				FontBrush="White"
-				TextFontSize="14"
-				ObliqueButtonHeight="20.0"
-				ObliqueButtonMargin="0"
-				ProposedObliqueButtonType="0"
-				TextMargin="0"
-				
-		/>
+				Grid.Row="1"
 
-
+				Width="120"
+				Height="120"
+				res:ScrollBarAttached.ScrollBarWidth="12.0"
+				res:ScrollBarAttached.TrackWidth="6.0"
+				res:ScrollBarAttached.RepeatButtonLength="10.0"
+				res:ScrollBarAttached.RepeatButtonIconLength="8.0"
+				res:ScrollBarAttached.RepeatButtonIconGirth="8.0"
+				res:ScrollBarAttached.IconMarginTop="0,0,0,0"
+				res:ScrollBarAttached.IconMarginBottom="0,0,0,0"
+				res:ScrollBarAttached.IconMarginLeft="0,0,0,0"
+				res:ScrollBarAttached.IconMarginRight="0,0,0,0"
+				ScrollViewer.HorizontalScrollBarVisibility="Visible"
+				Template="{DynamicResource ScrollViewerNarrow}"
+		>
+			<Grid>
+				<Rectangle
+						Grid.Column="0"
+						Grid.Row="0"
+						Width="20"
+						Height="160"
+						Fill="Blue"
+				/>
+				<Rectangle
+						Grid.Column="0"
+						Grid.Row="0"
+						Width="160"
+						Height="20"
+						Fill="Blue"
+				/>
+			</Grid>
+		</ScrollViewer>
 
 
 	</Grid>

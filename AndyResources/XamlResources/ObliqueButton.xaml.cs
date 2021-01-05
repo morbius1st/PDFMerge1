@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 using static AndyResources.XamlResources.ObliqueButtonType;
 
@@ -15,7 +16,10 @@ namespace AndyResources.XamlResources
 			InitializeComponent();
 		}
 
-		// index value
+		public Button Ib => InnerButton;
+
+	#region index
+
 		public static readonly DependencyProperty IndexProperty = DependencyProperty.Register(
 			"Index", typeof(int), typeof(ObliqueButton), new PropertyMetadata(-1));
 
@@ -24,6 +28,8 @@ namespace AndyResources.XamlResources
 			get => (int)GetValue(IndexProperty);
 			set => SetValue(IndexProperty, value);
 		}
+
+	#endregion
 
 		// the name of the selected folder
 		public static readonly DependencyProperty SelectedFolderProperty = DependencyProperty.Register(

@@ -3,6 +3,7 @@
 using System.Windows;
 using static UtilityLibrary.ScreenParameters;
 using SettingsManager;
+using WpfShared.SavedFolders;
 
 #endregion
 
@@ -23,10 +24,13 @@ namespace WpfShared.Windows
 	{
 	#region private fields
 
+#pragma warning disable CS0414 // The field 'WindowManager.app' is assigned but its value is never used
 		private App app = null;
+#pragma warning restore CS0414 // The field 'WindowManager.app' is assigned but its value is never used
 		private MainWindow mainWin = null;
 		private ClassificationFileSelector ClsFileMgr = null;
 		private Window1 win1 = null;
+		private SavedFoldersWin savedFolders = null;
 
 	#endregion
 
@@ -65,7 +69,7 @@ namespace WpfShared.Windows
 				}
 			case WindowId.DIALOG_SAVED_FOLDERS:
 				{
-					ShowWin1();
+					ShowSavedFolders();
 					break;
 				}
 			}
@@ -203,6 +207,12 @@ namespace WpfShared.Windows
 		{
 			win1 = new Window1();
 			win1.ShowDialog();
+		}
+		
+		private void ShowSavedFolders()
+		{
+			savedFolders = new SavedFoldersWin();
+			savedFolders.ShowDialog();
 		}
 
 	#endregion

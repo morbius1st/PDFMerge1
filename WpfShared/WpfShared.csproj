@@ -112,6 +112,81 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AndyResources\SVG\Folder-Pair-00.xaml">
+      <Link>Windows\ResourceFiles\SVG\Folder-Pair-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\Folder-project-00.xaml">
+      <Link>Windows\ResourceFiles\SVG\Folder-project-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar01.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar01.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar02.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar02.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsTree01.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsTree01.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconCheckMark.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconCheckMark.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDash.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconDash.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDelete.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconDelete.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconHistory.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconHistory.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconNot.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconNot.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconPlus.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconPlus.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconRect.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconRect.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconStar.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconStar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconTriangle.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconTriangle.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconTriangleOblique.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconTriangleOblique.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -165,10 +240,25 @@
     </Compile>
     <Compile Include="Dialogs\DialogSupport\PathChangeArgs.cs" />
     <Compile Include="SampleData\ClassfFileSelectorSampleData.cs" />
+    <Compile Include="SavedFolders\SavedFldrManager.cs" />
+    <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
+      <DependentUpon>SavedFoldersWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SavedFolders\SelectFolder.cs" />
+    <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
     <Compile Include="Windows\Balloon\Balloon.cs" />
+    <Compile Include="Windows\ResourceFiles\FolderRoute\FolderRoute.xaml.cs">
+      <DependentUpon>FolderRoute.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
+      <DependentUpon>ScrollViewerExtended.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml.cs">
+      <DependentUpon>SkewedButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -178,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\DialogRequestValues.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SavedFolders\SavedFoldersWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,6 +299,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ResourceFiles\FolderRoute\FolderRoute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ResourceFiles\XamlResources\ScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,7 +347,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".Linked\" />
-    <Folder Include="SavedFolders\SubFolder\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>
@@ -252,7 +357,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
+    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\Andy\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\AODeliverable\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\Felix\bin\x86\debug"</PostBuildEvent>

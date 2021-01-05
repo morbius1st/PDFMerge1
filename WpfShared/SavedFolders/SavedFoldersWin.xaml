@@ -1,0 +1,201 @@
+﻿<Window x:Name="SavedFolderWin"
+		x:Class="WpfShared.SavedFolders.SavedFoldersWin"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:WpfShared.SavedFolders"
+		xmlns:win="clr-namespace:WpfShared.Windows"
+		xmlns:andyres="clr-namespace:AndyResources.XamlResources"
+		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
+		xmlns:skb="clr-namespace:WpfShared.Windows.ResourceFiles.SkewedBtn"
+		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
+		Title="SavedFoldersWin"
+		Width="900"
+		Height="450"
+		mc:Ignorable="d"
+		Background="{StaticResource Window.Background}"
+		>
+	<Window.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries />
+
+			<Path x:Key="p1"
+					Margin="0"
+					Width="20"
+					Height="15"
+					HorizontalAlignment="right"
+					VerticalAlignment="Top"
+					Data="M 0,0 0,4 4,4 4,0 z"
+					Fill="Red"
+					Stretch="Uniform"
+					/>
+
+			<Path x:Key="p2"
+					Margin="0,0,5,0"
+					Width="20"
+					Height="15"
+					HorizontalAlignment="right"
+					VerticalAlignment="Center"
+					Data="M 0,0 0,4 4,4 4,0 z"
+					Fill="GreenYellow"
+					Stretch="Uniform"
+					/>
+
+			<Path x:Key="p3"
+					Margin="0,0,8,0"
+					Width="10"
+					Height="10"
+					HorizontalAlignment="right"
+					VerticalAlignment="Center"
+					Data="M 0,0 0,4 4,4 4,0 z"
+					Fill="OrangeRed"
+					Stretch="Uniform"
+					/>
+
+			<TextBlock x:Key="t1"
+					Margin="0"
+					Width="40"
+					Height="20"
+					Padding="0"
+					Background="Transparent"
+					Foreground="Black"
+					Text="Empty"
+					/>
+
+
+
+
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<Grid Margin="5,5,5,0">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*" MinWidth="240" />
+			<ColumnDefinition Width="4*" />
+			<ColumnDefinition Width="6*" MinWidth="260" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" MinHeight="40" />
+		</Grid.RowDefinitions>
+
+		<sve:ScrollViewerExtended
+				Grid.Column="0"
+				Grid.Row="0"
+				Width="150"
+				Height="150"
+				HorizontalScrollBarLocation="Bottom"
+				VerticalScrollBarLocation="right"
+				ThumbWidth="4"
+				ScrollBarWidth="8"
+				RepeatButtonLength="10"
+				RepeatButtonIconLength="10"
+				RepeatButtonIconGirth="4"
+				>
+			<Grid>
+				<Rectangle
+						Grid.Column="0"
+						Grid.Row="0"
+						Margin="50,0,0,0"
+						Width="30"
+						Height="250"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Fill="#250000ff"
+						/>
+
+				<Rectangle
+						Grid.Column="0"
+						Grid.Row="0"
+						Margin="0,50,0,0"
+						Width="250"
+						Height="30"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Fill="#25ff0000"
+						/>
+
+
+			</Grid>
+
+		</sve:ScrollViewerExtended>
+
+		<StackPanel
+				Grid.Column="1"
+				Grid.Row="0"
+				Orientation="Horizontal"
+				>
+
+			<skb:SkewedButton
+					Margin="0,0,2,0"
+					Width="80"
+					Height="20"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					BorderThickness="0,0,5,0"
+					Icon="{StaticResource p1}"
+					
+					>
+				<skb:SkewedButton.TextBlk>
+					<TextBlock
+							Margin="0"
+							Height="20"
+							Padding="0"
+							HorizontalAlignment="Center"
+							Background="Transparent"
+							Foreground="Black"
+							Text="Empty"
+							/>
+				</skb:SkewedButton.TextBlk>
+			</skb:SkewedButton>
+
+			<skb:SkewedButton
+					Height="20"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Background="DarkGreen"
+					BorderThickness="5,0,5,0"
+					BorderBrush="Blue"
+			>
+				<skb:SkewedButton.TextBlk>
+					<TextBlock
+							Margin="0"
+							Padding="0"
+							HorizontalAlignment="Center"
+							Background="Transparent"
+							Foreground="Black"
+							Text="Empty Text text text text"
+					/>
+				</skb:SkewedButton.TextBlk>
+				<skb:SkewedButton.Style>
+					<Style TargetType="skb:SkewedButton">
+						<Setter Property="Icon" Value="{StaticResource p2}"/>
+						<Style.Triggers>
+						<Trigger Property="IsChecked" Value="True">
+							<Setter Property="Icon" Value="{StaticResource p3}"/>
+						</Trigger>
+						</Style.Triggers>
+					</Style>
+				</skb:SkewedButton.Style>
+			</skb:SkewedButton>
+		</StackPanel>
+
+		<StackPanel 
+				Grid.Column="0"
+				Grid.Row="1"
+				Grid.ColumnSpan="2"
+				Orientation="Vertical">
+
+				<fr:FolderRoute
+						Height="25"
+						FontSize="12"
+						
+						/>
+
+		</StackPanel>
+	</Grid>
+</Window>

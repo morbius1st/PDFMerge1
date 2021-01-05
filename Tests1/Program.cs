@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using UtilityLibrary;
@@ -15,13 +17,37 @@ namespace Tests1
 		{
 			Program p = new Program();
 
-			p.Process();
+			p.Process2();
 
-			Console.Write("Waiting ... : ");
+			Console.Write("\nWaiting ... : ");
 			Console.ReadKey();
 
 			Environment.Exit(0);
 		}
+
+		private void Process2()
+		{
+			CultureInfo c = new CultureInfo("en-US");
+			// CultureInfo c = new CultureInfo("fr_CA");
+			decimal d = 0;
+
+			string rs = @"_balance_";
+
+			Regex r = new Regex(rs);
+
+			string test = "this is a test _balance_ substitution";
+
+			string bal = @"\" + d.ToString("c2", c);
+
+			string result = r.Replace(test, bal);
+
+			Console.WriteLine("    rs| " + rs);
+			Console.WriteLine("  test| " + test);
+			Console.WriteLine("   bal| " + bal);
+			Console.WriteLine("result| " + result);
+
+		}
+
 
 		private void Process()
 		{

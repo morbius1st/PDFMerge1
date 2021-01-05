@@ -2,7 +2,6 @@
 
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SettingsManager;
-// using Sylvester.Settings;
 using UtilityLibrary;
 
 #endregion

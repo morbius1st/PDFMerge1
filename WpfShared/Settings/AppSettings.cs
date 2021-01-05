@@ -35,6 +35,9 @@ namespace SettingsManager
 	{
 		[DataMember]
 		public string Name { get; set; } = "Andy";
+
+		[DataMember(Order = 2)]
+		public bool AllowPropertyEditing { get; set; } = false;
 	}
 
 #endregion

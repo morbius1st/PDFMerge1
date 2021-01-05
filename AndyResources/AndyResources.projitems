@@ -126,6 +126,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollBarAttached.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\Behaviors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\PathChangeArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollViewerVariable.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\XmalMarkup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRoute.xaml.cs">
       <DependentUpon>FolderRoute.xaml</DependentUpon>

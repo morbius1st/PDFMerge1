@@ -30,15 +30,16 @@
 			<Setter Property="VerticalScrollBarVisibility" Value="Visible" />
 		</Style>
 
-		<x:Static x:Key="mx"
-				Member="local:MainWindow.Items2"
-				/>
-		<x:Static x:Key="px"
-				Member="local:MainWindow.Parts2"
-				/>
-		<x:Static x:Key="dx"
-				Member="local:MainWindow.Disciplines2"
-				/>
+		<!-- <x:Static x:Key="mx" -->
+		<!-- 		Member="local:MainWindow.Items2" -->
+		<!-- 		/> -->
+		<!-- <x:Static x:Key="px" -->
+		<!-- 		Member="local:MainWindow.Parts2" -->
+		<!-- 		/> -->
+		<!-- <x:Static x:Key="dx" -->
+		<!-- 		Member="local:MainWindow.Disciplines2" -->
+		<!-- 		/> -->
+
 		<sys:Double x:Key="NaN">
 			NaN
 		</sys:Double>
@@ -1136,6 +1137,10 @@
 				TextWrapping="Wrap"
 				Style="{StaticResource tbx}"
 				/>
+
+		<!-- d:DataContext="{Binding DisciplineVue, -->
+		<!-- Mode=OneWay, -->
+		<!-- Source={StaticResource dx}}" -->
 		<DataGrid
 				Grid.Column="0"
 				Grid.Row="0"
@@ -1147,9 +1152,9 @@
 				DataContext="{Binding Disciplines.DisciplineVue,
 															ElementName=mainWin,
 															Mode=OneWay}"
-				d:DataContext="{Binding DisciplineVue,
-																Mode=OneWay,
-																Source={StaticResource dx}}"
+				d:DataContext="{Binding Disciplines.DisciplineVue,
+															ElementName=mainWin,
+															Mode=OneWay}"
 				AutoGenerateColumns="True"
 				ItemsSource="{Binding}"
 				/>
@@ -1201,7 +1206,9 @@
 				Foreground="White"
 				/>
 
-
+		<!-- d:DataContext="{Binding Items, -->
+		<!-- Mode=OneWay, -->
+		<!-- Source={StaticResource mx}}" -->
 		<DataGrid x:Name="dgId"
 				Grid.Column="0"
 				Grid.Row="1"
@@ -1212,9 +1219,8 @@
 				DataContext="{Binding SqItems.Items,
 															ElementName=mainWin,
 															Mode=OneWay}"
-				d:DataContext="{Binding Items,
-																Mode=OneWay,
-																Source={StaticResource mx}}"
+				d:DataContext="{Binding SqItems.Items,ElementName=mainWin,
+																Mode=OneWay}"
 				BorderThickness="1"
 				IsReadOnly="True"
 				IsSynchronizedWithCurrentItem="True"
@@ -1305,6 +1311,9 @@
 				Foreground="White"
 				/>
 
+		<!-- d:DataContext="{Binding PartsList, -->
+		<!-- Mode=OneWay, -->
+		<!-- Source={StaticResource px}}" -->
 		<DataGrid x:Name="dataGridB"
 				Grid.Column="0"
 				Grid.Row="2"
@@ -1315,9 +1324,9 @@
 				DataContext="{Binding Parts.PartsList,
 															ElementName=mainWin,
 															Mode=OneWay}"
-				d:DataContext="{Binding PartsList,
-																Mode=OneWay,
-																Source={StaticResource px}}"
+				d:DataContext="{Binding Parts.PartsList,
+															ElementName=mainWin,
+															Mode=OneWay}"
 				HorizontalGridLinesBrush="LightSkyBlue"
 				VerticalGridLinesBrush="LightSkyBlue"
 				IsReadOnly="True"
@@ -1466,7 +1475,9 @@
 				Click="BtnFilterClr_Click"
 				/>
 
-
+		<!-- d:DataContext="{Binding Source={StaticResource px}, -->
+		<!-- Path=PartsList, -->
+		<!-- Mode=OneWay}" -->
 
 
 		<DataGrid x:Name="DG1"
@@ -1479,9 +1490,9 @@
 				DataContext="{Binding Parts.PartsList,
 															ElementName=mainWin,
 															Mode=OneWay}"
-				d:DataContext="{Binding Source={StaticResource px},
-																Path=PartsList,
-																Mode=OneWay}"
+				d:DataContext="{Binding Parts.PartsList,
+															ElementName=mainWin,
+															Mode=OneWay}"
 				Background="Blue"
 				HorizontalGridLinesBrush="LightSkyBlue"
 				VerticalGridLinesBrush="LightSkyBlue"

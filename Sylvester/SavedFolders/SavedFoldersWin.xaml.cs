@@ -14,7 +14,6 @@ using Sylvester.SavedFolders.SubFolder;
 using Sylvester.Windows;
 using UtilityLibrary;
 
-
 /*
 purpose
 1. select favorite folders that have been saved
@@ -866,7 +865,6 @@ namespace Sylvester.SavedFolders
 
 		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 		{
-//			throw  new NotImplementedException();
 			return null;
 		}
 	}

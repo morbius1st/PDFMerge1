@@ -7,6 +7,7 @@
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:xamlResources="clr-namespace:AndyResources.XamlResources;assembly=WpfShared"
 		mc:Ignorable="d"
 		d:DesignHeight="35"
 		d:DesignWidth="350"
@@ -39,7 +40,8 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ScrollViewerNarrow.xaml" />
+
+				<!-- <ResourceDictionary Source="ScrollViewerNarrow.xaml" /> -->
 			</ResourceDictionary.MergedDictionaries>
 
 
@@ -106,6 +108,7 @@
 
 	<DockPanel x:Name="PathDockPanel"
 			Margin="0"
+
 			Width="{Binding ElementName=folderRoute,
 											Path=ActualWidth}"
 			HorizontalAlignment="Left"
@@ -169,15 +172,15 @@
 				HorizontalScrollBarVisibility="Visible"
 				VerticalScrollBarVisibility="Hidden"
 				Template="{DynamicResource ScrollViewerNarrow}"
-				local:ScrollBarAttached.ScrollBarWidth="10.0"
-				local:ScrollBarAttached.TrackWidth="6.0"
-				local:ScrollBarAttached.RepeatButtonLength="12.0"
-				local:ScrollBarAttached.RepeatButtonIconLength="12.0"
-				local:ScrollBarAttached.RepeatButtonIconGirth="8.0"
-				local:ScrollBarAttached.IconMarginTop="0,0,0,0"
-				local:ScrollBarAttached.IconMarginBottom="0,0,0,0"
-				local:ScrollBarAttached.IconMarginLeft="0,0,0,0"
-				local:ScrollBarAttached.IconMarginRight="0,0,0,0"
+				local:ScrollBarAttached.ScrollBarWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.ScrollBarWidth)}"
+				local:ScrollBarAttached.TrackWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.TrackWidth)}"
+				local:ScrollBarAttached.RepeatButtonLength="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.RepeatButtonLength)}"
+				local:ScrollBarAttached.RepeatButtonIconLength="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.RepeatButtonIconLength)}"
+				local:ScrollBarAttached.RepeatButtonIconGirth="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.RepeatButtonIconGirth)}"
+				local:ScrollBarAttached.IconMarginTop="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.IconMarginTop)}"
+				local:ScrollBarAttached.IconMarginBottom="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.IconMarginBottom)}"
+				local:ScrollBarAttached.IconMarginLeft="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.IconMarginLeft)}"
+				local:ScrollBarAttached.IconMarginRight="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FolderRoute}}, Path=(local:ScrollBarAttached.IconMarginRight)}"
 				>
 			<!--  the folder path names  -->
 			<DockPanel Name="SpPath"

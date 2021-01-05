@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,6 +69,7 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -84,6 +88,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
+      <Aliases>global</Aliases>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -105,8 +114,90 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\Behaviors.cs">
+      <Link>Windows\ResourceFiles\XamlResources\Behaviors.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\FolderRoute.xaml.cs">
+      <Link>Windows\ResourceFiles\XamlResources\FolderRoute.xaml.cs</Link>
+      <DependentUpon>FolderRoute.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ObliqueButton.xaml.cs">
+      <Link>Windows\ResourceFiles\XamlResources\ObliqueButton.xaml.cs</Link>
+      <DependentUpon>ObliqueButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ScrollBarAttached.cs">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBarAttached.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
+      <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
+    </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Page Include="..\AndyResources\SVG\IconHistory.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconHistory.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconPlus.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconPlus.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconStar.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconStar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconTriangleOblique.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconTriangleOblique.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\FolderRoute.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\FolderRoute.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ObliqueButton.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ObliqueButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBarMetrics.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBarMetrics.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollViewerNarrow.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollViewerNarrow.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MainWindowAndy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,6 +232,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -149,15 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
-    <Folder Include="Windows\ResourceFiles\XamlResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
-      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
-      <Name>WpfShared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="..\AndyResources\AndyResources.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

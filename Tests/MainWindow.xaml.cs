@@ -94,9 +94,6 @@ namespace Tests
 	{
 		public ObservableCollection<ClcomboboxBinding> comboBoxLoad = new ObservableCollection<ClcomboboxBinding>();
 
-
-
-
 		private bool doNameTest;
 
 		private string nl = System.Environment.NewLine;
@@ -107,9 +104,10 @@ namespace Tests
 
 		public static SeqPartsList Parts2 { get; set; } = new SeqPartsList();
 		public static SeqItems Items2 { get; set; } = new SeqItems();
+		public static SeqDisciplines Disciplines2 { get; set; } = SeqDisciplines.Instance;
+
 		public SeqItems SqItems { get; set; } = new SeqItems();
 		public SeqPartsList Parts { get; set; } = new SeqPartsList();
-		public static SeqDisciplines Disciplines2 { get; set; } = SeqDisciplines.Instance;
 		public SeqDisciplines Disciplines { get; set; } = SeqDisciplines.Instance;
 		public SeqTestData test { get; set; }
 

@@ -34,13 +34,14 @@
 
 			<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
 			<SolidColorBrush x:Key="Path.Favorite.Fill">OrangeRed</SolidColorBrush>
-			<SolidColorBrush x:Key="MouseOver.Foreground">White</SolidColorBrush>
-			<SolidColorBrush x:Key="Path.Arrow.Fill" Color="#999999" />
-			<SolidColorBrush x:Key="FldrRtFntBrush" Color="#FFEEEEEE" />
-			<SolidColorBrush x:Key="Background" Color="#333333" />
 			<SolidColorBrush x:Key="Path.Favorite.Fill2" Color="#FF581A" />
 			<SolidColorBrush x:Key="Path.History.Fill" Color="#00efff" />
+			<SolidColorBrush x:Key="Path.Arrow.Fill" Color="#999999" />
+			<SolidColorBrush x:Key="Background" Color="#333333" />
+
+			<SolidColorBrush x:Key="FldrRtFntBrush" Color="#FFEEEEEE" />
 			<SolidColorBrush x:Key="Button.Static.Background" Color="#444444" />
+			<SolidColorBrush x:Key="MouseOver.Foreground">White</SolidColorBrush>
 			<SolidColorBrush x:Key="MouseOver.Border.Background" Color="#FF3A779B" />
 			<SolidColorBrush x:Key="MouseOver.Border" Color="#FFC7EAFF" />
 			<SolidColorBrush x:Key="Pressed.Border.Background" Color="#FFC4E5F6" />
@@ -143,10 +144,11 @@
 
 					<StackPanel x:Name="Beginning"
 							Orientation="Horizontal"
+							VerticalAlignment="Stretch"
 							>
 						<StackPanel.Style>
 							<Style TargetType="StackPanel">
-								<Setter Property="Margin" Value="1.0,1.5,2.5,1.5" />
+								<Setter Property="Margin" Value="1.0,1.0,2.5,1.0" />
 								<Setter Property="LayoutTransform">
 									<Setter.Value>
 										<SkewTransform AngleX="0" />
@@ -168,8 +170,10 @@
 
 						<!--#region > favorites symbol-->
 
+								<!-- Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=ActualHeight}" -->
 						<Path x:Name="Star"
-								Margin="0,0,0,0"
+								Margin="0"
+								
 								Data="{DynamicResource Icon.Svg.Star}"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=FavoritesBrush,
@@ -192,8 +196,11 @@
 						<!--#endregion-->
 
 						<!--#region > history symbol-->
+								<!-- Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=ActualHeight}" -->
 						<Path x:Name="History"
 								Margin="0"
+								
+								
 								Data="{DynamicResource Icon.Svg.History}"
 								Fill="{Binding ElementName=obliqueButton,
 															 Path=HistoryBrush,
@@ -219,6 +226,7 @@
 
 
 						<!--#region > select folder symbol-->
+								<!-- Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=ActualHeight}" -->
 						<Path x:Name="Plus"
 								Margin="0"
 								Data="{DynamicResource Icon.Svg.Plus}"

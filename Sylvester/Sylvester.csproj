@@ -202,7 +202,6 @@
     <Compile Include="FileSupport\FileFinal.cs" />
     <Compile Include="FileSupport\FilesCollection.cs" />
     <Compile Include="Process\ProcessFiles.cs" />
-    <Compile Include="FolderSupport\FolderManager.cs" />
     <Compile Include="Settings\SetgMgr.cs" />
     <Compile Include="HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>

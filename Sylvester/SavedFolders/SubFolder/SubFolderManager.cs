@@ -1,17 +1,11 @@
 ﻿#region + Using Directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using SettingsManager;
 using Sylvester.FolderSupport;
 using Sylvester.Process;
-// using Sylvester.Settings;
 using Sylvester.UserControls;
 using UtilityLibrary;
 

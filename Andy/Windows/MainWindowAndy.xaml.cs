@@ -31,8 +31,8 @@ namespace Andy.Windows
 		{
 			InitializeComponent();
 
-			FldrRoute.Path = new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 flat");
-			FldrRoute.ProposedObliqueButtonType = btnType;
+			// FldrRoute.Path = new FilePath<FileNameSimple>(@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 flat");
+			// FldrRoute.ProposedObliqueButtonType = btnType;
 
 
 		}
@@ -49,7 +49,7 @@ namespace Andy.Windows
 					btnType = value;
 					OnPropertyChange();
 
-					FldrRoute.ProposedObliqueButtonType = value;
+					// FldrRoute.ProposedObliqueButtonType = value;
 				}
 			}
 		#endregion

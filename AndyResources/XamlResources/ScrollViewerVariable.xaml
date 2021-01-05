@@ -1,4 +1,4 @@
-﻿<ScrollViewerVariable:ScrollViewer
+﻿<ScrollViewer
 		x:Class="AndyResources.XamlResources.ScrollViewerVariable"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +7,10 @@
 		xmlns:custom="clr-namespace:AndyResources.XamlResources"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		mc:Ignorable="d"
+		d:DesignWidth="200"
+		d:DesignHeight="200"
+		Template="{DynamicResource ScrollVieweVariable}"
+
 		>
 	<ScrollViewer.Resources>
 
@@ -515,7 +519,7 @@
 
 
 		<ControlTemplate x:Key="ScrollVieweVariable"
-				TargetType="custom:ScrollViewerVariable"
+				TargetType="ScrollViewer"
 				>
 			<Grid x:Name="Grid"
 					Background="{TemplateBinding Background}"
@@ -550,26 +554,28 @@
 				<ScrollBar x:Name="PART_VerticalScrollBar"
 						Grid.Column="1"
 						Grid.Row="0"
-						Style="{DynamicResource ScrollBarVert}"
+						Style="{StaticResource ScrollBarVert}"
 						/>
 
 				<ScrollBar x:Name="PART_HorizontalScrollBar"
 						Grid.Column="0"
 						Grid.Row="1"
-						Style="{DynamicResource ScrollBarHoriz}"
+						Style="{StaticResource ScrollBarHoriz}"
 						/>
 
 			</Grid>
 		</ControlTemplate>
 
 	</ScrollViewer.Resources>
-
+	
+	
 	<ScrollViewer
+			x:Name="svv"
 			Width="200"
 			Height="200"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-
+	
 			HorizontalScrollBarVisibility="Visible"
 			VerticalScrollBarVisibility="Visible"
 			Template="{StaticResource ScrollVieweVariable}"
@@ -585,4 +591,4 @@
 	<!-- custom:ScrollViewerVariable.IconMarginLeft="0,0,0,0" -->
 	<!-- custom:ScrollViewerVariable.IconMarginRight="0,0,0,0" -->
 
-</ScrollViewerVariable:ScrollViewer>
+</ScrollViewer>
