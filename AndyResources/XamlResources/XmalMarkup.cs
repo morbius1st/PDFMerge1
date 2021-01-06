@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Markup;
 using System.Windows.Media;
+using UtilityLibrary;
 
 #endregion
 
@@ -132,6 +133,19 @@ namespace AndyResources.XamlResources
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			return ToBrush();
+		}
+	}
+
+	[MarkupExtensionReturnType(typeof(Int32))]
+	public class EnumToInt32 : MarkupExtension
+	{
+		public Enum e { get; set; }
+
+		public EnumToInt32() { }
+
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			return Convert.ToInt32(e);
 		}
 	}
 }

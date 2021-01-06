@@ -1,10 +1,11 @@
-﻿<ScrollViewer x:Name="scrollViewerExtended"
+﻿<ScrollViewer
 		x:Class="WpfShared.Windows.ResourceFiles.ScrollViewerEx.ScrollViewerExtended"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
+		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		mc:Ignorable="d"
 		d:DesignHeight="250"
 		d:DesignWidth="250"
@@ -29,6 +30,15 @@
 	<ScrollViewer.Resources>
 
 		<local:EnumToInt x:Key="EnumToInt" />
+		<local:EnumToInt x:Key="EnumToInt2" />
+
+		<res:EnumToInt32 x:Key="right"
+				e="{x:Static local:VertScrollBarLocation.Right}"
+				/>
+
+		<res:EnumToInt32 x:Key="bottom"
+				e="{x:Static local:HorizScrollBarLocation.Bottom}"
+				/>
 
 		<PathGeometry x:Key="Icon.Arrow.Left"
 				Figures="M 2,4 6,6 6,2  z"
@@ -230,9 +240,9 @@
 									>
 
 								<Grid.RowDefinitions>
-									<RowDefinition MaxHeight="{Binding ElementName=scrollViewerExtended, Path=RepeatButtonLength, FallbackValue=18}" />
+									<RowDefinition MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=RepeatButtonLength, FallbackValue=18}" />
 									<RowDefinition Height="0.00001*" />
-									<RowDefinition MaxHeight="{Binding ElementName=scrollViewerExtended, Path=RepeatButtonLength, FallbackValue=18}" />
+									<RowDefinition MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=RepeatButtonLength, FallbackValue=18}" />
 								</Grid.RowDefinitions>
 
 								<Border
@@ -246,21 +256,35 @@
 								<!--  FallbackValue=18}"  -->
 								<RepeatButton x:Name="PART_LineUpButton"
 										Grid.Row="0"
-										Height="{Binding ElementName=scrollViewerExtended,
+										Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																		AncestorType=ScrollViewer},
 																		 Path=RepeatButtonLength,
 																		 FallbackValue=18}"
 										Command="{x:Static ScrollBar.LineUpCommand}"
 										Style="{DynamicResource ScrollBarButton}"
 										>
 
+									<!--  Margin="{Binding ElementName=scrollViewerExtended,  -->
+									<!--  Path=IconMarginTop,  -->
+									<!--  FallbackValue='0,0,0,0'}"  -->
+									<!--  Width="{Binding ElementName=scrollViewerExtended,  -->
+									<!--  Path=RepeatButtonIconGirth,  -->
+									<!--  FallbackValue=12}"  -->
+									<!--  Height="{Binding ElementName=scrollViewerExtended,  -->
+									<!--  Path=RepeatButtonIconLength,  -->
+									<!--  FallbackValue=18}"  -->
+
 									<Path x:Name="ArrowTop"
-											Margin="{Binding ElementName=scrollViewerExtended,
+											Margin="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType=ScrollViewer},
 																			 Path=IconMarginTop,
 																			 FallbackValue='0,0,0,0'}"
-											Width="{Binding ElementName=scrollViewerExtended,
+											Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																		 AncestorType=ScrollViewer},
 																			Path=RepeatButtonIconGirth,
 																			FallbackValue=12}"
-											Height="{Binding ElementName=scrollViewerExtended,
+											Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType=ScrollViewer},
 																			 Path=RepeatButtonIconLength,
 																			 FallbackValue=18}"
 											HorizontalAlignment="Center"
@@ -296,7 +320,8 @@
 								<!--  Margin="{Binding ElementName=scrollViewerExtended, Path=IconMarginBottom, FallbackValue='0,0,0,0'}"  -->
 								<RepeatButton x:Name="PART_LineDownButton"
 										Grid.Row="2"
-										Height="{Binding ElementName=scrollViewerExtended,
+										Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																		AncestorType=ScrollViewer},
 																		 Path=RepeatButtonLength,
 																		 FallbackValue=18}"
 										Command="{x:Static ScrollBar.LineDownCommand}"
@@ -304,13 +329,16 @@
 										>
 
 									<Path x:Name="ArrowBottom"
-											Margin="{Binding ElementName=scrollViewerExtended,
+											Margin="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType=ScrollViewer},
 																			 Path=IconMarginBottom,
 																			 FallbackValue='0,0,0,0'}"
-											Width="{Binding ElementName=scrollViewerExtended,
+											Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																		 AncestorType=ScrollViewer},
 																			Path=RepeatButtonIconGirth,
 																			FallbackValue=12}"
-											Height="{Binding ElementName=scrollViewerExtended,
+											Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			AncestorType=ScrollViewer},
 																			 Path=RepeatButtonIconLength,
 																			 FallbackValue=18}"
 											HorizontalAlignment="Center"
@@ -400,9 +428,9 @@
 											SnapsToDevicePixels="true"
 											>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition MaxWidth="{Binding ElementName=scrollViewerExtended, Path=RepeatButtonLength, FallbackValue=18}" />
+											<ColumnDefinition MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=RepeatButtonLength, FallbackValue=18}" />
 											<ColumnDefinition Width="0.00001*" />
-											<ColumnDefinition MaxWidth="{Binding ElementName=scrollViewerExtended, Path=RepeatButtonLength, FallbackValue=18}" />
+											<ColumnDefinition MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=RepeatButtonLength, FallbackValue=18}" />
 										</Grid.ColumnDefinitions>
 
 										<Border
@@ -413,20 +441,24 @@
 
 										<RepeatButton x:Name="PART_LineLeftButton"
 												Grid.Column="0"
-												Width="{Binding ElementName=scrollViewerExtended,
+												Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			 AncestorType=ScrollViewer},
 																				Path=RepeatButtonLength,
 																				FallbackValue=18}"
 												Command="{x:Static ScrollBar.LineLeftCommand}"
 												Style="{DynamicResource ScrollBarButton}"
 												>
 											<Path x:Name="ArrowLeft"
-													Margin="{Binding ElementName=scrollViewerExtended,
+													Margin="{Binding RelativeSource={RelativeSource FindAncestor,
+																																					AncestorType=ScrollViewer},
 																					 Path=IconMarginLeft,
 																					 FallbackValue='0,0,0,0'}"
-													Width="{Binding ElementName=scrollViewerExtended,
+													Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																				 AncestorType=ScrollViewer},
 																					Path=RepeatButtonIconLength,
 																					FallbackValue=18}"
-													Height="{Binding ElementName=scrollViewerExtended,
+													Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																					AncestorType=ScrollViewer},
 																					 Path=RepeatButtonIconGirth,
 																					 FallbackValue=12}"
 													HorizontalAlignment="Left"
@@ -461,20 +493,24 @@
 
 										<RepeatButton x:Name="PART_LineRightButton"
 												Grid.Column="2"
-												Width="{Binding ElementName=scrollViewerExtended,
+												Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																			 AncestorType=ScrollViewer},
 																				Path=RepeatButtonLength,
 																				FallbackValue=18}"
 												Command="{x:Static ScrollBar.LineRightCommand}"
 												Style="{DynamicResource ScrollBarButton}"
 												>
 											<Path x:Name="ArrowRight"
-													Margin="{Binding ElementName=scrollViewerExtended,
+													Margin="{Binding RelativeSource={RelativeSource FindAncestor,
+																																					AncestorType=ScrollViewer},
 																					 Path=IconMarginRight,
 																					 FallbackValue='0,0,0,0'}"
-													Width="{Binding ElementName=scrollViewerExtended,
+													Width="{Binding RelativeSource={RelativeSource FindAncestor,
+																																				 AncestorType=ScrollViewer},
 																					Path=RepeatButtonIconLength,
 																					FallbackValue=18}"
-													Height="{Binding ElementName=scrollViewerExtended,
+													Height="{Binding RelativeSource={RelativeSource FindAncestor,
+																																					AncestorType=ScrollViewer},
 																					 Path=RepeatButtonIconGirth,
 																					 FallbackValue=12}"
 													HorizontalAlignment="Right"
@@ -552,7 +588,7 @@
 				TargetType="ScrollBar"
 				BasedOn="{StaticResource ScrollBarStyle}"
 				>
-			<Setter Property="Width" Value="{Binding ElementName=scrollViewerExtended, Path=ScrollBarWidth, FallbackValue=18}" />
+			<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=ScrollBarWidth, FallbackValue=18}" />
 			<Setter Property="AutomationProperties.AutomationId" Value="VerticalScrollBar" />
 			<Setter Property="MinWidth" Value="4" />
 			<Setter Property="Cursor" Value="Arrow" />
@@ -569,7 +605,7 @@
 				TargetType="ScrollBar"
 				BasedOn="{StaticResource ScrollBarStyle}"
 				>
-			<Setter Property="Height" Value="{Binding ElementName=scrollViewerExtended, Path=ScrollBarWidth, FallbackValue=18}" />
+			<Setter Property="Height" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}, Path=ScrollBarWidth, FallbackValue=18}" />
 			<Setter Property="MinHeight" Value="4" />
 			<Setter Property="AutomationProperties.AutomationId" Value="HorizontalScrollBar" />
 			<Setter Property="Cursor" Value="Arrow" />
@@ -587,7 +623,7 @@
 				TargetType="ScrollViewer"
 				>
 			<Grid x:Name="Grid"
-					Background="{TemplateBinding Background}"
+					Background="Transparent"
 					>
 
 				<Grid.ColumnDefinitions>
@@ -601,15 +637,32 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
+				<Rectangle
+						Grid.Column="1"
+						Grid.Row="1"
+						Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}},
+													 Path=Background,
+													 TargetNullValue='Transparent'}"
+						RenderTransformOrigin="1,1"
+						>
+					<Rectangle.RenderTransform>
+						<SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=BackgroundSkewAngle, FallbackValue='0.0'}" />
+					</Rectangle.RenderTransform>
+
+				</Rectangle>
+
+				<!--  FallbackValue={x:Static local:VertScrollBarLocation.Right}}"  -->
 				<Rectangle x:Name="Corner"
-						Grid.Column="{Binding ElementName=scrollViewerExtended,
+						Grid.Column="{Binding RelativeSource={RelativeSource FindAncestor,
+																																 AncestorType=ScrollViewer},
 																	Path=VerticalScrollBarLocation,
 																	Converter={StaticResource EnumToInt},
-																	FallbackValue={x:Static local:VertScrollBarLocation.Right}}"
-						Grid.Row="{Binding ElementName=scrollViewerExtended,
+																	FallbackValue={StaticResource right}}"
+						Grid.Row="{Binding RelativeSource={RelativeSource FindAncestor,
+																															AncestorType=ScrollViewer},
 															 Path=HorizontalScrollBarLocation,
 															 Converter={StaticResource EnumToInt},
-															 FallbackValue={x:Static local:HorizScrollBarLocation.Bottom}}"
+															 FallbackValue={StaticResource bottom}}"
 						Fill="{DynamicResource ScrollBar.Static.Background}"
 						/>
 
@@ -626,7 +679,8 @@
 
 				<!--  FallbackValue={x:Static local:VertScrollBarLocation.Right}}"  -->
 				<ScrollBar x:Name="PART_VerticalScrollBar"
-						Grid.Column="{Binding ElementName=scrollViewerExtended,
+						Grid.Column="{Binding RelativeSource={RelativeSource FindAncestor,
+																																 AncestorType=ScrollViewer},
 																	Path=VerticalScrollBarLocation,
 																	Converter={StaticResource EnumToInt},
 																	FallbackValue=2}"
@@ -637,7 +691,8 @@
 				<!--  FallbackValue={x:Static local:HorizScrollBarLocation.Bottom}}"  -->
 				<ScrollBar x:Name="PART_HorizontalScrollBar"
 						Grid.Column="1"
-						Grid.Row="{Binding ElementName=scrollViewerExtended,
+						Grid.Row="{Binding RelativeSource={RelativeSource FindAncestor,
+																															AncestorType=ScrollViewer},
 															 Path=HorizontalScrollBarLocation,
 															 Converter={StaticResource EnumToInt},
 															 FallbackValue=2}"

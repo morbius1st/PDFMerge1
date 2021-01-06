@@ -16,11 +16,8 @@ using System.Windows.Shapes;
 
 namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 {
-
 	public partial class SkewedButton : Button
 	{
-
-
 		public SkewedButton()
 		{
 			InitializeComponent();
@@ -51,7 +48,22 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 
 		 */
 
-		#region IsChecked
+
+	#region ButtonSkewAngle
+
+		public static readonly DependencyProperty ButtonSkewAngleProperty = DependencyProperty.Register(
+			"ButtonSkewAngle", typeof(double), typeof(SkewedButton), new PropertyMetadata(20.0));
+
+		public double ButtonSkewAngle
+		{
+			get => (double) GetValue(ButtonSkewAngleProperty);
+			set => SetValue(ButtonSkewAngleProperty, value);
+		}
+
+	#endregion
+
+
+	#region IsChecked
 
 		public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(
 			"IsChecked", typeof(bool), typeof(SkewedButton), new PropertyMetadata(default(bool)));
@@ -65,7 +77,6 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 	#endregion
 
 
-
 	#region index
 
 		public static readonly DependencyProperty IndexProperty = DependencyProperty.Register(
@@ -73,7 +84,7 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 
 		public int Index
 		{
-			get => (int)GetValue(IndexProperty);
+			get => (int) GetValue(IndexProperty);
 			set => SetValue(IndexProperty, value);
 		}
 
@@ -91,7 +102,6 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 		}
 
 	#endregion
-
 
 
 	#region TextBlk
@@ -122,6 +132,5 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 		}
 
 	#endregion
-
 	}
 }

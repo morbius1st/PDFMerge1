@@ -30,6 +30,19 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 			InitializeComponent();
 		}
 
+	#region BackgroundSkewAngle
+
+		public static readonly DependencyProperty BackgroundSkewAngleProperty = DependencyProperty.Register(
+			"BackgroundSkewAngle", typeof(Double), typeof(ScrollViewerExtended), new PropertyMetadata(0.0));
+
+		public Double BackgroundSkewAngle
+		{
+			get => (Double) GetValue(BackgroundSkewAngleProperty);
+			set => SetValue(BackgroundSkewAngleProperty, value);
+		}
+
+	#endregion
+
 
 	#region VerticalScrollBarLocation
 
@@ -44,7 +57,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "HorizontalScrollBarLocation
+	#region HorizontalScrollBarLocation
 
 		public static readonly DependencyProperty HorizontalScrollBarLocationProperty = DependencyProperty.Register(
 			"HorizontalScrollBarLocation", typeof(HorizScrollBarLocation), typeof(ScrollViewerExtended), new PropertyMetadata(Bottom));
@@ -57,7 +70,6 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 		
-
 	#region ScrollBarWidth
 
 		public static readonly DependencyProperty ScrollBarWidthProperty = DependencyProperty.Register(
@@ -71,7 +83,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "ThumbWidth
+	#region ThumbWidth
 
 		public static readonly DependencyProperty ThumbWidthProperty = DependencyProperty.Register(
 			"ThumbWidth", typeof(double), typeof(ScrollViewerExtended), new PropertyMetadata(4.0));
@@ -84,7 +96,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "RepeatButtonLength
+	#region RepeatButtonLength
 
 		public static readonly DependencyProperty RepeatButtonLengthProperty = DependencyProperty.Register(
 			"RepeatButtonLength", typeof(double), typeof(ScrollViewerExtended), new PropertyMetadata(8.0));
@@ -97,7 +109,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "RepeatButtonIconLength
+	#region RepeatButtonIconLength
 
 		public static readonly DependencyProperty RepeatButtonIconLengthProperty = DependencyProperty.Register(
 			"RepeatButtonIconLength", typeof(double), typeof(ScrollViewerExtended), new PropertyMetadata(8.0));
@@ -110,7 +122,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "RepeatButtonIconGirth
+	#region RepeatButtonIconGirth
 
 		public static readonly DependencyProperty RepeatButtonIconGirthProperty = DependencyProperty.Register(
 			"RepeatButtonIconGirth", typeof(double), typeof(ScrollViewerExtended), new PropertyMetadata(6.0));
@@ -123,7 +135,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "IconMarginTop
+	#region IconMarginTop
 
 		public static readonly DependencyProperty IconMarginTopProperty = DependencyProperty.Register(
 			"IconMarginTop", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
@@ -136,7 +148,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "IconMarginBottom
+	#region IconMarginBottom
 
 		public static readonly DependencyProperty IconMarginBottomProperty = DependencyProperty.Register(
 			"IconMarginBottom", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
@@ -149,7 +161,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "IconMarginLeft
+	#region IconMarginLeft
 
 		public static readonly DependencyProperty IconMarginLeftProperty = DependencyProperty.Register(
 			"IconMarginLeft", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
@@ -162,7 +174,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
-	#region "IconMarginRight
+	#region IconMarginRight
 
 		public static readonly DependencyProperty IconMarginRightProperty = DependencyProperty.Register(
 			"IconMarginRight", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));

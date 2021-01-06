@@ -24,5 +24,22 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 		{
 			InitializeComponent();
 		}
+
+
+	#region SkewAngle
+
+		public static readonly DependencyProperty SkewAngleProperty = DependencyProperty.Register(
+			"SkewAngle", typeof(double), typeof(FolderRoute), new PropertyMetadata(20.0));
+
+		public double SkewAngle
+		{
+			get => (double) GetValue(SkewAngleProperty);
+			set => SetValue(SkewAngleProperty, value);
+		}
+
+	#endregion
+
+
+
 	}
 }
