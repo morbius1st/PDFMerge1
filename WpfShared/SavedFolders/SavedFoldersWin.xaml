@@ -69,28 +69,30 @@
 					Text="Empty"
 					/>
 
-			<skb:SkewedButton x:Key="skb"
-					Margin="0,0,2,0"
-					Width="80"
-					Height="20"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Top"
-					BorderThickness="0,0,5,0"
-					ButtonSkewAngle="20.0"
-					Icon="{StaticResource p1}"
-					>
-				<skb:SkewedButton.TextBlk>
-					<TextBlock
-							Margin="0"
-							Height="20"
-							Padding="0"
-							HorizontalAlignment="Center"
-							Background="Transparent"
-							Foreground="Black"
-							Text="Empty"
-							/>
-				</skb:SkewedButton.TextBlk>
-			</skb:SkewedButton>
+			<DataTemplate x:Key="ctx">
+				<skb:SkewedButton
+						Margin="0,0,2,0"
+						Width="80"
+						Height="20"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						BorderThickness="0,0,5,0"
+						ButtonSkewAngle="20.0"
+						Icon="{StaticResource p1}">
+					<skb:SkewedButton.TextBlk>
+						<TextBlock
+								Margin="0"
+								Height="20"
+								Padding="0"
+								HorizontalAlignment="Center"
+								Background="Transparent"
+								Foreground="Black"
+								Text="Empty" />
+					</skb:SkewedButton.TextBlk>
+				</skb:SkewedButton>
+			</DataTemplate>
+
+
 
 			<DockPanel x:Key="dp"
 					x:Shared="False"
@@ -138,7 +140,6 @@
 								/>
 					</skb:SkewedButton.TextBlk>
 				</skb:SkewedButton>
-
 			</DockPanel>
 
 
@@ -287,6 +288,7 @@
 
 			<fr:FolderRoute
 					
+					ContentTemplate="{StaticResource ctx}"
 					Content="{StaticResource dp}"
 					Height="24"
 					HorizontalContentAlignment="Right"

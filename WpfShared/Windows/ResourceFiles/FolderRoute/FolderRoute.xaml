@@ -11,12 +11,12 @@
 		mc:Ignorable="d"
 		d:DesignWidth="450"
 		d:DesignHeight="24"
-		Template="{DynamicResource CtFolderRoute}"
 		>
 	<UserControl.Style>
 		<Style TargetType="UserControl">
 			<Setter Property="FontSize" Value="11" />
 			<Setter Property="HorizontalContentAlignment" Value="Right" />
+
 		</Style>
 	</UserControl.Style>
 
@@ -55,7 +55,8 @@
 
 			<!-- <Setter Property="Height" Value="Auto" /> -->
 			<Style x:Key="Path.Base"
-					TargetType="Path" x:Shared='False'
+					TargetType="Path"
+					x:Shared="False"
 					>
 				<Setter Property="Margin" Value="0,1,7,1" />
 				<Setter Property="MaxHeight" Value="100" />
@@ -133,8 +134,8 @@
 					Text="Sptblk"
 					Style="{StaticResource Tblk.Base}"
 					/>
-			<!-- HorizontalAlignment="{Binding ElementName=FldrRoute, Path=HorizontalContentAlignment, FallbackValue='Right', TargetNullValue='Right'}" -->
-			<ContentControl x:Key="CcFolderPath" >
+			<!--  HorizontalAlignment="{Binding ElementName=FldrRoute, Path=HorizontalContentAlignment, FallbackValue='Right', TargetNullValue='Right'}"  -->
+			<ContentControl x:Key="CcFolderPath">
 				<DockPanel x:Name="DpFolderPath"
 						Margin="0"
 						HorizontalAlignment="Right"
@@ -150,78 +151,83 @@
 
 			</ContentControl>
 
-			<ControlTemplate x:Key="CtFolderRoute">
-
-				<DockPanel
-						Margin="0"
-						Width="{Binding ElementName=FldrRoute,
-														Path=ActualWidth}"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center"
-						>
-
-					<DockPanel x:Name="DpControlButtons"
-							DockPanel.Dock="Left"
-							>
-						<Rectangle
-								Width="Auto"
-								Height="{DynamicResource Horiz.ScrollBar.Height}"
-								Fill="Transparent"
-								DockPanel.Dock="Bottom"
-								/>
-						<skb:SkewedButton
-								Index="-1"
-								Icon="{StaticResource Star}"
-								Style="{DynamicResource Skb.Icon}"
-								/>
-						<skb:SkewedButton
-								Index="-1"
-								Icon="{StaticResource History}"
-								Style="{DynamicResource Skb.Icon}"
-								/>
-						<skb:SkewedButton
-								Index="-1"
-								Icon="{StaticResource Plus}"
-								Style="{DynamicResource Skb.Icon}"
-								/>
-					</DockPanel>
-
-					<sve:ScrollViewerExtended
-							Margin="0,0,0,0"
-							Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-																	 Path=Background,
-																	 FallbackValue='Transparent'}"
-							DockPanel.Dock="Right"
-							ScrollBarWidth="{StaticResource Horiz.ScrollBar.Height}"
-							VerticalScrollBarVisibility="Hidden"
-							RepeatButtonLength="12"
-							RepeatButtonIconLength="12"
-							RepeatButtonIconGirth="6"
-							IconMarginLeft="0"
-							IconMarginRight="0"
-							ThumbWidth="4"
-							BackgroundSkewAngle="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-																						Path=SkewAngle,
-																						FallbackValue='20.0'}"
-							>
-						<DockPanel
-								Margin="0"
-								Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}},
-																 Path=ViewportHeight}"
-								HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-																							Path=HorizontalContentAlignment,
-																							FallbackValue='Right'}"
-								>
-							<ContentControl Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Content, TargetNullValue={StaticResource CcFolderPath}}" />
-
-						</DockPanel>
-
-					</sve:ScrollViewerExtended>
-
-				</DockPanel>
-			</ControlTemplate>
 
 		</ResourceDictionary>
 	</UserControl.Resources>
-	
+
+	<!-- <ControlTemplate x:Key="CtFolderRoute"> -->
+
+	<DockPanel
+			x:Name="Dpx"
+			Margin="0"
+			Width="{Binding ElementName=FldrRoute,
+											Path=ActualWidth}"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			>
+
+		<DockPanel x:Name="DpControlButtons"
+				DockPanel.Dock="Left"
+				>
+			<Rectangle
+					Width="Auto"
+					Height="{DynamicResource Horiz.ScrollBar.Height}"
+					Fill="Transparent"
+					DockPanel.Dock="Bottom"
+					/>
+			<skb:SkewedButton
+					Index="-1"
+					Icon="{StaticResource Star}"
+					Style="{DynamicResource Skb.Icon}"
+					/>
+			<skb:SkewedButton
+					Index="-1"
+					Icon="{StaticResource History}"
+					Style="{DynamicResource Skb.Icon}"
+					/>
+			<skb:SkewedButton
+					Index="-1"
+					Icon="{StaticResource Plus}"
+					Style="{DynamicResource Skb.Icon}"
+					/>
+		</DockPanel>
+
+				<!-- Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, -->
+				<!-- 										 Path=Background, -->
+				<!-- 										 FallbackValue='Transparent'}" -->
+		<sve:ScrollViewerExtended
+				Margin="0,0,0,0"
+				DockPanel.Dock="Right"
+				ScrollBarWidth="{StaticResource Horiz.ScrollBar.Height}"
+				VerticalScrollBarVisibility="Hidden"
+				RepeatButtonLength="12"
+				RepeatButtonIconLength="12"
+				RepeatButtonIconGirth="6"
+				IconMarginLeft="0"
+				IconMarginRight="0"
+				ThumbWidth="4"
+				>
+				<!-- BackgroundSkewAngle="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, -->
+				<!-- 															Path=SkewAngle, -->
+				<!-- 															FallbackValue='20.0'}" -->
+			<DockPanel
+					Margin="0"
+					Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}},
+													 Path=ViewportHeight}"
+					HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+																				Path=HorizontalContentAlignment,
+																				FallbackValue='Right'}"
+					>
+				<ContentControl Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Template}"/>
+			
+			</DockPanel>
+
+		</sve:ScrollViewerExtended>
+
+	</DockPanel>
+
+
+	<!-- </ControlTemplate> -->
+
+
 </UserControl>
