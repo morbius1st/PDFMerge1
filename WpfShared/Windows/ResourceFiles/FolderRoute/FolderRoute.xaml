@@ -1,6 +1,7 @@
 ﻿<UserControl x:Name="FldrRoute"
 		x:Class="WpfShared.Windows.ResourceFiles.FolderRoute.FolderRoute"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:opts="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +9,7 @@
 		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
 		xmlns:skb="clr-namespace:WpfShared.Windows.ResourceFiles.SkewedBtn"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		mc:Ignorable="d"
+		mc:Ignorable="d opts"
 		d:DesignWidth="450"
 		d:DesignHeight="24"
 		Template="{DynamicResource CtFolderRoute}"
@@ -133,8 +134,7 @@
 					Text="Sptblk"
 					Style="{StaticResource Tblk.Base}"
 					/>
-			<!-- HorizontalAlignment="{Binding ElementName=FldrRoute, Path=HorizontalContentAlignment, FallbackValue='Right', TargetNullValue='Right'}" -->
-			<ContentControl x:Key="CcFolderPath" >
+			<DataTemplate x:Key="CcFolderPath" >
 				<DockPanel x:Name="DpFolderPath"
 						Margin="0"
 						HorizontalAlignment="Right"
@@ -148,9 +148,11 @@
 
 				</DockPanel>
 
-			</ContentControl>
+			</DataTemplate>
 
-			<ControlTemplate x:Key="CtFolderRoute">
+			<ControlTemplate 
+
+					x:Key="CtFolderRoute">
 
 				<DockPanel
 						Margin="0"
@@ -212,7 +214,9 @@
 																							Path=HorizontalContentAlignment,
 																							FallbackValue='Right'}"
 								>
-							<ContentControl Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Content, TargetNullValue={StaticResource CcFolderPath}}" />
+							<ContentControl 
+									ContentTemplate	="{Binding RelativeSource={RelativeSource FindAncestor, 
+							AncestorType=UserControl}, Path=ContentTemplate, TargetNullValue={StaticResource CcFolderPath}}" />
 
 						</DockPanel>
 

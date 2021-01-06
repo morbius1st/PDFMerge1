@@ -91,8 +91,10 @@
 					Background="Transparent"
 					SnapsToDevicePixels="True"
 					>
+						<!-- Background="{TemplateBinding Background}" -->
 				<Border x:Name="border"
-						Background="{TemplateBinding Background}"
+						Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}}, 
+						Path=Background, FallbackValue=white}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						RenderTransformOrigin="1,1"
@@ -125,10 +127,10 @@
 					<Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
 					<Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
 				</Trigger>
-				<Trigger Property="IsPressed" Value="True">
-					<Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
-					<Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
-				</Trigger>
+				<!-- <Trigger Property="IsPressed" Value="True"> -->
+				<!-- 	<Setter TargetName="border" Property="Background" Value="#FFC4E5F6" /> -->
+				<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" /> -->
+				<!-- </Trigger> -->
 				<Trigger Property="ToggleButton.IsChecked" Value="True">
 					<Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
 					<Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />

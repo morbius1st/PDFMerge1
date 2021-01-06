@@ -31,7 +31,7 @@ namespace WpfShared
 			Initalize();
 
 			// StartWin(WindowId.DIALOG_SELECT_CLASSF_FILE);
-			StartWin(WindowId.DIALOG_SAVED_FOLDERS);
+			StartWin(WindowId.WINDOW1);
 		}
 
 		private static void Initalize()

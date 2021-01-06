@@ -15,6 +15,7 @@ namespace WpfShared.Windows
 	public enum WindowId
 	{
 		WINDOW_MAIN = 0,
+		WINDOW1,
 		DIALOG_SAVED_FOLDERS,
 		DIALOG_SELECT_CLASSF_FILE,
 		COUNT
@@ -60,6 +61,11 @@ namespace WpfShared.Windows
 			case WindowId.WINDOW_MAIN:
 				{
 					ShowMainWindow();
+					break;
+				}
+			case WindowId.WINDOW1:
+				{
+					ShowWindow1();
 					break;
 				}
 			case WindowId.DIALOG_SELECT_CLASSF_FILE:
@@ -195,6 +201,13 @@ namespace WpfShared.Windows
 			// app.Run(mainWin);
 			mainWin = new MainWindow();
 			mainWin.ShowDialog();
+		}
+		
+		private void ShowWindow1()
+		{
+			// app.Run(mainWin);
+			win1 = new Window1();
+			win1.ShowDialog();
 		}
 
 		private void ShowClassificationFileManager()
