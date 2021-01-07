@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,11 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 
 		 */
 
+
+		private void SkewedButton_Action()
+		{
+
+		}
 
 	#region ButtonSkewAngle
 
@@ -132,5 +138,17 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 		}
 
 	#endregion
+
+		private void SkewedButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("Skb clicked");
+		}
+	}
+
+	public class SomeClass
+	{
+		public Action MyAction { get; set; }
+
+
 	}
 }

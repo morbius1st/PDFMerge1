@@ -12,21 +12,29 @@
 		ContentTemplate="{DynamicResource DataTemplate}"
 		Template="{DynamicResource ControlTemplate}"
 		>
+	<!--  Click="SkewedButton_OnClick"  -->
 
 	<Button.Resources>
+
+		<!-- <SolidColorBrush x:Key="MouseOver.Foreground" Color="White"/> -->
+		<!-- <SolidColorBrush x:Key="MouseOver.Border.Background" Color="#FF3A779B" /> -->
+		<!-- <SolidColorBrush x:Key="MouseOver.Border" Color="#FFC7EAFF" /> -->
+		<!-- <SolidColorBrush x:Key="Pressed.Border.Background" Color="#FFC4E5F6" /> -->
+		<!-- <SolidColorBrush x:Key="Pressed.Border" Color="#FF2C628B" /> -->
+
+		<SolidColorBrush x:Key="Disabled.Background" Color="#FF646464" />
+		<SolidColorBrush x:Key="Disabled.Border" Color="#FFADB2B5" />
 
 		<!--  default style  -->
 		<Style TargetType="Button">
 			<Setter Property="BorderThickness" Value="0" />
 			<Setter Property="BorderBrush" Value="Transparent" />
-
+			<Setter Property="Width" Value="50"></Setter>
 		</Style>
 
 		<Style TargetType="local:SkewedButton">
 			<Setter Property="ButtonSkewAngle" Value="20" />
 		</Style>
-
-		<!-- <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight, FallbackValue='10'}"/> -->
 
 		<Path x:Key="p"
 				Margin="0"
@@ -85,28 +93,26 @@
 				TargetType="{x:Type Button}"
 				>
 
-			<!--  Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}},  -->
-			<!--  Path=ActualHeight}"  -->
 			<Grid
+					x:Name="skbgrid"
 					Background="Transparent"
 					SnapsToDevicePixels="True"
 					>
-						<!-- Background="{TemplateBinding Background}" -->
+
 				<Border x:Name="border"
-						Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}}, 
-						Path=Background, FallbackValue=white}"
+						Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}},
+																 Path=Background,
+																 FallbackValue=white}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						RenderTransformOrigin="1,1"
 						>
 					<Border.RenderTransform>
-						<SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}}, 
-								Path=ButtonSkewAngle, FallbackValue='20.0'}" />
+						<SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}}, Path=ButtonSkewAngle, FallbackValue='20.0', TargetNullValue='20.0'}" />
 					</Border.RenderTransform>
 				</Border>
-				<!--  <SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}}  -->
 
-				<ContentPresenter x:Name="contentPresenter"
+				<ContentPresenter x:Name="skbcontentPresenter"
 						Content="{TemplateBinding Content}"
 						Margin="{TemplateBinding Padding}"
 						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -123,22 +129,17 @@
 				<Trigger Property="IsDefaulted" Value="True">
 					<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 				</Trigger>
-				<Trigger Property="IsMouseOver" Value="True">
+				<MultiTrigger>
+					<MultiTrigger.Conditions>
+						<Condition Property="IsMouseOver" Value="true"/>
+						<Condition Property="IsPressed" Value="False"/>
+					</MultiTrigger.Conditions>
 					<Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
 					<Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
-				</Trigger>
-				<!-- <Trigger Property="IsPressed" Value="True"> -->
-				<!-- 	<Setter TargetName="border" Property="Background" Value="#FFC4E5F6" /> -->
-				<!-- 	<Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" /> -->
-				<!-- </Trigger> -->
-				<Trigger Property="ToggleButton.IsChecked" Value="True">
-					<Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
-					<Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
-				</Trigger>
+				</MultiTrigger>
 				<Trigger Property="IsEnabled" Value="False">
-					<Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
-					<Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
-					<Setter Property="Foreground" Value="#FF838383" />
+					<Setter TargetName="border" Property="Background" Value="{StaticResource Disabled.Background}" />
+					<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Disabled.Border}" />
 				</Trigger>
 			</ControlTemplate.Triggers>
 		</ControlTemplate>

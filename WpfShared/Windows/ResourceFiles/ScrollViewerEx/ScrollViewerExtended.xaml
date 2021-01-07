@@ -616,8 +616,6 @@
 			<Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ComputedHorizontalScrollBarVisibility}" />
 			<Setter Property="Value" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=HorizontalOffset, Mode=OneWay}" />
 		</Style>
-		<!-- <Setter Property="Background" Value="{StaticResource ScrollBar.Static.Background}" /> -->
-
 
 		<ControlTemplate x:Key="ScrollViewerNarrow"
 				TargetType="ScrollViewer"
@@ -646,7 +644,8 @@
 						RenderTransformOrigin="1,1"
 						>
 					<Rectangle.RenderTransform>
-						<SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=BackgroundSkewAngle, FallbackValue='0.0'}" />
+						<SkewTransform AngleX="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, 
+						Path=BackgroundSkewAngle, FallbackValue='0.0', TargetNullValue='0.0'}" />
 					</Rectangle.RenderTransform>
 
 				</Rectangle>

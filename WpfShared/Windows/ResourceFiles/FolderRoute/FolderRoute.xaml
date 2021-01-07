@@ -1,8 +1,8 @@
 ﻿<UserControl x:Name="FldrRoute"
 		x:Class="WpfShared.Windows.ResourceFiles.FolderRoute.FolderRoute"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:opts="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:opts="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
@@ -31,32 +31,28 @@
 				<ResourceDictionary Source="../SVG/IconTriangleOblique.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-
 			<sys:Double x:Key="Horiz.ScrollBar.Height">8.0</sys:Double>
 			<sys:Double x:Key="Skew.Angle">20.0</sys:Double>
 
-			<SolidColorBrush x:Key="Path.Plus.Fill">Lime</SolidColorBrush>
-			<SolidColorBrush x:Key="Path.Favorite.Fill">OrangeRed</SolidColorBrush>
-			<SolidColorBrush x:Key="Path.History.Fill" Color="#00efff" />
-			<SolidColorBrush x:Key="Path.Arrow.Fill" Color="#999999" />
+			<SolidColorBrush x:Key="Path.Plus.Fill">#FF00FF00</SolidColorBrush>
+			<SolidColorBrush x:Key="Path.Plus.Fill.Disabled">#8A00FF00</SolidColorBrush>
 
-			<SolidColorBrush x:Key="FldrRtFntBrush" Color="#FFEEEEEE" />
+			<SolidColorBrush x:Key="Path.Favorite.Fill">#FFFF4500</SolidColorBrush>
+			<SolidColorBrush x:Key="Path.Favorite.Fill.Disabled">#8AFF4500</SolidColorBrush>
+
+			<SolidColorBrush x:Key="Path.History.Fill" Color="#00EFFF" />
+			<SolidColorBrush x:Key="Path.History.Fill.Disabled" Color="#8A00EFFF" />
+
+
+			<SolidColorBrush x:Key="Path.Arrow.Fill" Color="#FF999999" />
+			<SolidColorBrush x:Key="Path.Arrow.Fill.Disabled" Color="#8A999999" />
+
 			<SolidColorBrush x:Key="Static.Background" Color="#333333" />
 			<SolidColorBrush x:Key="Static.Border" Color="#999999" />
 
-
-			<SolidColorBrush x:Key="MouseOver.Foreground">White</SolidColorBrush>
-			<SolidColorBrush x:Key="MouseOver.Border.Background" Color="#FF3A779B" />
-			<SolidColorBrush x:Key="MouseOver.Border" Color="#FFC7EAFF" />
-			<SolidColorBrush x:Key="Pressed.Border.Background" Color="#FFC4E5F6" />
-			<SolidColorBrush x:Key="Pressed.Border" Color="#FF2C628B" />
-			<SolidColorBrush x:Key="Disabled.Foreground" Color="#FFDDDDDD" />
-			<SolidColorBrush x:Key="Disabled.Border.Background" Color="#FF646464" />
-			<SolidColorBrush x:Key="Disabled.Border" Color="#FFADB2B5" />
-
-			<!-- <Setter Property="Height" Value="Auto" /> -->
 			<Style x:Key="Path.Base"
-					TargetType="Path" x:Shared='False'
+					TargetType="Path"
+					x:Shared="False"
 					>
 				<Setter Property="Margin" Value="0,1,7,1" />
 				<Setter Property="MaxHeight" Value="100" />
@@ -68,30 +64,78 @@
 
 			<Path x:Key="Star"
 					Data="{StaticResource Icon.Svg.Star}"
-					Fill="{StaticResource Path.Favorite.Fill}"
-					Style="{StaticResource Path.Base}"
-					/>
+					>
+				<Path.Style>
+					<Style
+							TargetType="Path"
+							BasedOn="{StaticResource Path.Base}"
+							>
+						<Setter Property="Fill" Value="{StaticResource Path.Favorite.Fill}" />
+						<Style.Triggers>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Fill" Value="{StaticResource Path.Favorite.Fill.Disabled}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Path.Style>
+			</Path>
 
 			<Path x:Key="History"
 					Data="{StaticResource Icon.Svg.History}"
-					Fill="{StaticResource Path.History.Fill}"
-					Style="{StaticResource Path.Base}"
-					/>
+					>
+				<Path.Style>
+					<Style
+							TargetType="Path"
+							BasedOn="{StaticResource Path.Base}"
+							>
+						<Setter Property="Fill" Value="{StaticResource Path.History.Fill}" />
+						<Style.Triggers>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Fill" Value="{StaticResource Path.History.Fill.Disabled}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Path.Style>
+			</Path>
 
 			<Path x:Key="Plus"
 					Data="{StaticResource Icon.Svg.Plus}"
-					Fill="{StaticResource Path.Plus.Fill}"
-					Style="{StaticResource Path.Base}"
-					/>
+					>
+				<Path.Style>
+					<Style
+							TargetType="Path"
+							BasedOn="{StaticResource Path.Base}"
+							>
+						<Setter Property="Fill" Value="{StaticResource Path.Plus.Fill}" />
+						<Style.Triggers>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Fill" Value="{StaticResource Path.Plus.Fill.Disabled}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Path.Style>
+			</Path>
 
 			<Path x:Key="Arrow"
 					Margin="0,0,3,0"
 					Width="20"
 					HorizontalAlignment="Right"
 					Data="{StaticResource Icon.Triangle.Oblique}"
-					Fill="{StaticResource Path.Arrow.Fill}"
-					Style="{StaticResource Path.Base}"
-					/>
+					>
+				<Path.Style>
+					<Style
+							TargetType="Path"
+							BasedOn="{StaticResource Path.Base}"
+							>
+						<Setter Property="Fill" Value="{StaticResource Path.Arrow.Fill}" />
+						<Style.Triggers>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Fill" Value="{StaticResource Path.Arrow.Fill.Disabled}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Path.Style>
+			</Path>
 
 
 			<Style x:Key="Skb.Base"
@@ -100,20 +144,21 @@
 				<Setter Property="Background" Value="{StaticResource Static.Background}" />
 				<Setter Property="Margin" Value="0" />
 				<Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DockPanel}}, Path=Height}" />
-				<!-- <Setter Property="FontSize" Value="18" /> -->
 				<Setter Property="VerticalAlignment" Value="Center" />
-				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="HorizontalAlignment" Value="Right" />
 				<Setter Property="BorderThickness" Value="2,0,0,0" />
 				<Setter Property="ButtonSkewAngle" Value="20.0" />
 			</Style>
 
-			<Style x:Key="Skb.Icon"
+			<Style x:Key="Skb.IconButton"
 					TargetType="skb:SkewedButton"
 					BasedOn="{StaticResource Skb.Base}"
 					>
 				<Setter Property="BorderBrush" Value="{StaticResource Static.Border}" />
 				<Setter Property="BorderThickness" Value="0,0,2,0" />
 			</Style>
+
+
 
 			<Style x:Key="Tblk.Base"
 					TargetType="TextBlock"
@@ -122,37 +167,41 @@
 				<Setter Property="Padding" Value="2,0,14,2" />
 				<Setter Property="HorizontalAlignment" Value="Right" />
 				<Setter Property="VerticalAlignment" Value="Center" />
-				<!-- <Setter Property="FontSize" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=FontSize}" /> -->
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="TextAlignment" Value="Right" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="#8AFFFFFF" />
+					</Trigger>
+				</Style.Triggers>
 			</Style>
 
 
-
-			<TextBlock x:Key="Sptblk"
-					Text="Sptblk"
-					Style="{StaticResource Tblk.Base}"
-					/>
-			<DataTemplate x:Key="CcFolderPath" >
+			<DataTemplate x:Key="CcFolderPath">
 				<DockPanel x:Name="DpFolderPath"
 						Margin="0"
 						HorizontalAlignment="Right"
 						>
 					<skb:SkewedButton
 							Index="-1"
-							TextBlk="{StaticResource Sptblk}"
+							Width="150"
 							Icon="{StaticResource Arrow}"
 							Style="{StaticResource Skb.Base}"
-							/>
+							>
+						<skb:SkewedButton.TextBlk>
+							<TextBlock
+									Text="Sptblk"
+									Style="{StaticResource Tblk.Base}"
+									/>
+						</skb:SkewedButton.TextBlk>
+					</skb:SkewedButton>
 
 				</DockPanel>
-
 			</DataTemplate>
 
-			<ControlTemplate 
 
-					x:Key="CtFolderRoute">
+			<ControlTemplate x:Key="CtFolderRoute">
 
 				<DockPanel
 						Margin="0"
@@ -174,17 +223,17 @@
 						<skb:SkewedButton
 								Index="-1"
 								Icon="{StaticResource Star}"
-								Style="{DynamicResource Skb.Icon}"
+								Style="{DynamicResource Skb.IconButton}"
 								/>
 						<skb:SkewedButton
 								Index="-1"
 								Icon="{StaticResource History}"
-								Style="{DynamicResource Skb.Icon}"
+								Style="{DynamicResource Skb.IconButton}"
 								/>
 						<skb:SkewedButton
 								Index="-1"
 								Icon="{StaticResource Plus}"
-								Style="{DynamicResource Skb.Icon}"
+								Style="{DynamicResource Skb.IconButton}"
 								/>
 					</DockPanel>
 
@@ -204,7 +253,8 @@
 							ThumbWidth="4"
 							BackgroundSkewAngle="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
 																						Path=SkewAngle,
-																						FallbackValue='20.0'}"
+																						FallbackValue='20.0',
+																						TargetNullValue='20.0'}"
 							>
 						<DockPanel
 								Margin="0"
@@ -215,8 +265,9 @@
 																							FallbackValue='Right'}"
 								>
 							<ContentControl 
-									ContentTemplate	="{Binding RelativeSource={RelativeSource FindAncestor, 
-							AncestorType=UserControl}, Path=ContentTemplate, TargetNullValue={StaticResource CcFolderPath}}" />
+									HorizontalAlignment="Right"
+									HorizontalContentAlignment="Right"
+									ContentTemplate="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=ContentTemplate, TargetNullValue={StaticResource CcFolderPath}}" />
 
 						</DockPanel>
 
@@ -227,5 +278,5 @@
 
 		</ResourceDictionary>
 	</UserControl.Resources>
-	
+
 </UserControl>

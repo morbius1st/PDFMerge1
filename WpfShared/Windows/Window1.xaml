@@ -1,4 +1,4 @@
-﻿<Window
+﻿<Window x:Name="win1"
 		x:Class="WpfShared.Windows.Window1"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -25,6 +25,11 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+
+			<xs:XmalColor x:Key="xc"
+					Color="Blue"
+					/>
+			<SolidColorBrush x:Key="sc" Color="{StaticResource xc}" />
 
 			<!--#region > combobox-->
 
@@ -912,7 +917,7 @@
 				</Grid>
 			</ControlTemplate>
 
-			<!--#region > user controls  -->
+			<!--#region > user controls-->
 
 			<Style x:Key="px"
 					TargetType="Path"
@@ -928,10 +933,24 @@
 			<Path x:Key="p1"
 					x:Shared="False"
 					Data="M 0,0 0,4 4,4 4,0 z"
-					Fill="Red"
 					Stretch="Uniform"
-					Style="{StaticResource px}"
-					/>
+
+					>
+				<Path.Style>
+					<Style BasedOn="{StaticResource px}" TargetType="Path">
+					<Setter Property="Fill" Value="Red"/>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}}, Path=IsPressed}" Value="True">
+							<Setter Property="Fill" Value="SpringGreen" />
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type skb:SkewedButton}}, Path=IsChecked}" Value="True">
+							<Setter Property="Fill" Value="DarkOrchid" />
+						</DataTrigger>
+						
+					</Style.Triggers>
+					</Style>
+				</Path.Style>
+			</Path>
 
 			<Path x:Key="p2"
 					Margin="0,0,5,0"
@@ -968,7 +987,7 @@
 					/>
 
 
-			<DataTemplate x:Key="Dtx">
+			<DataTemplate x:Key="Dtx1">
 
 				<DockPanel>
 					<skb:SkewedButton
@@ -977,8 +996,10 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Top"
 							BorderThickness="0,0,5,0"
+							Index="1"
 							ButtonSkewAngle="20.0"
 							Icon="{StaticResource p1}"
+							Click="ButtonBase_OnClick1"
 							>
 						<skb:SkewedButton.TextBlk>
 							<TextBlock
@@ -1010,27 +1031,43 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Top"
 							BorderThickness="0,0,5,0"
+							Index="2"
 							ButtonSkewAngle="20.0"
 							Icon="{StaticResource p1}"
 							OverridesDefaultStyle="True"
+							Click="ButtonBase_OnClick2"
 							>
+
 						<skb:SkewedButton.TextBlk>
+							<!--  cannot have a name  -->
 							<TextBlock
 									Margin="0"
 									Height="20"
 									Padding="0"
 									HorizontalAlignment="Center"
 									Background="Transparent"
-									Foreground="Black"
 									Text="Empty"
-									/>
+									>
+								<TextBlock.Style>
+									<Style TargetType="TextBlock">
+										<Setter Property="Foreground" Value="Black"/>
+										<Style.Triggers>
+											<Trigger Property="IsEnabled" Value="False">
+												<Setter Property="Foreground" Value="#AAAAAA"/>
+											</Trigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
 						</skb:SkewedButton.TextBlk>
+
 						<skb:SkewedButton.Style>
 							<Style TargetType="skb:SkewedButton">
 								<Setter Property="Background" Value="PaleVioletRed" />
 								<Style.Triggers>
 									<Trigger Property="IsPressed" Value="true">
-										<Setter Property="Background" Value="Blue" />
+										<Setter Property="ButtonBase.Background" Value="Blue" />
+
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -1065,62 +1102,30 @@
 					</skb:SkewedButton.TextBlk>
 				</skb:SkewedButton>
 
+			</DataTemplate>
 
+			<DataTemplate x:Key="Dtx3">
+				<StackPanel Orientation="Horizontal">
+					<Button
+							Content="This is test 1"
+							Height="20"
+							Background="CadetBlue"
+							Foreground="White"
+							Click="ButtonBase_OnClick3"
+							/>
+					<Button
+							Content="This is test 2"
+							Height="20"
+							Background="CadetBlue"
+							Foreground="White"
+							Click="ButtonBase_OnClick3"
+							/>
+				</StackPanel>
 			</DataTemplate>
 
 
-			<DockPanel x:Key="dp"
-					x:Shared="False"
-					>
-				<skb:SkewedButton
-						Margin="0,0,2,0"
-						Width="40"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Top"
-						BorderThickness="0,0,5,0"
-						ButtonSkewAngle="20.0"
-						Icon="{StaticResource p1}"
-						>
-					<skb:SkewedButton.TextBlk>
-						<TextBlock
-								Margin="0"
-								Height="20"
-								Padding="0"
-								HorizontalAlignment="Center"
-								Background="Transparent"
-								Foreground="Black"
-								Text="Empty"
-								/>
-					</skb:SkewedButton.TextBlk>
-				</skb:SkewedButton>
 
-				<skb:SkewedButton
-						Margin="0,0,2,0"
-						Width="40"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Top"
-						BorderThickness="0,0,5,0"
-						ButtonSkewAngle="20.0"
-						Icon="{StaticResource p1}"
-						>
-					<skb:SkewedButton.TextBlk>
-						<TextBlock
-								Margin="0"
-								Height="20"
-								Padding="0"
-								HorizontalAlignment="Center"
-								Background="Transparent"
-								Foreground="Black"
-								Text="Empty"
-								/>
-					</skb:SkewedButton.TextBlk>
-				</skb:SkewedButton>
-
-			</DockPanel>
-
-
-
-			<!--#endregion -->
+			<!--#endregion-->
 
 
 		</ResourceDictionary>
@@ -1139,10 +1144,25 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<StackPanel 
+
+		<Rectangle
 				Grid.Column="0"
-				Grid.Row="0"				
-				Orientation="Vertical">
+				Grid.Row="3"
+				Width="50"
+				Height="50"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Fill="{StaticResource sc}"
+				/>
+
+
+
+
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="0"
+				Orientation="Vertical"
+				>
 
 			<StackPanel Orientation="Horizontal">
 				<ComboBox
@@ -1184,8 +1204,6 @@
 		<sve:ScrollViewerExtended
 				Grid.Column="0"
 				Grid.Row="1"
-
-
 				Background="#11ff0000"
 				HorizontalScrollBarLocation="Bottom"
 				VerticalScrollBarLocation="right"
@@ -1194,7 +1212,7 @@
 				RepeatButtonLength="10"
 				RepeatButtonIconLength="10"
 				RepeatButtonIconGirth="6"
-		>
+				>
 			<Grid>
 				<Rectangle
 						Grid.Column="0"
@@ -1205,38 +1223,41 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						Fill="#FF0000FF"
-				/>
+						/>
 
 				<Rectangle
 						Grid.Column="0"
 						Grid.Row="0"
 						Margin="0,50,0,0"
-						Width="250"
+						Width="450"
 						Height="30"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						Fill="#25ff0000"
-				/>
+						/>
 			</Grid>
 		</sve:ScrollViewerExtended>
+
+
 
 
 		<StackPanel
 				Grid.Column="0"
 				Grid.Row="2"
 				Orientation="Horizontal"
-		>
+				>
 
-			<skb:SkewedButton
+			<skb:SkewedButton x:Name="skb01"
 					Margin="10,0,2,0"
 					Width="80"
 					Height="20"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
 					BorderThickness="0,0,5,0"
+					skb:SkewedButton.Click="Skb01_OnClick"
 					ButtonSkewAngle="20.0"
 					Icon="{StaticResource p1}"
-			>
+					>
 				<skb:SkewedButton.TextBlk>
 					<TextBlock
 							Margin="0"
@@ -1246,7 +1267,7 @@
 							Background="Transparent"
 							Foreground="Black"
 							Text="Empty"
-					/>
+							/>
 				</skb:SkewedButton.TextBlk>
 			</skb:SkewedButton>
 
@@ -1258,8 +1279,9 @@
 					Background="DarkGreen"
 					BorderThickness="5,0,5,0"
 					BorderBrush="Blue"
+					skb:SkewedButton.Click="ButtonBase_OnClick1"
 					ButtonSkewAngle="20.0"
-			>
+					>
 				<skb:SkewedButton.TextBlk>
 					<TextBlock
 							Margin="0"
@@ -1268,7 +1290,18 @@
 							Background="Transparent"
 							Foreground="Black"
 							Text="Empty Text text text text"
-					/>
+							>
+						<TextBlock.Style>
+							<Style TargetType="TextBlock">
+								<Setter Property="Foreground" Value="Black"/>
+								<Style.Triggers>
+									<Trigger Property="IsEnabled" Value="False">
+										<Setter Property="Foreground" Value="#AAAAAA"/>
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
 				</skb:SkewedButton.TextBlk>
 				<skb:SkewedButton.Style>
 					<Style TargetType="skb:SkewedButton">
@@ -1285,20 +1318,19 @@
 		</StackPanel>
 
 		<StackPanel
-		Margin="0,40,0,0"
-
 				Grid.Column="0"
 				Grid.Row="2"
 				Grid.ColumnSpan="1"
+				Margin="0,40,0,0"
 				Orientation="Vertical"
-		>
+				>
 
 			<fr:FolderRoute
 					Height="24"
 					HorizontalContentAlignment="Right"
 					FontSize="11"
 					ContentTemplate="{StaticResource Dtx2}"
-			/>
+					/>
 		</StackPanel>
 
 		<StackPanel
@@ -1307,16 +1339,27 @@
 				Grid.ColumnSpan="1"
 				Margin="0,80,0,0"
 				Orientation="Vertical"
-		>
+				>
 
 
 			<fr:FolderRoute
+					IsEnabled="False"
 					Height="24"
 					HorizontalContentAlignment="Right"
 					FontSize="11"
-					ContentTemplate="{StaticResource Dtx}"
-			/>
+					ContentTemplate="{StaticResource Dtx1}"
+					/>
 		</StackPanel>
+
+		<Label
+				Content="{Binding ElementName=win1,
+													Path=Message,
+													FallbackValue='none'}"
+				Grid.Column="0"
+				Grid.Row="2"
+				Margin="0,120,0,0"
+				Foreground="White"
+				/>
 
 	</Grid>
 </Window>
