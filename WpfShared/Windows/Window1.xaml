@@ -1238,7 +1238,6 @@
 				RepeatButtonLength="10"
 				RepeatButtonIconLength="10"
 				RepeatButtonIconGirth="6"
-
 				>
 			<Grid>
 				<Rectangle
@@ -1268,35 +1267,134 @@
 		<ScrollViewer
 				Grid.Column="1"
 				Grid.Row="1"
-				
+				Width="300"
 				HorizontalScrollBarVisibility="Visible"
-				Background="#11ff0000"
+				VerticalScrollBarVisibility="Hidden"
+				HorizontalAlignment="left"
+				VerticalAlignment="Top"
+
 				>
-			<Grid>
-				<Rectangle
-						Grid.Column="0"
-						Grid.Row="0"
-						Margin="50,0,0,0"
-						Width="30"
-						Height="250"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Top"
-						Fill="#FF0000FF"
-				/>
+			<DockPanel
+					HorizontalAlignment="left"
+					Background="Red"
+					MaxWidth="300"
 
-				<Rectangle
-						Grid.Column="0"
-						Grid.Row="0"
-						Margin="0,50,0,0"
-						Width="450"
-						Height="30"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Top"
-						Fill="#25ff0000"
-				/>
-			</Grid>
+					>
+				<StackPanel
+						DockPanel.Dock="left"
+						Margin="1"
+						HorizontalAlignment="right"
+						Background="Blue"
+						Orientation="Horizontal"
+						>
 
+					<Border
+							Margin="1"
+							Width="80"
+							Height="18"
+							BorderThickness="1"
+							BorderBrush="White"
+							>
+						<TextBlock
+								Background="Black"
+								Foreground="White"
+								Text="This is a test 1"
+								/>
+					</Border>
+
+					<Border
+							Margin="1"
+							Width="80"
+							Height="18"
+							BorderThickness="1"
+							BorderBrush="White"
+							>
+						<TextBlock
+								Background="Black"
+								Foreground="White"
+								Text="This is a test 2"
+								/>
+					</Border>
+
+					
+					<Border
+							Margin="1"
+							Width="80"
+							Height="18"
+							BorderThickness="1"
+							BorderBrush="White"
+							>
+						<TextBlock
+								Background="Black"
+								Foreground="White"
+								Text="This is a test 3"
+								/>
+					</Border>
+					
+					
+					<Border
+							Margin="1"
+							Width="80"
+							Height="18"
+							BorderThickness="1"
+							BorderBrush="White"
+							>
+						<TextBlock
+								Background="Black"
+								Foreground="White"
+								Text="This is a test 4"
+								/>
+					</Border>		
+					
+					<Border
+							Margin="1"
+							Width="80"
+							Height="18"
+							BorderThickness="1"
+							BorderBrush="White"
+							>
+						<TextBlock
+								Background="Black"
+								Foreground="White"
+								Text="This is a test 4"
+								/>
+					</Border>
+
+				</StackPanel>
+			</DockPanel>
 		</ScrollViewer>
+		<!--  <ScrollViewer  -->
+		<!--  Grid.Column="1"  -->
+		<!--  Grid.Row="1"  -->
+		<!--    -->
+		<!--  HorizontalScrollBarVisibility="Visible"  -->
+		<!--  Background="#11ff0000"  -->
+		<!--  >  -->
+		<!-- 	<Grid> -->
+		<!--  <Rectangle  -->
+		<!--  Grid.Column="0"  -->
+		<!--  Grid.Row="0"  -->
+		<!--  Margin="50,0,0,0"  -->
+		<!--  Width="30"  -->
+		<!--  Height="250"  -->
+		<!--  HorizontalAlignment="Left"  -->
+		<!--  VerticalAlignment="Top"  -->
+		<!--  Fill="#FF0000FF"  -->
+		<!--  />  -->
+		<!--    -->
+		<!--  <Rectangle  -->
+		<!--  Grid.Column="0"  -->
+		<!--  Grid.Row="0"  -->
+		<!--  Margin="0,50,0,0"  -->
+		<!--  Width="450"  -->
+		<!--  Height="30"  -->
+		<!--  HorizontalAlignment="Left"  -->
+		<!--  VerticalAlignment="Top"  -->
+		<!--  Fill="#25ff0000"  -->
+		<!--  />  -->
+		<!-- 	</Grid> -->
+		<!--    -->
+		<!-- </ScrollViewer> -->
 
 
 		<StackPanel
@@ -1381,8 +1479,7 @@
 				Orientation="Vertical"
 				>
 
-			<fr:FolderRoute
-					x:Name="fr1"
+			<fr:FolderRoute x:Name="fr1"
 					Margin="7,0,0,0"
 					Height="24"
 					HorizontalContentAlignment="Right"
@@ -1391,16 +1488,22 @@
 					/>
 
 			<StackPanel Orientation="Horizontal">
-				<Label Foreground="White"
-						Padding="5,0,0,0"
+				<Label
+						Content="{Binding ElementName=fr1,
+															Path=IsFolderRouteLoaded,
+															FallbackValue='na'}"
 						Width="60"
-						Content="{Binding ElementName=fr1, Path=IsFolderRouteLoaded, FallbackValue='na'}"
+						Padding="5,0,0,0"
+						Foreground="White"
 						/>
-						
-				<Label Foreground="White"
-						Padding="5,0,0,0"
+
+				<Label
+						Content="{Binding ElementName=fr1,
+															Path=HasDefaultDockPanel,
+															FallbackValue='na'}"
 						Width="60"
-						Content="{Binding ElementName=fr1, Path=HasDefaultDockPanel, FallbackValue='na'}"
+						Padding="5,0,0,0"
+						Foreground="White"
 						/>
 			</StackPanel>
 		</StackPanel>
@@ -1414,7 +1517,6 @@
 				>
 
 			<Label
-					VerticalAlignment="Top"
 					Content="{Binding ElementName=win1,
 														Path=Message,
 														FallbackValue='none'}"
@@ -1422,11 +1524,11 @@
 					Grid.Row="2"
 					Margin="0,5,0,5"
 					Padding="0"
+					VerticalAlignment="Top"
 					Foreground="White"
 					/>
 
-			<fr:FolderRoute
-					x:Name="fr2"
+			<fr:FolderRoute x:Name="fr2"
 					Margin="7,0,0,0"
 					Height="24"
 					HorizontalContentAlignment="Right"
@@ -1436,17 +1538,23 @@
 					/>
 
 			<StackPanel Orientation="Horizontal">
-				<Label Foreground="White"
-						Padding="5,0,0,0"
+				<Label
+						Content="{Binding ElementName=fr2,
+															Path=IsFolderRouteLoaded,
+															FallbackValue='na'}"
 						Width="60"
-						Content="{Binding ElementName=fr2, Path=IsFolderRouteLoaded, FallbackValue='na'}"
-				/>
-						
-				<Label Foreground="White"
 						Padding="5,0,0,0"
+						Foreground="White"
+						/>
+
+				<Label
+						Content="{Binding ElementName=fr2,
+															Path=HasDefaultDockPanel,
+															FallbackValue='na'}"
 						Width="60"
-						Content="{Binding ElementName=fr2, Path=HasDefaultDockPanel, FallbackValue='na'}"
-				/>
+						Padding="5,0,0,0"
+						Foreground="White"
+						/>
 			</StackPanel>
 		</StackPanel>
 
@@ -1455,62 +1563,67 @@
 				Grid.Row="2"
 				Grid.ColumnSpan="1"
 				Margin="0,140,0,0"
-
 				>
 
-			<fr:FolderRoute
-					x:Name="folderRoute"
-					DockPanel.Dock="Top"
+			<fr:FolderRoute x:Name="folderRoute"
 					Margin="7,0,0,0"
 					Height="26"
 					VerticalAlignment="Top"
 					HorizontalContentAlignment="Left"
 					FontSize="12"
-			/>
-
-			<StackPanel 
 					DockPanel.Dock="Top"
+					/>
+
+			<StackPanel
 					VerticalAlignment="Top"
-					Orientation="Horizontal">
-				<Label Foreground="White"
-						Padding="5,0,0,0"
+					DockPanel.Dock="Top"
+					Orientation="Horizontal"
+					>
+				<Label
+						Content="{Binding ElementName=folderRoute,
+															Path=IsFolderRouteLoaded,
+															FallbackValue='na'}"
 						Width="60"
-
 						Height="15"
-						Content="{Binding ElementName=folderRoute, Path=IsFolderRouteLoaded, FallbackValue='na'}"
-				/>
-						
-				<Label Foreground="White"
 						Padding="5,0,0,0"
-						Width="60"
-						Content="{Binding ElementName=folderRoute, Path=HasDefaultDockPanel, FallbackValue='na'}"
-				/>
+						Foreground="White"
+						/>
 
-				<Label Foreground="White"
-						Padding="5,0,0,0"
+				<Label
+						Content="{Binding ElementName=folderRoute,
+															Path=HasDefaultDockPanel,
+															FallbackValue='na'}"
 						Width="60"
-						Content="{Binding ElementName=folderRoute, Path=WhoClicked, FallbackValue='na'}"
-				/>
+						Padding="5,0,0,0"
+						Foreground="White"
+						/>
+
+				<Label
+						Content="{Binding ElementName=folderRoute,
+															Path=WhoClicked,
+															FallbackValue='na'}"
+						Width="60"
+						Padding="5,0,0,0"
+						Foreground="White"
+						/>
 			</StackPanel>
 
-			<Button
-					x:Name="btnAdd"
+			<Button x:Name="btnAdd"
 					Content="Add me"
 					Width="60"
-					Height="20"	
-					DockPanel.Dock="left"
+					Height="20"
 					HorizontalAlignment="Left"
+					DockPanel.Dock="left"
 					Click="btnAdd_OnClick"
 					/>
 
-			<Button
-					x:Name="btnClr"
-					Margin="10,0,0,0"
+			<Button x:Name="btnClr"
 					Content="Clear me"
+					Margin="10,0,0,0"
 					Width="60"
 					Height="20"
-					DockPanel.Dock="left"
 					HorizontalAlignment="Left"
+					DockPanel.Dock="left"
 					Click="BtnClr_OnClick"
 					/>
 

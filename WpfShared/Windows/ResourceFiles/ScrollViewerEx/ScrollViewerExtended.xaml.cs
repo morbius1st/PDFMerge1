@@ -63,7 +63,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 			{
 				this.ScrollToRightEnd();
 			}
-			else
+			else if (HorizontalScrollAlignment == HorizontalAlignment.Center)
 			{
 				// this.ScrollToHorizontalOffset((this.ExtentWidth - this.ViewportWidth) / 2);
 				double o = (this.ExtentWidth - this.ViewportWidth) / 2;
@@ -82,7 +82,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 		public static readonly DependencyProperty HorizontalScrollAlignmentProperty = DependencyProperty.Register(
 			"HorizontalScrollAlignment", typeof(HorizontalAlignment), typeof(ScrollViewerExtended), 
-			new FrameworkPropertyMetadata(default(HorizontalAlignment), FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
+			new FrameworkPropertyMetadata(HorizontalAlignment.Stretch, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public HorizontalAlignment HorizontalScrollAlignment
 		{

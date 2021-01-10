@@ -217,12 +217,16 @@
 				<!--  not found  -->
 				<DockPanel x:Name="DpFolderPath"
 						Tag="DpFolderPath"
-						Margin="7,0,0,0"
+						Margin="0"
 						HorizontalAlignment="Left"
+						MaxWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}}, Path=ViewportWidth, FallbackValue='200'}"
 						>
-
+					<StackPanel Orientation="Horizontal"
+							HorizontalAlignment="right"
+							DockPanel.Dock="left"
+							>
 						<skb:SkewedButton
-
+								Width="120"
 								Tag="SkbInner"
 								Index="-1"
 								TextBlk="{StaticResource TblkInner}"
@@ -231,7 +235,7 @@
 								Click="ButtonBase_OnClick" />
 
 						<skb:SkewedButton
-
+								Width="120"
 								Tag="SkbInner"
 								Index="-1"
 								TextBlk="{StaticResource TblkInner}"
@@ -239,7 +243,27 @@
 								Style="{StaticResource Skb.Base}"
 								Click="ButtonBase_OnClick" />
 
+						<skb:SkewedButton
+								Width="120"
+								Tag="SkbInner"
+								Index="-1"
+								TextBlk="{StaticResource TblkInner}"
+								Icon="{StaticResource Arrow}"
+								Style="{StaticResource Skb.Base}"
+								Click="ButtonBase_OnClick" />
+
+						<skb:SkewedButton
+								Width="120"
+								Tag="SkbInner"
+								Index="-1"
+								TextBlk="{StaticResource TblkInner}"
+								Icon="{StaticResource Arrow}"
+								Style="{StaticResource Skb.Base}"
+								Click="ButtonBase_OnClick" />
+
+					</StackPanel>
 				</DockPanel>
+
 			</DataTemplate>
 
 			<!--  not found  -->
@@ -308,7 +332,7 @@
 					<sve:ScrollViewerExtended x:Name="SveRoute"
 							Margin="0,0,0,0"
 							Padding="-9,0,0,0"
-							HorizontalContentAlignment="Left"
+							
 							Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
 																	 Path=Background,
 																	 FallbackValue='Transparent'}"
@@ -321,13 +345,14 @@
 							IconMarginLeft="0"
 							IconMarginRight="0"
 							ThumbWidth="4"
-							HorizontalScrollAlignment="Left"
+							HorizontalScrollAlignment="Stretch"
 							BackgroundSkewAngle="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
 																						Path=SkewAngle,
 																						FallbackValue='20.0',
 																						TargetNullValue='20.0'}"
 							ContentTemplate="{StaticResource DtRoute}"
 							/>
+<!-- HorizontalContentAlignment="Left" -->
 
 				</DockPanel>
 			</ControlTemplate>
