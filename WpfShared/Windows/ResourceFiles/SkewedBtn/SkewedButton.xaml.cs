@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,7 +19,7 @@ using System.Windows.Shapes;
 
 namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 {
-	public partial class SkewedButton : Button
+	public partial class SkewedButton : Button, INotifyPropertyChanged
 	{
 		public SkewedButton()
 		{
@@ -49,11 +51,13 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 
 		 */
 
+		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void SkewedButton_Action()
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
-
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
+
 
 	#region ButtonSkewAngle
 
@@ -67,7 +71,6 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 		}
 
 	#endregion
-
 
 	#region IsChecked
 
@@ -139,16 +142,6 @@ namespace WpfShared.Windows.ResourceFiles.SkewedBtn
 
 	#endregion
 
-		private void SkewedButton_OnClick(object sender, RoutedEventArgs e)
-		{
-			Debug.WriteLine("Skb clicked");
-		}
 	}
 
-	public class SomeClass
-	{
-		public Action MyAction { get; set; }
-
-
-	}
 }

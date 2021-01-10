@@ -1,8 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Media.Animation;
 using static WpfShared.Windows.ResourceFiles.ScrollViewerEx.VertScrollBarLocation;
 using static WpfShared.Windows.ResourceFiles.ScrollViewerEx.HorizScrollBarLocation;
 
@@ -30,6 +35,64 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 			InitializeComponent();
 		}
 
+		public void HorizScrollContents(HorizontalAlignment h)
+		{
+			if (h == HorizontalAlignment.Left)
+			{
+				this.ScrollToLeftEnd();
+			} 
+			else if (h == HorizontalAlignment.Right)
+			{
+				this.ScrollToRightEnd();
+			}
+			else
+			{
+				// this.ScrollToHorizontalOffset((this.ExtentWidth - this.ViewportWidth) / 2);
+				double o = (this.ExtentWidth - this.ViewportWidth) / 2;
+				this.ScrollToHorizontalOffset(o);
+			}
+		}
+
+		private void initHorizContents()
+		{
+			if (HorizontalScrollAlignment == HorizontalAlignment.Left)
+			{
+				this.ScrollToLeftEnd();
+			} 
+			else if (HorizontalScrollAlignment == HorizontalAlignment.Right)
+			{
+				this.ScrollToRightEnd();
+			}
+			else
+			{
+				// this.ScrollToHorizontalOffset((this.ExtentWidth - this.ViewportWidth) / 2);
+				double o = (this.ExtentWidth - this.ViewportWidth) / 2;
+				this.ScrollToHorizontalOffset(o);
+			}
+		}
+
+
+		private void ScrollViewerExtended_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			initHorizContents();
+		}
+
+
+	#region HorizontalScrollAlignment
+
+		public static readonly DependencyProperty HorizontalScrollAlignmentProperty = DependencyProperty.Register(
+			"HorizontalScrollAlignment", typeof(HorizontalAlignment), typeof(ScrollViewerExtended), 
+			new FrameworkPropertyMetadata(default(HorizontalAlignment), FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public HorizontalAlignment HorizontalScrollAlignment
+		{
+			get => (HorizontalAlignment) GetValue(HorizontalScrollAlignmentProperty);
+			set =>SetValue(HorizontalScrollAlignmentProperty, value);
+
+		}
+
+	#endregion
+		
 	#region BackgroundSkewAngle
 
 		public static readonly DependencyProperty BackgroundSkewAngleProperty = DependencyProperty.Register(
@@ -187,6 +250,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 
 	#endregion
 
+
+		
 	}
 
 #region Enum to int value converter

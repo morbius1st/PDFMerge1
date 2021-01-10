@@ -22,6 +22,7 @@ namespace WpfShared.Windows
 	/// </summary>
 	public partial class Window1 : Window, INotifyPropertyChanged
 	{
+		private int idx = 0;
 		private bool clicked = true;
 
 		private string message;
@@ -72,6 +73,21 @@ namespace WpfShared.Windows
 			Debug.WriteLine("win1 clicked1");
 		}
 
+		private void btnAdd_OnClick(object sender, RoutedEventArgs e)
+		{
+#pragma warning disable CS1061 // 'FolderRoute' does not contain a definition for 'AddPathButton' and no accessible extension method 'AddPathButton' accepting a first argument of type 'FolderRoute' could be found (are you missing a using directive or an assembly reference?)
+			folderRoute.AddPathButton("Path| " + idx++);
+#pragma warning restore CS1061 // 'FolderRoute' does not contain a definition for 'AddPathButton' and no accessible extension method 'AddPathButton' accepting a first argument of type 'FolderRoute' could be found (are you missing a using directive or an assembly reference?)
+		}
+
+		private void BtnClr_OnClick(object sender, RoutedEventArgs e)
+		{
+
+#pragma warning disable CS1061 // 'FolderRoute' does not contain a definition for 'ClearPath' and no accessible extension method 'ClearPath' accepting a first argument of type 'FolderRoute' could be found (are you missing a using directive or an assembly reference?)
+			folderRoute.ClearPath();
+#pragma warning restore CS1061 // 'FolderRoute' does not contain a definition for 'ClearPath' and no accessible extension method 'ClearPath' accepting a first argument of type 'FolderRoute' could be found (are you missing a using directive or an assembly reference?)
+		}
+
 
 		private void flipCkicked(string who)
 		{
@@ -95,5 +111,6 @@ namespace WpfShared.Windows
 		}
 
 
+		
 	}
 }

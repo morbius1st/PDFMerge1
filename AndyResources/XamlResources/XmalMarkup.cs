@@ -94,6 +94,7 @@ namespace AndyResources.XamlResources
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			return (System.Windows.Media.Color)ToColor();
+			
 		}
 	}
 

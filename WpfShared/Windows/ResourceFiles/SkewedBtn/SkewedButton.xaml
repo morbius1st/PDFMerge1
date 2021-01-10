@@ -11,25 +11,33 @@
 		d:DesignHeight="35"
 		ContentTemplate="{DynamicResource DataTemplate}"
 		Template="{DynamicResource ControlTemplate}"
+
 		>
-	<!--  Click="SkewedButton_OnClick"  -->
+	<!-- Click="SkewedButton_OnClick" -->
 
 	<Button.Resources>
 
-		<!-- <SolidColorBrush x:Key="MouseOver.Foreground" Color="White"/> -->
-		<!-- <SolidColorBrush x:Key="MouseOver.Border.Background" Color="#FF3A779B" /> -->
-		<!-- <SolidColorBrush x:Key="MouseOver.Border" Color="#FFC7EAFF" /> -->
-		<!-- <SolidColorBrush x:Key="Pressed.Border.Background" Color="#FFC4E5F6" /> -->
-		<!-- <SolidColorBrush x:Key="Pressed.Border" Color="#FF2C628B" /> -->
+		<SolidColorBrush x:Key="Static.Background" Color="#FF444444" />
+		<SolidColorBrush x:Key="Static.ForeGround" Color="#FFCCCCCC" />
+		<SolidColorBrush x:Key="Static.Border" Color="#FF666666" />
 
 		<SolidColorBrush x:Key="Disabled.Background" Color="#FF646464" />
 		<SolidColorBrush x:Key="Disabled.Border" Color="#FFADB2B5" />
 
+		<SolidColorBrush x:Key="MouseOver.Background" Color="#FF616161" />
+		<SolidColorBrush x:Key="MouseOver.Border" Color="#FFC7EAFF" />
+
+		<!-- <SolidColorBrush x:Key="MouseOver.Foreground" Color="White"/> -->
+		<!-- <SolidColorBrush x:Key="Pressed.Border.Background" Color="#FFC4E5F6" /> -->
+		<!-- <SolidColorBrush x:Key="Pressed.Border" Color="#FF2C628B" /> -->
+
+
 		<!--  default style  -->
 		<Style TargetType="Button">
-			<Setter Property="BorderThickness" Value="0" />
-			<Setter Property="BorderBrush" Value="Transparent" />
-			<Setter Property="Width" Value="50"></Setter>
+			
+			<Setter Property="BorderThickness" Value="0,0,3,0" />
+			<Setter Property="BorderBrush" Value="{StaticResource Static.Border}" />
+			<Setter Property="Width" Value="90" />
 		</Style>
 
 		<Style TargetType="local:SkewedButton">
@@ -40,7 +48,7 @@
 				Margin="0"
 				Width="20"
 				Height="15"
-				HorizontalAlignment="Center"
+				HorizontalAlignment="Left"
 				VerticalAlignment="Center"
 				Data="M 0,0 0,4 4,4 4,0 z"
 				Fill="Red"
@@ -48,20 +56,19 @@
 				/>
 
 		<TextBlock x:Key="t"
-				Margin="0,0,0,0"
-				Height="20"
+				Margin="0,0,15,0"
 				Padding="0"
 				HorizontalAlignment="right"
-				VerticalAlignment="top"
+				VerticalAlignment="bottom"
 				Background="Transparent"
-				Foreground="Black"
+				Foreground="{StaticResource Static.ForeGround}"
 				Text="Text"
-				/>
+		/>
 
 		<DataTemplate x:Key="DataTemplate">
-			<Grid>
+			<Grid x:Name="DtGrid">
 
-				<ContentControl x:Name="IconContent"
+				<ContentControl x:Name="IconContent" 
 						Content="{Binding ElementName=skewedButton,
 															Path=Icon,
 															FallbackValue={StaticResource p}}"
@@ -73,28 +80,30 @@
 																				FallbackValue='Center'}"
 						/>
 
-				<ContentControl x:Name="TextContent"
-						Content="{Binding ElementName=skewedButton,
-															Path=TextBlk,
-															FallbackValue={StaticResource t}}"
-						HorizontalAlignment="{Binding Content.HorizontalAlignment,
-																					RelativeSource={RelativeSource Self},
-																					FallbackValue='Center'}"
-						VerticalAlignment="{Binding Content.VerticalAlignment,
-																				RelativeSource={RelativeSource Self},
-																				FallbackValue='Center'}"
-						/>
+
+					<ContentControl x:Name="TextContent"
+							Content="{Binding ElementName=skewedButton,
+																Path=TextBlk,
+																FallbackValue={StaticResource t}}"
+							HorizontalAlignment="{Binding Content.HorizontalAlignment,
+																						RelativeSource={RelativeSource Self},
+																						FallbackValue='Center'}"
+							VerticalAlignment="{Binding Content.VerticalAlignment,
+																						RelativeSource={RelativeSource Self},
+																						FallbackValue='Center'}"
+
+							/>
+
 
 			</Grid>
-
 		</DataTemplate>
+
 
 		<ControlTemplate x:Key="ControlTemplate"
 				TargetType="{x:Type Button}"
 				>
 
-			<Grid
-					x:Name="skbgrid"
+			<Grid x:Name="skbgrid"
 					Background="Transparent"
 					SnapsToDevicePixels="True"
 					>
@@ -102,7 +111,7 @@
 				<Border x:Name="border"
 						Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SkewedButton}},
 																 Path=Background,
-																 FallbackValue=white}"
+																 FallbackValue={StaticResource Static.Background}}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						RenderTransformOrigin="1,1"
@@ -115,6 +124,7 @@
 				<ContentPresenter x:Name="skbcontentPresenter"
 						Content="{TemplateBinding Content}"
 						Margin="{TemplateBinding Padding}"
+						Width="{TemplateBinding Width}"
 						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 						VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 						ContentStringFormat="{TemplateBinding ContentStringFormat}"
@@ -131,11 +141,13 @@
 				</Trigger>
 				<MultiTrigger>
 					<MultiTrigger.Conditions>
-						<Condition Property="IsMouseOver" Value="true"/>
-						<Condition Property="IsPressed" Value="False"/>
+						<Condition Property="IsMouseOver" Value="true" />
+						<Condition Property="IsPressed" Value="False" />
 					</MultiTrigger.Conditions>
-					<Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
-					<Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
+					<Setter TargetName="border" Property="Background" Value="{StaticResource MouseOver.Background}" />
+					<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MouseOver.Border}" />
+					<!-- <Setter TargetName="border" Property="Background" Value="#FF6E666D" /> -->
+					<!-- <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" /> -->
 				</MultiTrigger>
 				<Trigger Property="IsEnabled" Value="False">
 					<Setter TargetName="border" Property="Background" Value="{StaticResource Disabled.Background}" />

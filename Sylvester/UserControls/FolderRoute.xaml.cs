@@ -240,7 +240,6 @@ namespace Sylvester.UserControls
 			set { SetValue(FontBrushProperty, value); }
 		}
 
-
 		public static readonly DependencyProperty ProposedObliqueButtonTypeProperty = DependencyProperty.Register(
 			"ProposedObliqueButtonType", typeof(int), typeof(FolderRoute), new PropertyMetadata(7));
 
@@ -303,6 +302,7 @@ namespace Sylvester.UserControls
 		}
 
 	#endregion
+
 	}
 
 	public class PathTypeVisibilityConverter : IMultiValueConverter

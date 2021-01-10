@@ -78,7 +78,6 @@
 	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected" ResourceKey="Blue.550" />
 	<DynamicResource x:Key="ItemsControl.ListItem.Background.Selected.UnFocused" ResourceKey="Blue.500" />
 
-
 	<SolidColorBrush x:Key="ItemsControl.Value.Background.Normal" Color="{StaticResource Teal.500}" />
 	<SolidColorBrush x:Key="ItemsControl.Value.Background.MouseOver" Color="{StaticResource Teal.700}" />
 	<SolidColorBrush x:Key="ItemsControl.Value.Background.Disabled" Color="{StaticResource Teal.350}" />

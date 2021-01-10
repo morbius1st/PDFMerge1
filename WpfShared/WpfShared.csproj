@@ -377,6 +377,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Sunsets 1979-02 01.jpg" />
+  </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
