@@ -64,7 +64,7 @@
 			<SolidColorBrush x:Key="Path.Arrow.Fill" Color="#FF999999" />
 			<SolidColorBrush x:Key="Path.Arrow.Fill.Disabled" Color="#8A999999" />
 
-			<SolidColorBrush x:Key="Static.Background" Color="#333333" />
+			<SolidColorBrush x:Key="Static.Background" Color="#3A3A3A" />
 			<SolidColorBrush x:Key="Static.Border" Color="#FF666666" />
 			<!-- <SolidColorBrush x:Key="Static.Border" Color="#999999" /> -->
 

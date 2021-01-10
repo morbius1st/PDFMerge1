@@ -207,7 +207,7 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 
 			SelectedFolder = skb.TextBlk.Text;
 
-			if (path.Depth > 0)
+			if (path.Depth > 1)
 			{
 				// string newPath = Path.AssemblePath(SelectedIndex + 1);
 				SetPath(

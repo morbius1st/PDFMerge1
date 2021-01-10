@@ -1576,7 +1576,8 @@
 				Margin="0,0,0,0"
 				>
 
-			<fr:FolderRoute x:Name="FolderRoute"
+			<fr:FolderRoute 
+					x:Name="FolderRoute"
 					Margin="7,0,0,0"
 					Height="24"
 					VerticalAlignment="Top"

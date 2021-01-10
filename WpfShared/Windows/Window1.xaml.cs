@@ -33,10 +33,9 @@ namespace WpfShared.Windows
 			Favorite
 		}
 
-		private int idx = 0;
-		private bool clicked = true;
-
 		private string[] eventStatus = new [] {"", "", "", "" };
+
+		private bool clicked = true;
 
 		private string message;
 
