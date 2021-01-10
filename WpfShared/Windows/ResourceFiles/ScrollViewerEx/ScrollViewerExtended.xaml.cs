@@ -18,7 +18,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 		Left = 0,
 		Right = 2
 	}
-	
+
 	public enum HorizScrollBarLocation
 	{
 		Top = 0,
@@ -40,7 +40,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 			if (h == HorizontalAlignment.Left)
 			{
 				this.ScrollToLeftEnd();
-			} 
+			}
 			else if (h == HorizontalAlignment.Right)
 			{
 				this.ScrollToRightEnd();
@@ -58,7 +58,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 			if (HorizontalScrollAlignment == HorizontalAlignment.Left)
 			{
 				this.ScrollToLeftEnd();
-			} 
+			}
 			else if (HorizontalScrollAlignment == HorizontalAlignment.Right)
 			{
 				this.ScrollToRightEnd();
@@ -76,23 +76,22 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 		{
 			initHorizContents();
 		}
-
-
+		
 	#region HorizontalScrollAlignment
 
 		public static readonly DependencyProperty HorizontalScrollAlignmentProperty = DependencyProperty.Register(
-			"HorizontalScrollAlignment", typeof(HorizontalAlignment), typeof(ScrollViewerExtended), 
-			new FrameworkPropertyMetadata(HorizontalAlignment.Stretch, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
+			"HorizontalScrollAlignment", typeof(HorizontalAlignment), typeof(ScrollViewerExtended),
+			new FrameworkPropertyMetadata(HorizontalAlignment.Stretch,
+				FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public HorizontalAlignment HorizontalScrollAlignment
 		{
 			get => (HorizontalAlignment) GetValue(HorizontalScrollAlignmentProperty);
-			set =>SetValue(HorizontalScrollAlignmentProperty, value);
-
+			set => SetValue(HorizontalScrollAlignmentProperty, value);
 		}
 
 	#endregion
-		
+
 	#region BackgroundSkewAngle
 
 		public static readonly DependencyProperty BackgroundSkewAngleProperty = DependencyProperty.Register(
@@ -110,7 +109,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region VerticalScrollBarLocation
 
 		public static readonly DependencyProperty VerticalScrollBarLocationProperty = DependencyProperty.Register(
-			"VerticalScrollBarLocation", typeof(VertScrollBarLocation), typeof(ScrollViewerExtended), new PropertyMetadata(Right));
+			"VerticalScrollBarLocation", typeof(VertScrollBarLocation), typeof(ScrollViewerExtended),
+			new PropertyMetadata(Right));
 
 		public VertScrollBarLocation VerticalScrollBarLocation
 		{
@@ -123,7 +123,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region HorizontalScrollBarLocation
 
 		public static readonly DependencyProperty HorizontalScrollBarLocationProperty = DependencyProperty.Register(
-			"HorizontalScrollBarLocation", typeof(HorizScrollBarLocation), typeof(ScrollViewerExtended), new PropertyMetadata(Bottom));
+			"HorizontalScrollBarLocation", typeof(HorizScrollBarLocation), typeof(ScrollViewerExtended),
+			new PropertyMetadata(Bottom));
 
 		public HorizScrollBarLocation HorizontalScrollBarLocation
 		{
@@ -132,7 +133,7 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 		}
 
 	#endregion
-		
+
 	#region ScrollBarWidth
 
 		public static readonly DependencyProperty ScrollBarWidthProperty = DependencyProperty.Register(
@@ -201,7 +202,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region IconMarginTop
 
 		public static readonly DependencyProperty IconMarginTopProperty = DependencyProperty.Register(
-			"IconMarginTop", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
+			"IconMarginTop", typeof(Thickness), typeof(ScrollViewerExtended),
+			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public Thickness IconMarginTop
 		{
@@ -214,7 +216,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region IconMarginBottom
 
 		public static readonly DependencyProperty IconMarginBottomProperty = DependencyProperty.Register(
-			"IconMarginBottom", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
+			"IconMarginBottom", typeof(Thickness), typeof(ScrollViewerExtended),
+			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public Thickness IconMarginBottom
 		{
@@ -227,7 +230,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region IconMarginLeft
 
 		public static readonly DependencyProperty IconMarginLeftProperty = DependencyProperty.Register(
-			"IconMarginLeft", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
+			"IconMarginLeft", typeof(Thickness), typeof(ScrollViewerExtended),
+			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public Thickness IconMarginLeft
 		{
@@ -240,7 +244,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	#region IconMarginRight
 
 		public static readonly DependencyProperty IconMarginRightProperty = DependencyProperty.Register(
-			"IconMarginRight", typeof(Thickness), typeof(ScrollViewerExtended), new PropertyMetadata(new Thickness(0,0,0,0)));
+			"IconMarginRight", typeof(Thickness), typeof(ScrollViewerExtended),
+			new PropertyMetadata(new Thickness(0, 0, 0, 0)));
 
 		public Thickness IconMarginRight
 		{
@@ -249,10 +254,8 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 		}
 
 	#endregion
-
-
-		
 	}
+
 
 #region Enum to int value converter
 
@@ -273,5 +276,4 @@ namespace WpfShared.Windows.ResourceFiles.ScrollViewerEx
 	}
 
 #endregion
-	
 }

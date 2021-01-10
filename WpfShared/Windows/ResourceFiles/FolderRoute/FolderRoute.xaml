@@ -10,6 +10,7 @@
 		xmlns:skb="clr-namespace:WpfShared.Windows.ResourceFiles.SkewedBtn"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:folderRoute="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
+		DataContext="{Binding ElementName=FldrRoute}"
 		mc:Ignorable="d opts"
 		d:DesignWidth="450"
 		d:DesignHeight="26"
@@ -212,9 +213,12 @@
 			<!--#endregion-->
 
 			<!--  not found  -->
+			<!--
 			<DataTemplate x:Key="DtFolderPath">
 
-				<!--  not found  -->
+				-->
+			<!--  not found  -->
+			<!--
 				<DockPanel x:Name="DpFolderPath"
 						Tag="DpFolderPath"
 						Margin="0"
@@ -266,7 +270,9 @@
 
 			</DataTemplate>
 
+			-->
 			<!--  not found  -->
+			<!--
 			<DataTemplate x:Key="DtRoute">
 				<DockPanel
 						Tag="DpRoute"
@@ -277,7 +283,9 @@
 																					Path=HorizontalContentAlignment,
 																					FallbackValue='Left'}"
 						>
-					<!--  found  -->
+					-->
+			<!--  found  -->
+			<!--
 					<ContentControl
 							Tag="CcInner"
 							DockPanel.Dock="Left"
@@ -288,7 +296,7 @@
 							/>
 
 				</DockPanel>
-			</DataTemplate>
+			</DataTemplate>-->
 
 			<!--  not found  -->
 			<ControlTemplate x:Key="CtFolderRoute">
@@ -302,6 +310,7 @@
 
 					<!--  found  -->
 					<DockPanel x:Name="DpControlButtons"
+							Panel.ZIndex="1"
 							DockPanel.Dock="Left"
 							>
 						<Rectangle
@@ -310,29 +319,77 @@
 								Fill="Transparent"
 								DockPanel.Dock="Bottom"
 								/>
-						<skb:SkewedButton
-								Tag="Skb1"
-								Index="-1"
-								Icon="{StaticResource Star}"
-								Style="{DynamicResource Skb.IconButton}"
-								/>
-						<skb:SkewedButton
-								Index="-1"
-								Icon="{StaticResource History}"
-								Style="{DynamicResource Skb.IconButton}"
-								/>
-						<skb:SkewedButton
-								Index="-1"
-								Icon="{StaticResource Plus}"
-								Style="{DynamicResource Skb.IconButton}"
-								/>
+
+						<DockPanel Background="{StaticResource Static.Background}">
+							<skb:SkewedButton
+									Tag="Skb1"
+									Index="-1"
+									Icon="{StaticResource Star}"
+									Click="Favorites_OnClick"
+									>
+								<skb:SkewedButton.Style>
+									<Style
+											TargetType="skb:SkewedButton"
+											BasedOn="{StaticResource Skb.IconButton}"
+											>
+										<Setter Property="Visibility" Value="Visible" />
+										<Style.Triggers>
+											<DataTrigger Value="False" Binding="{Binding FavoriteVisible, Mode=OneWay}">
+												<Setter Property="Visibility" Value="Collapsed" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</skb:SkewedButton.Style>
+							</skb:SkewedButton>
+
+							<skb:SkewedButton
+									Index="-1"
+									Icon="{StaticResource History}"
+									Click="History_OnClick"
+									>
+								<skb:SkewedButton.Style>
+									<Style
+											TargetType="skb:SkewedButton"
+											BasedOn="{StaticResource Skb.IconButton}"
+											>
+										<Setter Property="Visibility" Value="Visible" />
+										<Style.Triggers>
+											<DataTrigger Value="False" Binding="{Binding HistoryVisible, Mode=OneWay}">
+												<Setter Property="Visibility" Value="Collapsed" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</skb:SkewedButton.Style>
+							</skb:SkewedButton>
+
+							<skb:SkewedButton
+									Index="-1"
+									Icon="{StaticResource Plus}"
+									Click="Select_OnClick"
+									>
+								<skb:SkewedButton.Style>
+									<Style
+											TargetType="skb:SkewedButton"
+											BasedOn="{StaticResource Skb.IconButton}"
+											>
+										<Setter Property="Visibility" Value="Visible" />
+										<Style.Triggers>
+											<DataTrigger Value="False" Binding="{Binding SelectVisible, Mode=OneWay}">
+												<Setter Property="Visibility" Value="Collapsed" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</skb:SkewedButton.Style>
+							</skb:SkewedButton>
+						</DockPanel>
+
 					</DockPanel>
+
 
 					<!--  found  -->
 					<sve:ScrollViewerExtended x:Name="SveRoute"
 							Margin="0,0,0,0"
-							Padding="-9,0,0,0"
-							
+							Padding="0,0,0,0"
 							Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
 																	 Path=Background,
 																	 FallbackValue='Transparent'}"
@@ -345,14 +402,111 @@
 							IconMarginLeft="0"
 							IconMarginRight="0"
 							ThumbWidth="4"
-							HorizontalScrollAlignment="Stretch"
+							HorizontalScrollAlignment="Right"
 							BackgroundSkewAngle="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
 																						Path=SkewAngle,
 																						FallbackValue='20.0',
 																						TargetNullValue='20.0'}"
-							ContentTemplate="{StaticResource DtRoute}"
-							/>
-<!-- HorizontalContentAlignment="Left" -->
+							ContentTemplate="{DynamicResource DtRoute}"
+							>
+						<sve:ScrollViewerExtended.Resources>
+							<!--  not found  -->
+							<DataTemplate x:Key="DtFolderPath">
+
+								<!--  not found  -->
+								<!--  x:Name="DpFolderPath"  -->
+								<DockPanel
+										Tag="DpFolderPath"
+										Margin="0"
+										>
+										<!-- MaxWidth="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}}, -->
+										<!-- 									 Path=ViewportWidth, -->
+										<!-- 									 FallbackValue='200'}" -->
+										<!-- HorizontalAlignment="Left" -->
+									<!-- 	> -->
+									<!-- <StackPanel -->
+									<!-- 		Tag="SpFolderPath" -->
+									<!-- 		HorizontalAlignment="right" -->
+									<!-- 		Orientation="Horizontal" -->
+									<!-- 		DockPanel.Dock="left" -->
+									<!-- 		> -->
+										<skb:SkewedButton
+												Tag="SkbInner"
+												Width="120"
+												Index="-1"
+												TextBlk="{StaticResource TblkInner}"
+												Icon="{StaticResource Arrow}"
+												Style="{StaticResource Skb.Base}"
+												Click="ButtonBase_OnClick"
+												/>
+
+										<skb:SkewedButton
+												Tag="SkbInner"
+												Width="120"
+												Index="-1"
+												TextBlk="{StaticResource TblkInner}"
+												Icon="{StaticResource Arrow}"
+												Style="{StaticResource Skb.Base}"
+												Click="ButtonBase_OnClick"
+												/>
+										<!-- -->
+										<!-- <skb:SkewedButton -->
+										<!-- 		Tag="SkbInner" -->
+										<!-- 		Width="120" -->
+										<!-- 		Index="-1" -->
+										<!-- 		TextBlk="{StaticResource TblkInner}" -->
+										<!-- 		Icon="{StaticResource Arrow}" -->
+										<!-- 		Style="{StaticResource Skb.Base}" -->
+										<!-- 		Click="ButtonBase_OnClick" -->
+										<!-- 		/> -->
+										<!-- -->
+										<!-- <skb:SkewedButton -->
+										<!-- 		Tag="SkbInner" -->
+										<!-- 		Width="120" -->
+										<!-- 		Index="-1" -->
+										<!-- 		TextBlk="{StaticResource TblkInner}" -->
+										<!-- 		Icon="{StaticResource Arrow}" -->
+										<!-- 		Style="{StaticResource Skb.Base}" -->
+										<!-- 		Click="ButtonBase_OnClick" -->
+												<!-- /> -->
+
+									<!-- </StackPanel> -->
+								</DockPanel>
+
+							</DataTemplate>
+
+							<!--  not found  -->
+							<DataTemplate x:Key="DtRoute">
+								<DockPanel
+										Tag="DpRoute"
+										Margin="0"
+										Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type sve:ScrollViewerExtended}},
+																		 Path=ViewportHeight}"
+										HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+																									Path=HorizontalContentAlignment,
+																									FallbackValue='Left'}"
+										>
+									<!--  found  -->
+									<ContentControl
+											Tag="CcInner"
+											DockPanel.Dock="Left"
+											ContentTemplate="{Binding RelativeSource={RelativeSource FindAncestor,
+																																							 AncestorType=UserControl},
+																								Path=ContentTemplate,
+																								TargetNullValue={StaticResource DtFolderPath}}"
+											/>
+
+								</DockPanel>
+							</DataTemplate>
+
+
+
+						</sve:ScrollViewerExtended.Resources>
+					</sve:ScrollViewerExtended>
+					<!--  HorizontalContentAlignment="Left"  -->
+
+
+
 
 				</DockPanel>
 			</ControlTemplate>

@@ -18,7 +18,6 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 	/// </summary>
 	public partial class FolderRoute : UserControl, INotifyPropertyChanged
 	{
-
 		private FilePath<FileNameSimple> path;
 
 		private DockPanel dpContainer;
@@ -28,32 +27,33 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 		private Style stArx;
 
 		private int pathIdx = 0;
+		private int nextIdx = 0;
 
 		private bool hasDefaultDockPanel;
-		private bool isLoaded;
 
-		private string whoClicked;
+		private bool favoriteVisible = true;
+		private bool historyVisible = true;
+		private bool selectVisible = true;
 
 		public FolderRoute()
 		{
 			InitializeComponent();
-
-			// Debug.WriteLine("folder route started");
 		}
 
 	#region public properties
 
 		public int SelectedIndex { get; private set; }
+
 		public string SelectedFolder { get; private set; }
 
 		public FilePath<FileNameSimple> Path
 		{
 			get => path;
-			set
+			private set
 			{
 				path = value;
-				setPath(value);
-				// RaisePathChangeEvent();
+				OnPropertyChanged();
+				RaisePathChangeEvent();
 			}
 		}
 
@@ -67,22 +67,32 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 			}
 		}
 
-		public bool IsFolderRouteLoaded
+		public bool FavoriteVisible
 		{
-			get => isLoaded;
+			get => favoriteVisible;
 			set
 			{
-				isLoaded = value;
+				favoriteVisible = value;
 				OnPropertyChanged();
 			}
 		}
 
-		public string WhoClicked
+		public bool HistoryVisible
 		{
-			get => whoClicked;
+			get => historyVisible;
 			set
 			{
-				whoClicked = value;
+				historyVisible = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public bool SelectVisible
+		{
+			get => selectVisible;
+			set
+			{
+				selectVisible = value;
 				OnPropertyChanged();
 			}
 		}
@@ -90,12 +100,6 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 	#endregion
 
 	#region public methods
-
-		private void clearSkewedButtons() { }
-
-	#endregion
-
-	#region private methods
 
 		public void ClearPath()
 		{
@@ -106,8 +110,20 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 			pathIdx = 0;
 		}
 
+		public void SetPath(FilePath<FileNameSimple> newPath)
+		{
 
-		public void AddPathButton(string text)
+			ClearPath();
+
+			foreach (string folder in newPath.GetPathNames)
+			{
+				AddPathButton(folder, nextIdx++);
+			}
+
+			Path = newPath;
+		}
+
+		public void AddPathButton(string text, int idx)
 		{
 			if (!hasDefaultDockPanel) return;
 
@@ -117,7 +133,8 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 
 			SkewedButton skb = new SkewedButton();
 			skb.Style = stSkb;
-			skb.Icon = MakeArrow();
+			skb.Index = idx;
+			skb.Icon = makeArrow();
 			skb.TextBlk = tb;
 			skb.Index = pathIdx++;
 			skb.Click += ButtonBase_OnClick;
@@ -125,15 +142,16 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 			dpContainer.Children.Add(skb);
 		}
 
-		private Path MakeArrow()
+	#endregion
+
+	#region private methods
+
+		private Path makeArrow()
 		{
 			Path p = new Path();
 			p.Style = stArx;
 			return p;
 		}
-
-
-		private void setPath(FilePath<FileNameSimple> newPath) { }
 
 		// find by type and name or type and tag
 		private T getChildByNameorTag<T>(DependencyObject dObj, string name, string tag = null)
@@ -168,53 +186,177 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 
 	#region event processing
 
+	#endregion
+
+
+	#region event consuming
+
 		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 		{
 			SkewedButton skb =  (SkewedButton) sender;
-			WhoClicked = skb.TextBlk.Text + " :: " + skb.Index;
+
+			if (skb.Index != 0 && skb.Index == path.Depth - 1) return;
+
+			// int d = path.Depth;
+			// int fc = path.FolderCount;
+			// int x = skb.Index;
+			// string p = path.FolderPath;
 
 
+			SelectedIndex = skb.Index;
 
+			SelectedFolder = skb.TextBlk.Text;
 
-			// object vc = this.GetVisualChild(0);
-			//
-			// DockPanel dp1 = (DockPanel) this.FindName("DpFolderPath");
-			// DockPanel dp2 = (DockPanel) this.FindName("DpControlButtons");
-			// TextBlock tbx1 = (TextBlock) this.FindName("TblkInner");
-			//
-			// Debug.WriteLine("visual child| " + vc.GetType());
-			// Debug.WriteLine("   dp1 child| " + dp1?.Name ?? "is null");
-			// Debug.WriteLine("   dp2 child| " + dp2?.Name ?? "is null");
-			// Debug.WriteLine("   tbx child| " + tbx1?.Name ?? "is null");
-			//
-			// // listVisualTree(this, 0);
-			//
-			//
-			// SkewedButton skb1 = getChildByNameorTag<SkewedButton>(this, null, "Skb1");
-			// SkewedButton skb2 = getChildByNameorTag<SkewedButton>(this, null, "SkbFolder");
-			//
-			// dp1 = getChildByNameorTag<DockPanel>(this, "DpFolderPath");
-			// dp2 = getChildByNameorTag<DockPanel>(this, "DpControlButtons");
-			// tbx1 = getChildByNameorTag<TextBlock>(this, null, "TblkInner");
-			//
-			//
-			// Debug.WriteLine("  skb1| " + skb1?.Tag.ToString() ?? "is null");
-			// Debug.WriteLine("  skb2| " + skb2?.Tag.ToString() ?? "is null");
-			// Debug.WriteLine("   dp1| " + dp1?.Name ?? "is null");
-			// Debug.WriteLine("   dp2| " + dp2?.Name ?? "is null");
-			// Debug.WriteLine("  tbx1| " + tbx1?.Name ?? "is null");
-			//
-			//
-			// // SkewedButton skz = (SkewedButton) this.FindResource("SkbInner");
-			// // TextBlock tbz = (TextBlock) this.FindResource("TblkInner");
-			// Path Px = (Path) this.FindResource("Arrow");
-			//
-			// Style StTbx = (Style) this.FindResource("Tblk.Base");
-			// Style StSkb = (Style) this.FindResource("Skb.Base");
-			//
-			//
-			// Debug.WriteLine("folder route click");
+			if (path.Depth > 0)
+			{
+				// string newPath = Path.AssemblePath(SelectedIndex + 1);
+				SetPath(
+					new FilePath<FileNameSimple>(Path.AssemblePath(SelectedIndex + 1)));
+			}
+			else
+			{
+				RaiseSelectFolderEvent();
+			}
 		}
+
+		private void Favorites_OnClick(object sender, RoutedEventArgs e) => RaiseFavoritesEvent();
+
+		private void History_OnClick(object sender, RoutedEventArgs e) => RaiseHistoryEvent();
+
+		private void Select_OnClick(object sender, RoutedEventArgs e) => RaiseSelectFolderEvent();
+
+		private void FldrRoute_Loaded(object sender, RoutedEventArgs e)
+		{
+			dpContainer = getChildByNameorTag<DockPanel>(this, null, "DpFolderPath");
+
+			if (dpContainer == null) return;
+
+			HasDefaultDockPanel = true;
+
+			pArrow = (Path) this.FindResource("Arrow");
+			stTbx = (Style) this.FindResource("Tblk.Base");
+			stSkb = (Style) this.FindResource("Skb.Base");
+			stArx = (Style) this.FindResource("Path.Arrow");
+
+			ClearPath();
+			// listVisualTree(this, 0);
+		}
+
+	#endregion
+
+	#region event consuming
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+		}
+
+	#endregion
+
+	#region event publishing
+
+
+		// event 1, a folder was selected
+		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
+
+		public event FolderRoute.PathChangedEventHandler OnPathChange;
+
+		protected virtual void RaisePathChangeEvent()
+		{
+			OnPathChange?.Invoke(this, new PathChangeArgs(SelectedIndex, SelectedFolder, Path));
+		}
+
+		// event 2, the select folder button was pressed
+		public delegate void SelectFolderEventHandler(object sender, EventArgs e);
+
+		public event FolderRoute.SelectFolderEventHandler OnSelectFolderRequested;
+
+		protected virtual void RaiseSelectFolderEvent()
+		{
+			OnSelectFolderRequested?.Invoke(this, new EventArgs());
+		}
+
+		// event 3, favorites was selected
+		public delegate void FavoritesEventHandler(object sender, EventArgs e);
+
+		public event FolderRoute.FavoritesEventHandler OnFavoritesPressed;
+
+		protected virtual void RaiseFavoritesEvent()
+		{
+			OnFavoritesPressed?.Invoke(this, new EventArgs());
+		}
+
+		// event 4, history was selected
+		public delegate void HistoryEventHandler(object sender, EventArgs e);
+
+		public event FolderRoute.HistoryEventHandler OnHistoryPressed;
+
+		protected virtual void RaiseHistoryEvent()
+		{
+			OnHistoryPressed?.Invoke(this, new EventArgs());
+		}
+
+	#endregion
+
+
+	#region dependent properties
+
+	#region SkewAngle
+
+		public static readonly DependencyProperty SkewAngleProperty = DependencyProperty.Register(
+			"SkewAngle", typeof(double), typeof(FolderRoute), new PropertyMetadata(20.0));
+
+		public double SkewAngle
+		{
+			get => (double) GetValue(SkewAngleProperty);
+			set => SetValue(SkewAngleProperty, value);
+		}
+
+	#endregion
+
+	#endregion
+
+
+		// object vc = this.GetVisualChild(0);
+		//
+		// DockPanel dp1 = (DockPanel) this.FindName("DpFolderPath");
+		// DockPanel dp2 = (DockPanel) this.FindName("DpControlButtons");
+		// TextBlock tbx1 = (TextBlock) this.FindName("TblkInner");
+		//
+		// Debug.WriteLine("visual child| " + vc.GetType());
+		// Debug.WriteLine("   dp1 child| " + dp1?.Name ?? "is null");
+		// Debug.WriteLine("   dp2 child| " + dp2?.Name ?? "is null");
+		// Debug.WriteLine("   tbx child| " + tbx1?.Name ?? "is null");
+		//
+		// // listVisualTree(this, 0);
+		//
+		//
+		// SkewedButton skb1 = getChildByNameorTag<SkewedButton>(this, null, "Skb1");
+		// SkewedButton skb2 = getChildByNameorTag<SkewedButton>(this, null, "SkbFolder");
+		//
+		// dp1 = getChildByNameorTag<DockPanel>(this, "DpFolderPath");
+		// dp2 = getChildByNameorTag<DockPanel>(this, "DpControlButtons");
+		// tbx1 = getChildByNameorTag<TextBlock>(this, null, "TblkInner");
+		//
+		//
+		// Debug.WriteLine("  skb1| " + skb1?.Tag.ToString() ?? "is null");
+		// Debug.WriteLine("  skb2| " + skb2?.Tag.ToString() ?? "is null");
+		// Debug.WriteLine("   dp1| " + dp1?.Name ?? "is null");
+		// Debug.WriteLine("   dp2| " + dp2?.Name ?? "is null");
+		// Debug.WriteLine("  tbx1| " + tbx1?.Name ?? "is null");
+		//
+		//
+		// // SkewedButton skz = (SkewedButton) this.FindResource("SkbInner");
+		// // TextBlock tbz = (TextBlock) this.FindResource("TblkInner");
+		// Path Px = (Path) this.FindResource("Arrow");
+		//
+		// Style StTbx = (Style) this.FindResource("Tblk.Base");
+		// Style StSkb = (Style) this.FindResource("Skb.Base");
+		//
+		//
+		// Debug.WriteLine("folder route click");
 
 
 		private DependencyObject listVisualTree(DependencyObject dObj, int depth)
@@ -265,104 +407,5 @@ namespace WpfShared.Windows.ResourceFiles.FolderRoute
 
 			return null;
 		}
-
-
-	#endregion
-
-
-	#region event consuming
-
-		private void FldrRoute_Loaded(object sender, RoutedEventArgs e)
-		{
-			IsFolderRouteLoaded = true;
-
-			dpContainer = getChildByNameorTag<DockPanel>(this, "DpFolderPath");
-
-			if (dpContainer == null) return;
-
-			HasDefaultDockPanel = true;
-
-			pArrow = (Path) this.FindResource("Arrow");
-			stTbx = (Style) this.FindResource("Tblk.Base");
-			stSkb = (Style) this.FindResource("Skb.Base");
-			stArx = (Style) this.FindResource("Path.Arrow");
-
-
-			// listVisualTree(this, 0);
-		}
-
-	#endregion
-
-	#region event publishing
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChanged([CallerMemberName] string memberName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
-		}
-
-
-		// event 1, a folder was selected
-		public delegate void PathChangedEventHandler(object sender, PathChangeArgs e);
-
-		public event FolderRoute.PathChangedEventHandler PathChange;
-
-		protected virtual void RaisePathChangeEvent()
-		{
-			PathChange?.Invoke(this, new PathChangeArgs(SelectedIndex, SelectedFolder, Path));
-		}
-
-		// event 2, the select folder button was pressed
-		public delegate void SelectFolderEventHandler(object sender, EventArgs e);
-
-		public event FolderRoute.SelectFolderEventHandler SelectFolder;
-
-		protected virtual void RaiseSelectFolderEvent()
-		{
-			SelectFolder?.Invoke(this, new EventArgs());
-		}
-
-		// event 3, favorites was selected
-		public delegate void FavoritesEventHandler(object sender, EventArgs e);
-
-		public event FolderRoute.FavoritesEventHandler Favorites;
-
-		protected virtual void RaiseFavoritesEvent()
-		{
-			Favorites?.Invoke(this, new EventArgs());
-		}
-
-		// event 4, history was selected
-		public delegate void HistoryEventHandler(object sender, EventArgs e);
-
-		public event FolderRoute.HistoryEventHandler History;
-
-		protected virtual void RaiseHistoryEvent()
-		{
-			History?.Invoke(this, new EventArgs());
-		}
-
-
-
-	#endregion
-
-
-	#region dependent properties
-
-	#region SkewAngle
-
-		public static readonly DependencyProperty SkewAngleProperty = DependencyProperty.Register(
-			"SkewAngle", typeof(double), typeof(FolderRoute), new PropertyMetadata(20.0));
-
-		public double SkewAngle
-		{
-			get => (double) GetValue(SkewAngleProperty);
-			set => SetValue(SkewAngleProperty, value);
-		}
-
-	#endregion
-
-	#endregion
 	}
 }
