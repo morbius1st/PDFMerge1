@@ -8,7 +8,8 @@
 		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
-
+		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared"
+		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared"
 		Title="Andy - Pdf Organizer and Merger"
 		Width="1400"
 		Height="800"
@@ -21,28 +22,19 @@
 		Background="{StaticResource Window.Background}"
 		d:UseSampleData="True"
 		>
-	<!-- xmlns:andyres="clr-namespace:AndyResources.XamlResources;assembly=WpfShared" -->
-		<!-- xmlns:f="clr-namespace:AndyResources.XamlResources" -->
-		<!-- xmlns:res="clr-namespace:AndyResources.XamlResources" -->
-		<!-- xmlns:custom="clr-namespace:AndyResources.XamlResources" -->
+	<!--  xmlns:andyres="clr-namespace:AndyResources.XamlResources;assembly=WpfShared"  -->
+	<!--  xmlns:f="clr-namespace:AndyResources.XamlResources"  -->
+	<!--  xmlns:res="clr-namespace:AndyResources.XamlResources"  -->
+	<!--  xmlns:custom="clr-namespace:AndyResources.XamlResources"  -->
 	<Window.Resources>
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />
+
+				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterColorList.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
-				 <ResourceDictionary Source="ResourceFiles/XamlResources/ScrollViewerNarrow.xaml" /> 
-				<ResourceDictionary Source="ResourceFiles/SVG/IconStar.xaml" />
-				<ResourceDictionary Source="ResourceFiles/SVG/IconHistory.xaml" />
-				<ResourceDictionary Source="ResourceFiles/SVG/IconPlus.xaml" />
-				<ResourceDictionary Source="ResourceFiles/SVG/IconTriangleOblique.xaml" />
-				<!-- <ResourceDictionary Source="pack://application:,,,/WpfShared;component/Windows/ResourceFiles/XamlResources/ObliqueButton.xaml" /> -->
-				<!-- <ResourceDictionary Source="pack://application:,,,/WpfShared;component/Windows/ResourceFiles/XamlResources/FolderRoute.xaml" /> -->
 
-				
-				
 			</ResourceDictionary.MergedDictionaries>
 
 			<Style x:Key="Button.Local"
@@ -87,47 +79,38 @@
 				Foreground="White"
 				/>
 
-		 <res:FolderRoute x:Name="FldrRoute" 
-		 		Grid.Column="0" 
-		 		Grid.Row="2" 
-		 		VerticalAlignment="Top" 
-		 		Height="35" 
-		 		FontBrush="White" 
-		 		TextFontSize="14" 
-		 		ObliqueButtonHeight="20.0" 
-		 		ObliqueButtonMargin="0" 
-		 		ProposedObliqueButtonType="0" 
-		 		TextMargin="0" 
-		 		res:ScrollBarAttached.ScrollBarWidth="12.0" 
-		 		res:ScrollBarAttached.TrackWidth="8.0" 
-		 		res:ScrollBarAttached.RepeatButtonLength="10.0" 
-		 		res:ScrollBarAttached.RepeatButtonIconLength="14.0" 
-		 		res:ScrollBarAttached.RepeatButtonIconGirth="10.0" 
-		 		res:ScrollBarAttached.IconMarginTop="0,0,0,0" 
-		 		res:ScrollBarAttached.IconMarginBottom="0,0,0,0" 
-		 		res:ScrollBarAttached.IconMarginLeft="0,0,0,0" 
-		 		res:ScrollBarAttached.IconMarginRight="0,0,0,0" 
-		 		 
-		 /> 
 
-		<ScrollViewer
-				Grid.Column="0"
-				Grid.Row="1"
+		<DockPanel
+					Grid.Column="0"
+					Grid.Row="1"				
+				>
+			<Label x:Name="Labe201"
+					Content="PDF Files to Merge"
+					DockPanel.Dock="top"
+					Margin="0,5,0,5"
+					Padding="5,0,0,5"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Top"
+					FontSize="{StaticResource Header.Title.L2.Font.Size}"
+					Background="{StaticResource Win.Title.Background}"
+					Foreground="White"
+			/>
 
-				Width="120"
-				Height="120"
-				res:ScrollBarAttached.ScrollBarWidth="12.0"
-				res:ScrollBarAttached.TrackWidth="6.0"
-				res:ScrollBarAttached.RepeatButtonLength="10.0"
-				res:ScrollBarAttached.RepeatButtonIconLength="8.0"
-				res:ScrollBarAttached.RepeatButtonIconGirth="8.0"
-				res:ScrollBarAttached.IconMarginTop="0,0,0,0"
-				res:ScrollBarAttached.IconMarginBottom="0,0,0,0"
-				res:ScrollBarAttached.IconMarginLeft="0,0,0,0"
-				res:ScrollBarAttached.IconMarginRight="0,0,0,0"
-				ScrollViewer.HorizontalScrollBarVisibility="Visible"
-				Template="{DynamicResource ScrollViewerNarrow}"
-		>
+			<fr:FolderRoute
+					x:Name="FolderRoute"
+					Margin="7,0,0,0"
+					Height="24"
+					VerticalAlignment="Top"
+					HorizontalContentAlignment="Left"
+					FontSize="12"
+					DockPanel.Dock="top"
+					/>
+
+		<sve:ScrollViewerExtended
+				DockPanel.Dock="Bottom"
+				Margin="0,0,0,0"
+				>
+
 			<Grid>
 				<Rectangle
 						Grid.Column="0"
@@ -135,17 +118,18 @@
 						Width="20"
 						Height="160"
 						Fill="Blue"
-				/>
+						/>
 				<Rectangle
 						Grid.Column="0"
 						Grid.Row="0"
 						Width="160"
 						Height="20"
 						Fill="Blue"
-				/>
+						/>
 			</Grid>
-		</ScrollViewer>
 
+		</sve:ScrollViewerExtended>
+		</DockPanel>
 
 	</Grid>
 

@@ -29,7 +29,9 @@ namespace Test3
 	#region fields
 
 		
+#pragma warning disable CS0108 // 'EventTest3.nodeType' hides inherited member 'Evt<EventTest3>.nodeType'. Use the new keyword if hiding was intended.
 		private NodeType nodeType = NodeType.LEAF;
+#pragma warning restore CS0108 // 'EventTest3.nodeType' hides inherited member 'Evt<EventTest3>.nodeType'. Use the new keyword if hiding was intended.
 		private SelectState selectTriStateSaved = SelectState.UNSET;
 
 		private int depth = 0;
@@ -38,7 +40,9 @@ namespace Test3
 		private int leafId = 0;
 		private int uniqueId = 0;
 
+#pragma warning disable CS0169 // The field 'EventTest3._isExpanded' is never used
 		private bool _isExpanded;
+#pragma warning restore CS0169 // The field 'EventTest3._isExpanded' is never used
 
 		private bool? checkedStatus = false;
 		private int childCheckCount = 0;

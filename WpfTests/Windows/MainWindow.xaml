@@ -6,6 +6,7 @@
 		xmlns:local="clr-namespace:WpfTests.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared"
+		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared"
 		Name="mainWin1"
 		Title="MainWindow"
 		Width="800"
@@ -204,6 +205,20 @@
 
 
 			</DockPanel>
+
+		<DockPanel
+				Grid.Column="0"
+				Grid.Row="1"
+				Margin="0,0,0,0"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Stretch"
+				>
+
+			<sve:ScrollViewerExtended>
+
+			</sve:ScrollViewerExtended>
+
+		</DockPanel>
 
 	</Grid>
 </Window>

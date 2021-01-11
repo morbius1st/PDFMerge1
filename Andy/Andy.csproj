@@ -92,6 +92,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
       <Aliases>global</Aliases>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -114,25 +115,12 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AndyResources\XamlResources\Behaviors.cs">
-      <Link>Windows\ResourceFiles\XamlResources\Behaviors.cs</Link>
-    </Compile>
-    <Compile Include="..\AndyResources\XamlResources\FolderRoute.xaml.cs">
-      <Link>Windows\ResourceFiles\XamlResources\FolderRoute.xaml.cs</Link>
-      <DependentUpon>FolderRoute.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\AndyResources\XamlResources\ObliqueButton.xaml.cs">
-      <Link>Windows\ResourceFiles\XamlResources\ObliqueButton.xaml.cs</Link>
-      <DependentUpon>ObliqueButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\AndyResources\XamlResources\ScrollBarAttached.cs">
-      <Link>Windows\ResourceFiles\XamlResources\ScrollBarAttached.cs</Link>
-    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Windows\ResourceFiles\XamlResources\Consts.cs" />
     <Page Include="..\AndyResources\SVG\IconHistory.xaml">
       <Link>Windows\ResourceFiles\SVG\IconHistory.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -153,16 +141,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AndyResources\XamlResources\FolderRoute.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\FolderRoute.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -170,26 +148,6 @@
     </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\ObliqueButton.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\ObliqueButton.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\ScrollBarMetrics.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\ScrollBarMetrics.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\ScrollViewerNarrow.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\ScrollViewerNarrow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

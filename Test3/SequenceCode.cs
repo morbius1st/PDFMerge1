@@ -25,7 +25,9 @@ namespace Test3
 		public const string BRANCHSORTLASTPREFIX   = "ᛎ";
 		public const string BRANCHSORTMIXEDPREFIX = GENERALSORTCODEPREFIX;
 
+#pragma warning disable CS0414 // The field 'SequenceCode.branchSortOrder' is assigned but its value is never used
 		private static BranchSortOrder branchSortOrder = MISSING;
+#pragma warning restore CS0414 // The field 'SequenceCode.branchSortOrder' is assigned but its value is never used
 
 		private static SequenceCode root;
 

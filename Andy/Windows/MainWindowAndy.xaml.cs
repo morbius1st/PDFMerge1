@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using UtilityLibrary;
-
+using Andy.Windows.ResourceFiles.XamlResources;
 #endregion
 
 // projname: Andy
@@ -11,8 +11,11 @@ using UtilityLibrary;
 // username: jeffs
 // created:  12/28/2020 7:31:15 PM
 
+
 namespace Andy.Windows
 {
+
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>

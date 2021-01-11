@@ -81,14 +81,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\FolderRoute.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)XamlResources\ObliqueButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)XamlResources\Gallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,14 +120,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\PathChangeArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ScrollViewerVariable.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XamlResources\XmalMarkup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\FolderRoute.xaml.cs">
-      <DependentUpon>FolderRoute.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)XamlResources\ObliqueButton.xaml.cs">
-      <DependentUpon>ObliqueButton.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)XamlResources\FolderRte\" />
   </ItemGroup>
 </Project>
