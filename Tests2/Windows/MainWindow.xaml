@@ -215,6 +215,18 @@
 			<RowDefinition Height="38" />
 		</Grid.RowDefinitions>
 
+		<Button x:Name="btnTest"
+				Content="Test"
+				Grid.Column="1"
+				Grid.Row="2"
+				Margin="0,5,100,5"
+				Width="80"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Stretch"
+				Click="BtnTest_OnClick"
+		/>
+
+
 		<Button x:Name="btnDebug"
 				Content="Debug"
 				Grid.Column="1"
@@ -705,39 +717,18 @@
 			</ListView.Resources>
 		</ListView>
 
-
-		<ListView x:Name="lv03"
+		<DockPanel
 				Grid.Column="1"
 				Grid.Row="1"
-				Margin="3,0,0,0"
-				Height="180"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Bottom"
-				DataContext="{Binding ElementName=mainWin,
-															Mode=OneWay,
-															Path=test}"
-				Background="#444444"
-				Foreground="White"
-				ScrollViewer.CanContentScroll="False"
-				ItemsSource="{Binding}"
 				>
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<Label Content="{Binding Value.BookmarkTitle}" />
-				</DataTemplate>
-			</ListView.ItemTemplate>
 
-		</ListView>
+			<ListView x:Name="lv02"
+				DockPanel.Dock="Top"
 
-		<!--  ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"  -->
-
-		<ListView x:Name="lv02"
-				Grid.Column="1"
-				Grid.Row="1"
 				Margin="3,20,0,0"
 				Height="200"
 				HorizontalAlignment="Stretch"
-				VerticalAlignment="Top"
+				VerticalAlignment="Stretch"
 				DataContext="{Binding FileList,
 															ElementName=mainWin,
 															Mode=OneWay}"
@@ -840,6 +831,79 @@
 
 		</ListView>
 
+
+			<ListView x:Name="lv03"
+					Margin="3,0,0,0"
+					Width="300"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					DataContext="{Binding ElementName=mainWin,
+																Mode=OneWay,
+																Path=test}"
+					Background="#444444"
+					Foreground="White"
+					DockPanel.Dock="Left"
+					ScrollViewer.CanContentScroll="False"
+					ItemsSource="{Binding}"
+					>
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Label Content="{Binding Value.BookmarkTitle}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+
+			</ListView>
+
+			<ListView x:Name="lv05"
+			Width="300"
+			Margin="3,0,0,0"
+					HorizontalAlignment="right"
+					VerticalAlignment="Stretch"
+					DataContext="{Binding ElementName=mainWin}"
+					Background="#444444"
+					Foreground="White"
+					DockPanel.Dock="Right"
+					ScrollViewer.CanContentScroll="False"
+					ItemsSource="{Binding Path=DataMgr}"
+			>
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Label 
+									Padding="0"
+									Width="100"
+									Foreground="White"
+									Content="{Binding Key, FallbackValue='key1', TargetNullValue='k1'}" />
+							<Label
+									Padding="0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									Content="{Binding Value.S1, FallbackValue='value1', TargetNullValue='v1'}" />
+							<Label
+									Padding="10,0,0,0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									Content="{Binding Value.D1, FallbackValue='value1', TargetNullValue='v1'}" />
+							<Label
+									Padding="10,0,0,0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									Content="{Binding Value.I1, FallbackValue='value1', TargetNullValue='v1'}" />
+
+						</StackPanel>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+
+			</ListView>
+
+
+
+
+		<!--  ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"  -->
+
+	
+
+		</DockPanel>
 
 		<Grid
 				Grid.Column="0"

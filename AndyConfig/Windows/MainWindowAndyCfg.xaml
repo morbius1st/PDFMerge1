@@ -842,6 +842,20 @@
 
 	</Window.Resources>
 	<DockPanel>
+
+		<Button
+				x:Name="Btn_Status"
+				BorderThickness="0"
+				VerticalAlignment="Bottom"
+				HorizontalAlignment="Left"
+				Background="Transparent"
+				DockPanel.Dock="Left"
+				Width="5"
+				Height="5"
+				Click="Btn_Status_OnClick"
+				/>
+
+
 		<StackPanel
 				Margin="5"
 				HorizontalAlignment="Right"

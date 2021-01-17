@@ -11,6 +11,8 @@ using WpfShared.Windows;
 
 using static WpfTests.Windows.MainWindow.EventStat;
 
+using AndyFavsAndHistory.Windows;
+
 #endregion
 
 // projname: WpfTests
@@ -18,7 +20,6 @@ using static WpfTests.Windows.MainWindow.EventStat;
 // username: jeffs
 // created:  1/3/2021 7:42:14 AM
 
-#pragma warning disable
 
 namespace WpfTests.Windows
 {
@@ -154,7 +155,15 @@ namespace WpfTests.Windows
 
 		#region event consuming
 
-		
+			private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+			{
+				FavsAndHistory fav = new FavsAndHistory(
+					new FilePath<FileNameSimple>(@"c:\")
+					);
+
+				fav.ShowDialog();
+			}
+
 			private void btnAdd_OnClick(object sender, RoutedEventArgs e)
 			{
 				FolderRoute.SetPath(new FilePath<FileNameSimple>(
@@ -190,5 +199,6 @@ namespace WpfTests.Windows
 
 		#endregion
 
+			
 	}
 }

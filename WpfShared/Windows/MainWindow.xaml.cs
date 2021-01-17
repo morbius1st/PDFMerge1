@@ -3,9 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using UtilityLibrary;
-#pragma warning disable CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 using UtilityLibrary;
-#pragma warning restore CS0105 // The using directive for 'UtilityLibrary' appeared previously in this namespace
 
 #endregion
 

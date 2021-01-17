@@ -173,9 +173,7 @@ namespace Test3
 					? "0".Repeat(CODELENGTH - len) + sort
 					: sort;
 
-#pragma warning disable CS0219 // The variable 'sortChar' is assigned but its value is never used
 				char sortChar = ' ';
-#pragma warning restore CS0219 // The variable 'sortChar' is assigned but its value is never used
 
 				if (isBranch)
 				{

@@ -1,5 +1,6 @@
 ﻿#region + Using Directives
-
+using Microsoft.WindowsAPICodePack.Dialogs;
+using SettingsManager;
 #endregion
 
 
@@ -9,8 +10,7 @@
 // created:  11/2/2019 2:56:07 PM
 
 
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Tests2.Settings;
+
 
 namespace Tests2.FileListManager
 {
@@ -37,8 +37,9 @@ namespace Tests2.FileListManager
 			cfd.ShowPlacesList = true;
 			cfd.AllowNonFileSystemItems = false;
 			
+
 			cfd.AllowPropertyEditing = AppSettings.Data.AllowPropertyEditing;
-			AppSettings.Admin.Save();
+			AppSettings.Admin.Write();
 
 			CommonFileDialogResult result = cfd.ShowDialog();
 

@@ -1,12 +1,12 @@
 ﻿#region + Using Directives
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests2.PDFMergeManager;
+using System.Collections.Specialized;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 #endregion
 
@@ -20,49 +20,207 @@ using Tests2.PDFMergeManager;
 namespace Tests2.Support
 {
 //	public class ObservableDictionary<T1, T2> : ObservableCollection<KeyValuePair<T1, T2>> , IList<KeyValuePair<T1, T2>>
-	public class ObservableDictionary<T1, T2> : IList<KeyValuePair<T1, T2>>
+	[Serializable]
+	public class ObservableDictionary<TKey, TValue> : INotifyCollectionChanged,
+		IDictionary<TKey, TValue>, ISerializable
+
 	{
-		private ObservableCollection<KeyValuePair<T1, T2>> list;
+		[XmlElement (Namespace = "")]
+		private ObservableCollection<KeyValuePair<TKey, TValue>> list;
+		private ICollection<TKey> keys;
+		private ICollection<TValue> values;
+
+		private KeyValuePair<TKey, TValue> matched;
+		private int matchedIdx;
+		private bool isReadOnly;
 
 		public ObservableDictionary()
 		{
-			list = new ObservableCollection<KeyValuePair<T1, T2>>();
+			list = new ObservableCollection<KeyValuePair<TKey, TValue>>();
 		}
 
-		public ObservableDictionary(IEnumerable<KeyValuePair<T1, T2>> collection)
+		public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
 		{
-			list = new ObservableCollection<KeyValuePair<T1, T2>>(collection);
+			Dictionary<string, string> d = new Dictionary<string, string>();
+
+			list = new ObservableCollection<KeyValuePair<TKey, TValue>>(collection);
 		}
 
-		public new void Add(KeyValuePair<T1, T2> item)
+	#region public properties
+
+		public int Count => list.Count;
+
+		public ICollection<TValue> Values
 		{
-			list.Add(item);
+			get
+			{
+				values = new List<TValue>(list.Count);
+
+				foreach (KeyValuePair<TKey, TValue> kvp in list)
+				{
+					values.Add(kvp.Value);
+				}
+
+				return values;
+			}
+		}
+
+		public ICollection<TKey> Keys
+		{
+			get
+			{
+				keys = new List<TKey>(list.Count);
+
+				foreach (KeyValuePair<TKey, TValue> kvp in list)
+				{
+					keys.Add(kvp.Key);
+				}
+
+				return keys;
+			}
+		}
+
+	#endregion
+
+
+	#region indexer
+
+		public TValue this[TKey key]
+		{
+			get
+			{
+				nullKeyTest(key);
+
+				if (ContainsKey(key))
+				{
+					return matched.Value;
+				}
+
+				throw new KeyNotFoundException();
+			}
+			set
+			{
+				if (ContainsKey(key))
+				{
+					matched = new KeyValuePair<TKey, TValue>(key, value);
+				}
+				else
+				{
+					Add(key, value);
+				}
+			}
+		}
+
+		public KeyValuePair<TKey, TValue> this[int idx]
+		{
+			get	=> list[idx];
+			set => list[idx] = value;
+		}
+
+	#endregion
+
+		public void Add(TKey key, TValue value)
+		{
+			existKeyTest(key);
+
+			list.Add(new KeyValuePair<TKey, TValue>(key, value));
 		}
 
 		public void Clear()
 		{
 			list.Clear();
 		}
-		public bool Contains(KeyValuePair<T1, T2> item)
+
+		public bool ContainsKey(TKey key)
 		{
-			return list.Contains(item);
+			nullKeyTest(key);
+
+			for (var i = 0; i < list.Count; i++)
+			{
+				if (list[i].Key.Equals(key))
+				{
+					matched = list[i];
+					matchedIdx = i;
+					return true;
+				}
+			}
+
+			return false;
 		}
 
-		public void CopyTo(KeyValuePair<T1, T2>[] array, int arrayIndex)
+		public bool ContainsValue(TValue value)
+		{
+			for (var i = 0; i < list.Count; i++)
+			{
+				if (list[i].Value.Equals(value))
+				{
+					matched = list[i];
+					matchedIdx = i;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
 		{
 			list.CopyTo(array, arrayIndex);
 		}
 
-		public bool Remove(KeyValuePair<T1, T2> item)
+		public bool Remove(TKey key)
 		{
-			return list.Remove(item);
+			nullKeyTest(key);
+
+			if (ContainsKey(key))
+			{
+				list.RemoveAt(matchedIdx);
+			}
+
+			return false;
 		}
 
-		public int Count => list.Count;
+		public bool TryGetValue(TKey key, out TValue value)
+		{
+			bool result;
+			value = default;
 
-		public bool IsReadOnly => false;
+			try
+			{
+				if (ContainsKey(key))
+				{
+					result = true;
+					value = matched.Value;
+				}
+				else
+				{
+					result = false;
+				}
+			}
+			catch (Exception e)
+			{
+				result = false;
+			}
 
-		public IEnumerator<KeyValuePair<T1, T2>> GetEnumerator()
+			return result;
+		}
+
+		public int IndexOf(TKey key)
+		{
+			if (ContainsKey(key))
+			{
+				return matchedIdx;
+			}
+
+			return -1;
+		}
+
+		public void RemoveAt(int index)
+		{
+			list.RemoveAt(index);
+		}
+
+		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
 		{
 			return list.GetEnumerator();
 		}
@@ -72,31 +230,63 @@ namespace Tests2.Support
 			return GetEnumerator();
 		}
 
-		void ICollection<KeyValuePair<T1, T2>>.Add(KeyValuePair<T1, T2> item)
+
+		bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => isReadOnly;
+
+		bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
 		{
-			Add(item);
+			return list.Remove(item);
 		}
 
-		public int IndexOf(KeyValuePair<T1, T2> item)
+		void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> kvp)
 		{
-			return list.IndexOf(item);
+			this.Add(kvp.Key, kvp.Value);
 		}
 
-		public void Insert(int index, KeyValuePair<T1, T2> item)
+		bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
 		{
-			list.Insert(index, item);
+			return list.Contains(item);
 		}
 
-		public void RemoveAt(int index)
+	#region private methods
+
+		private void nullKeyTest(TKey key)
 		{
-			list.RemoveAt(index);
+			if (ReferenceEquals(key, null))
+			{
+				throw new ArgumentNullException();
+			}
 		}
 
-		public KeyValuePair<T1, T2> this[int index]
+		private void existKeyTest(TKey key)
 		{
-			get => list[index];
-			set => list[index] = value;
+			if (ContainsKey(key)) throw new ArgumentException();
 		}
+
+	#endregion
+
+	#region event publish
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged
+		{
+			remove { list.CollectionChanged -= value; }
+			add { list.CollectionChanged += value; }
+		}
+
+	#endregion
+
+		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			if (info == null) throw new ArgumentNullException("Info");
+
+			KeyValuePair<TKey, TValue>[] array = new KeyValuePair<TKey, TValue>[list.Count];
+
+			CopyTo(array, 0);
+
+			info.AddValue("KeyValuePairs", (object) array, typeof(KeyValuePair<TKey, TValue>));
+			
+			// info.AddValue("ObservableCollection", (object) list, typeof(ObservableCollection<KeyValuePair<TKey, TValue>>));
+		}
+
 	}
-
 }

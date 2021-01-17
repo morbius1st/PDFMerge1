@@ -171,9 +171,7 @@ namespace Test3
 		private int index = 1000;
 		private int branch = 0;
 		private int MAX_DEPTH = 5;
-#pragma warning disable CS0414 // The field 'EventTestMgr.MAX_DEPTH5' is assigned but its value is never used
 		private int MAX_DEPTH5 = 4;
-#pragma warning restore CS0414 // The field 'EventTestMgr.MAX_DEPTH5' is assigned but its value is never used
 
 		private void MakeChildren(TreeNode5 parent, int depth, ObservableCollection<TreeNode5> children)
 		{
@@ -256,9 +254,7 @@ namespace Test3
 		}
 
 		private int depth = 0;
-#pragma warning disable CS0414 // The field 'EventTestMgr.offset' is assigned but its value is never used
 		private int offset = 4;
-#pragma warning restore CS0414 // The field 'EventTestMgr.offset' is assigned but its value is never used
 
 		public void ListTree()
 		{

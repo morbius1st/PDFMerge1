@@ -40,9 +40,7 @@ namespace Test3
 
 			SheetPartsDescriptor sheetDescriptor;
 
-#pragma warning disable CS0168 // The variable 'sheetPartData' is declared but never used
 			SheetPartData sheetPartData;
-#pragma warning restore CS0168 // The variable 'sheetPartData' is declared but never used
 
 
 			TbxClear();

@@ -22,21 +22,13 @@ namespace WpfShared.SavedFolders.SubFolder
 	{
 		// private FolderRoute FolderRoute;
 
-#pragma warning disable CS0414 // The field 'SubFolderManager.fromSelectFolder' is assigned but its value is never used
 		private FilePath<FileNameSimple> fromSelectFolder = null;
-#pragma warning restore CS0414 // The field 'SubFolderManager.fromSelectFolder' is assigned but its value is never used
 
-#pragma warning disable CS0169 // The field 'SubFolderManager.sf' is never used
 		private SelectFolder sf;
-#pragma warning restore CS0169 // The field 'SubFolderManager.sf' is never used
 
-#pragma warning disable CS0649 // Field 'SubFolderManager.FolderType' is never assigned to, and will always have its default value
 		private FolderType FolderType;
-#pragma warning restore CS0649 // Field 'SubFolderManager.FolderType' is never assigned to, and will always have its default value
 
-#pragma warning disable CS0169 // The field 'SubFolderManager.FolderPathType' is never used
 		private int FolderPathType;
-#pragma warning restore CS0169 // The field 'SubFolderManager.FolderPathType' is never used
 
 		// public SubFolderManager(FolderRoute fr)
 		// {

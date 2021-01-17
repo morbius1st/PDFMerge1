@@ -1,5 +1,14 @@
 ﻿#region using
 
+using AndyConfig.ConfigMgr;
+
+using AndyShared.ClassificationFileSupport;
+using AndyShared.ConfigMgr;
+using AndyShared.ConfigMgrShared;
+using AndyShared.ConfigSupport;
+
+using SettingsManager;
+
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -10,12 +19,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using AndyConfig.ConfigMgr;
-using AndyShared.ConfigMgr;
-using SettingsManager;
-using AndyShared.ClassificationFileSupport;
-using AndyShared.ConfigMgrShared;
-using AndyShared.ConfigSupport;
 
 #endregion
 
@@ -183,6 +186,23 @@ namespace AndyConfig.Windows
 			OnPropertyChange("User");
 		}
 
+		private void Btn_Status_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("Suite| " + SuiteSettings.Path.SettingFilePath);
+			Debug.WriteLine(" Site| " + SiteSettings.Path.SettingFilePath);
+			Debug.WriteLine(" Mach| " + MachSettings.Path.SettingFilePath);
+			Debug.WriteLine("  App| " + AppSettings.Path.SettingFilePath);
+			Debug.WriteLine(" User| " + UserSettings.Path.SettingFilePath);
+			Debug.WriteLine("");
+
+			Debug.WriteLine("Suite|     SiteRootPath| " + SuiteSettings.Data.SiteRootPath);
+			Debug.WriteLine(" Site|        SeedFiles| " + SiteSettings.Data.InstalledSeedFiles.ToString());
+			Debug.WriteLine(" Mach|   LastClassfFile| " + MachSettings.Data.LastClassificationFileId);
+			Debug.WriteLine("  App| AppSettingsValue| " + AppSettings.Data.AppSettingsValue);
+			Debug.WriteLine(" User|   LastClassfFile| " + UserSettings.Data.LastClassificationFileId);
+
+		}
+
 
 		private void BtnSeedSaveApply_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -290,6 +310,8 @@ namespace AndyConfig.Windows
 
 
 		#endregion
+
+
 	}
 
 	[ValueConversion(typeof(bool), typeof(string))]

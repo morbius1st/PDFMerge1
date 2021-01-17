@@ -8,7 +8,7 @@
 		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared"
 		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared"
 		Name="mainWin1"
-		Title="MainWindow"
+		Title="Fav&amp;History Test"
 		Width="800"
 		Height="450"
 		mc:Ignorable="d"
@@ -18,7 +18,7 @@
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/ObliqueButton.xaml" /> -->
+				<!-- <ResourceDictionary Source="../AndyResources/XamlResources/MasterVisualResources.xaml"></ResourceDictionary> -->
 			</ResourceDictionary.MergedDictionaries>
 
 
@@ -35,6 +35,27 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
+
+		<DockPanel
+				Grid.Column="1"
+				Grid.Row="0"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Stretch"
+				Height="100"
+				>
+				<Button
+						Margin="5,5,0,0"
+						VerticalAlignment="Top"
+						HorizontalAlignment="Left"
+
+						Content="Test Me"
+						Width="70"
+						Height="24"
+						Style="{StaticResource Button.Normal.Style}"
+						Click="ButtonBase_OnClick"
+						/>
+
+		</DockPanel>
 
 		<DockPanel
 				Grid.Column="0"

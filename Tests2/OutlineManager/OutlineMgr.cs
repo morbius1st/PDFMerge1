@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Xml;
+using SettingsManager;
 using Tests2.FileListManager;
 using Tests2.OutlineManager.DebugSupport;
-using Tests2.Settings;
 using Tests2.Windows;
 
 #endregion
@@ -116,7 +116,7 @@ namespace Tests2.OutlineManager
 				UserSettings.Data.OutlineItems.Add(oli.Clone());
 			}
 
-			UserSettings.Admin.Save();
+			UserSettings.Admin.Write();
 		}
 
 		private void LoadOutlineItems()
@@ -140,7 +140,7 @@ namespace Tests2.OutlineManager
 				UserSettings.Data.OutlineItems.Add(otl.Clone());
 			}
 
-			UserSettings.Admin.Save();
+			UserSettings.Admin.Write();
 		}
 
 

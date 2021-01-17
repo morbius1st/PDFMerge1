@@ -25,9 +25,7 @@ namespace WpfShared.Windows
 	{
 	#region private fields
 
-#pragma warning disable CS0414 // The field 'WindowManager.app' is assigned but its value is never used
 		private App app = null;
-#pragma warning restore CS0414 // The field 'WindowManager.app' is assigned but its value is never used
 		private MainWindow mainWin = null;
 		private ClassificationFileSelector ClsFileMgr = null;
 		private Window1 win1 = null;

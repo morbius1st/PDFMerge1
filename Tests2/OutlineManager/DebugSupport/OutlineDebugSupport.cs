@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tests2.Settings;
+using SettingsManager;
 using Tests2.Windows;
 
 #endregion

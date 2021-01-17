@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Tests2.FileListManager;
 using Tests2.PDFMergeManager;
-using Tests2.Settings;
 
 using static UtilityLibrary.MessageUtilities;
 

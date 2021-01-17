@@ -63,7 +63,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -83,8 +83,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CustomMarshalers" />
-    <Reference Include="Microsoft.JScript" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -97,11 +95,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -115,11 +109,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
+      <Link>.External\CsObservableDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.External\CsUtilities.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
-      <Link>.Settings\SettingsMgr.-v30.cs</Link>
+    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.4\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
@@ -134,12 +131,13 @@
     <Compile Include="PDFMergeManager\PDFMergeMgr.cs" />
     <Compile Include="PDFMergeManager\PDFMergeItem.cs" />
     <Compile Include="PDFMergeManager\PDFMergeTree.cs" />
-    <Compile Include="Settings\SetgMgr.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\HeadingSetting.cs" />
+    <Compile Include="TestData\DataSet.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Support\DrawingRoute.cs" />
-    <Compile Include="Support\ObservableDictionary.cs" />
+    <Compile Include="TestData\SampleData.cs" />
     <Compile Include="Windows\MainWinManager.cs" />
-    <Compile Include="Settings\AppSettings30.cs" />
-    <Compile Include="Settings\SettingsUser30.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -183,7 +181,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include=".Settings\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Windows\MainWindow.xaml">
       <SubType>Designer</SubType>

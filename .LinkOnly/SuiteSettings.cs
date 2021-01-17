@@ -36,17 +36,9 @@ namespace SettingsManager
 		public string SiteRootPath { get; set; }
 		//			= @"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData" ;
 
-		// [DataMember(Order = 1)]
-		// public List<ConfigFile> SeedFiles { get; set; }
 
-		// [DataMember(Order = 2)]
-		// public List<ConfigFile<FileNameSimple>> UsersOrganizationFiles { get; set; } =
-		// 	new List<ConfigFile<FileNameSimple>>()
-		// 	{
-		// 		new ConfigFile<FileNameSimple>("UnNamed", "No User",
-		// 			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample",
-		// 			@"SheetCategories.xml")
-		// 	};
+
+
 	}
 
 	#endregion

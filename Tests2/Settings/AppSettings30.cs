@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using SettingManager;
+using SettingsManager;
 using Tests2.OutlineManager;
 
 namespace Tests2.Settings

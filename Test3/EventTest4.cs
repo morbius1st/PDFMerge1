@@ -28,12 +28,8 @@ namespace Test3
 		private int leafId = 0;
 		private int uniqueId = 0;
 
-#pragma warning disable CS0169 // The field 'EventTest4._isSelected' is never used
 		private bool _isSelected;
-#pragma warning restore CS0169 // The field 'EventTest4._isSelected' is never used
-#pragma warning disable CS0169 // The field 'EventTest4._isExpanded' is never used
 		private bool _isExpanded;
-#pragma warning restore CS0169 // The field 'EventTest4._isExpanded' is never used
 
 		private bool? checkedStatus = false;
 		private int childCheckCount = 0;

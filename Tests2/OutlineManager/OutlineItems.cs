@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
-using Tests2.Settings;
 using Tests2.Windows;
 
 #endregion
