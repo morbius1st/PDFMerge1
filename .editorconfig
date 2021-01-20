@@ -8,3 +8,6 @@ csharp_prefer_braces = false:silent
 
 # CS0162: Unreachable code detected
 dotnet_diagnostic.CS0162.severity = silent
+
+# CS0436: Type conflicts with imported type
+dotnet_diagnostic.CS0436.severity = warning

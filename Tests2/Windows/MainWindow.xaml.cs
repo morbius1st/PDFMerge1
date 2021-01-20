@@ -20,6 +20,7 @@ using Tests2.Windows.MainWinSupport;
 using static UtilityLibrary.MessageUtilities;
 
 using SettingsManager;
+using Tests2.DataStore;
 using Tests2.TestData;
 using UtilityLibrary;
 using DataSet = Tests2.TestData.DataSet;
@@ -32,10 +33,12 @@ namespace Tests2.Windows
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 		private DataManager<DataSet> dm1;
+		private DataManager<SavedFileList> dms;
 
 		private FilePath<FileNameSimple> dataFilePath;
 
 		private SampleData sd;
+		private SampleData sds;
 
 		public FileItems FileList { get; private set; }
 
@@ -48,6 +51,10 @@ namespace Tests2.Windows
 
 		public static FileItems flx { get; private set; } = FileItems.Instance;
 
+
+		public string testName = "";
+
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -57,7 +64,28 @@ namespace Tests2.Windows
 			OnPropertyChange("tbkUL");
 
 			SampleDataPrepCreate();
+			SampleDataPrepCreate2();
 			// SampleDataPrepRead();
+
+		}
+
+		private void SampleDataPrepCreate2()
+		{
+			dms = new DataManager<SavedFileList>();
+			dataFilePath  =
+				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\savedfilelist1.xml");
+
+			// dms.Configure(dataFilePath);
+
+			sds = new SampleData(dms);
+
+			dms.Create(dataFilePath);
+
+			OnPropertyChange("DataMgrDms");
+
+			dms.Admin.Write();
+
+			TestName = dms.Data.SavedClassfFiles[0].Value.Name;
 
 		}
 
@@ -158,6 +186,18 @@ namespace Tests2.Windows
 			return false;
 		}
 
+		public string TestName
+		{
+			get => DataMgrDms?[0].Value.Name ?? "name is null";
+			set
+			{
+				DataMgrDms[0].Value.Name = value;
+
+				OnPropertyChange();
+			}
+	}
+
+		public  ObservableDictionary<string, SavedFile> DataMgrDms => dms?.Data.SavedClassfFiles ?? null;
 
 		public ObservableDictionary<string, subDataClass> DataMgr => dm1?.Data.Od ?? null;
 
@@ -205,6 +245,21 @@ namespace Tests2.Windows
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
 			Close();
+		}
+		
+		private void BtnRename_OnClick(object sender, RoutedEventArgs e)
+		{
+			TestName = "Got Name?";
+		}
+		
+		private void BtnFilter_OnClick(object sender, RoutedEventArgs e)
+		{
+			dms.Data.View = SavedFileListSupport.FilterByProject("2099-001", dms);
+		}
+				
+		private void BtnRemove_OnClick(object sender, RoutedEventArgs e)
+		{
+			SavedFileListSupport.RemoveByProject("2099-001", dms);
 		}
 		
 		private void BtnTest_OnClick(object sender, RoutedEventArgs e)

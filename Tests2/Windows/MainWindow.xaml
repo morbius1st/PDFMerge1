@@ -215,39 +215,83 @@
 			<RowDefinition Height="38" />
 		</Grid.RowDefinitions>
 
-		<Button x:Name="btnTest"
-				Content="Test"
-				Grid.Column="1"
-				Grid.Row="2"
-				Margin="0,5,100,5"
-				Width="80"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Stretch"
-				Click="BtnTest_OnClick"
-		/>
-
-
-		<Button x:Name="btnDebug"
-				Content="Debug"
-				Grid.Column="1"
-				Grid.Row="2"
-				Margin="0,5,5,5"
-				Width="80"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Stretch"
-				Click="BtnDebug_OnClick"
-				/>
-
-		<Button x:Name="btnDone"
-				Content="Done"
+		<StackPanel
 				Grid.Column="2"
+				Grid.Row="0"
+				Grid.RowSpan="3"
+				VerticalAlignment="Bottom"
+				Orientation="Vertical"
+				>
+
+			<Button x:Name="btnRename"
+					Content="Rename"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnRename_OnClick"
+					/>
+
+			<Button x:Name="btnRemove"
+					Content="Remove ...-001"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnRemove_OnClick"
+					/>
+
+			<Button x:Name="btnFilter"
+					Content="Filter by ...-001"
+					Grid.Column="1"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnFilter_OnClick"
+					/>
+
+			<Button x:Name="btnTest"
+					Content="Test"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnTest_OnClick"
+					/>
+
+			<Button x:Name="btnDebug"
+					Content="Debug"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnDebug_OnClick"
+					/>
+
+			<Button x:Name="btnDone"
+					Content="Done"
+					Margin="5"
+					Width="80"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Click="BtnDone_OnClick"
+					/>
+
+		</StackPanel>
+
+		<TextBox
+				Grid.Column="1"
 				Grid.Row="2"
-				Margin="0,5,5,5"
-				Width="80"
-				HorizontalAlignment="Right"
+				Margin="5"
+				x:Name="TbxResult"
+				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
-				Click="BtnDone_OnClick"
-				/>
+				Background="#555555"
+				Foreground="White"
+				Text="{Binding ElementName=mainWin, Path=TestName}"
+				TextWrapping="NoWrap"
+		/>
 
 		<TextBox x:Name="tbkUL"
 				Grid.Column="0"
@@ -723,113 +767,112 @@
 				>
 
 			<ListView x:Name="lv02"
-				DockPanel.Dock="Top"
+					Margin="3,20,0,0"
+					Height="200"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					DataContext="{Binding FileList,
+																ElementName=mainWin,
+																Mode=OneWay}"
+					d:DataContext="{Binding Source={StaticResource flx},
+																	Mode=OneWay,
+																	Path=fileItems2}"
+					Background="#444444"
+					Foreground="White"
+					DockPanel.Dock="Top"
+					ScrollViewer.CanContentScroll="False"
+					ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"
+					ItemTemplate="{DynamicResource lv01DataTemplate}"
+					ItemsSource="{Binding}"
+					>
 
-				Margin="3,20,0,0"
-				Height="200"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				DataContext="{Binding FileList,
-															ElementName=mainWin,
-															Mode=OneWay}"
-				d:DataContext="{Binding Source={StaticResource flx},
-																Mode=OneWay,
-																Path=fileItems2}"
-				Background="#444444"
-				Foreground="White"
-				ScrollViewer.CanContentScroll="False"
-				ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"
-				ItemTemplate="{DynamicResource lv01DataTemplate}"
-				ItemsSource="{Binding}"
-				>
-
-			<ListView.Resources>
-				<DataTemplate x:Key="lv01DataTemplate"
-						DataType="filelist:FileItem"
-						>
-					<Border
-							BorderThickness="3"
-							BorderBrush="SpringGreen"
+				<ListView.Resources>
+					<DataTemplate x:Key="lv01DataTemplate"
+							DataType="filelist:FileItem"
 							>
-						<StackPanel Orientation="Vertical">
+						<Border
+								BorderThickness="3"
+								BorderBrush="SpringGreen"
+								>
+							<StackPanel Orientation="Vertical">
 
-							<StackPanel Orientation="Horizontal">
-								<Label
-										Content="sort Code"
-										Style="{StaticResource lblTitle}"
-										/>
-								<Label
-										Content="{Binding SortCode}"
-										Width="Auto"
-										Style="{StaticResource lblPathValue}"
-										/>
+								<StackPanel Orientation="Horizontal">
+									<Label
+											Content="sort Code"
+											Style="{StaticResource lblTitle}"
+											/>
+									<Label
+											Content="{Binding SortCode}"
+											Width="Auto"
+											Style="{StaticResource lblPathValue}"
+											/>
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal">
+									<Label
+											Content="complete path"
+											Style="{StaticResource lblTitle}"
+											/>
+									<Label
+											Content="{Binding FilePath.FullPath}"
+											Width="Auto"
+											Style="{StaticResource lblPathValue}"
+											/>
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal">
+									<Label
+											Content="outline path"
+											Style="{StaticResource lblTitle}"
+											/>
+									<Label
+											Content="{Binding OutlinePath.FullPath}"
+											Width="Auto"
+											Style="{StaticResource lblPathValue}"
+											/>
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal">
+									<Label
+											Content="levels"
+											Style="{StaticResource lblTitle}"
+											/>
+									<Label
+											Content="{Binding OutlinePathDepth}"
+											Width="40"
+											Style="{StaticResource lblPathValue}"
+											/>
+									<Label
+											Content="{Binding OutlinePath.Depth}"
+											Width="40"
+											Style="{StaticResource lblPathValue}"
+											/>
+									<Label
+											Content="{Binding OutlinePath.FolderNamesCount}"
+											Width="40"
+											Style="{StaticResource lblPathValue}"
+											/>
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal">
+									<Label
+											Content="folders"
+											Style="{StaticResource lblTitle}"
+											/>
+									<Label
+											Content="{Binding OutlineFolders,
+																				FallbackValue=outlinefolders}"
+											Width="auto"
+											Style="{StaticResource lblPathValue}"
+											/>
+								</StackPanel>
+
 							</StackPanel>
+						</Border>
+					</DataTemplate>
+				</ListView.Resources>
 
-							<StackPanel Orientation="Horizontal">
-								<Label
-										Content="complete path"
-										Style="{StaticResource lblTitle}"
-										/>
-								<Label
-										Content="{Binding FilePath.FullPath}"
-										Width="Auto"
-										Style="{StaticResource lblPathValue}"
-										/>
-							</StackPanel>
-
-							<StackPanel Orientation="Horizontal">
-								<Label
-										Content="outline path"
-										Style="{StaticResource lblTitle}"
-										/>
-								<Label
-										Content="{Binding OutlinePath.FullPath}"
-										Width="Auto"
-										Style="{StaticResource lblPathValue}"
-										/>
-							</StackPanel>
-
-							<StackPanel Orientation="Horizontal">
-								<Label
-										Content="levels"
-										Style="{StaticResource lblTitle}"
-										/>
-								<Label
-										Content="{Binding OutlinePathDepth}"
-										Width="40"
-										Style="{StaticResource lblPathValue}"
-										/>
-								<Label
-										Content="{Binding OutlinePath.Depth}"
-										Width="40"
-										Style="{StaticResource lblPathValue}"
-										/>
-								<Label
-										Content="{Binding OutlinePath.FolderNamesCount}"
-										Width="40"
-										Style="{StaticResource lblPathValue}"
-										/>
-							</StackPanel>
-
-							<StackPanel Orientation="Horizontal">
-								<Label
-										Content="folders"
-										Style="{StaticResource lblTitle}"
-										/>
-								<Label
-										Content="{Binding OutlineFolders,
-																			FallbackValue=outlinefolders}"
-										Width="auto"
-										Style="{StaticResource lblPathValue}"
-										/>
-							</StackPanel>
-
-						</StackPanel>
-					</Border>
-				</DataTemplate>
-			</ListView.Resources>
-
-		</ListView>
+			</ListView>
 
 
 			<ListView x:Name="lv03"
@@ -837,26 +880,50 @@
 					Width="300"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
-					DataContext="{Binding ElementName=mainWin,
-																Mode=OneWay,
-																Path=test}"
+					DataContext="{Binding ElementName=mainWin}"
 					Background="#444444"
 					Foreground="White"
 					DockPanel.Dock="Left"
 					ScrollViewer.CanContentScroll="False"
-					ItemsSource="{Binding}"
+					ItemsSource="{Binding Path=DataMgrDms}"
 					>
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<Label Content="{Binding Value.BookmarkTitle}" />
+						<StackPanel Orientation="Horizontal">
+							<Label
+									Content="{Binding Key,
+																		FallbackValue='key1',
+																		TargetNullValue='k1'}"
+									Padding="0"
+									HorizontalAlignment="left"
+									Foreground="White"
+									/>
+							<Label
+									Content="{Binding Value.Name,
+																		FallbackValue='value1',
+																		TargetNullValue='null'}"
+									Padding="10,0,0,0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									/>
+							<Label
+									Content="{Binding Value.FilePath.FullFilePath,
+																		FallbackValue='value1',
+																		TargetNullValue='v1'}"
+									Padding="10,0,0,0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									/>
+
+						</StackPanel>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 
 			</ListView>
 
 			<ListView x:Name="lv05"
-			Width="300"
-			Margin="3,0,0,0"
+					Margin="3,0,0,0"
+					Width="300"
 					HorizontalAlignment="right"
 					VerticalAlignment="Stretch"
 					DataContext="{Binding ElementName=mainWin}"
@@ -865,30 +932,41 @@
 					DockPanel.Dock="Right"
 					ScrollViewer.CanContentScroll="False"
 					ItemsSource="{Binding Path=DataMgr}"
-			>
+					>
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Label 
-									Padding="0"
-									Width="100"
-									Foreground="White"
-									Content="{Binding Key, FallbackValue='key1', TargetNullValue='k1'}" />
 							<Label
+									Content="{Binding Key,
+																		FallbackValue='key1',
+																		TargetNullValue='k1'}"
 									Padding="0"
-									HorizontalAlignment="Stretch"
 									Foreground="White"
-									Content="{Binding Value.S1, FallbackValue='value1', TargetNullValue='v1'}" />
+									/>
 							<Label
+									Content="{Binding Value.S1,
+																		FallbackValue='value1',
+																		TargetNullValue='v1'}"
 									Padding="10,0,0,0"
 									HorizontalAlignment="Stretch"
 									Foreground="White"
-									Content="{Binding Value.D1, FallbackValue='value1', TargetNullValue='v1'}" />
+									/>
 							<Label
+									Content="{Binding Value.D1,
+																		FallbackValue='value1',
+																		TargetNullValue='v1'}"
 									Padding="10,0,0,0"
 									HorizontalAlignment="Stretch"
 									Foreground="White"
-									Content="{Binding Value.I1, FallbackValue='value1', TargetNullValue='v1'}" />
+									/>
+							<Label
+									Content="{Binding Value.I1,
+																		FallbackValue='value1',
+																		TargetNullValue='v1'}"
+									Padding="10,0,0,0"
+									HorizontalAlignment="Stretch"
+									Foreground="White"
+									/>
 
 						</StackPanel>
 					</DataTemplate>
@@ -899,9 +977,9 @@
 
 
 
-		<!--  ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"  -->
+			<!--  ItemContainerStyle="{DynamicResource Lv02ItemStyle2}"  -->
 
-	
+
 
 		</DockPanel>
 

@@ -49,6 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{C29B7CA2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".LinkOnly", ".LinkOnly", "{F627B9D2-FC1F-4A64-A2A6-DC35ACC39BA1}"
 	ProjectSection(SolutionItems) = preProject
+		.LinkOnly\GlobalSuppressions.cs = .LinkOnly\GlobalSuppressions.cs
 		.LinkOnly\HeadingSettings.cs = .LinkOnly\HeadingSettings.cs
 		.LinkOnly\MachineSettings.cs = .LinkOnly\MachineSettings.cs
 		.LinkOnly\SiteSettings.cs = .LinkOnly\SiteSettings.cs

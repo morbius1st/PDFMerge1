@@ -3,11 +3,15 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using AndyFavsAndHistory.FavHistoryMgr;
 using CSLibraryIo;
 using CSLibraryIo.CommonFileFolderDialog;
-using UtilityLibrary;
 
-using Microsoft.IdentityModel;
+using UtilityLibrary;
+using static UtilityLibrary.MessageUtilities;
+
+
+using SettingsManager;
 
 #endregion
 
@@ -25,24 +29,38 @@ namespace AndyFavsAndHistory.Windows
 	{
 	#region private fields
 
+		private string message;
+
 		private FilePath<FileNameSimple> location;
+
+		private  FavHistoryManager<SavedFile> favMgr;
+		private  FavHistoryManager<SavedFile> histMgr;
+
 
 
 	#endregion
 
 	#region ctor
 
-		public FavsAndHistory(FilePath<FileNameSimple> location)
+		public FavsAndHistory()
 		{
 			InitializeComponent();
 
-			this.location = location;
+			Configure();
 		}
 
 	#endregion
 
 	#region public properties
 
+		public string Message {
+			get => message;
+			set
+			{
+				message = value;
+				OnPropertyChange();
+			}
+	}
 		
 
 	#endregion
@@ -53,14 +71,31 @@ namespace AndyFavsAndHistory.Windows
 
 	#region public methods
 
-		public void Config(string username)
+		public void Configure()
 		{
+			SuiteSettings.Admin.Read();
 
+			WriteLine(logMsgDbS("SiteRootPath", SuiteSettings.Data.SiteRootPath));
+			WriteLine(logMsgDbS("Suite Setting Description", SuiteSettings.Info.Description));
+			WriteLine(logMsgDbS("Suite Setting Path", SuiteSettings.Path.SettingFilePath));
+			WriteLine(logMsgDbS("Location", location.FullFilePath));
+			
 		}
+
 
 	#endregion
 
 	#region private methods
+
+		private void Write(string msg)
+		{
+			Message += msg;
+		}
+
+		private void WriteLine(string msg)
+		{
+			Write(msg + "\n");
+		}
 
 	#endregion
 

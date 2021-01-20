@@ -137,6 +137,9 @@
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Support\DrawingRoute.cs" />
     <Compile Include="TestData\SampleData.cs" />
+    <Compile Include="TestData\SavedFile.cs" />
+    <Compile Include="TestData\SavedFileList.cs" />
+    <Compile Include="TestData\SavedFileListSupport.cs" />
     <Compile Include="Windows\MainWinManager.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

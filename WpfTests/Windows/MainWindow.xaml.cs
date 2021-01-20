@@ -8,8 +8,8 @@ using System.Windows;
 using UtilityLibrary;
 using WpfShared.Dialogs.DialogSupport;
 using WpfShared.Windows;
-
 using static WpfTests.Windows.MainWindow.EventStat;
+using SettingsManager;
 
 using AndyFavsAndHistory.Windows;
 
@@ -28,22 +28,27 @@ namespace WpfTests.Windows
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
-		#region private fields
+	#region private fields
 
-			public enum EventStat
-			{
-				PathChg,
-				SelectFldr,
-				History,
-				Favorite
-			}
+		public enum EventStat
+		{
+			PathChg,
+			SelectFldr,
+			History,
+			Favorite
+		}
 
-			private string[] eventStatus = new [] {"", "", "", "" };
+		private string[] eventStatus = new [] {"", "", "", "" };
 
+		private string message;
 
-		#endregion
+		private  bool isConfigured = true;
+		private string userName = "Jeffs";
+		private string projNumber = "2099-900";
 
-		#region ctor
+	#endregion
+
+	#region ctor
 
 		public MainWindow()
 		{
@@ -53,133 +58,197 @@ namespace WpfTests.Windows
 			FolderRoute.OnHistoryPressed += FolderRouteOnOnHistoryPressed;
 			FolderRoute.OnSelectFolderRequested += FolderRouteOnOnSelectFolderRequested;
 			FolderRoute.OnPathChange += FolderRouteOnOnPathChange;
+
+			WriteLine("pgm setting| isconfigured| " + isConfigured.ToString());
+			WriteLine("pgm setting|     username| " + userName);
+			WriteLine("pgm setting|      projnum| " + projNumber);
+
+			WriteLine("suite setg| root folder| " + SuiteSettings.Path.RootFolderPath);
+			WriteLine("suite setg| setg folder| " + SuiteSettings.Path.SettingFolderPath);
+			WriteLine("suite setg| site root path| " + SuiteSettings.Data.SiteRootPath);
+
 		}
 
-		#endregion
+	#endregion
 
-		#region public properties
-			public string Favorite
+	#region public properties
+
+		public string Message
+		{
+			get => message;
+			set
 			{
-				get => eventStatus[(int) EventStat.Favorite];
-				set
-				{
-					eventStatus[(int) EventStat.Favorite] = value;
-					OnPropertyChange();
-				}
+				message = value;
+				OnPropertyChange();
 			}
+		}
 
-			public string History
+		public void Write(string msg)
+		{
+			Message += msg;
+		}
+
+		public void WriteLine(string msg)
+		{
+			Message += msg + "\n";
+		}
+
+
+		public string Favorite
+		{
+			get => eventStatus[(int) EventStat.Favorite];
+			set
 			{
-				get => eventStatus[(int) EventStat.History];
-				set
-				{
-					eventStatus[(int) EventStat.History] = value;
-					OnPropertyChange();
-				}
+				eventStatus[(int) EventStat.Favorite] = value;
+				OnPropertyChange();
 			}
+		}
 
-			public string SelectFldr
+		public string History
+		{
+			get => eventStatus[(int) EventStat.History];
+			set
 			{
-				get => eventStatus[(int) EventStat.SelectFldr];
-				set
-				{
-					eventStatus[(int) EventStat.SelectFldr] = value;
-					OnPropertyChange();
-				}
+				eventStatus[(int) EventStat.History] = value;
+				OnPropertyChange();
 			}
+		}
 
-			public string PathChg
+		public string SelectFldr
+		{
+			get => eventStatus[(int) EventStat.SelectFldr];
+			set
 			{
-				get => eventStatus[(int) EventStat.PathChg];
-				set
-				{
-					eventStatus[(int) EventStat.PathChg] = value;
-					OnPropertyChange();
-				}
+				eventStatus[(int) EventStat.SelectFldr] = value;
+				OnPropertyChange();
 			}
-		#endregion
+		}
 
-		#region private properties
+		public string PathChg
+		{
+			get => eventStatus[(int) EventStat.PathChg];
+			set
+			{
+				eventStatus[(int) EventStat.PathChg] = value;
+				OnPropertyChange();
+			}
+		}
 
-		#endregion
-
-		#region public methods
-
-		#endregion
-
-		#region private methods
 		
-
-			private void FolderRouteOnOnPathChange(object sender, PathChangeArgs e)
+		public string UserName
+		{
+			get => userName;
+			set
 			{
-				EventMessage("Changed", EventStat.PathChg);
+				userName = value;
+				OnPropertyChange();
 			}
+		}
 
-			private void FolderRouteOnOnSelectFolderRequested(object sender, EventArgs e)
+		public string ProjNumber
+		{
+			get => projNumber;
+			set
 			{
-				EventMessage("Pressed", EventStat.SelectFldr);
+				projNumber = value;
+				OnPropertyChange();
 			}
-
-			private void FolderRouteOnOnHistoryPressed(object sender, EventArgs e)
-			{
-				EventMessage("Pressed", EventStat.History);
-			}
-
-			private void FolderRouteOnOnFavoritesPressed(object sender, EventArgs e)
-			{
-				EventMessage("Pressed", EventStat.Favorite);
-			
-			}
-
-			private void EventMessage(string msg, EventStat idx)
-			{
-				eventStatus[(int) idx] = msg;
-				string e = idx.ToString();
-				OnPropertyChange(e);
-
-				Timer t = new Timer(ClearEventMessage, idx, 500, 0);
-			}
+		}
 
 
-			private void ClearEventMessage(object state)
-			{
-				EventStat idx = (EventStat) state;
-				string e = idx.ToString();
+	#endregion
 
-				eventStatus[(int) idx] = "";
+	#region private properties
 
-				OnPropertyChange(e);
+	#endregion
 
-			}
-		#endregion
+	#region public methods
 
-		#region event consuming
-
-			private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-			{
-				FavsAndHistory fav = new FavsAndHistory(
-					new FilePath<FileNameSimple>(@"c:\")
-					);
-
-				fav.ShowDialog();
-			}
-
-			private void btnAdd_OnClick(object sender, RoutedEventArgs e)
-			{
-				FolderRoute.SetPath(new FilePath<FileNameSimple>(
-					@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 one level"));
-			}
-
-			private void BtnClr_OnClick(object sender, RoutedEventArgs e)
-			{
-
-				FolderRoute.ClearPath();
-			}
+		public void Configure(string userName, string projectNumber)
+		{
+			UserName = userName;
+			ProjNumber = projectNumber;
+		}
 
 
-		#endregion
+	#endregion
 
-		#region event publishing
+	#region private methods
+
+
+
+
+
+
+		private void FolderRouteOnOnPathChange(object sender, PathChangeArgs e)
+		{
+			EventMessage("Changed", EventStat.PathChg);
+		}
+
+		private void FolderRouteOnOnSelectFolderRequested(object sender, EventArgs e)
+		{
+			EventMessage("Pressed", EventStat.SelectFldr);
+		}
+
+		private void FolderRouteOnOnHistoryPressed(object sender, EventArgs e)
+		{
+			EventMessage("Pressed", EventStat.History);
+		}
+
+		private void FolderRouteOnOnFavoritesPressed(object sender, EventArgs e)
+		{
+			EventMessage("Pressed", EventStat.Favorite);
+		}
+
+		private void EventMessage(string msg, EventStat idx)
+		{
+			eventStatus[(int) idx] = msg;
+			string e = idx.ToString();
+			OnPropertyChange(e);
+
+			Timer t = new Timer(ClearEventMessage, idx, 500, 0);
+		}
+
+
+		private void ClearEventMessage(object state)
+		{
+			EventStat idx = (EventStat) state;
+			string e = idx.ToString();
+
+			eventStatus[(int) idx] = "";
+
+			OnPropertyChange(e);
+		}
+
+	#endregion
+
+	#region event consuming
+
+		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
+		{
+			SuiteSettings.Admin.Read();
+
+			SettingsMgr<SuiteSettingPath, SuiteSettingInfo<SuiteSettingData>, SuiteSettingData> s = SuiteSettings.Admin;
+
+			FavsAndHistory fav = new FavsAndHistory();
+
+			fav.ShowDialog();
+		}
+
+		private void btnAdd_OnClick(object sender, RoutedEventArgs e)
+		{
+			FolderRoute.SetPath(new FilePath<FileNameSimple>(
+				@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 one level"));
+		}
+
+		private void BtnClr_OnClick(object sender, RoutedEventArgs e)
+		{
+			FolderRoute.ClearPath();
+		}
+
+	#endregion
+
+	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -188,17 +257,15 @@ namespace WpfTests.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
-		#endregion
+	#endregion
 
-		#region system overrides
+	#region system overrides
 
 		public override string ToString()
 		{
 			return "this is MainWindow";
 		}
 
-		#endregion
-
-			
+	#endregion
 	}
 }

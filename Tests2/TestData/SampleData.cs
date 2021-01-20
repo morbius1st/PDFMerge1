@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SettingsManager;
+using Tests2.DataStore;
 using Tests2.Support;
 using UtilityLibrary;
 
@@ -23,6 +24,7 @@ namespace Tests2.TestData
 	#region private fields
 
 		private DataManager<DataSet> dm;
+		private DataManager<SavedFileList> dms;
 
 	#endregion
 
@@ -33,6 +35,13 @@ namespace Tests2.TestData
 			this.dm = dm;
 
 			MakeSampleData();
+		}
+		
+		public SampleData(DataManager<SavedFileList> dms)
+		{
+			this.dms = dms;
+
+			MakeSampleData2();
 		}
 
 	#endregion
@@ -63,8 +72,20 @@ namespace Tests2.TestData
 			d.Add("bear", new subDataStruct("the brown bear in the forest", 2.0, 2));
 			d.Add("wolf", new subDataStruct("the grey wolf and the moon", 3.0, 3));
 			d.Add("hawk", new subDataStruct("the sienna hawk in the sky", 4.0, 4));
+		}
 
-			
+		private void MakeSampleData2()
+		{
+			SavedFileList d = dms.Data;
+
+			d.Add("2099-000", null, new FilePath<FileNameSimple>(@"C:\2099-000\file1.xml"));
+			d.Add("2099-000", null, new FilePath<FileNameSimple>(@"C:\2099-000\file2.xml"));
+			d.Add("2099-001", null, new FilePath<FileNameSimple>(@"C:\2099-001\file3.xml"));
+			d.Add("2099-001", null, new FilePath<FileNameSimple>(@"C:\2099-001\file4.xml"));
+			d.Add("2099-002", null, new FilePath<FileNameSimple>(@"C:\2099-002\file5.xml"));
+			d.Add("2099-003", null, new FilePath<FileNameSimple>(@"C:\2099-003\file6.xml"));
+			d.Add("2099-004", null, new FilePath<FileNameSimple>(@"C:\2099-004\file7.xml"));
+			d.Add("2099-004", null, new FilePath<FileNameSimple>(@"C:\2099-004\file8.xml"));
 
 		}
 
