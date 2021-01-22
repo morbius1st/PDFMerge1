@@ -12,7 +12,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "AppSettings", Namespace = "")]
-	internal class AppSettingInfo<T> : AppSettingInfoBase<T>
+	public class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new ()
 	{
 		public AppSettingInfo()
@@ -21,7 +21,7 @@ namespace SettingsManager
 			Description = "app setting file for ClassifierEditor";
 		}
 
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

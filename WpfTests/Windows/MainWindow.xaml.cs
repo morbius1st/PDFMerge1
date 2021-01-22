@@ -228,7 +228,8 @@ namespace WpfTests.Windows
 		{
 			SuiteSettings.Admin.Read();
 
-			SettingsMgr<SuiteSettingPath, SuiteSettingInfo<SuiteSettingData>, SuiteSettingData> s = SuiteSettings.Admin;
+			var s = 
+				SuiteSettings.Admin;
 
 			FavsAndHistory fav = new FavsAndHistory();
 

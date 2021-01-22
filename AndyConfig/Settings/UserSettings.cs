@@ -10,7 +10,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "UserSetting", Namespace = "")]
-	internal class UserSettingInfo<T> : UserSettingInfoBase<T>
+	public class UserSettingInfo<T> : UserSettingInfoBase<T>
 		where T : new ()
 	{
 		public UserSettingInfo()
@@ -20,7 +20,7 @@ namespace SettingsManager
 		}
 
 
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion
@@ -30,7 +30,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class UserSettingData
+	public class UserSettingData
 	{
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";

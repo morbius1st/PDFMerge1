@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
+
 // App settings (per user)
 //	- applies to a specific app in the suite
 //	- holds information specific to the app
@@ -12,7 +13,7 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "AppSettings", Namespace = "")]
-	internal class AppSettingInfo<T> : AppSettingInfoBase<T>
+	public class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new()
 	{
 		public AppSettingInfo()
@@ -23,7 +24,7 @@ namespace SettingsManager
 			Notes = "any notes go here";
 		}
 
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 	#endregion
@@ -33,7 +34,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class AppSettingData
+	public class AppSettingData
 	{
 		[DataMember(Order = 1)]
 		public int AppSettingsValue { get; set; } = 7;

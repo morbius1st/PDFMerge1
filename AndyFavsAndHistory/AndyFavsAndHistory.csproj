@@ -44,7 +44,8 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <NoWarn>CS0436</NoWarn>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -85,7 +86,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WpfShared">
       <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,11 +112,10 @@
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
-    <Compile Include="FavHistoryMgr\SavedFileData.cs" />
-    <Compile Include="FavHistoryMgr\SavedFile.cs" />
+    <Compile Include="FavHistoryMgr\FileListData.cs" />
+    <Compile Include="FavHistoryMgr\FileListItem.cs" />
     <Compile Include="FavHistoryMgr\SavedFileListSupport.cs" />
     <Compile Include="FavHistoryMgr\FavHistoryManager.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
@@ -133,9 +133,6 @@
     </Page>
     <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -182,4 +179,8 @@
     <Folder Include="Windows\Support\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\WpfTests\bin\x86\debug"
+copy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)\WpfTests\bin\x86\debug"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -12,15 +12,24 @@ using UtilityLibrary;
 
 namespace AndyFavsAndHistory.FavHistoryMgr
 {
+
+	// public interface IFileListItem
+	// {
+	// 	FilePath<FileNameSimple> FilePath { get; }
+	// 	string Name { get; set; }
+	//
+	// }
+	//
+
 	[DataContract(Namespace = "")]
-	public class SavedFile : INotifyPropertyChanged
+	public class FileListItem :  INotifyPropertyChanged
 	{
 		private string name;
 		private FilePath<FileNameSimple> filePath;
 
-		public SavedFile() {}
+		public FileListItem() { }
 
-		public SavedFile(string name, FilePath<FileNameSimple> filePath)
+		public FileListItem(string name, FilePath<FileNameSimple> filePath)
 		{
 			this.name = name;
 			this.filePath = filePath;
@@ -41,7 +50,7 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 		public FilePath<FileNameSimple> FilePath
 		{
 			get => filePath;
-			set => filePath = value;
+			private set => filePath = value;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -50,6 +59,5 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
 	}
 }

@@ -44,6 +44,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public static ClassificationFile GetUserClassfFile(string fileId)
 		{
+
 			return new ClassificationFile(ClassificationFileAssist.AssembleClassfFilePath(fileId,
 				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
 		}
@@ -51,7 +52,7 @@ namespace AndyShared.ClassificationFileSupport
 		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)
 		{
 			return new FilePath<FileNameUserAndId>(
-				FilePathUtil.AssembleFilePath(AssembleFileNameNoExt(Environment.UserName, newFileId),
+				FilePathUtil.AssembleFilePathS(AssembleFileNameNoExt(Environment.UserName, newFileId),
 					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
 		}
 
@@ -65,11 +66,13 @@ namespace AndyShared.ClassificationFileSupport
 
 			if (!FileUtilities.CopyFile(source.FullFilePath, dest.FullFilePath)) return false;
 
-			BaseDataFile<ClassificationFileData>  df =
-				new BaseDataFile<ClassificationFileData>();
+			DataManager<ClassificationFileData>  df =
+				new DataManager<ClassificationFileData>();
 			// df.Configure(dest.FolderPath, dest.FileName);
 			df.Configure(dest.FolderPath, dest.FileNameNoExt, dest.FileExtensionNoSep);
 			df.Admin.Read();
+
+			string x = UserSettings.Admin.ToString();
 
 			if (!df.Info.Description.IsVoid())
 			{
@@ -88,6 +91,7 @@ namespace AndyShared.ClassificationFileSupport
 			{
 				df.Info.Notes = dest.FileNameObject.UserName + " created this file on " + DateTime.Now;
 			}
+
 
 			df.Admin.Write();
 

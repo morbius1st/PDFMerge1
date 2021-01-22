@@ -18,9 +18,8 @@ using UtilityLibrary;
 
 namespace AndyFavsAndHistory.FavHistoryMgr
 {
-	public class FavHistoryManager<T> : INotifyPropertyChanged
-		where T : class, ISavedFile, new()
-		
+	public class FavHistoryManager : INotifyPropertyChanged
+
 	{
 	#region private fields
 
@@ -28,7 +27,7 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 		private FilePath<FileNameSimple> filePath;
 
-		private BaseDataFile<T> data;
+		private DataManager<FileListData> data;
 
 		private ICollectionView view;
 
@@ -92,9 +91,11 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 		public void Configure(FilePath<FileNameSimple> filePath)
 		{
+			string x = UserSettings.Admin.Path.ClassVersionFromFile;
+
 			if (isInitialized) data.Admin.Write();
 
-			data = new BaseDataFile<T>();
+			data = new DataManager<FileListData>();
 			data.Open(filePath);
 
 			isInitialized = true;
@@ -102,27 +103,27 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 			setView();
 		}
 
-		public void Add(string key, SavedFile value)
+		public void Add(string key, FileListItem value)
 		{
 			if (!isInitialized) return;
 
-			data.Data.SavedFileList.Add(key, value);
+			data.Data.FileList.Add(key, value);
 		}
 
 		public void Remove(string key)
 		{
 			if (!isInitialized) return;
 
-			data.Data.SavedFileList.Remove(key);
+			data.Data.FileList.Remove(key);
 		}
 
-		public SavedFile Find(string key)
+		public FileListItem Find(string key)
 		{
 			if (!isInitialized) return null;
 
-			support.Select<T>(key, data);
+			support.Select(key, data);
 
-			return data.Data.SavedFileList[key];
+			return data.Data.FileList[key];
 		}
 
 	#endregion

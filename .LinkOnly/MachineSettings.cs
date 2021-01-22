@@ -10,7 +10,7 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "MachSettings", Namespace = "")]
-	internal class MachSettingInfo<T> : MachSettingInfoBase<T>
+	public class MachSettingInfo<T> : MachSettingInfoBase<T>
 		where T : new()
 	{
 		public MachSettingInfo()
@@ -19,9 +19,7 @@ namespace SettingsManager
 			Description = "machine setting file for SettingsManagerV70";
 		}
 
-#pragma warning disable CS0436 // The type 'SettingInfoBase<TData>' in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs' conflicts with the imported type 'SettingInfoBase<TData>' in 'WpfShared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs'.
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
-#pragma warning restore CS0436 // The type 'SettingInfoBase<TData>' in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs' conflicts with the imported type 'SettingInfoBase<TData>' in 'WpfShared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs'.
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 	#endregion
@@ -31,7 +29,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class MachSettingData
+	public class MachSettingData
 	{
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";

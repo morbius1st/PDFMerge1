@@ -10,7 +10,7 @@ namespace SettingsManager
 #region info class
 
 	[DataContract(Name = "UserSetting", Namespace = "")]
-	internal class UserSettingInfo<T> : UserSettingInfoBase<T>
+	public class UserSettingInfo<T> : UserSettingInfoBase<T>
 		where T : new ()
 	{
 		public UserSettingInfo()
@@ -20,7 +20,7 @@ namespace SettingsManager
 		}
 
 
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 #endregion

@@ -20,31 +20,22 @@ using UtilityLibrary;
 namespace AndyFavsAndHistory.FavHistoryMgr
 {
 
-	public interface ISavedFile
-	{
-		ObservableDictionary<string, SavedFile> SavedFileList { get; }
-		int Index { get; }
-		ICollectionView View { get; }
-	}
-
-
 
 #region data class
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	
-	public class SavedFileData : INotifyPropertyChanged, ISavedFile
+	public class FileListData : INotifyPropertyChanged
 	{
 		private int index;
 
-		private ObservableDictionary<string, SavedFile> savedFileList =
-			new ObservableDictionary<string, SavedFile>();
 
 		private CollectionView view;
+		private ObservableDictionary<string, FileListItem> fileList =
+			new ObservableDictionary<string, FileListItem>();
 
-		public SavedFileData()
+		public FileListData()
 		{
 			OnDeserialized();
 		}
@@ -63,37 +54,38 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 		}
 
 		[IgnoreDataMember]
-		public ICollectionView View => view;
+		public ICollectionView FileListView => view;
 
 		[DataMember(Order = 10)]
-		public ObservableDictionary<string, SavedFile> SavedFileList => savedFileList;
+		public ObservableDictionary<string, FileListItem> FileList => fileList;
 
 		public void Add(string projectNumber, string name, FilePath<FileNameSimple> filePath)
 		{
-			savedFileList.Add(projectNumber + (Index++).ToString("D5"), new SavedFile(name, filePath));
+
+			fileList.Add(projectNumber + (Index++).ToString("D5"), new FileListItem(name, filePath));
 		}
 
 		public void ModifyName(string key, string name)
 		{
-			SavedFile sf;
+			FileListItem sf;
 
-			bool result = savedFileList.TryGetValue(key, out sf);
+			// bool result = fileList.TryGetValue(key, out sf);
 
-			if (result) sf.Name = name;
+			// if (result) sf.Name = name;
 		}
 
 		public void RemoveProject(string projectNumber)
 		{
-			CollectionView view = (CollectionView) CollectionViewSource.GetDefaultView(savedFileList);
+			CollectionView view = (CollectionView) CollectionViewSource.GetDefaultView(fileList);
 
 			int len = projectNumber.Length;
 
-			view.Filter = o => ((KeyValuePair<string, SavedFile>) o).Key.Substring(0, len).Equals(projectNumber);
+			view.Filter = o => ((KeyValuePair<string, FileListItem>) o).Key.Substring(0, len).Equals(projectNumber);
 		}
 
 		private void setView()
 		{
-			view = (CollectionView) CollectionViewSource.GetDefaultView(savedFileList);
+			view = (CollectionView) CollectionViewSource.GetDefaultView(fileList);
 		}
 
 

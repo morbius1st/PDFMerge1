@@ -12,7 +12,7 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "AppSettings", Namespace = "")]
-	internal class AppSettingInfo<T> : AppSettingInfoBase<T>
+	public class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new()
 	{
 		public AppSettingInfo()
@@ -23,7 +23,7 @@ namespace SettingsManager
 			Notes = "any notes go here";
 		}
 
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 	#endregion

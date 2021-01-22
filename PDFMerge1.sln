@@ -71,6 +71,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTests", "WpfTests\WpfTests.csproj", "{B5A457FF-D9DC-43FF-9E84-823E7548F5F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndyFavsAndHistory", "AndyFavsAndHistory\AndyFavsAndHistory.csproj", "{004CFF91-94D7-4F20-8CEE-0818746B98B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B5A457FF-D9DC-43FF-9E84-823E7548F5F3} = {B5A457FF-D9DC-43FF-9E84-823E7548F5F3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

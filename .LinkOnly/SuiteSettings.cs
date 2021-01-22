@@ -11,7 +11,7 @@ namespace SettingsManager
 	#region info class
 
 	[DataContract(Name = "SuiteSettings", Namespace = "")]
-	internal class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
+	public class SuiteSettingInfo<T> : SuiteSettingInfoBase<T>
 		where T : new()
 	{
 		public SuiteSettingInfo()
@@ -20,9 +20,7 @@ namespace SettingsManager
 			Description = "Suite setting file for Andy";
 		}
 
-#pragma warning disable CS0436 // The type 'SettingInfoBase<TData>' in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs' conflicts with the imported type 'SettingInfoBase<TData>' in 'WpfShared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs'.
-		internal override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
-#pragma warning restore CS0436 // The type 'SettingInfoBase<TData>' in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs' conflicts with the imported type 'SettingInfoBase<TData>' in 'WpfShared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'. Using the type defined in 'D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs'.
+		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
 
 	#endregion
@@ -32,7 +30,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class SuiteSettingData
+	public class SuiteSettingData
 	{
 		[DataMember(Order = 1)]
 		public string SiteRootPath { get; set; }

@@ -38,47 +38,47 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 	#region public methods
 
-		public SavedFile Select<T>(string key, BaseDataFile<T> dms) where T : class, ISavedFile, new()
+		public FileListItem Select(string key, BaseDataFile<FileListData> fld)
 		{
 			keyCheck(key);
 
-			SavedFile match;
+			FileListItem match;
 
-			bool result = dms.Data.SavedFileList.TryGetValue(key, out match);
+			bool result = fld.Data.FileList.TryGetValue(key, out match);
 
 			if (result) return match;
 
 			return null;
 		}
 
-		public static CollectionView FilterByProject(string projectNumber, BaseDataFile<SavedFileData> dms)
+		public static CollectionView FilterByProject(string projectNumber, BaseDataFile<FileListData> fld)
 
 		{
 			projNumCheck(projectNumber);
 
-			view = (CollectionView) CollectionViewSource.GetDefaultView(dms.Data.SavedFileList);
+			view = (CollectionView) CollectionViewSource.GetDefaultView(fld.Data.FileList);
 
 			int len = projectNumber.Length;
 
-			view.Filter = o =>  ((KeyValuePair<string, SavedFile>) o).Key.Substring(0, len).Equals(projectNumber);
+			view.Filter = o =>  ((KeyValuePair<string, FileListItem>) o).Key.Substring(0, len).Equals(projectNumber);
 
 			return view;
 		}
 
 
-		public static void RemoveByProject(string projectNumber, BaseDataFile<SavedFileData> dms)
+		public static void RemoveByProject(string projectNumber, BaseDataFile<FileListData> fld)
 
 		{
 			projNumCheck(projectNumber);
 
-			KeyValuePair<string, SavedFile>[] selected =
-				dms.Data.SavedFileList.Where(kvp => kvp.Key.StartsWith(projectNumber)).ToArray();
+			KeyValuePair<string, FileListItem>[] selected =
+				fld.Data.FileList.Where(kvp => kvp.Key.StartsWith(projectNumber)).ToArray();
 
 			if (selected.Length <= 0) return;
 
-			foreach (KeyValuePair<string, SavedFile> kvp in selected)
+			foreach (KeyValuePair<string, FileListItem> kvp in selected)
 			{
-				dms.Data.SavedFileList.Remove(kvp.Key);
+				fld.Data.FileList.Remove(kvp.Key);
 			}
 		}
 

@@ -17,7 +17,7 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	internal class AppSettingData : HeaderData
+	public class AppSettingData : HeaderData
 	{
 		[IgnoreDataMember]
 		public string DataFileVersion => "app 7.4a";

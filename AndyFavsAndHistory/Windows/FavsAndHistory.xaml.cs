@@ -29,14 +29,15 @@ namespace AndyFavsAndHistory.Windows
 	{
 	#region private fields
 
+
+		private const string FAV_HIST_FILE_EXT = "xml";
+		private const string FAV_FILE_NAME = "Favorite-List";
+		private const string HIST_FILE_NAME = "History-List";
+
 		private string message;
 
-		private FilePath<FileNameSimple> location;
-
-		private  FavHistoryManager<SavedFile> favMgr;
-		private  FavHistoryManager<SavedFile> histMgr;
-
-
+		private  FavHistoryManager favMgr;
+		private  FavHistoryManager histMgr;
 
 	#endregion
 
@@ -78,7 +79,16 @@ namespace AndyFavsAndHistory.Windows
 			WriteLine(logMsgDbS("SiteRootPath", SuiteSettings.Data.SiteRootPath));
 			WriteLine(logMsgDbS("Suite Setting Description", SuiteSettings.Info.Description));
 			WriteLine(logMsgDbS("Suite Setting Path", SuiteSettings.Path.SettingFilePath));
-			WriteLine(logMsgDbS("Location", location.FullFilePath));
+
+			favMgr.Configure(FilePathUtil.AssembleFilePath(FAV_FILE_NAME, FilePathUtil.XML_EXTNOSEP, SuiteSettings.Data.SiteRootPath));
+			histMgr.Configure(FilePathUtil.AssembleFilePath(HIST_FILE_NAME, FilePathUtil.XML_EXTNOSEP, SuiteSettings.Data.SiteRootPath));
+
+			WriteLine(logMsgDbS(" fav manager| file path| ", favMgr.FilePath.FullFilePath));
+			WriteLine(logMsgDbS(" fav manager| file exists| ", favMgr.FilePath.FullFilePath));
+
+			WriteLine(logMsgDbS("hist manager| file path| ", histMgr.FilePath.FullFilePath));
+			WriteLine(logMsgDbS("hist manager| file exists| ", histMgr.FilePath.FullFilePath));
+
 			
 		}
 
