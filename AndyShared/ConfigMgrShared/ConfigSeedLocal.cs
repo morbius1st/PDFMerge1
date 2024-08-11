@@ -173,18 +173,18 @@ namespace AndyShared.ConfigMgrShared
 				SearchOption.AllDirectories, false, true);
 		}
 
-		private void GetInstalledSeedFiles()
-		{
-			if (SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
-
-			foreach (ConfigSeedFile installedFile in SiteSettings.Data.InstalledSeedFiles)
-			{
-				if (installedFile.SelectedSeed)
-				{
-					seedFiles.Add(installedFile);
-				}
-			}
-		}
+		// private void GetInstalledSeedFiles()
+		// {
+		// 	if (SiteSettings.Data.InstalledSeedFiles.Count == 0) return;
+		//
+		// 	foreach (ConfigSeedFile installedFile in SiteSettings.Data.InstalledSeedFiles)
+		// 	{
+		// 		if (installedFile.SelectedSeed)
+		// 		{
+		// 			seedFiles.Add(installedFile);
+		// 		}
+		// 	}
+		// }
 
 		private void GetSiteSeedFiles()
 		{

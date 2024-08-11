@@ -20,7 +20,7 @@ namespace AndyShared.ConfigSupport
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ConfigSeedFile))]
 	[KnownType(typeof(ClassificationFile))]
-	public class ConfigFile<T> : INotifyPropertyChanged, IObservCollMember  where T : AFileName,  new()  
+	public class ConfigFile<T> : INotifyPropertyChanged, IObservCollMember  where T : FileNameSimple, /*AFileName,*/  new()  
 	{
 		private FilePath<T> filePathLocal;
 		private string fileName;

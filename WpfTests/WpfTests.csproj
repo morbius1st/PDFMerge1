@@ -55,14 +55,22 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AndyFavsAndHistory">
-      <HintPath>..\AndyFavsAndHistory\bin\x86\Debug\AndyFavsAndHistory.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CSLibraryIo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,9 +83,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfShared">
-      <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
-    </Reference>
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -93,17 +99,65 @@
     <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
-      <Link>Settings\SuiteSettings.cs</Link>
+    <Compile Include="..\AndyFavsAndHistory\FavHistoryMgr\FavHistoryManager.cs">
+      <Link>.Linked\FavHistoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyFavsAndHistory\FavHistoryMgr\FileList.cs">
+      <Link>.Linked\FileList.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyFavsAndHistory\FavHistoryMgr\FileListItem.cs">
+      <Link>.Linked\FileListItem.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyFavsAndHistory\FavHistoryMgr\FileListKey.cs">
+      <Link>.Linked\FileListKey.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyFavsAndHistory\Samples\SampleData.cs">
+      <Link>.Linked\SampleData.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyFavsAndHistory\Windows\FavsAndHistory.xaml.cs">
+      <Link>.Linked\FavsAndHistory.xaml.cs</Link>
     </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
+    <Compile Include="..\WpfShared\Dialogs\DialogSupport\PathChangeArgs.cs">
+      <Link>.Linked\PathChangeArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml.cs">
+      <Link>Windows\Support\FolderRoute\FolderRoute.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
+      <Link>Windows\Support\ScrollViewerEx\ScrollViewerExtended.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml.cs">
+      <Link>Windows\Support\SkewedButton\SkewedButton.xaml.cs</Link>
+    </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\DataSet.cs" />
+    <Compile Include="Settings\SuiteSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Page Include="..\AndyFavsAndHistory\Windows\FavsAndHistory.xaml">
+      <Link>.Linked\FavsAndHistory.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml">
+      <Link>Windows\Support\FolderRoute\FolderRoute.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
+      <Link>Windows\Support\ScrollViewerEx\ScrollViewerExtended.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml">
+      <Link>Windows\Support\SkewedButton\SkewedButton.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -111,12 +165,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-      <Link>.Linked\MessageUtilities.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -152,6 +200,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,7 +208,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
-    <Folder Include="Windows\Support\" />
   </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using SettingsManager;
 
 // Solution:     SettingsManager
 // Project:       SettingsManagerV70

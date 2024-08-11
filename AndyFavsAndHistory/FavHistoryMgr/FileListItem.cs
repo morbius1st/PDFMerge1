@@ -1,5 +1,8 @@
 ﻿#region + Using Directives
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -12,36 +15,28 @@ using UtilityLibrary;
 
 namespace AndyFavsAndHistory.FavHistoryMgr
 {
-
-	// public interface IFileListItem
-	// {
-	// 	FilePath<FileNameSimple> FilePath { get; }
-	// 	string Name { get; set; }
-	//
-	// }
-	//
-
+	
 	[DataContract(Namespace = "")]
 	public class FileListItem :  INotifyPropertyChanged
 	{
-		private string name;
+		private string displayName;
 		private FilePath<FileNameSimple> filePath;
 
 		public FileListItem() { }
 
-		public FileListItem(string name, FilePath<FileNameSimple> filePath)
+		public FileListItem(string displayName, FilePath<FileNameSimple> filePath)
 		{
-			this.name = name;
+			this.displayName = displayName;
 			this.filePath = filePath;
 		}
 
 		[DataMember]
-		public string Name
+		public string DisplayName
 		{
-			get => name;
+			get => displayName;
 			set
 			{
-				name = value;
+				displayName = value;
 				OnPropertyChanged();
 			}
 		}

@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Sylvester.ico</ApplicationIcon>
@@ -112,7 +112,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
-      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
     <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -146,11 +146,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions - Enum.cs">
-      <Link>.External\CsExtensions - Enum.cs</Link>
+    <Compile Include="..\AndyShared\ClassificationFileSupport\ClassificationFiles.cs">
+      <Link>.External\ClassificationFiles.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
+    <Compile Include="..\AndyShared\ConfigSupport\ConfigFile.cs">
+      <Link>.External\ConfigFile.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions - Enum.cs">
+      <Link>.External\CsExtensions - Enum.cs</Link>
     </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
@@ -381,7 +384,7 @@
   <ItemGroup>
     <Resource Include="Sylvester.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -36,9 +36,6 @@ namespace SettingsManager
 		public string SiteRootPath { get; set; }
 		//			= @"D:\Users\Jeff\OneDrive\Prior Folders\Office Stuff\CAD\Copy Y Drive & Office Standards\AppData" ;
 
-
-
-
 	}
 
 	#endregion

@@ -20,7 +20,7 @@ namespace Tests.PathSupport
 //		OTHER
 //	}
 
-	public class FileNameAsSheetPdf : AFileName, INotifyPropertyChanged
+	public class FileNameAsSheetPdf : FileNameSimple,  /* AFileName,*/ INotifyPropertyChanged
 	{
 	#region private fields
 

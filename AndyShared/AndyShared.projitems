@@ -21,6 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplineDataSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetIdentifiers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetPdf.cs" />
@@ -41,24 +43,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Support\CommonTaskDialogs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\IObservCollMember.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-      <Link>.Linked\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-      <Link>.Linked\MessageUtilities.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs">
-      <Link>.Linked\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
-      <Link>.Linked\ScreenParametersWpf.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
-      <Link>.Linked\CsXmlUtilities.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs"> -->
+    <!-- <Link>.Linked\CsExtensions.cs</Link> -->
+    <!-- </Compile> -->
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs"> -->
+    <!-- <Link>.Linked\MessageUtilities.cs</Link> -->
+    <!-- </Compile> -->
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.0\CsFilePath.cs"> -->
+    <!-- <Link>.Linked\CsFilePath.cs</Link> -->
+    <!-- </Compile> -->
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs"> -->
+    <!-- <Link>.Linked\ScreenParametersWpf.cs</Link> -->
+    <!-- </Compile> -->
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs"> -->
+    <!-- <Link>.Linked\CsXmlUtilities.cs</Link> -->
+    <!-- </Compile> -->
+    <!-- <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs"> -->
+    <!-- <Link>.Linked\CsUtilities.cs</Link> -->
+    <!-- </Compile> -->
     <Compile Include="$(MSBuildThisFileDirectory)Support\Orator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>

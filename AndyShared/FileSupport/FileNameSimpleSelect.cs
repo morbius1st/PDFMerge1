@@ -15,7 +15,8 @@ using UtilityLibrary;
 namespace AndyShared.FileSupport
 {
 
-	public class FileNameSimpleSelectable : AFileName, INotifyPropertyChanged
+	public class FileNameSimpleSelectable : FileNameSimple, 
+		/*AFileName,*/ INotifyPropertyChanged
 	{
 		private bool selected;
 

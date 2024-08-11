@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -83,12 +83,18 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
     <Reference Include="CustomMarshalers" />
     <Reference Include="itext.io">
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\itext7.7.0.3\lib\net40\itext.io.dll</HintPath>
     </Reference>
     <Reference Include="itext.kernel">
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\itext7.7.0.3\lib\net40\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -114,24 +120,14 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.External\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
-      <Link>.External\SettingsMgr.-v30.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\SettingManager\Old Setting Files\SettingsMgr.-v30.cs">
+      <Link>Settings\SettingsMgr.-v30.cs</Link>
     </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
@@ -158,6 +154,7 @@
     <Compile Include="PdfMerge\PdfMergeFiles.cs" />
     <Compile Include="PdfMerge\PdfMergeMgr.cs" />
     <Compile Include="PdfMerge\PdfMergeTree.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\AppSettings30.cs" />
     <Compile Include="Settings\SettingsUser30.cs" />
     <Page Include="MainWindow.xaml">
@@ -203,5 +200,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".External\" />
+  </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

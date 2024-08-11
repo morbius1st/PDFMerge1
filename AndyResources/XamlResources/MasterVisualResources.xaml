@@ -28,7 +28,6 @@
 	<Color x:Key="DisabledForegroundColor">#FF888888</Color>
 	<Color x:Key="BorderMediumColor">#FF888888</Color>
 
-
 	<!--#endregion-->
 
 	<!--  save for future reference  -->
@@ -177,7 +176,8 @@
 	<SolidColorBrush x:Key="OptionMark.Static.Glyph2" Color="#FF212121" />
 	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF" />
 
-	<SolidColorBrush x:Key="Label.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}" />
+	<!-- <SolidColorBrush x:Key="Label.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}" /> -->
+	<SolidColorBrush x:Key="Label.Title.Foreground.Subdued" Color="{StaticResource ResourceKey=Gray.650}" />
 
 	<SolidColorBrush x:Key="Label.Status.Title.Background" Color="{StaticResource Dark.Blue.400}" />
 	<SolidColorBrush x:Key="Label.Status.Value.Background" Color="{StaticResource Bright.Green.200}" />
@@ -189,6 +189,7 @@
 	<SolidColorBrush x:Key="ComboBox.Selected.Background" Color="{StaticResource Gray.350}" />
 	<SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="{StaticResource Gray.200}" />
 
-	<SolidColorBrush x:Key="ComboBox.Title.Foreground.Subdued" Color="{StaticResource Title.Subdued}" />
+	<SolidColorBrush x:Key="ComboBox.Title.Foreground.Subdued" Color="{StaticResource ResourceKey=Gray.650}" />
+	
 
 </ResourceDictionary>

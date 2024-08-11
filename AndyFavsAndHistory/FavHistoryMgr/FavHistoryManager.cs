@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Markup;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -27,11 +28,9 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 		private FilePath<FileNameSimple> filePath;
 
-		private DataManager<FileListData> data;
+		private DataManager<FileList> data;
 
 		private ICollectionView view;
-
-		private SavedFileListSupport support;
 
 	#endregion
 
@@ -54,26 +53,8 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 			}
 		}
 
-		public FilePath<FileNameSimple> FilePath
-		{
-			get => filePath;
-			set
-			{
-				filePath = value;
-				OnPropertyChange();
-			}
-		}
-
-		// public BaseDataFile<T> Data
-		// {
-		// 	get => data;
-		// 	set
-		// 	{
-		// 		data = value;
-		//
-		// 		OnPropertyChange();
-		// 	}
-		// }
+		public FilePath<FileNameSimple> FilePath => 
+			new FilePath<FileNameSimple>(data.Path.SettingFilePath);
 
 		public bool IsInitialized
 		{
@@ -89,42 +70,86 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 	#region public methods
 
-		public void Configure(FilePath<FileNameSimple> filePath)
+		public void Configure( FilePath<FileNameSimple> filePath, string fileName, string[] folders)
 		{
-			string x = UserSettings.Admin.Path.ClassVersionFromFile;
 
 			if (isInitialized) data.Admin.Write();
 
-			data = new DataManager<FileListData>();
-			data.Open(filePath);
+			data = new DataManager<FileList>();
+			data.Open(filePath, fileName, folders);
 
 			isInitialized = true;
 
 			setView();
 		}
 
-		public void Add(string key, FileListItem value)
+		public void Add(FileListKey key, FileListItem value)
 		{
 			if (!isInitialized) return;
 
-			data.Data.FileList.Add(key, value);
+			keyCheck(key);
+			valueCheck(value);
+
+			if (!isInitialized) return;
+
+			data.Data.FileListItems.Add(key, value);
 		}
 
-		public void Remove(string key)
+		public void Remove(FileListKey key)
 		{
 			if (!isInitialized) return;
 
-			data.Data.FileList.Remove(key);
+			keyCheck(key);
+
+			data.Data.FileListItems.Remove(key);
 		}
 
-		public FileListItem Find(string key)
+		public bool Select(FileListKey key, out FileListItem item)
 		{
-			if (!isInitialized) return null;
+			keyCheck(key);
 
-			support.Select(key, data);
+			FileListItem match;
+			item = null;
 
-			return data.Data.FileList[key];
+			bool result = data.Data.FileListItems.TryGetValue(key, out match);
+
+			if (result) item = match;
+
+			return result;
 		}
+
+		
+		public void FilterByProject(string projectNumber, BaseDataFile<FileList> fld)
+
+		{
+			projNumCheck(projectNumber);
+
+			view = (CollectionView) CollectionViewSource.GetDefaultView(fld.Data.FileListItems);
+
+			int len = projectNumber.Length;
+
+			view.Filter = o =>  ((KeyValuePair<string, FileListItem>) o).Key.Substring(0, len).Equals(projectNumber);
+
+			OnPropertyChange("View");
+		}
+
+
+		public void RemoveByProject(string projectNumber)
+
+		{
+			projNumCheck(projectNumber);
+
+			KeyValuePair<FileListKey, FileListItem>[] selected =
+				data.Data.FileListItems.Where(kvp => kvp.Key.ProjectNumber.Equals(projectNumber)).ToArray();
+
+			if (selected.Length <= 0) return;
+
+			foreach (KeyValuePair<FileListKey, FileListItem> kvp in selected)
+			{
+				data.Data.FileListItems.Remove(kvp.Key);
+			}
+		}
+
 
 	#endregion
 
@@ -135,6 +160,22 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 			if (!isInitialized) return;
 
 			View = CollectionViewSource.GetDefaultView(data);
+		}
+
+		
+		private static void keyCheck(FileListKey key)
+		{
+			if (key == null) throw new InvalidEnumArgumentException("FavAndHistory: Key");
+		}
+				
+		private static void valueCheck(FileListItem item)
+		{
+			if (item == null) throw new InvalidEnumArgumentException("FavAndHistory: Value");
+		}
+
+		private static void projNumCheck(string projNumber)
+		{
+			if (projNumber.IsVoid() || projNumber.Length != 7) throw new InvalidEnumArgumentException("ProjectNumber");
 		}
 
 	#endregion

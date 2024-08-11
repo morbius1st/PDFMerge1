@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Documents;
+using AndyShared.FileSupport.FileNameSheetPDF;
 using UtilityLibrary;
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 
@@ -14,9 +15,11 @@ using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 // username: jeffs
 // created:  5/27/2020 10:53:23 PM
 
-namespace AndyShared.FileSupport.FileNameSheetPDF
+// namespace AndyShared.FileSupport.FileNameSheetPDF
+namespace UtilityLibrary
 {
-	public class FileNameSheetPdf : AFileName, INotifyPropertyChanged
+	public class FileNameSheetPdf : FileNameSimple,
+		/*AFileName,*/ INotifyPropertyChanged
 	{
 	#region private fields
 
@@ -112,12 +115,13 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public string SheetId()
 		{
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder("");
 
 			List<SheetCompInfo2> list =	ShtIds.ShtCompList2[(int) shtCompType].ShtCompInfo;
 
 			foreach (SheetCompInfo2 ci in list)
 			{
+				if (ci.SeqCtrlUse == SeqCtrlUse2.NOT_USED) break;
 				if (ci.SeqCtrlUse == SeqCtrlUse2.SKIP) continue;
 
 				string text = SheetComps[ci.ValueIndex];

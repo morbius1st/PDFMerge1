@@ -1,26 +1,36 @@
-﻿<Window
+﻿<Window Name="mainWin1"
 		x:Class="WpfTests.Windows.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfTests.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared"
-		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared"
-		Name="mainWin1"
+		xmlns:folderRoute="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
+		xmlns:scrollViewerEx="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
 		Title="Fav&amp;History Test"
 		Width="800"
 		Height="450"
-		mc:Ignorable="d"
 		DataContext="{Binding ElementName=mainWin1}"
+		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
 		>
+
+	<!-- xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared" -->
+		<!-- xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared" -->
+
 	<Window.Resources>
 
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!-- <ResourceDictionary Source="../AndyResources/XamlResources/MasterVisualResources.xaml"></ResourceDictionary> -->
 			</ResourceDictionary.MergedDictionaries>
+
+			<local:HeightWidthConverter x:Key="HeightWidthConverter" />
+			<ControlTemplate x:Key="MenuItemTemplate1"
+					TargetType="{x:Type MenuItem}"
+					>
+				<Grid />
+			</ControlTemplate>
 
 
 		</ResourceDictionary>
@@ -40,21 +50,20 @@
 		<DockPanel
 				Grid.Column="1"
 				Grid.Row="0"
-				VerticalAlignment="Top"
-				HorizontalAlignment="Stretch"
 				Height="100"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Top"
 				>
-				<Button
-						Margin="5,5,0,0"
-						VerticalAlignment="Top"
-						HorizontalAlignment="Left"
-
-						Content="Test Me"
-						Width="70"
-						Height="24"
-						Style="{StaticResource Button.Normal.Style}"
-						Click="BtnTest_OnClick"
-						/>
+			<Button
+					Content="Test Me"
+					Margin="5,5,0,0"
+					Width="70"
+					Height="24"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Style="{StaticResource Button.Normal.Style}"
+					Click="BtnTest_OnClick"
+					/>
 
 		</DockPanel>
 
@@ -62,20 +71,19 @@
 				Grid.Column="0"
 				Grid.Row="0"
 				Margin="0,0,0,0"
-				VerticalAlignment="Top"
 				HorizontalAlignment="Stretch"
-		>
-			<fr:FolderRoute 
-					x:Name="FolderRoute"
+				VerticalAlignment="Top"
+				>
+			<folderRoute:FolderRoute x:Name="FolderRoute"
 					Margin="7,0,0,0"
 					Height="28"
 					VerticalAlignment="Top"
 					HorizontalContentAlignment="Left"
 					FontSize="13"
 					DockPanel.Dock="Top"
-			/>
+					/>
 
-			
+
 			<StackPanel
 					VerticalAlignment="Top"
 					DockPanel.Dock="Top"
@@ -226,31 +234,168 @@
 			</StackPanel>
 
 
-			</DockPanel>
+		</DockPanel>
 
 		<DockPanel
 				Grid.Column="0"
 				Grid.Row="1"
 				Margin="0,0,0,0"
-				VerticalAlignment="Top"
 				HorizontalAlignment="Stretch"
+				VerticalAlignment="Top"
 				>
 
-			<sve:ScrollViewerExtended
-					DockPanel.Dock="Top"
-					>
-
-			</sve:ScrollViewerExtended>
+			<scrollViewerEx:ScrollViewerExtended DockPanel.Dock="Top" />
 
 			<TextBlock
 					Margin="0,10,0,0"
 					VerticalAlignment="Stretch"
-					DockPanel.Dock="Bottom"
 					Foreground="White"
+					DockPanel.Dock="Bottom"
 					Text="{Binding Path=Message}"
 					/>
 
 		</DockPanel>
+
+		<Grid
+				Grid.Column="1"
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+
+			<Button
+					Content="Debug"
+					Grid.Column="5"
+					Grid.Row="2"
+					Height="24"
+					VerticalAlignment="Bottom"
+					Click="ButtonBase_OnClick"
+					/>
+
+			<Menu x:Name="menu2"
+					Grid.Column="0"
+					Grid.Row="0"
+					Height="19"
+					VerticalAlignment="Top"
+					>
+				<MenuItem
+						Width="105"
+						Height="19"
+						Padding="0"
+						VerticalAlignment="Top"
+						Background="#FFffffff"
+						RenderTransformOrigin="0.5,0.5"
+						ItemsSource="{Binding HouseInfos}"
+						>
+					<MenuItem.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform />
+							<SkewTransform />
+							<RotateTransform />
+							<TranslateTransform X="0.5" />
+						</TransformGroup>
+					</MenuItem.RenderTransform>
+					<MenuItem.Header>
+						<Label x:Name="headerYears"
+								Content="Houses"
+								Margin="0"
+								MaxHeight="18"
+								Padding="0"
+								HorizontalContentAlignment="Center"
+								Background="#00FF0000"
+								UseLayoutRounding="False"
+								RenderTransformOrigin="0,0"
+								/>
+					</MenuItem.Header>
+
+					<MenuItem.ItemContainerStyle>
+						<Style TargetType="MenuItem">
+							<Setter Property="Header" Value="{Binding Path=House}" />
+							<Setter Property="ItemsSource" Value="{Binding Details}" />
+							<Setter Property="ItemContainerStyle">
+								<Setter.Value>
+									<Style TargetType="MenuItem">
+										<Setter Property="Header" Value="{Binding}" />
+									</Style>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</MenuItem.ItemContainerStyle>
+				</MenuItem>
+			</Menu>
+
+
+
+
+			<DockPanel x:Name="dp11"
+					Grid.Column="1"
+					Grid.Row="1"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					>
+				<Button x:Name="Button11"
+						Content="Hello"
+						FontSize="10"
+						Background="Black"
+						Foreground="White"
+						Style="{DynamicResource RoundHoverButtonStyle}"
+						>
+
+					<Button.Width>
+						<MultiBinding Converter="{StaticResource HeightWidthConverter}">
+							<Binding
+									ElementName="dp11"
+									Path="ActualHeight"
+									/>
+							<Binding
+									ElementName="dp11"
+									Path="ActualWidth"
+									/>
+						</MultiBinding>
+					</Button.Width>
+					<Button.Height>
+						<MultiBinding Converter="{StaticResource HeightWidthConverter}">
+							<Binding
+									ElementName="dp11"
+									Path="ActualHeight"
+									/>
+							<Binding
+									ElementName="dp11"
+									Path="ActualWidth"
+									/>
+						</MultiBinding>
+					</Button.Height>
+				</Button>
+			</DockPanel>
+
+			<Grid.Resources>
+				<Style x:Key="RoundHoverButtonStyle"
+						TargetType="Button"
+						>
+					<Style.Resources>
+						<Style TargetType="Border">
+							<Setter Property="CornerRadius" Value="100" />
+						</Style>
+					</Style.Resources>
+
+				</Style>
+			</Grid.Resources>
+		</Grid>
 
 	</Grid>
 </Window>

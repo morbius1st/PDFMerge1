@@ -30,8 +30,14 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class UserSettingData
+	public partial class UserSettingData
 	{
+		public UserSettingData()
+		{
+			initializeWindowLayout();
+		}
+
+
 		[DataMember(Order = 1)]
 		public string LastClassificationFileId { get; set; } = "PdfSample 1";
 		

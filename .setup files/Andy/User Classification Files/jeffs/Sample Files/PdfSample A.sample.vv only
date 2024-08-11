@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Header>
+		<Description>Sample A: PDF files for Classification with Building Designation</Description>
+	</Header>
+	<Data>
+	<Building>A</Building>
+		<Sheets>
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.0-0 Overall Exterior Elevations.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-1 Exterior Elevations - Front Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-1A Enlarged Exterior Elevations - Front Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-2 Exterior Elevations - Right Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-2A Enlarged Exterior Elevations - Right Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.3-0 Building Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.5-0 Wall Sections - Front Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.6-0 Wall Sections - Right Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.7-0 Wall Sections - Rear Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.8-0 Wall Sections - Left Wall.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.9-0 Wall Sections - Misc.pdf	
+
+		</Sheets>
+	</Data>
+</SampleFile>

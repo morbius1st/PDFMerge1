@@ -254,7 +254,7 @@ namespace Tests
 			WriteLineToLeft("current directory 2 is| " + (Environment.CurrentDirectory) + nl);
 
 			FilePath<FileNameSimple> f;
-			// FilePath<FileNameAsSheetFile> fx;
+			FilePath<FileNameAsSheetFile> fx;
 			FilePath<FileNameAsSheetPdf> fp;
 
 			// sample for documentation
@@ -437,7 +437,7 @@ namespace Tests
 		}
 
 
-		private void ListFilePath<T>(FilePath<T> f) where T : AFileName, new()
+		private void ListFilePath<T>(FilePath<T> f) where T : FileNameSimple, /* AFileName,*/ new()
 		{
 //			Compare(f);
 //			return;
@@ -763,7 +763,7 @@ namespace Tests
 			WriteLineToLeft("\n*******\n");
 		}
 
-		private void Compare<T>(FilePath<T> r) where T : AFileName, new ()
+		private void Compare<T>(FilePath<T> r) where T : FileNameSimple, /* AFileName,*/ new ()
 
 		{
 			Type tx = r.FileNameObject.GetType();

@@ -1,0 +1,1698 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2020-09-20 - 10:57 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <DataClassVersion>Unassigned</DataClassVersion>
+    <Description>PdfSample 1</Description>
+    <Notes>Unassigned</Notes>
+  </Header>
+  <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <SampleFile>PdfSample A</SampleFile>
+    <BaseOfTree z:Id="i2">
+      <Parent i:nil="true" />
+      <Depth>0</Depth>
+      <CheckedState>UNCHECKED</CheckedState>
+      <TriState>UNSET</TriState>
+      <IsExpanded>false</IsExpanded>
+      <Item z:Id="i3">
+        <Title>Base of Tree</Title>
+        <Description>Base of Tree</Description>
+        <IsFixed>false</IsFixed>
+        <IsLocked>false</IsLocked>
+        <CompareOps />
+      </Item>
+      <SubCategories>
+        <TreeNode z:Id="i4">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i5">
+            <Title>Cover Sheet</Title>
+            <Description>Cover Sheet</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>CS</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i6">
+              <Parent z:Ref="i4" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i7">
+                <Title>Cover Sheet - Phase 1</Title>
+                <Description>Phase 1 Cover Sheet</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i8">
+              <Parent z:Ref="i4" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i9">
+                <Title>Cover Sheet - Phase 2</Title>
+                <Description>Phase 2 Cover Sheet</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i10">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i11">
+            <Title>Title</Title>
+            <Description>Title Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>T</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i12">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i13">
+                <Title>General</Title>
+                <Description>General Title Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i14">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i15">
+                <Title>Accessibility</Title>
+                <Description>Accessibility Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i16">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i17">
+                <Title>Miscellenous</Title>
+                <Description>Miscellenous</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i18">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i19">
+            <Title>Civil</Title>
+            <Description>Civil Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>C</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i20">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i21">
+                <Title>1.x General</Title>
+                <Description>General Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i22">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i23">
+                <Title>2.x / 3.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>1</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i24">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i25">
+                <Title>4.x Miscellenous</Title>
+                <Description>Miscellenous Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                    <CompareValue>4</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i26">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>true</IsExpanded>
+          <Item z:Id="i27">
+            <Title>Architectural</Title>
+            <Description>Architectural Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>A</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i28">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i29">
+                <Title>0.x Assembly</Title>
+                <Description>Assembly Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>0</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i30">
+                  <Parent z:Ref="i28" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i31">
+                    <Title>Wall Assembly</Title>
+                    <Description>Wall Assembly Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i32">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>true</IsExpanded>
+              <Item z:Id="i33">
+                <Title>1.x Site</Title>
+                <Description>Site Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i34">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i35">
+                <Title>2.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i36">
+                  <Parent z:Ref="i34" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i37">
+                    <Title>Slab Plans</Title>
+                    <Description>Slab Plan Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>0</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i38">
+                  <Parent z:Ref="i34" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i39">
+                    <Title>Floor Plans</Title>
+                    <Description>Floor Plan Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i40">
+                      <Parent z:Ref="i38" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i41">
+                        <Title>Level 1</Title>
+                        <Description>Level 1 Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i42">
+                      <Parent z:Ref="i38" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i43">
+                        <Title>Level 2</Title>
+                        <Description>Level 2 Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>2</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i44">
+                  <Parent z:Ref="i34" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i45">
+                    <Title>Reflected Ceiling Plans</Title>
+                    <Description>Reflected Ceiling Plan Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>2</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i46">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i47">
+                <Title>3.x Vertical Views</Title>
+                <Description>Vertical Views Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i48">
+                  <Parent z:Ref="i46" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i49">
+                    <Title>Exterior Elevations</Title>
+                    <Description>Exterior Elevation Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>0</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i50">
+                      <Parent z:Ref="i48" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i51">
+                        <Title>Overall Elevations</Title>
+                        <Description>Overall Elevation Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>0</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i52">
+                      <Parent z:Ref="i48" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i53">
+                        <Title>Elevations</Title>
+                        <Description>Elevation Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories>
+                        <TreeNode z:Id="i54">
+                          <Parent z:Ref="i52" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i55">
+                            <Title>Front Wall</Title>
+                            <Description>Front Wall Ext. Elev. Sheets</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>5</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>STARTS_WITH</ValueComparisonOpCode>
+                                <CompareValue>1</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i56">
+                          <Parent z:Ref="i52" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i57">
+                            <Title>Right Wall</Title>
+                            <Description>Right Wall Ext. Elev. Sheets</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>5</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>STARTS_WITH</ValueComparisonOpCode>
+                                <CompareValue>2</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                      </SubCategories>
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i58">
+                  <Parent z:Ref="i46" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i59">
+                    <Title>Sections</Title>
+                    <Description>Section Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                        <CompareValue>3</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i60">
+                      <Parent z:Ref="i58" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i61">
+                        <Title>Building Sections</Title>
+                        <Description>Building Section Sheet</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>3</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i62">
+                      <Parent z:Ref="i58" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>true</IsExpanded>
+                      <Item z:Id="i63">
+                        <Title>Wall Sections</Title>
+                        <Description>Wall Section Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                            <CompareValue>5</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories>
+                        <TreeNode z:Id="i64">
+                          <Parent z:Ref="i62" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i65">
+                            <Title>Front Wall</Title>
+                            <Description>Front Wall, Wall Sections</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>3</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                                <CompareValue>5</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i66">
+                          <Parent z:Ref="i62" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i67">
+                            <Title>Right Wall</Title>
+                            <Description>Right Wall, Wall Sections</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>3</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                                <CompareValue>6</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i68">
+                          <Parent z:Ref="i62" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i69">
+                            <Title>Rear Wall</Title>
+                            <Description>Rear Wall, Wall Sections</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>3</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                                <CompareValue>7</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i70">
+                          <Parent z:Ref="i62" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i71">
+                            <Title>Left Wall</Title>
+                            <Description>Left Wall, Wall Sections</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>3</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                                <CompareValue>8</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i72">
+                          <Parent z:Ref="i62" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i73">
+                            <Title>Miscellaneous</Title>
+                            <Description>Miscellaneous Wall Sections</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>3</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                                <CompareValue>9</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                      </SubCategories>
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i74">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i75">
+                <Title>4.x Enlarged Plans</Title>
+                <Description>Enlarged Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>4</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i76">
+                  <Parent z:Ref="i74" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i77">
+                    <Title>Restroom</Title>
+                    <Description>Restroom Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i78">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>true</IsExpanded>
+              <Item z:Id="i79">
+                <Title>5.x Vertical Circulation</Title>
+                <Description>Vertical Circulation Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>5</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i80">
+                  <Parent z:Ref="i78" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>true</IsExpanded>
+                  <Item z:Id="i81">
+                    <Title>Stairs</Title>
+                    <Description>Stair Plan Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>0</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i82">
+                      <Parent z:Ref="i80" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i83">
+                        <Title>Main Garage Stairs</Title>
+                        <Description>Main Garage Stair Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>0</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i84">
+                      <Parent z:Ref="i80" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>true</IsExpanded>
+                      <Item z:Id="i85">
+                        <Title>Garage Stairs</Title>
+                        <Description>Garage Stair Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories>
+                        <TreeNode z:Id="i86">
+                          <Parent z:Ref="i84" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i87">
+                            <Title>West Garage Stairs</Title>
+                            <Description>West Garage Stair Sheets</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>4</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                                <CompareValue>1</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>4</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_AND</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>LESS_THAN</ValueComparisonOpCode>
+                                <CompareValue>2</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                        <TreeNode z:Id="i88">
+                          <Parent z:Ref="i84" />
+                          <Depth>5</Depth>
+                          <CheckedState>UNCHECKED</CheckedState>
+                          <TriState>UNSET</TriState>
+                          <IsExpanded>false</IsExpanded>
+                          <Item z:Id="i89">
+                            <Title>East Garage Stairs</Title>
+                            <Description>East Garage Stair Sheets</Description>
+                            <IsFixed>false</IsFixed>
+                            <IsLocked>false</IsLocked>
+                            <CompareOps>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>4</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                                <CompareValue>2</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                                <CompareComponentIndex>4</CompareComponentIndex>
+                                <LogicalComparisonOpCode>LOGICAL_AND</LogicalComparisonOpCode>
+                                <ValueComparisonOpCode>LESS_THAN</ValueComparisonOpCode>
+                                <CompareValue>3</CompareValue>
+                                <IsDisabled>false</IsDisabled>
+                              </ComparisonOperation>
+                            </CompareOps>
+                          </Item>
+                          <SubCategories />
+                        </TreeNode>
+                      </SubCategories>
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i90">
+                  <Parent z:Ref="i78" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i91">
+                    <Title>Ramps</Title>
+                    <Description>Ramp Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>2</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>3</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i92">
+                  <Parent z:Ref="i78" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i93">
+                    <Title>Elevators</Title>
+                    <Description>Elevator Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>4</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>5</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i94">
+                  <Parent z:Ref="i78" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i95">
+                    <Title>Escalators</Title>
+                    <Description>Escalator Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>6</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>7</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i96">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i97">
+                <Title>6.x Schedules</Title>
+                <Description>Schedules</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>6</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i98">
+                  <Parent z:Ref="i96" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i99">
+                    <Title>Finish Schedule</Title>
+                    <Description>Finish Schedule Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>0</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i100">
+                  <Parent z:Ref="i96" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i101">
+                    <Title>Door Schedule</Title>
+                    <Description>Door Schedule Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i102">
+                      <Parent z:Ref="i100" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i103">
+                        <Title>Door Details</Title>
+                        <Description>Door Detail Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i104">
+                  <Parent z:Ref="i96" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i105">
+                    <Title>Window Schedule</Title>
+                    <Description>Window Schedule Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>3</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>3</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i106">
+                      <Parent z:Ref="i104" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i107">
+                        <Title>Window Details</Title>
+                        <Description>Window Detail Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>4</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                            <CompareValue>3</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i108">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i109">
+                <Title>7.x &amp; 8.x Details</Title>
+                <Description>Detail Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>7</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>8</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i110">
+                  <Parent z:Ref="i108" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i111">
+                    <Title>Exterior Details</Title>
+                    <Description>Exterior Detail Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>2</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>7</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i112">
+                      <Parent z:Ref="i110" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>true</IsExpanded>
+                      <Item z:Id="i113">
+                        <Title>Plan and Vertical Details</Title>
+                        <Description>Plan and Vertical Detail Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>0</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_OR</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>4</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i114">
+                      <Parent z:Ref="i110" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i115">
+                        <Title>Roof Details</Title>
+                        <Description>Roof Detail Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>5</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i116">
+                      <Parent z:Ref="i110" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i117">
+                        <Title>Molding Details</Title>
+                        <Description>Molding Detail Sheets</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <CompareComponentIndex>3</CompareComponentIndex>
+                            <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                            <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                            <CompareValue>6</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i118">
+                  <Parent z:Ref="i108" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i119">
+                    <Title>Interior Details</Title>
+                    <Description>Interior Detail Sheets</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <CompareComponentIndex>2</CompareComponentIndex>
+                        <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                        <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                        <CompareValue>8</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i120">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i121">
+            <Title>Structural</Title>
+            <Description>Structural Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>S</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i122">
+              <Parent z:Ref="i120" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i123">
+                <Title>1.x General &amp; Schedules</Title>
+                <Description>General Notes &amp; Schedules</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i124">
+              <Parent z:Ref="i120" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i125">
+                <Title>2.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i126">
+              <Parent z:Ref="i120" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i127">
+                <Title>3.x+ Miscellenous</Title>
+                <Description>Miscellenous Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>GREATER_THAN_OR_EQUAL</ValueComparisonOpCode>
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i128">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i129">
+            <Title>Plumbing</Title>
+            <Description>Plumbing Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>P</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i130">
+              <Parent z:Ref="i128" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i131">
+                <Title>1.x General</Title>
+                <Description>General Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i132">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i133">
+            <Title>Mechanical</Title>
+            <Description>Mechanical Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>M</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i134">
+              <Parent z:Ref="i132" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i135">
+                <Title>1.x General</Title>
+                <Description>General</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i136">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i137">
+            <Title>Electrical</Title>
+            <Description>Electrical Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareComponentIndex>1</CompareComponentIndex>
+                <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                <CompareValue>E</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i138">
+              <Parent z:Ref="i136" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i139">
+                <Title>1.x General</Title>
+                <Description>General</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareComponentIndex>2</CompareComponentIndex>
+                    <LogicalComparisonOpCode>LOGICAL_NO_OP</LogicalComparisonOpCode>
+                    <ValueComparisonOpCode>EQUALTO</ValueComparisonOpCode>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+      </SubCategories>
+    </BaseOfTree>
+  </Data>
+</DataStorage>

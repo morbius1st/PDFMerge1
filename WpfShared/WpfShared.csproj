@@ -88,7 +88,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -98,7 +98,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
-      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -227,9 +227,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
-    </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
@@ -379,6 +376,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -389,6 +387,8 @@
 copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\AODeliverable\bin\x86\debug"
 copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\Felix\bin\x86\debug"</PostBuildEvent>
+copy /y "$(TargetPath)" "$(SolutionDir)\Felix\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\Sylvester\bin\x86\debug"
+copy /y "$(TargetPath)" "$(SolutionDir)\WpfTests\bin\x86\debug"</PostBuildEvent>
   </PropertyGroup>
 </Project>

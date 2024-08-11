@@ -57,6 +57,9 @@
       <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -81,9 +84,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>.Linked\SettingsMgr.cs</Link>
-    </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
@@ -96,16 +96,29 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
+    <Compile Include="FavHistoryMgr\FavAndHistMgr.cs" />
+    <Compile Include="FavHistoryMgr\FavAndHistoryTests.cs" />
+    <Compile Include="FavHistoryMgr\IFavAndHistory.cs" />
+    <Compile Include="FavHistoryMgr\UserHistPairListValue.cs" />
+    <Compile Include="FavHistoryMgr\UserHistClassfListValue.cs" />
+    <Compile Include="FavHistoryMgr\UserFavPairListValue.cs" />
+    <Compile Include="FavHistoryMgr\UserFavClassfListValue.cs" />
+    <Compile Include="FavHistoryMgr\UserListKey.cs" />
+    <Compile Include="FavHistoryMgr\FileListKey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\FavAndHistoryDataStore.cs" />
     <Compile Include="Settings\UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include=".Linked\" />
+  </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

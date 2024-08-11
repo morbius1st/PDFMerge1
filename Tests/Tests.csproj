@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, MACH_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS,SUITE_SETTINGS,MACH_SETTINGS,SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -81,7 +81,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
-      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
@@ -103,16 +106,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\WpfShared\bin\x86\Debug\WpfShared.exe</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
     <Compile Include=".Debug\SeqTestData.cs" />
     <Compile Include=".Debug\TestCollection.cs" />
     <Compile Include="Helpers.cs" />
@@ -127,6 +135,8 @@
     <Compile Include="Sequence\SeqParts.cs" />
     <Compile Include="Sequence\SeqPart.cs" />
     <Compile Include="Sequence\SeqPartsList.cs" />
+    <Compile Include="Settings\SuiteSettings.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -160,6 +170,7 @@
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -169,5 +180,7 @@
   <ItemGroup>
     <Folder Include=".external\" />
   </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

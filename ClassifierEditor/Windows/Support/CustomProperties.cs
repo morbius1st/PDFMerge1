@@ -120,11 +120,5 @@ namespace ClassifierEditor.Windows.Support
 	#endregion
 
 
-
-
 	}
-
-	
-
-	
 }

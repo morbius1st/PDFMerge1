@@ -16,7 +16,7 @@ using UtilityLibrary;
 namespace AndyShared.FileSupport
 {
 
-	public class FileNameUserAndId : AFileName, INotifyPropertyChanged
+	public class FileNameUserAndId : FileNameSimple, /*AFileName,*/ INotifyPropertyChanged
 	{
 		private const string FILE_EXT = "xml";
 

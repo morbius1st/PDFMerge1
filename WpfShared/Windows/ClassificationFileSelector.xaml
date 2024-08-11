@@ -1364,6 +1364,9 @@
 																	FallbackValue={x:Null}}"
 						Style="{StaticResource Combo.Base}"
 						Template="{DynamicResource CbxControlTemplate}"
+						
+						SelectedIndex="{Binding ElementName=winClsFileMgr, 
+							Path=CbxSelIdx, Mode=TwoWay, FallbackValue=0}"
 						>
 					<ComboBox.ItemTemplate>
 						<DataTemplate DataType="sampleFileSupport:SampleFile">

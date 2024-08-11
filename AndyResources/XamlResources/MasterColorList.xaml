@@ -265,6 +265,40 @@
 	<Color x:Key="Blue.A400">#3F7FEB</Color>
 	<Color x:Key="Blue.A300">#3770CF</Color>
 
+
+	<!--  cool.blue color range  -->
+	<Color x:Key="Cool.Blue.970">#D3E1FC</Color>
+	<Color x:Key="Cool.Blue.950">#CBDBFC</Color>
+	<Color x:Key="Cool.Blue.900">#C2D4FB</Color>
+	<Color x:Key="Cool.Blue.850">#B7CCFA</Color>
+	<Color x:Key="Cool.Blue.820">#ABC4F9</Color>
+	<Color x:Key="Cool.Blue.800">#9EBBF8</Color>
+	<Color x:Key="Cool.Blue.760">#8FB0F7</Color>
+	<Color x:Key="Cool.Blue.730">#7FA4F6</Color>
+	<Color x:Key="Cool.Blue.700">#6D97F5</Color>
+	<Color x:Key="Cool.Blue.650">#5989F4</Color>
+	<Color x:Key="Cool.Blue.600">#447AF3</Color>
+	<Color x:Key="Cool.Blue.550">#2E6BF2</Color>
+	<Color x:Key="Cool.Blue.500">#175BF1</Color>
+	<Color x:Key="Cool.Blue.450">#004BF0</Color>
+	<Color x:Key="Cool.Blue.440">#0048E6</Color>
+	<Color x:Key="Cool.Blue.400">#0044DA</Color>
+	<Color x:Key="Cool.Blue.350">#0040CC</Color>
+	<Color x:Key="Cool.Blue.300">#003BBD</Color>
+	<Color x:Key="Cool.Blue.250">#0036AD</Color>
+	<Color x:Key="Cool.Blue.220">#00319D</Color>
+	<Color x:Key="Cool.Blue.200">#002C8E</Color>
+	<Color x:Key="Cool.Blue.150">#00277F</Color>
+	<Color x:Key="Cool.Blue.100">#002270</Color>
+	<Color x:Key="Cool.Blue.050">#001E61</Color>
+	<Color x:Key="Cool.Blue.040">#001A54</Color>
+	<Color x:Key="Cool.Blue.030">#001649</Color>
+	<Color x:Key="Cool.Blue.020">#00133F</Color>
+	<Color x:Key="Cool.Blue.010">#001036</Color>
+	<Color x:Key="Cool.Blue.005">#000E2E</Color>
+
+
+
 	<!--  light.blue color range  -->
 	<Color x:Key="Light.Blue.970">#C8E8FF</Color>
 	<Color x:Key="Light.Blue.950">#C0E5FF</Color>

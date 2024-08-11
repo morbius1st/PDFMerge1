@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -63,7 +63,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -83,6 +83,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -109,14 +113,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
+      <Link>.External\CsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
+      <Link>.External\CsXmlUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.1\CsFilePath.cs">
+      <Link>.External\CsFilePath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
+      <Link>.External\MessageUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
+      <Link>.External\ScreenParametersWpf.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
       <Link>.External\CsObservableDictionary.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.External\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.4\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
@@ -133,6 +149,7 @@
     <Compile Include="PDFMergeManager\PDFMergeTree.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\HeadingSetting.cs" />
+    <Compile Include="Settings\SettingsMgr.cs" />
     <Compile Include="TestData\DataSet.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Support\DrawingRoute.cs" />
@@ -204,12 +221,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
-      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
-      <Name>WpfShared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

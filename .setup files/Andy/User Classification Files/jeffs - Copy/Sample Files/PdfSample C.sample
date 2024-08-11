@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Header>
+		<Description>Sample B: PDF files for Classification with Building Designation.
+		This is a second line of text.
+		</Description>
+	</Header>
+	<Data>
+		<Sheets>
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.1-0 This is a Test CS11.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.1-1 This is a Test CS11.1.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS2.1-0 This is a Test CS21.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS2.1-1 This is a Test CS21.1.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T1.0-0 This is a Test T10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T2.0-0 This is a Test T20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T3.0-0 This is a Test T30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T4.0-0 This is a Test T40.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C1.0-0 This is a Test C10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C2.0-0 This is a Test C20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C3.0-0 This is a Test C30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C4.0-0 This is a Test C40.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A1.0-0 This is a Test A10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.0-0 This is a Test A20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.0-0 This is a Test A30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-0 This is a Test A31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A4.1-1 This is a Test A411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A4.1-2 This is a Test A412.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-1 This is a Test A511.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-2 This is a Test A512.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S1.0-0 This is a Test S10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S2.0-0 This is a Test S20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S2.1-0 This is a Test S21.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S3.0-0 This is a Test S30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S3.1-0 This is a Test S31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S4.1-1 This is a Test S411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S4.1-2 This is a Test S412.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P1.0-0 This is a Test P10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P2.0-0 This is a Test P20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P3.0-0 This is a Test P30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P3.1-0 This is a Test P31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P4.1-1 This is a Test P411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\17 Electrical\A E1.0-0 This is a Test E10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\17 Electrical\A E2.0-0 This is a Test E20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\17 Electrical\A E3.0-0 This is a Test E30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\17 Electrical\A E3.1-0 This is a Test E31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\17 Electrical\A E4.1-1 This is a Test E411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M1.0-0 This is a Test M10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M2.0-0 This is a Test M20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M3.0-0 This is a Test M30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M3.1-0 This is a Test M31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M4.1-1 This is a Test M411.pdf
+		</Sheets>
+	</Data>
+</SampleFile>

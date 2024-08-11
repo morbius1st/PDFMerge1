@@ -1,0 +1,231 @@
+﻿
+TYPE A
+  phase/building
+      general 2A A100 Sheet Name
+           or 2A_A100 Sheet Name
+  		  2A C01.1 Cover Sheet
+          2A EBM2.2-RF - Floor Plan
+  		  2A ID-2.0 Floor Plan
+          2A SH 1.0-0 - Floor Plan
+  		  2A A2.2-R1S-1 - Floor Plan
+  		  2A ID-2.0.1 Floor Plan
+  		  
+  building
+      general A A100 Sheet Name
+           or A_A100 Sheet Name
+            A A100 Sheet Name
+  		  A C01.1 Cover Sheet
+          A EBM2.2-RF - Floor Plan
+  		  A ID-2.0 Floor Plan
+            A SH 1.0-0 - Floor Plan
+  		  A A2.2-R1S-1 - Floor Plan
+  		  A ID-2.0.1 Floor Plan
+  
+  phase
+      general 2 A100 Sheet Name
+           or 2_A100 Sheet Name
+            2 A100 Sheet Name
+  		  2 C01.1 Cover Sheet
+            2 EBM2.2-RF - Floor Plan
+  		  2 ID-2.0 Floor Plan
+            2 SH 1.0-0 - Floor Plan
+            2 A2.2-R1S-1 - Floor Plan
+  		  2 ID-2.0.1 Floor Plan
+
+regular
+
+    TYPE A
+          A100 Sheet Name
+          C01 Cover Sheet
+          M01 Cover Sheet
+          T001 Title Sheet
+          FP10 Floor Plan
+          L01 - Floor Plan
+
+    TYPE B
+          C01.1 Cover Sheet
+          C01-1 Cover Sheet
+
+    TYPE C
+          L1.0 Sheet Name
+          DA0.0 General Notes
+          A2.2-R1S - Floor Plan
+          EBM2.2-RF - Floor Plan
+          LS2.2-P4 - Floor Plan
+          S2.2-P1NB - Floor Plan
+          A7.1.2.1 - Floor Plan
+		  
+    TYPE D
+		  ID-2.0 Floor Plan
+          SH-1A - Floor Plan
+          SH-2.1 - Floor Plan
+          T24-1.0 - Floor Plan
+          A2-2-2A Bldg A - Floor Plan - Level 2 - East
+
+    TYPE E
+          GRN 1 Floor Plan
+          SH 1.0-0 - Floor Plan
+          
+    TYPE C
+          A2.2-R1S.a - Floor Plan
+          A2.2-R1S-1 - Floor Plan
+		  
+    TYPE D
+		  ID-2.0.1 Floor Plan
+		  ID-2.0-1 Floor Plan
+
+
+                              ph  |sep |     |sep |sub |sep |    |sep |sub |sep |    |sep |sub |sep |   | 
+type    example               bld | 0  | dsp |1   |cat |2   |cat |3   |mod |4   |mod |5   |id  |6   |id | 
+
+PhBldg
+TYPE10  A A2.1-3
+TYPE10  A A2.1-3.4
+TYPE10  A A2.1-3.4(right)
+TYPE10  A A2.1-4.5(right│left)
+
+TYPE20  A GRN.1
+
+TYPE30  A A2.1a
+TYPE30  L1.0
+
+TYPE40  A A-1
+TYPE40  A A-101A
+
+
+
+the below must be adjusted based on the above
+sheet number options
+
+
+sample file names
+
+A CS1.0-0 This is a Test CS10
+A T1.0-0  This is a Test T10
+  C1.0-0  This is a Test C10
+  L1.0-0  This is a Test L10
+A A1.0-0a This is a Test A10
+A S1.0-0  This is a Test S10
+A P1.0-0  This is a Test P10
+A M1.0-0a This is a Test M10
+__-_ - _- __________________
+^ ^^ ^ ^^ ^
+| || | || +- name
+| || | |+- sub-modifier (and sub-sub-modifier)
+| || | +- modifier
+| || +- sub-category
+| |+- category
+| +- discipline designaor
++- building (sometimes)
+^
++- phase identifier (not shown)
+
+
+CS1.0-0 This is a Test CS10
+T1.0-0 This is a Test T10
+C1.0-0 This is a Test C10
+L1.0-0 This is a Test L10
+A1.0-0 This is a Test A10
+S1.0-0 This is a Test S10
+P1.0-0 This is a Test P10
+M1.0-0 This is a Test M10
+-_ - _ __________________
+^^ ^ ^ ^
+|| | | +- name
+|| | +- modifier
+|| +- sub-sequence
+|+- sequence
++- discipline
+
+
+1. read file list from the drive / ignore folder structure
+2. put path / file names into a tree per its categorization
+
+
+order code is the key name for the tree
+
+top level
+			order
+Pattern     code        description									title
+(n/a)		␢␢0			uncategorized								Uncategorized
+CS*         ␢00			cover sheet									Cover Sheet
+A*          ␢07			architectural								Architectural
+x A*        107			building x architectural
+S*          ␢11			structural
+x S*        111			building x structural
+
+next level
+						order
+preface     pattern     code    description							title
+A*          1*			01		general or special plan sheets		General
+A*          2*          02      plan sheets							Plans
+A*          3*          03		vertical view sheets				Elevations and Sections
+S*          0*          00		general								General
+
+next level
+						order
+preface     pattern		code	description							title
+A*1*        (none - return)
+A*2*        0*			00		slab plan sheets					Slab Plan
+A*2*        1*			01		floor plan sheets					Floor Plan
+A*2*        2*			02		roof plan sheets					Roof Plans
+
+
+Both categories and sheets go into tree structures
+
+Tree example for categories
+pattern
+A* or
+x A* 
+	+---> 1*
+	+---> 2*
+		  +---> 0*
+		  +---> 1*
+		  +---> 3*
+
+
+node class - can be either leaf or branch
+name:
+NumberCompClass (number component classifier)
+key: 
+code / string
+
+value:
+title (will be the book mark) / string
+description / string
+pattern / regex
+
+
+process
+
+match against tree level 1 -> not found -> add to uncategorized
+|				
+v (found) (add as level 1 leaf)
+match against tree level 2 -> not found -> return
+|
+v (found) (add as level 2 leaf)
+match against tree level 3 -> not found -> return
+|
+v
+etc.
+
+editor
+display / edit data in a tree structure
+add leaf
+add children to leaf / convert leaf to branch
+edit leaf info
+edit branch info
+delete leaf
+delete branch (and all below)
+move leaf to different branch
+move branch to different branch
+have a library of parts
+	- categorize as systems that includes
+	a complete set of ?? 
+	- allow the selection of a complete set
+	- allow the selection of individual ?? from a system
+?? name for of each leaf:
+number comp class (sheet number component classifier)
+
+
+

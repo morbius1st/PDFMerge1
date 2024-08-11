@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppSettingInfoOfAppSettingDataNcCATIYq xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_APP</FileType>
+  <Header>
+    <SaveDateTime>2021-01-17 - 09:52 -08:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.4</SettingsVersion>
+    <DataClassVersion>app 7.4a</DataClassVersion>
+    <Description>app setting file for SettingsManager v7.4</Description>
+    <Notes>app / any notes go here</Notes>
+  </Header>
+  <Data>
+    <DefaultOutlineItems xmlns:d3p1="http://schemas.datacontract.org/2004/07/Tests2.OutlineManager">
+      <d3p1:OutlineItem>
+        <d3p1:Description>Set Cover Sheet</d3p1:Description>
+        <d3p1:OutlinePath>Cover Sheet</d3p1:OutlinePath>
+        <d3p1:Pattern>CS</d3p1:Pattern>
+        <d3p1:SequenceCode>00.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Title Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Title Sheets</d3p1:OutlinePath>
+        <d3p1:Pattern>T</d3p1:Pattern>
+        <d3p1:SequenceCode>00.1</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Life Safety Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Life / Safety</d3p1:OutlinePath>
+        <d3p1:Pattern>LS</d3p1:Pattern>
+        <d3p1:SequenceCode>00.7</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Architectural Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Architectural</d3p1:OutlinePath>
+        <d3p1:Pattern>A</d3p1:Pattern>
+        <d3p1:SequenceCode>07.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Structural Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Structural</d3p1:OutlinePath>
+        <d3p1:Pattern>S</d3p1:Pattern>
+        <d3p1:SequenceCode>11.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Mechanical Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Mechanical</d3p1:OutlinePath>
+        <d3p1:Pattern>M</d3p1:Pattern>
+        <d3p1:SequenceCode>13.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Plumbing Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Plumbing</d3p1:OutlinePath>
+        <d3p1:Pattern>P</d3p1:Pattern>
+        <d3p1:SequenceCode>15.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+      <d3p1:OutlineItem>
+        <d3p1:Description>Electrical Sheets</d3p1:Description>
+        <d3p1:OutlinePath>Electrical</d3p1:OutlinePath>
+        <d3p1:Pattern>E</d3p1:Pattern>
+        <d3p1:SequenceCode>17.0</d3p1:SequenceCode>
+      </d3p1:OutlineItem>
+    </DefaultOutlineItems>
+    <AllowPropertyEditing>false</AllowPropertyEditing>
+  </Data>
+</AppSettingInfoOfAppSettingDataNcCATIYq>

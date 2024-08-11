@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Header>
+    <SaveDateTime>2020-07-12 - 07:40 -07:00</SaveDateTime>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SystemVersion>7.2</SystemVersion>
+    <Notes>Created in Version 1.0</Notes>
+    <DataClassVersion>1.0</DataClassVersion>
+    <Description>Data Storage</Description>
+  </Header>
+  <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <Description>This is a full list of sheet organization categories</Description>
+    <UsePhaseBldg>false</UsePhaseBldg>
+    <BaseOfTree z:Id="i2">
+      <Item z:Id="i3">
+        <Title>BaseOfTree</Title>
+        <Description i:nil="true" />
+        <CompareOps />
+      </Item>
+      <Parent i:nil="true" />
+      <Depth>0</Depth>
+      <CheckedState>UNCHECKED</CheckedState>
+      <TriState>UNSET</TriState>
+      <SubCategories />
+      <IsFixed>false</IsFixed>
+      <IsLocked>false</IsLocked>
+      <IsExpanded>false</IsExpanded>
+    </BaseOfTree>
+  </Data>
+</DataStorage>

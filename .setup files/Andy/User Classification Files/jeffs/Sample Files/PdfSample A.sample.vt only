@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Header>
+		<Description>Sample A: PDF files for Classification with Building Designation</Description>
+	</Header>
+	<Data>
+	<Building>A</Building>
+		<Sheets>
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.0-1 Main Building Stair #1 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.0-2 Main Building Stair #2 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-11 West Garage Stair #11 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-12 West Garage Stair #12 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-21 East Garage Stair #21 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-22 East Garage Stair #22 Plans And Sections.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.2-1 Ramp #2.1 Plan and Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.3-2 Ramp #3.2 Plan and Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-1 Elevator #4.1 Floor Plans.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-1A Elevator #4.1 Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-2 Elevator #4.2 Floor Plans and Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-3 Elevator #4.3 Floor Plans and Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.5-1 Elevator #5.1 Floor Plans.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.5-1A Elevator #5.1 Section.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.6-1 Elevator #6.1 Floor Plans.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.7-1 Elevator #7.1 Section.pdf
+
+		</Sheets>
+	</Data>
+</SampleFile>

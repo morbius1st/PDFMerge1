@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2020-09-20 - 10:57 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <DataClassVersion>Unassigned</DataClassVersion>
+    <Description>Classification File (jeffs) PdfSample 2</Description>
+    <Notes>Unassigned</Notes>
+  </Header>
+  <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <SampleFile>PdfSample B</SampleFile>
+    <BaseOfTree z:Id="i2">
+      <Parent i:nil="true" />
+      <Depth>0</Depth>
+      <CheckedState>UNCHECKED</CheckedState>
+      <TriState>UNSET</TriState>
+      <IsExpanded>false</IsExpanded>
+      <Item z:Id="i3">
+        <Title>Base of Tree</Title>
+        <Description>Base of Tree</Description>
+        <IsFixed>false</IsFixed>
+        <IsLocked>false</IsLocked>
+        <CompareOps />
+      </Item>
+      <SubCategories>
+        <TreeNode z:Id="i4">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i5">
+            <Title>node title PdfSample 2</Title>
+            <Description>node description</Description>
+            <IsFixed>true</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps />
+          </Item>
+          <SubCategories />
+        </TreeNode>
+        <TreeNode z:Id="i6">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i7">
+            <Title>node title 01:00:01</Title>
+            <Description>node description</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>1</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Not Exactly Equal</Name>
+                  <OpCode>DOES_NOT_EQUAL</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp>
+                  <Name>And</Name>
+                  <OpCode>LOGICAL_AND</OpCode>
+                </LogicalCompareOp>
+                <CompareValue>2</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Does Not End with</Name>
+                  <OpCode>DOES_NOT_END_WITH</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp>
+                  <Name>Or</Name>
+                  <OpCode>LOGICAL_OR</OpCode>
+                </LogicalCompareOp>
+                <CompareValue>A</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Greater Than or Equal</Name>
+                  <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp>
+                  <Name>And</Name>
+                  <OpCode>LOGICAL_AND</OpCode>
+                </LogicalCompareOp>
+                <CompareValue>1</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Does Not Start with</Name>
+                  <OpCode>DOES_NOT_START_WITH</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp>
+                  <Name>Or</Name>
+                  <OpCode>LOGICAL_OR</OpCode>
+                </LogicalCompareOp>
+                <CompareValue>Z</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories />
+        </TreeNode>
+        <TreeNode z:Id="i8">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i9">
+            <Title>node title 02:00:02</Title>
+            <Description>node description</Description>
+            <IsFixed>true</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>A</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories />
+        </TreeNode>
+        <TreeNode z:Id="i10">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i11">
+            <Title>node title 03:00:03</Title>
+            <Description>node description</Description>
+            <IsFixed>true</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>1</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Not Exactly Equal</Name>
+                  <OpCode>DOES_NOT_EQUAL</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp>
+                  <Name>And</Name>
+                  <OpCode>LOGICAL_AND</OpCode>
+                </LogicalCompareOp>
+                <CompareValue>2</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i12">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i13">
+                <Title>node title 03:01:00</Title>
+                <Description>node description</Description>
+                <IsFixed>true</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps />
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i14">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i15">
+                <Title>node title 03:01:01</Title>
+                <Description>node description</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Not Exactly Equal</Name>
+                      <OpCode>DOES_NOT_EQUAL</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>And</Name>
+                      <OpCode>LOGICAL_AND</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Does Not End with</Name>
+                      <OpCode>DOES_NOT_END_WITH</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>Or</Name>
+                      <OpCode>LOGICAL_OR</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>A</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Greater Than or Equal</Name>
+                      <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>And</Name>
+                      <OpCode>LOGICAL_AND</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Does Not Start with</Name>
+                      <OpCode>DOES_NOT_START_WITH</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>Or</Name>
+                      <OpCode>LOGICAL_OR</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>Z</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i16">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i17">
+                <Title>node title 03:01:02</Title>
+                <Description>node description</Description>
+                <IsFixed>true</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Starts with</Name>
+                      <OpCode>STARTS_WITH</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>A</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i18">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i19">
+                <Title>node title 03:01:03</Title>
+                <Description>node description</Description>
+                <IsFixed>true</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Not Exactly Equal</Name>
+                      <OpCode>DOES_NOT_EQUAL</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>And</Name>
+                      <OpCode>LOGICAL_AND</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories>
+                <TreeNode z:Id="i20">
+                  <Parent z:Ref="i18" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i21">
+                    <Title>node title 03:02:00</Title>
+                    <Description>node description</Description>
+                    <IsFixed>true</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps />
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i22">
+                  <Parent z:Ref="i18" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i23">
+                    <Title>node title 03:02:01</Title>
+                    <Description>node description</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Is Exactly Equal</Name>
+                          <OpCode>EQUALTO</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp i:nil="true" />
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Is Not Exactly Equal</Name>
+                          <OpCode>DOES_NOT_EQUAL</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp>
+                          <Name>And</Name>
+                          <OpCode>LOGICAL_AND</OpCode>
+                        </LogicalCompareOp>
+                        <CompareValue>2</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Does Not End with</Name>
+                          <OpCode>DOES_NOT_END_WITH</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp>
+                          <Name>Or</Name>
+                          <OpCode>LOGICAL_OR</OpCode>
+                        </LogicalCompareOp>
+                        <CompareValue>A</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Is Greater Than or Equal</Name>
+                          <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp>
+                          <Name>And</Name>
+                          <OpCode>LOGICAL_AND</OpCode>
+                        </LogicalCompareOp>
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Does Not Start with</Name>
+                          <OpCode>DOES_NOT_START_WITH</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp>
+                          <Name>Or</Name>
+                          <OpCode>LOGICAL_OR</OpCode>
+                        </LogicalCompareOp>
+                        <CompareValue>Z</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i24">
+                  <Parent z:Ref="i18" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i25">
+                    <Title>node title 03:02:02</Title>
+                    <Description>node description</Description>
+                    <IsFixed>true</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Starts with</Name>
+                          <OpCode>STARTS_WITH</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp i:nil="true" />
+                        <CompareValue>A</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+                <TreeNode z:Id="i26">
+                  <Parent z:Ref="i18" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i27">
+                    <Title>node title 03:02:03</Title>
+                    <Description>node description</Description>
+                    <IsFixed>true</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Is Exactly Equal</Name>
+                          <OpCode>EQUALTO</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp i:nil="true" />
+                        <CompareValue>1</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                      <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                        <ValueCompareOp>
+                          <Name>Is Not Exactly Equal</Name>
+                          <OpCode>DOES_NOT_EQUAL</OpCode>
+                        </ValueCompareOp>
+                        <LogicalCompareOp>
+                          <Name>And</Name>
+                          <OpCode>LOGICAL_AND</OpCode>
+                        </LogicalCompareOp>
+                        <CompareValue>2</CompareValue>
+                        <IsDisabled>false</IsDisabled>
+                      </ComparisonOperation>
+                    </CompareOps>
+                  </Item>
+                  <SubCategories>
+                    <TreeNode z:Id="i28">
+                      <Parent z:Ref="i26" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i29">
+                        <Title>node title 03:03:00</Title>
+                        <Description>node description</Description>
+                        <IsFixed>true</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps />
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i30">
+                      <Parent z:Ref="i26" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i31">
+                        <Title>node title 03:03:01</Title>
+                        <Description>node description</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Is Exactly Equal</Name>
+                              <OpCode>EQUALTO</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp i:nil="true" />
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Is Not Exactly Equal</Name>
+                              <OpCode>DOES_NOT_EQUAL</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp>
+                              <Name>And</Name>
+                              <OpCode>LOGICAL_AND</OpCode>
+                            </LogicalCompareOp>
+                            <CompareValue>2</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Does Not End with</Name>
+                              <OpCode>DOES_NOT_END_WITH</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp>
+                              <Name>Or</Name>
+                              <OpCode>LOGICAL_OR</OpCode>
+                            </LogicalCompareOp>
+                            <CompareValue>A</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Is Greater Than or Equal</Name>
+                              <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp>
+                              <Name>And</Name>
+                              <OpCode>LOGICAL_AND</OpCode>
+                            </LogicalCompareOp>
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Does Not Start with</Name>
+                              <OpCode>DOES_NOT_START_WITH</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp>
+                              <Name>Or</Name>
+                              <OpCode>LOGICAL_OR</OpCode>
+                            </LogicalCompareOp>
+                            <CompareValue>Z</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i32">
+                      <Parent z:Ref="i26" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i33">
+                        <Title>node title 03:03:02</Title>
+                        <Description>node description</Description>
+                        <IsFixed>true</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Starts with</Name>
+                              <OpCode>STARTS_WITH</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp i:nil="true" />
+                            <CompareValue>A</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i34">
+                      <Parent z:Ref="i26" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i35">
+                        <Title>node title 03:03:03</Title>
+                        <Description>node description</Description>
+                        <IsFixed>true</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Is Exactly Equal</Name>
+                              <OpCode>EQUALTO</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp i:nil="true" />
+                            <CompareValue>1</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                          <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                            <ValueCompareOp>
+                              <Name>Is Not Exactly Equal</Name>
+                              <OpCode>DOES_NOT_EQUAL</OpCode>
+                            </ValueCompareOp>
+                            <LogicalCompareOp>
+                              <Name>And</Name>
+                              <OpCode>LOGICAL_AND</OpCode>
+                            </LogicalCompareOp>
+                            <CompareValue>2</CompareValue>
+                            <IsDisabled>false</IsDisabled>
+                          </ComparisonOperation>
+                        </CompareOps>
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                    <TreeNode z:Id="i36">
+                      <Parent z:Ref="i26" />
+                      <Depth>4</Depth>
+                      <CheckedState>UNCHECKED</CheckedState>
+                      <TriState>UNSET</TriState>
+                      <IsExpanded>false</IsExpanded>
+                      <Item z:Id="i37">
+                        <Title>node title 03:03:04</Title>
+                        <Description>node description</Description>
+                        <IsFixed>false</IsFixed>
+                        <IsLocked>false</IsLocked>
+                        <CompareOps />
+                      </Item>
+                      <SubCategories />
+                    </TreeNode>
+                  </SubCategories>
+                </TreeNode>
+                <TreeNode z:Id="i38">
+                  <Parent z:Ref="i18" />
+                  <Depth>3</Depth>
+                  <CheckedState>UNCHECKED</CheckedState>
+                  <TriState>UNSET</TriState>
+                  <IsExpanded>false</IsExpanded>
+                  <Item z:Id="i39">
+                    <Title>node title 03:02:04</Title>
+                    <Description>node description</Description>
+                    <IsFixed>false</IsFixed>
+                    <IsLocked>false</IsLocked>
+                    <CompareOps />
+                  </Item>
+                  <SubCategories />
+                </TreeNode>
+              </SubCategories>
+            </TreeNode>
+            <TreeNode z:Id="i40">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i41">
+                <Title>node title 03:01:04</Title>
+                <Description>node description</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps />
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i42">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i43">
+            <Title>node title 04:00:04</Title>
+            <Description>node description</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps />
+          </Item>
+          <SubCategories />
+        </TreeNode>
+      </SubCategories>
+    </BaseOfTree>
+  </Data>
+</DataStorage>

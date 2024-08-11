@@ -1,7 +1,6 @@
-﻿using AndyShared.ConfigSupport;
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
+using AndyShared.ConfigSupport;
 
 // Solution:     SettingsManager
 // Project:       SettingsManagerV70

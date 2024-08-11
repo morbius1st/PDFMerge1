@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2020-08-20 - 23:30 -07:00</SaveDateTime>
+    <SavedBy>jim</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <DataClassVersion>0.1</DataClassVersion>
+    <Description>PdfSample 101 - list of sheet organization categories</Description>
+		<Notes i:nil="true" />
+  </Header>
+  <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <UsePhaseBldg>false</UsePhaseBldg>
+		<SampleFile>PdfSample 3</SampleFile>
+    <BaseOfTree z:Id="i2">
+      <Item z:Id="i3">
+        <Title>Base of Tree</Title>
+        <Description>Base of Tree</Description>
+        <CompareOps />
+      </Item>
+      <Parent i:nil="true" />
+      <Depth>0</Depth>
+      <CheckedState>UNCHECKED</CheckedState>
+      <TriState>UNSET</TriState>
+      <SubCategories>
+        <TreeNode z:Id="i4">
+          <Item z:Id="i5">
+            <Title>node title 1A:00:00</Title>
+            <Description>This is the node's description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>A</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i6">
+          <Item z:Id="i7">
+            <Title>node title 1B:00:01</Title>
+            <Description>node description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>B</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i8">
+          <Item z:Id="i9">
+            <Title>node title 1C:00:02</Title>
+            <Description>node description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>C</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i10">
+          <Item z:Id="i11">
+            <Title>node title 1D:00:03</Title>
+            <Description>node description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>D</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i12">
+          <Item z:Id="i13">
+            <Title>00 New Node Title</Title>
+            <Description>New Node Description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </CompareOp>
+                <CompareValue>1</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories />
+          <IsFixed>false</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>false</IsExpanded>
+        </TreeNode>
+        <TreeNode z:Id="i14">
+          <Item z:Id="i15">
+            <Title>node title 1E:00:04</Title>
+            <Description>node description</Description>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <CompareOp xmlns="" i:type="ValueCompareOp">
+                  <Name>Starts with</Name>
+                  <OpCode>STARTS_WITH</OpCode>
+                </CompareOp>
+                <CompareValue>E</CompareValue>
+                <IsFirstCompOp>true</IsFirstCompOp>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <SubCategories>
+            <TreeNode z:Id="i16">
+              <Item z:Id="i17">
+                <Title>01 New Node Title</Title>
+                <Description>New Node Description</Description>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
+                      <Name>Is Greater Than</Name>
+                      <OpCode>GREATER_THAN</OpCode>
+                    </CompareOp>
+                    <CompareValue>1</CompareValue>
+                    <IsFirstCompOp>true</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="LogicalCompOp">
+                    <CompareOp xmlns="" i:type="LogicalCompareOp">
+                      <Name>Or</Name>
+                      <OpCode>LOGICAL_OR</OpCode>
+                    </CompareOp>
+                    <CompareValue i:nil="true" />
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <CompareOp xmlns="" i:type="ValueCompareOp">
+                      <Name>Contains</Name>
+                      <OpCode>CONTAINS</OpCode>
+                    </CompareOp>
+                    <CompareValue>A</CompareValue>
+                    <IsFirstCompOp>false</IsFirstCompOp>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <Parent z:Ref="i14" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <SubCategories />
+              <IsFixed>false</IsFixed>
+              <IsLocked>false</IsLocked>
+              <IsExpanded>false</IsExpanded>
+            </TreeNode>
+          </SubCategories>
+          <IsFixed>true</IsFixed>
+          <IsLocked>false</IsLocked>
+          <IsExpanded>true</IsExpanded>
+        </TreeNode>
+      </SubCategories>
+      <IsFixed>false</IsFixed>
+      <IsLocked>false</IsLocked>
+      <IsExpanded>false</IsExpanded>
+    </BaseOfTree>
+  </Data>
+</DataStorage>

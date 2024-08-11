@@ -1,4 +1,4 @@
-﻿<Window Name="winFavs"
+﻿<Window Name="WinFavs"
 		x:Class="AndyFavsAndHistory.Windows.FavsAndHistory"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,17 +9,22 @@
 		Width="1200"
 		Height="650"
 		mc:Ignorable="d"
-		DataContext="{Binding ElementName=winFavs}"
-		Background="{DynamicResource Normal.Window.Background}"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		Background="{DynamicResource Normal.Window.Background}" 
+		Loaded="winFavs_Loaded"
 		>
-	<!--  Background="{StaticResource Normal.Window.Background}"  -->
+		<!-- DataContext="{Binding ElementName=WinFavs}" -->
+	
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 
-				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterColorList.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
+				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/MasterColorList.xaml" /> -->
+				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" /> -->
+				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" /> -->
+				<ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/MasterColorList.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Windows/ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 
@@ -30,6 +35,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
@@ -38,6 +44,9 @@
 		</Grid.RowDefinitions>
 
 		<TextBox
+				Grid.Column="0"
+				Grid.Row="0"
+				Grid.ColumnSpan="2"
 				FontFamily="Droid Sans Mono"
 				Background="Black"
 				Foreground="White"

@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
-using AndyShared;
+
 using static Test3.MainWindow;
 
 #endregion

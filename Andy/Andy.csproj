@@ -58,11 +58,13 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSLibraryIo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -88,21 +90,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
-      <Aliases>global</Aliases>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
@@ -117,6 +110,18 @@
     </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Dialogs\DialogSupport\PathChangeArgs.cs">
+      <Link>Dialogs\PathChangeArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml.cs">
+      <Link>Windows\Support\FolderRoute.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
+      <Link>Windows\Support\ScrollViewerExtended.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml.cs">
+      <Link>Windows\Support\SkewedButton.xaml.cs</Link>
     </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
@@ -156,13 +161,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml">
+      <Link>Windows\Support\FolderRoute.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
+      <Link>Windows\Support\ScrollViewerExtended.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml">
+      <Link>Windows\Support\SkewedButton.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MainWindowAndy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="D:\Users\Jeff\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -198,8 +215,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".Linked\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
-    <Folder Include="Windows\Support\" />
   </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

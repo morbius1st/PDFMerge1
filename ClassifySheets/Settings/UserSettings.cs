@@ -36,6 +36,9 @@ namespace SettingsManager
 	{
 		[DataMember(Order = 1)]
 		public int UserSettingsValue { get; set; } = 7;
+
+		[DataMember(Order = 1)]
+		public string LastClassificationFileId { get; set; } = "PdfSample 1";
 	}
 
 	#endregion

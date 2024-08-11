@@ -38,7 +38,6 @@
 				/>
 
 
-
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="#FF595959" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="#FF262626" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Stroke" Color="#FF27C7F7" />
@@ -80,9 +79,9 @@
 				BasedOn="{StaticResource Button.Base}"
 				>
 			<Setter Property="IsEnabled" Value="True" />
-			<Setter Property="Background" >
+			<Setter Property="Background">
 				<Setter.Value>
-					<SolidColorBrush Color="{StaticResource Amber.700}"/>
+					<SolidColorBrush Color="{StaticResource Amber.700}" />
 				</Setter.Value>
 			</Setter>
 			<Style.Triggers>
@@ -389,7 +388,6 @@
 						Foreground="White"
 						/>
 				<Label
-						
 						Content="{Binding Path=Adjust.ProcessStatus,
 															Mode=OneWay,
 															TargetNullValue='n/a',
@@ -542,21 +540,18 @@
 									Margin="10,0,0,0"
 									Padding="0"
 									Foreground="White"
-									>
-							</Label>
+									/>
 						</StackPanel>
 
 						<DockPanel HorizontalAlignment="Stretch">
 
 							<Label
-									
 									Content="{Binding ExtData.ExtName}"
 									Margin="5,0,0,0"
 									Padding="0"
 									Foreground="White"
 									DockPanel.Dock="Top"
-									>
-							</Label>
+									/>
 
 							<Label
 									Content="No Merge items"

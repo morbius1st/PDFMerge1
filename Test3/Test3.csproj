@@ -91,6 +91,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -111,6 +112,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
+      <Link>WinResources\XmalMarkup.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
+      <Link>WinResources\ScrollViewerExtended.xaml.cs</Link>
+    </Compile>
     <Compile Include="SheetMgr\Sheet.cs" />
     <Compile Include="SheetMgr\SheetPartData.cs" />
     <Compile Include="SheetMgr\SheetPartsManager.cs" />
@@ -120,6 +127,11 @@
     <Compile Include="SheetMgr\SheetPartsDescriptor.cs" />
     <Compile Include="SheetMgr\SheetManager.cs" />
     <Compile Include="SheetMgr\SheetUtility.cs" />
+    <Page Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
+      <Link>WinResources\ScrollViewerExtended.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -178,11 +190,6 @@
   <ItemGroup>
     <Folder Include=".reference\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WpfShared\WpfShared.csproj">
-      <Project>{c4cf3e3e-620e-400c-bc59-b701e5c2e637}</Project>
-      <Name>WpfShared</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

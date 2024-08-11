@@ -5,11 +5,11 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:Andy.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:support="clr-namespace:AndyShared.Support;assembly=WpfShared"
+		xmlns:support="clr-namespace:AndyShared.Support"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
-		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute;assembly=WpfShared"
-		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx;assembly=WpfShared"
+		xmlns:fr="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
+		xmlns:sve="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
 		Title="Andy - Pdf Organizer and Merger"
 		Width="1400"
 		Height="800"
@@ -20,8 +20,8 @@
 		FontFamily="Tahoma"
 		FontSize="12"
 		Background="{StaticResource Window.Background}"
-		d:UseSampleData="True"
 		>
+		<!-- d:UseSampleData="True" -->
 	<!--  xmlns:andyres="clr-namespace:AndyResources.XamlResources;assembly=WpfShared"  -->
 	<!--  xmlns:f="clr-namespace:AndyResources.XamlResources"  -->
 	<!--  xmlns:res="clr-namespace:AndyResources.XamlResources"  -->

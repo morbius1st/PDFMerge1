@@ -28,7 +28,7 @@ namespace Tests2.TestData
 	// this is unique for each program
 	[DataContract(Namespace = "")]
 	
-	public class SavedFileList : HeaderData, INotifyPropertyChanged
+	public class SavedFileList : /*HeaderData,*/ INotifyPropertyChanged
 	{
 	[IgnoreDataMember]
 	public string DataFileDescription { get; set; } = "Sample saved file list";

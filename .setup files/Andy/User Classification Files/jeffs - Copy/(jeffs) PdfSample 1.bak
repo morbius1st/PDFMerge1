@@ -1,0 +1,727 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2020-09-20 - 10:57 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <DataClassVersion>Unassigned</DataClassVersion>
+    <Description>PdfSample 1</Description>
+    <Notes>Unassigned</Notes>
+  </Header>
+  <Data z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <SampleFile>PdfSample A</SampleFile>
+    <BaseOfTree z:Id="i2">
+      <Parent i:nil="true" />
+      <Depth>0</Depth>
+      <CheckedState>UNCHECKED</CheckedState>
+      <TriState>UNSET</TriState>
+      <IsExpanded>false</IsExpanded>
+      <Item z:Id="i3">
+        <Title>Base of Tree</Title>
+        <Description>Base of Tree</Description>
+        <IsFixed>false</IsFixed>
+        <IsLocked>false</IsLocked>
+        <CompareOps />
+      </Item>
+      <SubCategories>
+        <TreeNode z:Id="i4">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i5">
+            <Title>Cover Sheet</Title>
+            <Description>Cover Sheet</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>CS</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i6">
+              <Parent z:Ref="i4" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i7">
+                <Title>Cover Sheet - Phase 1</Title>
+                <Description>Phase 1 Cover Sheet</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i8">
+              <Parent z:Ref="i4" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i9">
+                <Title>Cover Sheet - Phase 2</Title>
+                <Description>Phase 2 Cover Sheet</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i10">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i11">
+            <Title>Title</Title>
+            <Description>Title Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>T</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i12">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i13">
+                <Title>General</Title>
+                <Description>General Title Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i14">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i15">
+                <Title>Accessibility</Title>
+                <Description>Accessibility Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i16">
+              <Parent z:Ref="i10" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i17">
+                <Title>Miscellenous</Title>
+                <Description>Miscellenous</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Greater Than or Equal</Name>
+                      <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i18">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i19">
+            <Title>Civil</Title>
+            <Description>Civil Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>C</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i20">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i21">
+                <Title>1.x General</Title>
+                <Description>General Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i22">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i23">
+                <Title>2.x / 3.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp>
+                      <Name>Or</Name>
+                      <OpCode>LOGICAL_OR</OpCode>
+                    </LogicalCompareOp>
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i24">
+              <Parent z:Ref="i18" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i25">
+                <Title>4.x Miscellenous</Title>
+                <Description>Miscellenous Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i26">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>true</IsExpanded>
+          <Item z:Id="i27">
+            <Title>Architectural</Title>
+            <Description>Architectural Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>A</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i28">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i29">
+                <Title>1.x Assembly</Title>
+                <Description>Assembly Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i30">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i31">
+                <Title>2.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i32">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i33">
+                <Title>3.x Vertical Views</Title>
+                <Description>Vertical Views Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i34">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i35">
+                <Title>4.x Enlarged Plans</Title>
+                <Description>Enlarged Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i36">
+              <Parent z:Ref="i26" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i37">
+                <Title>5.x Wall Sections</Title>
+                <Description>Wall Sections</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i38">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i39">
+            <Title>Structural</Title>
+            <Description>Structural Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>S</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i40">
+              <Parent z:Ref="i38" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i41">
+                <Title>1.x General &amp; Schedules</Title>
+                <Description>General Notes &amp; Schedules</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i42">
+              <Parent z:Ref="i38" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i43">
+                <Title>2.x Plans</Title>
+                <Description>Plan Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>2</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+            <TreeNode z:Id="i44">
+              <Parent z:Ref="i38" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i45">
+                <Title>3.x+ Miscellenous</Title>
+                <Description>Miscellenous Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Greater Than or Equal</Name>
+                      <OpCode>GREATER_THAN_OR_EQUAL</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>3</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i46">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i47">
+            <Title>Plumbing</Title>
+            <Description>Plumbing Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>p</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i48">
+              <Parent z:Ref="i46" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i49">
+                <Title>1.x General</Title>
+                <Description>General Sheets</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i50">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i51">
+            <Title>Mechanical</Title>
+            <Description>Mechanical Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>M</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i52">
+              <Parent z:Ref="i50" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i53">
+                <Title>1.x General</Title>
+                <Description>General</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+        <TreeNode z:Id="i54">
+          <Parent z:Ref="i2" />
+          <Depth>1</Depth>
+          <CheckedState>UNCHECKED</CheckedState>
+          <TriState>UNSET</TriState>
+          <IsExpanded>false</IsExpanded>
+          <Item z:Id="i55">
+            <Title>Electrical</Title>
+            <Description>Electrical Sheets</Description>
+            <IsFixed>false</IsFixed>
+            <IsLocked>false</IsLocked>
+            <CompareOps>
+              <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                <ValueCompareOp>
+                  <Name>Is Exactly Equal</Name>
+                  <OpCode>EQUALTO</OpCode>
+                </ValueCompareOp>
+                <LogicalCompareOp i:nil="true" />
+                <CompareValue>E</CompareValue>
+                <IsDisabled>false</IsDisabled>
+              </ComparisonOperation>
+            </CompareOps>
+          </Item>
+          <SubCategories>
+            <TreeNode z:Id="i56">
+              <Parent z:Ref="i54" />
+              <Depth>2</Depth>
+              <CheckedState>UNCHECKED</CheckedState>
+              <TriState>UNSET</TriState>
+              <IsExpanded>false</IsExpanded>
+              <Item z:Id="i57">
+                <Title>1.x General</Title>
+                <Description>General</Description>
+                <IsFixed>false</IsFixed>
+                <IsLocked>false</IsLocked>
+                <CompareOps>
+                  <ComparisonOperation xmlns="" i:type="ValueCompOp">
+                    <ValueCompareOp>
+                      <Name>Is Exactly Equal</Name>
+                      <OpCode>EQUALTO</OpCode>
+                    </ValueCompareOp>
+                    <LogicalCompareOp i:nil="true" />
+                    <CompareValue>1</CompareValue>
+                    <IsDisabled>false</IsDisabled>
+                  </ComparisonOperation>
+                </CompareOps>
+              </Item>
+              <SubCategories />
+            </TreeNode>
+          </SubCategories>
+        </TreeNode>
+      </SubCategories>
+    </BaseOfTree>
+  </Data>
+</DataStorage>

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 // username: jeffs
 // created:  12/20/2020 9:52:30 PM
 
-namespace StoreAndRead.TestClasses
+namespace StoreAndRead2.TestClasses
 {
 	public interface IBaseClass
 	{

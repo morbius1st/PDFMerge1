@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 // username: jeffs
 // created:  12/20/2020 9:58:16 PM
 
-namespace StoreAndRead.TestClasses
+namespace StoreAndRead2.TestClasses
 {
 	public class Derived1 : BaseClass
 	{

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MachSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_MACH</FileType>
+  <Header>
+    <SaveDateTime>2020-08-30 - 17:02 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <DataClassVersion>7.0m</DataClassVersion>
+    <Description>machine setting file for SettingsManagerV70</Description>
+    <Notes>Unassigned</Notes>
+  </Header>
+  <Data>
+    <LastClassificationFileId>PdfSample 1</LastClassificationFileId>
+  </Data>
+</MachSettings>

@@ -71,7 +71,8 @@ namespace AndyShared.ConfigMgr
 
 		public string InstallFolder =>
 		#if DEBUG
-			@"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
+			// @"B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample";
+			@"C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\ClassifierEditor\.sample";
 	#else
 			Assembly.GetExecutingAssembly().Location;
 	#endif

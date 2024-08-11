@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
+
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		HorizontalContentAlignment="Left"
 		mc:Ignorable="d"
@@ -31,8 +32,9 @@
 
 	<ScrollViewer.Resources>
 
+
 		<local:EnumToInt x:Key="EnumToInt" />
-		<local:EnumToInt x:Key="EnumToInt2" />
+		<!-- <local:EnumToInt x:Key="EnumToInt2" /> -->
 
 		<res:EnumToInt32 x:Key="right"
 				e="{x:Static local:VertScrollBarLocation.Right}"

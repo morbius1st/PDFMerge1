@@ -352,7 +352,7 @@ namespace AndyShared.ClassificationFileSupport
 		private void PreInitialize()
 		{
 			dataFile = new BaseDataFile<ClassificationFileData>();
-			dataFile.Configure(FolderPath, FileNameNoExt, FileNameExtNoSep);
+			dataFile.Configure(FolderPath, FileNameNoExt, null, FileNameExtNoSep);
 		}
 
 		public void Initialize()

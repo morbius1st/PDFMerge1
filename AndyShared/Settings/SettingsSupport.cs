@@ -16,9 +16,6 @@ namespace AndyShared.Settings
 			new FilePath<FileNameSimple>(FilePathUtil.AssembleFolderPath(false, 
 				AllClassifFolderPath.FolderPath, Environment.UserName));
 
-
-
-
 		// TODO: use the utility library version
 		public static bool ValidateXmlFile(string filePath)
 		{
@@ -35,10 +32,6 @@ namespace AndyShared.Settings
 
 			return true;
 		}
-
-
-
-
 
 
 		// public static List<FilePath<FileNameSimpleSelectable>>

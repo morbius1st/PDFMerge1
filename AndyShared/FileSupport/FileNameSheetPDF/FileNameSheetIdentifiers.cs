@@ -1,4 +1,5 @@
 ﻿#region + Using Directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace AndyShared.FileSupport.FileNameSheetPDF
 {
-
 	public class FileNameSheetIdentifiers
 	{
 		static FileNameSheetIdentifiers()
@@ -45,14 +45,14 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		// value index is not being used - spare
 		public List<ShtNumberCompName> SheetNumberComponentTitles { get; } = new List<ShtNumberCompName>()
 		{
-			new ShtNumberCompName(PHBLDG, new NeumonicString(            "(" ,"A", " x.x-xz)"), "Ph/Bld", 5),
-			new ShtNumberCompName(DISCP , new NeumonicString(          "(x " ,"A", "x.x-xz)") , "Disc"  , 10),
-			new ShtNumberCompName(CAT   , new NeumonicString(         "(x y" ,"0", ".x-xz)")  , "Cat"   , 15),
-			new ShtNumberCompName(SUBCAT, new NeumonicString(       "(x yx." ,"0", "-xz)")    , "SubCat", 20),
-			new ShtNumberCompName(MOD   , new NeumonicString(     "(x yx.x-" ,"0", ")")       , "Mod"   , 25),
-			new ShtNumberCompName(SUBMOD, new NeumonicString    ("(x yx.x-x" ,"A", ")")       , "SubMod", 30),
-			new ShtNumberCompName(ID    , new NeumonicString(  "(x yx.x-xz(" ,"A", "))")      , "Id"    , 35),
-			new ShtNumberCompName(SUBID , new NeumonicString("(x yx.x-xz(x/" ,"A", "))")      , "SubId" , 40),
+			new ShtNumberCompName(PHBLDG, new NeumonicString(            "(" , "A", " x.x-xz)"), "Ph/Bld", 5),
+			new ShtNumberCompName(DISCP , new NeumonicString(          "(x " , "A", "x.x-xz)") , "Disc"  , 10),
+			new ShtNumberCompName(CAT   , new NeumonicString(         "(x y" , "0", ".x-xz)")  , "Cat"   , 15),
+			new ShtNumberCompName(SUBCAT, new NeumonicString(       "(x yx." , "0", "-xz)")    , "SubCat", 20),
+			new ShtNumberCompName(MOD   , new NeumonicString(     "(x yx.x-" , "0", ")")       , "Mod"   , 25),
+			new ShtNumberCompName(SUBMOD, new NeumonicString    ("(x yx.x-x" , "A", ")")       , "SubMod", 30),
+			new ShtNumberCompName(ID    , new NeumonicString(  "(x yx.x-xz(" , "A", "))")      , "Id"    , 35),
+			new ShtNumberCompName(SUBID , new NeumonicString("(x yx.x-xz(x/" , "A", "))")      , "SubId" , 40),
 		};
 		// new ShtNumberCompName("Sheet Number Type", "Number Type", 0),
 
@@ -93,17 +93,17 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		// is the index in the master "ShtCompList" array
 		public enum ShtCompTypes
 		{
-			UNASSIGNED = -1,
-			PHBLDG = 0,
-			TYPE10 = 1,
-			TYPE20 = 2,
-			TYPE30 = 3,
-			TYPE40 = 4,
-			IDENT = 5,
+			UNASSIGNED = 0,
+			PHBLDG = 1,
+			TYPE10 = 2,
+			TYPE20 = 3,
+			TYPE30 = 4,
+			TYPE40 = 5,
+			IDENT  = 6,
 			COUNT
 		}
 
-		// shorthand access to the indicies
+		// shorthand access to the indices
 		internal const int SHTID_COMP_IDX = 2;
 		internal const int SHTNAME_COMP_IDX = 3;
 
@@ -207,9 +207,17 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			return ShtCompList2[(int) type].ShtCompInfo[compListIdx].SeqCtrlUse;
 		}
 
+
 		public List<SheetCompList2> ShtCompList2 { get; } = new List<SheetCompList2>()
 		{
-			new SheetCompList2("PhBldg", null,
+			new SheetCompList2("UNASSIGNED", "Unassigned",
+				new List<SheetCompInfo2>()
+				{
+					new SheetCompInfo2(
+						new SeqCtrlReqd(SeqCtrlUse2.NOT_USED),
+						-1 , grpNname: "shtname", title: "Sheet Name")
+				}),
+			new SheetCompList2("PhBldg", "Phase-Building",
 				new List<SheetCompInfo2>()
 				{
 					new SheetCompInfo2(
@@ -275,7 +283,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 					new SheetCompInfo2(new SeqCtrlReqd(SeqCtrlUse2.NOT_USED), SEP3_VALUE_IDX ) ,
 					new SheetCompInfo2(new SeqCtrlReqd(SeqCtrlUse2.NOT_USED), SUBMODIFIER_VALUE_IDX ) ,
 				}),
-
 			new SheetCompList2("TYPE30", "Categorized",
 				new List<SheetCompInfo2>()
 				{
@@ -475,7 +482,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 				SeqCtrlProceedReqd proceed = SeqCtrlProceedReqd.NOT_USED,
 				SeqCtrlNextReqd next = SeqCtrlNextReqd.NOT_USED) : base(use, proceed, next) { }
 		}
-
 	}
 
 	public struct ShtNumberCompName
@@ -491,9 +497,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			Neumonic = neumonicStr;
 			AbbrevName = abbrevName;
 			ValueIndex = valueIdx;
-
 		}
-
 	}
 
 	public struct NeumonicString

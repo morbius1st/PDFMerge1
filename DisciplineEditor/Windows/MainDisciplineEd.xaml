@@ -1,0 +1,721 @@
+﻿<!--  ReSharper disable once Xaml.RedundantNamespaceAlias  -->
+<Window x:Name="WinMainDisciplineEd"
+		x:Class="DisciplineEditor.Windows.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:DisciplineEditor.Windows"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:shsup="clr-namespace:SharedWPF.ShSupport"
+		Title="Discipline Editor"
+		Width="1050"
+		Height="750"
+		DataContext="{Binding ElementName=WinMainDisciplineEd}"
+		mc:Ignorable="d"
+		Background="{StaticResource Normal.Window.Background}"
+		Foreground="White"
+		>
+
+	<Window.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceFiles/XamlResources/CsScrollBar.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/CsScrollViewer.xaml" />
+
+			</ResourceDictionary.MergedDictionaries>
+
+			<sys:Double x:Key="BtnWidth">84</sys:Double>
+			<sys:Double x:Key="BtnHeight">28</sys:Double>
+
+			<sys:Double x:Key="col1">24</sys:Double>
+			<sys:Double x:Key="col2">72</sys:Double>
+			<sys:Double x:Key="col3">72</sys:Double>
+			<sys:Double x:Key="col4">150</sys:Double>
+			<sys:Double x:Key="col5">150</sys:Double>
+
+
+			<SolidColorBrush x:Key="hdr.tbk.Bkg" Color="{StaticResource Gray.300}" />
+			<SolidColorBrush x:Key="hdr.tx.fg" Color="{StaticResource Gray.800}" />
+
+			<SolidColorBrush x:Key="grid.tbk.Bkg" Color="{StaticResource Gray.100}" />
+			<SolidColorBrush x:Key="grid.tx.fg" Color="{StaticResource Gray.760}" />
+
+			<SolidColorBrush x:Key="lbl.Bkg" Color="{StaticResource Gray.300}" />
+			<SolidColorBrush x:Key="lbl.disabled.fg" Color="{StaticResource Gray.700}" />
+			<SolidColorBrush x:Key="lbl.enabled.fg" Color="{StaticResource Gray.800}" />
+
+			<SolidColorBrush x:Key="tbk.Bkg" Color="{StaticResource Gray.150}" />
+			<SolidColorBrush x:Key="tbk.fg" Color="White" />
+
+			<SolidColorBrush x:Key="tbx.disabled.Bkg" Color="{StaticResource Gray.250}" />
+
+			<Style x:Key="tbk.hdr"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Background" Value="{StaticResource hdr.tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource hdr.tx.fg}" />
+				<Setter Property="Margin" Value="0,0,5,0" />
+				<Setter Property="Padding" Value="2,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Bottom" />
+			</Style>
+
+			<Style x:Key="tbk.grid"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Background" Value="{StaticResource grid.tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource grid.tx.fg}" />
+				<Setter Property="Margin" Value="0,0,5,0" />
+				<Setter Property="Padding" Value="2,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+			</Style>
+
+			<Style x:Key="lbl.edit"
+					TargetType="Label"
+					>
+				<Setter Property="Width" Value="80" />
+				<Setter Property="Background" Value="{StaticResource lbl.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource lbl.disabled.fg}" />
+				<Setter Property="Margin" Value="0,2,5,2" />
+				<Setter Property="Padding" Value="4,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="IsEnabled" Value="{Binding CanEdit, Mode=OneWay}" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{StaticResource lbl.disabled.fg}" />
+					</Trigger>
+					<Trigger Property="IsEnabled" Value="True">
+						<Setter Property="Foreground" Value="{StaticResource lbl.enabled.fg}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+			<Style x:Key="lbl.status"
+					TargetType="Label"
+					BasedOn="{StaticResource lbl.edit}"
+					>
+				<Setter Property="Width" Value="NaN" />
+				<Setter Property="Padding" Value="2,2,2,2" />
+				<Setter Property="FontSize" Value="12" />
+			</Style>
+
+
+			<Style x:Key="tbx.edit"
+					TargetType="TextBox"
+					>
+				<Setter Property="IsEnabled" Value="{Binding CanEdit, Mode=OneWay}">
+				</Setter>
+				<Setter Property="Width" Value="170" />
+				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource tbk.fg}" />
+				<Setter Property="Margin" Value="0,2,5,2" />
+				<Setter Property="Padding" Value="2,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Background" Value="{StaticResource tbx.disabled.Bkg}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+			<Style x:Key="tbx.no.edit"
+					TargetType="TextBox"
+					BasedOn="{StaticResource tbx.edit}"
+					>
+				<Setter Property="IsEnabled" Value="False" />
+			</Style>
+
+			<Style x:Key="tbx.status"
+					TargetType="TextBox"
+					BasedOn="{StaticResource tbx.no.edit}"
+					>
+				<Setter Property="Padding" Value="2,2,2,2" />
+				<Setter Property="Width" Value="NaN" />
+				<Setter Property="FontSize" Value="12" />
+			</Style>
+
+
+			<SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" />
+
+			<Style x:Key="ListBoxStyle1"
+					TargetType="{x:Type ListBox}"
+					>
+				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListBox}">
+							<Border x:Name="Bd"
+									Padding="1"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="true"
+									>
+								<ScrollViewer Padding="{TemplateBinding Padding}"
+										Focusable="false"
+										>
+									<StackPanel>
+										<StackPanel Margin="0,0,0,1"
+												Height="14"
+												Background="Black"
+												Orientation="Horizontal"
+												>
+											<TextBlock Margin="4,0,5,0"
+													Width="{StaticResource col1}"
+													Padding="0,0,0,1"
+													Text="#"
+													TextAlignment="Center"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock Width="{StaticResource col2}"
+													Text="Key"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock Width="{StaticResource col3}"
+													Text="Key"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock Width="{StaticResource col4}"
+													Text="Title"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock Width="{StaticResource col5}"
+													Text="Description"
+													Style="{StaticResource tbk.hdr}"
+													/>
+										</StackPanel>
+										<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+									</StackPanel>
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="false">
+									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
+									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border}" />
+								</Trigger>
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsGrouping" Value="true" />
+										<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+		</ResourceDictionary>
+
+	</Window.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="120" />
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+
+		<Grid Grid.Column="0"
+				Grid.Row="0"
+				>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="350" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBox Grid.Column="0"
+					Grid.Row="0"
+					Margin="5"
+					HorizontalAlignment="Stretch"
+					FontFamily="Consolas"
+					Background="Transparent"
+					Foreground="White"
+					VerticalScrollBarVisibility="Visible"
+					HorizontalScrollBarVisibility="Visible"
+					Text="{Binding TextBoxString}"
+					>
+				<TextBox.Resources>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="4" />
+						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="4" />
+					</Style>
+				</TextBox.Resources>
+			</TextBox>
+
+
+			<ListBox Grid.Column="1"
+					Grid.Row="0"
+					Margin="5"
+					DataContext="{Binding ElementName=WinMainDisciplineEd}"
+					FontFamily="Consolas"
+					Background="Transparent"
+					d:ItemsSource="{d:SampleData}"
+					SelectedIndex="{Binding SelectedIndex,
+																	Mode=TwoWay,
+																	FallbackValue='0'}"
+					SelectedItem="{Binding Path=Selected,
+																 Mode=TwoWay}"
+					ScrollViewer.VerticalScrollBarVisibility="Visible"
+					ScrollViewer.HorizontalScrollBarVisibility="Visible"
+					ItemsSource="{Binding Path=Disciplines.Values}"
+					Style="{DynamicResource ListBoxStyle1}"
+					>
+				<ListBox.Resources>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="4" />
+						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="4" />
+					</Style>
+				</ListBox.Resources>
+
+
+
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+
+						<StackPanel Margin="-2,1,0,1"
+								Orientation="Horizontal"
+								>
+
+							<TextBlock Width="{StaticResource col1}"
+									TextAlignment="Center"
+									Text="{Binding Path=Key.Length,
+																 FallbackValue='1'}"
+									Style="{StaticResource tbk.grid}"
+									/>
+							<TextBlock Width="{StaticResource col2}"
+									Text="{Binding Path=Key,
+																 FallbackValue=hello,
+																 StringFormat='.{0}.'}"
+									Style="{StaticResource tbk.grid}"
+									/>
+							<TextBlock Width="{StaticResource col3}"
+									Text="{Binding Path=DisciplineData.Key,
+																 FallbackValue=hello,
+																 StringFormat='.{0}.'}"
+									Style="{StaticResource tbk.grid}"
+									/>
+							<TextBlock Width="{StaticResource col4}"
+									Text="{Binding Path=DisciplineData.Title,
+																 FallbackValue=hello}"
+									Style="{StaticResource tbk.grid}"
+									/>
+							<TextBlock Width="{StaticResource col5}"
+									Text="{Binding Path=DisciplineData.Description,
+																 FallbackValue=hello}"
+									Style="{StaticResource tbk.grid}"
+									/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+
+			<DockPanel Grid.Column="1"
+					Grid.Row="1"
+					Margin="5"
+					VerticalAlignment="Stretch"
+					>
+
+				<StackPanel DockPanel.Dock="Top"
+						Orientation="Vertical"
+						>
+					<Label Content="{Binding FieldsTitle,
+																FallbackValue='Title'}"
+							Margin="0,0,0,2"
+							Padding="4,0,0,2"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Key"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox Text="{Binding ItemKey,
+															 Mode=TwoWay,
+															 FallbackValue='Key'}"
+								Style="{StaticResource tbx.edit}"
+								/>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Title"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox Text="{Binding ItemTitle,
+															 Mode=TwoWay,
+															 FallbackValue='Title'}"
+								Style="{StaticResource tbx.edit}"
+								/>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Description"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox Text="{Binding ItemDescription,
+															 Mode=TwoWay,
+															 FallbackValue='Description'}"
+								Style="{StaticResource tbx.edit}"
+								/>
+					</StackPanel>
+				</StackPanel>
+
+				<StackPanel Margin="0,10,0,0"
+						VerticalAlignment="Bottom"
+						DockPanel.Dock="Bottom"
+						Orientation="Vertical"
+						>
+
+
+					<StackPanel Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label Content="Selected Item"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox Width="50"
+								IsReadOnly="True"
+								Text="{Binding Selected.DisciplineData.Key,
+															 Mode=TwoWay,
+															 FallbackValue='key'}"
+								Style="{StaticResource tbx.no.edit}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding Selected.DisciplineData.Title,
+															 Mode=TwoWay,
+															 FallbackValue='title'}"
+								Style="{StaticResource tbx.no.edit}"
+								/>
+
+					</StackPanel>
+
+					<StackPanel Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label Content="Can Edit"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding CanEdit,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+						<Label Content="Can Save"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding CanSave,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+						<Label Content="Has Changes"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding HasChanges,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+						<Label Content="Editing New"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding EditingNew,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+						<Label Content="Editing Sel"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding EditingSelected,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+					</StackPanel>
+
+					<StackPanel Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label Content="Coll Changed"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding Collection_Changed,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+					</StackPanel>
+
+					<StackPanel Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label Content="File name"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding DataFileName,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+						<Label Content="Exists"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Text="{Binding DataFileExists,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+					</StackPanel>
+
+					<StackPanel Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label Content="File path"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox IsReadOnly="True"
+								Width="Auto"
+								Text="{Binding DataFilePath,
+															 Mode=OneWay,
+															 FallbackValue='c:\\test\\test\\test\\test'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+
+					</StackPanel>
+
+					<StackPanel Margin="0,5,0,0"
+							VerticalAlignment="Bottom"
+							Orientation="Horizontal"
+							DockPanel.Dock="Bottom"
+							>
+
+						<Button Content="New Item"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidth}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding NewItem_Enabled}"
+								Style="{StaticResource Button.Normal.Style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnNewItem_OnClick"
+								/>
+
+						<!--  <Button Content="Select Item"  -->
+						<!--  Margin="0,0,5,0"  -->
+						<!--  Width="{StaticResource BtnWidth}"  -->
+						<!--  Height="{StaticResource BtnHeight}"  -->
+						<!--  IsEnabled="{Binding SelectItem_Enabled}"  -->
+						<!--  Style="{StaticResource Button.Normal.Style}"  -->
+						<!--  Template="{StaticResource Button.Normal.ControlTemplate}"  -->
+						<!--  Click="BtnSelectItem_OnClick"  -->
+						<!--  />  -->
+
+						<Button Content="Edit Item"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidth}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding EditItem_Enabled}"
+								Style="{StaticResource Button.Normal.Style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnEditItem_OnClick"
+								/>
+
+						<Button Content="Save Item"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidth}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding SaveItem_Enabled}"
+								Style="{StaticResource Button.Normal.Style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnSaveItem_OnClick"
+								/>
+
+						<Button Content="Remove Item"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidth}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding Remove_Enabled}"
+								Style="{StaticResource Button.Normal.Style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnRemoveItem_OnClick"
+								/>
+
+						<Button Content="Cancel Edit"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidth}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding CancelItem_Enabled}"
+								Style="{StaticResource Button.Normal.Style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnCancelEditItem_OnClick"
+								/>
+
+
+					</StackPanel>
+				</StackPanel>
+			</DockPanel>
+
+		</Grid>
+		<DockPanel Grid.Column="1"
+				Grid.Row="0"
+				Margin="5"
+				>
+			<StackPanel HorizontalAlignment="Right"
+					DockPanel.Dock="Top"
+					Orientation="Vertical"
+					>
+
+				<Button x:Name="BtnClear1"
+						Content="Clear 1"
+						Margin="0,0,0,5"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnClear1_OnClick"
+						/>
+
+				<Button x:Name="BtnShow1"
+						Content="Show 1"
+						Margin="0,0,0,5"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnShow1_OnClick"
+						/>
+
+				<Button x:Name="BtnTest1"
+						Content="Test 1"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						Click="BtnTest1_OnClick"
+						/>
+
+			</StackPanel>
+
+
+			<StackPanel HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					DockPanel.Dock="Bottom"
+					Orientation="Vertical"
+					>
+
+				<Button x:Name="BtnNew"
+						Content="New"
+						Margin="0,5,0,0"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						IsEnabled="{Binding NewColl_Enabled}"
+						Style="{StaticResource Button.Normal.Style}"
+						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnNewColl_OnClick"
+						/>
+
+				<Button x:Name="BtnSave"
+						Content="Save"
+						Margin="0,5,0,0"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						IsEnabled="{Binding SaveColl_Enabled}"
+						Style="{StaticResource Button.Normal.Style}"
+						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnSaveColl_OnClick"
+						/>
+
+				<Button x:Name="BtnCancel"
+						Content="Cancel"
+						Margin="0,5,0,0"
+						Width="{StaticResource BtnWidth}"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						IsEnabled="{Binding CancelColl_Enabled}"
+						Style="{StaticResource Button.Normal.Style}"
+						Template="{StaticResource Button.Normal.ControlTemplate}"
+						Click="BtnCancelColl_OnClick"
+						/>
+
+			</StackPanel>
+
+
+
+		</DockPanel>
+		<Button x:Name="BtnExit"
+				Content="Exit"
+				Grid.Column="1"
+				Grid.Row="1"
+				Margin="5"
+				Width="{StaticResource BtnWidth}"
+				Height="{StaticResource BtnHeight}"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				IsEnabled="{Binding ExitEnabled}"
+				Style="{StaticResource Button.Normal.Style}"
+				Template="{StaticResource Button.Normal.ControlTemplate}"
+				Click="BtnExit_OnClick"
+				/>
+
+	</Grid>
+</Window>

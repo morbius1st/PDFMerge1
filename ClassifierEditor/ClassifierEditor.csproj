@@ -102,6 +102,9 @@
       <HintPath>..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -127,23 +130,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WpfShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Debug\WpfShared.exe</HintPath>
-      <Aliases>global</Aliases>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.Linked\CsUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
-    </Compile>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
@@ -162,9 +154,25 @@
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
+    <Compile Include="..\WpfShared\Dialogs\DialogGetFileId.xaml.cs">
+      <Link>Dialogs\DialogGetFileId.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\SampleData\ClassfFileSelectorSampleData.cs">
+      <Link>SampleData\ClassfFileSelectorSampleData.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Settings\UsrSetgWindowMgmt.cs">
+      <Link>.Linked\UsrSetgWindowMgmt.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\Balloon\Balloon.cs">
+      <Link>Windows\Balloon\Balloon.cs</Link>
+    </Compile>
+    <Compile Include="..\WpfShared\Windows\ClassificationFileSelector.xaml.cs">
+      <Link>Windows\ClassificationFileSelector.xaml.cs</Link>
+    </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Windows\WindowManager.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
     <Compile Include="Windows\WindowClassifyTest.xaml.cs">
@@ -200,6 +208,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\WpfShared\Dialogs\DialogGetFileId.xaml">
+      <Link>Dialogs\DialogGetFileId.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\Balloon\Balloon.xaml">
+      <Link>Windows\Balloon\Balloon.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\WpfShared\Windows\ClassificationFileSelector.xaml">
+      <Link>Windows\ClassificationFileSelector.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MainWindowClassifierEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -214,6 +237,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ResourceFiles\SavedResources\MainWinResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ResourceFiles\XamlResources\ComboBoxEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,5 +295,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

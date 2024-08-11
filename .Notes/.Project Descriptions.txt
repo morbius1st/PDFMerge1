@@ -1,0 +1,65 @@
+App					status	description
+---- Andy -------------
+AndyConfig			85%		System configuration
+Sylvester			95%		Sync PDF file names
+ClassifierEditor	95%		edit classification files
+
+Felix				0%		(rename to Andy??) final PDF merge app
+
+
+
+AODeliverable		n/a		proof of concept app - working (show to the office)
+
+
+support utilities
+WpfShared			??%		common WPF routines: includes:
+							ClassificationFileSelector: select a user's classification file
+							classification file manager
+
+ConfigClassificationUser	creates and holds a list of the user's classification files
+
+
+--- Test apps -----
+PDFMerge1		test app to merge PDF files
+ClassifySheets		95%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
+							Also uses async routines to monitor progress / to classify the sheets
+
+test1			test parsing a sheet file's filename into sheet name and sheet number components
+test3			test using a tri-state tree using events and methods
+testcore1		created and tests orator
+tests			PDF categories and codes
+tests2			categorizing PDF files / presenting in trees
+StoreAndRead	Component project to store and read data from an XML file using the settings routines
+StoreAndRead2	Test Favs and History | Test derived classes
+
+
+
+
+                       WPf       Andy      Andy
+PRIMARY PROJECTS        Shared |  Shared |  Linked |
+Andy                 |  	   | 		 |	X	   |
+AndyConfig			 | 		   | 		 |	X	   |
+AndyFavsAndHistory	 | 		   | 		 |	X	   |
+AODeliverable		 | 		   | 		 |	X	   |
+ClassifierEditor	 | 		   | 		 |	X	   |
+ClassifySheets		 | 		   | 		 |	X	   |
+Felix				 | 		   | 		 |	X	   |
+PDFMerge1			 | 		   | 		 |	X	   |
+Sylvester			 | 		   | 		 |	X	   |
+WpfShared			 | 		   | 		 |	X	   |
+WpfTests			 | 		   | X		 |	X	   |
+					 | 		   | 		 |		   |
+EDITORS				 | 		   | 		 |		   |
+DisciplineEditor	 | 		   | X		 |	X	   |
+					 | 		   | 		 |		   |
+TEST PROJECTS		 | 		   | 		 |		   |
+StoreAndRead		 | 		   | 		 |		   |
+StoreAndRead2		 | 		   | 		 |	X	   |
+Test3				 | 		   | 		 |	X	   |
+TestCore1			 | 		   |		 |		   |
+Tests				 | 		   | 		 |	X	   |
+Tests1				 | 		   | X		 |	X	   |
+Tests2				 | 		   | 		 |		   |
+TestWpf1			 | 		   | 		 |		   |
+TestWpf2			 | 		   | 		 |		   |
+

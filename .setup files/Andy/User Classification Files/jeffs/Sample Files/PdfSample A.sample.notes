@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Header>
+		<Description>Sample A: PDF files for Classification with Building Designation</Description>
+	</Header>
+	<Data>
+	<Building>A</Building>
+		<Sheets>
+		
+sheet number format
+
++------------------------ bldg / ph
+| +---------------------- disc
+| | +-------------------- cat
+| | | 
+| | |   +---------------- sub-cat
+| | |   |
+| | |   |   +------------ modifier
+| | |   |   | +---------- sub-modifier
+| | |   |   | |   +------ Id
+| | |   |   | |   |    +- sub-Id
+v v v   v   v v   v    v
+A A 2 . 0 - 1 X ( X  / X )
+		
+		
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1 This is a Test A21.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A GRN.1(left│right) This is a Test GRN1.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A-101 This is a Test A-101.pdf
+
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A-105 This is a Test A-105.pdf
+		
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.0-0 This is a Test CS10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.1-0 This is a Test CS11.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\A CS1.1-1 This is a Test CS11.1.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\B CS2.1-0 This is a Test CS21.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 Cover A\B CS2.1-1 This is a Test CS21.1.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T1.0-0 This is a Test T10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T2.0-0 This is a Test T20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T3.0-0 This is a Test T30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\A T4.0-0 This is a Test T40.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\C T1.0-0 This is a Test T10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\00 General A\C T2.0-0 This is a Test T20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C1.0-0 This is a Test C10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C2.0-0 This is a Test C20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C3.0-0 This is a Test C30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\01 Civil A\C4.0-0 This is a Test C40.pdf
+
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\D A1.0-0 This is a Test A10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\D A2.0-0 This is a Test A20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\D A3.0-0 This is a Test A30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\D A3.1-0 This is a Test A31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S1.0-0 This is a Test S10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S2.0-0 This is a Test S20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S2.1-0 This is a Test S21.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S3.0-0 This is a Test S30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S3.1-0 This is a Test S31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S4.1-1 This is a Test S411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\11 Structural\A S4.1-2 This is a Test S412.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P1.0-0 This is a Test P10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P2.0-0 This is a Test P20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P3.0-0 This is a Test P30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P3.1-0 This is a Test P31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\13 Plumbing\A P4.1-1 This is a Test P411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M1.0-0 This is a Test M10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M2.0-0 This is a Test M20.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M3.0-0 This is a Test M30.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M3.1-0 This is a Test M31.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\A M4.1-1 This is a Test M411.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\B M1.0-0 This is a Test M10.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\15 Mechanical\B M2.0-0 This is a Test M20.pdf
+
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A0.1-0 Vertical Assembly Details.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A0.1-1 Vertical Assembly Details.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A0.2-0 HorizontalAssembly Details.pdf
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A0.2-1 HorizontalAssembly Details.pdf
+
+
+B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A1.0-0 Overall Site Plan.pdf
+
++ plans (== A2)
+	+ slab plans (==.0)
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.0-0 Overall Slab Plan.pdf
+	+ floor plans (==.1)
+		+ level 1 (== -1+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-1 Overall Level 1 Floor Plan.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-1A Level 1 Floor Plan - Zone A.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-1B Level 1 Floor Plan - Zone B.pdf
+
+		+ level 2 (== -2+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-2 Overall Level 1 Floor Plan.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-2A Level 1 Floor Plan - Zone A.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A2.1-2B Level 1 Floor Plan - Zone B.pdf
+
++ vertical views (== A3)
+	+ exterior elevations ( == .0 or == .1 or ==.2)
+		+ overall elevations (== .0)
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.0-0 Overall Exterior Elevations.pdf
+
+		+ Elevations (== .1)
+			+ front wall (== -1+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-1 Exterior Elevations - Front Wall.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-1A Enlarged Exterior Elevations - Front Wall.pdf
+
+			+ right wall (== -2+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-2 Exterior Elevations - Right Wall.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.1-2A Enlarged Exterior Elevations - Right Wall.pdf
+				
+
+	+ sections (=>.3)
+		+ building sections (== .3)
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.3-0 Building Sections.pdf
+
+		+ wall sections (== .x >= .5)
+			+ front wall (== .5)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.5-0 Wall Sections - Front Wall.pdf
+				
+			+ right wall (== .6)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.6-0 Wall Sections - Right Wall.pdf
+				
+			+ rear wall (== .7)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.7-0 Wall Sections - Rear Wall.pdf
+				
+			+ left wall (== .8)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.8-0 Wall Sections - Left Wall.pdf
+				
+			+ misc (== .9)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A3.9-0 Wall Sections - Misc.pdf	
+
++ enlarged plans (== A4)
+	+ restroom (== .1)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A4.1-1 Restroom Enlarged Floor Plan.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A4.1-2 Restroom Equipment Floor Plan.pdf
+
++ vertical circulation (== A5)
+	+ stairs (== .0 or .1)
+		+ main garage (== .0)
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.0-1 Main Building Stair #1 Plans And Sections.pdf
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.0-2 Main Building Stair #2 Plans And Sections.pdf
+		
+		+ garage stairs (== .1)
+			+ west garage (== -1+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-11 West Garage Stair #11 Plans And Sections.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-12 West Garage Stair #12 Plans And Sections.pdf
+				
+			+ east garage (== =2+)
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-21 East Garage Stair #21 Plans And Sections.pdf
+				B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.1-22 East Garage Stair #22 Plans And Sections.pdf
+				
+	+ ramps	 (== .2)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.2-1 Ramp #1 Plan and Section.pdf
+
+	+ elevators (== .4)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-1 Elevator #1.1 Floor Plans and Section.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-1A Elevator #1.2 Floor Plans and Section.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-2 Elevator #2.1 Floor Plans and Section.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A5.4-3 Elevator #3.1 Floor Plans and Section.pdf
+
++ schedules (== A6)
+	+ finish schedules (== .0)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.0-0 Exterior Finish Schedule.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.0-1 Interior Room and Finish Schedule.pdf
+		
+	+ door schedule (== .1)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.1-0 Door Schedule.pdf
+		
+		+ door details (>= -2)
+			B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.1-1 Door Details.pdf
+			
+	+ window schedule (== .3)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.3-0 Window Schedule and Details.pdf
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.3-1 Window Schedule and Details.pdf
+		
+		+ window details ( >= -2)
+		B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A6.3-2 Window Details.pdf
+
++ details (== A7 or == A8)
+	+ exterior details (== A7)
+		+ plan and vertical details (== .0, || .1, || .4)
+				->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.0-1 Exterior Plan Details.pdf
+				->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.0-2 Exterior Plan Details.pdf
+				->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.1-1 Exterior Vertical Details.pdf
+				->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.1-2 Exterior Vertical Details.pdf
+				->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.4-1 Parapet Details Details.pdf
+		+ roof details
+				-> B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.5-1 Roof Details Details.pdf
+		+ molding details
+				-> B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A7.6-1 Molding Details Details.pdf
+
+	+ interior details
+			->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A8.0-1 Interior Plan Details.pdf
+			->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A8.1-1 Interior Vertical Details.pdf
+			->	B:\Programming\VisualStudioProjects\PDFMerge1\ClassifierEditor\.sample\07 Architectural A\A A8.6-1 Interior Molding Details.pdf
+		</Sheets>
+	</Data>
+</SampleFile>

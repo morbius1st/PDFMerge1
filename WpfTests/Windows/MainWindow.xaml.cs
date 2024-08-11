@@ -1,17 +1,26 @@
 ﻿#region using
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Markup;
+using AndyFavsAndHistory.Windows;
 using UtilityLibrary;
 using WpfShared.Dialogs.DialogSupport;
 using WpfShared.Windows;
 using static WpfTests.Windows.MainWindow.EventStat;
 using SettingsManager;
 
-using AndyFavsAndHistory.Windows;
+using AndyShared.Support;
+
+// using AndyFavsAndHistory.Windows;
 
 #endregion
 
@@ -23,11 +32,31 @@ using AndyFavsAndHistory.Windows;
 
 namespace WpfTests.Windows
 {
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+
+	public class HouseInfo
+	{
+		public string House
+		{
+			get;
+			set;
+		}
+
+		public ObservableCollection<String> Details
+		{
+			get;
+			set;
+		}
+	}
+
+
+
+
 	#region private fields
 
 		public enum EventStat
@@ -54,6 +83,8 @@ namespace WpfTests.Windows
 		{
 			InitializeComponent();
 
+			LoadHouseInfo();
+
 			FolderRoute.OnFavoritesPressed += FolderRouteOnOnFavoritesPressed;
 			FolderRoute.OnHistoryPressed += FolderRouteOnOnHistoryPressed;
 			FolderRoute.OnSelectFolderRequested += FolderRouteOnOnSelectFolderRequested;
@@ -67,6 +98,7 @@ namespace WpfTests.Windows
 			WriteLine("suite setg| setg folder| " + SuiteSettings.Path.SettingFolderPath);
 			WriteLine("suite setg| site root path| " + SuiteSettings.Data.SiteRootPath);
 
+			
 		}
 
 	#endregion
@@ -155,6 +187,18 @@ namespace WpfTests.Windows
 			}
 		}
 
+		private ObservableCollection<HouseInfo> houseInfos;
+
+		public ObservableCollection<HouseInfo> HouseInfos
+		{
+			get => houseInfos;
+			set
+			{
+				houseInfos = value;
+				OnPropertyChange();
+			}
+		}
+
 
 	#endregion
 
@@ -175,9 +219,46 @@ namespace WpfTests.Windows
 
 	#region private methods
 
+		private void LoadHouseInfo()
+		{
+			HouseInfos = new ObservableCollection<HouseInfo>();
 
+			HouseInfo hi = new HouseInfo();
 
+			hi.Details = new ObservableCollection<string>();
 
+			hi.Details.Add("sub 1.1");
+			hi.Details.Add("sub 1.2");
+			hi.Details.Add("sub 1.3");
+
+			hi.House = "menu 1";
+
+			houseInfos.Add(hi);
+
+			hi = new HouseInfo();
+			hi.Details = new ObservableCollection<string>();
+
+			hi.Details.Add("sub 2.1");
+			hi.Details.Add("sub 2.2");
+			hi.Details.Add("sub 2.3");
+
+			hi.House = "menu 2";
+
+			houseInfos.Add(hi);
+
+			hi = new HouseInfo();
+			hi.Details = new ObservableCollection<string>();
+
+			hi.Details.Add("sub 3.1");
+			hi.Details.Add("sub 3.2");
+			hi.Details.Add("sub 3.3");
+
+			hi.House = "menu 3";
+
+			houseInfos.Add(hi);
+
+			OnPropertyChange("HouseInfos");
+		}
 
 
 		private void FolderRouteOnOnPathChange(object sender, PathChangeArgs e)
@@ -224,6 +305,11 @@ namespace WpfTests.Windows
 
 	#region event consuming
 
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine("@debug");
+		}
+
 		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
 		{
 			SuiteSettings.Admin.Read();
@@ -233,7 +319,10 @@ namespace WpfTests.Windows
 
 			FavsAndHistory fav = new FavsAndHistory();
 
+			fav.Configure(Environment.UserName);
+
 			fav.ShowDialog();
+
 		}
 
 		private void btnAdd_OnClick(object sender, RoutedEventArgs e)
@@ -268,5 +357,24 @@ namespace WpfTests.Windows
 		}
 
 	#endregion
+
+		
 	}
+
+[ValueConversion(typeof(double), typeof(double))]
+public class HeightWidthConverter : IMultiValueConverter
+{
+	public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+	{
+		double width = (double) values[0];
+		double height = (double) values[1];
+
+		return height - width <= 0 ? height : width;
+	}
+
+	public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+	{
+		return null;
+	}
+}
 }

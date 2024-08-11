@@ -72,6 +72,7 @@ namespace Tests2.Windows
 		private void SampleDataPrepCreate2()
 		{
 			dms = new DataManager<SavedFileList>();
+
 			dataFilePath  =
 				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\savedfilelist1.xml");
 
@@ -79,7 +80,7 @@ namespace Tests2.Windows
 
 			sds = new SampleData(dms);
 
-			dms.Create(dataFilePath);
+			dms.Create(dataFilePath, null, null);
 
 			OnPropertyChange("DataMgrDms");
 
@@ -101,7 +102,7 @@ namespace Tests2.Windows
 			// dm1.Configure(dataFilePath);
 
 			sd = new SampleData(dm1);
-			dm1.Create(dataFilePath);
+			dm1.Create(dataFilePath, null, null);
 
 			OnPropertyChange("DataMgr");
 
@@ -109,20 +110,20 @@ namespace Tests2.Windows
 		}
 
 		
-		private void SampleDataPrepRead()
-		{
-			dm1 = new DataManager<DataSet>();
-
-			dataFilePath  =
-				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\dataset1.xml");
-
-			dm1.Configure(dataFilePath);
-			dm1.Admin.Read();
-
-			OnPropertyChange("DataMgr");
-
-			listDict();
-		}
+		// private void SampleDataPrepRead()
+		// {
+		// 	dm1 = new DataManager<DataSet>();
+		//
+		// 	dataFilePath  =
+		// 		new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\dataset1.xml");
+		//
+		// 	dm1.Configure(dataFilePath);
+		// 	dm1.Admin.Read();
+		//
+		// 	OnPropertyChange("DataMgr");
+		//
+		// 	listDict();
+		// }
 
 		private void listDict()
 		{

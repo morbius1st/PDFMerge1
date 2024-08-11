@@ -13,7 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ClassifierEditor.SampleData;
-using WpfShared.Windows;
+
 using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ClassificationFileSupport;
@@ -24,6 +24,7 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonO
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using WpfShared.Windows;
 
 #endregion
 

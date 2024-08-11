@@ -14,6 +14,7 @@ using SettingsManager;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
+using System.Diagnostics;
 
 
 namespace WpfShared.Windows
@@ -31,6 +32,9 @@ namespace WpfShared.Windows
 		public static string NO_SAMPLE_FILE { get; } = "A Sample File has not been Configured";
 
 	#region private fields
+		
+		private int beforeIdx;
+		private int cbxSelIdx = 0;
 
 		private WindowId winId = WindowId.DIALOG_SELECT_CLASSF_FILE;
 		private WindowManager winMgr = new WindowManager();
@@ -140,6 +144,16 @@ namespace WpfShared.Windows
 
 		public SampleFiles SampleFiles => sampleFiles;
 
+		public int CbxSelIdx
+		{
+			get => cbxSelIdx;
+			set
+			{
+				cbxSelIdx = value;
+				OnPropertyChange();
+			}
+		}
+
 		public string SelectedFileId => selected.FileId;
 
 		private string searchText;
@@ -209,7 +223,8 @@ namespace WpfShared.Windows
 			OnPropertyChange("CfgClsFiles");
 			OnPropertyChange("SampleFiles");
 
-			CbxSampleFiles.SelectedIndex = 0;
+			// CbxSampleFiles.SelectedIndex = 0;
+			CbxSelIdx = 0;
 
 			initializeView();
 		}
@@ -245,6 +260,7 @@ namespace WpfShared.Windows
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[DebuggerStepThrough]
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
@@ -259,7 +275,6 @@ namespace WpfShared.Windows
 			UserSettings.Data.SetWindowLayout(winId, winMgr.GetWinLayout(this, winId));
 		}
 
-		private int beforeIdx;
 
 		private void CbxSampleFiles_DropDownOpened(object sender, EventArgs e)
 		{

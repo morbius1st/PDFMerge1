@@ -84,11 +84,11 @@ namespace ClassifySheets.Windows
 
 			p1Double = new Progress<double>(value => Pb1Value = value);
 			p1String = new Progress<string>(value => Lbl1Content = value);
-
+			
 			p2Double = new Progress<double>(value => Pb2.Value = value);
-
+			
 			p2String = new Progress<string>(value => lbl2.Content = value);
-
+			
 			pbProgValue = new Progress<double>(value => Pb2.Value = value);
 		}
 

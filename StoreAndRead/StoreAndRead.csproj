@@ -80,6 +80,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -110,19 +113,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsConversions.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsConversions.cs">
       <Link>.Linked\CsConversions.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
       <Link>.Linked\CsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.Linked\CsUtilities.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
       <Link>.Linked\CsXmlUtilities.cs</Link>
     </Compile>
-    <Compile Include="..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
     </Compile>
     <Compile Include="DataMgr\DataManager1.cs" />
