@@ -1,9 +1,11 @@
-﻿// Solution:     PDFMerge1
+﻿using System.Collections.Generic;
+
+// Solution:     PDFMerge1
 // Project:       Tests
 // File:             Orator.cs
 // Created:      2020-09-06 (8:12 AM)
 
-using System.Collections.Generic;
+
 
 namespace AndyShared.Support
 {

@@ -1,4 +1,6 @@
 ﻿// #define SHOWTICKS
+#define DML1
+
 #region using directives
 
 using System;
@@ -14,6 +16,7 @@ using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
 using AndyShared.Support;
+using DebugCode;
 using static AndyShared.FileSupport.FileNameUserAndId;
 
 #endregion
@@ -32,7 +35,11 @@ namespace AndyShared.ClassificationFileSupport
 
 		private SampleFile sampleFile;
 
-		private BaseDataFile<ClassificationFileData> dataFile;
+		private DataManager<ClassificationFileData> dataFile;
+	// #if SM74
+	// #else
+	// 	// private BaseDataFile<ClassificationFileData> dataFile;
+	// #endif
 
 		private bool isSelected;
 
@@ -48,7 +55,9 @@ namespace AndyShared.ClassificationFileSupport
 
 		public ClassificationFile(string filePath, bool fileSelected = false)
 		{
-
+		#if DML1
+			DM.InOut0();
+		#endif
 
 		#if SHOWTICKS
 			tickNow = System.DateTime.Now.Ticks;
@@ -110,6 +119,10 @@ namespace AndyShared.ClassificationFileSupport
 
 		#if SHOWTICKS
 			showTicks("classF/start @6");
+		#endif
+
+		#if DML1
+			DM.InOut0();
 		#endif
 		}
 
@@ -286,7 +299,7 @@ namespace AndyShared.ClassificationFileSupport
 
 		public bool IsModified
 		{
-			get => isModified; 
+			get => isModified;
 			set
 			{
 				if (value == isModified) return;
@@ -343,20 +356,41 @@ namespace AndyShared.ClassificationFileSupport
 
 		public void UpdateSampleFile(string sampleFile)
 		{
+
 			dataFile.Data.SampleFile = sampleFile;
 			dataFile.Admin.Write();
+
 
 			InitailizeSample(FilePathLocal.FullFilePath);
 		}
 
 		private void PreInitialize()
 		{
-			dataFile = new BaseDataFile<ClassificationFileData>();
-			dataFile.Configure(FolderPath, FileNameNoExt, null, FileNameExtNoSep);
+		#if DML1
+			DM.Start0();
+		#endif
+			FilePath<FileNameSimple> filePath =
+				new FilePath<FileNameSimple>($"{FolderPath}\\{FileNameNoExt}.{FileNameExtNoSep}");
+
+			dataFile = new DataManager<ClassificationFileData>(filePath);
+		// #if SM74
+		// #else
+		// 	// dataFile = new BaseDataFile<ClassificationFileData>();
+		// 	// dataFile.Configure(FolderPath, FileNameNoExt, null, FileNameExtNoSep);
+		// #endif
+
+	#if DML1
+		DM.End0();
+	#endif
+
 		}
 
 		public void Initialize()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| start-init");
 			PreInitialize();
 
@@ -370,6 +404,10 @@ namespace AndyShared.ClassificationFileSupport
 
 			UpdateProperties();
 
+		#if DML1
+			DM.End0();
+		#endif
+
 		}
 
 		public void Write(bool createBackup = true)
@@ -381,7 +419,7 @@ namespace AndyShared.ClassificationFileSupport
 					+ FilePathUtil.BACKUP_EXTNOSEP;
 
 				string newFilePath = dataFile.Path.SettingFolderPath + FilePathUtil.PATH_SEPARATOR + newFileName;
-				
+
 				File.Copy(dataFile.Path.SettingFilePath, newFilePath, true);
 			}
 
@@ -407,11 +445,18 @@ namespace AndyShared.ClassificationFileSupport
 
 		private void InitailizeSample(string classfFilePath)
 		{
+		#if DML1
+			DM.InOut0();
+		#endif
 			sampleFile = new SampleFile();
 
 			sampleFile.InitializeFromClassfFilePath(classfFilePath);
 
 			UpdateSampleFileProperties();
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		private bool ValidateAgainstUsername(FilePath<FileNameUserAndId> filePath)
@@ -466,7 +511,7 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 		public event PropertyChangedEventHandler FileIdChanged;
-		
+
 		// used by WpfSelect
 		private void OnSelectedPropertyChange([CallerMemberName] string memberName = "")
 		{

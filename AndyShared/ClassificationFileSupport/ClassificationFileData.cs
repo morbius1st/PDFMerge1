@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using SettingsManager;
 
 #endregion
 
@@ -12,12 +13,10 @@ using AndyShared.ClassificationDataSupport.TreeSupport;
 
 namespace AndyShared.ClassificationFileSupport
 {
-	
 	// this is the actual data set saved to the data file
 	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
-	public class ClassificationFileData : INotifyPropertyChanged
+	public class ClassificationFileData : INotifyPropertyChanged, IDataFile
 	{
-
 	#region public properties
 
 		// [DataMember(Order = 2)]
@@ -34,14 +33,15 @@ namespace AndyShared.ClassificationFileSupport
 //		#region private properties
 //		#endregion
 //
-		#region public methods
 
-			public void NotifyUpdate()
-			{
-				OnPropertyChange("BaseOfTree");
-			}
+	#region public methods
 
-		#endregion
+		public void NotifyUpdate()
+		{
+			OnPropertyChange("BaseOfTree");
+		}
+
+	#endregion
 
 //		#region private methods
 //		#endregion
@@ -68,9 +68,16 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 	#endregion
+
+		[IgnoreDataMember]
+		public string DataFileVersion => "user 7.4u";
+
+		[IgnoreDataMember]
+		public string DataFileDescription => "user setting file for SettingsManager v7.4";
+
+		[IgnoreDataMember]
+		public string DataFileNotes => "user / any notes go here";
 	}
-
-
 
 //
 // 	public class ClassfFile<T> where T : class, new()

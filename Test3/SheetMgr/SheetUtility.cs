@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Test3.SheetMgr;
+using UtilityLibrary;
 
 
 // Solution:     PDFMerge1
@@ -24,6 +25,7 @@ namespace Test3
 				result = sheetManager.Add(sheet);
 
 				if (!result) break;
+
 			}
 
 			if (!result)
@@ -149,7 +151,6 @@ namespace Test3
 
 			ShtSysMgr.AddSheetPartData(sheetParts);
 		}
-
 
 		private static void shtSysConfigNoBldgPhase(SheetSystemManager ShtSysMgr)
 		{

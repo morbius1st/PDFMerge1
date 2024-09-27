@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SM74,WPF,USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -54,19 +54,22 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
       <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
-    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -98,6 +101,9 @@
     <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\CsScrollViewerAp.cs">
       <Link>Windows\ResourceFiles\XamlResources\CsScrollViewerAp.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\CustomProperties.cs">
+      <Link>Windows\ResourceFiles\XamlResources\CustomProperties.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\ValueConverters.cs">
       <Link>Windows\ResourceFiles\XamlResources\ValueConverters.cs</Link>
     </Compile>
@@ -108,6 +114,11 @@
     <Compile Include="Settings\SiteSettings.cs" />
     <Compile Include="Settings\SuiteSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Page Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSkin\CyberStudioSkin.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\CyberStudioSkin.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\CsScrollBar.xaml">
       <Link>Windows\ResourceFiles\XamlResources\CsScrollBar.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +137,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Support\DataFileManager.cs" />
+    <Compile Include="Support\TaskDialogManager.cs" />
+    <Compile Include="Support\FileManager.cs" />
+    <Compile Include="Support\SettingsSupport.cs" />
     <Compile Include="Windows\MainDisciplineEd.xaml.cs">
       <DependentUpon>MainDisciplineEd.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -157,6 +172,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -168,7 +187,10 @@
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>
-  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <ItemGroup>
+    <None Include="Discipline Editor Notes.txt" />
+  </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

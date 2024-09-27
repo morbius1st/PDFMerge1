@@ -1,6 +1,7 @@
 ﻿#region using
 
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using UtilityLibrary;
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
@@ -229,7 +230,18 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 					}
 				}
 
-				shtIdComps.SheetComps[ci.ValueIndex] = test;
+				if (ci.ValueIndex < 15)
+				{
+					shtIdComps.SheetComps[ci.ValueIndex] = test;
+				}
+				else
+				{
+					Debug.WriteLine($"index| {ci.ValueIndex}");
+					Debug.WriteLine($"title| {ci.Title}");
+					Debug.WriteLine($"name | {ci.GrpName}");
+				}
+
+				
 
 				hasPrior = true;
 

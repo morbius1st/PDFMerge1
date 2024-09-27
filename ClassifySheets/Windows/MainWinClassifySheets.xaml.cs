@@ -1,4 +1,12 @@
-﻿#region using
+﻿// #define DML0 // not yet used
+// #define DML1 // do not use here ** defined in properties *** start and end
+// #define DML2 // turns on or off bool flags / button enable flags only / listbox idex set
+// #define DML3 // various status messages
+// #define DML4 // update status status messages
+// #define DML5 // orator routines
+
+
+#region using
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+
 using UtilityLibrary;
 using AndyShared.MergeSupport;
 using AndyShared.ClassificationDataSupport.TreeSupport;
@@ -18,7 +27,12 @@ using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using ClassifySheets.Tests;
+using DebugCode;
+using SettingsManager;
 using static UtilityLibrary.MessageUtilities;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
+
+using Task = System.Threading.Tasks.Task;
 
 #endregion
 
@@ -44,6 +58,8 @@ namespace ClassifySheets.Windows
 		private SheetFileList testFileList;
 
 		private Orator.ConfRoom.Announcer announcer;
+
+		private IWin messageWin;
 
 		private FileNameSheetPdf fp;
 		private static TreeNode userSelected;
@@ -90,9 +106,25 @@ namespace ClassifySheets.Windows
 			p2String = new Progress<string>(value => lbl2.Content = value);
 			
 			pbProgValue = new Progress<double>(value => Pb2.Value = value);
+
+			init();
 		}
 
 	#endregion
+
+	#region start routines
+
+		private void init()
+		{
+			Window mw = new Messages();
+			messageWin = (IWin) mw;
+			mw.Show();
+
+		}
+
+
+	#endregion
+
 
 	#region public properties
 
@@ -107,7 +139,8 @@ namespace ClassifySheets.Windows
 
 				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("win| @ MainWinClassifySheets|@ ClassificationFile");
 
-				InitClassfFile(value);
+				// InitClassfFile(value);
+				classificationFile = value;
 			}
 		}
 
@@ -261,6 +294,10 @@ namespace ClassifySheets.Windows
 
 		public void InitClassfFile(ClassificationFile classfFile)
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			classificationFile = classfFile;
 
 			classificationFile.Initialize();
@@ -275,6 +312,10 @@ namespace ClassifySheets.Windows
 			OnPropertyChange(nameof(BaseOfTree));
 			OnPropertyChange(nameof(TestFileList));
 			OnPropertyChange(nameof(UserSelected));
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		public void UpdateProperties()
@@ -285,45 +326,60 @@ namespace ClassifySheets.Windows
 	#endregion
 
 	#region private methods
+		//
+		// private void configClassfFile()
+		// {
+		// 	try
+		// 	{
+		// 		if (classfFileArg.IsVoid())
+		// 		{
+		// 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+		// 		}
+		// 		else
+		// 		{
+		// 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+		// 		}
+		// 	}
+		// 	catch (Exception ex)
+		// 	{
+		// 		Debug.Write("Outer Exception| ");
+		// 		Debug.WriteLine(ex);
+		//
+		// 		Debug.Write("Inner Exception| ");
+		// 		Debug.WriteLine(ex.InnerException?.Message ?? "None");
+		//
+		// 		Environment.Exit(1);
+		// 	}
+		//
+		// 	classificationFile.Initialize();
+		// }
 
-		private void configClassfFile()
-		{
-			try
-			{
-				if (classfFileArg.IsVoid())
-				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
-				}
-				else
-				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.Write("Outer Exception| ");
-				Debug.WriteLine(ex);
-
-				Debug.Write("Inner Exception| ");
-				Debug.WriteLine(ex.InnerException?.Message ?? "None");
-
-				Environment.Exit(1);
-			}
-
-			classificationFile.Initialize();
-		}
 
 		private async Task WinStartAsync()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			Tbx1Message = "Building is| " + testFileList.Building + "\n\n";
 			Tbx2Message = "";
 
 			await Task.Run(() => { ListSampleFileList(); } );
-			await Task.Run(() => { ListTreeBase(true); } );
+			await Task.Run(() => { ListTreeBase(false); } );
+
+		#if DML1
+			DM.End0();
+		#endif
+
 		}
 
 		private void getCmdLineArgs()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+			
+
 			Dictionary<string, string> cmdLineArgs = new Dictionary<string, string>();
 
 			string[] args = Environment.GetCommandLineArgs();
@@ -359,6 +415,11 @@ namespace ClassifySheets.Windows
 					}
 				}
 			}
+
+		#if DML1
+			DM.End0();
+		#endif
+
 		}
 
 		private void go()
@@ -385,20 +446,40 @@ namespace ClassifySheets.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			#if DML1
+				DM.Start0();
+			#endif
+
 			getCmdLineArgs();
 
-			configClassfFile();
+			// configClassfFile();
+
+			UserSettings.Admin.Read();
+			string lastClassificationFile = UserSettings.Data.LastClassificationFileId;
 
 			try
 			{
-				if (classfFileArg.IsVoid())
+				if (lastClassificationFile.IsVoid())
 				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+					if (classfFileArg.IsVoid())
+					{
+						ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+					}
+					else
+					{
+						ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+					}
+
+					UserSettings.Data.LastClassificationFileId = ClassificationFile.FileId;
+					UserSettings.Admin.Write();
+
 				}
 				else
 				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(lastClassificationFile);
 				}
+
+				InitClassfFile(ClassificationFile);
 			}
 			catch (Exception ex)
 			{
@@ -411,7 +492,8 @@ namespace ClassifySheets.Windows
 				Environment.Exit(1);
 			}
 
-			classificationFile.Initialize();
+			// duplicate
+			// classificationFile.Initialize();
 
 			announcer = Orator.GetAnnouncer(this, "toClassify");
 
@@ -425,13 +507,10 @@ namespace ClassifySheets.Windows
 
 			// tell classify to display debug messages
 			announcer.Announce(displayDebugMsgs);
-		}
 
-		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
-		{
-			Pb2Value = 0;
-
-			Debug.WriteLine("win| @ Debug");
+		#if DML1
+			DM.End0();
+		#endif
 
 		}
 
@@ -442,6 +521,16 @@ namespace ClassifySheets.Windows
 			await WinStartAsync();
 		}
 
+
+
+		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
+		{
+			Pb2Value = 0;
+
+			Debug.WriteLine("win| @ Debug");
+
+		}
+
 		// classify the data
 		private void BtnGo_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -450,6 +539,11 @@ namespace ClassifySheets.Windows
 
 		private void OnGetAnnouncement(object sender, object value)
 		{
+		#if DML5
+			DM.Start0();
+		#endif
+
+
 			if (displayDebugMsgs)
 			{
 				if (value is string)
@@ -457,13 +551,18 @@ namespace ClassifySheets.Windows
 					Tbx1Message += (string) value;
 				}
 			}
+
+		#if DML1
+			DM.End0();
+		#endif
+
 		}
 
 		private async void BtnListBase_OnClick(object sender, RoutedEventArgs e)
 		{
 			Tbx2Message = "Start";
 
-			await Task.Run(() => { ListTreeBase(true); } );
+			await Task.Run(() => { ListTreeBase(false); } );
 		}
 
 		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
@@ -506,10 +605,18 @@ namespace ClassifySheets.Windows
 
 	#endregion
 
+	#region debug routines
+
+	#endregion
+
 	#region event publishing
+
+
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[DebuggerStepThrough]
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
@@ -530,6 +637,10 @@ namespace ClassifySheets.Windows
 
 		private void ListTreeBase(bool showMerge = false)
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			Pb2Value = 0;
 			Lbl2Content = "";
 			Pb2MaximumValue = BaseOfTree.ExtChildCount;
@@ -549,6 +660,10 @@ namespace ClassifySheets.Windows
 			listTreeBase(BaseOfTree, showMerge);
 
 			Tbx2Message += ("\n***** End of Listing ***\n\n");
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		private void listTreeBase(TreeNode node, bool showMerge)
@@ -685,6 +800,10 @@ namespace ClassifySheets.Windows
 
 		private void ListSampleFileList()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			Pb2Value = 0;
 			Lbl2Content = "";
 			Pb2MaximumValue = BaseOfTree.ExtChildCount;
@@ -724,6 +843,10 @@ namespace ClassifySheets.Windows
 
 				((IProgress<double>) p1Double).Report(i);
 			}
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 	}
 }

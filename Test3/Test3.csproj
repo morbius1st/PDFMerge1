@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF; SM74,USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -80,12 +80,18 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CustomMarshalers" />
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -112,21 +118,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>WinResources\XmalMarkup.cs</Link>
     </Compile>
     <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
       <Link>WinResources\ScrollViewerExtended.xaml.cs</Link>
     </Compile>
+    <Compile Include="FileNameSheetPDF\FileNameSheetPdf3.cs" />
+    <Compile Include="FileNameSheetPDF\SheetIdentifiers3.cs" />
+    <Compile Include="FileNameSheetPDF\FileNameSheetParser3.cs" />
+    <Compile Include="FileNameSheetPDF\FileNameSheetPdf2.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="SheetMgr\Samples2.cs" />
+    <Compile Include="SheetMgr\Samples3.cs" />
     <Compile Include="SheetMgr\Sheet.cs" />
+    <Compile Include="SheetMgr\ShtNumber.cs" />
     <Compile Include="SheetMgr\SheetPartData.cs" />
     <Compile Include="SheetMgr\SheetPartsManager.cs" />
+    <Compile Include="SheetMgr\SheetPdfManager.cs" />
     <Compile Include="SheetMgr\SheetSystemManager.cs" />
     <Compile Include="SheetMgr\SheetTypeInfo.cs" />
     <Compile Include="SheetMgr\SheetTypeManager.cs" />
     <Compile Include="SheetMgr\SheetPartsDescriptor.cs" />
     <Compile Include="SheetMgr\SheetManager.cs" />
     <Compile Include="SheetMgr\SheetUtility.cs" />
+    <Compile Include="TreeNoteTests\INodeItem2.cs" />
+    <Compile Include="TreeNoteTests\TreeNodeItem.cs" />
+    <Compile Include="TreeNoteTests\TriStateTree.cs" />
+    <Compile Include="TreeNoteTests\TriStateTreeSupport.cs" />
     <Page Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
       <Link>WinResources\ScrollViewerExtended.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -191,5 +223,7 @@
     <Folder Include=".reference\" />
   </ItemGroup>
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,11 @@
-﻿// #define SHOW
+﻿// #define DML0 // not yet used
+// #define DML1 // do not use here ** defined in properties *** start and end
+// #define DML2 // turns on or off bool flags / button enable flags only / listbox idex set
+// #define DML3 // various status messages
+// #define DML4 // update status status messages
+// #define DML5 // orator routines
+// #define SHOW
+
 
 #region using
 
@@ -20,6 +27,7 @@ using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
 using UtilityLibrary;
+using DebugCode;
 
 #endregion
 
@@ -88,8 +96,16 @@ namespace AndyShared.MergeSupport
 
 		public Classify()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			Orator.Listen("toClassify", OnGetAnnouncement);
 			toParentAnnounce =	Orator.GetAnnouncer(this, "fromClassify", "");
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 	#endregion
@@ -126,6 +142,10 @@ namespace AndyShared.MergeSupport
 
 	#region public methods
 
+		/// <summary>
+		/// sets internal variables
+		/// configs to use or not, building / phase
+		/// </summary>
 		public bool Configure(BaseOfTree treeBase, SheetFileList fileList)
 		{
 			if (treeBase == null || !treeBase.HasChildren ||
@@ -147,6 +167,9 @@ namespace AndyShared.MergeSupport
 			return true;
 		}
 
+		/// <summary>
+		/// config's async vars
+		/// </summary>
 		public void ConfigureAsyncReporting(IProgress<double> pbDouble)
 		{
 			this.pbProgress = pbDouble;
@@ -154,6 +177,11 @@ namespace AndyShared.MergeSupport
 			Status = ClassifyStatus.CONFIGURED2;
 		}
 
+		/// <summary>
+		/// init merg item list
+		/// init async lock
+		/// runs the recursive preprocess routine for each child
+		/// </summary>
 		public void PreProcess()
 		{
 			if (Status != ClassifyStatus.CONFIGURED1
@@ -174,6 +202,11 @@ namespace AndyShared.MergeSupport
 
 	#region private methods
 
+		/// <summary>
+		/// setup item processing.
+		/// start the item processing task.
+		/// runs the task and awaits it to complete
+		/// </summary>
 		public async void Process3()
 		{
 			if (Status != ClassifyStatus.PREPROCESSED) return;
@@ -195,6 +228,10 @@ namespace AndyShared.MergeSupport
 
 		}
 
+		/// <summary>
+		/// runs through the list of files and classify the file.
+		/// includes extra operations relative to being in a separate task
+		/// </summary>
 		private void processFiles3()
 		{
 			Thread.CurrentThread.Name = "process files";
@@ -230,6 +267,10 @@ namespace AndyShared.MergeSupport
 			Status = ClassifyStatus.COMPLETE;
 		}
 
+		/// <summary>
+		/// process a single sheet pdf and apply the classification criteria.
+		/// add matches to the list within the node
+		/// </summary>
 		private bool classify3(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
 		{
 			bool localMatchFlag;
@@ -247,7 +288,10 @@ namespace AndyShared.MergeSupport
 
 				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
 				{
-
+					// may be a bug here
+					// if item matches but is the top level item,
+					// localMatchFlag match is false and the item will not be added
+					// to the merge list
 					if (childNode.HasChildren)
 					{
 						localMatchFlag = classify3(childNode, sheetFilePath, depth + 1);
@@ -285,12 +329,12 @@ namespace AndyShared.MergeSupport
 			return matchFlag;
 		}
 
-		private void UpdateNonApplicableProperties()
-		{
-			OnPropertyChange(nameof(NonApplicableFiles));
-			OnPropertyChange(nameof(NonApplicableFilesTotalCount));
-		}
-
+		/// <summary>
+		/// preprocess each child in the tree (recursive)
+		/// init each child's merge item list
+		/// init each child's async lock
+		/// init collection sync used for async operations
+		/// </summary>
 		private void preProcessFiles(TreeNode parent)
 		{
 			foreach (TreeNode child in parent.Children)
@@ -307,6 +351,13 @@ namespace AndyShared.MergeSupport
 				lockList.Add(loc);
 			}
 		}
+
+		private void UpdateNonApplicableProperties()
+		{
+			OnPropertyChange(nameof(NonApplicableFiles));
+			OnPropertyChange(nameof(NonApplicableFilesTotalCount));
+		}
+
 
 		private void addNonApplicableFile(FilePath<FileNameSheetPdf> file)
 		{
@@ -347,10 +398,16 @@ namespace AndyShared.MergeSupport
 
 		private void OnGetAnnouncement(object sender, object value)
 		{
+		#if DML5
+			DM.Start0();
+		#endif
 			if (value is bool) displayDebugMsgs = (bool) value;
 
 			toParentAnnounce.Announce("got announcement| " +
 				(displayDebugMsgs ? "display debug messages\n" : "do not display debug messages\n"));
+		#if DML5
+			DM.End0();
+		#endif
 		}
 
 	#endregion

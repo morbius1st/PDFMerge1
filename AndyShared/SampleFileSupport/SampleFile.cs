@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AndyShared.ClassificationFileSupport;
+using DebugCode;
 using UtilityLibrary;
 
 #endregion
@@ -77,7 +78,14 @@ namespace AndyShared.SampleFileSupport
 
 		public bool InitializeFromClassfFilePath(string classfFilePath)
 		{
+		#if DML1
+			DM.InOut0();
+		#endif
 			SampleFilePath = ClassificationFileAssist.GetSampleFilePathFromFile(classfFilePath);
+
+		#if DML1
+			DM.End0();
+		#endif
 
 			return true;
 		}

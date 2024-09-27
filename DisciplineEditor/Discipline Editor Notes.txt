@@ -1,0 +1,110 @@
+start options
+
+*. start new - no user settings / no prior data file
+	looks correct
+	-> create new discipline file
+		looks correct
+	-> open existing discipline file
+		looks correct
+
+*. start - has user settings / no prior data file configured / no recent list
+	-> create new discipline file
+		looks correct
+	-> open existing discipline file
+		looks correct
+
+*. start - has user settings / has prior data file configured / no recent list / data file missing -> exit
+	exited -> looks correct
+
+*. start - has user settings / has prior data file configured / no recent list / data file missing -> make new
+	made new -> looks correct
+
+*. start - has user settings / has prior data file configured / no recent list
+	looks correct
+
+* "typical usage"
+*. start - has user settings / has prior data file configured / has recent list
+	looks correct
+
+*. start - has user settings / no prior data file configured / has recent list
+	looks correct
+
+*. start - has user settings / has prior data file configured / recent list incomplete
+	looks correct
+
+*. start - has user settings / has prior data file configured / recent list has invalid file
+	looks correct
+
+*. start - has user settings / prior data file corrupted / has recent list
+	looks correct
+
+*. start - has user settings / prior data file good / has recent list item is corrupted
+	> need to be adjusted
+	> need to remove from the list
+
+
+Test A
+
+create
+-> configure() (line 1702)          (in datamanager line 1570)
+-> configurefilepath (line 1521)    (in StorageMgrPath line 1488)
+-> base.configurefilepath (890)     (in pathandfilebase line 641)
+-> createsettingfilepath (915)		(in pathandfilebase line 641)
+	needs variables set (see line 650)
+
+
+issues
+
+A process
+	start > opens current > close > open existing 
+	top item selected but not for editing - correct
+	edit buttons correct
+	collection buttons correct
+	> select edit item
+		* edit and collection buttons correct
+		> change desc code - save button activated - correct
+		> save item, done editing 
+			* item saved and not selected - correct
+			* only item button is new item - correct
+			# collection buttons wrong
+				* has save as / close / delete
+				* should be save & cancel
+	fixed
+
+A part 2
+	> press cancel collection
+	* collection is reloaded
+	* first item is placed into the edit item fields but is not set to edit - correct
+	* edit buttons - correct
+	* collection buttons - correct
+	#  but some (or all) wrong values
+
+
+
+
+*** at BtnSaveItem_OnClick ***
+
+RoutedEventHandlerInfo         . InvokeHandler                                 ->                MainWindow |  > BtnSaveItem_OnClick                                                         
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  > saveSelectedItem                                                         
+MainWindow                     . saveSelectedItem                              ->                MainWindow |  |  |  > saveSelectedChangeKey                                                 
+ObservableCollection`1         . OnCollectionChanged                           ->                MainWindow |  |  |  |  > DisciplinesOnCollectionChanged                             ^^^ collection changed ^^^
+ObservableCollection`1         . OnCollectionChanged                           ->                MainWindow |  |  |  |  < DisciplinesOnCollectionChanged                                     
+ObservableCollection`1         . OnCollectionChanged                           ->                MainWindow |  |  |  |  > DisciplinesOnCollectionChanged                             ^^^ collection changed ^^^
+ObservableCollection`1         . OnCollectionChanged                           ->                MainWindow |  |  |  |  < DisciplinesOnCollectionChanged                                     
+MainWindow                     . saveSelectedItem                              ->                MainWindow |  |  |  < saveSelectedChangeKey                                                 
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  < saveSelectedItem                                                         
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  > DisciplinesOnCollectionChanged                                   ^^^ collection changed ^^^
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  < DisciplinesOnCollectionChanged                                           
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  > selectAndEditItem                                                        
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  >< updateItemValues                                                     
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  >< updateItemProps                                                      
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  > updateStatus                                                  processing ES_SELECTANDEDITITEM
+MainWindow                     . updateStatus                                  ->                MainWindow |  |  |  |  > updateStatus                                               processing ES_COMMONITEM
+MainWindow                     . set_ItemHasChanges                            ->                MainWindow |  |  |  |  |  > updateCanSave                                                   
+MainWindow                     . set_ItemHasChanges                            ->                MainWindow |  |  |  |  |  < updateCanSave                                           end      result: False
+MainWindow                     . updateStatus                                  ->                MainWindow |  |  |  |  < updateStatus                                                       
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  < updateStatus                                                          
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  > UpdateCollectionButtons                                               
+MainWindow                     . selectAndEditItem                             ->                MainWindow |  |  |  < UpdateCollectionButtons                                               
+MainWindow                     . BtnSaveItem_OnClick                           ->                MainWindow |  |  < selectAndEditItem                                                        
+RoutedEventHandlerInfo         . InvokeHandler                                 ->                MainWindow |  < BtnSaveItem_OnClick                                                         

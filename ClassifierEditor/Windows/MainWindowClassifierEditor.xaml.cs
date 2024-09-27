@@ -258,7 +258,7 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
-		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> us = UserSettings.Admin;
+		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> us = UserSettings.Admin;
 
 		private ClassificationFile classificationFile;
 
@@ -474,11 +474,11 @@ namespace ClassifierEditor.Windows
 			showTicks("setg @2");
 		#endif
 
-			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> i = UserSettings.Admin;
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> i = UserSettings.Admin;
 
-			UserSettingInfo<UserSettingData> u = UserSettings.Info;
+			UserSettingInfo<UserSettingDataFile> u = UserSettings.Info;
 
-			UserSettingData ud = UserSettings.Data;
+			UserSettingDataFile ud = UserSettings.Data;
 
 		#if SHOWTICKS
 			showTicks("setg @5");
@@ -598,7 +598,7 @@ namespace ClassifierEditor.Windows
 					showTicks("load @4");
 				#endif
 
-					UserSettingData a = UserSettings.Data;
+					UserSettingDataFile a = UserSettings.Data;
 
 					// Debug.WriteLine("@MainWin load| load user settings");
 					string fileId = UserSettings.Data.LastClassificationFileId;
@@ -1181,7 +1181,7 @@ namespace ClassifierEditor.Windows
 			ListView lv = Lv2;
 			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
 
-			UserSettingInfo<UserSettingData> u = UserSettings.Info;
+			UserSettingInfo<UserSettingDataFile> u = UserSettings.Info;
 
 			BaseOfTree bot = BaseOfTree;
 

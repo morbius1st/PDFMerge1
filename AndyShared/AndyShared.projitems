@@ -9,7 +9,11 @@
     <Import_RootNamespace>AndyShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileAssist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFileData.cs" />
@@ -17,10 +21,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClassificationFileSupport\ClassificationFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassifySupport\Classify4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF4\FileNameSheetParser4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF4\FileNameSheetPdf4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF4\SheetIdentifiers4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF4\ShtNumber4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplineDataSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplines.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetIdentifiers.cs" />
@@ -35,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MrgSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileAssist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SheetFileList4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SheetFileList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />

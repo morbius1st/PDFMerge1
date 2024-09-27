@@ -1,13 +1,12 @@
 ﻿#region + Using Directives
-
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using static Test3.MainWindow;
-
-
 #endregion
+
+
 
 
 // projname: Test3

@@ -60,7 +60,7 @@ namespace AndyShared.FileSupport
 			return true;
 		}
 
-		public static FilePath<FileNameSimple> UniqueFileName(string fileNameFmtStr, string extNoSep, string folderPath, int maxAttempts = 9)
+		public static FilePath<FileNameUserAndId> UniqueFileName(string fileNameFmtStr, string extNoSep, string folderPath, int maxAttempts = 9)
 		{
 			// place limits on maxAttempts
 			int attempts = maxAttempts > 999 || maxAttempts < 9 ? 99 : maxAttempts;
@@ -76,7 +76,7 @@ namespace AndyShared.FileSupport
 				{
 					if (!File.Exists(filePath))
 					{
-						return new FilePath<FileNameSimple>(filePath);
+						return new FilePath<FileNameUserAndId>(filePath);
 					}
 				}
 				catch (Exception e)

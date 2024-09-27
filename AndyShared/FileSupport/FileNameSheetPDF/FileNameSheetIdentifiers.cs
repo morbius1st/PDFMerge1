@@ -66,18 +66,21 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public const string ID     = "Identifier";
 		public const string SUBID  = "SubIdentifier";
 
-		// public const string PHBLD  = "PhBldgid ";
-		// public const string PHBLDG = "Phase/Building (A x.x-x)";
-		// public const string DISCP  = "Discipline ";
-		// public const string CAT    = "Category ";
-		// public const string SUBCAT = "SubCategory ";
-		// public const string MOD    = "Modifier ";
-		// public const string SUBMOD = "SubModifier ";
-		// public const string ID     = "Identifier ";
-		// public const string SUBID  = "SubIdentifier )";
+		public const string SEP0  = "sep0";
+		public const string SEP1  = "sep1";
+		public const string SEP2  = "sep2";
+		public const string SEP3  = "sep3";
+		public const string SEP4  = "sep4";
+		public const string SEP5  = "sep5";
+
+		// public const string SHTNAME= "SheetName";
+
+		public const string SHTID = "SheetId";
+		public const string SHTTITLE = "SheetTitle";
 
 		private const string SEP   = "sep";
 		private const string SEPR  = "Separator";
+		private const string PBSEP   = "pbsep";
 
 		public enum FileTypeSheetPdf
 		{
@@ -101,6 +104,30 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			TYPE40 = 5,
 			IDENT  = 6,
 			COUNT
+		}
+
+		public enum ShtIdType
+		{
+			ST_NA     = -1,
+
+			ST_NOT_PHBLD = 0,
+			// 01 to 06 - non bldg / phase
+			ST_TYPE01 = 1,  // Discipline + Category  (e.g. A1, or A 1 or A.1 or A-1)
+			ST_TYPE02 = 2,  // type01 + Sub-Category
+			ST_TYPE03 = 3,  // type02 + Modifier
+			ST_TYPE04 = 4,  // type03 + Sub-Modifier
+			ST_TYPE05 = 5,  // type04 + Identifier
+			ST_TYPE06 = 6,  // type05 + Sub-Identifier
+
+			ST_PHBLD  = 10,
+
+			// 11 to 16 - is bldg / phase
+			ST_TYPE11 = 11, // Discipline + Category  (e.g. A1, or A 1 or A.1 or A-1)
+			ST_TYPE12 = 12,  // type01 + Sub-Category
+			ST_TYPE13 = 13,  // type02 + Modifier
+			ST_TYPE14 = 14,  // type03 + Sub-Modifier
+			ST_TYPE15 = 15,  // type04 + Identifier
+			ST_TYPE16 = 16,  // type05 + Sub-Identifier
 		}
 
 		// shorthand access to the indices
@@ -129,14 +156,122 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public const int SUBIDENTIFIER_VALUE_IDX = 14; // 7
 		public const int SEP6_VALUE_IDX          = 15; // 
 
-		internal const int VALUE_IDX_COUNT = SEP6_VALUE_IDX + 1; // 28 (req'd # + extra
+		// public const int SHEET_NAME_VALUE_IDX    = 16; // 8
+
+		internal const int VALUE_IDX_COUNT = SEP6_VALUE_IDX; // 28 (req'd # // +1 - zero based
 		internal const int VALUE_IDX_MIN = PHBLDG_VALUE_IDX;
+
+
+		public struct CompNameInfo
+		{
+			public string Name { get; set; }
+			public int Index { get; set; }
+			public ShtIdType Type { get; set; }
+
+			public CompNameInfo(string name, int index, ShtIdType type)
+			{
+				Name = name;
+				Index = index;
+				Type = type;
+			}
+		}
+
+		public static readonly CompNameInfo CNI_SHTID     = new CompNameInfo(SHTID, -1, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SHTTITLE  = new CompNameInfo(SHTTITLE, -1, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_PHBLD     = new CompNameInfo(PHBLD , PHBLDG_VALUE_IDX       , ShtIdType.ST_PHBLD);
+		public static readonly CompNameInfo CNI_DISCP     = new CompNameInfo(DISCP , DISCIPLINE_VALUE_IDX   , ShtIdType.ST_NOT_PHBLD);
+		public static readonly CompNameInfo CNI_CAT       = new CompNameInfo(CAT   , CATEGORY_VALUE_IDX     , ShtIdType.ST_TYPE01);
+		public static readonly CompNameInfo CNI_SUBCAT    = new CompNameInfo(SUBCAT, SUBIDENTIFIER_VALUE_IDX, ShtIdType.ST_TYPE02);
+		public static readonly CompNameInfo CNI_MOD       = new CompNameInfo(MOD   , MODIFIER_VALUE_IDX     , ShtIdType.ST_TYPE03);
+		public static readonly CompNameInfo CNI_SUBMOD    = new CompNameInfo(SUBMOD, SUBMODIFIER_VALUE_IDX  , ShtIdType.ST_TYPE04);
+		public static readonly CompNameInfo CNI_ID        = new CompNameInfo(ID    , IDENTIFIER_VALUE_IDX   , ShtIdType.ST_TYPE05);
+		public static readonly CompNameInfo CNI_SUBID     = new CompNameInfo(SUBID , SUBIDENTIFIER_VALUE_IDX, ShtIdType.ST_TYPE06);
+		public static readonly CompNameInfo CNI_SEP0      = new CompNameInfo(SEP0, SEP0_VALUE_IDX, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SEP1      = new CompNameInfo(SEP1, SEP1_VALUE_IDX, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SEP2      = new CompNameInfo(SEP2, SEP2_VALUE_IDX, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SEP3      = new CompNameInfo(SEP3, SEP3_VALUE_IDX, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SEP4      = new CompNameInfo(SEP4, SEP4_VALUE_IDX, ShtIdType.ST_NA);
+		public static readonly CompNameInfo CNI_SEP5      = new CompNameInfo(SEP5, SEP5_VALUE_IDX, ShtIdType.ST_NA);
+
+	
+
+
+		internal static Dictionary<int, CompNameInfo> CompNames = new Dictionary<int, CompNameInfo>()
+		{
+			{PHBLDG_VALUE_IDX       , CNI_PHBLD},		// 0	0
+			// {PBSEP_VALUE_IDX        , PBSEP},		//		1
+			{DISCIPLINE_VALUE_IDX   , CNI_DISCP},		// 1	2
+			{SEP0_VALUE_IDX         , CNI_SEP0},		//		3
+			{CATEGORY_VALUE_IDX     , CNI_CAT},			// 2	4
+			{SEP1_VALUE_IDX         , CNI_SEP1},		//		5
+			{SUBCATEGORY_VALUE_IDX  , CNI_SUBCAT},		// 3	6
+			{SEP2_VALUE_IDX         , CNI_SEP2},		//		7
+			{MODIFIER_VALUE_IDX     , CNI_MOD},			// 4	8
+			{SEP3_VALUE_IDX         , CNI_SEP3},		//		9
+			{SUBMODIFIER_VALUE_IDX  , CNI_SUBMOD},		// 5	10
+			{SEP4_VALUE_IDX         , CNI_SEP4},		//		11
+			{IDENTIFIER_VALUE_IDX   , CNI_ID},			// 6	12
+			{SEP5_VALUE_IDX         , CNI_SEP5},		//		13
+			{SUBIDENTIFIER_VALUE_IDX, CNI_SUBID},		// 7	14
+			// {SEP6_VALUE_IDX         , $"{SEP}6"},	// 	    15
+			// {SHEET_NAME_VALUE_IDX   , SHTNAME},		//		16
+
+		};
+
+		internal static Dictionary<string, int> CompNums = new Dictionary<string, int>()
+		{
+			{PHBLD    , PHBLDG_VALUE_IDX       },
+			// {PBSEP    , PBSEP_VALUE_IDX        },
+			{DISCP    , DISCIPLINE_VALUE_IDX   },
+			{SEP0     , SEP0_VALUE_IDX         },
+			{SEP1     , SEP1_VALUE_IDX         },
+			{SEP2     , SEP2_VALUE_IDX         },
+			{SEP3     , SEP3_VALUE_IDX         },
+			{SEP4     , SEP4_VALUE_IDX         },
+			{SEP5     , SEP5_VALUE_IDX         },
+			{CAT      , CATEGORY_VALUE_IDX     },
+			{SUBCAT   , SUBCATEGORY_VALUE_IDX  },
+			{MOD      , MODIFIER_VALUE_IDX     },
+			{SUBMOD   , SUBMODIFIER_VALUE_IDX  },
+			{ID       , IDENTIFIER_VALUE_IDX   },
+			{SUBID    , SUBIDENTIFIER_VALUE_IDX},
+			// {$"{SEP}6", SEP6_VALUE_IDX         },
+			// {SHTNAME  , SHEET_NAME_VALUE_IDX   },
+
+		};
+
+
+
+		// internal static string[] CompNames = new []
+		// {
+		// 	nameof(PHBLDG_VALUE_IDX),
+		// 	nameof(PBSEP_VALUE_IDX        ),
+		// 	nameof(DISCIPLINE_VALUE_IDX   ),
+		// 	nameof(SEP0_VALUE_IDX         ),
+		// 	nameof(CATEGORY_VALUE_IDX     ),
+		// 	nameof(SEP1_VALUE_IDX         ),
+		// 	nameof(SUBCATEGORY_VALUE_IDX  ),
+		// 	nameof(SEP2_VALUE_IDX         ),
+		// 	nameof(MODIFIER_VALUE_IDX     ),
+		// 	nameof(SEP3_VALUE_IDX         ),
+		// 	nameof(SUBMODIFIER_VALUE_IDX  ),
+		// 	nameof(SEP4_VALUE_IDX         ),
+		// 	nameof(IDENTIFIER_VALUE_IDX   ),
+		// 	nameof(SEP5_VALUE_IDX         ),
+		// 	nameof(SUBIDENTIFIER_VALUE_IDX),
+		// 	nameof(SEP6_VALUE_IDX         )
+		// };
+
+
 
 		internal static int[] IDX_XLATE = new[]
 		{
 			PHBLDG_VALUE_IDX, DISCIPLINE_VALUE_IDX, CATEGORY_VALUE_IDX, SUBCATEGORY_VALUE_IDX,
 			MODIFIER_VALUE_IDX, SUBMODIFIER_VALUE_IDX, IDENTIFIER_VALUE_IDX, SUBIDENTIFIER_VALUE_IDX
 		};
+
+
+
 
 		internal int IDX_XLATE_MIN = 0;
 
@@ -338,11 +473,11 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 						new SeqCtrlOpt(SeqCtrlUse2.OPTIONAL, SeqCtrlProceedOpt.CONTINUE),
 						SEP5_VALUE_IDX , grpNname: SEP + 5 , title: SEPR + 5),
 					new SheetCompInfo2(
-						new SeqCtrlOpt(SeqCtrlUse2.OPTIONAL, SeqCtrlProceedOpt.CONTINUE, SeqCtrlNextOpt.REQ_IF_PRIOR),
+						new SeqCtrlOpt(SeqCtrlUse2.OPTIONAL, SeqCtrlProceedOpt.END, SeqCtrlNextOpt.REQ_IF_PRIOR),
 						SUBIDENTIFIER_VALUE_IDX , grpNname: SUBID , title: SUBID),
-					new SheetCompInfo2(
-						new SeqCtrlOpt(SeqCtrlUse2.OPTIONAL, SeqCtrlProceedOpt.END, SeqCtrlNextOpt.SEQ_END_SEQ_REQ),
-						SEP6_VALUE_IDX , grpNname: SEP + 6 , title: SEPR + 6),
+					// new SheetCompInfo2(
+					// 	new SeqCtrlOpt(SeqCtrlUse2.OPTIONAL, SeqCtrlProceedOpt.END, SeqCtrlNextOpt.SEQ_END_SEQ_REQ),
+					// 	SEP6_VALUE_IDX , grpNname: SEP + 6 , title: SEPR + 6),
 				})
 		};
 
@@ -511,6 +646,11 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			Preface = preface;
 			Body = body;
 			Suffix = suffix;
+		}
+
+		public override string ToString()
+		{
+			return $"{Preface} {Body} {Suffix}";
 		}
 	}
 }

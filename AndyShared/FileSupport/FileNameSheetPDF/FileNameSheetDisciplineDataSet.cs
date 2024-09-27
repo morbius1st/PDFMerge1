@@ -3,11 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using JetBrains.Annotations;
 using UtilityLibrary;
 using SettingsManager;
 // using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
@@ -24,32 +27,60 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class DisciplinesDataSet : INotifyPropertyChanged
+	// [CollectionDataContract(Namespace = "", IsReference = true, Name = "ObservableDictionary", ItemName = "KeyValuePair", KeyName = "string", ValueName = "DisciplineListData")]
+	public class DisciplinesDataSet : INotifyPropertyChanged, IDataFile
 	{
+		[IgnoreDataMember]
+		private ICollectionView disciplineView;
 
 	#region data set fields
-
+		
 		[IgnoreDataMember]
 		public string DataFileDescription { get; set; } = "Discipline DataSet";
 
 		[IgnoreDataMember]
-		public string DataFileNotes { get; set; } = "Contains all disciplines and associated data";
+		public string DataFileNotes { get; set; } = "Sample Notes. Contains all disciplines and associated data";
 
 		[IgnoreDataMember]
 		public string DataFileVersion { get; set; } = "0.1";
 
 		[DataMember]
+		// public Dictionary<string, DisciplineListData> DisciplineList { get; set; } = new Dictionary<string, DisciplineListData>();
 		public ObservableDictionary<string, DisciplineListData> DisciplineList { get; set; } = new ObservableDictionary<string, DisciplineListData>();
 
 		[DataMember]
 		public List<string> ComboDisciplines { get; set; } = new List<string>();
 
+		[IgnoreDataMember]
+		public ICollectionView DisciplineView
+		{
+			get => disciplineView;
+			set
+			{
+				if (Equals(value, disciplineView)) return;
+				disciplineView = value;
+				OnPropertyChanged();
+			}
+		}
+
 	#endregion
 
 	#region data set functions
 
-		// status
+		// collection view
+		public void UpdateDisciplineView()
+		{
+			disciplineView = (ICollectionView) CollectionViewSource.GetDefaultView(DisciplineList.Values);
 
+			SortDescription sd = new SortDescription("OrderCode", ListSortDirection.Ascending);
+
+			disciplineView.SortDescriptions.Add(sd);
+
+			OnPropertyChanged(nameof(DisciplineView));
+
+		}
+
+		// status
 		public bool IsNewKey(string key)
 		{
 			return !HasKey(key);
@@ -76,6 +107,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public bool? UpdateKey(string currentKey, string newKey)
 		{
 			string kc = DisciplineListData.FormatKey(currentKey);
+
 			// if key does not exist, return false;
 			if (!DisciplineList.ContainsKey(kc)) return false;
 			
@@ -83,12 +115,17 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			// if keys match, return null
 			if (kc.Equals(kn)) return null;
 
+			// get the current data
 			DisciplineListData dd = Find(currentKey);
 
-			dd.Key = kn;
-			dd.DisciplineData.Key = newKey.Trim();
+			// update the data's key information
+			dd.OrderCode = kn;
+			dd.DisciplineData.OrderCode = newKey.Trim();
 
-			DisciplineList.ReplaceKey(currentKey, kn);
+			// remove the current data
+			DisciplineList.Remove(kc);
+			// add back with new key
+			DisciplineList.Add(kn,dd);
 
 			return true;
 		}
@@ -112,16 +149,17 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public void Add(DisciplineListData dld)
 		{
-			if (DisciplineList.ContainsKey(dld.Key)) return;
+			if (DisciplineList.ContainsKey(dld.OrderCode)) return;
 
-			DisciplineList.Add(dld.Key, dld);
+			DisciplineList.Add(dld.OrderCode, dld);
 		}
 
-		public DisciplineListData Add(string key, string title, string desc)
+		public DisciplineListData Add(string key, string disciplineCode,
+			string title, string displayName, string description, bool locked)
 		{
-			DisciplineData dd = new DisciplineData(key, title, desc);
+			DisciplineData dd = new DisciplineData(key, disciplineCode, title, displayName, description, locked);
 			DisciplineListData dld = new DisciplineListData(dd);
-			DisciplineList.Add(dld.Key, dld);
+			DisciplineList.Add(dld.OrderCode, dld);
 
 			return dld;
 		}
@@ -135,10 +173,30 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 	#endregion
 
+	#region management functions
 
+		/// <summary>
+		/// makes a shallow copy of the data set (only copies the header info)
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static DisciplinesDataSet Copy(DisciplinesDataSet orig)
+		{
+			DisciplinesDataSet copy = new DisciplinesDataSet();
+
+			copy.DataFileVersion = orig.DataFileVersion;
+			copy.DataFileDescription = orig.DataFileDescription;
+			copy.DataFileNotes = orig.DataFileNotes;
+
+			return copy;
+		}
+
+	#endregion
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
 		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
@@ -149,38 +207,62 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	/// a single discipline entry in the dictionary<br/>
 	/// this contains a dictionary of alternate sheet number styles
 	/// </summary>
-	[DataContract(Namespace = "")]
+	[DataContract(Name = "DisciplineListData", IsReference = true)]
 	public class DisciplineListData : INotifyPropertyChanged
 	{
+		public DisciplineListData() {}
+
+		public DisciplineListData(string orderCode, DisciplineData disciplineData)
+		{
+			OrderCode = orderCode;
+			DisciplineData = disciplineData;
+
+			disciplineData.OrderCode = orderCode;
+		}
+
 		public DisciplineListData(DisciplineData disciplineData)
 		{
-			Key = disciplineData.Key;
+			OrderCode = disciplineData.OrderCode;
 			DisciplineData = disciplineData;
 		}
 
-		private string key;
+		private string orderCode;
+		private bool dataIsEditing;
 
 		/// <summary>
 		/// the key used to retrieve the data from the dictionary<br/>
 		/// provide just the discipline designator letter(s)<br/>
 		/// this is then formatted as "X␢␢␢␢" (letter(s)+ left justified with blanks
 		/// </summary>
-		[DataMember]
-		public string Key
+		[DataMember(Order = 1)]
+		public string OrderCode
 		{
-			get => key;
+			get => orderCode;
 			set
 			{
-				if (value.Trim().Equals(DisciplineData?.Key ?? null)) return;
-				key = FormatKey(value);
+				if (value.Trim().Equals(DisciplineData?.OrderCode ?? null)) return;
+				orderCode = FormatKey(value);
 				OnPropertyChanged();
 				OnPropertyChanged(nameof(DisciplineData));
 			}
 		}
 
-		[DataMember]
+		[DataMember(Order = 4)]
 		public DisciplineData DisciplineData { get; set; }
 
+		[IgnoreDataMember]
+		public bool DataIsEditing
+		{
+			get => dataIsEditing & !DisciplineData.Locked;
+			set
+			{
+				dataIsEditing = value;
+				OnPropertyChanged();
+			}
+		}
+
+		[IgnoreDataMember]
+		public int Index { get; set; }
 
 		public static string FormatKey(string key)
 		{
@@ -189,38 +271,71 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
 		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 	}
 
+	/* data adjustments
+	 * > change key to order code
+	 * > add discipline code
+	 */
+
 	[DataContract(Namespace = "")]
 	public class DisciplineData : INotifyPropertyChanged
 	{
 		private string title;
-		private string key;
+		private string disciplineCode;
+		private string orderCode;
+		private string displayName;
 		private string description;
+		private bool locked;
 
-		public DisciplineData(string key, string title, string description)
+		private bool dataIsSelected;
+		private bool dataSave;
+
+		public DisciplineData(string orderCode,
+			string disciplineCode,
+			string title,
+			string displayName,
+			string description,
+			bool locked)
 		{
-			Key = key;
+			OrderCode = orderCode;
 			Title = title;
+			DisciplineCode = disciplineCode;
+			DisplayName = displayName;
 			Description = description;
+			Locked = locked;
 		}
 
-		[DataMember]
-		public string Key
+		[DataMember(Order = 0)]
+		public string OrderCode
 		{
-			get => key;
+			get => orderCode;
 			set
 			{
-				key = value;
+				orderCode = value;
 				OnPropertyChanged();
 			}
 		}
 
-		[DataMember]
+		[DataMember(Order = 1)]
+		public string DisciplineCode
+		{
+			get => disciplineCode;
+			set
+			{
+				// if (value == disciplineCode) return;
+				disciplineCode = value;
+				OnPropertyChanged();
+			}
+		}
+
+		[DataMember(Order = 2)]
 		public string Title
 		{
 			get => title;
@@ -230,8 +345,19 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 				OnPropertyChanged();
 			}
 		}
+		
+		[DataMember(Order = 3)]
+		public string DisplayName
+		{
+			get => displayName;
+			set
+			{
+				displayName = value;
+				OnPropertyChanged();
+			}
+		}
 
-		[DataMember]
+		[DataMember(Order = 4)]
 		public string Description
 		{
 			get => description;
@@ -242,9 +368,22 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			}
 		}
 
+		[DataMember(Order = 5)]
+		public bool Locked
+		{
+			get => locked;
+			set
+			{
+				locked = value;
+				OnPropertyChanged();
+			}
+		}
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		[NotifyPropertyChangedInvocator]
+		[DebuggerStepThrough]
 		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));

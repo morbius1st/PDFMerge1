@@ -2,23 +2,6 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Windows.Data;
-using AndyShared.FileSupport.FileNameSheetPDF;
-using AndyShared.Support;
-using UtilityLibrary;
-using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
-using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
-using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
-
 #endregion
 
 // username: jeffs

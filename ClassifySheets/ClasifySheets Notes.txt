@@ -1,0 +1,50 @@
+
+classify process:
+
+
+prepClassify
+	classify.Configure
+		> sets internal vars
+		> sets var for using, or not, building phase
+
+	classify.config async ...
+		> config async vars
+
+classify.Preprocess
+	> init merge item list
+	> init lock for async usage
+	> init collection view for sync using async usage
+
+
+classify.Process3
+	> setup item processing
+	> start the item processing as a task
+	> runs the task and awaits for it to complete
+	
+	classify.processFiles3
+		> runs through the list of files and classify the file.
+		> includes extra operations relative to being in a separate task
+		> does not use the return value
+		
+		classify.classify3  (async)
+			> classify a single sheet PDF using the comparison tree
+			> is recursive
+			> includes extra operations to handle async locks
+			> runs through the classify tree and applies the classification tree using CompareOperations.Compare2
+			> return true if a match is found - returned value is not used externally - used to determine recursive
+			> CompareOperations.Compare2 returns true of the item matches
+				> when true, checks for children and processes the children
+			> 
+			
+			CompareOperations.Compare2
+				> is not recursive
+				> runs through the list of compare ops
+				> runs the compare routine to determine a result
+					> result is and'd or or'd to the prior result when appropriate
+
+				CompareOperations.compare
+					> this is a large switch that runs a routine depending on the type of compare op
+					> the result of each operation is returned
+					
+net result, each child has the items that match its compare filter
+

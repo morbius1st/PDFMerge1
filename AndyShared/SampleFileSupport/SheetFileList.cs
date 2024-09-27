@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using UtilityLibrary;
 using AndyShared.FileSupport.FileNameSheetPDF;
+using DebugCode;
 
 #endregion
 
@@ -62,7 +63,17 @@ namespace AndyShared.SampleFileSupport
 
 		public void ReadSampleSheetFileList(string filePath)
 		{
-			if (!File.Exists(filePath)) return;
+		#if DML1
+			DM.Start0();
+		#endif
+
+			if (!File.Exists(filePath))
+			{
+			#if DML1
+				DM.End0("end 1");
+			#endif
+				return;
+			}
 			// if (!File.Exists(filePath)) throw new FileNotFoundException();
 
 			sampleFileData = new SampleFileListData();
@@ -73,7 +84,13 @@ namespace AndyShared.SampleFileSupport
 			{
 				bool result = CsXmlUtilities.ReadXmlFile(filePath, out sampleFileData);
 
-				if (!result) return;
+				if (!result)
+				{
+				#if DML1
+					DM.End0("end 2");
+				#endif
+					return;
+				}
 
 				sampleFileData.Data.Parse();
 			}
@@ -84,6 +101,9 @@ namespace AndyShared.SampleFileSupport
 				Debug.WriteLine("inner exception message");
 				Debug.WriteLine(e.InnerException?.Message);
 
+			#if DML1
+				DM.End0("end 3");
+			#endif
 				return;
 			}
 
@@ -95,6 +115,10 @@ namespace AndyShared.SampleFileSupport
 
 				Files.Add(fileName);
 			}
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		public void AddPath(FilePath<FileNameSheetPdf> path)

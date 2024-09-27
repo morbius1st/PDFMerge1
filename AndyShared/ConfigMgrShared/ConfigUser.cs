@@ -15,6 +15,9 @@ using SettingsManager;
 
 namespace AndyShared.ConfigMgrShared
 {
+
+	/*  removed
+
 	public class ConfigUser : INotifyPropertyChanged
 	{
 	#region private fields
@@ -116,4 +119,6 @@ namespace AndyShared.ConfigMgrShared
 
 	#endregion
 	}
+
+	*/
 }

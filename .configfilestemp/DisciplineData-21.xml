@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2024-08-23 - 18:09 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyName i:nil="true" />
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <Notes i:nil="true" />
+    <DataClassVersion i:nil="true" />
+    <Description i:nil="true" />
+  </Header>
+  <Data>
+    <ComboDisciplines xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    <DisciplineList z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" />
+  </Data>
+</DataStorage>

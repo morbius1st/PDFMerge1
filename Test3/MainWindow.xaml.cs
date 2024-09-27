@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AndyShared.ClassificationDataSupport.TreeSupport;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,11 +12,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+// using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Test3.TreeNoteTests;
 
 namespace Test3
 {
@@ -237,5 +240,27 @@ namespace Test3
 
 			et.TriStateReset();
 		}
+
+		private void CheckBoxTree_LostFocus(object sender, RoutedEventArgs e)
+		{
+			CheckBox cbx = (CheckBox) sender;
+
+			TreeNode2<TreeNodeItem> et = (TreeNode2<TreeNodeItem>) cbx.DataContext;
+
+			et.TriStateReset();
+		}
+
+		private void CheckBoxTreeBase_LostFocus(object sender, RoutedEventArgs e)
+		{
+			CheckBox cbx = (CheckBox) sender;
+
+			// evMgr.ClassificationFile.TreeBase.
+
+			TreeNode et = (TreeNode) cbx.DataContext;
+
+			et.TriStateReset();
+		}
+
+
 	}
 }

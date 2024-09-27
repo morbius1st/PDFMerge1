@@ -5,7 +5,7 @@ namespace SettingsManager
 {
 	public partial class Heading
 	{
-		public static string SuiteName = "SettingsManager";
+		public static string SuiteName = "Andy";
 
 	}
 }

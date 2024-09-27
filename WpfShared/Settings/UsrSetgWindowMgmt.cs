@@ -14,7 +14,7 @@ using WpfShared.Windows;
 
 namespace SettingsManager
 {
-	public partial class UserSettingData
+	public partial class UserSettingDataFile
 	{
 		private void initializeWindowLayout()
 		{

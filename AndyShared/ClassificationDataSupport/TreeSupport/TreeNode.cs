@@ -1,19 +1,5 @@
 ﻿#region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Windows.Data;
-using static UtilityLibrary.MessageUtilities;
-using AndyShared.Support;
-using UtilityLibrary;
-
 #endregion
 
 // username: jeffs
@@ -21,40 +7,6 @@ using UtilityLibrary;
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
-	public enum CheckedState
-	{
-		UNSET = -1,
-		MIXED = 0,
-		CHECKED = 1,
-		UNCHECKED = 2
-	}
-
-	public enum NodeType
-	{
-		BRANCH,
-		LEAF
-	}
-
-	public enum SelectState
-	{
-		UNSET = -1,
-		UNCHECKED = 0,
-		CHECKED = 1,
-		MIXED = 2
-	}
-
-	public enum SelectMode
-	{
-		TWO_STATE = 2,
-		TRI_STATE = 3
-	}
-
-	public enum NodePlacement
-	{
-		BEFORE = -1,
-		AFTER = 1
-	}
-
 #region TreeNode
 
 	[DataContract(Namespace = "", IsReference = true)]
@@ -1009,8 +961,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void Initalize()
 		{
+		#if DML1
+			DM.Start0();
+		#endif
 			IsInitialized = true;
+
+			
+		#if DML1
+			DM.Stat0("InitializeAllChildrenView");
+		#endif
 			InitializeAllChildrenView();
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 	#endregion

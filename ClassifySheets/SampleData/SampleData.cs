@@ -23,7 +23,10 @@ using TreeNode = AndyShared.ClassificationDataSupport.TreeSupport.TreeNode;
 
 namespace ClassifySheets.SampleData
 {
-	public class SampleData : INotifyPropertyChanged
+	public class SampleData
+	#if DEBUG
+		: INotifyPropertyChanged
+	#endif
 	{
 	#if DEBUG
 		

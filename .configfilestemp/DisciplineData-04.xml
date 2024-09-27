@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2024-08-23 - 18:09 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyName i:nil="true" />
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <Notes i:nil="true" />
+    <DataClassVersion i:nil="true" />
+    <Description i:nil="true" />
+  </Header>
+  <Data>
+    <ComboDisciplines xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    <DisciplineList z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+      <KeyValuePair>
+        <Key>a    </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i2">
+          <d5p1:OrderCode>a    </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>a</OrderCode>
+            <DisciplineCode>bx</DisciplineCode>
+            <Title>c</Title>
+            <DisplayName>d</DisplayName>
+            <Description>e</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>b    </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i3">
+          <d5p1:OrderCode>b    </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>b</OrderCode>
+            <DisciplineCode>cx</DisciplineCode>
+            <Title>d</Title>
+            <DisplayName>e</DisplayName>
+            <Description>f</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>e    </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i4">
+          <d5p1:OrderCode>e    </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>e</OrderCode>
+            <DisciplineCode>fx</DisciplineCode>
+            <Title>g</Title>
+            <DisplayName>h</DisplayName>
+            <Description>i</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+    </DisciplineList>
+  </Data>
+</DataStorage>

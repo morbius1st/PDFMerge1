@@ -5,6 +5,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.ClassificationFileSupport;
+using Test3.SheetMgr;
+using Test3.TreeNoteTests;
 using UtilityLibrary;
 
 using static Test3.MainWindow;
@@ -44,15 +48,26 @@ namespace Test3
 
 	public class EventTestMgr : INotifyPropertyChanged
 	{
+		private TriStateTreeSupport triTreeSupport;
+
 		public EventTest3 Root { get; private set; }
 		public EventTest4 First { get; private set; }
 		public TreeNode5 Origin { get; private set; }
 		public Branch Trunk { get; private set; }
 
+
+		private TriStateTree<TreeNodeItem> root;
+		public TriStateTree<TreeNodeItem> TriTree { get; private set; }
+
+		public ClassificationFile ClassificationFile { get; set; }
+
 //		public List<EventTest3> Ev2List { get; private set; } = null;
 
 		public EventTestMgr()
 		{
+			triTreeSupport = new TriStateTreeSupport();
+
+			/*
 			Root = new EventTest3(0, 0, 0, 0, 0, true);
 			Root.Name = "Root (" + Root.Name + ")";
 
@@ -62,6 +77,7 @@ namespace Test3
 			First.Name = "First  (" + First.Name + ")";
 
 			MakeChildren(First, 1, 0, First.childList);
+			*/
 
 			Origin = new TreeNode5();
 			Origin.Configure(null, 0, 0, true, true);
@@ -77,14 +93,47 @@ namespace Test3
 
 			Trunk = new Branch();
 
+			MakeTreeBase();
+
+			getClassificationFile();
+
 			Tests();
 
+		}
+
+		private void getClassificationFile()
+		{
+			ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+
+			ClassificationFile.Initialize();
+
+			OnPropertyChange("ClassificationFile");
+		}
+
+		private void MakeTreeBase()
+		{
+			root = triTreeSupport.MakeTriStateTree<TreeNodeItem>();
+			TriTree = root;
+
+			MakeChildren(root, 0);
 		}
 
 		private void Tests()
 		{
 
 			SheetUtility.test();
+
+			SheetPdfManager.Instance.ParseSheetNames3();
+			SheetPdfManager.Instance.ShowShtNameResults3();
+
+			// voided
+			// SheetPdfManager.Instance.ParseSheets1();
+			// SheetPdfManager.Instance.ShowSheetsResults1();
+			//
+			// SheetPdfManager.Instance.ParseSheetNumbers2();
+			// SheetPdfManager.Instance.ShowShtNumberResults2();
+
+
 
 
 
@@ -126,8 +175,6 @@ namespace Test3
 //
 //			SortCode scA1A = scA1.Append("A");
 		}
-
-
 
 		public void CheckOne()
 		{
@@ -172,6 +219,32 @@ namespace Test3
 		private int branch = 0;
 		private int MAX_DEPTH = 5;
 		private int MAX_DEPTH5 = 4;
+
+
+		private void MakeChildren(TreeNode2<TreeNodeItem> parent, int depth)
+		{
+			if (depth >= MAX_DEPTH) return;
+
+			TreeNodeItem item;
+			TreeNode2<TreeNodeItem> node;
+
+			for (int i = 0; i < MAX; i++)
+			{
+				item = new TreeNodeItem($"item_{depth}_{index++}", false, false);
+
+				node = new TreeNode2<TreeNodeItem>(parent, item, false);
+
+				if (i==1 || i == 3) MakeChildren(node, depth+1);
+
+				node.IsExpanded = true;
+				node.IsExpandedAlt = true;
+
+				root.AddNode(node);
+
+			}
+
+		}
+
 
 		private void MakeChildren(TreeNode5 parent, int depth, ObservableCollection<TreeNode5> children)
 		{
@@ -347,6 +420,7 @@ namespace Test3
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		
 		private void OnPropertyChange([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));

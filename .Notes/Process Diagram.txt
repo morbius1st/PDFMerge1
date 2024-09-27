@@ -38,5 +38,5 @@ new ProcessManager
 +-------+
 v
 (show window / wait for selection)
-                
-                
+
+

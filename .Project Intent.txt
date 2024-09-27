@@ -1,0 +1,29 @@
+!! "starting over"
+
+intent:
+1. combine individual PDF files into a combined set
+2. add hierarchical bookmarks (outline tree)
+3. organize the combined set in the correct order
+4. add hyper-links between sheet references and sheets
+5. add sheet hyper-links to company web site / disclaimer web site / copyright web site
+6. validate sheets - look for missing sheets / extra sheets
+
+future
+* add hyper-links for spec sections
+* add hyper-links for deltas / project changes
+
+-----------------
+
+* items 1 & 2 above, basically worked out
+    > current: use an excel file, generated from Revit, to defind the correct order
+    > proposed: use a classifier to determine the correct order based on the sheet number
+* item 3
+    > current: use an excel file, generated from Revit, to define the correct order
+    > proposed: use a classifier to determine the correct order based on the sheet number
+
+* item 4, methods basically worked out
+* item 5, methods basically worked out
+* item 6, methods basically worked out
+
+
+------

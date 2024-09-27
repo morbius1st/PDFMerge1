@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DisciplineEditor.Windows.MainWindow" Collapsed="true">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>rLEW8sIgQVbDmnuMVQj3SgdkgiyPV2M5rvao2MFRNCA=</HashCode>
+      <FileName>Windows\MainDisciplineEd.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="10" />
+</ClassDiagram>

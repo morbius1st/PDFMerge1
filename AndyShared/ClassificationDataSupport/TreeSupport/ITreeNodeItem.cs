@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AndyShared.ClassificationDataSupport.TreeSupport
+﻿namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
 	public interface ITreeNodeItem : ICloneable
 	{

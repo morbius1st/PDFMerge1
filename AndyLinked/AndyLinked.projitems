@@ -13,30 +13,35 @@
     <Folder Include="$(MSBuildThisFileDirectory)Settings\" />
   </ItemGroup>
   <ItemGroup>
-		<Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-    <Link>.Linked\CsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-    <Link>.Linked\MessageUtilities.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.1\CsFilePath.cs">
-    <Link>.Linked\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
-    <Link>.Linked\ScreenParametersWpf.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
-    <Link>.Linked\CsXmlUtilities.cs</Link>
-    </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-    <Link>.Linked\CsUtilities.cs</Link>
+      <Link>.Linked\CsUtilities.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsStringUtil.cs">
+      <Link>.Linked\CsStringUtil.cs</Link>
     </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
-    <Link>.Linked\CsUtilities.cs</Link>
+      <Link>.Linked\CsObservableDictionary.cs</Link>
     </Compile>
-		<Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
+      <Link>.Linked\CsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
+      <Link>.Linked\MessageUtilities.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FilePath\V3.1\CsFilePath.cs">
+      <Link>.Linked\CsFilePath.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
+      <Link>.Linked\ScreenParametersWpf.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
+      <Link>.Linked\CsXmlUtilities.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\.LinkOnly\DebugMessages.cs">
+      <Link>.Linked\DebugMessages.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
     </Compile>
-		
   </ItemGroup>
 </Project>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <FileType>SETTING_MGR_DATA</FileType>
+  <Header>
+    <SaveDateTime>2024-08-23 - 18:09 -07:00</SaveDateTime>
+    <SavedBy>jeffs</SavedBy>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyName>name</AssemblyName>
+    <SettingsVersion>7.2.1</SettingsVersion>
+    <Notes>for DisciplineData-01</Notes>
+    <DataClassVersion>v1.0</DataClassVersion>
+    <Description>for DisciplineData-01</Description>
+  </Header>
+  <Data>
+    <ComboDisciplines xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    <DisciplineList z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+      <KeyValuePair>
+        <Key>11   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i2">
+          <d5p1:OrderCode>11   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>11</OrderCode>
+            <DisciplineCode>S</DisciplineCode>
+            <Title>Structural</Title>
+            <DisplayName>Structural</DisplayName>
+            <Description>Structural Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>07   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i3">
+          <d5p1:OrderCode>07   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>07</OrderCode>
+            <DisciplineCode>A</DisciplineCode>
+            <Title>Architectural</Title>
+            <DisplayName>Architectural</DisplayName>
+            <Description>Architectural Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>13   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i4">
+          <d5p1:OrderCode>13   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>13</OrderCode>
+            <DisciplineCode>M</DisciplineCode>
+            <Title>Mechanical</Title>
+            <DisplayName>Mechanical</DisplayName>
+            <Description>Mechanical Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>15   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i5">
+          <d5p1:OrderCode>15   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>15</OrderCode>
+            <DisciplineCode>P</DisciplineCode>
+            <Title>Plumbing</Title>
+            <DisplayName>Plumbing</DisplayName>
+            <Description>Plumbing Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>17   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i6">
+          <d5p1:OrderCode>17   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>17</OrderCode>
+            <DisciplineCode>E</DisciplineCode>
+            <Title>Electrical</Title>
+            <DisplayName>Electrical</DisplayName>
+            <Description>Electrical Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+      <KeyValuePair>
+        <Key>18   </Key>
+        <Value xmlns:d5p1="http://schemas.datacontract.org/2004/07/AndyShared.FileSupport.FileNameSheetPDF" z:Id="i7">
+          <d5p1:OrderCode>18   </d5p1:OrderCode>
+          <d5p1:DisciplineData>
+            <OrderCode>18</OrderCode>
+            <DisciplineCode>T24</DisciplineCode>
+            <Title>Title 24</Title>
+            <DisplayName>Title 24</DisplayName>
+            <Description>Title 24 Sheets</Description>
+            <Locked>false</Locked>
+          </d5p1:DisciplineData>
+        </Value>
+      </KeyValuePair>
+    </DisciplineList>
+  </Data>
+</DataStorage>

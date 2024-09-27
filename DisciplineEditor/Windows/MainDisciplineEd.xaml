@@ -8,9 +8,15 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:shsup="clr-namespace:SharedWPF.ShSupport"
+		xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+		xmlns:discData="clr-namespace:AndyShared.FileSupport.FileNameSheetPDF"
+		xmlns:sm="clr-namespace:SettingsManager"
+		xmlns:custom="clr-namespace:SharedWPF.ShSupport"
+		xmlns:support="clr-namespace:DisciplineEditor.Support"
+		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
 		Title="Discipline Editor"
-		Width="1050"
-		Height="750"
+		Width="1600"
+		Height="1050"
 		DataContext="{Binding ElementName=WinMainDisciplineEd}"
 		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
@@ -26,30 +32,87 @@
 
 			</ResourceDictionary.MergedDictionaries>
 
+			<custom:InvertBool x:Key="InvertBool" />
+			<custom:PassThroughConverter x:Key="PassThru" />
+			<custom:BoolToSymbolConverter x:Key="BoolToSymbol" />
+			<custom:MultiObjectComparisonConverter x:Key="MultiObject" />
+
 			<sys:Double x:Key="BtnWidth">84</sys:Double>
+			<sys:Double x:Key="BtnWidthNarrower">68</sys:Double>
 			<sys:Double x:Key="BtnHeight">28</sys:Double>
 
-			<sys:Double x:Key="col1">24</sys:Double>
-			<sys:Double x:Key="col2">72</sys:Double>
-			<sys:Double x:Key="col3">72</sys:Double>
-			<sys:Double x:Key="col4">150</sys:Double>
-			<sys:Double x:Key="col5">150</sys:Double>
+			<sys:Double x:Key="editing">52</sys:Double>
+			<sys:Double x:Key="colK2">64</sys:Double>
+			<sys:Double x:Key="colLock">48</sys:Double>
+			<sys:Double x:Key="colDcode">72</sys:Double>
+			<sys:Double x:Key="colTitle">150</sys:Double>
+			<sys:Double x:Key="colDname">150</sys:Double>
+			<sys:Double x:Key="colDesc">150</sys:Double>
 
+			<sys:Double x:Key="tbx.header.edit.width">450</sys:Double>
+			<sys:Double x:Key="tbx.edit.width">170</sys:Double>
+
+			<sys:Boolean x:Key="bt">True</sys:Boolean>
+			<sys:Boolean x:Key="bf">False</sys:Boolean>
+
+			<sys:Int32 x:Key="zero">0</sys:Int32>
+
+			<x:Static x:Key="boolSymbols"
+					Member="support:DataFileManager.BoolSymbols1"
+					>
+			</x:Static>
+
+			<specialized:StringCollection x:Key="boolStrings1">
+				<sys:String>nope</sys:String>
+				<sys:String>yep</sys:String>
+			</specialized:StringCollection>
+
+			<Geometry x:Key="Icon.Check">
+				F1 M 3.310547 16.660156 C 3.180338 16.523438 3.081055 16.40625 3.012695 16.308594 C 2.944336 16.210938 2.910156 16.116537 2.910156 16.025391 C 2.910156 15.908203 2.967122 15.791016 3.081055 15.673828 C 3.194987 15.556641 3.341471 15.452475 3.520508 15.361328 C 3.699544 15.270183 3.894857 15.19694 4.106445 15.141602 C 4.318034 15.086264 4.521484 15.058594 4.716797 15.058594 C 4.92513 15.058594 5.096028 15.086264 5.229492 15.141602 C 5.362956 15.19694 5.491536 15.289714 5.615234 15.419922 C 6.116536 15.947266 6.570638 16.486004 6.977539 17.036133 C 7.38444 17.586264 7.783203 18.154297 8.173828 18.740234 C 8.551432 17.731119 8.942057 16.756186 9.345703 15.81543 C 9.749349 14.874675 10.177408 13.953451 10.629883 13.051758 C 11.082356 12.150065 11.567383 11.261394 12.084961 10.385742 C 12.602539 9.510092 13.164062 8.629559 13.769531 7.744141 C 13.990885 7.412109 14.318033 7.167969 14.750977 7.011719 C 15.183919 6.855469 15.738932 6.777344 16.416016 6.777344 C 16.617838 6.777344 16.780598 6.806641 16.904297 6.865234 C 17.027994 6.923828 17.089844 7.001953 17.089844 7.099609 C 17.089844 7.184246 17.070312 7.268881 17.03125 7.353516 C 16.992188 7.438151 16.933594 7.535808 16.855469 7.646484 C 15.377604 9.710287 14.033203 11.871745 12.822266 14.130859 C 11.611328 16.389973 10.559896 18.772787 9.667969 21.279297 C 9.609375 21.461588 9.466146 21.598307 9.238281 21.689453 C 9.010416 21.7806 8.67513 21.826172 8.232422 21.826172 C 8.024088 21.826172 7.848307 21.819662 7.705078 21.806641 C 7.561849 21.793619 7.441406 21.769205 7.34375 21.733398 C 7.246094 21.697592 7.164713 21.653646 7.099609 21.601562 C 7.034505 21.549479 6.979167 21.484375 6.933594 21.40625 C 6.653646 20.950521 6.381836 20.525717 6.118164 20.131836 C 5.854492 19.737955 5.581055 19.355469 5.297852 18.984375 C 5.014648 18.613281 4.711914 18.238932 4.389648 17.861328 C 4.067383 17.483725 3.707682 17.083334 3.310547 16.660156 Z
+			</Geometry>
+
+			<Geometry x:Key="Icon.Not">
+				F1 M 16.181641 15.722656 C 16.181641 16.575521 16.018879 17.373047 15.693359 18.115234 C 15.367838 18.857422 14.92513 19.501953 14.365234 20.048828 C 13.805338 20.595703 13.151041 21.027018 12.402344 21.342773 C 11.653646 21.658529 10.852864 21.816406 10 21.816406 C 9.147135 21.816406 8.346354 21.658529 7.597656 21.342773 C 6.848958 21.027018 6.194661 20.595703 5.634766 20.048828 C 5.07487 19.501953 4.632161 18.857422 4.306641 18.115234 C 3.98112 17.373047 3.818359 16.575521 3.818359 15.722656 C 3.818359 14.869792 3.98112 14.073894 4.306641 13.334961 C 4.632161 12.596029 5.07487 11.953125 5.634766 11.40625 C 6.194661 10.859375 6.848958 10.428061 7.597656 10.112305 C 8.346354 9.79655 9.147135 9.638672 10 9.638672 C 10.852864 9.638672 11.653646 9.79655 12.402344 10.112305 C 13.151041 10.428061 13.805338 10.859375 14.365234 11.40625 C 14.92513 11.953125 15.367838 12.596029 15.693359 13.334961 C 16.018879 14.073894 16.181641 14.869792 16.181641 15.722656 Z M 14.716797 15.722656 C 14.716797 15.169271 14.638672 14.651693 14.482422 14.169922 C 14.326172 13.688151 14.101562 13.245443 13.808594 12.841797 L 7.099609 19.550781 C 7.490234 19.863281 7.931315 20.102539 8.422852 20.268555 C 8.914388 20.43457 9.440104 20.517578 10 20.517578 C 10.670572 20.517578 11.293945 20.393881 11.870117 20.146484 C 12.446289 19.899088 12.945963 19.560547 13.369141 19.130859 C 13.792317 18.701172 14.122721 18.194986 14.360352 17.612305 C 14.597981 17.029623 14.716797 16.39974 14.716797 15.722656 Z M 5.283203 15.722656 C 5.283203 16.276043 5.361328 16.795248 5.517578 17.280273 C 5.673828 17.765301 5.895182 18.209637 6.181641 18.613281 L 12.890625 11.904297 C 12.5 11.598308 12.060547 11.360678 11.572266 11.191406 C 11.083984 11.022136 10.559896 10.9375 10 10.9375 C 9.322916 10.9375 8.697916 11.061198 8.125 11.308594 C 7.552083 11.55599 7.054036 11.894531 6.630859 12.324219 C 6.207682 12.753906 5.877278 13.260092 5.639648 13.842773 C 5.402018 14.425456 5.283203 15.052084 5.283203 15.722656 Z
+			</Geometry>
+
+			<Geometry x:Key="Icon.X.Script">
+				F1 M 9.633789 15.673828 L 9.389648 15.986328 C 8.1722 17.581381 7.224935 18.378906 6.547852 18.378906 C 6.040039 18.378906 5.522461 17.96224 4.995117 17.128906 C 5.177409 17.167969 5.317383 17.1875 5.415039 17.1875 C 6.267903 17.1875 7.237956 16.487631 8.325195 15.087891 L 8.706055 14.609375 L 8.432617 14.277344 C 7.117513 12.747396 6.459961 11.673178 6.459961 11.054688 C 6.459961 10.611979 6.818034 10.048828 7.53418 9.365234 C 7.833659 10.706381 8.458658 11.972656 9.40918 13.164062 L 9.624023 13.4375 L 10.03418 12.939453 C 11.375325 11.279297 12.443033 10.449219 13.237305 10.449219 C 13.62793 10.449219 13.950195 10.641276 14.204102 11.025391 C 14.249674 11.090495 14.314778 11.181641 14.399414 11.298828 C 13.390299 11.754558 12.260742 12.675781 11.010742 14.0625 L 10.610352 14.511719 L 10.90332 14.833984 C 12.088216 16.136066 13.181966 16.787109 14.18457 16.787109 C 14.477539 16.787109 14.750977 16.754559 15.004883 16.689453 C 14.679361 17.366537 14.407552 17.809244 14.189453 18.017578 C 13.971354 18.225912 13.673502 18.330078 13.295898 18.330078 C 12.475586 18.330078 11.407877 17.610678 10.092773 16.171875 Z
+			</Geometry>
 
 			<SolidColorBrush x:Key="hdr.tbk.Bkg" Color="{StaticResource Gray.300}" />
 			<SolidColorBrush x:Key="hdr.tx.fg" Color="{StaticResource Gray.800}" />
 
+
 			<SolidColorBrush x:Key="grid.tbk.Bkg" Color="{StaticResource Gray.100}" />
 			<SolidColorBrush x:Key="grid.tx.fg" Color="{StaticResource Gray.760}" />
 
+			<SolidColorBrush x:Key="grid.tbk.disabled.bkg" Color="{StaticResource Gray.200}" />
+			<SolidColorBrush x:Key="grid.tbk.disabled.fg" Color="{StaticResource Gray.970}" />
+
+
+
 			<SolidColorBrush x:Key="lbl.Bkg" Color="{StaticResource Gray.300}" />
+			<SolidColorBrush x:Key="lbl.stat.Bkg" Color="{StaticResource Gray.150}" />
 			<SolidColorBrush x:Key="lbl.disabled.fg" Color="{StaticResource Gray.700}" />
 			<SolidColorBrush x:Key="lbl.enabled.fg" Color="{StaticResource Gray.800}" />
 
+
+
 			<SolidColorBrush x:Key="tbk.Bkg" Color="{StaticResource Gray.150}" />
 			<SolidColorBrush x:Key="tbk.fg" Color="White" />
+			<SolidColorBrush x:Key="tbk.fg.ro" Color="{StaticResource Gray.900}" />
 
 			<SolidColorBrush x:Key="tbx.disabled.Bkg" Color="{StaticResource Gray.250}" />
+
+			<SolidColorBrush x:Key="recentlist.disabled.fg" Color="{StaticResource Gray.600}" />
+			<SolidColorBrush x:Key="recentlist.disabled.bkg" Color="{StaticResource Blue.400}" />
+
+			<SolidColorBrush x:Key="listbox.item.mouseover.fg" Color="{StaticResource Gray.900}" />
+			<SolidColorBrush x:Key="listbox.item.mouseover.bkg" Color="{StaticResource Blue.500}" />
+
+			<SolidColorBrush x:Key="listbox.item.disabled.fg" Color="{StaticResource Gray.650}" />
+			<SolidColorBrush x:Key="listbox.item.disabled.bkg" Color="{StaticResource Blue.300}" />
+
 
 			<Style x:Key="tbk.hdr"
 					TargetType="TextBlock"
@@ -61,15 +124,73 @@
 				<Setter Property="VerticalAlignment" Value="Bottom" />
 			</Style>
 
-			<Style x:Key="tbk.grid"
-					TargetType="TextBlock"
+
+			<!--  <Style x:Key="tbk.grid"  -->
+			<!--  TargetType="TextBlock"  -->
+			<!--  >  -->
+			<!-- 	<Setter Property="Background" Value="{StaticResource grid.tbk.Bkg}" /> -->
+			<!-- 	<Setter Property="Foreground" Value="{StaticResource grid.tx.fg}" /> -->
+			<!-- 	<Setter Property="Margin" Value="0,0,5,0" /> -->
+			<!-- 	<Setter Property="Padding" Value="2,0,0,1" /> -->
+			<!-- 	<Setter Property="VerticalAlignment" Value="Center" /> -->
+			<!-- 	<Style.Triggers> -->
+			<!-- 		<Trigger Property="IsEnabled" Value="False"> -->
+			<!-- 			<Setter Property="Foreground" Value="{StaticResource grid.tbk.disabled.fg}" /> -->
+			<!-- 			<Setter Property="Background" Value="{StaticResource grid.tbk.disabled.bkg}" /> -->
+			<!-- 		</Trigger> -->
+			<!-- 	</Style.Triggers> -->
+			<!-- </Style> -->
+
+			<Style x:Key="tbx.grid"
+					TargetType="TextBox"
 					>
+				<Setter Property="BorderThickness" Value="0" />
 				<Setter Property="Background" Value="{StaticResource grid.tbk.Bkg}" />
 				<Setter Property="Foreground" Value="{StaticResource grid.tx.fg}" />
 				<Setter Property="Margin" Value="0,0,5,0" />
 				<Setter Property="Padding" Value="2,0,0,1" />
 				<Setter Property="VerticalAlignment" Value="Center" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Foreground" Value="{StaticResource grid.tbk.disabled.fg}" />
+						<Setter Property="Background" Value="{StaticResource grid.tbk.disabled.bkg}" />
+					</Trigger>
+					<!-- <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=IsEnabled}" Value="false"> -->
+					<!-- 	<Setter Property="Foreground" Value="{StaticResource grid.tbk.disabled.fg}" /> -->
+					<!-- 	<Setter Property="Background" Value="{StaticResource grid.tbk.disabled.bkg}" /> -->
+					<!-- </DataTrigger> -->
+				</Style.Triggers>
 			</Style>
+
+
+
+			<Style x:Key="tbk.status"
+					TargetType="TextBlock"
+					>
+				<Setter Property="IsEnabled" Value="{Binding ItemCanEdit, Mode=OneWay}">
+				</Setter>
+				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource tbk.fg}" />
+				<Setter Property="Margin" Value="0,2,5,2" />
+				<Setter Property="Padding" Value="4,0,4,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Style.Triggers>
+					<Trigger Property="IsEnabled" Value="False">
+						<Setter Property="Background" Value="{StaticResource tbx.disabled.Bkg}" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+
+			<Style x:Key="btn.std.style"
+					TargetType="Button"
+					BasedOn="{StaticResource Button.Normal.Style}"
+					>
+				<!-- <Setter Property="custom:CustomProperties.GenericBrushOne" Value="{StaticResource Normal.MouseOver.Foreground}"></Setter> -->
+				<!-- <Setter Property="custom:CustomProperties.GenericBrushOne" Value="{StaticResource Normal.MouseOver.Background}"></Setter> -->
+			</Style>
+
 
 			<Style x:Key="lbl.edit"
 					TargetType="Label"
@@ -80,8 +201,9 @@
 				<Setter Property="Margin" Value="0,2,5,2" />
 				<Setter Property="Padding" Value="4,0,0,1" />
 				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
 				<Setter Property="BorderThickness" Value="0" />
-				<Setter Property="IsEnabled" Value="{Binding CanEdit, Mode=OneWay}" />
+				<Setter Property="IsEnabled" Value="{Binding ItemCanEdit, Mode=OneWay}" />
 				<Style.Triggers>
 					<Trigger Property="IsEnabled" Value="False">
 						<Setter Property="Foreground" Value="{StaticResource lbl.disabled.fg}" />
@@ -92,22 +214,50 @@
 				</Style.Triggers>
 			</Style>
 
+
+
+			<Style x:Key="lbl.mgmt.info"
+					TargetType="Label"
+					>
+				<Setter Property="Background" Value="{StaticResource lbl.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource lbl.disabled.fg}" />
+				<Setter Property="Margin" Value="0,2,5,2" />
+				<Setter Property="Padding" Value="4,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="BorderThickness" Value="0" />
+			</Style>
+
+			<Style x:Key="lbl.mgmt.info.symbol"
+					TargetType="Label" BasedOn="{StaticResource lbl.mgmt.info}"
+					>
+				<Setter Property="Background" Value="{StaticResource lbl.stat.Bkg}" />
+				<Setter Property="Foreground" Value="White" />
+				<Setter Property="Margin" Value="0,0,5,0" />
+				<Setter Property="Padding" Value="0,0,0,1" />
+				<Setter Property="HorizontalContentAlignment" Value="Center" />
+				<Setter Property="MinWidth" Value="12"/>
+				<Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+			</Style>
+
+
+
+
 			<Style x:Key="lbl.status"
 					TargetType="Label"
 					BasedOn="{StaticResource lbl.edit}"
 					>
-				<Setter Property="Width" Value="NaN" />
+
 				<Setter Property="Padding" Value="2,2,2,2" />
-				<Setter Property="FontSize" Value="12" />
+				<Setter Property="FontSize" Value="10" />
 			</Style>
 
 
 			<Style x:Key="tbx.edit"
 					TargetType="TextBox"
 					>
-				<Setter Property="IsEnabled" Value="{Binding CanEdit, Mode=OneWay}">
-				</Setter>
-				<Setter Property="Width" Value="170" />
+				<Setter Property="IsEnabled" Value="{Binding ItemLockableCanEdit, Mode=OneWay}" />
+				<Setter Property="Width" Value="{StaticResource tbx.edit.width}" />
 				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
 				<Setter Property="Foreground" Value="{StaticResource tbk.fg}" />
 				<Setter Property="Margin" Value="0,2,5,2" />
@@ -119,6 +269,90 @@
 						<Setter Property="Background" Value="{StaticResource tbx.disabled.Bkg}" />
 					</Trigger>
 				</Style.Triggers>
+			</Style>
+
+
+			<Style x:Key="tbx.mgmt.info"
+					TargetType="TextBox"
+					>
+				<!-- <Setter Property="Width" Value="{StaticResource tbx.edit.width}" /> -->
+				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource tbk.fg}" />
+				<Setter Property="Margin" Value="0,2,0,2" />
+				<Setter Property="Padding" Value="2,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="BorderThickness" Value="0" />
+			</Style>
+
+			<Style x:Key="tbx.mgmt.info.readonly"
+					TargetType="TextBox"
+					BasedOn="{StaticResource tbx.mgmt.info}"
+					>
+				<!-- <Setter Property="Width" Value="{StaticResource tbx.edit.width}" /> -->
+				<Setter Property="Foreground" Value="{StaticResource tbk.fg.ro}" />
+				<Setter Property="IsReadOnly" Value="true"/>
+				<Setter Property="IsEnabled" Value="False"/>
+			</Style>
+
+
+
+
+			<Style x:Key="lbl.setting"
+					TargetType="Label"
+					BasedOn="{StaticResource lbl.mgmt.info}"
+					>
+				<Setter Property="FontSize" Value="14">
+				</Setter>
+
+			</Style>
+
+
+			<Style x:Key="tbk.setting.value"
+					TargetType="TextBlock"
+					>
+				<!-- <Setter Property="Width" Value="{StaticResource tbx.edit.width}" /> -->
+				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
+				<Setter Property="Foreground" Value="{StaticResource tbk.fg}" />
+				<Setter Property="Margin" Value="0,2,0,2" />
+				<Setter Property="Padding" Value="5,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="FontSize" Value="14" />
+			</Style>
+
+			<Style x:Key="tbk.setting.bool"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Background" Value="{StaticResource tbk.Bkg}" />
+				<Setter Property="Margin" Value="0,2,0,2" />
+				<Setter Property="Padding" Value="5,0,0,1" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="FontSize" Value="14" />
+				<Setter Property="Foreground" Value="Gray" />
+				<Style.Triggers>
+					<DataTrigger Value="true" Binding="{Binding RelativeSource={RelativeSource Self}, Path=(shsup:CustomProperties.GenericBoolOne)}">
+						<Setter Property="Foreground" Value="MediumSpringGreen">
+						</Setter>
+					</DataTrigger>
+					<DataTrigger Value="false" Binding="{Binding RelativeSource={RelativeSource Self}, Path=(shsup:CustomProperties.GenericBoolOne)}">
+						<Setter Property="Foreground" Value="DarkOrange">
+						</Setter>
+					</DataTrigger>
+				</Style.Triggers>
+
+			</Style>
+
+
+
+
+
+			<Style x:Key="tbx.edit.lock"
+					TargetType="TextBox"
+					BasedOn="{StaticResource tbx.edit}"
+					>
+				<Setter Property="IsEnabled" Value="{Binding ItemCanEdit, Mode=OneWay}" />
 			</Style>
 
 			<Style x:Key="tbx.no.edit"
@@ -134,20 +368,128 @@
 					>
 				<Setter Property="Padding" Value="2,2,2,2" />
 				<Setter Property="Width" Value="NaN" />
-				<Setter Property="FontSize" Value="12" />
+				<Setter Property="FontSize" Value="10" />
 			</Style>
 
 
 			<SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
 			<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
-			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
-			<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" />
 
-			<Style x:Key="ListBoxStyle1"
-					TargetType="{x:Type ListBox}"
+			<!-- <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" /> -->
+			<!-- <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" /> -->
+
+			<SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FF444444" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FF222222" />
+
+			<Style x:Key="LbxStyle"
+					TargetType="ListBox"
 					>
 				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
 				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+				<Setter Property="ScrollViewer.PanningMode" Value="Both" />
+				<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ListBox}">
+							<Border x:Name="Bd"
+									Padding="1"
+									Background="{TemplateBinding Background}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									SnapsToDevicePixels="true"
+									>
+								<ScrollViewer
+										Padding="{TemplateBinding Padding}"
+										Focusable="false"
+										>
+									<StackPanel>
+										<StackPanel
+												Margin="3,0,0,1"
+												Height="14"
+												Background="Black"
+												Orientation="Horizontal"
+												>
+											<TextBlock
+													Margin="4,0,5,0"
+													Width="{StaticResource editing}"
+													Padding="0,0,0,1"
+													Text="Edit OK"
+													TextAlignment="Center"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colK2}"
+													Text="Key"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colLock}"
+													Text="Locked"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colDcode}"
+													Text="Disc Code"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colTitle}"
+													Text="Title"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colDname}"
+													Text="Display Name"
+													Style="{StaticResource tbk.hdr}"
+													/>
+											<TextBlock
+													Width="{StaticResource colDesc}"
+													Text="Description"
+													Style="{StaticResource tbk.hdr}"
+													/>
+										</StackPanel>
+										<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+									</StackPanel>
+								</ScrollViewer>
+							</Border>
+							<ControlTemplate.Triggers>
+								<!-- <Trigger Property="IsEnabled" Value="false"> -->
+								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" /> -->
+								<!-- 	<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border}" /> -->
+								<!-- </Trigger> -->
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsGrouping" Value="true" />
+										<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+									</MultiTrigger.Conditions>
+									<Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+								</MultiTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+
+			</Style>
+
+
+			<SolidColorBrush x:Key="ListBox.Static.Background1" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Static.Border1" Color="#FFABADB3" />
+
+			<SolidColorBrush x:Key="ListBox.Disabled.Background1" Color="#FFFFFFFF" />
+			<SolidColorBrush x:Key="ListBox.Disabled.Border1" Color="#FFD9D9D9" />
+
+			<Style x:Key="ListBoxStyle2"
+					TargetType="ListBox"
+					>
+				<Setter Property="Background" Value="{StaticResource ListBox.Static.Background1}" />
+				<Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border1}" />
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -166,48 +508,18 @@
 									BorderBrush="{TemplateBinding BorderBrush}"
 									SnapsToDevicePixels="true"
 									>
-								<ScrollViewer Padding="{TemplateBinding Padding}"
+								<ScrollViewer
+										Padding="{TemplateBinding Padding}"
 										Focusable="false"
 										>
-									<StackPanel>
-										<StackPanel Margin="0,0,0,1"
-												Height="14"
-												Background="Black"
-												Orientation="Horizontal"
-												>
-											<TextBlock Margin="4,0,5,0"
-													Width="{StaticResource col1}"
-													Padding="0,0,0,1"
-													Text="#"
-													TextAlignment="Center"
-													Style="{StaticResource tbk.hdr}"
-													/>
-											<TextBlock Width="{StaticResource col2}"
-													Text="Key"
-													Style="{StaticResource tbk.hdr}"
-													/>
-											<TextBlock Width="{StaticResource col3}"
-													Text="Key"
-													Style="{StaticResource tbk.hdr}"
-													/>
-											<TextBlock Width="{StaticResource col4}"
-													Text="Title"
-													Style="{StaticResource tbk.hdr}"
-													/>
-											<TextBlock Width="{StaticResource col5}"
-													Text="Description"
-													Style="{StaticResource tbk.hdr}"
-													/>
-										</StackPanel>
-										<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-									</StackPanel>
+									<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 								</ScrollViewer>
 							</Border>
 							<ControlTemplate.Triggers>
-								<Trigger Property="IsEnabled" Value="false">
-									<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
-									<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border}" />
-								</Trigger>
+								<!-- <Trigger Property="IsEnabled" Value="false"> -->
+								<!-- 	<Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background1}" /> -->
+								<!-- 	<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border1}" /> -->
+								<!-- </Trigger> -->
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
 										<Condition Property="IsGrouping" Value="true" />
@@ -221,6 +533,109 @@
 				</Setter>
 			</Style>
 
+			<DataTemplate x:Key="LbxItemTemplate"
+					DataType="{x:Type discData:DisciplineListData}"
+
+					>
+
+				<StackPanel
+						Margin="-2,1,0,1"
+						IsEnabled="{Binding Path=DataIsEditing,
+																FallbackValue='true'}"
+						Orientation="Horizontal"
+						OverridesDefaultStyle="True"
+						MouseUp="Control_OnMouseUp"
+						>
+						<!-- DataContext="{Binding}" -->
+
+					<TextBox
+							Margin="4,0,5,0"
+							Width="{StaticResource editing}"
+							Background="White"
+							Foreground="DimGray"
+							Text="{Binding DataIsEditing}"
+							/>
+					<!--  DataContext="{Binding RelativeSource= {RelativeSource AncestorType={x:Type ListBoxItem}}}"  -->
+
+					<TextBox
+							Width="{StaticResource colK2}"
+							IsEnabled="False"
+							Text="{Binding Path=OrderCode,
+														 FallbackValue=hello,
+														 StringFormat='.{0}.'}"
+							MouseDoubleClick="Control_OnMouseDoubleClick"
+							Style="{StaticResource tbx.grid}"
+							/>
+
+					<StackPanel
+							Margin="0,0,5,0"
+							Width="{StaticResource colLock}"
+							Background="{StaticResource grid.tbk.Bkg}"
+							>
+						<CheckBox Tag="{x:Static local:MainWindow.IS_LOCKED}"
+								HorizontalAlignment="Center"
+								IsChecked="{Binding Path=DisciplineData.Locked,
+																		FallbackValue='false'}"
+								LostFocus="ChkBox_LostFocus"
+								MouseDoubleClick="Control_OnMouseDoubleClick"
+						/>
+					</StackPanel>
+
+					<TextBox Tag="{x:Static local:MainWindow.DISC_CODE}"
+							Width="{StaticResource colDcode}"
+							Text="{Binding Path=DisciplineData.DisciplineCode,
+														 FallbackValue=hello}"
+							LostFocus="Tbx_LostFocus"
+							MouseDoubleClick="Control_OnMouseDoubleClick"
+							Style="{StaticResource tbx.grid}"
+							/>
+					<!--  LostFocus="TextBox_LostFocus"  -->
+
+					<TextBox Tag="{x:Static local:MainWindow.TITLE}"
+							Width="{StaticResource colTitle}"
+							Text="{Binding Path=DisciplineData.Title,
+														 FallbackValue=hello}"
+							LostFocus="Tbx_LostFocus"
+							MouseDoubleClick="Control_OnMouseDoubleClick"
+							Style="{StaticResource tbx.grid}"
+							/>
+
+					<TextBox Tag="{x:Static local:MainWindow.DISP_NAME}"
+							Width="{StaticResource colDname}"
+							Text="{Binding Path=DisciplineData.DisplayName,
+														 FallbackValue=hello}"
+							LostFocus="Tbx_LostFocus"
+							MouseDoubleClick="Control_OnMouseDoubleClick"
+							Style="{StaticResource tbx.grid}"
+							/>
+					<TextBox Tag="{x:Static local:MainWindow.DESC}"
+							Width="{StaticResource colDesc}"
+							Text="{Binding Path=DisciplineData.Description,
+														 FallbackValue=hello}"
+							LostFocus="Tbx_LostFocus"
+							MouseDoubleClick="Control_OnMouseDoubleClick"
+							Style="{StaticResource tbx.grid}"
+							/>
+				</StackPanel>
+
+			</DataTemplate>
+			<Style x:Key="FocusVisual">
+				<Setter Property="Control.Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Rectangle
+									Margin="2"
+									StrokeDashArray="1 2"
+									Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+									SnapsToDevicePixels="true"
+									StrokeThickness="1"
+									/>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
 		</ResourceDictionary>
 
 	</Window.Resources>
@@ -228,30 +643,275 @@
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="180" />
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
+			<RowDefinition Height="30" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 
-		<Grid Grid.Column="0"
+		<DockPanel x:Name="FileBEingProcessed"
+				Grid.Column="0"
 				Grid.Row="0"
+				Margin="5,5,5,0"
+				HorizontalAlignment="Stretch"
+				>
+			<Border
+					Height="18"
+					Padding="0,1,0,2"
+					VerticalAlignment="Center"
+					Background="{StaticResource lbl.Bkg}"
+					>
+				<Label
+						Content="Editing"
+						Margin="0,-4,0,0"
+						Width="70"
+						Padding="5,0,0,0"
+						VerticalAlignment="Bottom"
+						FontSize="14"
+						Background="Transparent"
+						Foreground="White"
+						/>
+			</Border>
+
+			<Border
+					Height="18"
+					Padding="0,1,0,2"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Background="Black"
+					>
+				<TextBlock
+						Margin="0,0,0,0"
+						Padding="5,0,0,0"
+						VerticalAlignment="Bottom"
+						FontSize="14"
+						Background="Transparent"
+						Foreground="White"
+						Text="{Binding Dfm.DisciplineDataFilePath,
+													 Mode=OneWay,
+													 TargetNullValue='No File Open',
+													 FallbackValue='c:\\text\\test\\test'}"
+						/>
+			</Border>
+
+		</DockPanel>
+
+		<DockPanel x:Name="RecentList"
+				Grid.Column="1"
+				Grid.Row="0"
+				Grid.RowSpan="2"
+				Margin="5,5,5,0"
+				HorizontalAlignment="Stretch"
+				>
+			<Border
+					Margin="0,3,0,0"
+					Height="18"
+					Padding="0,1,0,2"
+					VerticalAlignment="Center"
+					Background="{StaticResource lbl.Bkg}"
+					DockPanel.Dock="Top"
+					>
+				<Label
+						Content="Recent File List"
+						Margin="0,-4,0,0"
+						Padding="5,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						FontSize="14"
+						Background="Transparent"
+						Foreground="White"
+						/>
+			</Border>
+
+			<StackPanel
+					DockPanel.Dock="Bottom"
+					Orientation="Vertical"
+					>
+
+				<ListBox x:Name="lbxRecent"
+						HorizontalContentAlignment="Stretch"
+						DataContext="{Binding ElementName=WinMainDisciplineEd}"
+						FontFamily="Consolas"
+						Background="Transparent"
+						BorderThickness="0"
+						IsEnabled="{Binding ElementName=WinMainDisciplineEd,
+																Path=OpenColl_Enabled}"
+						IsSynchronizedWithCurrentItem="True"
+						d:ItemsSource="{d:SampleData}"
+						SelectionMode="Single"
+						ScrollViewer.VerticalScrollBarVisibility="Hidden"
+						ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+						SelectedIndex="{Binding RecentSelectedIndex,
+																		Mode=TwoWay}"
+						SelectedItem="{Binding RecentSelectedItem,
+																	 Mode=OneWayToSource}"
+						MouseLeftButtonUp="LbxRecent_OnMouseLeftButtonUp"
+						ItemsSource="{Binding Uss.RecentList,
+																	Mode=OneWay}"
+						Style="{DynamicResource ListBoxStyle2}"
+						Validation.ErrorTemplate="{x:Null}"
+						>
+
+					<ListBox.ItemTemplate>
+						<DataTemplate DataType="{x:Type sm:RecentItem}">
+							<DockPanel Height="18">
+
+
+								<Button x:Name="btnRemoveRecent"
+										DockPanel.Dock="right"
+										BorderThickness="0"
+										Click="BtnRemoveRecent_OnClick"
+								>
+									<Button.Content>
+										<StackPanel>
+											<Path
+												VerticalAlignment="Bottom"
+												Width="14"
+												Height="16"
+												Stretch="Uniform"
+												Margin="0,-1,0,0"
+										>
+												<Path.Style>
+													<Style TargetType="Path">
+														<Setter Property="Data" Value="{StaticResource Icon.X.Script}"/>
+														<Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"/>
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Tag}"
+																Value="{StaticResource zero}">
+																<Setter Property="Data" Value="{StaticResource Icon.Not}"/>
+																<Setter Property="Fill" Value="{StaticResource recentlist.disabled.fg}"/>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Path.Style>
+											</Path>
+										</StackPanel>
+									</Button.Content>
+
+									<Button.Style>
+										<Style TargetType="Button">
+
+											<!--  BasedOn="{StaticResource btn.std.style}"  -->
+											<Setter Property="VerticalContentAlignment" Value="Top" />
+											<Setter Property="Margin" Value="2,0,0,0" />
+											<Setter Property="Padding" Value="3,0,4,0" />
+											<Setter Property="IsEnabled" Value="True" />
+											<Setter Property="Background" Value="Black" />
+											<Setter Property="Foreground" Value="White" />
+											<Setter Property="ToolTip" Value="Remove from the List"/>
+											<Setter Property="Template" Value="{StaticResource Button.Dark.ControlTemplate}" />
+
+
+
+											<!-- <Trigger Property="IsPressed" Value="false"> -->
+											<Style.Triggers>
+												<Trigger Property="Tag" Value="{StaticResource zero}">
+													<Setter Property="BorderThickness" Value="0" />
+													<Setter Property="ToolTip" Value="Cannot be removed"/>
+													<Setter Property="Background" Value="{StaticResource recentlist.disabled.bkg}" />
+													<Setter Property="IsEnabled" Value="False" />
+												</Trigger>
+											</Style.Triggers>
+
+										</Style>
+									</Button.Style>
+
+									<Button.Tag>
+										<MultiBinding
+												Converter="{StaticResource MultiObject}"
+												FallbackValue="0"
+												>
+											<Binding RelativeSource="{RelativeSource AncestorType={x:Type ListBox}}" />
+											<Binding RelativeSource="{RelativeSource AncestorType={x:Type ListBoxItem}}" />
+
+										</MultiBinding>
+									</Button.Tag>
+								</Button>
+
+
+								<TextBlock Name="TbkRecentItem"
+										Padding="5,2,5,2"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Bottom"
+										
+										DockPanel.Dock="left"
+										ToolTip="{Binding ToolTip}"
+										Text="{Binding Path=FileNameEllipsised,
+																	 Mode=OneWay}"
+										>
+									<TextBlock.Style>
+										<Style TargetType="TextBlock">
+											<Setter Property="Foreground" Value="White" />
+											<Setter Property="Background" Value="Transparent" />
+
+											<Style.Triggers>
+												<Trigger Property="IsMouseOver" Value="true">
+													<Setter Property="Background" Value="{StaticResource listbox.item.mouseover.bkg}" />
+													<Setter Property="Foreground" Value="{StaticResource listbox.item.mouseover.fg}" />
+												</Trigger>
+												<Trigger Property="IsEnabled" Value="false">
+													<Setter Property="Background" Value="{StaticResource listbox.item.disabled.bkg}" />
+													<Setter Property="Foreground" Value="{StaticResource listbox.item.disabled.fg}" />
+
+												</Trigger>
+
+											</Style.Triggers>
+
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+
+							</DockPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+
+				</ListBox>
+			</StackPanel>
+
+
+
+		</DockPanel>
+
+
+		<Button x:Name="BtnExit"
+				Content="Exit"
+				Grid.Column="1"
+				Grid.Row="2"
+				Margin="5"
+				Width="{StaticResource BtnWidth}"
+				Height="{StaticResource BtnHeight}"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				IsEnabled="{Binding ExitEnabled}"
+				Style="{StaticResource btn.std.style}"
+				Template="{StaticResource Button.Normal.ControlTemplate}"
+				Click="BtnExit_OnClick"
+				/>
+
+
+		<Grid
+				Grid.Column="0"
+				Grid.Row="1"
+				Grid.RowSpan="2"
 				>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="350" />
+				<ColumnDefinition Width="650" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
 			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<TextBox Grid.Column="0"
+			<TextBox
+					Grid.Column="0"
 					Grid.Row="0"
-					Margin="5"
+					Margin="5,5,5,0"
 					HorizontalAlignment="Stretch"
 					FontFamily="Consolas"
 					Background="Transparent"
@@ -269,84 +929,1380 @@
 				</TextBox.Resources>
 			</TextBox>
 
-
-			<ListBox Grid.Column="1"
+			<DockPanel
+					Grid.Column="1"
 					Grid.Row="0"
 					Margin="5"
 					DataContext="{Binding ElementName=WinMainDisciplineEd}"
+					>
+
+				<Grid
+						VerticalAlignment="Stretch"
+						DockPanel.Dock="Top"
+						>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="90" />
+						<ColumnDefinition Width="18" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="8" />
+						<ColumnDefinition Width="90" />
+						<ColumnDefinition Width="18"/>
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="User Settings Management Info"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="7"
+							Margin="0,3,0,3"
+							Padding="4,1,0,3"
+							VerticalAlignment="Center"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+					<DockPanel
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="3"
+							HorizontalAlignment="Stretch"
+							>
+						<Label
+								Content="{Binding Dfm.HeaderHasChangesString}"
+								Margin="0,1,0,2"
+								Padding="4,0,0,2"
+								VerticalAlignment="Stretch"
+								Background="{StaticResource lbl.Bkg}"
+								Foreground="White"
+								/>
+
+
+						<!--  <Label Content="Info Data"  -->
+						<!--  VerticalAlignment="Center"  -->
+						<!--  Margin="0,1,0,2"  -->
+						<!--  Padding="4,0,0,2"  -->
+						<!--  Background="{StaticResource lbl.Bkg}"  -->
+						<!--  Foreground="White" />  -->
+					</DockPanel>
+
+					<Label
+							Content="FileType"
+							Grid.Column="0"
+							Grid.Row="2"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<TextBox
+							Grid.Column="2"
+							Grid.Row="2"
+
+							Text="{Binding Dfm.DdInfoFileType,
+														 Mode=OneWay,
+														 FallbackValue='filetype'}"
+							Style="{StaticResource tbx.mgmt.info.readonly}"
+							/>
+					<!--  DataContext="{Binding ElementName=WinMainDisciplineEd}"  -->
+
+					<Label
+							Content="Description"
+							Grid.Column="0"
+							Grid.Row="3"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoDescChgStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="1"
+							Grid.Row="3"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+							>
+						<!-- 	<Label.Content> -->
+						<!--    -->
+						<!-- <Binding Path="Dfm.DdInfoDescChgStat" Converter="{StaticResource BoolToSymbol}"> -->
+						<!-- 	<Binding.ConverterParameter> -->
+						<!-- 		<specialized:StringCollection> -->
+						<!-- 			<sys:String>.</sys:String> -->
+						<!-- 			<sys:String>Y</sys:String> -->
+						<!-- 			<sys:String>N</sys:String> -->
+						<!-- 		</specialized:StringCollection> -->
+						<!-- 	</Binding.ConverterParameter> -->
+						<!-- </Binding> -->
+						<!-- 	</Label.Content> -->
+
+					</Label>
+
+					<TextBox
+							Grid.Column="2"
+							Grid.Row="3"
+							IsEnabled="{Binding Dfm.DataFileOpened}"
+							Text="{Binding Dfm.DdInfoDesc,
+														 Mode=TwoWay,
+														 FallbackValue='description'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Notes"
+							Grid.Column="0"
+							Grid.Row="4"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoNotesChgStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='✔'}"
+							Grid.Column="1"
+							Grid.Row="4"
+							Style="{StaticResource lbl.mgmt.info.symbol}" 
+							>
+						<!-- <Label.Content> -->
+						<!-- <Binding Path="Dfm.DdInfoNotesChgStat" Converter="{StaticResource BoolToSymbol}"> -->
+						<!-- 	<Binding.ConverterParameter> -->
+						<!-- 		<specialized:StringCollection> -->
+						<!-- 			<sys:String>.</sys:String> -->
+						<!-- 			<sys:String>Y</sys:String> -->
+						<!-- 			<sys:String>N</sys:String> -->
+						<!-- 		</specialized:StringCollection> -->
+						<!-- 	</Binding.ConverterParameter> -->
+						<!-- </Binding> -->
+						<!-- </Label.Content> -->
+					</Label>
+
+					<TextBox
+							Grid.Column="2"
+							Grid.Row="4"
+							IsEnabled="{Binding Dfm.DataFileOpened}"
+							Text="{Binding Dfm.DdInfoNotes,
+														 Mode=TwoWay,
+														 FallbackValue='notes'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Data Class Ver"
+							Grid.Column="0"
+							Grid.Row="5"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoClsVerChgStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="1"
+							Grid.Row="5"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+							/>
+
+					<TextBox
+							Grid.Column="2"
+							Grid.Row="5"
+							IsEnabled="{Binding Dfm.DataFileOpened}"
+							Text="{Binding Dfm.DdInfoClsVer,
+														 Mode=TwoWay,
+														 FallbackValue='data class version'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Header Data"
+							Grid.Column="4"
+							Grid.Row="1"
+							Grid.ColumnSpan="3"
+							Margin="0,1,0,2"
+							Padding="4,0,0,2"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="Assembly Name"
+							Grid.Column="4"
+							Grid.Row="2"
+							Style="{StaticResource lbl.mgmt.info}"
+					/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoHdrAssembNameStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="5"
+							Grid.Row="2"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+					/>
+
+					<TextBox
+							Grid.Column="6"
+							Grid.Row="2"
+							Text="{Binding Dfm.DdInfoHdrAssembName,
+														 Mode=TwoWay,
+														 FallbackValue='Assembly name'}"
+							Style="{StaticResource tbx.mgmt.info}"
+					/>
+
+					<Label
+							Content="Assembly Ver"
+							Grid.Column="4"
+							Grid.Row="3"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoHdrAssembVerStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="5"
+							Grid.Row="3"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+					/>
+
+					<TextBox
+							Grid.Column="6"
+							Grid.Row="3"
+							Text="{Binding Dfm.DdInfoHdrAssembVer,
+														 Mode=TwoWay,
+														 FallbackValue='Assembly ver'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Save date time"
+							Grid.Column="4"
+							Grid.Row="4"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+							
+					<Label
+							Content="{Binding Dfm.DdInfoHdrSaveDateTimeStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="5"
+							Grid.Row="4"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+					/>
+
+					<TextBox
+							Grid.Column="6"
+							Grid.Row="4"
+
+							Text="{Binding Dfm.DdInfoHdrSaveDateTime,
+														 Mode=TwoWay,
+														 FallbackValue='save data time'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Saved By"
+							Grid.Column="4"
+							Grid.Row="5"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+														
+					<Label
+							Content="{Binding Dfm.DdInfoHdrSaveByStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="5"
+							Grid.Row="5"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+					/>
+
+					<TextBox
+							Grid.Column="6"
+							Grid.Row="5"
+							Text="{Binding Dfm.DdInfoHdrSaveBy,
+														 Mode=TwoWay,
+														 FallbackValue='save by'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label
+							Content="Settings Ver"
+							Grid.Column="4"
+							Grid.Row="6"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<Label
+							Content="{Binding Dfm.DdInfoHdrSetgVerStat,
+																Converter={StaticResource BoolToSymbol},
+																ConverterParameter={StaticResource boolSymbols},
+																FallbackValue='Y'}"
+							Grid.Column="5"
+							Grid.Row="6"
+							Style="{StaticResource lbl.mgmt.info.symbol}"
+					/>
+
+					<TextBox
+							Grid.Column="6"
+							Grid.Row="6"
+							Text="{Binding Dfm.DdInfoHdrSetgVer,
+														 Mode=TwoWay,
+														 FallbackValue='settings version'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+
+
+					<!-- removed
+					<Label Content="Discipline Data File Info"
+							Grid.Column="0"
+							Grid.Row="6"
+							Grid.ColumnSpan="3"
+							Margin="0,1,0,2"
+							Padding="4,0,0,2"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<Label Content="Data File Ver"
+							Grid.Column="0"
+							Grid.Row="7"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<TextBox Grid.Column="2"
+							Grid.Row="7"
+							Text="{Binding Dfm.DdDataFileVer,
+														 Mode=OneWay,
+														 FallbackValue='data fileversion'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+					<Label Content="Data File Desc"
+							Grid.Column="0"
+							Grid.Row="8"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+						-->
+
+					<!--  Tag="{Binding Path=Dfm.PropChanged,  -->
+					<!--  Converter={StaticResource xValue},  -->
+					<!--  ConverterParameter={StaticResource x}, TargetNullValue='false'}"  -->
+
+					<!-- removed
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="8"
+							Background="Black"
+							Text="{Binding Dfm.DdFileDescChanged}"
+							/>
+
+					<TextBox Grid.Column="2"
+							Grid.Row="8"
+							Text="{Binding Dfm.DdFileDesc,
+														 Mode=TwoWay,
+														 FallbackValue='data file desc'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+
+
+
+					<Label Content="Data File Notes"
+							Grid.Column="0"
+							Grid.Row="9"
+							Style="{StaticResource lbl.mgmt.info}"
+							/>
+
+					<TextBox Grid.Column="2"
+							Grid.Row="9"
+							Text="{Binding Dfm.DdFileNotes,
+														 Mode=OneWay,
+														 FallbackValue='data file notes'}"
+							Style="{StaticResource tbx.mgmt.info}"
+							/>
+					-->
+
+				</Grid>
+
+			</DockPanel>
+
+			<ListBox x:Name="Lbx"
+					Grid.Column="1"
+					Grid.Row="1"
+					Margin="5,5,5,5"
+					DataContext="{Binding ElementName=WinMainDisciplineEd}"
 					FontFamily="Consolas"
 					Background="Transparent"
+					Foreground="White"
+					IsEnabled="{Binding IsEditing,
+															Converter={StaticResource InvertBool},
+															FallbackValue='true'}"
 					d:ItemsSource="{d:SampleData}"
-					SelectedIndex="{Binding SelectedIndex,
+					SelectedIndex="{Binding LbxSelectedIndex,
 																	Mode=TwoWay,
 																	FallbackValue='0'}"
-					SelectedItem="{Binding Path=Selected,
+					SelectedItem="{Binding LbxSelectedItem,
 																 Mode=TwoWay}"
 					ScrollViewer.VerticalScrollBarVisibility="Visible"
 					ScrollViewer.HorizontalScrollBarVisibility="Visible"
-					ItemsSource="{Binding Path=Disciplines.Values}"
-					Style="{DynamicResource ListBoxStyle1}"
+					ItemsSource="{Binding DisciplineView}"
+
+					ItemTemplate="{StaticResource LbxItemTemplate}"
+					Style="{DynamicResource LbxStyle}"
+					MouseUp="Lbx_OnMouseUp"
 					>
+				<!-- SelectedItem="{Binding Path=LbxSelectedItem, -->
+				<!-- Mode=TwoWay}" -->
+				<!-- ItemsSource="{Binding Path=Disciplines.Values}" -->
+
 				<ListBox.Resources>
 					<Style TargetType="{x:Type ScrollViewer}">
 						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
 						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="4" />
 						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="4" />
 					</Style>
+
 				</ListBox.Resources>
 
 
+			</ListBox>
 
-				<ListBox.ItemTemplate>
-					<DataTemplate>
 
-						<StackPanel Margin="-2,1,0,1"
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="1"
+					Grid.RowSpan="2"
+					Margin="5"
+					>
+				<Grid DockPanel.Dock="Top">
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="120" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="8" />
+						<ColumnDefinition Width="120" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+
+					<Label
+							Content="Settings"
+							Grid.Column="0"
+							Grid.Row="0"
+							Grid.ColumnSpan="5"
+							Margin="0,1,0,2"
+							Padding="4,0,0,2"
+							VerticalAlignment="Stretch"
+							FontSize="18"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="Win Main Settings"
+							Grid.Column="0"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Margin="0,1,0,2"
+							Padding="4,0,0,2"
+							VerticalAlignment="Stretch"
+							FontSize="16"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="Data File Mgr Settings"
+							Grid.Column="3"
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Margin="0,1,0,2"
+							Padding="4,0,0,2"
+							VerticalAlignment="Stretch"
+							FontSize="16"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+					<Label
+							Content="Sel Idx"
+							Grid.Column="0"
+							Grid.Row="2"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="2"
+							Text="{Binding LbxSelectedIndex,
+														 Mode=OneWay,
+														 FallbackValue='0'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+
+					<Label
+							Content="Sel item"
+							Grid.Column="0"
+							Grid.Row="3"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="3"
+							Text="{Binding LbxSelectedItem.OrderCode,
+														 Mode=OneWay,
+														 TargetNullValue='null',
+														 FallbackValue='code'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+					<Label
+							Content="Recent Sel idx"
+							Grid.Column="0"
+							Grid.Row="4"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="4"
+							Text="{Binding RecentSelectedIndex,
+														 Mode=OneWay,
+														 FallbackValue='0'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+					<Label
+							Content="Recent Sel item"
+							Grid.Column="0"
+							Grid.Row="5"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="5"
+							Text="{Binding RecentSelectedItem.FileNameNoExt,
+														 Mode=OneWay,
+														 FallbackValue='name'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+
+					<Label
+							Content="Is Editing"
+							Grid.Column="0"
+							Grid.Row="6"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="6"
+							shsup:CustomProperties.GenericBoolOne="{Binding IsEditing,
+																															FallbackValue=true}"
+							Text="{Binding IsEditing,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Item can edit"
+							Grid.Column="0"
+							Grid.Row="7"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="7"
+							shsup:CustomProperties.GenericBoolOne="{Binding ItemCanEdit,
+																															FallbackValue=true}"
+							Text="{Binding ItemCanEdit,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Item can save"
+							Grid.Column="0"
+							Grid.Row="8"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="8"
+							shsup:CustomProperties.GenericBoolOne="{Binding ItemCanSave,
+																															FallbackValue=true}"
+							Text="{Binding ItemCanSave,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Item has changes"
+							Grid.Column="0"
+							Grid.Row="9"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="9"
+							shsup:CustomProperties.GenericBoolOne="{Binding ItemHasChanges,
+																															FallbackValue=true}"
+							Text="{Binding ItemHasChanges,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Item is editing"
+							Grid.Column="0"
+							Grid.Row="10"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="10"
+							shsup:CustomProperties.GenericBoolOne="{Binding ItemIsEditing,
+																															FallbackValue=true}"
+							Text="{Binding ItemIsEditing,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Item lkable can edit"
+							Grid.Column="0"
+							Grid.Row="11"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="11"
+							shsup:CustomProperties.GenericBoolOne="{Binding ItemLockableCanEdit,
+																															FallbackValue=true}"
+							Text="{Binding ItemLockableCanEdit,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Collect Changed"
+							Grid.Column="0"
+							Grid.Row="12"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="12"
+							shsup:CustomProperties.GenericBoolOne="{Binding Collection_Changed,
+																															FallbackValue=true}"
+							Text="{Binding Collection_Changed,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<!-- <Label -->
+					<!-- 		Content="Collect Modified" -->
+					<!-- 		Grid.Column="0" -->
+					<!-- 		Grid.Row="13" -->
+					<!-- 		Style="{StaticResource lbl.setting}" -->
+					<!-- 		/> -->
+					<!-- -->
+					<!-- <TextBlock -->
+					<!-- 		Grid.Column="1" -->
+					<!-- 		Grid.Row="13" -->
+					<!-- 		shsup:CustomProperties.GenericBoolOne="{Binding Collection_Modified, -->
+					<!-- 																										FallbackValue=true}" -->
+					<!-- 		Text="{Binding Collection_Modified, -->
+					<!-- 									 Mode=OneWay, -->
+					<!-- 									 Converter={StaticResource BoolToSymbol}, -->
+					<!-- 									 ConverterParameter={StaticResource boolStrings1}, -->
+					<!-- 									 FallbackValue=true}" -->
+					<!-- 		Style="{StaticResource tbk.setting.bool}" -->
+					<!-- 		/> -->
+
+					<Label
+							Content="Collect Opened"
+							Grid.Column="0"
+							Grid.Row="14"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="14"
+							shsup:CustomProperties.GenericBoolOne="{Binding Collection_Opened,
+																															FallbackValue=true}"
+							Text="{Binding Collection_Opened,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="Collect Status"
+							Grid.Column="0"
+							Grid.Row="15"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="1"
+							Grid.Row="15"
+							shsup:CustomProperties.GenericBoolOne="{Binding Collection_Status,
+																															FallbackValue=true}"
+							Text="{Binding Collection_Status,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content=" "
+							Grid.Column="0"
+							Grid.Row="16"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<Label
+							Content="last update status"
+							Grid.Column="0"
+							Grid.Row="17"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock x:Name="TbkLastUpdateStatus"
+							Grid.Column="1"
+							Grid.Row="17"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+					<Label
+							Content="last collect button"
+							Grid.Column="0"
+							Grid.Row="18"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock Name="TbkLastCollButton"
+							Grid.Column="1"
+							Grid.Row="18"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+
+
+					<!--  column 2  -->
+
+
+
+					<Label
+							Content="data file name"
+							Grid.Column="3"
+							Grid.Row="2"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="2"
+							Text="{Binding Dfm.DisciplineDataFileName,
+														 Mode=OneWay,
+														 FallbackValue='name'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+
+
+					<Label
+							Content="data file opened"
+							Grid.Column="3"
+							Grid.Row="3"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="3"
+							shsup:CustomProperties.GenericBoolOne="{Binding Dfm.DataFileOpened,
+																															FallbackValue=true}"
+							Text="{Binding Dfm.DataFileOpened,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="data file status2"
+							Grid.Column="3"
+							Grid.Row="4"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="4"
+							shsup:CustomProperties.GenericBoolOne="{Binding Dfm.DataFileStatus2,
+																															FallbackValue=true}"
+							Text="{Binding Dfm.DataFileStatus2,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="data file exists"
+							Grid.Column="3"
+							Grid.Row="5"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="5"
+							shsup:CustomProperties.GenericBoolOne="{Binding Dfm.DisciplineDataFileExists,
+																															FallbackValue=true}"
+							Text="{Binding Dfm.DisciplineDataFileExists,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="data mgr init"
+							Grid.Column="3"
+							Grid.Row="6"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="6"
+							shsup:CustomProperties.GenericBoolOne="{Binding Dfm.DisciplineDataMgrIsInit,
+																															FallbackValue=true}"
+							Text="{Binding Dfm.DisciplineDataMgrIsInit,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+					<Label
+							Content="header chg count"
+							Grid.Column="3"
+							Grid.Row="7"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="7"
+							Text="{Binding Dfm.HeaderChangeCount,
+														 Mode=OneWay,
+														 FallbackValue='0'}"
+							Style="{StaticResource tbk.setting.value}"
+							/>
+
+
+					<Label
+							Content="header has changes"
+							Grid.Column="3"
+							Grid.Row="8"
+							Style="{StaticResource lbl.setting}"
+							/>
+
+					<TextBlock
+							Grid.Column="4"
+							Grid.Row="8"
+							shsup:CustomProperties.GenericBoolOne="{Binding Dfm.HeaderHasChanges,
+																															FallbackValue=true}"
+							Text="{Binding Dfm.HeaderHasChanges,
+														 Mode=OneWay,
+														 Converter={StaticResource BoolToSymbol},
+														 ConverterParameter={StaticResource boolStrings1},
+														 FallbackValue=true}"
+							Style="{StaticResource tbk.setting.bool}"
+							/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</Grid>
+
+				<DockPanel VerticalAlignment="Bottom">
+
+					<StackPanel
+							VerticalAlignment="Bottom"
+							Orientation="Vertical"
+							DockPanel.Dock="Bottom"
+							>
+
+						<Label
+								Content="User Setting File Info"
+								Margin="0,10,0,2"
+								Padding="4,0,0,2"
+								Background="{StaticResource lbl.Bkg}"
+								Foreground="White"
+								/>
+
+
+						<StackPanel
+								Margin="0,0,5,0"
+								VerticalAlignment="Bottom"
+								DockPanel.Dock="Bottom"
+								Orientation="Horizontal"
+								>
+							<Label
+									Content="File Path"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding Uss.UserSettingsFilePath,
+																 Mode=OneWay,
+																 FallbackValue='C:/test/test/test'}"
+									Style="{StaticResource tbx.status}"
+									/>
+						</StackPanel>
+
+						<StackPanel
+								Margin="0,0,5,0"
+								VerticalAlignment="Bottom"
+								DockPanel.Dock="Bottom"
+								Orientation="Horizontal"
+								>
+							<Label
+									Content="File Exists"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding Uss.UserSettingsFileExists,
+																 Mode=OneWay,
+																 FallbackValue='C:/test/test/test'}"
+									Style="{StaticResource tbx.status}"
+									/>
+
+							<Label
+									Content="Discipline File Path Exists"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding Uss.HasDisciplineDataFilePath,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
+									/>
+
+
+
+						</StackPanel>
+
+						<StackPanel
+								Margin="0,0,5,0"
+								VerticalAlignment="Bottom"
+								DockPanel.Dock="Bottom"
+								Orientation="Horizontal"
+								>
+							<Label
+									Content="Data File Path"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding Uss.SettingsDataFilePathEllipsised,
+																 Mode=OneWay,
+																 FallbackValue='C:/test/test/test'}"
+									Style="{StaticResource tbx.status}"
+									/>
+						</StackPanel>
+
+						<StackPanel
+								Margin="0,0,5,0"
+								VerticalAlignment="Bottom"
+								DockPanel.Dock="Bottom"
+								Orientation="Horizontal"
+								>
+							<Label
+									Content="Data File Name"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding Uss.SettingDataFileName,
+																 Mode=OneWay,
+																 FallbackValue='file name'}"
+									Style="{StaticResource tbx.status}"
+									/>
+						</StackPanel>
+
+
+
+						<Label
+								Content="Operation Settings"
+								Margin="0,10,0,2"
+								Padding="4,0,0,2"
+								Background="{StaticResource lbl.Bkg}"
+								Foreground="White"
+								/>
+
+						<StackPanel
+								Margin="0,0,5,0"
+								Orientation="Horizontal"
+								>
+							<StackPanel Orientation="Horizontal">
+								<Label
+										Content="Coll Changed"
+										Style="{StaticResource lbl.status}"
+										/>
+
+								<TextBox
+										IsReadOnly="True"
+										Text="{Binding Collection_Changed,
+																	 Mode=OneWay,
+																	 FallbackValue='false'}"
+										Style="{StaticResource tbx.status}"
+										/>
+
+							</StackPanel>
+
+							<StackPanel Orientation="Horizontal">
+								<Label
+										Content="Dict Status"
+										Style="{StaticResource lbl.status}"
+										/>
+
+								<TextBox
+										IsReadOnly="True"
+										Text="{Binding Collection_Status,
+																	 Mode=OneWay,
+																	 FallbackValue='false'}"
+										Style="{StaticResource tbx.status}"
+										/>
+
+							</StackPanel>
+
+						</StackPanel>
+
+
+
+						<StackPanel
+								Margin="0,0,5,0"
+								DockPanel.Dock="Bottom"
 								Orientation="Horizontal"
 								>
 
-							<TextBlock Width="{StaticResource col1}"
-									TextAlignment="Center"
-									Text="{Binding Path=Key.Length,
-																 FallbackValue='1'}"
-									Style="{StaticResource tbk.grid}"
+							<Label
+									Content="Can Edit"
+									Style="{StaticResource lbl.status}"
 									/>
-							<TextBlock Width="{StaticResource col2}"
-									Text="{Binding Path=Key,
-																 FallbackValue=hello,
-																 StringFormat='.{0}.'}"
-									Style="{StaticResource tbk.grid}"
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding ItemCanEdit,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
 									/>
-							<TextBlock Width="{StaticResource col3}"
-									Text="{Binding Path=DisciplineData.Key,
-																 FallbackValue=hello,
-																 StringFormat='.{0}.'}"
-									Style="{StaticResource tbk.grid}"
+							<Label
+									Content="Can Save"
+									Style="{StaticResource lbl.status}"
 									/>
-							<TextBlock Width="{StaticResource col4}"
-									Text="{Binding Path=DisciplineData.Title,
-																 FallbackValue=hello}"
-									Style="{StaticResource tbk.grid}"
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding ItemCanSave,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
 									/>
-							<TextBlock Width="{StaticResource col5}"
-									Text="{Binding Path=DisciplineData.Description,
-																 FallbackValue=hello}"
-									Style="{StaticResource tbk.grid}"
+							<Label
+									Content="Has Changes"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding ItemHasChanges,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
 									/>
 						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
 
-			<DockPanel Grid.Column="1"
-					Grid.Row="1"
+						<StackPanel
+								Margin="0,0,5,0"
+								DockPanel.Dock="Bottom"
+								Orientation="Horizontal"
+								>
+
+							<Label
+									Content="Is Editing"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding IsEditing,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
+									/>
+
+							<Label
+									Content="Editing New"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding EditingNew,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
+									/>
+
+							<Label
+									Content="Editing Sel"
+									Style="{StaticResource lbl.status}"
+									/>
+
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding EditingSelected,
+																 Mode=OneWay,
+																 FallbackValue='false'}"
+									Style="{StaticResource tbx.status}"
+									/>
+						</StackPanel>
+
+
+
+
+						<StackPanel
+								Margin="0,0,5,0"
+								DockPanel.Dock="Bottom"
+								Orientation="Vertical"
+								>
+							<StackPanel Orientation="Horizontal">
+								<Label
+										Content="Selected Item"
+										Style="{StaticResource lbl.status}"
+										/>
+
+								<Label
+										Content="Index"
+										Style="{StaticResource lbl.status}"
+										/>
+
+								<TextBox
+										Width="50"
+										IsReadOnly="True"
+										Text="{Binding LbxSelectedIndex,
+																	 Mode=TwoWay,
+																	 FallbackValue='index'}"
+										Style="{StaticResource tbx.status}"
+										/>
+
+								<Label
+										Content="key"
+										Style="{StaticResource lbl.status}"
+										/>
+
+								<TextBox
+										Width="50"
+										IsReadOnly="True"
+										Text="{Binding LbxSelectedItem.DisciplineData.OrderCode,
+																	 Mode=TwoWay,
+																	 FallbackValue='key'}"
+										Style="{StaticResource tbx.status}"
+										/>
+
+							</StackPanel>
+							<TextBox
+									IsReadOnly="True"
+									Text="{Binding LbxSelectedItem.DisciplineData.Title,
+																 Mode=TwoWay,
+																 FallbackValue='title'}"
+									Style="{StaticResource tbx.status}"
+									/>
+
+						</StackPanel>
+
+						<DockPanel x:Name="DebugButtons"
+								Margin="5"
+								VerticalAlignment="Bottom"
+								DockPanel.Dock="Bottom"
+								>
+							<StackPanel
+									HorizontalAlignment="Left"
+									VerticalAlignment="Bottom"
+									DockPanel.Dock="Top"
+									Orientation="Horizontal"
+									>
+
+								<Button x:Name="BtnClear1"
+										Content="Clear 1"
+										Margin="0,0,5,0"
+										Width="{StaticResource BtnWidthNarrower}"
+										Height="{StaticResource BtnHeight}"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Bottom"
+										Click="BtnClear1_OnClick"
+										/>
+
+								<Button x:Name="BtnShow1"
+										Content="Show 1"
+										Margin="0,0,5,0"
+										Width="{StaticResource BtnWidthNarrower}"
+										Height="{StaticResource BtnHeight}"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Bottom"
+										Click="BtnShow1_OnClick"
+										/>
+
+								<Button x:Name="BtnTest1"
+										Content="Test 1"
+										Margin="0,0,5,0"
+										Width="{StaticResource BtnWidthNarrower}"
+										Height="{StaticResource BtnHeight}"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Bottom"
+										Click="BtnTest1_OnClick"
+										/>
+
+								<Button
+										Content="test 2"
+										Margin="0,0,5,0"
+										Width="{StaticResource BtnWidthNarrower}"
+										Height="{StaticResource BtnHeight}"
+										Style="{StaticResource btn.std.style}"
+										Template="{StaticResource Button.Normal.ControlTemplate}"
+										Click="BtnTest2_OnClick"
+										/>
+
+							</StackPanel>
+
+
+						</DockPanel>
+
+
+
+					</StackPanel>
+
+				</DockPanel>
+
+			</DockPanel>
+
+
+			<DockPanel
+					Grid.Column="1"
+					Grid.Row="2"
 					Margin="5"
 					VerticalAlignment="Stretch"
 					>
 
-				<StackPanel DockPanel.Dock="Top"
+				<StackPanel
+						DockPanel.Dock="Top"
 						Orientation="Vertical"
 						>
-					<Label Content="{Binding FieldsTitle,
+					<Label
+							Content="{Binding FieldsTitle,
 																FallbackValue='Title'}"
 							Margin="0,0,0,2"
 							Padding="4,0,0,2"
@@ -355,11 +2311,33 @@
 							/>
 
 					<StackPanel Orientation="Horizontal">
-						<Label Content="Key"
+						<Label
+								Content="Locked?"
+								Style="{StaticResource lbl.edit}"
+								/>
+						<Border
+								Width="{StaticResource tbx.edit.width}"
+								Height="17"
+								Background="{StaticResource tbk.Bkg}"
+								>
+							<CheckBox
+									Margin="3,0,0,0"
+									Padding="0"
+									VerticalAlignment="Center"
+									IsChecked="{Binding ItemLocked}"
+									/>
+						</Border>
+
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label
+								Content="Key"
 								Style="{StaticResource lbl.edit}"
 								/>
 
-						<TextBox Text="{Binding ItemKey,
+						<TextBox
+								Text="{Binding ItemKey,
 															 Mode=TwoWay,
 															 FallbackValue='Key'}"
 								Style="{StaticResource tbx.edit}"
@@ -367,11 +2345,27 @@
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
-						<Label Content="Title"
+						<Label
+								Content="Disc Code"
 								Style="{StaticResource lbl.edit}"
 								/>
 
-						<TextBox Text="{Binding ItemTitle,
+						<TextBox
+								Text="{Binding ItemDisciplineCode,
+															 Mode=TwoWay,
+															 FallbackValue='Discipline code'}"
+								Style="{StaticResource tbx.edit}"
+								/>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label
+								Content="Title"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox
+								Text="{Binding ItemTitle,
 															 Mode=TwoWay,
 															 FallbackValue='Title'}"
 								Style="{StaticResource tbx.edit}"
@@ -379,11 +2373,27 @@
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
-						<Label Content="Description"
+						<Label
+								Content="Display Name"
 								Style="{StaticResource lbl.edit}"
 								/>
 
-						<TextBox Text="{Binding ItemDescription,
+						<TextBox
+								Text="{Binding ItemDisplayName,
+															 Mode=TwoWay,
+															 FallbackValue='Display Name'}"
+								Style="{StaticResource tbx.edit}"
+								/>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label
+								Content="Description"
+								Style="{StaticResource lbl.edit}"
+								/>
+
+						<TextBox
+								Text="{Binding ItemDescription,
 															 Mode=TwoWay,
 															 FallbackValue='Description'}"
 								Style="{StaticResource tbx.edit}"
@@ -391,166 +2401,29 @@
 					</StackPanel>
 				</StackPanel>
 
-				<StackPanel Margin="0,10,0,0"
-						VerticalAlignment="Bottom"
-						DockPanel.Dock="Bottom"
+				<StackPanel
+						Margin="0,10,0,0"
+						VerticalAlignment="top"
+						DockPanel.Dock="top"
 						Orientation="Vertical"
 						>
 
 
-					<StackPanel Margin="0,0,5,0"
-							Orientation="Horizontal"
-							>
-						<Label Content="Selected Item"
-								Style="{StaticResource lbl.edit}"
-								/>
 
-						<TextBox Width="50"
-								IsReadOnly="True"
-								Text="{Binding Selected.DisciplineData.Key,
-															 Mode=TwoWay,
-															 FallbackValue='key'}"
-								Style="{StaticResource tbx.no.edit}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding Selected.DisciplineData.Title,
-															 Mode=TwoWay,
-															 FallbackValue='title'}"
-								Style="{StaticResource tbx.no.edit}"
-								/>
-
-					</StackPanel>
-
-					<StackPanel Margin="0,0,5,0"
-							Orientation="Horizontal"
-							>
-						<Label Content="Can Edit"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding CanEdit,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-						<Label Content="Can Save"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding CanSave,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-						<Label Content="Has Changes"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding HasChanges,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-						<Label Content="Editing New"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding EditingNew,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-						<Label Content="Editing Sel"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding EditingSelected,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-
-					</StackPanel>
-
-					<StackPanel Margin="0,0,5,0"
-							Orientation="Horizontal"
-							>
-						<Label Content="Coll Changed"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding Collection_Changed,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-
-					</StackPanel>
-
-					<StackPanel Margin="0,0,5,0"
-							Orientation="Horizontal"
-							>
-						<Label Content="File name"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding DataFileName,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-
-						<Label Content="Exists"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Text="{Binding DataFileExists,
-															 Mode=OneWay,
-															 FallbackValue='false'}"
-								Style="{StaticResource tbx.status}"
-								/>
-
-					</StackPanel>
-
-					<StackPanel Margin="0,0,5,0"
-							Orientation="Horizontal"
-							>
-						<Label Content="File path"
-								Style="{StaticResource lbl.status}"
-								/>
-
-						<TextBox IsReadOnly="True"
-								Width="Auto"
-								Text="{Binding DataFilePath,
-															 Mode=OneWay,
-															 FallbackValue='c:\\test\\test\\test\\test'}"
-								Style="{StaticResource tbx.status}"
-								/>
-
-
-					</StackPanel>
-
-					<StackPanel Margin="0,5,0,0"
+					<StackPanel
+							Margin="0,5,0,0"
 							VerticalAlignment="Bottom"
 							Orientation="Horizontal"
 							DockPanel.Dock="Bottom"
 							>
 
-						<Button Content="New Item"
+						<Button
+								Content="New Item"
 								Margin="0,0,5,0"
 								Width="{StaticResource BtnWidth}"
 								Height="{StaticResource BtnHeight}"
 								IsEnabled="{Binding NewItem_Enabled}"
-								Style="{StaticResource Button.Normal.Style}"
+								Style="{StaticResource btn.std.style}"
 								Template="{StaticResource Button.Normal.ControlTemplate}"
 								Click="BtnNewItem_OnClick"
 								/>
@@ -565,157 +2438,206 @@
 						<!--  Click="BtnSelectItem_OnClick"  -->
 						<!--  />  -->
 
-						<Button Content="Edit Item"
+						<Button
+								Content="Edit Item"
 								Margin="0,0,5,0"
 								Width="{StaticResource BtnWidth}"
 								Height="{StaticResource BtnHeight}"
 								IsEnabled="{Binding EditItem_Enabled}"
-								Style="{StaticResource Button.Normal.Style}"
+								Style="{StaticResource btn.std.style}"
 								Template="{StaticResource Button.Normal.ControlTemplate}"
 								Click="BtnEditItem_OnClick"
 								/>
 
-						<Button Content="Save Item"
+						<Button
+								Content="Save Item"
 								Margin="0,0,5,0"
 								Width="{StaticResource BtnWidth}"
 								Height="{StaticResource BtnHeight}"
 								IsEnabled="{Binding SaveItem_Enabled}"
-								Style="{StaticResource Button.Normal.Style}"
+								Style="{StaticResource btn.std.style}"
 								Template="{StaticResource Button.Normal.ControlTemplate}"
 								Click="BtnSaveItem_OnClick"
 								/>
 
-						<Button Content="Remove Item"
+						<Button
+								Content="Remove Item"
 								Margin="0,0,5,0"
 								Width="{StaticResource BtnWidth}"
 								Height="{StaticResource BtnHeight}"
-								IsEnabled="{Binding Remove_Enabled}"
-								Style="{StaticResource Button.Normal.Style}"
+								IsEnabled="{Binding RemoveItem_Enabled}"
+								Style="{StaticResource btn.std.style}"
 								Template="{StaticResource Button.Normal.ControlTemplate}"
 								Click="BtnRemoveItem_OnClick"
 								/>
 
-						<Button Content="Cancel Edit"
+						<Button
+								Content="Done Editing"
 								Margin="0,0,5,0"
 								Width="{StaticResource BtnWidth}"
 								Height="{StaticResource BtnHeight}"
-								IsEnabled="{Binding CancelItem_Enabled}"
-								Style="{StaticResource Button.Normal.Style}"
+								IsEnabled="{Binding DoneEditItem_Enabled}"
+								Style="{StaticResource btn.std.style}"
 								Template="{StaticResource Button.Normal.ControlTemplate}"
-								Click="BtnCancelEditItem_OnClick"
+								Click="BtnDoneEditItem_OnClick"
 								/>
 
 
 					</StackPanel>
+
 				</StackPanel>
+
+				<StackPanel
+						VerticalAlignment="Bottom"
+						DockPanel.Dock="Bottom"
+						Orientation="Vertical"
+						>
+
+					<Label
+							Content="Data File Operations"
+							Margin="0,0,0,2"
+							Padding="4,0,0,2"
+							Background="{StaticResource lbl.Bkg}"
+							Foreground="White"
+							/>
+
+
+					<StackPanel
+							Margin="0,0,5,0"
+							Orientation="Horizontal"
+							>
+						<Label
+								Content="File name"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox
+								IsReadOnly="True"
+								Text="{Binding Dfm.DisciplineDataFileName,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+						<Label
+								Content="Exists"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox
+								IsReadOnly="True"
+								Text="{Binding Dfm.DisciplineDataFileExists,
+															 Mode=OneWay,
+															 FallbackValue='false'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+					</StackPanel>
+
+					<StackPanel
+							Margin="0,0,5,0"
+							VerticalAlignment="Bottom"
+							Orientation="Horizontal"
+							>
+						<Label
+								Content="File path"
+								Style="{StaticResource lbl.status}"
+								/>
+
+						<TextBox
+								Width="Auto"
+								IsReadOnly="True"
+								Text="{Binding Dfm.DisciplineDataFilePathEllipsised,
+															 Mode=OneWay,
+															 FallbackValue='c:\\test\\test\\test\\test'}"
+								Style="{StaticResource tbx.status}"
+								/>
+
+					</StackPanel>
+
+
+					<StackPanel
+							Margin="0,5,0,0"
+							Orientation="Horizontal"
+							>
+						<Button
+								Content="Open"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding OpenColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnOpenColl_OnClick"
+								/>
+						<Button
+								Content="New"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding NewColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnNewColl_OnClick"
+								/>
+						<Button
+								Content="Save"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding SaveColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnSaveColl_OnClick"
+								/>
+						<Button
+								Content="Save As"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding SaveAsColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnSaveAsColl_OnClick"
+								/>
+						<Button
+								Content="Close"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding CloseColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnCloseColl_OnClick"
+								/>
+						<Button
+								Content="Delete"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding DeleteColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnDeleteColl_OnClick"
+								/>
+						<Button
+								Content="Cancel"
+								Margin="0,0,5,0"
+								Width="{StaticResource BtnWidthNarrower}"
+								Height="{StaticResource BtnHeight}"
+								IsEnabled="{Binding CancelColl_Enabled}"
+								Style="{StaticResource btn.std.style}"
+								Template="{StaticResource Button.Normal.ControlTemplate}"
+								Click="BtnCancelColl_OnClick"
+								/>
+
+					</StackPanel>
+
+				</StackPanel>
+
 			</DockPanel>
 
 		</Grid>
-		<DockPanel Grid.Column="1"
-				Grid.Row="0"
-				Margin="5"
-				>
-			<StackPanel HorizontalAlignment="Right"
-					DockPanel.Dock="Top"
-					Orientation="Vertical"
-					>
-
-				<Button x:Name="BtnClear1"
-						Content="Clear 1"
-						Margin="0,0,0,5"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnClear1_OnClick"
-						/>
-
-				<Button x:Name="BtnShow1"
-						Content="Show 1"
-						Margin="0,0,0,5"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnShow1_OnClick"
-						/>
-
-				<Button x:Name="BtnTest1"
-						Content="Test 1"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						Click="BtnTest1_OnClick"
-						/>
-
-			</StackPanel>
-
-
-			<StackPanel HorizontalAlignment="Right"
-					VerticalAlignment="Bottom"
-					DockPanel.Dock="Bottom"
-					Orientation="Vertical"
-					>
-
-				<Button x:Name="BtnNew"
-						Content="New"
-						Margin="0,5,0,0"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						IsEnabled="{Binding NewColl_Enabled}"
-						Style="{StaticResource Button.Normal.Style}"
-						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnNewColl_OnClick"
-						/>
-
-				<Button x:Name="BtnSave"
-						Content="Save"
-						Margin="0,5,0,0"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						IsEnabled="{Binding SaveColl_Enabled}"
-						Style="{StaticResource Button.Normal.Style}"
-						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnSaveColl_OnClick"
-						/>
-
-				<Button x:Name="BtnCancel"
-						Content="Cancel"
-						Margin="0,5,0,0"
-						Width="{StaticResource BtnWidth}"
-						Height="{StaticResource BtnHeight}"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Bottom"
-						IsEnabled="{Binding CancelColl_Enabled}"
-						Style="{StaticResource Button.Normal.Style}"
-						Template="{StaticResource Button.Normal.ControlTemplate}"
-						Click="BtnCancelColl_OnClick"
-						/>
-
-			</StackPanel>
-
-
-
-		</DockPanel>
-		<Button x:Name="BtnExit"
-				Content="Exit"
-				Grid.Column="1"
-				Grid.Row="1"
-				Margin="5"
-				Width="{StaticResource BtnWidth}"
-				Height="{StaticResource BtnHeight}"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Bottom"
-				IsEnabled="{Binding ExitEnabled}"
-				Style="{StaticResource Button.Normal.Style}"
-				Template="{StaticResource Button.Normal.ControlTemplate}"
-				Click="BtnExit_OnClick"
-				/>
 
 	</Grid>
 </Window>

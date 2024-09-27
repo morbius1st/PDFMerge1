@@ -1,18 +1,4 @@
 ﻿#region using
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using AndyShared.MergeSupport;
-using AndyShared.Support;
-using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
-using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
-using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 
 #endregion
 

@@ -310,7 +310,7 @@ namespace WpfShared.Windows
 
 		private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
 		{
-			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingData>, UserSettingData> u = UserSettings.Admin;
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> u = UserSettings.Admin;
 
 			selected = null;
 			DialogResult = false;
@@ -339,7 +339,7 @@ namespace WpfShared.Windows
 
 		private void BtnNew_OnClick(object sender, RoutedEventArgs e)
 		{
-			ClassificationFile cf = Create(cfgClsFiles.AllClassifFolderPath);
+			ClassificationFile cf = Create(null, cfgClsFiles.AllClassifFolderPath);
 
 			if (cf == null) return;
 

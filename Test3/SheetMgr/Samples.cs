@@ -253,6 +253,142 @@ namespace Test3
 
 /*
   more sheet id examples
+summary
+A1
+A1a
+A1.0a
+A1.0-1a
+A1.0-1aN
+A1.0-1.a
+A1.0-1.aN
+A1.0-1.a.b
+A1.0-1.aN.b
+A1.0-1.a.bN
+A1.0-1.aN.bN
+
+A1-0a
+A1-0-1a
+A1-0-1aN
+A1-0-1.a
+A1-0-1.aN
+A1-0-1.a.b
+A1-0-1.aN.b
+A1-0-1.a.bN
+A1-0-1.aN.bN
+
+A1.0a
+A1.0.1a
+A1.0.1aN
+A1.0.1.a
+A1.0.1.aN
+A1.0.1.a.b
+A1.0.1.aN.b
+A1.0.1.a.bN
+A1.0.1.aN.bN
+
+A1-0a
+A1-0-1a
+A1-0-1aN
+A1-0-1-a
+A1-0-1-aN
+A1-0-1-a.b
+A1-0-1-aN.b
+A1-0-1-a.bN
+A1-0-1-aN.bN
+
+A 1
+A 1a
+A 1.0a
+A 1.0-1a
+A 1.0-1aN
+A 1.0-1.a
+A 1.0-1.aN
+A 1.0-1.a.b
+A 1.0-1.aN.b
+A 1.0-1.a.bN
+A 1.0-1.aN.bN
+
+
+A100
+A100a
+
+A.100
+A.100a
+
+A-100
+A-100a
+
+A A1.0
+A A1-0
+A A 1.0
+
+A A100
+A A.100
+A A-100
+
+
+AA A1.0
+AA A1-0
+AA A 1.0
+
+AA A100
+AA A.100
+AA A-100
+
+
+
+1 A1.0
+1 A1-0
+1 A 1.0
+
+1 A100
+1 A.100
+1 A-100
+
+
+11 A1.0
+11 A1-0
+11 A 1.0
+
+11 A100
+11 A.100
+11 A-100
+
+
+
+1A A1.0
+1A A1-0
+1A A 1.0
+
+1A A100
+1A A.100
+1A A-100
+
+1AA A1.0
+1AA A1-0
+1AA A 1.0
+
+1AA A100
+1AA A.100
+1AA A-100
+
+11A A1.0
+11A A1-0
+11A A 1.0
+
+11A A100
+11A A.100
+11A A-100
+
+
+11AA A1.0
+11AA A1-0
+11AA A 1.0
+
+11AA A100
+11AA A.100
+11AA A-100
+
 
 A A1.0-1 this is a sheet name (this is a comment).PDF
 A1.0a this is a sheet name.PDF

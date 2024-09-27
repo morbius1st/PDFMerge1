@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.Serialization;
+using DebugCode;
 
 #endregion
 
@@ -48,7 +49,16 @@ namespace AndyShared.SampleFileSupport
 
 			public bool Parse()
 			{
+			#if DML1
+				DM.Start0();
+			#endif
+
+				DM.Stat0("SheetList loaded here");
 				SheetList = Sheets?.Split(new [] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+
+			#if DML1
+				DM.End0();
+			#endif
 
 				return (SheetList?.Length ?? 0) > 0;
 			}
