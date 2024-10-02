@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
+
 using AndyShared.FileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
+using AndyShared.MergeSupport;
 using AndyShared.Settings;
 using JetBrains.Annotations;
 using SettingsManager;
-using Test4.Support;
+
 using Test4.SheetMgr;
 using UtilityLibrary;
 
@@ -33,6 +36,9 @@ namespace Test4.Windows
 		private int start;
 		private int end;
 
+		private BaseOfTree root;
+
+		private Classify cls4;
 
 	#endregion
 
@@ -57,46 +63,28 @@ namespace Test4.Windows
 
 	#endregion
 
+	#region process methods
+
+	#endregion
+
 	#region public methods
 
-		public bool ProcessSamples()
+		public bool FilterSamples(string fileid)
 		{
-			MakeSamples();
-			ConfigFileNameParser();
-			return ParseSampleFileNames();
-		}
+			if (!GetClassifFile(fileid)) return false;
 
-		public void MakeSamples()
-		{
-			Samples4.MakeSamples();
-		}
+			cls4 = new Classify();
 
-		public void ConfigFileNameParser()
-		{
-			FileNameSheetParser3.Instance.Config();
-			FileNameSheetParser3.Instance.CreateSpecialDisciplines(SheetPdfManager.Instance.SpecialDisciplines);
-			FileNameSheetParser3.Instance.CreateFileNamePattern();
-		}
-
-		public bool ParseSampleFileNames()
-		{
-			bool result = true;
-
-			last = Samples4.Sheets.Count;
-			start = 0;
-			end = last;
-
-			for (var i = start; i < end; i++)
-			{
-				Samples4.Sheets[i].SheetPdf3 =
-					new FilePath<FileNameSheetPdf3>(Samples4.Sheets[i].FileName);
-
-				result &= Samples4.Sheets[i].SheetPdf3.FileNameObject.ShtNumber.IsParseGood;
-			}
+			bool result = SheetPdfManager.Instance.
+				FilterSheetNames4(ClassificationFile, cls4);
 
 			return result;
 		}
 
+		public bool ParseSamples()
+		{
+			return SheetPdfManager.Instance.ParseSheetNames4();
+		}
 
 		public void UserSettingsWrite()
 		{
@@ -112,7 +100,6 @@ namespace Test4.Windows
 			UserSettings.Data.IsRead = true;
 
 		}
-
 
 
 		public bool GetClassifFile(string fileId = null)

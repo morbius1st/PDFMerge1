@@ -5,23 +5,21 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using Test4.SheetMgr;
-using Test4.Support;
-
+using AndyShared.FileSupport.FileNameSheetPDF4;
 using UtilityLibrary;
 using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
+using SettingsManager;
 
-// using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
-using static Test4.Support.SheetIdentifiers3;
+using static AndyShared.FileSupport.FileNameSheetPDF4.SheetIdentifiers4;
 
 #endregion
 
 // username: jeffs
 // created:  5/27/2020 10:55:08 PM
 
-namespace AndyShared.FileSupport.FileNameSheetPDF
+namespace AndyShared.FileSupport.FileNameSheetPDF4
 {
-	public class FileNameSheetParser3
+	public class FileNameSheetParser4
 	{
 	#region private fields
 
@@ -29,29 +27,32 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		private Regex shtFileNamePattern;
 
-		private static readonly Lazy<FileNameSheetParser3> instance =
-			new Lazy<FileNameSheetParser3>(() => new FileNameSheetParser3());
+		private static readonly Lazy<FileNameSheetParser4> instance =
+			new Lazy<FileNameSheetParser4>(() => new FileNameSheetParser4());
 
 	#endregion
 
 	#region ctor
 
-		private FileNameSheetParser3() { }
+		private FileNameSheetParser4() { }
 
 	#endregion
 
 	#region public properties
 
-		public static FileNameSheetParser3 Instance => instance.Value;
+		public static FileNameSheetParser4 Instance => instance.Value;
 
 		public bool IsConfigd => !PdfFileNamePattern.IsVoid();
-
+		
 		public List<int> CompLengths
 		{
 			get => compLengths;
 			set => compLengths = value;
 		}
-		
+
+		public string PdfFileNamePattern { get; private set; }
+
+		public string SpecialDisciplines { get; set; }
 
 	#endregion
 
@@ -61,9 +62,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 	#region public methods
 
-		public string PdfFileNamePattern { get; private set; }
-
-		public string SpecialDisciplines { get; set; }
 
 		// private const string SHT_FILE_NAME_PATTERN =
 		// @"^(?<PhBldg>(?:[0-9]{0,2}[A-Z]{0,2}(?= [^0-9])))*? ?(?<Discipline>[A-Z](?=[\-\. 0-9]))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>\w*?(?=[\-\.]))*(?<sep3>[\-\.]?)(?<SubModifier>\w*?(?=[\-\.]))*(?<sep4>[\-\.]?)(?<Identifier>\w*?(?=[\-\.]))*(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)";
@@ -80,7 +78,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public void Config()
 		{
-			initCompLengths(SheetIdentifiers3.SheetNumComponents.Count);
+			initCompLengths(SheetIdentifiers4.SheetNumComponents.Count);
 		}
 
 		public void CreateFileNamePattern()
@@ -118,7 +116,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			return shtFileNamePattern.Match(shtNum);
 		}
 
-		public bool extractShtNumComps3(ShtNumber shtNumber, GroupCollection g)
+		public bool extractShtNumComps3(ShtNumber4 shtNumber, GroupCollection g)
 		{
 			Group grp;
 			string grpName;
@@ -229,7 +227,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		*/
 
 
-		// public bool ParseSheetNumber1(ShtNumber shtNumber, string shtNum)
+		// public bool ParseSheetNumber1(ShtNumberObj shtNumberObj, string shtNum)
 		// {
 		// 	bool result = true;
 		//
@@ -245,10 +243,10 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		// 		{
 		// 			GroupCollection g = match.Groups;
 		//
-		// 			extractShtNumComps3(shtNumber, g);
+		// 			extractShtNumComps3(shtNumberObj, g);
 		//
-		// 			shtNumber.OrigSheetNumber = g[CN_SHTNUM]?.Value ?? "";
-		// 			shtNumber.OrigSheetID = g[CN_SHTID]?.Value ?? "";
+		// 			shtNumberObj.OrigSheetNumber = g[CN_SHTNUM]?.Value ?? "";
+		// 			shtNumberObj.OrigSheetID = g[CN_SHTID]?.Value ?? "";
 		// 		}
 		// 		else
 		// 		{
@@ -292,7 +290,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public override string ToString()
 		{
-			return "this is FileNameSheetParser3";
+			return "this is FileNameSheetParser4";
 		}
 
 	#endregion

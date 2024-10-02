@@ -2,16 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UtilityLibrary;
 using AndyShared.FileSupport.FileNameSheetPDF;
-using Test3.FileNameSheetPDF;
-using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 using static Test3.FileNameSheetPDF.SheetIdentifiers3;
-using static Test3.FileNameSheetPDF.SheetIdentifiers3.ShtIdType2;
+using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers.ShtIdType2;
 
 #endregion
 
@@ -20,85 +16,6 @@ using static Test3.FileNameSheetPDF.SheetIdentifiers3.ShtIdType2;
 
 namespace Test3.SheetMgr
 {
-	public class SheetPdfSample
-	{
-		public FilePath<FileNameSheetPdf2> SheetPdf { get; set; }
-		public FilePath<FileNameSheetPdf3> SheetPdf3 { get; set; }
-
-		public ShtNumber ShtNumber { get; set; }
-
-		internal List<string> SheetComps { get; set; }
-
-		public string FileName { get; set; }
-
-		public string SampleSheet { get; set; }
-		public string SheetNumber  { get; set; }
-		public string SheetTitle   { get; set; }
-
-		public ShtIdType2 SheetType { get; set; }
-
-		public SheetPdfSample(
-			string sampleFile,
-			string sheetNumber,
-			string sheetTitle,
-			ShtIdType2 type,
-			string phaseBldg,
-			string phaseBldgSep,
-			string discipline,
-			string seperator0,
-			string category,
-			string seperator1,
-			string subcategory,
-			string seperator2,
-			string modifier,
-			string seperator3,
-			string submodifier,
-			string seperator4,
-			string identifier,
-			string seperator5,
-			string subidentifier
-			)
-		{
-			initSheetComps();
-
-			FileName = sampleFile;
-
-			SampleSheet = Path.GetFileNameWithoutExtension( sampleFile );
-
-			SheetNumber = sheetNumber ;
-			SheetTitle  = sheetTitle  ;
-
-			SheetType = type ;
-
-			SheetComps[PHBLDG_VALUE_IDX]        = phaseBldg      ;
-			SheetComps[PBSEP_VALUE_IDX]         = phaseBldgSep   ;
-			SheetComps[DISCIPLINE_VALUE_IDX]    = discipline     ;
-			SheetComps[SEP0_VALUE_IDX]          = seperator0     ;
-			SheetComps[CATEGORY_VALUE_IDX]      = category       ;
-			SheetComps[SEP1_VALUE_IDX]          = seperator1     ;
-			SheetComps[SUBCATEGORY_VALUE_IDX]   = subcategory    ;
-			SheetComps[SEP2_VALUE_IDX]          = seperator2     ;
-			SheetComps[MODIFIER_VALUE_IDX]      = modifier       ;
-			SheetComps[SEP3_VALUE_IDX]          = seperator3     ;
-			SheetComps[SUBMODIFIER_VALUE_IDX]   = submodifier    ;
-			SheetComps[SEP4_VALUE_IDX]          = seperator4     ;
-			SheetComps[IDENTIFIER_VALUE_IDX]    = identifier     ;
-			SheetComps[SEP5_VALUE_IDX]          = seperator5     ;
-			SheetComps[SUBIDENTIFIER_VALUE_IDX] = subidentifier  ;
-			// ShtNumComps[SEP6_VALUE_IDX]          =seperator6     ;
-		}
-
-		private void initSheetComps()
-		{
-			SheetComps = new List<string>();
-
-			for (int i = 0; i < VALUE_IDX_COUNT; i++)
-			{
-				SheetComps.Add("");
-			}
-		}
-	}
-
 	public class Samples2
 	{
 		static Samples2() { }
@@ -110,7 +27,7 @@ namespace Test3.SheetMgr
 			Sheets = new List<SheetPdfSample>();
 
 			/*
-			Sheets.Add(new SheetPdfSample(
+			Sheets3.Add(new SheetPdfSample(
 				"This is a Test.pdf", "", "This is a Test.pdf",
 				"", " ", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
 			*/

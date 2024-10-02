@@ -9,8 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
+using AndyClassifSupport.Samples;
 using AndyShared.FileSupport.FileNameSheetPDF;
-using Test3.FileNameSheetPDF;
 using UtilityLibrary;
 
 #endregion
@@ -32,7 +32,7 @@ namespace Test3.SheetMgr
 
 		private List<int> compLengths;
 
-		public static List<FilePath<FileNameSheetPdf2>> SheetFiles = new List<FilePath<FileNameSheetPdf2>>();
+		public static List<FilePath<FileNameSheetPdf>> SheetFiles = new List<FilePath<FileNameSheetPdf>>();
 
 		private static readonly Lazy<SheetPdfManager> instance =
 			new Lazy<SheetPdfManager>(() => new SheetPdfManager());
@@ -83,59 +83,59 @@ namespace Test3.SheetMgr
 			end = last;
 			start = 0;
 
-			FileNameSheetParser3.Instance.Config();
-			FileNameSheetParser3.Instance.CreateSpecialDisciplines(SpecialDisciplines);
-			FileNameSheetParser3.Instance.CreateFileNamePattern();
+			FileNameSheetParser.Instance.Config();
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
 
 
 			for (var i = start; i < end; i++)
 			{
-				Samples2.Sheets[i].SheetPdf3 =
-					new FilePath<FileNameSheetPdf3>(Samples2.Sheets[i].FileName);
+				Samples2.Sheets[i].SheetPdf =
+					new FilePath<FileNameSheetPdf>(Samples2.Sheets[i].FileName);
 			}
 		}
 
 		public void ParseSheetNames3()
 		{
-			Test3.SheetMgr.Samples3.MakeSamples();
+			Samples3.MakeSamples();
 
-			last =  Samples3.Sheets.Count;
+			last =  Samples3.Sheets3.Count;
 			end = last;
 			start = 0;
 
-			FileNameSheetParser3.Instance.Config();
-			FileNameSheetParser3.Instance.CreateSpecialDisciplines(SpecialDisciplines);
-			FileNameSheetParser3.Instance.CreateFileNamePattern();
+			FileNameSheetParser.Instance.Config();
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
 
 
 			for (var i = start; i < end; i++)
 			{
-				Samples3.Sheets[i].SheetPdf3 =
-					new FilePath<FileNameSheetPdf3>(Samples3.Sheets[i].FileName);
+				Samples3.Sheets3[i].SheetPdf =
+					new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName);
 			}
 		}
 
 		// version 2 + 3
-		private void showShtNumber23(ShtNumber sn, List<string> sheetComps)
+		private void showShtNumber223(ShtNumber sn, List<string> sheetComps, int index)
 		{
 			string compName;
 			string nameObjStr = "";
 			string sampStr = "";
 
 			Debug.WriteLine(
-				$"\t{$"index {sn.Index}",-31}|  +10      0               1               2               3              4                5               6");
+				$"\t{$"index {index}",-31}|  +10      0               1               2               3              4                5               6");
 			Debug.WriteLine(
 				               $"\t{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
 			Debug.Write($"\t{$">{sn.OrigSheetNumber}<",-31}| ");
 
-			foreach (KeyValuePair<int, SheetIdentifiers3.ShtNumComps2> kvp in
-					SheetIdentifiers3.SheetNumComponents)
+			foreach (KeyValuePair<int, FileNameSheetIdentifiers.ShtNumComps2> kvp in
+					FileNameSheetIdentifiers.SheetNumComponentData)
 			{
-				if (kvp.Value.ItemClass == SheetIdentifiers3.ShtIdClass2.SC_IGNORE) continue;
+				if (kvp.Value.ItemClass == FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
 
 				nameObjStr = sn.ShtNumComps[kvp.Key] ?? "";
 
-				if (kvp.Key > SheetIdentifiers3.SI_SEP0 && nameObjStr.IsVoid())
+				if (kvp.Key > FileNameSheetIdentifiers.VI_SEP0 && nameObjStr.IsVoid())
 				{
 					Debug.Write(" << end");
 					break;
@@ -183,7 +183,7 @@ namespace Test3.SheetMgr
 				result = true;
 				failed = "";
 
-				s = Samples3.Sheets[i];
+				s = Samples3.Sheets3[i];
 
 				result = showSheet3(s);
 
@@ -215,18 +215,18 @@ namespace Test3.SheetMgr
 			string compName;
 			string compValue;
 
-			for (j = 0; j < SheetIdentifiers3.SI_SUBIDENTIFIER; j++)
+			for (j = 0; j < FileNameSheetIdentifiers.VI_SUBIDENTIFIER; j++)
 			{
-				if (SheetIdentifiers3.SheetNumComponents[j].ItemClass== SheetIdentifiers3.ShtIdClass2.SC_COMP_ID_SEP || 
-					SheetIdentifiers3.SheetNumComponents[j].ItemClass== SheetIdentifiers3.ShtIdClass2.SC_IGNORE) continue;
+				if (FileNameSheetIdentifiers.SheetNumComponentData[j].ItemClass== FileNameSheetIdentifiers.ShtIdClass2.SC_COMP_ID_SEP || 
+					FileNameSheetIdentifiers.SheetNumComponentData[j].ItemClass== FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
 
-				compName = SheetIdentifiers3.SheetNumComponents[j].Name;
+				compName = FileNameSheetIdentifiers.SheetNumComponentData[j].Name;
 				compValue = CompLengths[j].ToString();
 
 				Debug.Write($"{compName} {$"({compValue})",-5}| ");
 			}
 
-			compName = SheetIdentifiers3.SheetNumComponents[j].Name;
+			compName = FileNameSheetIdentifiers.SheetNumComponentData[j].Name;
 			compValue = CompLengths[j].ToString();
 
 			Debug.Write($"{compName} {$"({compValue})",-5}");
@@ -241,25 +241,25 @@ namespace Test3.SheetMgr
 			failed = "";
 			result = true;
 
-			if (!s.SheetPdf3.FileNameObject.IsValid)
+			if (!s.SheetPdf.FileNameObject.IsValid)
 			{
 				failed += "| file name is not valid";
 				result = null;
 			}
 
-			if (!s.SheetPdf3.FileNameObject.ShtNumber.IsParseGood)
+			if (!s.SheetPdf.FileNameObject.IsParseGood)
 			{
 				failed += "| parse is not valid";
 				result = null;
 			}
 
-			if (!s.SheetPdf3.FileName.Equals(s.FileName))
+			if (!s.SheetPdf.FileName.Equals(s.FileName))
 			{
 				failed += " | file name mis-match";
 				result = false;
 			}
 
-			bool? temp = showShtnumber3(s);
+			bool? temp = showShtNumber23(s);
 
 			Debug.Write($"\t        sample| ");
 			Debug.Write($"{$"file name >{s.FileName}<",-60}");
@@ -267,14 +267,14 @@ namespace Test3.SheetMgr
 			Debug.Write("\n");
 
 			Debug.Write($"\t        actual| ");
-			Debug.Write($"{$"file name >{s.SheetPdf3.FileName}<",-60}");
-			Debug.Write($"{$"title >{s.SheetPdf3.FileNameObject.SheetTitle}<",-60}");
+			Debug.Write($"{$"file name >{s.SheetPdf.FileName}<",-60}");
+			Debug.Write($"{$"title >{s.SheetPdf.FileNameObject.SheetTitle}<",-60}");
 			Debug.Write("\n");
 
 			Debug.Write($"\t        actual| ");
-			Debug.Write($"{$"is valid >{s.SheetPdf3.IsValid}<",-18}");
-			Debug.Write($"{$"status >{s.SheetPdf3.FileNameObject.StatusCode}<",-30}");
-			Debug.Write($"{$"full path >{s.SheetPdf3.FullFilePath}<"}");
+			Debug.Write($"{$"is valid >{s.SheetPdf.IsValid}<",-18}");
+			Debug.Write($"{$"status >{s.SheetPdf.FileNameObject.StatusCode}<",-30}");
+			Debug.Write($"{$"full path >{s.SheetPdf.FullFilePath}<"}");
 			Debug.Write("\n");
 
 
@@ -291,11 +291,11 @@ namespace Test3.SheetMgr
 		}
 
 		// version 3b
-		private bool? showShtnumber3(SheetPdfSample s)
+		private bool? showShtNumber23(SheetPdfSample s)
 		{
-			ShtNumber sn = s.SheetPdf3.FileNameObject.ShtNumber;
+			ShtNumber sn = s.SheetPdf.FileNameObject.ShtNumberObj;
 
-			showShtNumber23(sn, s.SheetComps);
+			showShtNumber223(sn, s.SheetComps, s.SheetPdf.FileNameObject.Index);
 
 			Debug.Write($"\t^^^ =>  sample| ");
 			Debug.Write($"{$"sheet num  >{s.SheetNumber}<",-30}");
@@ -332,45 +332,25 @@ namespace Test3.SheetMgr
 		}
 
 
-		/* voided - do not use
+		/* voided - do not use */
 
 		public void ParseSheets1()
 		{
-			Samples2.MakeSamples();
+			Samples3.MakeSamples();
 
-			last =  Samples2.Sheets.Count;
+			last =  Samples3.Sheets3.Count;
 			end = last;
 			start = 0;
 
-			FileNameSheetParser3.Instance.CreateSpecialDisciplines(SpecialDisciplines);
-			FileNameSheetParser3.Instance.CreateFileNamePattern();
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
 
 			for (var i = start; i < end; i++)
 			{
-				Samples2.Sheets[i].SheetPdf =
-					new FilePath<FileNameSheetPdf2>(Samples2.Sheets[i].FileName);
+				Samples3.Sheets3[i].SheetPdf =
+					new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName);
 			}
-		}
 
-		public void ParseSheetNumbers2()
-		{
-			string sample;
-
-			Samples2.MakeSamples();
-
-			last =  Samples2.Sheets.Count;
-			end = last;
-			start = 0;
-
-			FileNameSheetParser3.Instance.CreateSpecialDisciplines(SpecialDisciplines);
-			FileNameSheetParser3.Instance.CreateFileNamePattern();
-
-			for (var i = start; i < end; i++)
-			{
-				sample = Samples2.Sheets[i].SheetNumber;
-
-				Samples2.Sheets[i].ShtNumber = new ShtNumber(sample, true);
-			}
 		}
 
 		// version 1
@@ -390,9 +370,9 @@ namespace Test3.SheetMgr
 			Debug.WriteLine("*** sheet parse test *******");
 			Debug.WriteLine("****************************\n");
 
-			for (int i = 0; i < Samples2.Sheets.Count; i++)
+			for (int i = 0; i < Samples3.Sheets3.Count; i++)
 			{
-				s = Samples2.Sheets[i];
+				s = Samples3.Sheets3[i];
 
 				// test each sheet versus the expected result
 				result = showSheet1(s);
@@ -408,7 +388,7 @@ namespace Test3.SheetMgr
 					Debug.WriteLine($"FAILED [{failed}]\n");
 				}
 
-				// FileNameSheetPdf2 f = s.SheetPdf.FileNameObject;
+				// FileNameSheetPdf f = s.SheetPdf2.FileNameObject;
 			}
 
 			Debug.WriteLine($"results| pass {pass} | fail {fail}");
@@ -424,7 +404,7 @@ namespace Test3.SheetMgr
 			failed = "";
 			result = true;
 
-			FileNameSheetPdf2 fo;
+			FileNameSheetPdf fo;
 
 			if (s.SheetPdf.FileName.Equals(s.FileName))
 			{
@@ -436,10 +416,10 @@ namespace Test3.SheetMgr
 					$"{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
 				Debug.Write($"{$">{fo.SheetNumber}<",-31}| ");
 
-				foreach (KeyValuePair<int, SheetIdentifiers3.ShtNumComps2> kvp in
-						SheetIdentifiers3.SheetNumComponents)
+				foreach (KeyValuePair<int, FileNameSheetIdentifiers.ShtNumComps2> kvp in
+						FileNameSheetIdentifiers.SheetNumComponentData)
 				{
-					if (kvp.Value.ItemClass == SheetIdentifiers3.ShtIdClass2.SC_IGNORE) continue;
+					if (kvp.Value.ItemClass == FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
 
 					compName = kvp.Value.GroupId;
 					nameObjStr = fo.SheetComps[kvp.Key] ?? "";
@@ -504,12 +484,12 @@ namespace Test3.SheetMgr
 					result = false;
 				}
 
-				if (fo.SheetIdType != s.SheetType)
-				{
-					failed +=
-						$"sheet id type mis-match | (A >{fo.SheetIdType}< S >{s.SheetType}<)";
-					result = false;
-				}
+				// if (fo.SheetIdType != s.SheetType)
+				// {
+				// 	failed +=
+				// 		$"sheet id type mis-match | (A >{fo.SheetIdType}< S >{s.SheetType}<)";
+				// 	result = false;
+				// }
 			}
 			else
 			{
@@ -520,8 +500,34 @@ namespace Test3.SheetMgr
 			return result;
 		}
 
+		/*
+
+		
+		public void ParseSheetNumbers2()
+		{
+			string sample;
+
+			Samples2.MakeSamples();
+
+			last =  Samples2.Sheets.Count;
+			end = last;
+			start = 0;
+
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
+
+			for (var i = start; i < end; i++)
+			{
+				sample = Samples2.Sheets[i].SheetNumber;
+
+				Samples2.Sheets[i].ShtNumber2Obj = new ShtNumber2Obj(sample, true);
+			}
+		}
+
+
+
 		// version 2
-		public void ShowShtNumberResults2()
+		public void ShowShtNumber2Results2()
 		{
 			int pass = 0;
 			int hardFail = 0;
@@ -543,7 +549,7 @@ namespace Test3.SheetMgr
 				s = Samples2.Sheets[i];
 
 				// test each sheet versus the expected result
-				result = showShtNumber2(s);
+				result = showShtNumber22(s);
 
 				if (result == true)
 				{
@@ -569,7 +575,7 @@ namespace Test3.SheetMgr
 		}
 
 		// version 2a
-		private bool? showShtNumber2(SheetPdfSample s)
+		private bool? showShtNumber22(SheetPdfSample s)
 		{
 			string compName;
 			string nameObjStr = "";
@@ -578,41 +584,41 @@ namespace Test3.SheetMgr
 			failed = "";
 			result = true;
 
-			ShtNumber sn = s.ShtNumber;
+			ShtNumber2Obj sn = s.ShtNumber2Obj;
 
-			showShtNumber23(sn, s.SheetComps);
+			showShtNumber223(sn, s.SheetComps);
 
-			//
-			// Debug.WriteLine(
-			// 	$"{$"index {sn.Index}",-31}|  +10      0               1               2               3               4               5               6");
-			// Debug.WriteLine(
-			// 	$"{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
-			// Debug.Write($"{$">{sn.OrigSheetNumber}<",-31}| ");
-			//
-			// foreach (KeyValuePair<int, SheetIdentifiers3.ShtNumComps2> kvp in
-			// 		SheetIdentifiers3.SheetNumComponents)
-			// {
-			// 	if (kvp.Value.ItemClass == SheetIdentifiers3.ShtIdClass2.SC_IGNORE) continue;
-			//
-			// 	compName = kvp.Value.GroupId;
-			// 	nameObjStr = sn.ShtNumComps[kvp.Key] ?? "";
-			// 	sampStr = s.SheetComps[kvp.Key];
-			// 	if (!nameObjStr.Equals(sampStr))
-			// 	{
-			// 		failed += $" {compName} (A >{nameObjStr}< S >{sampStr}<)";
-			// 		result = null;
-			//
-			// 		Debug.Write("*>");
-			// 	}
-			// 	else
-			// 	{
-			// 		Debug.Write(" >");
-			// 	}
-			//
-			// 	Debug.Write($"{$"{nameObjStr}<",-6}");
-			// }
-			//
-			// Debug.Write("\n");
+			
+			Debug.WriteLine(
+				$"{$"index {sn.Index}",-31}|  +10      0               1               2               3               4               5               6");
+			Debug.WriteLine(
+				$"{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
+			Debug.Write($"{$">{sn.OrigSheetNumber}<",-31}| ");
+			
+			foreach (KeyValuePair<int, FileNameSheetIdentifiers.ShtNumComps2> kvp in
+					FileNameSheetIdentifiers.SheetNumComponentData)
+			{
+				if (kvp.Value.ItemClass == FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
+			
+				compName = kvp.Value.GroupId;
+				nameObjStr = sn.ShtNumComps[kvp.Key] ?? "";
+				sampStr = s.SheetComps[kvp.Key];
+				if (!nameObjStr.Equals(sampStr))
+				{
+					failed += $" {compName} (A >{nameObjStr}< S >{sampStr}<)";
+					result = null;
+			
+					Debug.Write("*>");
+				}
+				else
+				{
+					Debug.Write(" >");
+				}
+			
+				Debug.Write($"{$"{nameObjStr}<",-6}");
+			}
+			
+			Debug.Write("\n");
 
 			Debug.WriteLine(
 				$"^^^ =>  {$"sample| num >{s.SheetNumber}<"}");
@@ -663,22 +669,22 @@ namespace Test3.SheetMgr
 		// 		string compName;
 		// 		int idx;
 		//
-		// 		s = Samples2.Sheets[i];
+		// 		s = Samples2.Sheets3[i];
 		//
 		// 		// Debug.Write(">");
 		//
-		// 		if (s.SheetPdf.FileName.Equals(s.SampleSheet))
+		// 		if (s.SheetPdf2.FileName.Equals(s.SampleSheet))
 		// 		{
-		// 			// if (s.SheetPdf.FileNameObject.SheetNumber.Equals(s.SheetNumber))
+		// 			// if (s.SheetPdf2.FileNameObject.SheetNumber.Equals(s.SheetNumber))
 		// 			// {
-		// 			for (int j = 0; j < SheetIdentifiers3.SheetNumComponents.Count; j++)
+		// 			for (int j = 0; j < FileNameSheetIdentifiers.SheetNumComponentData.Count; j++)
 		// 			{
-		// 				if (SheetIdentifiers3.SheetNumComponents[j].ItemClass ==
-		// 					SheetIdentifiers3.ShtIdClass2.SC_IGNORE) continue;
+		// 				if (FileNameSheetIdentifiers.SheetNumComponentData[j].ItemClass ==
+		// 					FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
 		//
-		// 				compName = SheetIdentifiers3.SheetNumComponents[j].GroupId;
+		// 				compName = FileNameSheetIdentifiers.SheetNumComponentData[j].GroupId;
 		//
-		// 				nameObjStr = s.SheetPdf.FileNameObject.SheetComps[j] ?? "";
+		// 				nameObjStr = s.SheetPdf2.FileNameObject.SheetComps[j] ?? "";
 		// 				// compName = FileNameSheetIdentifiers.CompNames[j] ?? "";
 		//
 		// 				sampStr = s.SheetComps[j];
@@ -697,7 +703,7 @@ namespace Test3.SheetMgr
 		// 			// }
 		// 			// else
 		// 			// {
-		// 			// 	failed = $"sheet number mis-match {s.SheetPdf.FileNameObject.SheetNumber} vs {s.SheetNumber}";
+		// 			// 	failed = $"sheet number mis-match {s.SheetPdf2.FileNameObject.SheetNumber} vs {s.SheetNumber}";
 		// 			// 	result = false;
 		// 			// }
 		//

@@ -1,8 +1,10 @@
 ﻿#region using
 
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using SettingsManager;
 using UtilityLibrary;
 using AndyShared.FileSupport;
@@ -160,6 +162,12 @@ namespace AndyShared.ClassificationFileSupport
 			df.Admin.Read();
 			df.Info.Description = "This file holds the PDF sheet classification information";
 			df.Info.Notes = Environment.UserName + " created this file on " + DateTime.Now;
+
+			TreeNode tn = new TreeNode(df.Data.BaseOfTree, new SheetCategory("Initial Item", "Initial Item"), false);
+
+			df.Data.BaseOfTree.AddNode(tn);
+			
+			df.Data.BaseOfTree.Item = new SheetCategory("Base of Tree", "Base of Tree");
 
 			df.Admin.Write();
 

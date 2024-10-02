@@ -2126,36 +2126,44 @@
 											IsThreeState="False"
 											/>
 
+									
 									<TextBlock
-											Text="{Binding Path=Item.Title}"
+											Text="{Binding Path=Item.IsModified, Mode=OneWay,FallbackValue='false'}"
+											Margin="10,0,0,0"
+											Foreground="White"
+											Background="#222222"
+									/>
+
+									<TextBlock
+											Text="{Binding Path=Item.Title, Mode=OneWay,FallbackValue='title'}"
 											Margin="10,0,0,0"
 											Foreground="White"
 											Background="#222222"
 											/>
 
 									<TextBlock
-											Text="{Binding Path=Item.ComponentName}"
+											Text="{Binding Path=Item.ComponentName, Mode=OneWay,FallbackValue='comp name'}"
 											Margin="10,0,0,0"
 											Foreground="White"
 											Background="#222222"
 											/>
 
 									<TextBlock
-											Text="{Binding Path=Item.Description}"
+											Text="{Binding Path=Item.Description, Mode=OneWay,FallbackValue='desc'}"
 											Margin="10,0,0,0"
 											Foreground="White"
 											Background="#222222"
 											/>
 
 									<TextBlock
-											Text="{Binding Path=Item.HasMergeItems}"
+											Text="{Binding Path=Item.HasMergeItems, Mode=OneWay,FallbackValue='false'}"
 											Margin="10,0,0,0"
 											Foreground="White"
 											Background="#222222"
 											/>
 
 									<TextBlock
-											Text="{Binding Path=Item.MergeItemCount}"
+											Text="{Binding Path=Item.MergeItemCount, Mode=OneWay,FallbackValue='0'}"
 											Margin="10,0,0,0"
 											Foreground="White"
 											Background="#222222"

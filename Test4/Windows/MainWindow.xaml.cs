@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
+// using System.Windows.Interactivity;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -16,6 +18,7 @@ using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using DebugCode;
 using JetBrains.Annotations;
+using Test4.SheetMgr;
 using Test4.Windows;
 
 
@@ -29,6 +32,7 @@ namespace Test4
 		// private static MainWindow mw;
 
 		private MainWinSupport ms;
+		private SheetPdfManager sm;
 
 
 		private static string messageBox;
@@ -37,15 +41,12 @@ namespace Test4
 		{
 			InitializeComponent();
 
-			// mw = this;
-
 			DM.Iw = (IWin) this;
 
 			init();
 		}
 
 		public MainWinSupport MainWinSupport => ms;
-
 
 		public string MessageBox
 		{
@@ -58,14 +59,14 @@ namespace Test4
 			}
 		}
 
-
 		private void init()
 		{
 			bool result;
 
 			ms = new MainWinSupport();
+			sm = SheetPdfManager.Instance;
 
-			if (ms.GetClassifFile("PdfSample 4"))
+			if (ms.GetClassifFile("PdfSample 1"))
 			{
 				Debug.WriteLine("get classification file worked");
 			}
@@ -76,7 +77,7 @@ namespace Test4
 
 			OnPropertyChanged(nameof(MainWinSupport));
 
-			// if (ms.ProcessSamples())
+			// if (ms.ParseSamples())
 			// {
 			// 	Debug.WriteLine("parse samples worked");
 			// }
@@ -118,6 +119,20 @@ namespace Test4
 		{
 			this.Close();
 		}
+		
+		private void btnClassifyTest_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (ms.FilterSamples("PdfSample 4"))
+			{
+				Debug.WriteLine("filter worked");
+				OnPropertyChanged(nameof(ms.ClassificationFile));
+			}
+			else
+			{
+				Debug.WriteLine("filter failed");
+				return;
+			}
+		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -134,7 +149,7 @@ namespace Test4
 			SheetCategory s = c2[idx2].Item;
 			ObservableCollection<ComparisonOperation> o = s.CompareOps;
 			ComparisonOperation op = o[idxs];
-			ShtNumberCompName nd= op.CompNameData;
+			FileNameSheetIdentifiers.ShtNumComps2 nd = op.CompNameData;
 			LogicalComparisonOp lcop= op.LogicalComparisonOpCode;
 			ValueComparisonOp vcop = op.ValueComparisonOpCode;
 			LogicalCompareOp lcp = op.LogicalCompareOp;
@@ -142,5 +157,31 @@ namespace Test4
 
 			int A = 1 + 1;
 		}
-	}
+
+    }
+
+	// public sealed class BubbleScrollEvent : Behavior<UIElement>
+	// {
+	// 	protected override void OnAttached()
+	// 	{
+	// 		base.OnAttached();
+	// 		AssociatedObject.PreviewMouseWheel += AssociatedObject_PreviewMouseWheel;
+	// 	}
+	//
+	// 	protected override void OnDetaching()
+	// 	{
+	// 		AssociatedObject.PreviewMouseWheel -= AssociatedObject_PreviewMouseWheel;
+	// 		base.OnDetaching();
+	// 	}
+	//
+	// 	void AssociatedObject_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+	// 	{
+	// 		if (!e.Handled)
+	// 		{
+	// 			e.Handled = true;
+	// 			var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) { RoutedEvent = UIElement.MouseWheelEvent };
+	// 			AssociatedObject.RaiseEvent(e2);
+	// 		}
+	// 	}
+	// }
 }

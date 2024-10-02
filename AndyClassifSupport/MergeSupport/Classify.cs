@@ -286,6 +286,8 @@ namespace AndyShared.MergeSupport
 
 				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
 
+				bool result = CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps);
+
 				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
 				{
 					// may be a bug here

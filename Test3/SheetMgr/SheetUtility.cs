@@ -156,7 +156,7 @@ namespace Test3
 		{
 			ShtSysMgr.ConfigSheetType(
 				ST_NON_PHASE_NON_BLDG,
-				"Non-phase-building Sheets",
+				"Non-phase-building Sheets3",
 				@"^(([A-Z]+?)\d+(\.\d+\-\w+|\.\d+| ))(.*)", 2, false,
 				new []
 				{

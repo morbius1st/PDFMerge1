@@ -1,5 +1,17 @@
 ﻿#region using
-
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using AndyShared.FileSupport.FileNameSheetPDF;
+using AndyShared.MergeSupport;
+using AndyShared.Support;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using  static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 #endregion
 
 // ReSharper disable CommentTypo
@@ -56,6 +68,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
 	public class SheetCategory : INotifyPropertyChanged, ITreeNodeItem
 	{
+
+		public enum SHT_CAT_CHANGE
+		{
+			SCC_COMP_OPS_MODIFIED,
+			SCC_IS_MODIFIED,
+			SCC_CLEAR_MODIFICATION
+		}
+
+
 	#region private fields
 
 		// static fields
@@ -113,13 +134,21 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			mergeItems = new ObservableCollection<MergeItem>();
 
-			// IsInitialized = true;
+			foreach (ComparisonOperation cop in compareOps)
+			{
+				cop.ComparisonOpChanged += CopOnPropertyChanged;
+			}
 		}
 
 		[OnDeserialized]
 		private void OnDeserializing(StreamingContext c)
 		{
 			OnCreated();
+		}
+
+		private void CopOnPropertyChanged(object sender, string memberName)
+		{
+			RaiseCompOpChangedEvent(SHT_CAT_CHANGE.SCC_COMP_OPS_MODIFIED);
 		}
 
 
@@ -220,7 +249,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string ComponentName
 		{
 			// get => SheetNumberComponentTitles[Depth].Name ?? ""; 
-			get => ShtIds.SheetNumberComponentTitles[Depth].Name ?? ""; 
+			get => FileNameSheetIdentifiers.SheetNumComponentData[Depth*2].Name ?? ""; 
 		}
 
 		[IgnoreDataMember]
@@ -252,6 +281,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (isInitialized)
 				{
 					onModifiedAnnouncer.Announce(true);
+
+					RaiseCompOpChangedEvent(SHT_CAT_CHANGE.SCC_IS_MODIFIED);
 				}
 			}
 		}
@@ -333,6 +364,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#endregion
 
 	#region public methods
+
+		public void MessageFromParent(SHT_CAT_CHANGE change)
+		{
+			if (change == SHT_CAT_CHANGE.SCC_CLEAR_MODIFICATION)
+			{
+				isModified = false;
+				OnPropertyChange(nameof(IsModified));
+
+				foreach (ComparisonOperation cop in compareOps)
+				{
+					cop.ClearIsModified();
+				}
+			}
+		}
 
 		// ReSharper disable once UnusedMember.Global
 		public int FindCompOp(int findId)
@@ -416,6 +461,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		protected void OnPropertyChange([CallerMemberName] string memberName = "") =>
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
+
+	
+
+		public delegate void CompOpChangedEventHandler(object sender, SHT_CAT_CHANGE change);
+
+		public event SheetCategory.CompOpChangedEventHandler CompOpChanged;
+
+		protected virtual void RaiseCompOpChangedEvent(SHT_CAT_CHANGE change)
+		{
+			CompOpChanged?.Invoke(this, change);
+		}
+
 
 	#endregion
 

@@ -1,7 +1,5 @@
 ﻿#region using directives
-
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -10,11 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
-using static UtilityLibrary.MessageUtilities;
 using AndyShared.Support;
-using DebugCode;
-using UtilityLibrary;
-
+using static AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory;
+using static UtilityLibrary.MessageUtilities;
 #endregion
 
 // username: jeffs
@@ -22,46 +18,12 @@ using UtilityLibrary;
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
-	// public enum CheckedState
-	// {
-	// 	UNSET = -1,
-	// 	MIXED = 0,
-	// 	CHECKED = 1,
-	// 	UNCHECKED = 2
-	// }
-	//
-	// public enum NodeType
-	// {
-	// 	BRANCH,
-	// 	LEAF
-	// }
-	//
-	// public enum SelectState
-	// {
-	// 	UNSET = -1,
-	// 	UNCHECKED = 0,
-	// 	CHECKED = 1,
-	// 	MIXED = 2
-	// }
-	//
-	// public enum SelectMode
-	// {
-	// 	TWO_STATE = 2,
-	// 	TRI_STATE = 3
-	// }
-	//
-	// public enum NodePlacement
-	// {
-	// 	BEFORE = -1,
-	// 	AFTER = 1
-	// }
-
-#region TreeNode4
+#region TreeNode
 
 	[DataContract(Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
 	[SuppressMessage("ReSharper", "UnusedMember.Local")]
-	public class TreeNode4 : INotifyPropertyChanged, ICloneable
+	public class TreeNode : INotifyPropertyChanged, ICloneable
 	{
 	#region private fields
 
@@ -71,11 +33,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// <summary>
 		/// the list of child TreeNodes
 		/// </summary>
-		protected ObservableCollection<TreeNode4> children = new ObservableCollection<TreeNode4>();
+		protected ObservableCollection<TreeNode> children = new ObservableCollection<TreeNode>();
 
 		private ListCollectionView childrenView;
 
-		private TreeNode4 parent;
+		private TreeNode parent;
 		private int depth;
 		private static int maxDepth = 7;
 
@@ -112,9 +74,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region ctor
 
-		public TreeNode4(TreeNode4 parent, SheetCategory item, bool isExpanded)
+		public TreeNode(TreeNode parent, SheetCategory item, bool isExpanded)
 		{
-			// Debug.WriteLine("@TreeNode4 ctor| item.title| " + parent.Item.Title 
+			// Debug.WriteLine("@TreeNode ctor| item.title| " + parent.Item.Title 
 			// 	+ " parent depth| " + parent.depth );
 
 			this.parent = parent;
@@ -122,19 +84,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			Depth = parent.depth + 1;
 			this.isExpanded = isExpanded;
 
-			// Children = new ObservableCollection<TreeNode4>();
+			// Children = new ObservableCollection<TreeNode>();
 			OnCreated();
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
 
-		public TreeNode4() : this(null, null, false)
+		public TreeNode() : this(null, null, false)
 		{
-			// Debug.WriteLine("@TreeNode4 ctor| empty treenode created");
+			// Debug.WriteLine("@TreeNode ctor| empty treenode created");
 
 		}
 
-		protected  TreeNode4(SheetCategory item, bool isExpanded)
+		protected  TreeNode(SheetCategory item, bool isExpanded)
 		{
 			this.item = item;
 			this.isExpanded = isExpanded;
@@ -167,12 +129,19 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			IsInitialized = true;
+
+			if (item != null) item.CompOpChanged += ItemOnCompOpChanged;
+		}
+
+		private void ItemOnCompOpChanged(object sender, SHT_CAT_CHANGE change)
+		{
+			notifyParentOfItemChange(item, change);
 		}
 
 		[OnDeserializing]
 		private void OnDeserializing(StreamingContext c)
 		{
-			Children = new ObservableCollection<TreeNode4>();
+			Children = new ObservableCollection<TreeNode>();
 		}
 
 		[OnDeserialized]
@@ -180,7 +149,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			OnCreated();
 
-			// Debug.WriteLine("@TreeNode4 onDeserialized| is expanded?");
+			// Debug.WriteLine("@TreeNode onDeserialized| is expanded?");
 			if (!rememberExpCollapseState) isExpanded = false;
 		}
 
@@ -236,7 +205,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[DataMember(Order = 2)]
-		public TreeNode4 Parent
+		public TreeNode Parent
 		{
 			get => parent;
 			set
@@ -324,7 +293,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[DataMember(Order = 30, Name = "SubCategories")]
-		public ObservableCollection<TreeNode4> Children
+		public ObservableCollection<TreeNode> Children
 		{
 			get => children;
 
@@ -409,7 +378,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	// {
 		// 	// 	int count = item.MergeItemCount;
 		// 	//
-		// 	// 	foreach (TreeNode4 childNode in children)
+		// 	// 	foreach (TreeNode childNode in children)
 		// 	// 	{
 		// 	// 		count += childNode.ExtMergeItemCountCurrent;
 		// 	// 	}
@@ -423,7 +392,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 			int count = item.MergeItemCount;
 		// 		
-		// 			foreach (TreeNode4 childNode in children)
+		// 			foreach (TreeNode childNode in children)
 		// 			{
 		// 				childNode.ExtMergeItemCountCurrent = -1;
 		// 				count += childNode.ExtMergeItemCountCurrent;
@@ -550,6 +519,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public bool IsMaxDepth => depth >= maxDepth;
 
+		[IgnoreDataMember]
+		public bool CompOpModified
+		{
+			set
+			{
+				parent.CompOpModified = value || isModified;
+			}
+		}
+
+
 	#endregion
 
 	#endregion
@@ -564,7 +543,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			int count = item.MergeItemCount;
 
-			foreach (TreeNode4 childNode in children)
+			foreach (TreeNode childNode in children)
 			{
 				count += childNode.CountExtMergeItems();
 			}
@@ -578,7 +557,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 
-			foreach (TreeNode4 node in Children)
+			foreach (TreeNode node in Children)
 			{
 				node.InitializeAllChildrenView();
 				node.IsInitialized = true;
@@ -608,9 +587,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			CheckedChildCount--;
 		}
 
-		public static TreeNode4 TempTreeNode(TreeNode4 parent)
+		public static TreeNode TempTreeNode(TreeNode parent)
 		{
-			TreeNode4 temp = new TreeNode4(parent, SheetCategory.TempSheetCategory(parent.depth), false);
+			TreeNode temp = new TreeNode(parent, SheetCategory.TempSheetCategory(parent.depth), false);
 
 			return temp;
 		}
@@ -626,7 +605,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			if (NodeType == NodeType.BRANCH)
 			{
 				// reset children then myself
-				foreach (TreeNode4 node in ChildrenView )
+				foreach (TreeNode node in ChildrenView )
 				{
 					node.ResetTree();
 				}
@@ -635,8 +614,28 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			ResetNode();
 		}
 
-		public void StateChangeFromParent(CheckedState newState,
-			CheckedState oldState, bool useTriState)
+		public void TriStateReset()
+		{
+			TriState = CheckedState.UNSET;
+		}
+
+		public void UpdateProperties()
+		{
+			OnPropertyChange(nameof(Item));
+			OnPropertyChange(nameof(ChildrenView));
+			OnPropertyChange(nameof(HasChildren));
+			OnPropertyChange(nameof(ChildCount));
+			OnPropertyChange(nameof(ExtChildCount));
+			OnPropertyChange(nameof(ItemCount));
+			OnPropertyChange(nameof(ExtMergeItemCount));
+			// OnPropertyChange(nameof(ExtMergeItemCountCurrent));
+
+			// OnPropertyChange("ExtItemCount");
+		}
+
+
+
+		public void StateChangeFromParent(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			if (useTriState)
 			{
@@ -724,45 +723,40 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		public void TriStateReset()
+		public void ItemChangeFromChild(SheetCategory item, SHT_CAT_CHANGE which)
 		{
-			TriState = CheckedState.UNSET;
+			notifyParentOfItemChange(item, which);
 		}
 
-		public void UpdateProperties()
+		public void ItemChangeFromParent(SHT_CAT_CHANGE which)
 		{
-			OnPropertyChange(nameof(Item));
-			OnPropertyChange(nameof(ChildrenView));
-			OnPropertyChange(nameof(HasChildren));
-			OnPropertyChange(nameof(ChildCount));
-			OnPropertyChange(nameof(ExtChildCount));
-			OnPropertyChange(nameof(ItemCount));
-			OnPropertyChange(nameof(ExtMergeItemCount));
-			// OnPropertyChange(nameof(ExtMergeItemCountCurrent));
-
-			// OnPropertyChange("ExtItemCount");
+			notifyChildrenOfItemChange(which);
 		}
+
 
 	#endregion
 
 	#region private methods
 
-		// private int ExtendedChildrenCount(TreeNode4 node)
-		// {
-		// 	if (node.children.Count == 0) return 0;
-		//
-		// 	int count = node.children.Count;
-		//
-		// 	foreach (TreeNode4 child in node.children)
-		// 	{
-		// 		if (child.children.Count > 0)
-		// 		{
-		// 			count += ExtendedChildrenCount(child);
-		// 		}
-		// 	}
-		//
-		// 	return count;
-		// }
+		private void notifyParentOfItemChange(SheetCategory item, SHT_CAT_CHANGE which)
+		{
+			parent?.ItemChangeFromChild(item, which);
+		}
+
+		private void notifyChildrenOfItemChange(SHT_CAT_CHANGE which)
+		{
+			if (item!=null) item.MessageFromParent(which);
+
+			if (ChildrenView == null) return;
+
+			foreach (TreeNode node in ChildrenView)
+			{
+				node.ItemChangeFromParent(which);
+			}
+		}
+
+
+
 
 		private int ExtChildrenCount()
 		{
@@ -770,7 +764,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			int count = children.Count;
 
-			foreach (TreeNode4 child in children)
+			foreach (TreeNode child in children)
 			{
 				count += child.ExtChildCount;
 			}
@@ -778,7 +772,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return count;
 		}
 
-		// private void ExtMergeItemCount(TreeNode4 node)
+		// private void ExtMergeItemCount(TreeNode node)
 		// {
 		// 	// count my merge items
 		// 	int count = node.item.MergeItems.Count;
@@ -789,7 +783,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	tabDepth++;
 		//
 		// 	// sum the count from each child recursevly
-		// 	foreach (TreeNode4 child in node.children)
+		// 	foreach (TreeNode child in node.children)
 		// 	{
 		// 		count += child.ExtMergeItemCount(child);
 		// 	}
@@ -821,7 +815,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			if (ChildrenView == null) return;
 
-			foreach (TreeNode4 node in ChildrenView)
+			foreach (TreeNode node in ChildrenView)
 			{
 				node.StateChangeFromParent(newState, oldState, useTriState);
 			}
@@ -933,7 +927,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			
 			rememberExpCollapseState = (bool) (value ?? false);
 
-			Debug.WriteLine("@TreeNode4 onAnnounced| remember?| " + rememberExpCollapseState.ToString());
+			Debug.WriteLine("@TreeNode onAnnounced| remember?| " + rememberExpCollapseState.ToString());
 		}
 
 		private void OnAnnouncedTnInit(object sender, object value)
@@ -964,7 +958,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// creates a partial clone - does not clone the children
 		public object Clone()
 		{
-			TreeNode4 newNode = new TreeNode4(parent, (SheetCategory) item.Clone(), false);
+			TreeNode newNode = new TreeNode(parent, (SheetCategory) item.Clone(), false);
 
 			newNode.checkedState = checkedState;
 			newNode.isExpanded = isExpanded;
@@ -988,22 +982,22 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 #endregion
 
-#region BaseOfTree4
+#region BaseOfTree
 
 	[DataContract(Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
-	public class BaseOfTree4 : TreeNode4
+	public class BaseOfTree : TreeNode
 	{
 	#region private fields
 
-		private TreeNode4 selectedNode;
+		private TreeNode selectedNode;
 		// private int extMergeItemCountCurrent;
 
 	#endregion
 
 	#region ctor
 
-		public BaseOfTree4() : base(null, false)
+		public BaseOfTree() : base(null, false)
 		{
 			Depth = 0;
 		}
@@ -1030,7 +1024,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region public properties
 
-		public TreeNode4 SelectedNode
+		public TreeNode SelectedNode
 		{
 			get => selectedNode;
 			set
@@ -1060,7 +1054,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 		int count = item.MergeItemCount;
 		// 		
-		// 		foreach (TreeNode4 childNode in children)
+		// 		foreach (TreeNode childNode in children)
 		// 		{
 		// 			childNode.ExtMergeItemCountCurrent = -1;
 		// 			count += childNode.ExtMergeItemCountCurrent;
@@ -1072,17 +1066,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	}
 		// }
 
-		public void RemoveNode2(TreeNode4 contextNode)
+		public void RemoveNode2(TreeNode contextNode)
 		{
-			TreeNode4 parent = contextNode.Parent;
+			TreeNode parent = contextNode.Parent;
 			parent.Children.Remove(contextNode);
 
 			NotifyChildrenChange();
 		}
 
-		public void AddNewChild2(TreeNode4 contextNode)
+		public void AddNewChild2(TreeNode contextNode)
 		{
-			TreeNode4 temp = TempTreeNode(contextNode);
+			TreeNode temp = TempTreeNode(contextNode);
 			
 			temp.IsNodeSelected = true;
 
@@ -1091,7 +1085,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			contextNode.NotifyChildrenChange();
 		}
 
-		public void AddChild2(TreeNode4 contextNode, TreeNode4 toAddNode)
+		public void AddChild2(TreeNode contextNode, TreeNode toAddNode)
 		{
 			toAddNode.Depth = ++contextNode.Depth;
 			contextNode.Children.Add(toAddNode);
@@ -1100,10 +1094,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		// adds a new, temp node before the selected node
-		public void AddNewBefore2(TreeNode4 contextNode)
+		public void AddNewBefore2(TreeNode contextNode)
 		{
-			TreeNode4 parent = contextNode.Parent;
-			TreeNode4 temp = TempTreeNode(parent);
+			TreeNode parent = contextNode.Parent;
+			TreeNode temp = TempTreeNode(parent);
 			temp.IsNodeSelected = true;
 			AddAt2(parent, temp, parent.Children.IndexOf(contextNode));
 
@@ -1111,20 +1105,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		// adds without notifying of the revision
-		public void AddBefore2(TreeNode4 contextNode, TreeNode4 toAddNode)
+		public void AddBefore2(TreeNode contextNode, TreeNode toAddNode)
 		{
 			toAddNode.Depth = ++contextNode.Depth;
-			TreeNode4 parent = contextNode.Parent;
+			TreeNode parent = contextNode.Parent;
 
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode));
 		}
 
 		// adds a new, temp node before the selected node
-		public void AddNewAfter2(TreeNode4 contextNode)
+		public void AddNewAfter2(TreeNode contextNode)
 		{
-			TreeNode4 parent = contextNode.Parent;
+			TreeNode parent = contextNode.Parent;
 
-			TreeNode4 temp = TempTreeNode(parent);
+			TreeNode temp = TempTreeNode(parent);
 
 			temp.IsNodeSelected = true;
 
@@ -1134,15 +1128,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		// adds without notifying of the revision
-		public void AddAfter2(TreeNode4 contextNode, TreeNode4 toAddNode)
+		public void AddAfter2(TreeNode contextNode, TreeNode toAddNode)
 		{
-			TreeNode4 parent = contextNode.Parent;
+			TreeNode parent = contextNode.Parent;
 			toAddNode.Depth = parent.Depth + 1;
 
 			AddAt2(parent, toAddNode, parent.Children.IndexOf(contextNode) + 1);
 		}
 
-		public void AddNode(TreeNode4 node)
+		public void AddNode(TreeNode node)
 		{
 			node.Depth = node.Parent.Depth + 1;
 
@@ -1154,7 +1148,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// </summary>
 		/// <param name="contextNode">the selected node</param>
 		/// <param name="existingNode">the existing node being relocated</param>
-		public void MoveBefore(TreeNode4 contextNode, TreeNode4 existingNode)
+		public void MoveBefore(TreeNode contextNode, TreeNode existingNode)
 		{
 			existingNode.Depth = contextNode.Depth;
 
@@ -1168,7 +1162,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// </summary>
 		/// <param name="contextNode">the selected node</param>
 		/// <param name="existingNode">the existing node being relocated</param>
-		public void MoveAfter(TreeNode4 contextNode, TreeNode4 existingNode)
+		public void MoveAfter(TreeNode contextNode, TreeNode existingNode)
 		{
 			existingNode.Depth = contextNode.Depth;
 
@@ -1182,7 +1176,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// </summary>
 		/// <param name="contextNode">the selected node</param>
 		/// <param name="existingNode">the node being relocated</param>
-		public void MoveAsChild(TreeNode4 contextNode, TreeNode4 existingNode)
+		public void MoveAsChild(TreeNode contextNode, TreeNode existingNode)
 		{
 			moveAsChild2(contextNode, existingNode);
 
@@ -1204,15 +1198,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 
-		private void AddAt2(TreeNode4 parent, TreeNode4 toAddNode, int index)
+		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
 		{
 			parent.Children.Insert(index, toAddNode);
 		}
 
 		// parent is the parent of the new location
-		private void moveNode2(TreeNode4 contextNode, TreeNode4 existingNode, NodePlacement how)
+		private void moveNode2(TreeNode contextNode, TreeNode existingNode, NodePlacement how)
 		{
-			TreeNode4 parent = contextNode.Parent;
+			TreeNode parent = contextNode.Parent;
 
 			int contextIdx = parent.Children.IndexOf(contextNode);
 
@@ -1230,7 +1224,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				// complex move from one collection to another
 				// this means, add then delete
 
-				TreeNode4 exParent = existingNode.Parent;
+				TreeNode exParent = existingNode.Parent;
 
 				// update the parent of the existing node
 				existingNode.Parent = contextNode.Parent;
@@ -1244,10 +1238,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		// move to be the child of contextNode
-		private void moveAsChild2(TreeNode4 contextNode, TreeNode4 existingNode)
+		private void moveAsChild2(TreeNode contextNode, TreeNode existingNode)
 		{
 			// save the original parent for later use
-			TreeNode4 exParent = existingNode.Parent;
+			TreeNode exParent = existingNode.Parent;
 
 			// update the parent of the existing node
 			existingNode.Parent = contextNode;
@@ -1272,7 +1266,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override string ToString()
 		{
-			return NodeType + ":: ** class BaseOfTree4 ** ::" + CheckedState;
+			return NodeType + ":: ** class BaseOfTree ** ::" + CheckedState;
 		}
 
 	#endregion

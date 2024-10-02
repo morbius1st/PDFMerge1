@@ -4,7 +4,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="clr-namespace:Test4"
+		xmlns:local="clr-namespace:Test4.Windows"
 		xmlns:as="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport"
 		Title="MainWindow"
 		Width="1600"
@@ -145,28 +145,35 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type TreeViewItem}">
+
 						<Grid x:Name="Gd"
 								Margin="3,0,5,0"
 								>
+
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition
 										Width="Auto"
 										MinWidth="25"
 										/>
 								<ColumnDefinition Width="*" />
+
 							</Grid.ColumnDefinitions>
 							<!--  remove the below from the above to allow full width items  -->
 							<!-- <ColumnDefinition Width="Auto" /> -->
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
-								<RowDefinition />
+								<RowDefinition Height="0*" />
 							</Grid.RowDefinitions>
+
 							<ToggleButton x:Name="Expander"
+									Grid.Column="0"
+									Grid.Row="0"
 									IsChecked="{Binding IsExpanded,
 																			RelativeSource={RelativeSource TemplatedParent}}"
 									ClickMode="Press"
 									Style="{StaticResource ExpandCollapseToggleStyle}"
 									/>
+
 							<Border x:Name="Bd"
 									Grid.Column="1"
 									Grid.Row="0"
@@ -236,6 +243,45 @@
 			</Style.Triggers>
 		</Style>
 
+		<ControlTemplate x:Key="TreeViewTemplate1"
+				TargetType="{x:Type TreeView}"
+				>
+			<Border x:Name="Bd"
+					BorderThickness="{TemplateBinding BorderThickness}"
+					BorderBrush="{TemplateBinding BorderBrush}"
+					SnapsToDevicePixels="true"
+					>
+
+				<ScrollViewer x:Name="_tv_scrollviewer_"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						CanContentScroll="false"
+						Focusable="false"
+						HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+						SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+						VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+						>
+
+					<ItemsPresenter x:Name="ip_template1"
+							Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}},
+															Path=ActualWidth}"
+							DockPanel.Dock="Top"
+							/>
+
+
+				</ScrollViewer>
+
+
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+				</Trigger>
+				<Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+					<Setter TargetName="_tv_scrollviewer_" Property="CanContentScroll" Value="true" />
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
 
 
 	</Window.Resources>
@@ -248,19 +294,262 @@
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
+			<RowDefinition Height="80" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 
 
+		<Grid
+				Grid.Column="1"
+				Grid.Row="0"
+				Margin="0,0,0,2"
+				DataContext="{Binding ElementName=MainWin,
+															Path=MainWinSupport.ClassificationFile.TreeBase}"
+				>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<!--  row 0  -->
+			<Label
+					Content="Base Of Tree"
+					Grid.Column="0"
+					Grid.Row="0"
+					Margin="2"
+					Padding="0,0,0,0"
+					Foreground="White"
+					/>
+
+			<Label
+					Content="node type"
+					Grid.Column="1"
+					Grid.Row="0"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="2"
+					Grid.Row="0"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=NodeType,
+												 Mode=OneWay,
+												 FallbackValue='type'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+			<Label
+					Content="ex child count"
+					Grid.Column="3"
+					Grid.Row="0"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="4"
+					Grid.Row="0"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=ExtChildCount,
+												 Mode=OneWay,
+												 FallbackValue='type'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+			<Label
+					Content="ex merge count"
+					Grid.Column="5"
+					Grid.Row="0"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="6"
+					Grid.Row="0"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=ExtMergeItemCount,
+												 Mode=OneWay,
+												 FallbackValue='type'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+
+			<!--  row 1  -->
+
+			<Label
+					Content="SheetCat"
+					Grid.Column="0"
+					Grid.Row="1"
+					Margin="2"
+					Padding="0,0,0,0"
+					Foreground="White"
+					/>
+
+
+			<Label
+					Content="Title"
+					Grid.Column="1"
+					Grid.Row="1"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="2"
+					Grid.Row="1"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=Item.Title,
+												 Mode=OneWay,
+												 FallbackValue='title'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+			<Label
+					Content="Description"
+					Grid.Column="3"
+					Grid.Row="1"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="4"
+					Grid.Row="1"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=Item.Description,
+												 Mode=OneWay,
+												 FallbackValue='desc'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+			<!--  row 2  -->
+
+			<Label
+					Content="Depth"
+					Grid.Column="1"
+					Grid.Row="2"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="2"
+					Grid.Row="2"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=Item.Depth,
+												 Mode=OneWay,
+												 FallbackValue='0'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+			<Label
+					Content="CheckState"
+					Grid.Column="3"
+					Grid.Row="2"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="4"
+					Grid.Row="2"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=CheckedState,
+												 Mode=OneWay,
+												 FallbackValue='state'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+
+			<!--  row 3  -->
+
+			<Label
+					Content="Merge Item Count"
+					Grid.Column="1"
+					Grid.Row="3"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+			<TextBox
+					Grid.Column="2"
+					Grid.Row="3"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding Path=Item.MergeItemCount,
+												 Mode=OneWay,
+												 FallbackValue='0'}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+
+
+		</Grid>
+
+
 		<StackPanel
 				Grid.Column="0"
-				Grid.Row="2"
+				Grid.Row="3"
 				Grid.ColumnSpan="2"
 				HorizontalAlignment="Right"
 				Orientation="Horizontal"
 				>
+
+
+			<Button Name="btnClassifyTest"
+					Content="Classify"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="btnClassifyTest_OnClick"
+					/>
 
 			<Button Name="btnDebug"
 					Content="Debug"
@@ -289,6 +578,7 @@
 
 
 		<TextBox
+				Grid.Row="1"
 				FontFamily="MS Gothic"
 				FontSize="14"
 				Background="Transparent"
@@ -298,9 +588,9 @@
 				/>
 
 
-		<TreeView
+		<TreeView x:Name="tv_parent"
 				Grid.Column="1"
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.RowSpan="2"
 				Margin="0"
 				Padding="0"
@@ -317,12 +607,12 @@
 				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				ItemsSource="{Binding Path=Children}"
 				ItemContainerStyle="{DynamicResource TreeViewContainerStyle1}"
+				Template="{DynamicResource TreeViewTemplate1}"
 				>
 
 			<TreeView.Style>
 				<Style TargetType="TreeView">
-					<Setter Property="HorizontalContentAlignment" Value="Stretch">
-					</Setter>
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 				</Style>
 			</TreeView.Style>
 
@@ -332,11 +622,11 @@
 						ItemsSource="{Binding Children}"
 						>
 
-
 					<DockPanel
 							Margin="0,0,0,10"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
+							DockPanel.Dock="left"
 							>
 						<TextBox
 								Padding="2"
@@ -381,6 +671,58 @@
 							<StackPanel
 									DockPanel.Dock="Bottom"
 									Orientation="Horizontal"
+							>
+								<Label
+										Content="IsFixed"
+										Margin="5,2,2,2"
+										Width="60"
+										Style="{StaticResource lblTreeItem}"
+								/>
+								<TextBox
+										Margin="2,2,2,2"
+										Width="55"
+										Padding="0"
+										HorizontalAlignment="Stretch"
+										Text="{Binding Path=Item.IsFixed,
+																	 Mode=OneWay}"
+										Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+								<Label
+										Content="IsLocked"
+										Margin="10,2,2,2"
+										Width="60"
+										Style="{StaticResource lblTreeItem}"
+								/>
+								<TextBox
+										Margin="2,2,2,2"
+										Width="55"
+										HorizontalAlignment="Stretch"
+										Text="{Binding Path=Item.IsLocked,
+																	 Mode=OneWay}"
+										Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+								<Label
+										Content="IsVisible"
+										Margin="5,2,2,2"
+										Width="80"
+										Style="{StaticResource lblTreeItem}"
+								/>
+								<TextBox
+										Margin="2,2,2,2"
+										Width="60"
+										HorizontalAlignment="Stretch"
+										Text="{Binding Path=Item.IsVisible,
+																	 Mode=OneWay}"
+										Style="{StaticResource tbxTreeItemValue}"
+								/>
+							</StackPanel>
+
+
+							<StackPanel
+									DockPanel.Dock="Bottom"
+									Orientation="Horizontal"
 									>
 								<TextBox
 										Margin="5,2,2,2"
@@ -394,12 +736,13 @@
 								<Label
 										Content="Child Count"
 										Margin="5,2,2,2"
+										Width="80"
 										Style="{StaticResource lblTreeItem}"
 										/>
 
 								<TextBox
 										Margin="2,2,2,2"
-										Width="50"
+										Width="60"
 										HorizontalAlignment="Stretch"
 										Text="{Binding Path=ChildCount,
 																	 Mode=OneWay}"
@@ -423,51 +766,11 @@
 										Style="{StaticResource tbxTreeItemValue}"
 										/>
 
-								<Label
-										Content="IsFixed"
-										Margin="10,2,2,2"
-										Style="{StaticResource lblTreeItem}"
-										/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="50"
-										Padding="0"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsFixed,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
 
-								<Label
-										Content="IsLocked"
-										Margin="10,2,2,2"
-										Style="{StaticResource lblTreeItem}"
-										/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="50"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsLocked,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
-
-								<Label
-										Content="IsVisible"
-										Margin="10,2,2,2"
-										Style="{StaticResource lblTreeItem}"
-										/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="50"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsVisible,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
 
 
 							</StackPanel>
+
 
 						</DockPanel>
 
@@ -482,8 +785,17 @@
 									HorizontalContentAlignment="Stretch"
 									Background="Black"
 									DockPanel.Dock="Top"
+									ScrollViewer.VerticalScrollBarVisibility="Disabled"
 									ItemsSource="{Binding Path=Item.CompareOps}"
 									>
+								<ListBox.Resources>
+									<Style TargetType="{x:Type ScrollViewer}">
+										<Setter Property="IsEnabled" Value="False" />
+									</Style>
+
+
+								</ListBox.Resources>
+
 								<ListBox.ItemTemplate>
 									<DataTemplate DataType="{x:Type as:ComparisonOperation}">
 										<DockPanel HorizontalAlignment="Stretch">
@@ -520,7 +832,7 @@
 														/>
 												<TextBox
 														Margin="5,2,0,2"
-														Text="{Binding CompNameData.ValueIndex,
+														Text="{Binding CompNameData.Index,
 																					 Mode=OneWay}"
 														Style="{StaticResource tbxTreeItemValue}"
 														/>
@@ -672,7 +984,8 @@
 															Grid.Column="1"
 															Grid.Row="2"
 															Text="{Binding ValueCompareString,
-																						 Mode=OneWay, TargetNullValue='null'}"
+																						 Mode=OneWay,
+																						 TargetNullValue='null'}"
 															Style="{StaticResource tbxTreeItemValue}"
 															/>
 
@@ -688,7 +1001,8 @@
 															Grid.Column="3"
 															Grid.Row="2"
 															Text="{Binding LogicalComparisonOpCode,
-																						 Mode=OneWay, TargetNullValue='null'}"
+																						 Mode=OneWay,
+																						 TargetNullValue='null'}"
 															Style="{StaticResource tbxTreeItemValue}"
 															/>
 													<Label
@@ -719,7 +1033,8 @@
 															Grid.Column="1"
 															Grid.Row="3"
 															Text="{Binding LogicalCompareString,
-																						 Mode=OneWay, TargetNullValue='null'}"
+																						 Mode=OneWay,
+																						 TargetNullValue='null'}"
 															Style="{StaticResource tbxTreeItemValue}"
 															/>
 
@@ -736,7 +1051,8 @@
 															Grid.Column="3"
 															Grid.Row="3"
 															Text="{Binding LogicalCompOpCode,
-																						 Mode=OneWay, TargetNullValue='null'}"
+																						 Mode=OneWay,
+																						 TargetNullValue='null'}"
 															Style="{StaticResource tbxTreeItemValue}"
 															/>
 
@@ -798,7 +1114,8 @@
 																Grid.Row="0"
 																DockPanel.Dock="Bottom"
 																Text="{Binding LogicalCompareOp.Name,
-																							 Mode=OneWay, TargetNullValue='null'}"
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
 																Style="{StaticResource tbxTreeItemValue}"
 																>
 														</TextBox>
@@ -816,7 +1133,8 @@
 																Grid.Row="0"
 																DockPanel.Dock="Bottom"
 																Text="{Binding LogicalCompareOp.OpCode,
-																							 Mode=OneWay, TargetNullValue='null'}"
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
 																Style="{StaticResource tbxTreeItemValue}"
 																>
 														</TextBox>
@@ -834,7 +1152,8 @@
 																Grid.Row="0"
 																DockPanel.Dock="Bottom"
 																Text="{Binding LogicalCompareOp.OpCodeValue,
-																							 Mode=OneWay, TargetNullValue='null'}"
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
 																Style="{StaticResource tbxTreeItemValue}"
 																>
 														</TextBox>

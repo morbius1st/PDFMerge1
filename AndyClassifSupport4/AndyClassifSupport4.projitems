@@ -9,5 +9,28 @@
     <Import_RootNamespace>AndyClassifSupport4</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassifySupport\Classify4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF3\FileNameSheetParser3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF3\FileNameSheetPdf2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF3\FileNameSheetPdf3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF3\SheetIdentifiers3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF4\FileNameSheetParser4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF4\FileNameSheetPdf4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF4\SheetIdentifiers4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameSheetPDF4\ShtNumber4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSupport\FileNameSheetParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSupport\SheetFileList4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test3Files\ShtNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test4Support\FileNameSheetParser4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test4Support\FileNameSheetPdf3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test4Support\Sample1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test4Support\Samples4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test4Support\SheetIdentifiers3.cs" />
   </ItemGroup>
 </Project>

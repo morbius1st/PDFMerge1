@@ -10,8 +10,6 @@ using UtilityLibrary;
 using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 using SettingsManager;
 
-
-// using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 using static AndyShared.FileSupport.FileNameSheetPDF4.SheetIdentifiers4;
 
 #endregion
@@ -45,8 +43,16 @@ namespace AndyShared.FileSupport.FileNameSheetPDF4
 		public static FileNameSheetParser4 Instance => instance.Value;
 
 		public bool IsConfigd => !PdfFileNamePattern.IsVoid();
-
 		
+		public List<int> CompLengths
+		{
+			get => compLengths;
+			set => compLengths = value;
+		}
+
+		public string PdfFileNamePattern { get; private set; }
+
+		public string SpecialDisciplines { get; set; }
 
 	#endregion
 
@@ -56,9 +62,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF4
 
 	#region public methods
 
-		public string PdfFileNamePattern { get; private set; }
-
-		public string SpecialDisciplines { get; set; }
 
 		// private const string SHT_FILE_NAME_PATTERN =
 		// @"^(?<PhBldg>(?:[0-9]{0,2}[A-Z]{0,2}(?= [^0-9])))*? ?(?<Discipline>[A-Z](?=[\-\. 0-9]))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>\w*?(?=[\-\.]))*(?<sep3>[\-\.]?)(?<SubModifier>\w*?(?=[\-\.]))*(?<sep4>[\-\.]?)(?<Identifier>\w*?(?=[\-\.]))*(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)";
@@ -150,12 +153,6 @@ namespace AndyShared.FileSupport.FileNameSheetPDF4
 			return true;
 		}
 
-		public List<int> CompLengths
-		{
-			get => compLengths;
-			set => compLengths = value;
-		}
-
 
 		/*  voided - do not use
 
@@ -230,7 +227,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF4
 		*/
 
 
-		// public bool ParseSheetNumber1(ShtNumber shtNumber, string shtNum)
+		// public bool ParseSheetNumber1(ShtNumberObj shtNumberObj, string shtNum)
 		// {
 		// 	bool result = true;
 		//
@@ -246,10 +243,10 @@ namespace AndyShared.FileSupport.FileNameSheetPDF4
 		// 		{
 		// 			GroupCollection g = match.Groups;
 		//
-		// 			extractShtNumComps3(shtNumber, g);
+		// 			extractShtNumComps3(shtNumberObj, g);
 		//
-		// 			shtNumber.OrigSheetNumber = g[CN_SHTNUM]?.Value ?? "";
-		// 			shtNumber.OrigSheetID = g[CN_SHTID]?.Value ?? "";
+		// 			shtNumberObj.OrigSheetNumber = g[CN_SHTNUM]?.Value ?? "";
+		// 			shtNumberObj.OrigSheetID = g[CN_SHTID]?.Value ?? "";
 		// 		}
 		// 		else
 		// 		{

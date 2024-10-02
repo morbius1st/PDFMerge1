@@ -11,13 +11,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Forms;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport.FileNameSheetPDF4;
 using AndyShared.MergeSupport;
 using AndyShared.SampleFileSupport;
 using JetBrains.Annotations;
 using UtilityLibrary;
-
+using TreeNode = AndyShared.ClassificationDataSupport.TreeSupport.TreeNode;
 #endregion
 
 // username: jeffs
@@ -27,7 +28,7 @@ using UtilityLibrary;
 
 namespace AndyShared.ClassifySupport
 {
-	public enum ClassifyStatus4
+	public enum ClassifyStatus
 	{
 		CREATED,
 		CONFIGURED1,
@@ -108,8 +109,22 @@ namespace AndyShared.ClassifySupport
 		/// </summary>
 		public bool Configure(BaseOfTree treeBase, SheetFileList4 fileList)
 		{
+			Debug.Write("config ok? | ");
 			if (treeBase == null || !treeBase.HasChildren ||
-				fileList == null || fileList.Files.Count == 0) return false;
+				fileList == null || fileList.Files.Count == 0)
+			{
+				Debug.WriteLine("no");
+
+				string r1 = treeBase == null ? "tree null" : $"no children {!treeBase.HasChildren}";
+				string r2 = fileList == null ? "tree null" : $"no files {fileList.Files.Count == 0}";
+
+				Debug.WriteLine($"tree base? {r1}");
+				Debug.WriteLine($"list list? {r2}");
+
+				return false;
+			}
+
+			Debug.WriteLine("yes");
 
 			this.treeBase = treeBase;
 			this.fileList = fileList;
@@ -134,8 +149,16 @@ namespace AndyShared.ClassifySupport
 		/// </summary>
 		public void PreProcess()
 		{
+			Debug.Write("pre-process ok? | ");
+
 			if (Status != ClassifyStatus.CONFIGURED1
-				&& Status != ClassifyStatus.CONFIGURED2) return;
+				&& Status != ClassifyStatus.CONFIGURED2)
+			{
+				Debug.WriteLine("no");
+				return;
+			}
+
+			Debug.WriteLine("yes");
 
 			treeBase.Item.MergeItems = new ObservableCollection<MergeItem>();
 
@@ -153,7 +176,14 @@ namespace AndyShared.ClassifySupport
 		/// </summary>
 		public async void Process3()
 		{
-			if (Status != ClassifyStatus.PREPROCESSED) return;
+			Debug.Write("process3 ok? | ");
+			if (Status != ClassifyStatus.PREPROCESSED)
+			{
+				Debug.WriteLine("no");
+				return;
+			}
+
+			Debug.WriteLine("ok so far");
 
 			processFiles3();
 
@@ -169,6 +199,8 @@ namespace AndyShared.ClassifySupport
 		/// </summary>
 		private void processFiles3()
 		{
+			Debug.WriteLine("processFiles3");
+
 			Thread.CurrentThread.Name = "process files";
 
 			Status = ClassifyStatus.RUNNING;
@@ -177,16 +209,28 @@ namespace AndyShared.ClassifySupport
 
 			foreach (FilePath<FileNameSheetPdf4> file in fileList.Files)
 			{
+				Debug.Write($"process {file.FileNameObject.SheetNumber} | ");
+
 				if (usePhBldg)
 				{
 					if ((!file.FileNameObject.ShtNumber.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
 					{
+						Debug.WriteLine("skipped");
+
 						addNonApplicableFile(file);
 						continue;
 					}
 				}
 
-				classify3(treeBase, file, 0);
+				if (classify3(treeBase, file, 0))
+				{
+					Debug.WriteLine("worked");
+				}
+				else
+				{
+					Debug.WriteLine("worked");
+				}
+					
 			}
 
 			Status = ClassifyStatus.COMPLETE;
@@ -205,11 +249,11 @@ namespace AndyShared.ClassifySupport
 			{
 				// Thread.Sleep(100);
 
-				CompareOperations4.Depth = depth;
+				CompareOperations.Depth = depth;
 
 				localMatchFlag = false;
 
-				if (CompareOperations4.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
+				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
 				{
 					// may be a bug here
 					// if item matches but is the top level item,
@@ -220,11 +264,15 @@ namespace AndyShared.ClassifySupport
 						localMatchFlag = classify3(childNode, sheetFilePath, depth + 1);
 					}
 
+					Debug.WriteLine("add item? ");
+
 					if (!localMatchFlag)
 					{
 						MergeItem mi = new MergeItem(0, sheetFilePath);
 						childNode.Item.MergeItems.Add(mi);
 						childNode.Item.UpdateMergeProperties();
+
+						Debug.WriteLine($"yes - 1 adding to {childNode.Item.Title}");
 					}
 
 					matchFlag = true;
@@ -237,6 +285,8 @@ namespace AndyShared.ClassifySupport
 				MergeItem mi = new MergeItem(0, sheetFilePath);
 				treeNode.Item.MergeItems.Add(mi);
 				treeNode.Item.UpdateMergeProperties();
+
+				Debug.WriteLine($"2 adding to {treeNode.Item.Title}");
 
 				matchFlag = true;
 			}

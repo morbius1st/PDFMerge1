@@ -107,6 +107,9 @@ namespace WpfShared.Windows
 				}
 
 				OnPropertyChange();
+				OnPropertyChange(nameof(SelectedSample));
+
+				
 			}
 		}
 
@@ -165,7 +168,7 @@ namespace WpfShared.Windows
 			{
 				if (selected?.CanEdit ?? false)
 				{
-					if (value == null)
+					if (value.IsVoid())
 					{
 						searchText = SampleFiles.SAMPLE_CBX_FIRST_ITEM;
 					}

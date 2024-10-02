@@ -42,9 +42,7 @@ namespace AndyShared.ClassificationFileSupport
 	// #endif
 
 		private bool isSelected;
-
 		private bool isModified;
-
 		private bool isInitialized = false;
 		private bool isDefaultClassfFile = true;
 		private bool isUserClassfFile = false;
@@ -59,24 +57,12 @@ namespace AndyShared.ClassificationFileSupport
 			DM.InOut0();
 		#endif
 
-		#if SHOWTICKS
-			tickNow = System.DateTime.Now.Ticks;
-			ticksStart = tickNow;
-			tickPrior = tickNow;
-
-			showTicks("classF/start @1");
-		#endif
-
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
 			if (!filePathLocal.IsValid) return;
 
 			// setup inter-class communication
 			// tell parent, I have been modified announcer
-
-		#if SHOWTICKS
-			showTicks("classF/start @2");
-		#endif
 
 			// listen to parent, initialize
 			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
@@ -93,9 +79,6 @@ namespace AndyShared.ClassificationFileSupport
 			// bool a = !SettingsSupport.ValidateXmlFile(filePath);
 			// bool b = !ValidateAgainstUsername(filePathLocal);
 
-		#if SHOWTICKS
-			showTicks("classF/start @3");
-		#endif
 
 			if ((FilePathLocal.IsFound && !SettingsSupport.ValidateXmlFile(filePath))
 				|| !ValidateAgainstUsername(filePathLocal)
@@ -105,21 +88,9 @@ namespace AndyShared.ClassificationFileSupport
 				return;
 			}
 
-		#if SHOWTICKS
-			showTicks("classF/start @4");
-		#endif
-
 			PreInitialize();
 
-		#if SHOWTICKS
-			showTicks("classF/start @5");
-		#endif
-
 			InitailizeSample(FilePathLocal.FullFilePath);
-
-		#if SHOWTICKS
-			showTicks("classF/start @6");
-		#endif
 
 		#if DML1
 			DM.InOut0();
@@ -127,21 +98,6 @@ namespace AndyShared.ClassificationFileSupport
 		}
 
 	#endregion
-
-	#if SHOWTICKS
-		private long ticksStart;
-		private long tickPrior;
-		private long tickNow;
-
-
-		private void showTicks(string title)
-		{
-			tickNow = DateTime.Now.Ticks;
-			Debug.Print(title + "|  " + (tickNow - ticksStart)
-				+ "  diff| " + (tickNow - tickPrior));
-			tickPrior =  tickNow;
-		}
-	#endif
 
 	#region public properties
 

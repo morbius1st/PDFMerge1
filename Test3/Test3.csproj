@@ -136,16 +136,9 @@
     <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
       <Link>WinResources\ScrollViewerExtended.xaml.cs</Link>
     </Compile>
-    <Compile Include="FileNameSheetPDF\FileNameSheetPdf3.cs" />
-    <Compile Include="FileNameSheetPDF\SheetIdentifiers3.cs" />
-    <Compile Include="FileNameSheetPDF\FileNameSheetParser3.cs" />
-    <Compile Include="FileNameSheetPDF\FileNameSheetPdf2.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
-    <Compile Include="SheetMgr\Samples2.cs" />
-    <Compile Include="SheetMgr\Samples3.cs" />
     <Compile Include="SheetMgr\Sheet.cs" />
-    <Compile Include="SheetMgr\ShtNumber.cs" />
     <Compile Include="SheetMgr\SheetPartData.cs" />
     <Compile Include="SheetMgr\SheetPartsManager.cs" />
     <Compile Include="SheetMgr\SheetPdfManager.cs" />
@@ -155,10 +148,10 @@
     <Compile Include="SheetMgr\SheetPartsDescriptor.cs" />
     <Compile Include="SheetMgr\SheetManager.cs" />
     <Compile Include="SheetMgr\SheetUtility.cs" />
-    <Compile Include="TreeNoteTests\INodeItem2.cs" />
-    <Compile Include="TreeNoteTests\TreeNodeItem.cs" />
-    <Compile Include="TreeNoteTests\TriStateTree.cs" />
-    <Compile Include="TreeNoteTests\TriStateTreeSupport.cs" />
+    <Compile Include="TreeNodeTests\INodeItem2.cs" />
+    <Compile Include="TreeNodeTests\TreeNodeItem.cs" />
+    <Compile Include="TreeNodeTests\TriStateTree.cs" />
+    <Compile Include="TreeNodeTests\TriStateTreeSupport.cs" />
     <Page Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
       <Link>WinResources\ScrollViewerExtended.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

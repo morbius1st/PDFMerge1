@@ -1,7 +1,21 @@
 ﻿// #define SHOW
 
 #region using directives
-
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using AndyShared.FileSupport.FileNameSheetPDF;
+using AndyShared.FileSupport.FileNameSheetPDF4;
+using AndyShared.Support;
+using UtilityLibrary;
+using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
+using  static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 #endregion
 
 // username: jeffs
@@ -117,12 +131,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		}
 
 		[IgnoreDataMember]
-		public ShtNumberCompName CompNameData => ShtIds.SheetNumberComponentTitles[compareComponentIndex];
+		public ShtNumComps2 CompNameData => ShtIds.SheetNumComponentData[compareComponentIndex * 2];
 
 		[IgnoreDataMember]
 		public string CompareComponentName
 		{
-			get => ShtIds.SheetNumberComponentTitles[compareComponentIndex].Name;
+			get => ShtIds.SheetNumComponentData[compareComponentIndex * 2].Name;
 		}
 		//
 		// [IgnoreDataMember]
@@ -521,7 +535,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		public static bool Compare2(FileNameSheetPdf Pdf,  
+		public static bool Compare2(FileNameSheetPdf4 Pdf,  
 			ObservableCollection<ComparisonOperation> compareOps)
 		{
 			int count = 0;

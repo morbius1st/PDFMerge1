@@ -17,10 +17,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Support\FileNameSheetParser4.cs" />
+    <Compile Remove="Support\FileNameSheetPdf3.cs" />
+    <Compile Remove="Support\Sample1.cs" />
+    <Compile Remove="Support\Samples4.cs" />
+    <Compile Remove="Support\SheetIdentifiers3.cs" />
+    <Compile Remove="Support\ShtNumber.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\.LinkOnly\HeadingSettings.cs" Link="Settings\HeadingSettings.cs" />
     <Compile Include="..\.LinkOnly\MachineSettings.cs" Link="Settings\MachineSettings.cs" />
     <Compile Include="..\.LinkOnly\SiteSettings.cs" Link="Settings\SiteSettings.cs" />
     <Compile Include="..\.LinkOnly\SuiteSettings.cs" Link="Settings\SuiteSettings.cs" />
+    <Compile Include="..\Test3\SheetMgr\SheetPdfSample.cs" Link="Support\SheetPdfSample.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +49,6 @@
 
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
 
-  <Import Project="..\AndyClassifSupport4\AndyClassifSupport4.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
 
 </Project>

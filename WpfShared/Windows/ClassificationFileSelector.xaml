@@ -28,7 +28,7 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" /> -->
-				<ResourceDictionary Source="ResourceFiles/SVG/File-Open-00.xaml" />
+				<ResourceDictionary Source="/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<support:NullStringToMessage x:Key="NullStringToMessage" />
@@ -1366,7 +1366,7 @@
 						Template="{DynamicResource CbxControlTemplate}"
 						
 						SelectedIndex="{Binding ElementName=winClsFileMgr, 
-							Path=CbxSelIdx, Mode=TwoWay, FallbackValue=0}"
+							Path=CbxSelIdx, Mode=TwoWay, FallbackValue=0, TargetNullValue=0}"
 						>
 					<ComboBox.ItemTemplate>
 						<DataTemplate DataType="sampleFileSupport:SampleFile">

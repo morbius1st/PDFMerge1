@@ -141,6 +141,9 @@ namespace ClassifierEditor.SampleData
 		{
 			OnPropertyChange_S("Building");
 
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(null);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
+
 			FilePath<FileNameSheetPdf> sheet;
 
 			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");

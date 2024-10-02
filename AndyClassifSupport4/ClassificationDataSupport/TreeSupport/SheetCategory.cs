@@ -1,5 +1,4 @@
 ﻿#region using
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -9,11 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using AndyShared.MergeSupport;
 using AndyShared.Support;
-using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
-using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
-using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
-
+using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
+using  static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 #endregion
 
 // ReSharper disable CommentTypo
@@ -63,12 +60,14 @@ using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 */
 // ReSharper restore CommentTypo
 
+
+
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
 
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
-	public class SheetCategory4 : INotifyPropertyChanged, ITreeNodeItem
+	public class SheetCategory : INotifyPropertyChanged, ITreeNodeItem
 	{
 	#region private fields
 
@@ -99,7 +98,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region ctor
 
-		public SheetCategory4(string title, string description)
+		public SheetCategory(string title, string description)
 		{
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ctor");
 
@@ -234,7 +233,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string ComponentName
 		{
 			// get => SheetNumberComponentTitles[Depth].Name ?? ""; 
-			get => ShtIds.SheetNumberComponentTitles[Depth].Name ?? ""; 
+			get => ShtIds.SheetNumComponentData[Depth * 2].Name ?? ""; 
 		}
 
 		[IgnoreDataMember]
@@ -378,13 +377,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange("MergeItemCount");
 		}
 
-		public static SheetCategory4 TempSheetCategory(int depth = 0)
+		public static SheetCategory TempSheetCategory(int depth = 0)
 		{
-			// SheetCategory4 temp = new SheetCategory4($"{tempIdx:D3} New Node Title",
+			// SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title",
 			// 	$"{tempIdx++:D3} New Node Description");
 
 			// keep description null
-			SheetCategory4 temp = new SheetCategory4($"{tempIdx:D3} New Node Title", null);
+			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title", null);
 
 			temp.depth = depth;
 
@@ -442,7 +441,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			string t = title + $" (copy {copyIdx})";
 			string d = description + $" (copy {copyIdx})";
 
-			SheetCategory4 clone = new SheetCategory4(t, d) {depth = depth };
+			SheetCategory clone = new SheetCategory(t, d) {depth = depth };
 
 			foreach (ComparisonOperation compOp in compareOps)
 			{
@@ -460,7 +459,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return clone;
 		}
 
-		public override string ToString() => "this is SheetCategory4| " + title;
+		public override string ToString() => "this is SheetCategory| " + title;
 
 	#endregion
 	}

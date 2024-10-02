@@ -121,7 +121,7 @@ namespace ClassifierEditor.SampleData
 		// 	// }
 		// 	if (answer)
 		// 	{
-		// 		sd.Data.Parse();
+		// 		sd.Data.ParsePhBldg();
 		// 	}
 		// 	
 		//
@@ -175,7 +175,7 @@ namespace ClassifierEditor.SampleData
 
 				if (!result) return;
 
-				sampleFileData.Data.Parse();
+				sampleFileData.Data.ParsePhBldg();
 
 			}
 			catch (Exception e)
@@ -260,7 +260,7 @@ namespace ClassifierEditor.SampleData
 			[IgnoreDataMember]
 			public string[] SheetList { get; set; }
 
-			public bool Parse()
+			public bool ParsePhBldg()
 			{
 				SheetList = Sheets?.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 

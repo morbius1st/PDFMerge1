@@ -56,9 +56,9 @@ namespace Test3
 
 			Instance = this;
 
-			MakeEventTests(MAX);
-
-			SetEventTests();
+			// makeEventTests(MAX);
+			//
+			// SetEventTests();
 
 			
 		}
@@ -145,14 +145,16 @@ namespace Test3
 			Debug.WriteLine("at debug");
 		}
 
-		private void MakeEventTests(int qty)
+		private void makeEventTests(int qty)
 		{
+			
 			for (int i = 0; i < qty; i++)
 			{
 				ev2.Add(new EventTest2("", 0));
 
 				EventTest2 evnt2 = new EventTest2(((SelectStatus) (i % 4)).ToString(), i);
 				evnt2.Status = ((SelectStatus) (i % 4));
+				
 				ev2[i] = evnt2;
 			}
 		}

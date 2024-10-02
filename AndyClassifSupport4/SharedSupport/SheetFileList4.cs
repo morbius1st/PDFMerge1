@@ -35,7 +35,7 @@ namespace AndyShared.SampleFileSupport
 
 	#region public properties
 
-		public ObservableCollection<FilePath<FileNameSheetPdf4>> Files { get; private set; }
+		public ObservableCollection<FilePath<FileNameSheetPdf4>> Files { get; set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf4>>();
 
 		public string Description => sampleFileData?.Header.Description;
@@ -125,7 +125,7 @@ namespace AndyShared.SampleFileSupport
 		public void AddPath(FilePath<FileNameSheetPdf4> path)
 		{
 			Files.Add(path);
-			OnPropertyChange("Files");
+			OnPropertyChanged("Files");
 		}
 
 	#endregion

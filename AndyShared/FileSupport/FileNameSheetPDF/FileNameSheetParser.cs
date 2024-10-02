@@ -1,21 +1,36 @@
 ﻿#region using
 
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UtilityLibrary;
+
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 
 #endregion
 
 // username: jeffs
-// created:  5/27/2020 10:55:08 PM
+// created:  9/29/2024 7:52:22 AM
 
 namespace AndyShared.FileSupport.FileNameSheetPDF
 {
+	public class FileExtensionPdfClassifier : FileExtensionClassifier
+	{
+		public override string[] fileTypes { get; set; } = {"pdf"};
+	}
+
 	public class FileNameSheetParser
 	{
 	#region private fields
+
+		private List<int> compLengths;
+
+		private Regex shtFileNamePattern;
 
 		private static readonly Lazy<FileNameSheetParser> instance =
 			new Lazy<FileNameSheetParser>(() => new FileNameSheetParser());
@@ -24,7 +39,10 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 	#region ctor
 
-		private FileNameSheetParser() { }
+		private FileNameSheetParser()
+		{
+			Config();
+		}
 
 	#endregion
 
@@ -32,259 +50,146 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public static FileNameSheetParser Instance => instance.Value;
 
+		public string PdfFileNamePattern { get; private set; }
+
+		public string SpecialDisciplines { get; set; }
+
+		public bool IsConfigd => !PdfFileNamePattern.IsVoid();
+
+		public List<int> CompLengths
+		{
+			get => compLengths;
+			set => compLengths = value;
+		}
+
 	#endregion
 
-	#region private properties
+	#region primary methods
+
+		// version 3 - use this
+		public Match MatchShtNumber(string  shtNum)
+		{
+			return shtFileNamePattern.Match(shtNum);
+		}
+
+		public bool extractShtNumComps3(ShtNumber shtNumber, GroupCollection g)
+		{
+			Group grp;
+			string grpName;
+			int idx;
+
+			try
+			{
+				foreach (KeyValuePair<int, ShtNumComps2> kvp in FileNameSheetIdentifiers.SheetNumComponentData)
+				{
+					if (kvp.Value.ItemClass == ShtIdClass2.SC_IGNORE) continue;
+
+					idx = kvp.Key;
+					grpName = kvp.Value.GroupId;
+
+					grp = g[grpName];
+
+					if (idx > VI_SEP0 && grp.Value.IsVoid() || idx == VI_SUBIDENTIFIER)
+					{
+						shtNumber.SetShtIdType((idx - 2) / 2);
+
+						if (idx != VI_SUBIDENTIFIER) break;
+					}
+
+					shtNumber.ShtNumComps[idx] = grp.Value;
+
+					updateCompLength(idx, grp.Value);
+				}
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 	#endregion
 
 	#region public methods
 
-		private const string PATTERN_SHTNUM_AND_NAME =
-			@"^(?<shtnum>((?<PhBldgid>([0-9]*|[A-Z]*)([A-Z]*|[0-9]*))(?= ))?(?<pbsep> *)(?<shtid>[^ ]*))([ -]+)(?<shtname>.*)";
-
-		private static Regex patternShtNumAndName =
-			new Regex(PATTERN_SHTNUM_AND_NAME, RegexOptions.Compiled | RegexOptions.Singleline);
-
-
-		/// <summary>
-		/// Parse out the Building / Phase, separator, Sheet ID, sheet name
-		/// </summary>
-		/// <param name="sheetPdf"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public bool Parse2(FileNameSheetPdf sheetPdf, string filename)
+		public void Config()
 		{
-			sheetPdf.isPhaseBldg = null;
-			sheetPdf.shtCompType = ShtCompTypes.UNASSIGNED;
-
-			Match match = patternShtNumAndName.Match(filename);
-
-			if (!match.Success)
-			{
-				sheetPdf.fileType = FileTypeSheetPdf.INVALID;
-				return false;
-			}
-
-			GroupCollection g = match.Groups;
-
-			string test;
-
-			// phase-bldg
-			test = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, PHBLDG_COMP_IDX)].Value;
-
-			if (!test.IsVoid())
-			{
-				sheetPdf.SheetComps[PHBLDG_VALUE_IDX] = test;
-				sheetPdf.SheetComps[PBSEP_VALUE_IDX] =
-					g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, PBSEP_COMP_IDX)].Value;
-				sheetPdf.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
-
-				sheetPdf.isPhaseBldg = true;
-			}
-			else
-			{
-				sheetPdf.sheetID = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTID_COMP_IDX)].Value;
-				sheetPdf.isPhaseBldg = false;
-			}
-
-			sheetPdf.originalSheetTitle = g[ShtIds.CompGrpName2(ShtCompTypes.PHBLDG, SHTNAME_COMP_IDX)].Value;
-
-			sheetPdf.sheetTitle = sheetPdf.originalSheetTitle;
-
-			return true;
+			initCompLengths(FileNameSheetIdentifiers.VI_COMP_COUNT);
 		}
 
-		private const string SHT_NUM_PATTERN =
-			@"(((?<Discipline10>[A-Z][A-Z]?(?=[\.\-0-9]))(?<Category10>[0-9]{0,2})(?<sep11>\.)(?<SubCategory10>[0-9]{0,3}[A-Za-z]?)(?<sep12>\-)(?<Modifier10>[0-9A-Za-z]{0,4})((?<sep13>\.)(?<SubModifier10>[0-9]{0,2}))?|(?<Discipline20>GRN)(?<sep21>|\.)(?<Category20>[0-9]{1,3})|(?<Discipline30>[A-Z][A-Z]?)(?<Category30>[0-9]{1,3}(?=\.))(?<sep31>\.(?=[0-9]))?(?<SubCategory30>(?<=\.)[0-9]{1,3}[A-Za-z]{0,2})?){1}|((?<Discipline40>(?<![A-Z0-9])[A-Z]{1,2})(?<sep41>\-?)(?<Category40>[0-9]{1,3}[A-Za-z]{0,2})))($|(?<sep4>\()(?=[0-9A-Za-z])(?<Identifier>(?<=\()[0-9A-Za-z]*(?=│|\)))(?<sep5>│{0,1})(?<SubIdentifier>[0-9A-Za-z]*(?=\)))(?<sep6>\){0,1})$)";
-
-		private static Regex shtIdPattern =
-			new Regex(SHT_NUM_PATTERN, RegexOptions.Compiled | RegexOptions.Singleline);
-
-		/// <summary>
-		/// parse out the components of a sheet id
-		/// </summary>
-		/// <returns></returns>
-		public bool ParseSheetId2(FileNameSheetPdf shtIdComps, string shtId)
+		public void CreateFileNamePattern()
 		{
-			bool status = true;
+			string patternPrefix =
+				@"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?= [^0-9])))?) ?(?<SheetId>(?<Discipline>(?>";
+			string patternSuffix =
+				@"[A-Z]{0,3}(?=[\-\. 0-9]|$)))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>(?>\w*?(?=[\-\.]|$))*)(?<sep3>[\-\.]?)(?<SubModifier>(?>\w*?(?=[\-\.]|$))*)(?<sep4>[\-\.]?)(?<Identifier>(?>\w*?(?=[\-\.]|$))*)(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)))(?>\s-\s(?<SheetTitle>.*))*";
 
-			if (shtId.IsVoid()
-				|| shtIdComps.fileType != FileTypeSheetPdf.SHEET_PDF)
-			{
-				status = false;
-			}
-			else
-			{
-				Match match = shtIdPattern.Match(shtId);
+			PdfFileNamePattern = $"{patternPrefix}{SpecialDisciplines}{patternSuffix}";
 
-				if (match.Success)
-				{
-					GroupCollection g = match.Groups;
-
-					shtIdComps.shtCompType = GetShtCompTypeFromGrpCollection(g);
-
-					try
-					{
-						if (!ParseType(shtIdComps.shtCompType, g, shtIdComps)) status = false;
-					}
-					catch
-					{
-						status = false;
-					}
-
-					if (status)
-					{
-						shtIdComps.hasIdentifier = false;
-
-						// if (!ParseIdent(g, shtIdComps)) status = false;
-						if (!ParseType(ShtCompTypes.IDENT, g, shtIdComps))
-						{
-							status = false;
-						} else
-						{
-							if (!shtIdComps.SheetComps[SEP4_VALUE_IDX].IsVoid())
-							{
-								shtIdComps.hasIdentifier = true;
-							}
-						}
-					}
-				}
-				else
-				{
-					status = false;
-				}
-			}
-
-			if (!status)
-			{
-				shtIdComps.fileType = FileTypeSheetPdf.INVALID;
-				return false;
-			}
-
-			return true;
+			shtFileNamePattern =
+				new Regex(PdfFileNamePattern, RegexOptions.Compiled | RegexOptions.Singleline);
 		}
 
-		internal bool ParseType(ShtCompTypes type, GroupCollection g, FileNameSheetPdf shtIdComps)
+		public void CreateSpecialDisciplines(List<string> specialDisciplines)
 		{
-			string test;
+			SpecialDisciplines = "";
 
-			bool? use = null; // false is optional & true is required
-			bool hasPrior = false;
-			bool inOptSeq = false;
+			if (specialDisciplines == null || specialDisciplines.Count == 0) return;
 
-			foreach (SheetCompInfo2 ci in ShtIds.ShtCompList2[(int) type].ShtCompInfo)
+			StringBuilder sb = new StringBuilder("");
+
+			foreach (string s in specialDisciplines)
 			{
-				if (!ci.IsUseOK) return false;
-
-				if (ci.SeqCtrlUse == SeqCtrlUse2.SKIP ||
-					ci.SeqCtrlUse == SeqCtrlUse2.NOT_USED) continue;
-
-				if (ci.SeqCtrlUse == SeqCtrlUse2.OPTIONAL) use = false;
-				else if (ci.SeqCtrlUse == SeqCtrlUse2.REQUIRED) use = true;
-
-				if (inOptSeq)
-				{
-					if (ci.GetNextOpt() == SeqCtrlNextOpt.SEQ_END)
-					{
-						inOptSeq = false;
-					}
-
-					continue;
-				}
-
-				test = g[ci.GrpName].Value;
-
-				if (use == true)
-				{
-					// required
-					if (!ci.IsReqdProceedOK || !ci.IsReqdNextOK) return false;
-
-					if (test.IsVoid()) return false;
-				}
-				else
-				{
-					if (!ci.IsOptProceedOK || !ci.IsOptNextOK) return false;
-
-					// optional
-					if (test.IsVoid())
-					{
-						// no test value
-						if (ci.GetNextOpt() == SeqCtrlNextOpt.SEQ_END_SEQ_REQ) return false;
-						if (hasPrior && ci.GetNextOpt() == SeqCtrlNextOpt.REQ_IF_PRIOR) return false;
-
-						if (ci.GetNextOpt() == SeqCtrlNextOpt.SEQ_START)
-						{
-							inOptSeq = true;
-						}
-
-						hasPrior = false;
-						continue;
-					}
-
-					// not void - has a test value
-
-					if (ci.GetNextOpt() == SeqCtrlNextOpt.SEQ_END_SEQ_REQ)
-					{
-						inOptSeq = false;
-					}
-				}
-
-				if (ci.ValueIndex < 15)
-				{
-					shtIdComps.SheetComps[ci.ValueIndex] = test;
-				}
-				else
-				{
-					Debug.WriteLine($"index| {ci.ValueIndex}");
-					Debug.WriteLine($"title| {ci.Title}");
-					Debug.WriteLine($"name | {ci.GrpName}");
-				}
-
-				
-
-				hasPrior = true;
-
-				if (ci.GetProceedOpt() == SeqCtrlProceedOpt.END ||
-					ci.GetProceedReqd() == SeqCtrlProceedReqd.END) break;
+				sb.Append(s).Append("|");
 			}
 
-			return true;
+			SpecialDisciplines = sb.ToString();
 		}
 
-		internal ShtCompTypes GetShtCompTypeFromGrpCollection(GroupCollection g)
+		public bool SplitFileName(FileNameSimple file, out string shtNumber, out string shtTitle)
 		{
-			if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE10, 0)].Value.IsVoid())
-			{
-				return ShtCompTypes.TYPE10;
-			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE20, 0)].Value.IsVoid())
-			{
-				return ShtCompTypes.TYPE20;
-			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE30, 0)].Value.IsVoid())
-			{
-				return ShtCompTypes.TYPE30;
-			}
-			else if (!g[ShtIds.CompGrpName2(ShtCompTypes.TYPE40, 0)].Value.IsVoid())
-			{
-				return ShtCompTypes.TYPE40;
-			}
+			shtNumber = "";
+			shtTitle = "";
 
-			return ShtCompTypes.UNASSIGNED;
+			if (file == null) return false;
+
+			string[] parts = file.FileNameNoExt.Split(new [] { " - " }, StringSplitOptions.None);
+
+			if (parts.Length != 2 ) return false;
+
+			shtNumber = parts[0];
+			shtTitle = parts[1];
+
+			return true;
 		}
 
 	#endregion
 
 	#region private methods
 
+		private void updateCompLength(int idx, string compStr)
+		{
+			if (compStr.Length > CompLengths[idx]) CompLengths[idx] = compStr.Length;
+		}
+
+		private void initCompLengths(int count)
+		{
+			CompLengths = new List<int>(count);
+
+			for (int i = 0; i < count; i++)
+			{
+				CompLengths.Add(-1);
+			}
+		}
+
 	#endregion
 
-	#region event processing
+	#region event consuming
 
 	#endregion
 
-	#region event handeling
+	#region event publishing
 
 	#endregion
 
@@ -292,15 +197,9 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 		public override string ToString()
 		{
-			return "this is FileNameSheetParser";
+			return $"this is {nameof(FileNameSheetParser)}";
 		}
 
 	#endregion
-	}
-
-
-	public class FileExtensionPdfClassifier : FileExtensionClassifier
-	{
-		public override string[] fileTypes { get; set; } = {"pdf"};
 	}
 }

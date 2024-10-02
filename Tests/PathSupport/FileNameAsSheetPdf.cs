@@ -145,7 +145,7 @@ namespace Tests.PathSupport
 
 			fnc = new FileNameComponentsPDF(fileNameNoExt, extensionNoSep);
 
-//			bool result = FileNameParseSheet.Instance.Parse(fnc, filename);
+//			bool result = FileNameParseSheet.Instance.ParsePhBldg(fnc, filename);
 
 			if (fnc.success)
 			{

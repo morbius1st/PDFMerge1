@@ -13,17 +13,17 @@
 		xmlns:res="clr-namespace:AndyResources.XamlResources"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:util="clr-namespace:UtilityLibrary"
+		xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
 		Title="Sheet Organization File Editor"
-		Width="1200"
+		Width="1500"
 		Height="800"
 		MinWidth="1200"
 		MinHeight="800"
+		DataContext="{Binding ElementName=MainWinClsfrEd}"
 		mc:Ignorable="d"
 		FontFamily="Tahoma"
 		FontSize="12"
-		DataContext="{Binding ElementName=MainWinClsfrEd}"
 		Background="{StaticResource Window.Background}"
-
 		Closing="MainWin_Closing"
 		Initialized="Window_Initialized"
 		Loaded="Window_Loaded"
@@ -64,7 +64,6 @@
 			<PathGeometry x:Key="TreeArrow2"
 					Figures="M3.5,3.5 L3.5,8 L8,3.5 z"
 					/>
-
 
 			<Style x:Key="Border.Base"
 					TargetType="Border"
@@ -277,7 +276,7 @@
 					TargetType="TextBox"
 					BasedOn="{StaticResource TextBox.Base}"
 					>
-				<Setter Property="IsReadOnly" Value="True"/>
+				<Setter Property="IsReadOnly" Value="True" />
 				<Setter Property="Foreground" Value="White" />
 				<Setter Property="Padding" Value="8,0,8,1" />
 				<Setter Property="BorderThickness" Value="0" />
@@ -1602,13 +1601,15 @@
 								TargetType="{x:Type TreeViewItem}"
 								>
 
-							<Grid
+							<Grid Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
 									Margin="0,2,0,0"
-									Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
 									>
 								<!--  UIElement.MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"  -->
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" MinWidth="19" />
+									<ColumnDefinition
+											Width="Auto"
+											MinWidth="19"
+											/>
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
@@ -1624,7 +1625,6 @@
 										ClickMode="Press"
 										Style="{StaticResource Tv1ExpandCollapseToggleStyle}"
 										/>
-
 
 								<Border x:Name="Bdr"
 										Grid.Column="1"
@@ -2421,9 +2421,10 @@
 			-->
 
 
-			<DataTemplate x:Key="componentDescription2"
-					DataType="file:ShtNumberCompName"
-					>
+			<DataTemplate x:Key="componentDescription2">
+				<!--  DataType="file:FileNameSheetIdentifiers+ShtNumComps2"  -->
+				<!--  DataType="{x:Type file:FileNameSheetIdentifiers+ShtNumComps2}"  -->
+				<!--  DataType="file:ShtNumberCompName"  -->
 				<StackPanel
 						Margin="0"
 						DataContext="{Binding Path=DataContext,
@@ -3101,7 +3102,7 @@
 																					FallbackValue='1',
 																					Mode=TwoWay}"
 									ItemsSource="{Binding Source={x:Static file:FileNameSheetIdentifiers.ShtIds},
-																				Path=SheetNumberComponentTitles}"
+																				Path=lcv}"
 									FocusVisualStyle="{x:Null}"
 									Template="{StaticResource ComboBoxTemplate1}"
 									>
@@ -3109,14 +3110,17 @@
 								<!--  ItemTemplate="{StaticResource componentDescription}"  -->
 
 								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<Grid IsSharedSizeScope="True">
+									<DataTemplate DataType="file:FileNameSheetIdentifiers+ShtNumComps2">
+										<Grid
+												DataContext="{Binding Value}"
+												IsSharedSizeScope="True"
+												>
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="90" />
 												<ColumnDefinition />
 											</Grid.ColumnDefinitions>
 											<Label
-													Content="{Binding Name,
+													Content="{Binding Path=Name,
 																						FallbackValue='* Discipline',
 																						Mode=OneWay}"
 													Grid.Column="0"
@@ -3138,13 +3142,11 @@
 									</DataTemplate>
 									<!--  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ComboBoxItem}}}"  -->
 
+
 								</ComboBox.ItemTemplate>
 
 								<ComboBox.Style>
-									<Style
-											TargetType="ComboBox"
-											
-											>
+									<Style TargetType="ComboBox">
 										<Setter Property="OverridesDefaultStyle" Value="true" />
 										<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 										<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -3701,9 +3703,15 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="4*" MinWidth="400" />
-			<ColumnDefinition x:Name="GrdMainCol2" Width="4*" MinWidth="400" />
-			<ColumnDefinition Width="0" />
+			<ColumnDefinition
+					Width="4*"
+					MinWidth="400"
+					/>
+			<ColumnDefinition x:Name="GrdMainCol2"
+					Width="4*"
+					MinWidth="400"
+					/>
+			<ColumnDefinition Width="300" />
 			<ColumnDefinition Width="0" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -3712,6 +3720,67 @@
 			<RowDefinition Height="Auto" />
 
 		</Grid.RowDefinitions>
+
+		<Grid
+				Grid.Column="2"
+				Grid.Row="1"
+				>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Label
+					Content="UserSelected"
+					Grid.Column="0"
+					Grid.Row="0"
+					Margin="0"
+					Padding="0,0,0,2"
+					VerticalAlignment="Center"
+					Background="#444444"
+					Foreground="DarkGray"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="0"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding UserSelected,
+												 Mode=OneWay,
+												 FallbackValue='false'}"
+					/>
+
+
+			<Label
+					Content="classif / IsModified"
+					Grid.Column="0"
+					Grid.Row="1"
+					Margin="0"
+					Padding="0,0,0,2"
+					VerticalAlignment="Center"
+					Background="#444444"
+					Foreground="DarkGray"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="1"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.IsModified,
+												 Mode=OneWay,
+												 FallbackValue='false'}"
+					/>
+
+		</Grid>
+
+
 
 		<Grid
 				Grid.Column="0"
@@ -3767,12 +3836,10 @@
 						>
 
 					<TextBox x:Name="tbx31b"
-							
 							HorizontalAlignment="Stretch"
 							DataContext="{Binding ElementName=MainWinClsfrEd,
 																		Path=ClassificationFile.FileName,
 																		FallbackValue='Filename'}"
-							
 							HorizontalScrollBarVisibility="Hidden"
 							MaxLines="1"
 							MinLines="1"
@@ -3781,7 +3848,7 @@
 							VerticalScrollBarVisibility="Disabled"
 							Style="{StaticResource TextBox.Setting.Value}"
 							>
-						<!-- d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}" -->
+						<!--  d:DataContext="{Binding Source={x:Static sample:SampleData.FullFilePath}}"  -->
 						<!--  IsReadOnly="True"  -->
 						<!--  d:DataContext="{Binding Source={d:DesignInstance {x:Type sample:SampleData}}}"  -->
 					</TextBox>
@@ -3794,7 +3861,6 @@
 						>
 
 					<TextBox x:Name="tbx32"
-							
 							HorizontalAlignment="Stretch"
 							DataContext="{Binding ElementName=MainWinClsfrEd,
 																		Path=ClassificationFile.FolderPathLocal,
@@ -4372,12 +4438,13 @@
 						DockPanel.Dock="Left"
 						/>
 				<Label
-						Content="{Binding FileList.Files.Count, FallbackValue=0}"
-						ContentStringFormat="{} ({0})"
+						Content="{Binding FileList.Files.Count,
+															FallbackValue=0}"
 						Margin="0,0,0,0"
 						Padding="2,3,2,4"
 						FontSize="13"
 						Foreground="White"
+						ContentStringFormat="{} ({0})"
 						DockPanel.Dock="Left"
 						/>
 
@@ -4428,7 +4495,7 @@
 											>
 										<StackPanel Orientation="Vertical">
 											<Label x:Name="Label27a"
-													Content="{Binding Path=SheetNumberComponentTitles[0].AbbrevName,
+													Content="{Binding Path=SheetNumComponentData[0].AbbrevName,
 																						Mode=OneWay,
 																						FallbackValue='Type',
 																						Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4438,7 +4505,7 @@
 													/>
 
 											<Label x:Name="Label28a"
-													Content="{Binding FilePathInfo.FileNameObject.SheetComponentType,
+													Content="{Binding FilePathInfo.FileNameObject.SheetIdType,
 																						FallbackValue=GRN}"
 													Margin="2,1,0,0"
 													Foreground="DimGray"
@@ -4452,7 +4519,7 @@
 													>
 												<Setter Property="Visibility" Value="Visible" />
 												<Style.Triggers>
-													<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.SheetComponentType, Mode=OneWay}">
+													<DataTrigger Value="{x:Null}" Binding="{Binding FilePathInfo.FileNameObject.SheetIdType, Mode=OneWay}">
 														<Setter Property="Visibility" Value="Collapsed" />
 													</DataTrigger>
 												</Style.Triggers>
@@ -4514,7 +4581,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label27b"
-															Content="{Binding Path=SheetNumberComponentTitles[1].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[1].AbbrevName,
 																								Mode=OneWay,
 																								FallbackValue='Ph / Bl',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4554,7 +4621,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label29"
-															Content="{Binding Path=SheetNumberComponentTitles[2].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[2].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='D',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4586,7 +4653,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label32"
-															Content="{Binding Path=SheetNumberComponentTitles[3].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[3].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='C',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4619,7 +4686,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label33"
-															Content="{Binding Path=SheetNumberComponentTitles[4].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[4].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='Sc',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4651,7 +4718,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label35"
-															Content="{Binding Path=SheetNumberComponentTitles[5].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[5].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='M',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4683,7 +4750,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label37"
-															Content="{Binding Path=SheetNumberComponentTitles[6].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[6].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='Sm',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4715,7 +4782,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label37a"
-															Content="{Binding Path=SheetNumberComponentTitles[7].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[7].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='Id',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4747,7 +4814,7 @@
 											<Border>
 												<StackPanel Orientation="Horizontal">
 													<Label x:Name="Label37b"
-															Content="{Binding Path=SheetNumberComponentTitles[8].AbbrevName,
+															Content="{Binding Path=SheetNumComponentData[8].AbbrevName,
 																								Mode=OneTime,
 																								FallbackValue='Si',
 																								Source={x:Static file:FileNameSheetIdentifiers.ShtIds}}"
@@ -4788,7 +4855,7 @@
 			</DataGrid>
 		</Grid>
 
-		<TreeView x:Name="Tv1"
+		<TreeView x:Name="Tv1" Tag="{Binding ContextCmdDelete, ElementName=MainWinClsfrEd}"
 				Grid.Column="0"
 				Grid.Row="1"
 				Margin="5"
@@ -4800,8 +4867,6 @@
 				Background="{StaticResource ItemsControl.Background}"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
 				SelectedItemChanged="Tv1_OnSelectedItemChanged"
-				Tag="{Binding ContextCmdDelete,
-											ElementName=MainWinClsfrEd}"
 				ItemContainerStyle="{StaticResource Tv1ItemContainerStyle1}"
 				ItemTemplate="{StaticResource Tv1ItemTemplate1}"
 				ItemsSource="{Binding ChildrenView}"

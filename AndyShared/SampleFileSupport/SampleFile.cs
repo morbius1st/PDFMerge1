@@ -124,7 +124,7 @@ namespace AndyShared.SampleFileSupport
 
 		public override string ToString()
 		{
-			return "this is SampleFile";
+			return $"this is {FileName} ({SortName})";
 		}
 
 	#endregion

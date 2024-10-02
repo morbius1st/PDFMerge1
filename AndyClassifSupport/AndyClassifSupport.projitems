@@ -9,5 +9,15 @@
     <Import_RootNamespace>AndyClassifSupport</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ComparisonOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\SheetCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\Classify.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MergeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Samples\Samples2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Samples\Samples3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Samples\SheetPdfSample.cs" />
   </ItemGroup>
 </Project>

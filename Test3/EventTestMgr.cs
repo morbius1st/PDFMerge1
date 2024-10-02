@@ -95,15 +95,15 @@ namespace Test3
 
 			MakeTreeBase();
 
-			getClassificationFile();
+			getClassificationFile("PdfSample 1A");
 
 			Tests();
 
 		}
 
-		private void getClassificationFile()
+		private void getClassificationFile(string fileid)
 		{
-			ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1A");
+			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileid);
 
 			ClassificationFile.Initialize();
 
@@ -121,14 +121,14 @@ namespace Test3
 		private void Tests()
 		{
 
-			SheetUtility.test();
+			// SheetUtility.test();
 
-			SheetPdfManager.Instance.ParseSheetNames3();
-			SheetPdfManager.Instance.ShowShtNameResults3();
+			// SheetPdfManager.Instance.ParseSheetNames3();
+			// SheetPdfManager.Instance.ShowShtNameResults3();
 
 			// voided
-			// SheetPdfManager.Instance.ParseSheets1();
-			// SheetPdfManager.Instance.ShowSheetsResults1();
+			SheetPdfManager.Instance.ParseSheets1();
+			SheetPdfManager.Instance.ShowSheetsResults1();
 			//
 			// SheetPdfManager.Instance.ParseSheetNumbers2();
 			// SheetPdfManager.Instance.ShowShtNumberResults2();
@@ -244,7 +244,6 @@ namespace Test3
 			}
 
 		}
-
 
 		private void MakeChildren(TreeNode5 parent, int depth, ObservableCollection<TreeNode5> children)
 		{

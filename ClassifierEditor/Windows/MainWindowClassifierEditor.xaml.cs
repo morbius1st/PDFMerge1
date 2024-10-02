@@ -1,4 +1,5 @@
 ﻿// #define SHOWTICKS
+
 #region using
 
 using System;
@@ -13,7 +14,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ClassifierEditor.SampleData;
-
 using SettingsManager;
 using UtilityLibrary;
 using AndyShared.ClassificationFileSupport;
@@ -24,6 +24,7 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonO
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using JetBrains.Annotations;
 using WpfShared.Windows;
 
 #endregion
@@ -258,7 +259,8 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
-		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> us = UserSettings.Admin;
+		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> us =
+			UserSettings.Admin;
 
 		private ClassificationFile classificationFile;
 
@@ -293,7 +295,7 @@ namespace ClassifierEditor.Windows
 
 		#if SHOWTICKS
 			showTicks("start @2");
-			#endif
+		#endif
 
 			OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
 			OnSavingAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVING, "Before Modifications get saved");
@@ -322,8 +324,6 @@ namespace ClassifierEditor.Windows
 
 	#region public properties
 
-		// public static SampleData.SampleData SD { get; set; } = new SampleData.SampleData();
-
 		public ClassificationFile ClassificationFile
 		{
 			get => classificationFile;
@@ -344,6 +344,7 @@ namespace ClassifierEditor.Windows
 				string desc = classificationFile.HeaderDescFromMemory;
 
 				UpdateProperties();
+				OnPropertyChanged(nameof(FileList));
 			}
 		}
 
@@ -361,8 +362,10 @@ namespace ClassifierEditor.Windows
 
 				userSelected = value;
 
-				OnPropertyChange();
-				OnPropertyChange("HasSelection");
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(HasSelection));
+				OnPropertyChanged(nameof(ClassificationFile));
+
 
 				Lv2ConditionTemplateSelector.MasterIdIdx = 0;
 			}
@@ -384,7 +387,7 @@ namespace ClassifierEditor.Windows
 				contextSelected = value;
 				contextSelectedParent = contextSelected.Parent;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 
 				if (value == null) return;
 
@@ -402,6 +405,8 @@ namespace ClassifierEditor.Windows
 		public SheetFileList FileList { get; private set; } = new SheetFileList();
 
 
+		public string test { get; set; }
+
 	#region public property settings
 
 		public bool RememberCollapseState
@@ -411,7 +416,7 @@ namespace ClassifierEditor.Windows
 			{
 				UserSettings.Data.RememberNodeExpandState = value;
 				UserSettings.Admin.Write();
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -474,7 +479,8 @@ namespace ClassifierEditor.Windows
 			showTicks("setg @2");
 		#endif
 
-			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> i = UserSettings.Admin;
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> i =
+				UserSettings.Admin;
 
 			UserSettingInfo<UserSettingDataFile> u = UserSettings.Info;
 
@@ -484,7 +490,7 @@ namespace ClassifierEditor.Windows
 			showTicks("setg @5");
 		#endif
 
-			OnPropertyChange("RememberCollapseState");
+			OnPropertyChanged("RememberCollapseState");
 
 		#if SHOWTICKS
 			showTicks("setg @6");
@@ -512,12 +518,12 @@ namespace ClassifierEditor.Windows
 		private void UpdateProperties()
 
 		{
-			OnPropertyChange("ClassificationFile");
-			OnPropertyChange("BaseOfTree");
-			OnPropertyChange("UserSelected");
-			OnPropertyChange("ContextSelected");
-			OnPropertyChange("HasSelection");
-			OnPropertyChange("FileList");
+			OnPropertyChanged("ClassificationFile");
+			OnPropertyChanged("BaseOfTree");
+			OnPropertyChanged("UserSelected");
+			OnPropertyChanged("ContextSelected");
+			OnPropertyChanged("HasSelection");
+			OnPropertyChanged("FileList");
 		}
 
 	#endregion
@@ -565,12 +571,11 @@ namespace ClassifierEditor.Windows
 			}
 			else
 			{
-
 				if (false)
 				{
 				#if SHOWTICKS
 					showTicks("load @3");
-					#endif
+				#endif
 
 					ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
 
@@ -811,19 +816,19 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuAddChild_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null) return;
+			if (contextSelected == null) return;
 
-		BaseOfTree.AddNewChild2(contextSelected);
+			BaseOfTree.AddNewChild2(contextSelected);
 
-		OnPropertyChange("BaseOfTree");
-		OnPropertyChange("ContextSelected");
+			OnPropertyChanged("BaseOfTree");
+			OnPropertyChanged("ContextSelected");
 
-		contextSelected.IsExpanded = true;
+			contextSelected.IsExpanded = true;
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -831,17 +836,17 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuAddBefore_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null) return;
+			if (contextSelected == null) return;
 
-		BaseOfTree.AddNewBefore2(contextSelected);
+			BaseOfTree.AddNewBefore2(contextSelected);
 
-		OnPropertyChange("BaseOfTree");
-		OnPropertyChange("ContextSelected");
+			OnPropertyChanged("BaseOfTree");
+			OnPropertyChanged("ContextSelected");
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -849,17 +854,17 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuAddAfter_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null) return;
+			if (contextSelected == null) return;
 
-		BaseOfTree.AddNewAfter2(contextSelected);
+			BaseOfTree.AddNewAfter2(contextSelected);
 
-		OnPropertyChange("BaseOfTree");
-		OnPropertyChange("ContextSelected");
+			OnPropertyChanged("BaseOfTree");
+			OnPropertyChanged("ContextSelected");
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -867,15 +872,15 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuMoveBefore_OnClick(object sender, RoutedEventArgs e)
 		{
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null || userSelected == null) return;
+			if (contextSelected == null || userSelected == null) return;
 
-		BaseOfTree.MoveBefore(contextSelected, userSelected);
+			BaseOfTree.MoveBefore(contextSelected, userSelected);
 
-		DeSelect();
+			DeSelect();
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -883,16 +888,16 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuMoveAfter_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null || userSelected == null) return;
+			if (contextSelected == null || userSelected == null) return;
 
-		BaseOfTree.MoveAfter(contextSelected, userSelected);
+			BaseOfTree.MoveAfter(contextSelected, userSelected);
 
-		DeSelect();
+			DeSelect();
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -900,16 +905,16 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuMoveChild_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null || userSelected == null) return;
+			if (contextSelected == null || userSelected == null) return;
 
-		BaseOfTree.MoveAsChild(contextSelected, userSelected);
+			BaseOfTree.MoveAsChild(contextSelected, userSelected);
 
-		DeSelect();
+			DeSelect();
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -917,18 +922,18 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuSelCopy_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add contextselected after this leaf
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add contextselected after this leaf
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null) return;
+			if (contextSelected == null) return;
 
-		TreeNode newNode = contextSelected.Clone() as TreeNode;
+			TreeNode newNode = contextSelected.Clone() as TreeNode;
 
-		BaseOfTree.AddAfter2(contextSelected, newNode);
+			BaseOfTree.AddAfter2(contextSelected, newNode);
 
-		DeSelect();
+			DeSelect();
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -936,18 +941,18 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuCopySelAsChild_OnClick(object sender, RoutedEventArgs e)
 		{
-		// add a child to this leaf - also make a branch.
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// add a child to this leaf - also make a branch.
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		if (contextSelected == null) return;
+			if (contextSelected == null) return;
 
-		TreeNode newNode = userSelected.Clone() as TreeNode;
+			TreeNode newNode = userSelected.Clone() as TreeNode;
 
-		BaseOfTree.AddChild2(contextSelected, newNode);
+			BaseOfTree.AddChild2(contextSelected, newNode);
 
-		DeSelect();
+			DeSelect();
 
-		ContextDeselect();
+			ContextDeselect();
 		}
 
 		/*
@@ -955,62 +960,58 @@ namespace ClassifierEditor.Windows
 		*/
 		private void Tv1ContextMenuDelete_OnClick(object sender, RoutedEventArgs e)
 		{
-		bypassContextDeHighlight = true;
+			bypassContextDeHighlight = true;
 
-		string msg;
+			string msg;
 
-		ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			ContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-		int extChildCount = contextSelected.ExtChildCount;
+			int extChildCount = contextSelected.ExtChildCount;
 
-		if (extChildCount > 0)
-		{
-		msg = "a total of " + extChildCount + " categories "
-			+ "and sub-categories.";
+			if (extChildCount > 0)
+			{
+				msg = "a total of " + extChildCount + " categories "
+					+ "and sub-categories.";
+			}
+			else
+			{
+				msg = "no categories or sub-categories.";
+			}
+
+			string title = contextSelected.Item.Title;
+
+			TaskDialogResult result = CommonTaskDialogs.CommonWarningDialog(
+				"Classifier Editor",
+				"You are about to delete the category\n\"" + title + "\"",
+				"The category \"" + title + "\" has " + msg + "\nIs it OK to delete this category?");
+
+
+			//
+			// TaskDialog td = new TaskDialog();
+			//
+			// td.Caption = "Classifier Editor";
+			// td.InstructionText = 
+			// td.Text = ;
+			// td.Icon = TaskDialogStandardIcon.Warning;
+			//
+			//
+			//
+			// MessageBoxResult result = MessageBox.Show(
+			// 	"You are about to delete the category\n"
+			// 	+ title + "\nwith " + msg
+			// 	+ "\nIs this correct?",
+			// 	"Classifier Editor", MessageBoxButton.YesNo,
+			// 	MessageBoxImage.Warning );
+
+			// if (result == MessageBoxResult.Yes)
+
+			if (result == TaskDialogResult.Ok)
+			{
+				BaseOfTree.RemoveNode2(contextSelected);
+			}
+
+			ContextDeselect();
 		}
-		else
-		{
-		msg = "no categories or sub-categories.";
-		}
-
-		string title = contextSelected.Item.Title;
-
-		TaskDialogResult result = CommonTaskDialogs.CommonWarningDialog(
-		"Classifier Editor",
-		"You are about to delete the category\n\"" + title + "\"",
-		"The category \"" + title + "\" has " + msg + "\nIs it OK to delete this category?");
-
-
-		//
-		// TaskDialog td = new TaskDialog();
-		//
-		// td.Caption = "Classifier Editor";
-		// td.InstructionText = 
-		// td.Text = ;
-		// td.Icon = TaskDialogStandardIcon.Warning;
-		//
-		//
-		//
-		// MessageBoxResult result = MessageBox.Show(
-		// 	"You are about to delete the category\n"
-		// 	+ title + "\nwith " + msg
-		// 	+ "\nIs this correct?",
-		// 	"Classifier Editor", MessageBoxButton.YesNo,
-		// 	MessageBoxImage.Warning );
-
-		// if (result == MessageBoxResult.Yes)
-
-		if (result == TaskDialogResult.Ok)
-		{
-		BaseOfTree.RemoveNode2(contextSelected);
-		}
-
-		ContextDeselect();
-		}
-
-
-
-
 
 	#endregion
 
@@ -1095,7 +1096,7 @@ namespace ClassifierEditor.Windows
 				else
 				{
 					userSelected.Item.CompareOps.Add(
-						new ValueCompOp(LOGICAL_OR, EQUALTO, "A", 
+						new ValueCompOp(LOGICAL_OR, EQUALTO, "A",
 							userSelected.Item.CompareOps[0].CompareComponentIndex));
 				}
 			}
@@ -1159,13 +1160,11 @@ namespace ClassifierEditor.Windows
 
 		private void BtnClassify_OnClick(object sender, RoutedEventArgs e)
 		{
-
 			WindowClassifyTest winTest = new WindowClassifyTest();
 
 			bool init = winTest.Configure(classificationFile);
 
 			if (init) winTest.Show();
-
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
@@ -1175,8 +1174,8 @@ namespace ClassifierEditor.Windows
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			List< ValueCompareOp > a = ValueCompareOps;
-			List< LogicalCompareOp > b = LogicalCompareOps;
+			List< ValueCompareOp > v = ValueCompareOps;
+			List< LogicalCompareOp > l = LogicalCompareOps;
 
 			ListView lv = Lv2;
 			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
@@ -1184,6 +1183,11 @@ namespace ClassifierEditor.Windows
 			UserSettingInfo<UserSettingDataFile> u = UserSettings.Info;
 
 			BaseOfTree bot = BaseOfTree;
+
+			TreeNode tn = userSelected;
+			bool b = ClassificationFile.IsModified;
+
+			SheetFileList f = FileList;
 
 			Debug.WriteLine("at debug");
 		}
@@ -1198,17 +1202,19 @@ namespace ClassifierEditor.Windows
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
 	#endregion
 
-
 	}
 
-#region NotBool value converter
+
+	#region NotBool value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class NotBoolConverter : IValueConverter
@@ -1303,7 +1309,6 @@ namespace ClassifierEditor.Windows
 	{
 		public static int MasterIdIdx;
 
-		
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -1318,7 +1323,6 @@ namespace ClassifierEditor.Windows
 				// if (taskitem.ValueCompOpCode == (int) VALUE_NO_OP)
 				if (taskitem.ValueCompOpCode == (int) VALUE_NO_OP)
 				{
-
 					return
 						element.FindResource("Lv2DataTemplate3") as DataTemplate;
 				}

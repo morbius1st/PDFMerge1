@@ -996,7 +996,7 @@ namespace Tests1
 								{
 //						general info                              type      sheet name
 // *INVALID
-									@"C:\ID-2.0 Floor Plan.pdf",   "TYPE30", "Floor Plan", "", "", "", "", "", ""
+									@"C:\N_ID-2.0 Floor Plan.pdf",   "TYPE30", "Floor Plan", "", "", "", "", "", ""
 								},
 								{
 //						PB         PB   PBSEP
@@ -1004,7 +1004,7 @@ namespace Tests1
 								},
 								{
 //						TYPE       disc sep0   cat  sep1  subcat  sep2 mod sep3 submod
-									"ID", "-",  "2", ".",  "0",   "",  "",   "", ""
+									"N_ID", "-",  "2", ".",  "0",   "",  "",   "", ""
 								},
 								{
 //						IDENT      sep4 id  sep5 subid sep6

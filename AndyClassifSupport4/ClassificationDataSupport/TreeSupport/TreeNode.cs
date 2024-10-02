@@ -1,9 +1,20 @@
 ﻿#region using directives
-
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Windows.Data;
+using AndyShared.Support;
+using static UtilityLibrary.MessageUtilities;
 #endregion
 
 // username: jeffs
 // created:  5/2/2020 9:28:15 AM
+
+
 
 namespace AndyShared.ClassificationDataSupport.TreeSupport
 {
@@ -274,7 +285,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[DataMember(Order = 30, Name = "SubCategories")]
+		[DataMember(Order = 30, Name = "Children")]
 		public ObservableCollection<TreeNode> Children
 		{
 			get => children;

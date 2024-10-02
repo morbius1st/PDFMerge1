@@ -167,7 +167,8 @@
       <Link>Windows\Balloon\Balloon.cs</Link>
     </Compile>
     <Compile Include="..\WpfShared\Windows\ClassificationFileSelector.xaml.cs">
-      <Link>Windows\ClassificationFileSelector.xaml.cs</Link>
+			<DependentUpon>ClassificationFileSelector.xaml</DependentUpon>
+			<Link>Windows\ClassificationFileSelector.xaml.cs</Link>
     </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
@@ -220,6 +221,10 @@
     </Page>
     <Page Include="..\WpfShared\Windows\ClassificationFileSelector.xaml">
       <Link>Windows\ClassificationFileSelector.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="File-Open-00.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

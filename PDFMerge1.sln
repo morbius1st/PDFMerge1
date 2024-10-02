@@ -2317,7 +2317,7 @@ Global
 		AndyLinked\AndyLinked.projitems*{d05189ea-a9d3-46c2-99eb-06d8b379f520}*SharedItemsImports = 4
 		AndyShared\AndyShared.projitems*{d05189ea-a9d3-46c2-99eb-06d8b379f520}*SharedItemsImports = 4
 		AndyClassifSupport\AndyClassifSupport.projitems*{e58b6f50-ca63-4230-8f79-87d3af8e55f8}*SharedItemsImports = 13
-		AndyClassifSupport4\AndyClassifSupport4.projitems*{ecd6f745-9a26-4875-9b89-690ca892eb3b}*SharedItemsImports = 5
+		AndyClassifSupport\AndyClassifSupport.projitems*{ecd6f745-9a26-4875-9b89-690ca892eb3b}*SharedItemsImports = 5
 		AndyLinked\AndyLinked.projitems*{ecd6f745-9a26-4875-9b89-690ca892eb3b}*SharedItemsImports = 5
 		AndyShared\AndyShared.projitems*{ecd6f745-9a26-4875-9b89-690ca892eb3b}*SharedItemsImports = 5
 	EndGlobalSection

@@ -34,7 +34,7 @@ namespace AndyShared.SampleFileSupport
 	
 	#region public properties
 	
-		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; private set; }
+		public ObservableCollection<FilePath<FileNameSheetPdf>> Files { get; set; }
 			= new ObservableCollection<FilePath<FileNameSheetPdf>>();
 
 		public string Description => sampleFileData?.Header.Description;
@@ -106,6 +106,9 @@ namespace AndyShared.SampleFileSupport
 			#endif
 				return;
 			}
+
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(null);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
 
 			foreach (string s in sampleFileData.Data.SheetList)
 			{
