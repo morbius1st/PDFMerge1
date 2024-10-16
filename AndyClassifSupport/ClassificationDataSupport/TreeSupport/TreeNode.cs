@@ -8,7 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
+using AndyShared.ClassificationFileSupport;
 using AndyShared.Support;
+using JetBrains.Annotations;
 using static AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory;
 using static UtilityLibrary.MessageUtilities;
 #endregion
@@ -50,7 +52,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private bool isInitialized;
 
-		private bool isModified;
+		private bool treeNodeModified;
 		private bool isExpanded;
 		private bool isExpandedAlt;
 		private bool isNodeSelected;
@@ -68,7 +70,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private static readonly bool?[] BoolList = new bool?[] {null,     true,    false,   null};
 		private bool mixesStateBeenTold;
 
-		private Orator.ConfRoom.Announcer onModifiedAnnouncer;
+		// private Orator.ConfRoom.Announcer onModifiedAnnouncer;
+		private bool treeNodeChildItemModified;
+		private bool modifyTreeNode;
+		private bool treeNodeChildNodeModified;
+		private bool modifyTreeNodeItem;
 
 	#endregion
 
@@ -81,10 +87,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			this.parent = parent;
 			this.item = item;
-			Depth = parent.depth + 1;
+			Depth = parent?.depth + 1 ?? 0;
 			this.isExpanded = isExpanded;
 
-			// Children = new ObservableCollection<TreeNode>();
 			OnCreated();
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
@@ -100,11 +105,22 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			this.item = item;
 			this.isExpanded = isExpanded;
-
+			
 			OnCreated();
 
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
+
+		// public TreeNode(bool isExpanded)
+		// {
+		// 	this.isExpanded=isExpanded;
+		//
+		// 	OnCreated();
+		//
+		// 	childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
+		// }
+
+
 
 		private void OnCreated()
 		{
@@ -115,25 +131,33 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ oncreated");
 
-			// listen to parent, initialize
-			Orator.Listen(OratorRooms.TN_INIT, OnAnnouncedTnInit);
-
-			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.SAVED, OnAnnouncedSaved);
-
-			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.SAVING, OnSavingAnnounce);
-
-			RemExCollapseListenConfig();
-
-			onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
+			// // listen to parent, initialize
+			// Orator.Listen(OratorRooms.TN_INIT, OnAnnouncedTnInit);
+			//
+			// // listen to parent, changes have been saved
+			// Orator.Listen(OratorRooms.SAVED, OnAnnouncedSaved);
+			//
+			// // listen to parent, changes have been saved
+			// Orator.Listen(OratorRooms.SAVING, OnSavingAnnounce);
+			//
+			// RemExCollapseListenConfig();
+			//
+			// onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			IsInitialized = true;
 
-			if (item != null) item.CompOpChanged += ItemOnCompOpChanged;
+			if (item != null)
+			{
+				item.Parent = this;
+				item.IsInitialized = true;
+			}
+
+			ID = ClassificationFile.M_IDX++.ToString("X");
+
+			// if (item != null) item.CompOpChanged += ItemOnCompOpChanged;
 		}
 
-		private void ItemOnCompOpChanged(object sender, SHT_CAT_CHANGE change)
+		private void ItemOnCompOpChanged(object sender, ITEM_CHANGE change)
 		{
 			notifyParentOfItemChange(item, change);
 		}
@@ -159,27 +183,32 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	if (!rememberExpCollapseState) isExpanded = false;
 		// }
 
-		private void RemExCollapseListenConfig()
-		{
-			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnouncedRemExCollapseState);
+		// private void RemExCollapseListenConfig()
+		// {
+		// 	// listen to parent, changes have been saved
+		// 	Orator.Listen(OratorRooms.TN_REM_EXCOLLAPSE_STATE, OnAnnouncedRemExCollapseState);
+		//
+		// 	rememberExpCollapseState = (bool) (Orator.GetLastValue(OratorRooms.TN_REM_EXCOLLAPSE_STATE) ?? false);
+		//
+		// }
 
-			rememberExpCollapseState = (bool) (Orator.GetLastValue(OratorRooms.TN_REM_EXCOLLAPSE_STATE) ?? false);
-
-		}
 
 	#endregion
 
 	#region public properties
 
+		[IgnoreDataMember]
+		public string ID { get; set; }
+
 		// public static int Ct = 0;
 
+		// track changes: yes - but indirect
 		// the actual tree data item
 		[DataMember(Order = 20)]
 		public SheetCategory Item
 		{
 			get => item;
-			set
+			private set
 			{
 				item = value;
 
@@ -189,10 +218,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				item.Depth = depth;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no const
 		[IgnoreDataMember]
 		public NodeType NodeType
 		{
@@ -204,6 +234,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
+// track changes: yes
 		[DataMember(Order = 2)]
 		public TreeNode Parent
 		{
@@ -213,11 +244,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value?.Equals(parent) ?? false) return;
 
 				parent = value;
-				OnPropertyChange();
-				IsModified = true;
+				OnPropertyChanged();
+
+				if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+
+				// if (isInitialized) TreeNodeModified = true;
 			}
 		}
 
+// track changes: yes
 		[DataMember(Order = 3)]
 		public int Depth
 		{
@@ -227,14 +262,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == depth) return;
 
 				depth = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 
 				if (item != null) item.Depth = value;
 
-				IsModified = true;
+				if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+
+				// if (isInitialized) TreeNodeModified = true;
 			}
 		}
 
+// track changes: yes
 		[DataMember(Order = 5)]
 		public CheckedState CheckedState
 		{
@@ -245,20 +283,23 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == CheckedState.UNSET)
 				{
 					checkedState = value;
-					IsModified = true;
+					if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+					// if (isInitialized) TreeNodeModified = true;
 				}
 				else if (value != checkedState)
 				{
 					checkedState = value;
-					OnPropertyChange("Checked");
+					OnPropertyChanged("Checked");
 
 					parent?.UpdateChildCount(checkedState);
 
-					IsModified = true;
+					if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+					// if (isInitialized) TreeNodeModified = true;
 				}
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool? Checked
 		{
@@ -272,10 +313,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				processStateChange(selectStateFromBool(value));
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+// track changes: yes
 		[DataMember(Order = 7)]
 		public CheckedState TriState
 		{
@@ -286,12 +328,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value != triState)
 				{
 					triState = value;
-					OnPropertyChange();
-					IsModified = true;
+					OnPropertyChanged();
+					if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+					// if (isInitialized) TreeNodeModified = true;
 				}
 			}
 		}
 
+// track changes: yes
 		[DataMember(Order = 30, Name = "SubCategories")]
 		public ObservableCollection<TreeNode> Children
 		{
@@ -303,11 +347,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				children = value;
 				NotifyChildrenChange();
-				IsModified = true;
+
+				if (isInitialized) NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+				// if (isInitialized) TreeNodeModified = true;
 			}
 		}
 
 		// public ICollectionView ChildrenView
+		// track changes: no
 		[IgnoreDataMember]
 		public ListCollectionView ChildrenView
 		{
@@ -317,21 +364,24 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				childrenView = value;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool HasChildren => ChildCount > 0;
 
+		// track changes: no
 		[IgnoreDataMember]
 		public int ChildCount => Children?.Count ?? 0;
 
 		// [IgnoreDataMember]
 		// public int ExtendedChildCount => ExtendedChildrenCount(this);
-
+		// track changes: no
 		public int ExtChildCount => ExtChildrenCount();
 
+		// track changes: no
 		[IgnoreDataMember]
 		public int CheckedChildCount
 		{
@@ -342,14 +392,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value != checkedChildCount)
 				{
 					checkedChildCount = value;
-					OnPropertyChange();
+					OnPropertyChanged();
 				}
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public object ChildrenCollectLock { get; set; }
 
+		// track changes: no
 		[IgnoreDataMember]
 		public int ChildrenCollectLockIdx { get; set; }
 
@@ -357,9 +409,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region item properties
 
+		// track changes: no
 		[IgnoreDataMember]
-		public int ItemCount => item.Count;
+		public int MergeItemCount => item.MergeItemCount;
 
+		// track changes: no
 		[IgnoreDataMember]
 		public int ExtMergeItemCount
 		{
@@ -367,7 +421,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				extMergeItemCount = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -400,7 +454,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 			extItemCountCurrent = count;
 		//
-		// 			OnPropertyChange();
+		// 			OnPropertyChanged();
 		// 	}
 		//
 		// }
@@ -412,6 +466,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// <summary>
 		/// controls whether the node is expanded or not
 		/// </summary>
+
+// track changes: yes
 		[DataMember(Order = 15)]
 		public bool IsExpanded
 		{
@@ -423,14 +479,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				isExpanded = value;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 
-				// Debug.WriteLine("isexpanded set| " + value.ToString());
-
-				if (rememberExpCollapseState) IsModified = true;
+				if (rememberExpCollapseState)
+				{
+					NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
+					// TreeNodeModified = true;
+				}
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool IsExpandedAlt
 		{
@@ -438,13 +497,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				isExpandedAlt = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool CanExpand => ChildCount > 0;
 
+		// track changes: n/a
 		[IgnoreDataMember]
 		public bool IsNodeSelected
 		{
@@ -454,7 +515,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (item.IsFixed || item.IsLocked)
 				{
 					isNodeSelected = false;
-					OnPropertyChange();
+					OnPropertyChanged();
 					return;
 				}
 
@@ -462,10 +523,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 
 				isNodeSelected = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool IsContextSelected
 		{
@@ -473,10 +535,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				isContextSelected = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool IsContextHighlighted
 		{
@@ -484,50 +547,116 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				isContextSelected = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
 		public bool IsInitialized
 		{
 			get => isInitialized;
-			set { isInitialized = value; }
+			set
+			{
+				if (value == isInitialized) return;
+				isInitialized = value;
+
+				OnPropertyChanged();
+			}
 		}
 
+		// track changes: no
 		[IgnoreDataMember]
-		public bool IsModified
+		public bool IsMaxDepth => depth >= maxDepth;
+
+		// track changes: n/a
+		[IgnoreDataMember]
+		public virtual bool TreeNodeModified
 		{
 			get
 			{
-				return isModified; // || Item.IsModified;
+				return treeNodeModified; // || Item.TreeNodeModified;
 			}
 			set
 			{
-				if (!isInitialized || value == isModified) return;
+				if (!isInitialized || value == treeNodeModified) return;
 
-				isModified = value;
-				OnPropertyChange();
+				treeNodeModified = value;
+				OnPropertyChanged();
 
-				if (isInitialized)
+				Debug.WriteLine($"{item.Title,-26}|{$"TreeNodeModified",-30} | {value} (isinit| {isInitialized})");
+
+				// if (isInitialized)
+				// {
+				// 	onModifiedAnnouncer.Announce(null);
+				//
+				// }
+			}
+		}
+
+		// track changes: n/a
+		[IgnoreDataMember]
+		public virtual bool TreeNodeChildItemModified
+		{
+			get => treeNodeChildItemModified;
+			set
+			{
+				if (value == treeNodeChildItemModified) return;
+				treeNodeChildItemModified = value;
+				OnPropertyChanged();
+
+				Debug.WriteLine($"{item.Title,-26}|{$"TreeNodeChildItemModified",-30} | {value}");
+			}
+		}
+
+		// track changes: n/a
+		[IgnoreDataMember]
+		public bool ModifyTreeNode
+		{
+			get => modifyTreeNode;
+			set
+			{
+				if (value == modifyTreeNode) return;
+				Debug.WriteLine($"{this.item.Title,-26}|{nameof(ModifyTreeNode),-30}");
+				modifyTreeNode = value;
+				OnPropertyChanged();
+
+				if (!value)
 				{
-					onModifiedAnnouncer.Announce(null);
+					Debug.WriteLine($"\n******* {nameof(ModifyTreeNode)} *** set false *********");
+					
+					NodeChangeFromParent(ITEM_CHANGE.IC_CLEAR_MODIFICATION);
+				}
+
+				if (value)
+				{
+					Debug.WriteLine($"\n******* {nameof(ModifyTreeNode)} *** set true *********");
+
+					NodeChangeFromChild(ITEM_CHANGE.IC_IS_MODIFIED);
 				}
 			}
 		}
 
+		// track changes: n/a
 		[IgnoreDataMember]
-		public bool IsMaxDepth => depth >= maxDepth;
-
-		[IgnoreDataMember]
-		public bool CompOpModified
+		public bool ModifyTreeNodeItem
 		{
+			get => modifyTreeNodeItem;
 			set
 			{
-				parent.CompOpModified = value || isModified;
+				if (value == modifyTreeNodeItem) return;
+				Debug.WriteLine($"{this.item.Title,-26}|{nameof(ModifyTreeNodeItem),-30}");
+				modifyTreeNodeItem = value;
+				OnPropertyChanged();
+
+				if (!value)
+				{
+					Debug.WriteLine($"\n******* {nameof(ModifyTreeNodeItem)} *** set false *********");
+
+					ItemChangeFromParent(ITEM_CHANGE.IC_CLEAR_MODIFICATION);
+				}
 			}
 		}
-
 
 	#endregion
 
@@ -621,20 +750,22 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public void UpdateProperties()
 		{
-			OnPropertyChange(nameof(Item));
-			OnPropertyChange(nameof(ChildrenView));
-			OnPropertyChange(nameof(HasChildren));
-			OnPropertyChange(nameof(ChildCount));
-			OnPropertyChange(nameof(ExtChildCount));
-			OnPropertyChange(nameof(ItemCount));
-			OnPropertyChange(nameof(ExtMergeItemCount));
-			// OnPropertyChange(nameof(ExtMergeItemCountCurrent));
+			OnPropertyChanged(nameof(Item));
+			OnPropertyChanged(nameof(ChildrenView));
+			OnPropertyChanged(nameof(HasChildren));
+			OnPropertyChanged(nameof(ChildCount));
+			OnPropertyChanged(nameof(ExtChildCount));
+			OnPropertyChanged(nameof(MergeItemCount));
+			OnPropertyChanged(nameof(ExtMergeItemCount));
+			// OnPropertyChanged(nameof(ExtMergeItemCountCurrent));
 
-			// OnPropertyChange("ExtItemCount");
+			// OnPropertyChanged("ExtItemCount");
 		}
 
+		// inter node communications routines
 
-
+		// state changes
+		// get notification from parent of a state change
 		public void StateChangeFromParent(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			if (useTriState)
@@ -657,6 +788,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			notifyChildrenOfStateChange(newState, oldState, useTriState);
 		}
 
+		// get notification from child of a state change
 		public void StateChangeFromChild(CheckedState newState, CheckedState oldState, bool useTristate)
 		{
 			CheckedState priorState = checkedState;
@@ -723,89 +855,144 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		public void ItemChangeFromChild(SheetCategory item, SHT_CAT_CHANGE which)
+		// inform children to change
+		public void ItemChangeFromParent(ITEM_CHANGE change)
 		{
-			notifyParentOfItemChange(item, which);
+			Debug.Write($"{this.item.Title,-26}|{nameof(ItemChangeFromParent),-30} | proceed? | ");
+
+			if (item==null || ChildrenView == null)
+			{
+				Debug.WriteLine("nope - STOP here (childview or item is null)");
+				return;
+			}
+
+			if (change == ITEM_CHANGE.IC_CLEAR_MODIFICATION)
+			{
+				if (!TreeNodeChildItemModified)
+				{
+					Debug.WriteLine("nope - STOP here (treeNodeChildItemModified false) 1");
+
+					return;
+
+				}
+
+				Debug.WriteLine("yep - continue");
+
+				TreeNodeChildItemModified = false;
+				// OnPropertyChanged(nameof(TreeNodeChildItemModified));
+			}
+			else
+			{
+				Debug.WriteLine("nope - STOP here (invalid change type)");
+				return;
+			}
+
+			item.ItemChangeFromParentNode(change);
+
+			notifyChildNodesOfItemChange(change);
 		}
 
-		public void ItemChangeFromParent(SHT_CAT_CHANGE which)
+		// get notification from child of an item change
+		// for this change can come from a child node or
+		// can come from a child item
+		public void ItemChangeFromChild(SheetCategory item, ITEM_CHANGE change)
 		{
-			notifyChildrenOfItemChange(which);
+			Debug.WriteLine($"{this.item.Title,-26}|{$"ItemChangeFromChild",-30} | {change}");
+			
+			// treeNodeChildItemModified = true;
+			// OnPropertyChanged(nameof(TreeNodeChildItemModified));
+
+			TreeNodeChildItemModified = true;
+
+			modifyTreeNodeItem = true;
+			OnPropertyChanged(nameof(ModifyTreeNodeItem));
+
+			notifyParentOfItemChange(item, change);
 		}
 
+		public void NodeChangeFromChild(ITEM_CHANGE change)
+		{
+			Debug.Write($"{this.item.Title,-26}|{$"ItemChangeFromChild",-30} | proceed? |");
+
+			if (change == ITEM_CHANGE.IC_IS_MODIFIED)
+			{
+				Debug.WriteLine("yep - continue");
+
+				// treeNodeModified = true;
+				// OnPropertyChanged(nameof(TreeNodeModified));
+
+				TreeNodeModified = true;
+
+				modifyTreeNode = true;
+				OnPropertyChanged(nameof(ModifyTreeNode));
+
+				notifyParentOfNodeChange(change);
+			}
+			else
+			{
+				Debug.WriteLine("nope - STOP here (invalid change type)");
+				return;
+			}
+
+		}
+
+		public void NodeChangeFromParent(ITEM_CHANGE change)
+		{
+			Debug.Write($"{this.item.Title,-26}|{nameof(NodeChangeFromParent),-30} | proceed? | ");
+
+			if (ChildrenView == null)
+			{
+				Debug.WriteLine("nope - STOP here (childview null)");
+				return;
+			}
+
+			if (change == ITEM_CHANGE.IC_CLEAR_MODIFICATION)
+			{
+				if (!TreeNodeModified)
+				{
+					Debug.WriteLine("nope - STOP here (node not modified)");
+					return;
+				}
+
+				Debug.WriteLine("yep - continue");
+
+				// treeNodeModified = false;
+				// OnPropertyChanged(nameof(TreeNodeModified));
+
+				TreeNodeModified = false;
+
+				modifyTreeNode = false;
+				OnPropertyChanged(nameof(ModifyTreeNode));
+			}
+			else
+			{
+				Debug.WriteLine("nope - STOP here (invalid change type)");
+				return;
+			}
+
+			notifyChildNodesOfNodeChange(change);
+		}
+
+		// notify window of changes
+		public void NotifyChildrenChange()
+		{
+			OnPropertyChanged("Children");
+			OnPropertyChanged("ChildrenView");
+			OnPropertyChanged("ChildCount");
+			OnPropertyChanged("HasChildren");
+			// OnPropertyChanged("ExtendedChildCount");
+		}
 
 	#endregion
 
 	#region private methods
 
-		private void notifyParentOfItemChange(SheetCategory item, SHT_CAT_CHANGE which)
-		{
-			parent?.ItemChangeFromChild(item, which);
-		}
+		// inter node communications
 
-		private void notifyChildrenOfItemChange(SHT_CAT_CHANGE which)
-		{
-			if (item!=null) item.MessageFromParent(which);
-
-			if (ChildrenView == null) return;
-
-			foreach (TreeNode node in ChildrenView)
-			{
-				node.ItemChangeFromParent(which);
-			}
-		}
+		// notify parent / children of item changes
 
 
-
-
-		private int ExtChildrenCount()
-		{
-			if (children.Count == 0) return 0;
-
-			int count = children.Count;
-
-			foreach (TreeNode child in children)
-			{
-				count += child.ExtChildCount;
-			}
-
-			return count;
-		}
-
-		// private void ExtMergeItemCount(TreeNode node)
-		// {
-		// 	// count my merge items
-		// 	int count = node.item.MergeItems.Count;
-		//
-		// 	Debug.Write("  ".Repeat(tabDepth));
-		// 	Debug.WriteLine("@ ext count start | " + count.ToString("##0") + "  " + item.Title );
-		//
-		// 	tabDepth++;
-		//
-		// 	// sum the count from each child recursevly
-		// 	foreach (TreeNode child in node.children)
-		// 	{
-		// 		count += child.ExtMergeItemCount(child);
-		// 	}
-		//
-		// 	tabDepth--;
-		//
-		// 	Debug.Write("  ".Repeat(tabDepth));
-		// 	Debug.WriteLine("@ ext count end   | " + count.ToString("###") + "  " + item.Title);
-		//
-		//
-		// 	ExtMergeItemCount = count;
-		// }
-
-		public void NotifyChildrenChange()
-		{
-			OnPropertyChange("Children");
-			OnPropertyChange("ChildrenView");
-			OnPropertyChange("ChildCount");
-			OnPropertyChange("HasChildren");
-			OnPropertyChange("ExtendedChildCount");
-		}
-
+		// notify parent / children of state changes
 		private void notifyParentOfStateChange(CheckedState newState, CheckedState oldState, bool useTriState)
 		{
 			parent?.StateChangeFromChild(newState, oldState, useTriState);
@@ -819,6 +1006,59 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				node.StateChangeFromParent(newState, oldState, useTriState);
 			}
+		}
+
+		private void notifyParentOfItemChange(SheetCategory item, ITEM_CHANGE change)
+		{
+			Debug.WriteLine($"{this.item.Title,-26}|{$"notifyParentOfItemChange",-30} | {change}");
+
+			parent?.ItemChangeFromChild(item, change);
+		}
+
+		private void notifyParentOfNodeChange(ITEM_CHANGE change)
+		{
+			Debug.WriteLine($"{this.item.Title,-26}|{nameof(notifyParentOfNodeChange),-30}");
+
+			parent?.NodeChangeFromChild(change);
+		}
+
+		private void notifyChildNodesOfItemChange(ITEM_CHANGE change)
+		{
+			Debug.WriteLine($"{this.item.Title,-26}|{nameof(notifyChildNodesOfItemChange),-30}");
+
+			foreach (TreeNode node in ChildrenView)
+			{
+				node.ItemChangeFromParent(change);
+			}
+
+		}
+
+		private void notifyChildNodesOfNodeChange(ITEM_CHANGE change)
+		{
+			Debug.WriteLine($"{this.item.Title,-26}|{nameof(notifyChildNodesOfNodeChange),-30}");
+
+			foreach (TreeNode node in ChildrenView)
+			{
+				node.NodeChangeFromParent(change);
+			}
+
+		}
+
+
+		// process routines
+
+		private int ExtChildrenCount()
+		{
+			if (children.Count == 0) return 0;
+
+			int count = children.Count;
+
+			foreach (TreeNode child in children)
+			{
+				count += child.ExtChildCount;
+			}
+
+			return count;
 		}
 
 		private void processStateChangeLeaf(CheckedState newState, CheckedState oldState, bool useTriState)
@@ -902,13 +1142,41 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return (CheckedState) indexInBoolList(test);
 		}
 
+
+		// private void ExtMergeItemCount(TreeNode node)
+		// {
+		// 	// count my merge items
+		// 	int count = node.item.MergeItems.Count;
+		//
+		// 	Debug.Write("  ".Repeat(tabDepth));
+		// 	Debug.WriteLine("@ ext count start | " + count.ToString("##0") + "  " + item.Title );
+		//
+		// 	tabDepth++;
+		//
+		// 	// sum the count from each child recursevly
+		// 	foreach (TreeNode child in node.children)
+		// 	{
+		// 		count += child.ExtMergeItemCount(child);
+		// 	}
+		//
+		// 	tabDepth--;
+		//
+		// 	Debug.Write("  ".Repeat(tabDepth));
+		// 	Debug.WriteLine("@ ext count end   | " + count.ToString("###") + "  " + item.Title);
+		//
+		//
+		// 	ExtMergeItemCount = count;
+		// }
+
 	#endregion
 
 	#region event publishing
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void OnPropertyChange([CallerMemberName] string memberName = "")
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
+		protected void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
@@ -917,38 +1185,38 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region event consuming
 
-		private void OnSavingAnnounce(object sender, object value)
-		{
-			// isSaving = true;
-		}
-
-		private void OnAnnouncedRemExCollapseState(object sender, object value)
-		{
-			
-			rememberExpCollapseState = (bool) (value ?? false);
-
-			Debug.WriteLine("@TreeNode onAnnounced| remember?| " + rememberExpCollapseState.ToString());
-		}
-
-		private void OnAnnouncedTnInit(object sender, object value)
-		{
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
-			isInitialized = true;
-			isModified = false;
-		}
-
-		private void OnAnnouncedSaved(object sender, object value)
-		{
-			if (Common.SHOW_DEBUG_MESSAGE1)
-				Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
-					+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
-			isModified = false;
-			// isSaving = false;
-		}
+		// private void OnSavingAnnounce(object sender, object value)
+		// {
+		// 	// isSaving = true;
+		// }
+		//
+		// private void OnAnnouncedRemExCollapseState(object sender, object value)
+		// {
+		// 	
+		// 	rememberExpCollapseState = (bool) (value ?? false);
+		//
+		// 	Debug.WriteLine("@TreeNode onAnnounced| remember?| " + rememberExpCollapseState.ToString());
+		// }
+		//
+		// private void OnAnnouncedTnInit(object sender, object value)
+		// {
+		// 	if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
+		// 	isInitialized = true;
+		// 	treeNodeModified = false;
+		// }
+		//
+		// private void OnAnnouncedSaved(object sender, object value)
+		// {
+		// 	if (Common.SHOW_DEBUG_MESSAGE1)
+		// 		Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
+		// 			+ isInitialized + " | ismodified| " + TreeNodeModified + " | who| " + this.ToString());
+		// 	treeNodeModified = false;
+		// 	// isSaving = false;
+		// }
 
 		private void ChildrenOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			IsModified = true;
+			TreeNodeModified = true;
 		}
 
 	#endregion
@@ -967,6 +1235,29 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// newNode.isFixed = false;
 			newNode.isContextSelected = false;
 
+			newNode.depth = depth;
+
+			return newNode;
+		}
+
+		public TreeNode Clone(bool useOrigParent)
+		{
+			TreeNode newNode;
+
+			if (useOrigParent)
+			{
+				newNode = new TreeNode(parent, (SheetCategory) item.Clone(), false);
+			}
+			else
+			{
+				newNode = new TreeNode(null, false);
+				newNode.item = item.Clone(newNode);
+			}
+
+			newNode.checkedState = checkedState;
+			newNode.isExpanded = isExpanded;
+			newNode.triState = triState;
+			newNode.isContextSelected = false;
 			newNode.depth = depth;
 
 			return newNode;
@@ -991,6 +1282,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#region private fields
 
 		private TreeNode selectedNode;
+
+		private bool treeNodeModified1;
+
+		private bool treeNodeChildItemModified1;
 		// private int extMergeItemCountCurrent;
 
 	#endregion
@@ -1000,24 +1295,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public BaseOfTree() : base(null, false)
 		{
 			Depth = 0;
+
+			item = new SheetCategory("Initial Item", "Initial Item");
 		}
+
+		
 
 		public void Initalize()
 		{
-		#if DML1
-			DM.Start0();
-		#endif
+			
 			IsInitialized = true;
 
-			
-		#if DML1
-			DM.Stat0("InitializeAllChildrenView");
-		#endif
 			InitializeAllChildrenView();
-
-		#if DML1
-			DM.End0();
-		#endif
 		}
 
 	#endregion
@@ -1030,41 +1319,42 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				selectedNode = value;
-				OnPropertyChange();
-				OnPropertyChange("HasSelection");
+				OnPropertyChanged();
+				OnPropertyChanged("HasSelection");
 			}
 		}
 
 		public bool HasSelection => SelectedNode != null;
 
-	#endregion
+		public override bool TreeNodeModified
+		{
+			get => treeNodeModified1;
+			set
+			{
+				if (value == treeNodeModified1) return;
+				treeNodeModified1 = value;
+				OnPropertyChanged();
 
-	#region private properties
+				RaiseTreeModifiedEvent();
+			}
+		}
+
+		public override bool TreeNodeChildItemModified
+		{
+			get => treeNodeChildItemModified1;
+			set
+			{
+				if (value == treeNodeChildItemModified1) return;
+				treeNodeChildItemModified1 = value;
+				OnPropertyChanged();
+
+				RaiseTreeItemModifiedEvent();
+			}
+		}
 
 	#endregion
 
 	#region public methods
-		//
-		// public int ExtMergeItemCountCurrent
-		// {
-		// 	get => extMergeItemCountCurrent;
-		// 	set
-		// 	{
-		// 		if (value != -1) return;
-		//
-		// 		int count = item.MergeItemCount;
-		// 		
-		// 		foreach (TreeNode childNode in children)
-		// 		{
-		// 			childNode.ExtMergeItemCountCurrent = -1;
-		// 			count += childNode.ExtMergeItemCountCurrent;
-		// 		}
-		//
-		// 		extMergeItemCountCurrent = count;
-		//
-		// 		OnPropertyChange();
-		// 	}
-		// }
 
 		public void RemoveNode2(TreeNode contextNode)
 		{
@@ -1183,6 +1473,27 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			NotifyChildrenChange();
 		}
 
+		// public int ExtMergeItemCountCurrent
+		// {
+		// 	get => extMergeItemCountCurrent;
+		// 	set
+		// 	{
+		// 		if (value != -1) return;
+		//
+		// 		int count = item.MergeItemCount;
+		// 		
+		// 		foreach (TreeNode childNode in children)
+		// 		{
+		// 			childNode.ExtMergeItemCountCurrent = -1;
+		// 			count += childNode.ExtMergeItemCountCurrent;
+		// 		}
+		//
+		// 		extMergeItemCountCurrent = count;
+		//
+		// 		OnPropertyChanged();
+		// 	}
+		// }
+
 	#endregion
 
 	#region private methods
@@ -1196,7 +1507,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				+ "been reached and a sub-category cannot be added"
 				);
 		}
-
 
 		private void AddAt2(TreeNode parent, TreeNode toAddNode, int index)
 		{
@@ -1254,7 +1564,25 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#endregion
 
-	#region event processing
+	#region event issuing
+
+		public delegate void TreeModifiedEventHandler(object sender);
+
+		public event BaseOfTree.TreeModifiedEventHandler TreeModified;
+
+		protected virtual void RaiseTreeModifiedEvent()
+		{
+			TreeModified?.Invoke(this);
+		}
+
+		public delegate void TreeItemModifiedEventHandler(object sender);
+
+		public event BaseOfTree.TreeItemModifiedEventHandler TreeItemModified;
+
+		protected virtual void RaiseTreeItemModifiedEvent()
+		{
+			TreeItemModified?.Invoke(this);
+		}
 
 	#endregion
 

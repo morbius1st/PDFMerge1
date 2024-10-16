@@ -71,16 +71,17 @@ namespace Tests2.Windows
 
 		private void SampleDataPrepCreate2()
 		{
-			dms = new DataManager<SavedFileList>();
 
 			dataFilePath  =
-				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\savedfilelist1.xml");
+				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Andy\Tests2\savedfilelist1.xml");
+
+			dms = new DataManager<SavedFileList>(dataFilePath);
 
 			// dms.Configure(dataFilePath);
 
 			sds = new SampleData(dms);
 
-			dms.Create(dataFilePath, null, null);
+			dms.Create(dataFilePath, dataFilePath.FileName, null);
 
 			OnPropertyChange("DataMgrDms");
 
@@ -92,17 +93,19 @@ namespace Tests2.Windows
 
 		private void SampleDataPrepCreate()
 		{
-			dm1 = new DataManager<DataSet>();
 
 			// NullTest();
 
 			dataFilePath  =
-				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Tests2\dataset1.xml");
+				new FilePath<FileNameSimple>(@"C:\Users\jeffs\AppData\Roaming\CyberStudio\Andy\Tests2\dataset1.xml");
+
+			dm1 = new DataManager<DataSet>(dataFilePath);
 
 			// dm1.Configure(dataFilePath);
 
 			sd = new SampleData(dm1);
-			dm1.Create(dataFilePath, null, null);
+			// dm1.Create(dataFilePath, null, null);
+			dm1.Create(dataFilePath, dataFilePath.FileName, null);
 
 			OnPropertyChange("DataMgr");
 

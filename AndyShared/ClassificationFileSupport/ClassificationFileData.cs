@@ -112,7 +112,7 @@ namespace AndyShared.ClassificationFileSupport
 // //
 // // 			DataStore.Admin.Read();
 // //
-// // //			OnPropertyChange("Data");
+// // //			OnPropertyChanged("Data");
 // //
 // // 			return true;
 // // 		}
@@ -138,7 +138,7 @@ namespace AndyShared.ClassificationFileSupport
 //
 // 			DataStore.Admin.Read();
 //
-// 			// OnPropertyChange("Initialized");
+// 			// OnPropertyChanged("Initialized");
 // 		}
 //
 // 	#endregion

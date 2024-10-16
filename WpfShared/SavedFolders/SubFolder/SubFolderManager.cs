@@ -57,7 +57,7 @@ namespace WpfShared.SavedFolders.SubFolder
 		// 		}
 		//
 		// 		FolderRoute.Path = value;
-		// 		OnPropertyChange();
+		// 		OnPropertyChanged();
 		// 	}
 		// }
 

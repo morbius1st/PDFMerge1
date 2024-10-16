@@ -1,4 +1,193 @@
 
+
+object hierarchy
++-- treeview -------------------------------------------------------------------------------------->>
+| TreeViewItem.Content
+|----------------------------
+| v base of tree (tree node) 
+| +------------------------------------------------------+
+| v                                                      v  
+| Children                                               Item                    | parent
+|     (coll of tree nodes)                                 (single data object)  | ShtCatModified
+| |                                                      |                       | ItemChildModified
+| +-----------------------                               +-----------------------------------+
+| v                                                      v                                +--v-- ListBox --------------------------->>    
+| +-v--v--v--v ... as need (top level tree nodes)        Merge items (coll)               |  Tag == TreeViewItem
+|   v                                                     (items to merge                 |  (ListBoxItem.content)
+|   Tree Node     | IsNodeSelected                         into a PDF)                    |---------------------------------------
+|     (2nd level) | TreeNodeModified                                                      |   CompareOps (coll)         | Parent
+|   |             | TreeNodeChildItemModified                                             |     (data that determines   | IsSelected
+|   v                                                                                     |     which records get       | CompOpModified
+|   Children                                                                              |      added to the merge list| 
+v                                                                                         |     +________________________________+
+v                                                                                         |     v                                v
+                                                                                          |     ValueCompareOp                   LogicalCompareOp
+                                                                                          |        (data needed to                  (data needed to)
+                                                                                          v        compara against                   make a logical
+                                                                                          v        a set value)                      comparison)
+
+
+
+
+change propagation notes:
+* need to have treenode changes propogate from changed node to root
+* and have removal of changes propagate from root down
+
+
+TreeNode adjustments
+* property: Revised or Modified (preferred)
+* notifyParentofModification
+    > each parent passes along to its parent
+    > when parent gets notified, set child has changes
+* notifyChildrenOfModificationRemoval
+    > processes each child and passes along removal
+    > also remove child has changes
+    > also remove I have changes
+* keep track of modifications
+    > I have changes
+    > child has changes
+* if I am revised
+    > set I have changes
+    > pass along to parent
+
+primary data store:
+BaseOfTree  (is a TreeNode)
++-> TreeNodes
+
+SheetCategory adjustments
+* in / out parent tree node change messages
+    > in (from parent tree node)
+        * message type: clear modifications
+            > set ItemModified to false
+            > if ItemChildrenModified
+                * set each child comp op to not modified
+                * set ItemChildModified to false
+    > out to parent
+        > pass IC_ message to parent as ItemChangeFromChild
+* in / out child comp op messages
+    > in (from a comp op)
+        * set ItemChildModified to true
+        * set ItemModified to true
+        * inform parent per "out to parent" above
+    > out (to child comp op)
+        * n/a only from parent tree node - see above
+
+
+message passing process
+
+from base down / node
+
+    property, etc., issues change
+    v
+    NodeChangeFromParent (ITEM_CHANGE {type})
+        > only proceed if change type is OK to proceed / elements not null
+            > if ok, reset flag as needed
+    v
+    notifyChildNodesOfNodeChange
+        > for each, pass along to each child
+    v
+    node.NodeChangeFromParent
+    v
+    notifyChildNodesOf "Change" (ITEM_CHANGE {type});
+    v
+    repeat as needed
+
+
+from base down / item
+
+    property, etc., issues change
+    v
+    ItemChangeFromParent (item_change {type})
+        > only proceed if change type is OK to proceed / elements not null
+            > if ok, reset flag as needed
+        > inform local item of change
+    v   v
+    v   notifyChildNodesOfItemChange
+    v       > for each, pass along to each child
+    v   v
+    v   node.ItemChangeFromParent
+    v   v
+    v   notifyChildNodesOfItemChange
+    v   v
+    v   repeat as needed
+    v
+    item.ItemChangeFromParentNode
+        > only proceed if change type is ok to proceed
+            > if ok, reset flags
+        > only proceed if child comp ops have changes
+    v
+    notifyChildCompOpsOfChange
+    v
+    compOp.ClearCompOpModified
+        > only proceed if has change
+        > if ok, reset flag
+
+
+    
+
+
+
+
+sheet category notifications                                comp op notifications
+until base of tree reached
+^
+... ItemChangeFromChild (tree node) (x times as needed)
+^
+ItemChangeFromChild (tree node)
+    > true => treeNodeChildItemModified
+^
+notifyParentOfItemChange (sheet category) <-----------------+
+    > true => shtCatModified                                ^
+^                                                           CompOpChangeFromChild  (sheet category
+true => ModifyShtCat                                            > true => itemChildModified
+                                                            ^
+                                                            notifyParentOfCompOpChange (comp op)
+                                                                > true => compOpModified
+                                                            ^
+                                                            true => modifyCompOptree
+                                                            
+
+
+tree node up notifications
+
+repeat last 2 steps (x times as needed)
+^
+parent.NodeChangeFromChild
+    > true => treeNodeModified
+^
+notifyParentOfNodeChange (tree node)
+    > true => treeNodeModified
+^
+NodeChangeFromChild  (tree node)
+    > only proceed if ok
+        > if ok, set flags / proceed
+^
+true => ModifyTreeNode
+
+
+
+
+tree node item change down notifications                   tree node node change down notifications
+                                                           
+ItemChangeFromParent  (tree node)                          false => ModifyTreeNode
+v    > false => TreeNodeChildItemModified;                 v
+v                                                          notifyChildNodesOfNodeChange
+notifyChildNodesOfItemChange  (tree node)                  v    > false => treeNodeModified
+    > for each: notifyChildNodesOfItemChange               v
+v                                                          node.NodeChangeFromParent
+item.ItemChangeFromParentNode (sheet category)             v
+v   > false => shtCatModified                              repeat (x times as needed)
+v   > false => itemChildModified                           
+v   > false => modifyShtCat                                
+v                                                          
+compOp.ClearCompOpModified  (comp op)                      
+    > false => compOpModified
+
+
+
+
+
+
 currently in ClassifierEditor
 in folder DataRepo
 

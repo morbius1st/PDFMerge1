@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF;SM74;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -83,6 +83,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
     <Reference Include="CustomMarshalers" />
     <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
@@ -104,6 +107,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -114,26 +118,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-      <Link>.External\CsExtensions.cs</Link>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
-      <Link>.External\CsXmlUtilities.cs</Link>
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.1\CsFilePath.cs">
-      <Link>.External\CsFilePath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
-      <Link>.External\MessageUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\ScreenParametersWpf.cs">
-      <Link>.External\ScreenParametersWpf.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
-      <Link>.External\CsObservableDictionary.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
-      <Link>.External\CsUtilities.cs</Link>
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
     <Compile Include=".DebugSupport\DebugHelper.cs" />
     <Compile Include="FileListManager\DebugSupport\FileListDebugSupport.cs" />
@@ -150,7 +142,6 @@
     <Compile Include="PDFMergeManager\PDFMergeTree.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\HeadingSetting.cs" />
-    <Compile Include="Settings\SettingsMgr.cs" />
     <Compile Include="TestData\DataSet.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Support\DrawingRoute.cs" />
@@ -203,6 +194,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".External\" />
     <Folder Include=".Settings\" />
   </ItemGroup>
   <ItemGroup>
@@ -223,5 +215,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

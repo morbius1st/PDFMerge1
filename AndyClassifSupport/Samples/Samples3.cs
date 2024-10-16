@@ -33,11 +33,17 @@ namespace AndyClassifSupport.Samples
 		{
 			Sheets3 = new List<SheetPdfSample>();
 
-			Sheets3.Add(new SheetPdfSample("CS - sheet title (0).pdf", "CS", "sheet title (0)", ST_TYPE01, "", " ", "CS",
+			Sheets3.Add(new SheetPdfSample("A T1.0-0 - sheet - title (1).pdf", "A T1.0-0", "sheet - title (1)", ST_TYPE03, "A",
+				"-", "T", "", "1", ".", "0", "-", "0", "", "", "", "", "", ""));
+
+			Sheets3.Add(new SheetPdfSample("A-T1.0-0 - sheet - title (1).pdf", "A-T1.0-0", "sheet - title (1)", ST_TYPE03, "A",
+				"-", "T", "", "1", ".", "0", "-", "0", "", "", "", "", "", ""));
+
+			Sheets3.Add(new SheetPdfSample("CS - sheet - title (0).pdf", "CS", "sheet - title (0)", ST_TYPE01, "", " ", "CS",
 				"", "", "", "", "", "", "", "", "", "", "", ""));
-			Sheets3.Add(new SheetPdfSample("T1.0-0 - sheet title (1).pdf", "T1.0-0", "sheet title (1)", ST_TYPE03, "",
+			Sheets3.Add(new SheetPdfSample("T1.0-0 - sheet - title (1).pdf", "T1.0-0", "sheet - title (1)", ST_TYPE03, "",
 				" ", "T", "", "1", ".", "0", "-", "0", "", "", "", "", "", ""));
-			Sheets3.Add(new SheetPdfSample("T2.0 - sheet title (2).pdf", "T2.0", "sheet title (2)", ST_TYPE02, "", " ",
+			Sheets3.Add(new SheetPdfSample("T2.0 - sheet - title (2).pdf", "T2.0", "sheet - title (2)", ST_TYPE02, "", " ",
 				"T", "", "2", ".", "0", "", "", "", "", "", "", "", ""));
 			Sheets3.Add(new SheetPdfSample("T2.1 - sheet title (3).pdf", "T2.1", "sheet title (3)", ST_TYPE02, "", " ",
 				"T", "", "2", ".", "1", "", "", "", "", "", "", "", ""));

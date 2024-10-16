@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF;SM74;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -120,5 +120,6 @@
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

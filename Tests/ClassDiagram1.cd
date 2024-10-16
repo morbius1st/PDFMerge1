@@ -70,22 +70,22 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="UtilityLibrary.CsExtensions" Collapsed="true">
-    <Position X="28.25" Y="1.5" Width="1.5" />
+    <Position X="40.75" Y="1.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.MessageException" Collapsed="true">
-    <Position X="24.75" Y="3.5" Width="1.5" />
+    <Position X="40.75" Y="3.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.CsUtilities" Collapsed="true">
-    <Position X="30" Y="1.5" Width="1.5" />
+    <Position X="45.25" Y="1.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>EAAAQBAAAAAAgAAAAAAAAAACAAAAAAAEAAQABACBAEA=</HashCode>
       <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UtilityLibrary.Extensions" Collapsed="true">
-    <Position X="33.5" Y="1.5" Width="1.5" />
+    <Position X="49.75" Y="2.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.FilePath&lt;T&gt;" BaseTypeListCollapsed="true">
@@ -97,7 +97,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="UtilityLibrary.DllImports" Collapsed="true">
-    <Position X="31.75" Y="1.5" Width="1.5" />
+    <Position X="49.75" Y="1.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.FilePathInfo&lt;T&gt;" BaseTypeListCollapsed="true">
@@ -106,7 +106,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="UtilityLibrary.FilePathUtil" Collapsed="true">
-    <Position X="26.5" Y="2.5" Width="1.5" />
+    <Position X="40.75" Y="2.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.AFileName">
@@ -125,30 +125,30 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="UtilityLibrary.FileExtensionClassifier" Collapsed="true">
-    <Position X="21.25" Y="2.5" Width="1.5" />
+    <Position X="36" Y="2.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.MessageUtilities2" Collapsed="true">
-    <Position X="28.25" Y="3.5" Width="1.5" />
+    <Position X="49.75" Y="3.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="UtilityLibrary.MessageUtilities" Collapsed="true">
-    <Position X="26.5" Y="3.5" Width="1.5" />
+    <Position X="45.25" Y="3.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.Aav721" Collapsed="true">
-    <Position X="21.25" Y="0.5" Width="1.5" />
+    <Position X="49.75" Y="0.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.Heading" Collapsed="true">
     <Position X="30" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAgAAAQAAAgAAAAAQAAACAAAAAEBAAAAAAAAAAEAQA=</HashCode>
-      <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\.LinkOnly\HeadingSettings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SettingsManager.SettingsMgr&lt;TPath, TInfo, TData&gt;" Collapsed="true">
-    <Position X="30" Y="5.5" Width="1.5" />
+    <Position X="36" Y="5.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.PathAndFileBase" Collapsed="true">
@@ -221,7 +221,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.BaseDataFile&lt;TData&gt;" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="24.75" Y="0.5" Width="1.5" />
+    <Position X="45.25" Y="0.5" Width="4.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -230,7 +230,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.MachSettingData" Collapsed="true">
-    <Position X="21.25" Y="3.5" Width="1.5" />
+    <Position X="36" Y="3.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.SiteSettingInfo&lt;T&gt;" Collapsed="true">
@@ -238,7 +238,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.SiteSettingData" Collapsed="true">
-    <Position X="21.25" Y="6.5" Width="1.5" />
+    <Position X="36" Y="6.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.SuiteSettingInfo&lt;T&gt;" Collapsed="true">
@@ -246,7 +246,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.SuiteSettingData" Collapsed="true">
-    <Position X="24.75" Y="6.5" Width="1.5" />
+    <Position X="45.5" Y="6.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.UserSettingInfo&lt;T&gt;" Collapsed="true">
@@ -254,17 +254,23 @@
     <TypeIdentifier />
   </Class>
   <Class Name="SettingsManager.UserSettingData" Collapsed="true">
-    <Position X="30" Y="6.5" Width="1.5" />
+    <Position X="41" Y="6.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOperation" Collapsed="true">
     <Position X="0.75" Y="12.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAASACESIIIAEABGJIAEQAIgjCQKABMEAAAEBAIIABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="1.172" />
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompOp" Collapsed="true">
     <Position X="0.75" Y="11.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompOp" Collapsed="true">
     <Position X="2.75" Y="11" Width="2.25" />
@@ -273,55 +279,79 @@
       <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ACompareOp" Collapsed="true">
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ACompareOp&lt;T&gt;" Collapsed="true">
     <Position X="13.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompareOp" Collapsed="true">
     <Position X="12.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompareOp" Collapsed="true">
     <Position X="14.75" Y="1.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations" Collapsed="true">
-    <Position X="33.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier />
+    <Position X="33.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAgIAAACAAAAAAgAABDIAJAQAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="33.5" Y="5.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAFACAEQWEMgFFBlIBwAQYQAgiLAAAAsCBAAJEQBABg=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\SheetCategory.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.TreeNode" Collapsed="true">
     <Position X="8.5" Y="11.25" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>dQAA0WFQQIwLEATEoRUVSAFcg3AsAAEmDJgJJjoIBRM=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="1.103" />
   </Class>
   <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.BaseOfTree" Collapsed="true">
     <Position X="8.5" Y="10" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>BACAAABMCAAhkAwEAAAAIAAAAIMgAAQBAKCAiABIEAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ClassificationFileSupport.ClassificationFile" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="26.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>YAhUAhwRAIUQoSAFJggGAGACgokAYFAEIQLYBINEoAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFile.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.ClassificationFileSupport.ClassificationFileAssist" Collapsed="true">
-    <Position X="28.25" Y="0.5" Width="1.5" />
+    <Position X="40.75" Y="0.5" Width="4.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="AndyShared.ClassificationFileSupport.ClassificationFileData" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="30" Y="0.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAACAAAAEAAACQAQAgAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFileData.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.ClassificationFileSupport.SampleFileAssist" Collapsed="true">
-    <Position X="28.25" Y="4.5" Width="1.5" />
+    <Position X="36" Y="4.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIAAAIAA=</HashCode>
       <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\SampleFileAssist.cs</FileName>
@@ -336,16 +366,22 @@
   </Class>
   <Class Name="AndyShared.ConfigSupport.ConfigFile&lt;T&gt;" Collapsed="true">
     <Position X="0.5" Y="10" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAEABAAAICQBAQAAAAAAAAAgAAAAAAAAUAAAAJABAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="1.186" />
   </Class>
   <Class Name="AndyShared.ConfigSupport.ConfigSeedFile" Collapsed="true">
     <Position X="0.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEAAAEAAAABAAAAIAAAgBAQEAAQEBAIAAAABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="1.04" />
   </Class>
   <Class Name="AndyShared.ConfigMgrShared.ClassificationFiles" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="31.75" Y="0.5" Width="1.5" />
+    <Position X="36" Y="0.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>IAAAEQAAAACAAQwGACAAggAAghBLAAAAQAAAAAgAAAA=</HashCode>
       <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationFileSupport\ClassificationFiles.cs</FileName>
@@ -354,19 +390,28 @@
   </Class>
   <Class Name="AndyShared.ConfigMgrShared.ConfigFileSupport" Collapsed="true">
     <Position X="21.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigMgrShared\ConfigFileSupport.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ConfigMgrShared.ConfigSeedFileSupport" Collapsed="true">
     <Position X="23" Y="1.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAACAAEAAAAAAAAAAIAAAAEAAAAgEAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigMgrShared\ConfigFileSupport.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.ConfigMgrShared.ConfigSeedLocal" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="24.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAEQAgIACAIQwEAAAAAAAAghBBAAAIQAAAIAYAAIA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigMgrShared\ConfigSeedLocal.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.ConfigMgrShared.ConfigUser" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="26.5" Y="1.5" Width="1.5" />
+    <Position X="36" Y="1.5" Width="4.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -387,7 +432,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AndyShared.FilesSupport.FolderAndFileSupport" Collapsed="true">
-    <Position X="28.25" Y="2.5" Width="1.5" />
+    <Position X="45.25" Y="2.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AQAEAAAAAAAAAAAEAAAAgAQQAIAAEAAQAAAAAAgABAA=</HashCode>
       <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\FileSupport\FolderAndFileSupport.cs</FileName>
@@ -395,35 +440,56 @@
   </Class>
   <Class Name="AndyShared.SampleFileSupport.SampleFile" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="26.5" Y="4.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAACgAAAMAAgAAAAAwAAAQAAAJEAAAgBAAAI=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\SampleFileSupport\SampleFile.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.SampleFileSupport.SampleFiles" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="30" Y="4.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AgAAEwAAAACAAQwEABAAAAAQggBBEAAAQAQIAAgEAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\SampleFileSupport\SampleFiles.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.Settings.SettingsSupport" Collapsed="true">
     <Position X="31.75" Y="5.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAggAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Settings\SettingsSupport.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.Support.ObservableCollectionSupport" Collapsed="true">
     <Position X="31.75" Y="3.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Support\ObservableCollectionSupport.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Class Name="AndyShared.Support.InvertBool" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="33.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.Support.NullStringToMessage" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="30" Y="3.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="AndyShared.Support.StringToMessage" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="23" Y="6.5" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Support\ValueConverters.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Tests.PathSupport.FileNameAsSheetPdf" Collapsed="true">
@@ -534,7 +600,10 @@
   </Interface>
   <Interface Name="AndyShared.Support.IObservCollMember" Collapsed="true">
     <Position X="23" Y="7.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\Support\IObservCollMember.cs</FileName>
+    </TypeIdentifier>
   </Interface>
   <Enum Name="SettingsManager.SettingMgrStatus" Collapsed="true">
     <Position X="23" Y="9.5" Width="1.5" />
@@ -547,36 +616,54 @@
       <FileName>B:\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.2\SettingsMgr.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp" Collapsed="true">
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp" Collapsed="true">
     <Position X="23" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAgAwQAEAIAYAEACAAQADBAAFAAAAAABEAAAAA=</HashCode>
-      <FileName>B:\Programming\VisualStudioProjects\PDFMerge1\AndyShared\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+      <HashCode>AAgAAAAgAwQAEAIAIAEACAAQACBAAEAAAAAAAEgAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.CheckedState" Collapsed="true">
     <Position X="21.25" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodeType" Collapsed="true">
     <Position X="28.25" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectState" Collapsed="true">
     <Position X="33.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectMode" Collapsed="true">
     <Position X="31.75" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodePlacement" Collapsed="true">
     <Position X="26.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="AndyShared.ConfigSupport.SeedFileStatus" Collapsed="true">
     <Position X="30" Y="8.75" Width="1.5" />
-    <TypeIdentifier />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAQAIAAAAAEAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyShared\ConfigSupport\ConfigFile.cs</FileName>
+    </TypeIdentifier>
   </Enum>
   <Enum Name="Tests.PathSupport.FileTypeSheetPdf" Collapsed="true">
     <Position X="24.75" Y="8.75" Width="1.5" />

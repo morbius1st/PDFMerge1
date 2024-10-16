@@ -14,6 +14,7 @@
 		xmlns:custom="clr-namespace:SharedWPF.ShSupport"
 		xmlns:support="clr-namespace:DisciplineEditor.Support"
 		xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
+		xmlns:support1="clr-namespace:DisciplineEditor.Windows.Support"
 		Title="Discipline Editor"
 		Width="1600"
 		Height="1050"
@@ -35,7 +36,7 @@
 			<custom:InvertBool x:Key="InvertBool" />
 			<custom:PassThroughConverter x:Key="PassThru" />
 			<custom:BoolToSymbolConverter x:Key="BoolToSymbol" />
-			<custom:MultiObjectComparisonConverter x:Key="MultiObject" />
+			<support1:MultiObjectComparisonConverter x:Key="MultiObject" />
 
 			<sys:Double x:Key="BtnWidth">84</sys:Double>
 			<sys:Double x:Key="BtnWidthNarrower">68</sys:Double>

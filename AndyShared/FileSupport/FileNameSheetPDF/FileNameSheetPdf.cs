@@ -445,7 +445,7 @@ public bool IsSelected
 	set
 	{
 		isSelected = value;
-		OnPropertyChange();
+		OnPropertyChanged();
 	}
 }
 

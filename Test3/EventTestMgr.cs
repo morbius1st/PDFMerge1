@@ -103,7 +103,7 @@ namespace Test3
 
 		private void getClassificationFile(string fileid)
 		{
-			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(fileid);
+			ClassificationFile = ClassificationFile.GetUserClassfFile(fileid);
 
 			ClassificationFile.Initialize();
 

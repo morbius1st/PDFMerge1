@@ -61,7 +61,7 @@ namespace AndyShared.MergeSupport
 	{
 	#region private fields
 
-		private Orator.ConfRoom.Announcer toParentAnnounce;
+		// private Orator.ConfRoom.Announcer toParentAnnouncex;
 
 		private bool displayDebugMsgs = false;
 
@@ -100,8 +100,8 @@ namespace AndyShared.MergeSupport
 			DM.Start0();
 		#endif
 
-			Orator.Listen("toClassify", OnGetAnnouncement);
-			toParentAnnounce =	Orator.GetAnnouncer(this, "fromClassify", "");
+			// Orator.Listen("toClassify", OnGetAnnouncement);
+			// toParentAnnounce =	Orator.GetAnnouncer(this, "fromClassify", "");
 
 		#if DML1
 			DM.End0();
@@ -398,19 +398,19 @@ namespace AndyShared.MergeSupport
 
 	#region event consuming
 
-		private void OnGetAnnouncement(object sender, object value)
-		{
-		#if DML5
-			DM.Start0();
-		#endif
-			if (value is bool) displayDebugMsgs = (bool) value;
-
-			toParentAnnounce.Announce("got announcement| " +
-				(displayDebugMsgs ? "display debug messages\n" : "do not display debug messages\n"));
-		#if DML5
-			DM.End0();
-		#endif
-		}
+		// private void OnGetAnnouncement(object sender, object value)
+		// {
+		// #if DML5
+		// 	DM.Start0();
+		// #endif
+		// 	if (value is bool) displayDebugMsgs = (bool) value;
+		//
+		// 	toParentAnnounce.Announce("got announcement| " +
+		// 		(displayDebugMsgs ? "display debug messages\n" : "do not display debug messages\n"));
+		// #if DML5
+		// 	DM.End0();
+		// #endif
+		// }
 
 	#endregion
 

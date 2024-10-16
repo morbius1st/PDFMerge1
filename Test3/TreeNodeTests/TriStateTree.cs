@@ -416,7 +416,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	// #region item properties
 
 		// [IgnoreDataMember]
-		// public int ItemCount => item.Count;
+		// public int MergeItemCount => item.Count;
 		//
 		// [IgnoreDataMember]
 		// public int ExtMergeItemCount
@@ -425,7 +425,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// 	set
 		// 	{
 		// 		extMergeItemCount = value;
-		// 		OnPropertyChange();
+		// 		OnPropertyChanged();
 		// 	}
 		// }
 
@@ -458,7 +458,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 			extItemCountCurrent = count;
 		//
-		// 			OnPropertyChange();
+		// 			OnPropertyChanged();
 		// 	}
 		//
 		// }
@@ -558,7 +558,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			get
 			{
-				return isModified; // || Item.IsModified;
+				return isModified; // || Item.TreeNodeModified;
 			}
 			set
 			{
@@ -803,10 +803,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChange(nameof(HasChildren));
 			OnPropertyChange(nameof(ChildCount));
 			OnPropertyChange(nameof(ExtChildCount));
-			// OnPropertyChange(nameof(ExtMergeItemCount));
-			// OnPropertyChange(nameof(ExtMergeItemCountCurrent));
+			// OnPropertyChanged(nameof(ExtMergeItemCount));
+			// OnPropertyChanged(nameof(ExtMergeItemCountCurrent));
 
-			// OnPropertyChange("ExtItemCount");
+			// OnPropertyChanged("ExtItemCount");
 		}
 
 	#endregion
@@ -1016,15 +1016,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// {
 		// 	if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ treenode|@ onann-tninit| received");
 		// 	isInitialized = true;
-		// 	isModified = false;
+		// 	treeNodeModified = false;
 		// }
 
 		// private void OnAnnouncedSaved(object sender, object value)
 		// {
 		// 	if (Common.SHOW_DEBUG_MESSAGE1)
 		// 		Debug.WriteLine("@     treenode|@ onann-saved| received| isinitialized| "
-		// 			+ isInitialized + " | ismodified| " + IsModified + " | who| " + this.ToString());
-		// 	isModified = false;
+		// 			+ isInitialized + " | ismodified| " + TreeNodeModified + " | who| " + this.ToString());
+		// 	treeNodeModified = false;
 		// 	// isSaving = false;
 		// }
 
@@ -1144,7 +1144,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 		extMergeItemCountCurrent = count;
 		//
-		// 		OnPropertyChange();
+		// 		OnPropertyChanged();
 		// 	}
 		// }
 

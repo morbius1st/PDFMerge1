@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 
@@ -36,15 +37,25 @@ namespace Test4.Windows
 		private int start;
 		private int end;
 
+
+		// objects
+
 		private BaseOfTree root;
 
 		private Classify cls4;
+
+		private MainWindow mw;
+		private bool treeItemModified;
+		private bool treeModified;
 
 	#endregion
 
 	#region ctor
 
-		public MainWinSupport() { }
+		public MainWinSupport(MainWindow mw)
+		{
+			this.mw = mw;
+		}
 
 		private void init()
 		{
@@ -101,13 +112,12 @@ namespace Test4.Windows
 
 		}
 
-
 		public bool GetClassifFile(string fileId = null)
 		{
 			if (!InitClassfFile(fileId))
 			{
 				// prior does not exist - create
-				ClassificationFile = ClassificationFileAssist.Create();
+				ClassificationFile = ClassificationFile.Create();
 
 				UserSettings.Data.LastClassificationFileId = ClassificationFile.FileId;
 
@@ -135,7 +145,7 @@ namespace Test4.Windows
 
 			if (!fileId.IsVoid())
 			{
-				if (ClassificationFileAssist.Exists(fileId))
+				if (ClassificationFile.Exists(fileId))
 				{
 					UserSettings.Data.LastClassificationFileId = fileId;
 
@@ -163,17 +173,40 @@ namespace Test4.Windows
 
 		public ClassificationFile CreateClassifFile(string fileId = null)
 		{
-			return ClassificationFileAssist.Create(fileId);
+			return ClassificationFile.Create(fileId);
 		} 
 
 		public void ReadClassfFile()
 		{
-			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(UserSettings.Data.LastClassificationFileId);
+			ClassificationFile = ClassificationFile.GetUserClassfFile(UserSettings.Data.LastClassificationFileId);
 			ClassificationFile.Initialize();
 
 			OnPropertyChanged(nameof(ClassificationFile));
+
 		}
 
+		public string GetNodePath(TreeNode node)
+		{
+			TreeNode tempNode = node;
+			string namePath = node.Item.Title;
+
+			for (int i = 1; i < node.Depth; i++)
+			{
+				tempNode = tempNode.Parent;
+				namePath = $"{tempNode.Item.Title} > {namePath}";
+			}
+
+			return namePath;
+		}
+
+		// public static void AddPrelimCompOp(SheetCategory item)
+		// {
+		// 	ValueCompOp vco = new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "1", 2);
+		// 	vco.Parent = item;
+		// 	vco.CompOpModified = true;
+		//
+		// 	item.CompareOps.Add(vco);
+		// }
 
 
 		// public void TestInfo()
@@ -218,8 +251,6 @@ namespace Test4.Windows
 
 			return true;
 		}
-
-
 
 	#endregion
 

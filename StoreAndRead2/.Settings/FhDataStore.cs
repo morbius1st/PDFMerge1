@@ -22,8 +22,17 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class FhDataStore
+	public class FhDataStore : IDataFile
 	{
+		[IgnoreDataMember]
+		public string DataFileVersion => "data 7.4d";
+
+		[IgnoreDataMember]
+		public string DataFileDescription => "data setting file for SettingsManager v7.4";
+
+		[IgnoreDataMember]
+		public string DataFileNotes => "data / any notes go here";
+
 		public FhDataStore()
 		{
 			Favorites = new FhAdministrator<FhClassfValue>();

@@ -29,7 +29,8 @@ namespace Tests1.FavHistoryMgr
 		private static readonly Lazy<FavAndHistMgr> instance =
 			new Lazy<FavAndHistMgr>(() => new FavAndHistMgr());
 
-		private static BaseDataFile<FavAndHistoryDataStore> dataFile;
+		// private static BaseDataFile<FavAndHistoryDataStore> dataFile;
+		private static DataManager<FavAndHistoryDataStore> dataFile;
 
 		public ObservableDictionary<FileListKey, FilePath<FileNameSimple>>		ClassifFileList
 		{
@@ -83,7 +84,8 @@ namespace Tests1.FavHistoryMgr
 
 		public static FavAndHistMgr FhMgr => instance.Value;
 
-		public BaseDataFile<FavAndHistoryDataStore> DataFile
+		// public BaseDataFile<FavAndHistoryDataStore> DataFile
+		public DataManager<FavAndHistoryDataStore> DataFile
 		{
 			get => dataFile;
 			set => dataFile = value;

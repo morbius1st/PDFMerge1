@@ -3,7 +3,7 @@
 
 namespace SettingsManager
 {
-	internal partial class Heading
+	public partial class Heading
 	{
 		public static string SuiteName = "Tests2";
 

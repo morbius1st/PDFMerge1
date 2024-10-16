@@ -121,7 +121,8 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public void CreateFileNamePattern()
 		{
 			string patternPrefix =
-				@"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?= [^0-9])))?) ?(?<SheetId>(?<Discipline>(?>";
+				@"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?=[ -][^0-9])))?)[ -]?(?<SheetId>(?<Discipline>(?>";
+				// @"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?= [^0-9])))?) ?(?<SheetId>(?<Discipline>(?>";
 			string patternSuffix =
 				@"[A-Z]{0,3}(?=[\-\. 0-9]|$)))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>(?>\w*?(?=[\-\.]|$))*)(?<sep3>[\-\.]?)(?<SubModifier>(?>\w*?(?=[\-\.]|$))*)(?<sep4>[\-\.]?)(?<Identifier>(?>\w*?(?=[\-\.]|$))*)(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)))(?>\s-\s(?<SheetTitle>.*))*";
 
@@ -154,9 +155,9 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 			if (file == null) return false;
 
-			string[] parts = file.FileNameNoExt.Split(new [] { " - " }, StringSplitOptions.None);
+			string[] parts = file.FileNameNoExt.Split(new [] { " - " }, 2, StringSplitOptions.None);
 
-			if (parts.Length != 2 ) return false;
+			// if (parts.Length != 2 ) return false;
 
 			shtNumber = parts[0];
 			shtTitle = parts[1];

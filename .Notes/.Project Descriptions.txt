@@ -32,15 +32,16 @@ ClassifySheets		95%		takes a classificationFile and a samplelist and applies to 
                             Also uses async routines to monitor progress / to classify the sheets
 
 test3			test using a tri-state tree using events and methods | tests FileNameSheetPdf file object for FilePath<> | generic access to classification file
+test4           various tests - but shows all of the properties associated with the classify file + tests change migration
 testcore1		created and tests orator
 tests			PDF categories and codes
 tests1          ?working with favs abd history?
-tests2			categorizing PDF files / presenting in trees
+tests2			categorizing PDF files / presenting in trees / primative methods
 StoreAndRead	Component project to store and read data from an XML file using the settings routines
 StoreAndRead2	Test Favs and History | Test derived classes
 
 removed / voided
-test1			test parsing a sheet file's filename into sheet name and sheet number components
+test1			test parsing a sheet file's filename into sheet name and sheet number components  (see test3)
 
 
 

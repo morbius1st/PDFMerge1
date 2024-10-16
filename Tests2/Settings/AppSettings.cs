@@ -17,7 +17,8 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class AppSettingData //: HeaderData
+	// public class AppSettingData //: HeaderData
+	public class AppSettingDataFile : IDataFile
 	{
 		[IgnoreDataMember]
 		public string DataFileVersion => "app 7.4a";
@@ -45,7 +46,7 @@ namespace SettingsManager
 			new OutlineItem("17.0", "E", "Electrical", "Electrical Sheets" ),
 		};
 	}
-
+	/*
 	[DataContract(Name = "AppSettings", Namespace = "")]
 	public class AppSettingInfo<T> : AppSettingInfoBase<T>
 		where T : new ()
@@ -77,6 +78,6 @@ namespace SettingsManager
 			new OutlineItem("17.0", "E", "Electrical", "Electrical Sheets" ),
 		};
 	}
-
+	*/
 #endregion
 }

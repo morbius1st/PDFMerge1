@@ -13,7 +13,7 @@ using AndyShared.SampleFileSupport;
 using SettingsManager;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
-using static AndyShared.ClassificationFileSupport.ClassificationFileAssist;
+using static AndyShared.ClassificationFileSupport.ClassificationFile;
 using System.Diagnostics;
 
 

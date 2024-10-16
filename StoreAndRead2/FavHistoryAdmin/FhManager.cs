@@ -30,7 +30,8 @@ namespace StoreAndRead2.FavHistoryAdmin
 
 		private FilePath<FileNameSimple> dataPath;
 
-		private BaseDataFile<FhDataStore> fhData;
+		// private BaseDataFile<FhDataStore> fhData;
+		private DataManager<FhDataStore> fhData;
 
 		private FhAdministrator<FhClassfValue> favs;
 		private FhAdministrator<FhPairValue> favPairs;
@@ -68,7 +69,7 @@ namespace StoreAndRead2.FavHistoryAdmin
 
 	#region public methods
 
-		public void Save() => fhData.Admin.Save();
+		public void Save() => fhData.Admin.Write();
 		public void Read() => fhData.Admin.Read();
 
 		public void Create()
@@ -82,9 +83,10 @@ namespace StoreAndRead2.FavHistoryAdmin
 
 		private void initialize()
 		{
-			fhData = new BaseDataFile<FhDataStore>();
-
+			// fhData = new BaseDataFile<FhDataStore>();
 			dataPath = new FilePath<FileNameSimple>(SuiteSettings.Path.SettingFolderPath);
+
+			fhData = new DataManager<FhDataStore>(dataPath);
 
 			string filename = "(" + Environment.UserName + ") " + FAV_HIST_FOLDER;
 

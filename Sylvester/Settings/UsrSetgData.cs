@@ -39,7 +39,7 @@ namespace SettingsManager
 
 	*/
 
-	public partial class UserSettingData
+	public partial class UserSettingDataFile
 	{
 		private void initializeSavedFolders()
 		{

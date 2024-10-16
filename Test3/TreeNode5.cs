@@ -94,7 +94,7 @@ namespace Test3
 //			set
 //			{
 //				ProcessStateChange(value);
-//				OnPropertyChange();
+//				OnPropertyChanged();
 //			}
 		}
 

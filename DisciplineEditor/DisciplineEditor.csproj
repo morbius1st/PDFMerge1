@@ -114,6 +114,7 @@
     <Compile Include="Settings\SiteSettings.cs" />
     <Compile Include="Settings\SuiteSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Windows\Support\ValueConverters.cs" />
     <Page Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSkin\CyberStudioSkin.xaml">
       <Link>Windows\ResourceFiles\XamlResources\CyberStudioSkin.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -185,12 +186,12 @@
   <ItemGroup>
     <Folder Include=".Linked\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
-    <Folder Include="Windows\Support\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Discipline Editor Notes.txt" />
   </ItemGroup>
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

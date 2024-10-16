@@ -75,7 +75,7 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 
 			if (isInitialized) data.Admin.Write();
 
-			data = new DataManager<FileList>();
+			data = new DataManager<FileList>(filePath);
 			data.Open(filePath, fileName, folders);
 
 			isInitialized = true;
@@ -119,19 +119,19 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 		}
 
 		
-		public void FilterByProject(string projectNumber, BaseDataFile<FileList> fld)
-
-		{
-			projNumCheck(projectNumber);
-
-			view = (CollectionView) CollectionViewSource.GetDefaultView(fld.Data.FileListItems);
-
-			int len = projectNumber.Length;
-
-			view.Filter = o =>  ((KeyValuePair<string, FileListItem>) o).Key.Substring(0, len).Equals(projectNumber);
-
-			OnPropertyChange("View");
-		}
+		// public void FilterByProject(string projectNumber, BaseDataFile<FileList> fld)
+		//
+		// {
+		// 	projNumCheck(projectNumber);
+		//
+		// 	view = (CollectionView) CollectionViewSource.GetDefaultView(fld.Data.FileListItems);
+		//
+		// 	int len = projectNumber.Length;
+		//
+		// 	view.Filter = o =>  ((KeyValuePair<string, FileListItem>) o).Key.Substring(0, len).Equals(projectNumber);
+		//
+		// 	OnPropertyChange("View");
+		// }
 
 
 		public void RemoveByProject(string projectNumber)

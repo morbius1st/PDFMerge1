@@ -120,20 +120,20 @@ namespace ClassifySheets.SampleData
 
 			root = tn;
 
-			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
-
-			item.MergeItems = new ObservableCollection<MergeItem>();
-
-			MergeItem mi = new MergeItem(0, sht1);
-			item.MergeItems.Add(mi);
-
-			mi = new MergeItem(0, sht2);
-			item.MergeItems.Add(mi);
-
-			mi = new MergeItem(0, sht3);
-			item.MergeItems.Add(mi);
-			
-			root.Item = item;
+			// SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
+			//
+			// item.MergeItems = new ObservableCollection<MergeItem>();
+			//
+			// MergeItem mi = new MergeItem(0, sht1);
+			// item.MergeItems.Add(mi);
+			//
+			// mi = new MergeItem(0, sht2);
+			// item.MergeItems.Add(mi);
+			//
+			// mi = new MergeItem(0, sht3);
+			// item.MergeItems.Add(mi);
+			//
+			// root.Item = item;
 
 			MakeChildren(root, 0);
 			// MakeChildren2(root);

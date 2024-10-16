@@ -47,7 +47,7 @@ namespace AndyShared.MergeSupport
 			sb.Append(" ".Repeat(node.Depth * 2));
 			sb.Append("\\").AppendLine(node.Item.Title);
 		
-			if (node.ItemCount > 0)
+			if (node.MergeItemCount > 0)
 			{
 				foreach (MergeItem item in node.Item.MergeItems)
 				{
@@ -83,7 +83,7 @@ namespace AndyShared.MergeSupport
 		{
 			if (node.ExtMergeItemCount == 0) yield return null;
 		
-			if (node.ItemCount > 0)
+			if (node.MergeItemCount > 0)
 			{
 				foreach (MergeItem mi in node.Item.MergeItems)
 				{

@@ -50,8 +50,10 @@
 			<local:Lv2ConditionTemplateSelector x:Key="Lv2ConditionSelector" />
 
 			<local:NotBoolConverter x:Key="NotBool" />
+			<local:ElipseString x:Key="ElipseString"/>
+
 			<support:BoolToYesNoConverter x:Key="BoolToYesNo" />
-			<support:NullObjToBool x:Key="NullObjToBool" />
+			<support:NullObjToBool x:Key="NullObjToTrue" />
 			<support:PassThroughConverter x:Key="PassThru" />
 
 			<sys:Double x:Key="LogicalHorizBarWidth">24</sys:Double>
@@ -149,6 +151,16 @@
 				<Setter Property="Padding" Value="0" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
+
+			<Style x:Key="label.debug.panel"
+					TargetType="Label"
+					BasedOn="{StaticResource Label.Base}"
+					>
+				<Setter Property="Padding" Value="0,0,4,2" />
+				<Setter Property="Background" Value="#444444" />
+				<Setter Property="Foreground" Value="DarkGray" />
+			</Style>
+
 
 			<Style x:Key="Label.Selected"
 					TargetType="{x:Type Label}"
@@ -262,6 +274,7 @@
 				<Setter Property="HorizontalAlignment" Value="Left" />
 			</Style>
 
+
 			<Style x:Key="TextBox.Base"
 					TargetType="TextBox"
 					>
@@ -302,6 +315,7 @@
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
+
 
 
 
@@ -1290,7 +1304,7 @@
 			<ContextMenu x:Key="Tv1ContextMenu" x:Name="Tv1ContextMenu"
 					Padding="0,6,0,6"
 					d:DataContext="{Binding ElementName=MainWinClsfrEd,
-																	Path=UserSelected}"
+																	Path=Mws.NodeSelected}"
 					Background="{StaticResource ContextMenu.Background}"
 					Foreground="White"
 					Closed="Tv1ContextMenu_OnClosed"
@@ -2207,6 +2221,7 @@
 			<!--  DataType="{x:Type tree:TreeNode}"  -->
 			<HierarchicalDataTemplate x:Key="Tv1ItemTemplate1" x:Name="Hdt1"
 					ItemsSource="{Binding ChildrenView}"
+					DataType="{x:Type treeSupport:TreeNode}"
 					>
 
 				<Grid x:Name="GD1"
@@ -3724,53 +3739,89 @@
 		<Grid
 				Grid.Column="2"
 				Grid.Row="1"
+				Margin="0,0,2,0"
 				>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="120" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="140" />
+				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<Label
-					Content="UserSelected"
+					Content="File Id"
 					Grid.Column="0"
 					Grid.Row="0"
-					Margin="0"
-					Padding="0,0,0,2"
-					VerticalAlignment="Center"
-					Background="#444444"
-					Foreground="DarkGray"
+					Style="{StaticResource label.debug.panel}"
 					/>
 
-			<TextBlock
+			<TextBox
 					Grid.Column="1"
 					Grid.Row="0"
 					Background="Black"
 					Foreground="White"
-					Text="{Binding UserSelected,
+					Text="{Binding ClassificationFile.FileId,
 												 Mode=OneWay,
-												 FallbackValue='false'}"
+												 FallbackValue='fileid'}"
+					/>
+
+			<Label
+					Content="NodeSelected"
+					Grid.Column="0"
+					Grid.Row="1"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="1"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding Mws.NodeSelected,
+												 Mode=OneWay,
+												 FallbackValue='false',
+												 Converter={StaticResource NullObjToTrue}}"
 					/>
 
 
 			<Label
 					Content="classif / IsModified"
 					Grid.Column="0"
-					Grid.Row="1"
-					Margin="0"
-					Padding="0,0,0,2"
-					VerticalAlignment="Center"
-					Background="#444444"
-					Foreground="DarkGray"
+					Grid.Row="2"
+					Style="{StaticResource label.debug.panel}"
 					/>
 
 			<TextBlock
 					Grid.Column="1"
-					Grid.Row="1"
+					Grid.Row="2"
 					Background="Black"
 					Foreground="White"
 					Text="{Binding ClassificationFile.IsModified,
@@ -3778,9 +3829,419 @@
 												 FallbackValue='false'}"
 					/>
 
+			<Label
+					Content="TreeBase / TreeNodeModified"
+					Grid.Column="0"
+					Grid.Row="3"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="3"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.TreeBase.TreeNodeModified,
+												 Mode=OneWay,
+												 FallbackValue='false'}"
+					/>
+
+			<Label
+					Content="TreeBase / TreeItemModified"
+					Grid.Column="0"
+					Grid.Row="4"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="4"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.TreeBase.TreeNodeChildItemModified,
+												 Mode=OneWay,
+												 FallbackValue='false'}"
+					/>
+
+			<!--  classification data  -->
+
+			<Label
+					Content="Classification information"
+					Grid.Column="0"
+					Grid.Row="5"
+					Grid.ColumnSpan="2"
+					Margin="0,4,0,4"
+					Padding="0,0,0,2"
+					VerticalAlignment="Center"
+					Background="#444444"
+					Foreground="DarkGray"
+					/>
+
+
+			<Label x:Name="lbl_0_6"
+					Content="HeaderFromMemory"
+					Grid.Column="0"
+					Grid.Row="6"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="6"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.HeaderDescFromMemory,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lbl_0_7"
+					Content="HeaderFromFile"
+					Grid.Column="0"
+					Grid.Row="7"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="7"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.HeaderDescFromFile,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lbl_0_8"
+					Content="Header Note"
+					Grid.Column="0"
+					Grid.Row="8"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="8"
+					Background="Black"
+					Foreground="White"
+					
+					Text="{Binding ClassificationFile.HeaderNote,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lbl_0_9"
+					Content="Folder Path Local"
+					Grid.Column="0"
+					Grid.Row="9"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="9"
+					Background="Black"
+					Foreground="White"
+					TextAlignment="Right"
+					Text="{Binding ClassificationFile.FolderPathLocal,
+												 Mode=OneWay}"
+					FlowDirection="RightToLeft"
+					BorderThickness="0"
+					IsReadOnly="True"
+					
+			/>
+
+			
+			<Label x:Name="lblFolderPath"
+					Content="Folder Path"
+					Grid.Column="0"
+					Grid.Row="10"
+					Style="{StaticResource label.debug.panel}"
+			/>
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="10"
+					Background="Black"
+					Foreground="White"
+					TextAlignment="Right"
+					FlowDirection="RightToLeft"
+					Text="{Binding ClassificationFile.FolderPath,
+												 Mode=OneWay}"
+					BorderThickness="0"
+					IsReadOnly="True"
+			/>
+					
+
+
+			<Label x:Name="lbl_0_10"
+					Content="Full file Path"
+					Grid.Column="0"
+					Grid.Row="11"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="11"
+					Background="Black"
+					Foreground="White"
+					TextAlignment="Right"
+					Text="{Binding ClassificationFile.FullFilePath,
+												 Mode=OneWay}"
+					FlowDirection="RightToLeft"
+					BorderThickness="0"
+					IsReadOnly="True"
+					/>
+
+			<Label x:Name="lbl_0_11"
+					Content="File Path Local"
+					Grid.Column="0"
+					Grid.Row="12"
+
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="12"
+					Background="Black"
+					Foreground="White"
+					TextAlignment="Right"
+					FlowDirection="RightToLeft"
+					Text="{Binding ClassificationFile.FolderPathLocal,
+												 Mode=OneWay, FallbackValue='c\\path\\path\\path\\path\\FolderPathLocal'}" 
+					BorderThickness="0"
+					IsReadOnly="True"
+					/>
+			<!-- HorizontalContentAlignment="Right" -->
+			<!-- HorizontalAlignment="Right" -->
+					<!-- FlowDirection="RightToLeft" -->
+			<!-- Text="{Binding ClassificationFile.FolderPathLocal, Converter={StaticResource ElipseString}, ConverterParameter=30, -->
+			<!-- Mode=OneWay, FallbackValue='c\\path\\path\\path\\path\\FolderPathLocal'}"  -->
+
+
+			<Label x:Name="lblFileName"
+					Content="File Name"
+					Grid.Column="0"
+					Grid.Row="13"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="13"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.FileName,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lblFileNameNoEx"
+					Content="File Name No Ex"
+					Grid.Column="0"
+					Grid.Row="14"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="14"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.FileNameNoExt,
+												 Mode=OneWay}"
+					/>
+
+
+			<Label x:Name="lblFileNameExNoSep"
+					Content="File Name Ex No Sep"
+					Grid.Column="0"
+					Grid.Row="15"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="15"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.FileNameExtNoSep,
+												 Mode=OneWay}"
+					/>
+
+
+			<Label x:Name="lblFileId"
+					Content="FileId"
+					Grid.Column="0"
+					Grid.Row="16"
+					Style="{StaticResource label.debug.panel}"
+			/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="16"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.FileId,
+												 Mode=OneWay}"
+			/>
+
+
+			<Label x:Name="lblUserName"
+					Content="User Name"
+					Grid.Column="0"
+					Grid.Row="17"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="17"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.UserName,
+												 Mode=OneWay}"
+					/>
+
+
+			<Label x:Name="lblSampFilePath"
+					Content="Sample File Path"
+					Grid.Column="0"
+					Grid.Row="18"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="18"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.SampleFilePath,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lblCanSave"
+					Content="Can Save"
+					Grid.Column="0"
+					Grid.Row="19"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="19"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.CanSave,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lblCanEdit"
+					Content="Can Edit"
+					Grid.Column="0"
+					Grid.Row="20"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="20"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.CanEdit,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lblIsInit"
+					Content="Is Init"
+					Grid.Column="0"
+					Grid.Row="21"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="21"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.IsInitialized,
+												 Mode=OneWay}"
+					/>
+
+			<Label x:Name="lblIsMod"
+					Content="Is Mod"
+					Grid.Column="0"
+					Grid.Row="22"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="22"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.IsModified,
+												 Mode=OneWay}"
+					/>
+
+
+			<Label x:Name="lblIsValid"
+					Content="Is Valid"
+					Grid.Column="0"
+					Grid.Row="23"
+					Style="{StaticResource label.debug.panel}"
+					/>
+
+			<TextBlock
+					Grid.Column="1"
+					Grid.Row="23"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding ClassificationFile.IsValid,
+												 Mode=OneWay}"
+					/>
+
+			<Label
+					Content="Change Classification File"
+					Grid.Column="0"
+					Grid.Row="24"
+					Grid.ColumnSpan="2"
+					Margin="0,4,0,4"
+					Padding="0,0,0,2"
+					VerticalAlignment="Center"
+					Background="#444444"
+					Foreground="DarkGray"
+			/>
+
+
+			<Label x:Name="lblFileIdNew"
+					Content="New File Id"
+					Grid.Column="0"
+					Grid.Row="25"
+					Style="{StaticResource label.debug.panel}"
+			/>
+
+			<DockPanel
+					Grid.Column="1"
+					Grid.Row="25"
+					>
+				<Button
+						Content="Go"
+						DockPanel.Dock="Right"
+						Width="30"
+						Click="BtnUpdateClassifFile_OnClick"
+						/>
+
+				<TextBox
+						DockPanel.Dock="Left"
+						Background="Black"
+						Foreground="White"
+						Text="{Binding FileIdNew,
+												 Mode=TwoWay}" />
+
+
+
+				</DockPanel>
+
 		</Grid>
-
-
 
 		<Grid
 				Grid.Column="0"
@@ -4127,8 +4588,8 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Value="true" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
-										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
+										<Condition Value="true" Binding="{Binding Mws.NodeSelected, Converter={StaticResource NullObjToTrue}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.CanSave}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 									<Setter Property="ToolTip" Value="Cancel all changes&#x0a;since last save" />
@@ -4136,8 +4597,8 @@
 
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Value="false" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
-										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
+										<Condition Value="false" Binding="{Binding Mws.NodeSelected, Converter={StaticResource NullObjToTrue}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.CanSave}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="false" />
 									<Setter Property="ToolTip" Value="Finish Editing the&#x0a;Selected Category" />
@@ -4170,8 +4631,8 @@
 							<Style.Triggers>
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Value="true" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
-										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
+										<Condition Value="true" Binding="{Binding Mws.NodeSelected, Converter={StaticResource NullObjToTrue}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.CanSave}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="True" />
 									<Setter Property="ToolTip" Value="Save Changes" />
@@ -4179,8 +4640,8 @@
 
 								<MultiDataTrigger>
 									<MultiDataTrigger.Conditions>
-										<Condition Value="false" Binding="{Binding UserSelected, Converter={StaticResource NullObjToBool}}" />
-										<Condition Value="true" Binding="{Binding ClassificationFile.IsModified}" />
+										<Condition Value="false" Binding="{Binding Mws.NodeSelected, Converter={StaticResource NullObjToTrue}}" />
+										<Condition Value="true" Binding="{Binding ClassificationFile.CanSave}" />
 									</MultiDataTrigger.Conditions>
 									<Setter Property="IsEnabled" Value="false" />
 									<Setter Property="ToolTip" Value="Finish Editing the Selected Category" />
@@ -4205,20 +4666,82 @@
 			</StackPanel>
 		</StackPanel>
 
-
-		<Label x:Name="Label20"
-				Content="Sheet Organization Categories"
+		<DockPanel
 				Grid.Column="0"
 				Grid.Row="0"
 				Grid.ColumnSpan="2"
-				Margin="5,3,5,0"
-				Padding="5,3,0,5"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Top"
-				FontSize="{StaticResource Header.Title.L1.Font.Size}"
-				Background="{StaticResource Win.Title.Background}"
-				Foreground="White"
-				/>
+				Margin="5,0,0,0"
+				>
+			<Rectangle
+					Margin="0,3,0,0"
+					Width="2"
+					Height="11"
+					VerticalAlignment="Top"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding BaseOfTree.TreeNodeModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+
+			</Rectangle>
+
+			<Rectangle
+					Margin="-2,3,0,11"
+					Width="2"
+					Height="10"
+					VerticalAlignment="Bottom"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding BaseOfTree.TreeNodeChildItemModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+
+			</Rectangle>
+
+
+			<Rectangle
+					Margin="-2,3,0,0"
+					Width="2"
+					Height="11"
+					VerticalAlignment="Bottom"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding ClassificationFile.IsModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+
+			</Rectangle>
+
+
+			<Label x:Name="Label20"
+					Content="Sheet Organization Categories"
+					Margin="0,3,5,0"
+					Padding="5,3,0,5"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Top"
+					FontSize="{StaticResource Header.Title.L1.Font.Size}"
+					Background="{StaticResource Win.Title.Background}"
+					Foreground="White"
+					/>
+		</DockPanel>
 
 		<Grid
 				Grid.Column="1"
@@ -4264,7 +4787,7 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						DataContext="{Binding ElementName=MainWinClsfrEd,
-																	Path=UserSelected}"
+																	Path=Mws.NodeCopy}"
 						>
 
 					<Grid.ColumnDefinitions>
@@ -4279,6 +4802,31 @@
 						<RowDefinition MinHeight="125" />
 
 					</Grid.RowDefinitions>
+
+					<Rectangle
+							Grid.Column="0"
+							Grid.Row="2"
+							Width="55"
+							Height="1"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							Margin="8,0,0,17"
+
+							>
+							<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray"/>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding Path=Item.ChildCompOpModified}"
+											Value="true">
+										<Setter Property="Fill" Value="LawnGreen"></Setter>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+
+							</Rectangle.Style>
+
+					</Rectangle>
 
 
 					<Button x:Name="BtnDoneEditing"
@@ -4303,8 +4851,9 @@
 									<DataTrigger Value="{x:Null}" Binding="{Binding Item}">
 										<Setter Property="IsEnabled" Value="False" />
 									</DataTrigger>
-									<DataTrigger Value="True" Binding="{Binding Item.IsModified}">
+									<DataTrigger Value="True" Binding="{Binding Item.ChildCompOpModified}">
 										<Setter Property="Content" Value="Done" />
+										
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -4320,6 +4869,7 @@
 
 					<TextBox x:Name="Tbx01"
 							Grid.Column="1"
+							Grid.Row="0"
 							Grid.ColumnSpan="2"
 							d:DataContext="{Binding Source={x:Static sample:SampleData.Temp}}"
 							res:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
@@ -4354,8 +4904,8 @@
 							Content="Conditions"
 							Grid.Column="0"
 							Grid.Row="2"
-							Margin="5,0,0,5"
-							VerticalAlignment="Bottom"
+							Margin="5,5,0,5"
+							VerticalAlignment="Top"
 							Style="{StaticResource Label.Selected}"
 							/>
 

@@ -17,7 +17,8 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class UserSettingData //: HeaderData
+	// public class UserSettingData //: HeaderData
+	public class UserSettingDataFile : IDataFile
 	{
 		[IgnoreDataMember]
 		public string DataFileVersion => "user 7.4u";
@@ -37,7 +38,7 @@ namespace SettingsManager
 		[DataMember]
 		public List<OutlineItem> OutlineItems = new List<OutlineItem>();
 	}
-
+	/*
 	[DataContract(Name = "UserSetting", Namespace = "")]
 	public class UserSettingInfo<T> : UserSettingInfoBase<T>
 		where T : new ()
@@ -62,7 +63,7 @@ namespace SettingsManager
 
 		public override void UpgradeFromPrior(SettingInfoBase<T> prior) { }
 	}
-
+	*/
 #endregion
 }
 

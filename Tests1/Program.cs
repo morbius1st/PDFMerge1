@@ -149,10 +149,10 @@ namespace Tests1
 			sb.Append("test data| ".PadLeft(tabStops[0])).AppendLine(td[0, 0]);
 
 			sb.Append("file type| ".PadLeft(tabStops[0])).AppendLine(fo.FileType.ToString());
-			sb.Append("sht num type| ".PadLeft(tabStops[0])).AppendLine(fo.ShtCompTypeName.ToString());
+			sb.Append("sht num type| ".PadLeft(tabStops[0])).AppendLine(fo.SheetIdType.ToString());
 			sb.Append("sheet num| ".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
 			sb.Append("isPhBld| ".PadLeft(tabStops[0])).AppendLine(fo.IsPhaseBldg?.ToString() ?? "unknown");
-			sb.Append("hasIdent| ".PadLeft(tabStops[0])).AppendLine(fo.HasIdentifier?.ToString() ?? "unknown");
+			sb.Append("hasIdent| ".PadLeft(tabStops[0])).AppendLine(fo.hasIdentifier?.ToString() ?? "unknown");
 
 			sb.Append("sht number| ".PadLeft(tabStops[0])).AppendLine(fo.SheetNumber);
 			sb.Append("sht Title| ".PadLeft(tabStops[0])).AppendLine(fo.SheetTitle);
@@ -167,7 +167,7 @@ namespace Tests1
 			bool answer;
 
 			test = fo.SheetID;
-			test2 = fo.SheetId();
+			// test2 = fo.originalSheetTitle();
 
 			sb.Append(("sht id's match" + "| ").PadLeft(tabStops[0]));
 
@@ -180,7 +180,7 @@ namespace Tests1
 
 			int idx = 0;
 
-			test = fo.SheetComponentType.ToString();
+			test = fo.shtCompType.ToString();
 			compare = td[0, 1];
 
 			sb.Append(("sht comp type" + "| ").PadLeft(tabStops[0]))
@@ -201,7 +201,8 @@ namespace Tests1
 
 					for (int i = 0; i < 2; i++)
 					{
-						idx = ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, i);
+						// idx = ShtIds.CompValueIdx2(ShtCompTypes.PHBLDG, i);
+						idx = SheetNumComponentData[VI_PHBLDG].Index;
 
 						test = fo.SheetComps[idx] ?? "";
 
@@ -216,8 +217,10 @@ namespace Tests1
 
 						if (compare.IsVoid() && test.IsVoid()) continue;
 
-						sb.Append((ShtIds.CompTitle2(ShtCompTypes.PHBLDG, i) + "| ").PadLeft(tabStops[0]))
-						.Append(test.PadRight(tabStops[2]));
+						// sb.Append((ShtIds.CompTitle2(ShtCompTypes.PHBLDG, i) + "| ").PadLeft(tabStops[0]));
+						sb.Append(SheetNumComponentData[VI_PHBLDG].Name + "| ".PadLeft(tabStops[0]))
+							.Append(test.PadRight(tabStops[2]));
+
 						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
 						answer = test.Equals(test2);
 						result &= answer;
@@ -244,10 +247,11 @@ namespace Tests1
 
 				for (int i = 0; i < 9; i++)
 				{
-					if (!ShtIds.CompIsUsed2(fo.shtCompType, i)) continue;
+					// if (!ShtIds.CompIsUsed2(fo.shtCompType, i)) continue;
 
-					idx = ShtIds.CompValueIdx2(fo.shtCompType, i);
-
+					// idx = ShtIds.CompValueIdx2(fo.shtCompType, i);
+					idx = SheetNumComponentData[(int) fo.shtCompType].Index;
+					
 					test = fo.SheetComps[idx] ?? "";
 
 					if (i % 2 == 0)
@@ -260,8 +264,12 @@ namespace Tests1
 
 					if (compare.IsVoid() && test.IsVoid()) continue;
 
-					sb.Append((ShtIds.CompTitle2(fo.shtCompType, i) + "| ").PadLeft(tabStops[0]))
-					.Append(test.PadRight(tabStops[2]));
+					// sb.Append((ShtIds.CompTitle2(fo.shtCompType, i) + "| ").PadLeft(tabStops[0]))
+
+					sb.Append(SheetNumComponentData[(int) fo.shtCompType].Name + "| ".PadLeft(tabStops[0]))
+						.Append(test.PadRight(tabStops[2]));
+
+
 					sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
 					answer = test.Equals(test2);
 					result &= answer;
@@ -288,7 +296,8 @@ namespace Tests1
 
 					for (int i = 0; i < 5; i++)
 					{
-						idx = ShtIds.CompValueIdx2(ShtCompTypes.IDENT, i);
+						// idx = ShtIds.CompValueIdx2(ShtCompTypes.IDENT, i);
+						idx = SheetNumComponentData[VI_IDENTIFIER].Index;
 
 						test = fo.SheetComps[idx] ?? "";
 
@@ -304,7 +313,9 @@ namespace Tests1
 						if (compare.IsVoid() && test.IsVoid()) continue;
 
 
-						sb.Append((ShtIds.CompTitle2(ShtCompTypes.IDENT, i) + "| ").PadLeft(tabStops[0])).Append(test.PadRight(tabStops[2]));
+						// sb.Append((ShtIds.CompTitle2(ShtCompTypes.IDENT, i) + "| ").PadLeft(tabStops[0])).Append(test.PadRight(tabStops[2]));
+						sb.Append((SheetNumComponentData[VI_IDENTIFIER].Name + "| ").PadLeft(tabStops[0])).Append(test.PadRight(tabStops[2]));
+
 						sb.Append(("(" + compare + ")").PadRight(tabStops[3]));
 						answer = test.Equals(test2);
 						result &= answer;
@@ -332,7 +343,7 @@ namespace Tests1
 
 				if (!td[1, 0].IsVoid()) { sb.Append(formatValue("Ph/Bldg| "      , fo.PhaseBldg    , td[1, 0], tabStops)); }
 
-				if (!td[1, 0].IsVoid()) { sb.Append(formatValue("Ph/Bldg sep| "  , fo.PhaseBldgSep , td[1, 1], tabStops)); }
+				if (!td[1, 0].IsVoid()) { sb.Append(formatValue("Ph/Bldg sep| "  , "?" , td[1, 1], tabStops)); }
 
 				if (!td[2, 0].IsVoid()) { sb.Append(formatValue("Discipline| "   , fo.Discipline   , td[2, 0], tabStops)); }
 
@@ -360,7 +371,7 @@ namespace Tests1
 
 				if (!td[3, 3].IsVoid()) { sb.Append(formatValue("SubIdentifier| ", fo.Subidentifier, td[3, 3], tabStops)); }
 
-				if (!td[3, 4].IsVoid()) { sb.Append(formatValue("sep| "          , fo.Seperator6   , td[3, 4], tabStops)); }
+				// if (!td[3, 4].IsVoid()) { sb.Append(formatValue("sep| "          , fo.Seperator6   , td[3, 4], tabStops)); }
 
 			}
 			else

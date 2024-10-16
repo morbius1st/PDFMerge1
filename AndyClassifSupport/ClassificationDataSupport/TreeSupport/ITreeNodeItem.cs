@@ -6,13 +6,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 		bool IsInitialized { get; set; }
 
-		bool IsModified { get; set; }
+		bool ShtCatModified { get; set; }
 
 		bool CanSelect { get; set; }
 
 		int Depth { get; set; }
 
-		int Count { get; }
+		int MergeItemCount { get; }
 
 		void UpdateProperties();
 

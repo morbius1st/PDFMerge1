@@ -49,7 +49,7 @@ namespace AndyShared.SampleFileSupport
 			//
 			// 	sampleFileData.Data.Building = value;
 			//
-			// 	OnPropertyChange("Building");
+			// 	OnPropertyChanged("Building");
 			// }
 	}
 	
@@ -114,9 +114,9 @@ namespace AndyShared.SampleFileSupport
 			{
 				if (s.IsVoid()) continue;
 
-				FilePath<FileNameSheetPdf> fileName = new FilePath<FileNameSheetPdf>(s);
+				FilePath<FileNameSheetPdf> file = new FilePath<FileNameSheetPdf>(s);
 
-				Files.Add(fileName);
+				Files.Add(file);
 			}
 
 		#if DML1

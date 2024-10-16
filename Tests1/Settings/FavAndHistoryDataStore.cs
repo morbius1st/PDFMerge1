@@ -22,8 +22,17 @@ namespace SettingsManager
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class FavAndHistoryDataStore
+	public class FavAndHistoryDataStore : IDataFile
 	{
+		[IgnoreDataMember]
+		public string DataFileVersion => "data 7.4d";
+
+		[IgnoreDataMember]
+		public string DataFileDescription => "data setting file for SettingsManager v7.4";
+
+		[IgnoreDataMember]
+		public string DataFileNotes => "data / any notes go here";
+
 		[DataMember(Order = 1)]
 		public string FavAndHistoryDescription { get; set; } = "this is a description for the Fav and History data file";
 

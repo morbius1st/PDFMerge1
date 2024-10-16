@@ -1,5 +1,6 @@
 ﻿#region using
 
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ using UtilityLibrary;
 namespace AndyShared.MergeSupport
 {
 
-	public class MergeItem
+	public class MergeItem : ICloneable
 	{	
 	#region private fields
 
@@ -45,10 +46,12 @@ namespace AndyShared.MergeSupport
 				FilePath.FileNameObject.SheetTitle;
 		}
 
+		public object Clone()
+		{
+			return new MergeItem(NumberOfPages, new FilePath<FileNameSheetPdf>(FilePath.FullFilePath));
+		}
+
 	#endregion
 	}
-
-
-
 
 }

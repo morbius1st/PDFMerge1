@@ -90,7 +90,7 @@ namespace AndyShared.Support
 
 #endregion
 
-#region null to bool value converter
+#region null to bool (true) value converter
 
 	[ValueConversion(typeof(object), typeof(bool))]
 	public class NullObjToBool : IValueConverter

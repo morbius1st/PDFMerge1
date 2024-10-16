@@ -167,12 +167,15 @@
       <Link>Windows\Balloon\Balloon.cs</Link>
     </Compile>
     <Compile Include="..\WpfShared\Windows\ClassificationFileSelector.xaml.cs">
-			<DependentUpon>ClassificationFileSelector.xaml</DependentUpon>
-			<Link>Windows\ClassificationFileSelector.xaml.cs</Link>
+      <DependentUpon>ClassificationFileSelector.xaml</DependentUpon>
+      <Link>Windows\ClassificationFileSelector.xaml.cs</Link>
     </Compile>
     <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Settings\UserSettings.cs" />
+    <Compile Include="Windows\Support\MwClassfEdSupport.cs" />
+    <Compile Include="Windows\Support\MwClassfEdValueConverters.cs" />
+    <Compile Include="Windows\Support\MwClassifEdTemplateSelectors.cs" />
     <Compile Include="Windows\WindowManager.cs" />
     <Compile Include="Windows\Support\CustomProperties.cs" />
     <Compile Include="Windows\Support\ValidationRules.cs" />
@@ -278,6 +281,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Directory.Build.rsp" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

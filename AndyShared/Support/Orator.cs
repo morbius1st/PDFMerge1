@@ -33,7 +33,7 @@ namespace AndyShared.Support
 
 	// ver	2.0		adjusted announcer to hold ref to owner and reduce
 	//					parameter count when announcing
-
+	/*
 	public static class Orator
 	{
 		private static Dictionary<string, ConfRoom> conferenceCenter = new Dictionary<string, ConfRoom>();
@@ -167,5 +167,7 @@ namespace AndyShared.Support
 			}
 
 		}
+		
 	}
+	*/
 }

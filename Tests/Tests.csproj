@@ -185,5 +185,6 @@
   </ItemGroup>
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -53,7 +53,7 @@ namespace AndyShared.ConfigMgrShared
 
 				Write();
 
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace AndyShared.ConfigMgrShared
 			{
 				isRead = value;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace AndyShared.ConfigMgrShared
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}

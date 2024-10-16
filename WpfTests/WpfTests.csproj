@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF;SM74;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -102,6 +102,9 @@
     <Compile Include="..\.LinkOnly\SiteSettings.cs">
       <Link>Settings\SiteSettings.cs</Link>
     </Compile>
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
     <Compile Include="..\AndyFavsAndHistory\FavHistoryMgr\FavHistoryManager.cs">
       <Link>.Linked\FavHistoryManager.cs</Link>
     </Compile>
@@ -137,7 +140,6 @@
     </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\DataSet.cs" />
-    <Compile Include="Settings\SuiteSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Page Include="..\AndyFavsAndHistory\Windows\FavsAndHistory.xaml">
       <Link>.Linked\FavsAndHistory.xaml</Link>
@@ -215,5 +217,6 @@
   </ItemGroup>
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

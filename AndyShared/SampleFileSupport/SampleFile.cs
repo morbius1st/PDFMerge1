@@ -81,7 +81,7 @@ namespace AndyShared.SampleFileSupport
 		#if DML1
 			DM.InOut0();
 		#endif
-			SampleFilePath = ClassificationFileAssist.GetSampleFilePathFromFile(classfFilePath);
+			SampleFilePath = ClassificationFile.GetSampleFilePathFromFile(classfFilePath);
 
 		#if DML1
 			DM.End0();

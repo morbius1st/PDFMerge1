@@ -20,6 +20,8 @@ using DebugCode;
 
 namespace AndyShared.ClassificationFileSupport
 {
+	/* moved to ClassificationFile
+
 	public class ClassificationFileAssist
 	{
 	#region public fields
@@ -71,7 +73,7 @@ namespace AndyShared.ClassificationFileSupport
 				FilePathUtil.AssembleFilePathS(AssembleFileNameNoExt(Environment.UserName, newFileId),
 					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
 		}
-
+		
 		public static bool Exists(string fileId)
 		{
 			return ClassificationFileAssist
@@ -163,11 +165,13 @@ namespace AndyShared.ClassificationFileSupport
 			df.Info.Description = "This file holds the PDF sheet classification information";
 			df.Info.Notes = Environment.UserName + " created this file on " + DateTime.Now;
 
+			df.Data.BaseOfTree.Initalize();
+
 			TreeNode tn = new TreeNode(df.Data.BaseOfTree, new SheetCategory("Initial Item", "Initial Item"), false);
 
 			df.Data.BaseOfTree.AddNode(tn);
 			
-			df.Data.BaseOfTree.Item = new SheetCategory("Base of Tree", "Base of Tree");
+			// df.Data.BaseOfTree.Item = new SheetCategory("Base of Tree", "Base of Tree");
 
 			df.Admin.Write();
 
@@ -332,4 +336,6 @@ namespace AndyShared.ClassificationFileSupport
 
 	#endregion
 	}
+
+	*/
 }

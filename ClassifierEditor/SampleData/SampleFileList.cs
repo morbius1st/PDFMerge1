@@ -38,7 +38,7 @@ namespace ClassifierEditor.SampleData
 
 		public SampleFileList()
 		{
-			OnPropertyChange("Files");
+			OnPropertyChanged("Files");
 		}
 
 
@@ -53,7 +53,7 @@ namespace ClassifierEditor.SampleData
 				GetFiles();
 			}
 
-			OnPropertyChange("Files");
+			OnPropertyChanged("Files");
 		}
 
 		#endregion
@@ -63,7 +63,7 @@ namespace ClassifierEditor.SampleData
 		public void AddPath(FilePath<FileNameSheetPdf> path)
 		{
 			Files.Add(path);
-			OnPropertyChange("Files");
+			OnPropertyChanged("Files");
 		}
 
 		#endregion
@@ -210,7 +210,7 @@ namespace ClassifierEditor.SampleData
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}

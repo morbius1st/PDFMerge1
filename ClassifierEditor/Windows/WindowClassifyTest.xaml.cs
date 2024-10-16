@@ -43,7 +43,7 @@ namespace ClassifierEditor.Windows
 		// the list of files to categorize;
 		private SheetFileList testFileList;
 
-		private Orator.ConfRoom.Announcer announcer;
+		// private Orator.ConfRoom.Announcer announcerx;
 
 		private bool isConfigured;
 		
@@ -201,7 +201,7 @@ namespace ClassifierEditor.Windows
 			{
 				// pb1Value = value;
 
-				// OnPropertyChange();
+				// OnPropertyChanged();
 
 				((IProgress<double>) pb1ProgressValue).Report(value);
 
@@ -354,17 +354,17 @@ namespace ClassifierEditor.Windows
 			Pb1MaximumValue = 100;
 			ExpCollapseStateIdx = Exp_Collapse_State.EXP_ALL;
 
-			announcer = Orator.GetAnnouncer(this, "toClassify");
+			// announcer = Orator.GetAnnouncer(this, "toClassify");
 
 			classify = new Classify();
 			classify.OnClassifyCompletion += Classify_OnClassifyCompletion;
 			// classify.OnFileChange += Classify_OnFileChange;
 			// classify.OnTreeNodeChange += Classify_OnTreeNodeChange;
 
-			Orator.Listen("fromClassify", OnGetAnnouncement);
+			// Orator.Listen("fromClassify", OnGetAnnouncement);
 
 			// tell classify to display debug messages
-			announcer.Announce(displayDebugMsgs);
+			// announcer.Announce(displayDebugMsgs);
 		}
 
 		private void WinClassfTest_Initialized(object sender, EventArgs e)

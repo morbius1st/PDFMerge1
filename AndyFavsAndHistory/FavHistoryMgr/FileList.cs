@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows.Data;
+using SettingsManager;
 using UtilityLibrary;
 
 #endregion
@@ -26,8 +27,18 @@ namespace AndyFavsAndHistory.FavHistoryMgr
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class FileList : INotifyPropertyChanged
+	public class FileList : INotifyPropertyChanged, IDataFile
 	{
+		[IgnoreDataMember]
+		public string DataFileVersion => "data 7.4u";
+
+		[IgnoreDataMember]
+		public string DataFileDescription => "data setting file for SettingsManager v7.4";
+
+		[IgnoreDataMember]
+		public string DataFileNotes => "data / any notes go here";
+
+
 		private CollectionView view;
 		private ObservableDictionary<FileListKey, FileListItem> fileListItems =
 			new ObservableDictionary<FileListKey, FileListItem>();

@@ -51,22 +51,27 @@ namespace ClassifierEditor.SampleData
 
 			TreeBase.Initalize();
 
+			FileList2 = new SheetFileList();
 			SampleFiles(FileList2);
 
 			SampleNonApplicableFiles();
+
+			// sd = new SampleData();
 		}
 
 		public SampleData()
 		{
-			// sd = new SampleData();
-			// SampleData.Sample(TreeBase);
-			//
-			// SampleData.SampleFiles(FileList2);
+			FileList2 = new SheetFileList();
+			SampleData.SampleFiles(FileList2);
+			SampleData.Sample(TreeBase);
+
 		}
 
 	#endregion
 
 	#region public properties
+
+		public static SampleData sd = new SampleData();
 
 		// this is only for design time sample data
 		public static BaseOfTree TreeBase { get; set; } // = new BaseOfTree();
@@ -100,7 +105,6 @@ namespace ClassifierEditor.SampleData
 			}
 		}
 
-		// public static SampleData sd = new SampleData();
 
 	#endregion
 
@@ -117,20 +121,20 @@ namespace ClassifierEditor.SampleData
 
 			root = tn;
 
-			SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
-
-			item.MergeItems = new ObservableCollection<MergeItem>();
-
-			MergeItem mi = new MergeItem(0, sht1);
-			item.MergeItems.Add(mi);
-
-			mi = new MergeItem(0, sht2);
-			item.MergeItems.Add(mi);
-
-			mi = new MergeItem(0, sht3);
-			item.MergeItems.Add(mi);
-			
-			root.Item = item;
+			// SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
+			//
+			// item.MergeItems = new ObservableCollection<MergeItem>();
+			//
+			// MergeItem mi = new MergeItem(0, sht1);
+			// item.MergeItems.Add(mi);
+			//
+			// mi = new MergeItem(0, sht2);
+			// item.MergeItems.Add(mi);
+			//
+			// mi = new MergeItem(0, sht3);
+			// item.MergeItems.Add(mi);
+			//
+			// root.Item = item;
 
 			MakeChildren(root, 0);
 			// MakeChildren2(root);
@@ -146,13 +150,13 @@ namespace ClassifierEditor.SampleData
 
 			FilePath<FileNameSheetPdf> sheet;
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 - This is a Test A10.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A-100 This is a Test A105.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A-100 - This is a Test A105.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A - This is a Test A20.pdf");
 			fileList.AddPath(sheet);
 			//
 			// sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
@@ -161,10 +165,10 @@ namespace ClassifierEditor.SampleData
 			// sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.1 This is a Test A21.pdf");
 			// fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A GRN.1(left│right) This is a Test GRN1.pdf");
-			fileList.AddPath(sheet);
+			// sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A GRN.1(left│right) - This is a Test GRN1.pdf");
+			// fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A-101 This is a Test A101.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A-101 - This is a Test A101.pdf");
 			fileList.AddPath(sheet);
 
 			
@@ -181,11 +185,11 @@ namespace ClassifierEditor.SampleData
 			List < FilePath<FileNameSheetPdf>> fileList = new List<FilePath<FileNameSheetPdf>>();
 
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-101 This is a Test B A101.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-101 - This is a Test B A101.pdf"));
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-102 This is a Test B A102.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-102 - This is a Test B A102.pdf"));
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-103 This is a Test B A103.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-103 - This is a Test B A103.pdf"));
 
 			NonApplicableFiles.Add("B", fileList);
 			NonApplicableFiles.Add("C", fileList);
@@ -201,13 +205,13 @@ namespace ClassifierEditor.SampleData
 
 		private static FilePath<FileNameSheetPdf> sht1 = 
 			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 - This is a Test A10.pdf");
 		private static FilePath<FileNameSheetPdf> sht2 =
 			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A - This is a Test A20.pdf");
 		private static FilePath<FileNameSheetPdf> sht3 =
 			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 - This is a Test LS30.pdf");
 
 		private static void MakeChildren(TreeNode parent, int depth)
 		{

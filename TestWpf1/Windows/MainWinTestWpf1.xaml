@@ -264,6 +264,7 @@
 			<ColumnDefinition Width="12*" />
 			<ColumnDefinition Width="12*" />
 			<ColumnDefinition Width="10*" />
+
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
@@ -488,7 +489,6 @@
 				VerticalScrollBarVisibility="Visible"
 				/>
 
-
 		<TreeView x:Name="Tv1"
 				Grid.Column="0"
 				Grid.Row="1"
@@ -619,6 +619,7 @@
 				</HierarchicalDataTemplate>
 			</TreeView.ItemTemplate>
 		</TreeView>
+
 
 	</Grid>
 </Window>

@@ -65,7 +65,7 @@ namespace AndyConfig.ConfigMgr
 
 		public bool SiteSettingsRootPathIsValid => !SiteSettingsRootPath.IsVoid();
 
-		internal SuiteSettingInfo<SuiteSettingData> Info => SuiteSettings.Info;
+		internal SuiteSettingInfo<SuiteSettingDataFile> Info => SuiteSettings.Info;
 
 		public string DataClassVersion => SuiteSettings.Info.DataClassVersion;
 		public string Description => SuiteSettings.Info.Description;

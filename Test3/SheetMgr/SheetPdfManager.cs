@@ -71,6 +71,7 @@ namespace Test3.SheetMgr
 		private int start = 0;
 		private int last;
 		private int end;
+		private int count;
 
 
 		// use this
@@ -80,8 +81,9 @@ namespace Test3.SheetMgr
 			Samples2.MakeSamples();
 
 			last =  Samples2.Sheets.Count;
-			end = last;
 			start = 0;
+			end = last;
+			count = last - start;
 
 			FileNameSheetParser.Instance.Config();
 			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
@@ -100,8 +102,9 @@ namespace Test3.SheetMgr
 			Samples3.MakeSamples();
 
 			last =  Samples3.Sheets3.Count;
-			end = last;
 			start = 0;
+			end = last;
+			count = last - start;
 
 			FileNameSheetParser.Instance.Config();
 			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
@@ -338,14 +341,15 @@ namespace Test3.SheetMgr
 		{
 			Samples3.MakeSamples();
 
-			last =  Samples3.Sheets3.Count;
-			end = last;
+			last =  Samples3.Sheets3.Count-1;
 			start = 0;
+			end = 5;
+			count = end - start;
 
 			FileNameSheetParser.Instance.CreateSpecialDisciplines(SpecialDisciplines);
 			FileNameSheetParser.Instance.CreateFileNamePattern();
 
-			for (var i = start; i < end; i++)
+			for (var i = start; i < end+1; i++)
 			{
 				Samples3.Sheets3[i].SheetPdf =
 					new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName);
@@ -370,7 +374,8 @@ namespace Test3.SheetMgr
 			Debug.WriteLine("*** sheet parse test *******");
 			Debug.WriteLine("****************************\n");
 
-			for (int i = 0; i < Samples3.Sheets3.Count; i++)
+			// for (int i = 0; i < Samples3.Sheets3.Count; i++)
+			for (int i = 0; i < count+1; i++)
 			{
 				s = Samples3.Sheets3[i];
 
@@ -406,96 +411,107 @@ namespace Test3.SheetMgr
 
 			FileNameSheetPdf fo;
 
-			if (s.SheetPdf.FileName.Equals(s.FileName))
+			if (s.SheetPdf!=null)
 			{
-				fo = s.SheetPdf.FileNameObject;
 
-				Debug.WriteLine(
-					$"{$"index {fo.Index}",-31}|  +10      0               1               2               3               4               5               6");
-				Debug.WriteLine(
-					$"{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
-				Debug.Write($"{$">{fo.SheetNumber}<",-31}| ");
-
-				foreach (KeyValuePair<int, FileNameSheetIdentifiers.ShtNumComps2> kvp in
-						FileNameSheetIdentifiers.SheetNumComponentData)
+				if (s.SheetPdf.FileName.Equals(s.FileName))
 				{
-					if (kvp.Value.ItemClass == FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
+					fo = s.SheetPdf.FileNameObject;
 
-					compName = kvp.Value.GroupId;
-					nameObjStr = fo.SheetComps[kvp.Key] ?? "";
-					sampStr = s.SheetComps[kvp.Key];
+					Debug.WriteLine(
+						$"{$"index {fo.Index}",-31}|  +10      0               1               2               3               4               5               6");
+					Debug.WriteLine(
+						$"{" ", -31}|  pb/0    di/2    sp0/3   cat/4   sp1/5   scat/6  sp2/7   mod/8   sp3/9  smod/10  sp4/11  idf/12  sp5/13  sid/14");
+					Debug.Write($"{$">{fo.SheetNumber}<",-31}| ");
 
-					if (!nameObjStr.Equals(sampStr))
+					foreach (KeyValuePair<int, FileNameSheetIdentifiers.ShtNumComps2> kvp in
+							FileNameSheetIdentifiers.SheetNumComponentData)
 					{
-						failed += $" {compName} (A >{nameObjStr}< S >{sampStr}<)";
+						if (kvp.Value.ItemClass == FileNameSheetIdentifiers.ShtIdClass2.SC_IGNORE) continue;
+
+						compName = kvp.Value.GroupId;
+						nameObjStr = fo.SheetComps[kvp.Key] ?? "";
+						sampStr = s.SheetComps[kvp.Key];
+
+						if (!nameObjStr.Equals(sampStr))
+						{
+							failed += $" {compName} (A >{nameObjStr}< S >{sampStr}<)";
+							result = false;
+
+							Debug.Write("*>");
+						}
+						else
+						{
+							Debug.Write(" >");
+						}
+
+						Debug.Write($"{$"{nameObjStr}<",-6}");
+					}
+
+					Debug.Write("\n");
+
+					Debug.WriteLine(
+						$"^^^ =>  {$"sample| name >{s.SampleSheet}<",-56} | num {$">{s.SheetNumber}<",-16} | title >{s.SheetTitle}<");
+					Debug.WriteLine(
+						$"        {$"actual| name >{fo.SheetName}<",-56} | num {$">{fo.SheetNumber}<",-16} | title >{fo.SheetTitle}<");
+
+					Debug.Write(" ".Repeat(8));
+					Debug.Write($"{$"file name    >{fo.FileName}<",-56} | ");
+					Debug.Write($"{$"no ext >{fo.FileNameNoExt}<",-40} | ");
+					Debug.Write($"ext >{fo.ExtensionNoSep}<\n");
+
+					Debug.Write(" ".Repeat(8));
+					Debug.Write($">{fo.SheetIdType}<\n");
+
+					Debug.Write(" ".Repeat(8));
+					Debug.Write($"is PB {$">{fo.IsPhaseBldg}<",-10} | ");
+					Debug.Write($"is valid >{fo.IsValid.ToString()}\n");
+
+
+					if (!fo.SheetNumber.Equals(s.SheetNumber))
+					{
+						failed = $"sheet number mis-match | (A >{fo.SheetNumber}< S >{s.SheetNumber}<)";
 						result = false;
-
-						Debug.Write("*>");
 					}
-					else
+
+
+					if (!fo.SheetName.Equals(s.SampleSheet))
 					{
-						Debug.Write(" >");
+						failed +=
+							$"sheet name mis-match | (A >{fo.SheetName}< S >{s.SampleSheet}<)";
+
+						result = false;
 					}
 
-					Debug.Write($"{$"{nameObjStr}<",-6}");
+
+					if (!fo.SheetTitle.Equals(s.SheetTitle))
+					{
+						failed +=
+							$"sheet title mis-match | (A >{fo.SheetTitle}< S >{s.SheetTitle}<)";
+
+						result = false;
+					}
+
+					// if (fo.SheetIdType != s.SheetType)
+					// {
+					// 	failed +=
+					// 		$"sheet id type mis-match | (A >{fo.SheetIdType}< S >{s.SheetType}<)";
+					// 	result = false;
+					// }
 				}
-
-				Debug.Write("\n");
-
-				Debug.WriteLine(
-					$"^^^ =>  {$"sample| name >{s.SampleSheet}<",-56} | num {$">{s.SheetNumber}<",-16} | title >{s.SheetTitle}<");
-				Debug.WriteLine(
-					$"        {$"actual| name >{fo.SheetName}<",-56} | num {$">{fo.SheetNumber}<",-16} | title >{fo.SheetTitle}<");
-
-				Debug.Write(" ".Repeat(8));
-				Debug.Write($"{$"file name    >{fo.FileName}<",-56} | ");
-				Debug.Write($"{$"no ext >{fo.FileNameNoExt}<",-40} | ");
-				Debug.Write($"ext >{fo.ExtensionNoSep}<\n");
-
-				Debug.Write(" ".Repeat(8));
-				Debug.Write($">{fo.SheetIdType}<\n");
-
-				Debug.Write(" ".Repeat(8));
-				Debug.Write($"is PB {$">{fo.IsPhaseBldg}<",-10} | ");
-				Debug.Write($"is valid >{fo.IsValid.ToString()}\n");
-
-
-				if (!fo.SheetNumber.Equals(s.SheetNumber))
+				else
 				{
-					failed = $"sheet number mis-match | (A >{fo.SheetID}< S >{s.SheetNumber}<)";
+					failed = "file name mis-match";
 					result = false;
 				}
-
-
-				if (!fo.SheetName.Equals(s.SampleSheet))
-				{
-					failed +=
-						$"sheet name mis-match | (A >{fo.SheetName}< S >{s.SampleSheet}<)";
-
-					result = false;
-				}
-
-
-				if (!fo.SheetTitle.Equals(s.SheetTitle))
-				{
-					failed +=
-						$"sheet title mis-match | (A >{fo.SheetTitle}< S >{s.SheetTitle}<)";
-
-					result = false;
-				}
-
-				// if (fo.SheetIdType != s.SheetType)
-				// {
-				// 	failed +=
-				// 		$"sheet id type mis-match | (A >{fo.SheetIdType}< S >{s.SheetType}<)";
-				// 	result = false;
-				// }
+				
 			}
 			else
 			{
-				failed = "file name mis-match";
+				failed = "SheetPdf is null";
 				result = false;
 			}
+			
 
 			return result;
 		}

@@ -9,14 +9,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using SettingsManager;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using SettingsManager;
 using UtilityLibrary;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
 using AndyShared.Support;
 using DebugCode;
+using JetBrains.Annotations;
 using static AndyShared.FileSupport.FileNameUserAndId;
 
 #endregion
@@ -29,6 +30,9 @@ namespace AndyShared.ClassificationFileSupport
 	[DataContract(Namespace = "")]
 	public class ClassificationFile : INotifyPropertyChanged
 	{
+
+		public static int M_IDX = 1000;
+
 	#region private fields
 
 		private FilePath<FileNameUserAndId> filePathLocal;
@@ -65,13 +69,13 @@ namespace AndyShared.ClassificationFileSupport
 			// tell parent, I have been modified announcer
 
 			// listen to parent, initialize
-			Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
+			// Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
 
 			// listen to children - they have been modified
-			Orator.Listen(OratorRooms.MODIFIED, OnAnnounceSubChildModified);
+			// Orator.Listen(OratorRooms.MODIFIED, OnAnnounceSubChildModified);
 
 			// listen to parent, changes have been saved
-			Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
+			// Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
 
 			// // announce to treenode (treebase) / and components initialized and to initialize
 			// OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
@@ -118,7 +122,7 @@ namespace AndyShared.ClassificationFileSupport
 
 				// dataFile.Admin.Write();
 
-				OnPropertyChange();
+				OnPropertyChanged();
 
 				IsModified = true;
 			}
@@ -137,11 +141,12 @@ namespace AndyShared.ClassificationFileSupport
 
 				// dataFile.Admin.Write();
 
-				OnPropertyChange();
+				OnPropertyChanged();
 
 				IsModified = true;
 			}
 		}
+
 
 		public string FolderPathLocal
 		{
@@ -163,7 +168,7 @@ namespace AndyShared.ClassificationFileSupport
 			{
 				filePathLocal = value;
 
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -198,11 +203,11 @@ namespace AndyShared.ClassificationFileSupport
 
 				filePathLocal.ChangeFileName(newFileNameNoExt);
 
-				OnPropertyChange();
+				OnPropertyChanged();
 				OnSelectedPropertyChange();
-				OnPropertyChange("SampleFilePath");
-				OnPropertyChange("FileName");
-				OnPropertyChange("GetFullFilePath");
+				OnPropertyChanged("SampleFilePath");
+				OnPropertyChanged("FileName");
+				OnPropertyChanged("GetFullFilePath");
 			}
 		}
 
@@ -238,7 +243,11 @@ namespace AndyShared.ClassificationFileSupport
 
 		public string SampleFileFolderPath => sampleFile.SampleFilePath?.FolderPath;
 
+
 		// status
+
+		public bool CanSave => IsModified || TreeBase.TreeNodeModified || TreeBase.TreeNodeChildItemModified;
+
 		public bool CanEdit => IsInitialized && IsUserClassfFile;
 
 		public bool IsInitialized
@@ -248,8 +257,8 @@ namespace AndyShared.ClassificationFileSupport
 			{
 				isInitialized = value;
 
-				OnPropertyChange();
-				OnPropertyChange("CanEdit");
+				OnPropertyChanged();
+				OnPropertyChanged("CanEdit");
 			}
 		}
 
@@ -261,22 +270,24 @@ namespace AndyShared.ClassificationFileSupport
 				if (value == isModified) return;
 
 				isModified = value;
-				OnPropertyChange();
-			}
-		}
-
-		public bool IsSelected
-		{
-			get => isSelected;
-			set
-			{
-				isSelected = value;
-
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
 		public bool IsValid => FilePathLocal?.IsValid ?? false;
+
+
+		// public bool IsSelected
+		// {
+		// 	get => isSelected;
+		// 	set
+		// 	{
+		// 		isSelected = value;
+		//
+		// 		OnPropertyChanged();
+		// 	}
+		// }
+
 
 	#endregion
 
@@ -289,8 +300,8 @@ namespace AndyShared.ClassificationFileSupport
 			{
 				isDefaultClassfFile = value;
 
-				OnPropertyChange();
-				OnPropertyChange("CanEdit");
+				OnPropertyChanged();
+				OnPropertyChanged("CanEdit");
 			}
 		} // this will pre-configure to disallow editing
 
@@ -301,8 +312,8 @@ namespace AndyShared.ClassificationFileSupport
 			{
 				isUserClassfFile = value;
 
-				OnPropertyChange();
-				OnPropertyChange("CanEdit");
+				OnPropertyChanged();
+				OnPropertyChanged("CanEdit");
 			}
 		}
 
@@ -329,6 +340,7 @@ namespace AndyShared.ClassificationFileSupport
 				new FilePath<FileNameSimple>($"{FolderPath}\\{FileNameNoExt}.{FileNameExtNoSep}");
 
 			dataFile = new DataManager<ClassificationFileData>(filePath);
+
 		// #if SM74
 		// #else
 		// 	// dataFile = new BaseDataFile<ClassificationFileData>();
@@ -360,6 +372,9 @@ namespace AndyShared.ClassificationFileSupport
 
 			UpdateProperties();
 
+			TreeBase.TreeItemModified += TreeBaseOnTreeItemModified;
+			TreeBase.TreeModified     += TreeBaseOnTreeModified;
+
 		#if DML1
 			DM.End0();
 		#endif
@@ -384,16 +399,302 @@ namespace AndyShared.ClassificationFileSupport
 
 		public void UpdateProperties()
 		{
-			OnPropertyChange("IsValid");
-			OnPropertyChange("HasSampleFile");
-			OnPropertyChange("FileName");
-			OnPropertyChange("FileNameNoExt");
-			OnPropertyChange("GetFullFilePath");
-			OnPropertyChange("GetPath");
-			OnPropertyChange("SampleFilePath");
-			OnPropertyChange("DataDescription");
-			OnPropertyChange("TreeBase");
+			OnPropertyChanged("IsValid");
+			OnPropertyChanged("HasSampleFile");
+			OnPropertyChanged("FileName");
+			OnPropertyChanged("FileNameNoExt");
+			OnPropertyChanged("GetFullFilePath");
+			OnPropertyChanged("GetPath");
+			OnPropertyChanged("SampleFilePath");
+			OnPropertyChanged("DataDescription");
+			OnPropertyChanged("TreeBase");
 		}
+
+	#endregion
+
+	#region public static methods
+
+		/// <summary>
+		/// creates a ClassificationFile in the folder provided using the<br/>
+		/// default name of {Pdf Classfications xxx.xml} where xxx is the next available file number
+		/// </summary>
+		public static ClassificationFile Create(string fileId = null, string classfRootFolderPath = null)
+		{
+			string path = classfRootFolderPath.IsVoid()
+				? SettingsSupport.AllClassifFolderPath.FullFilePath
+				: classfRootFolderPath;
+
+			FilePath<FileNameUserAndId> dest;
+
+			if (fileId.IsVoid())
+			{
+				dest =
+					FileUtilities.UniqueFileName(AssembleFileNameNoExt(Environment.UserName, "Pdf Classfications {0:D3}"),
+						FilePathConstants.CLASSF_FILE_EXT_NO_SEP, path + FilePathUtil.PATH_SEPARATOR + Environment.UserName);
+			}
+			else
+			{
+				dest = AssembleClassfFilePath(fileId, path);
+			}
+
+			if (dest == null) return null;
+
+		#if SM74
+			// quick fix - may need to provide a path rather than null
+
+			DataManager<ClassificationFileData> df =
+				new DataManager<ClassificationFileData>(null, dest.FolderPath, dest.FileName);
+			#else
+			BaseDataFile<ClassificationFileData> df =
+				new BaseDataFile<ClassificationFileData>();
+		#endif
+
+			df.Configure(dest.FolderPath, dest.FileName, null, dest.FileExtensionNoSep);
+			df.Admin.Read();
+			df.Info.Description = "This file holds the PDF sheet classification information";
+			df.Info.Notes = Environment.UserName + " created this file on " + DateTime.Now;
+
+			df.Data.BaseOfTree.Initalize();
+
+			TreeNode tn = new TreeNode(df.Data.BaseOfTree, new SheetCategory("Initial Item", "Initial Item"), false);
+
+			df.Data.BaseOfTree.AddNode(tn);
+			
+			// df.Data.BaseOfTree.Item = new SheetCategory("Base of Tree", "Base of Tree");
+
+			df.Admin.Write();
+
+			string d = dest.FullFilePath;
+
+			return new ClassificationFile(dest.FullFilePath);
+		}
+
+		public static ClassificationFile Open(string fileid)
+		{
+			return GetUserClassfFile(fileid);
+		}
+
+
+		public static string Rename(FilePath<FileNameUserAndId> source, string newFileId)
+		{
+			FilePath<FileNameUserAndId> dest =
+				AssembleClassfFilePath(newFileId, source.FolderPath);
+
+			if (!ValidateProposedClassfFile( dest, false,
+					"Rename a Classification File", "already exists")) return null;
+
+			try
+			{
+				File.Move(source.FullFilePath, dest.FullFilePath);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string i = e.InnerException?.Message;
+				return null;
+			}
+
+			return dest.FileNameNoExt;
+		}
+
+		public static bool Delete(string sourceFilePath)
+		{
+			if (!File.Exists(sourceFilePath)) return false;
+
+			try
+			{
+				File.Delete(sourceFilePath);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string i = e.InnerException?.Message;
+
+				return false;
+			}
+
+			return true;
+		}
+
+		public static bool Exists(string fileId)
+		{
+			return ClassificationFile
+			.AssembleClassfFilePath(fileId, SettingsSupport.UserClassifFolderPath.FullFilePath).Exists;
+		}
+
+		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
+		{
+			FilePath<FileNameUserAndId> dest =
+				ClassificationFile.AssembleClassfFilePath(newFileId, source.FolderPath);
+
+			if (!ValidateProposedClassfFile( dest,
+					false, "Duplicate a Classification File", "already exists")) return false;
+
+			if (!FileUtilities.CopyFile(source.FullFilePath, dest.FullFilePath)) return false;
+
+			DataManager<ClassificationFileData> df =
+				new DataManager<ClassificationFileData>(null);
+
+			// df.Configure(dest.FolderPath, dest.FileName);
+			df.Configure(dest.FolderPath, dest.FileNameNoExt, null, dest.FileExtensionNoSep);
+			df.Admin.Read();
+
+			// string x = UserSettings.Admin.ToString();
+
+			if (!df.Info.Description.IsVoid())
+			{
+				df.Info.Description = "COPY OF " + df.Info.Description;
+			}
+			else
+			{
+				df.Info.Description = "This file holds the PDF sheet classification information";
+			}
+
+			if (!df.Info.Notes.IsVoid())
+			{
+				df.Info.Notes = "COPY OF " + df.Info.Notes;
+			}
+			else
+			{
+				df.Info.Notes = dest.FileNameObject.UserName + " created this file on " + DateTime.Now;
+			}
+
+
+			df.Admin.Write();
+
+			df = null;
+
+			return true;
+		}
+
+
+
+
+				/// <summary>
+		/// gets an existing ClassificationFile for the specific user based on
+		/// the fileId.  ClassificationFile object is configured but no data is
+		/// read.  use ".Initialize()" to read and process the data in the file
+		/// </summary>
+		public static ClassificationFile GetUserClassfFile(string fileId)
+		{
+		#if DML1
+			DM.InOut0();
+		#endif
+
+			if (fileId.IsVoid()) return null;
+
+			return new ClassificationFile(ClassificationFile.AssembleClassfFilePath(fileId,
+				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
+		}
+
+		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)
+		{
+		#if DML1
+			DM.InOut0();
+		#endif
+
+			return new FilePath<FileNameUserAndId>(
+				FilePathUtil.AssembleFilePathS(AssembleFileNameNoExt(Environment.UserName, newFileId),
+					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
+		}
+		
+
+
+		/// <summary>
+		/// Check if the proposed classification file exists and 
+		/// if so, provide a dialog to tell the user
+		/// </summary>
+		/// <returns>
+		/// true if the proposed classification file DOES NOT exist<br/>
+		/// false if the proposed classification file DOES exist
+		/// </returns>
+		/// <param name="fp">The FilePath for the proposed classification file</param>
+		/// <param name="test"></param>
+		/// <param name="title">The error dialog box's title</param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public static bool ValidateProposedClassfFile(FilePath<FileNameUserAndId> fp,
+			bool test, string title, string msg)
+		{
+			if (fp.IsFound == test) return true;
+
+			CommonTaskDialogs.CommonErrorDialog(title,
+				"The classification file already exists",
+				"The classification File Id provided: \"");
+
+			// TaskDialog td = new TaskDialog();
+			// td.Caption = title;
+			// td.Text = "The classification File Id provided: \"" 
+			// 	//+ fileId +
+			// 	+ fp.FileNameObject.FileId +
+			// 	"\" "
+			// 	+ msg
+			// 	+ ". Please provide a different File Id";
+			// td.InstructionText = "The classification file already exists";
+			// td.Icon = TaskDialogStandardIcon.Error;
+			// td.Cancelable = false;
+			// td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+			// td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			// td.Opened += Common.TaskDialog_Opened;
+			// td.Show();
+
+			return false;
+		}
+
+
+
+
+		public static FilePath<FileNameSimple> GetSampleFilePathFromFile(string classfFilePath)
+		{
+		#if DML1
+			DM.Start0();
+		#endif
+
+			string sampleFileNameNoExt = SampleFileNameFromFile(classfFilePath);
+
+			if (sampleFileNameNoExt.IsVoid()) return null;
+
+			FilePath<FileNameSimple> sampleFilePath = DeriveSampleFolderPath(classfFilePath);
+
+			sampleFilePath.ChangeFileName(sampleFileNameNoExt, FilePathConstants.SAMPLE_FILE_EXT);
+
+		#if DML1
+			DM.End0();
+		#endif
+
+			return sampleFilePath;
+		}
+
+		public static FilePath<FileNameSimple> DeriveSampleFolderPath(string classfFilePath)
+		{
+			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
+
+			sampleFolderPath.Down((FilePathConstants.SAMPLE_FOLDER));
+
+			return sampleFolderPath;
+		}
+
+		public static string SampleFileNameFromFile(string classifFilePath)
+		{
+			if (classifFilePath == null) return null;
+
+			string fileName = null;
+
+			try
+			{
+				fileName =
+					CsXmlUtilities.ScanXmlForElementValue(classifFilePath, "SampleFile", 0);
+			}
+			catch (Exception e)
+			{
+				string m = e.Message;
+				string im = e.InnerException?.Message ?? null;
+			}
+
+			return fileName;
+		}
+
+
 
 	#endregion
 
@@ -428,32 +729,43 @@ namespace AndyShared.ClassificationFileSupport
 
 		private void UpdateSampleFileProperties()
 		{
-			OnPropertyChange("SampleFilePath");
-			OnPropertyChange("SampleFileName");
+			OnPropertyChanged("SampleFilePath");
+			OnPropertyChanged("SampleFileName");
 		}
 
 	#endregion
 
 	#region event consuming
 
-		private void OnAnnounceTnInit(object sender, object value)
+		private void TreeBaseOnTreeModified(object sender)
 		{
-			isInitialized = true;
-			IsModified = false;
+			OnPropertyChanged(nameof(CanSave));
 		}
 
-		// one of the sub-children have been modified
-		private void OnAnnounceSubChildModified(object sender, object value)
+		private void TreeBaseOnTreeItemModified(object sender)
 		{
-			IsModified = true;
-
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classfFile|@ onmodified| who| " + sender.ToString() + "| value| " + value);
+			OnPropertyChanged(nameof(CanSave));
 		}
 
-		private void OnAnnounceSaved(object sender, object value)
-		{
-			IsModified = false;
-		}
+
+		// private void OnAnnounceTnInitx(object sender, object value)
+		// {
+		// 	isInitialized = true;
+		// 	IsModified = false;
+		// }
+		//
+		// // one of the sub-children have been modified
+		// private void OnAnnounceSubChildModifiedx(object sender, object value)
+		// {
+		// 	IsModified = true;
+		//
+		// 	if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classfFile|@ onmodified| who| " + sender.ToString() + "| value| " + value);
+		// }
+		//
+		// private void OnAnnounceSavedx(object sender, object value)
+		// {
+		// 	IsModified = false;
+		// }
 
 	#endregion
 
@@ -461,7 +773,9 @@ namespace AndyShared.ClassificationFileSupport
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}

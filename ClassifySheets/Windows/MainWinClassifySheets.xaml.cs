@@ -57,7 +57,7 @@ namespace ClassifySheets.Windows
 		// the list of files to categorize;
 		private SheetFileList testFileList;
 
-		private Orator.ConfRoom.Announcer announcer;
+		// private Orator.ConfRoom.Announcer announcerx;
 
 		private IWin messageWin;
 
@@ -268,8 +268,8 @@ namespace ClassifySheets.Windows
 				pb2Value = value;
 				((IProgress<double>) pbProgValue).Report(value);
 
-				// OnPropertyChange();
-				// OnPropertyChange(nameof(BaseOfTree));
+				// OnPropertyChanged();
+				// OnPropertyChanged(nameof(BaseOfTree));
 			}
 		}
 
@@ -333,11 +333,11 @@ namespace ClassifySheets.Windows
 		// 	{
 		// 		if (classfFileArg.IsVoid())
 		// 		{
-		// 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+		// 			ClassificationFile = ClassificationFile.GetUserClassfFile("PdfSample 1");
 		// 		}
 		// 		else
 		// 		{
-		// 			ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+		// 			ClassificationFile = ClassificationFile.GetUserClassfFile(classfFileArg);
 		// 		}
 		// 	}
 		// 	catch (Exception ex)
@@ -452,10 +452,14 @@ namespace ClassifySheets.Windows
 
 			getCmdLineArgs();
 
+			classfFileArg = null;
+
 			// configClassfFile();
 
 			UserSettings.Admin.Read();
 			string lastClassificationFile = UserSettings.Data.LastClassificationFileId;
+			
+			lastClassificationFile = null;
 
 			try
 			{
@@ -463,11 +467,12 @@ namespace ClassifySheets.Windows
 				{
 					if (classfFileArg.IsVoid())
 					{
-						ClassificationFile = ClassificationFileAssist.GetUserClassfFile("PdfSample 1");
+						// ClassificationFile = ClassificationFile.GetUserClassfFile("PdfSample 1");
+						ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Test 1");
 					}
 					else
 					{
-						ClassificationFile = ClassificationFileAssist.GetUserClassfFile(classfFileArg);
+						ClassificationFile = ClassificationFile.GetUserClassfFile(classfFileArg);
 					}
 
 					UserSettings.Data.LastClassificationFileId = ClassificationFile.FileId;
@@ -476,7 +481,7 @@ namespace ClassifySheets.Windows
 				}
 				else
 				{
-					ClassificationFile = ClassificationFileAssist.GetUserClassfFile(lastClassificationFile);
+					ClassificationFile = ClassificationFile.GetUserClassfFile(lastClassificationFile);
 				}
 
 				InitClassfFile(ClassificationFile);
@@ -495,7 +500,7 @@ namespace ClassifySheets.Windows
 			// duplicate
 			// classificationFile.Initialize();
 
-			announcer = Orator.GetAnnouncer(this, "toClassify");
+			// announcer = Orator.GetAnnouncer(this, "toClassify");
 
 			Classify = new Classify();
 
@@ -503,10 +508,10 @@ namespace ClassifySheets.Windows
 			classify.OnTreeNodeChange += classify_OnTreeNodeChange;
 			classify.OnClassifyCompletion += classify_OnClassifyCompletion;
 
-			Orator.Listen("fromClassify", OnGetAnnouncement);
+			// Orator.Listen("fromClassify", OnGetAnnouncement);
 
 			// tell classify to display debug messages
-			announcer.Announce(displayDebugMsgs);
+			// announcer.Announce(displayDebugMsgs);
 
 		#if DML1
 			DM.End0();
@@ -520,8 +525,6 @@ namespace ClassifySheets.Windows
 
 			await WinStartAsync();
 		}
-
-
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -825,7 +828,7 @@ namespace ClassifySheets.Windows
 				((IProgress<string>) p1String).Report(fp.SheetNumber);
 
 				sb.Append(i++.ToString("D3"));
-				sb.Append(" |  ").Append((fp.SheetComponentType.ToString()).PadRight(7));
+				sb.Append(" |  ").Append((fp.SheetIdType.ToString()).PadRight(7));
 				sb.Append(" |  ").Append((fp.PhaseBldg    ?? "?").PadRight(3));
 				sb.Append(" |  ").Append((fp.Discipline   ?? "?").PadRight(3));
 				sb.Append(" |  ").Append((fp.Category     ?? "?").PadRight(3));

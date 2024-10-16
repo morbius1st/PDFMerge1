@@ -24,7 +24,8 @@ namespace Tests2.TestData
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
 	[DataContract(Namespace = "")]
-	public class DataSet // : HeaderData
+	// public class DataSet // : HeaderData
+	public class DataSet : IDataFile
 	{
 		[IgnoreDataMember]
 		public string DataFileDescription { get; set; } = "Sample Dataset";

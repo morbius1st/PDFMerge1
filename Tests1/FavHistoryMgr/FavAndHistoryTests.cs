@@ -53,7 +53,8 @@ namespace Tests1.FavHistoryMgr
 
 	#region public properties
 
-		public static BaseDataFile<FavAndHistoryDataStore> dataFile
+		// public static BaseDataFile<FavAndHistoryDataStore> dataFile
+		public static DataManager<FavAndHistoryDataStore> dataFile
 		{
 			get => FhMgr.DataFile;
 			set => FhMgr.DataFile = value;
@@ -262,7 +263,8 @@ namespace Tests1.FavHistoryMgr
 				SuiteSettings.Path.SettingFolderPath);
 
 			dataFile =
-				new BaseDataFile<FavAndHistoryDataStore>();
+				new DataManager<FavAndHistoryDataStore>(path);
+				// new BaseDataFile<FavAndHistoryDataStore>();
 
 			dataFile.Create(path, fileName, new [] {FAV_HIST_FOLDER});
 
@@ -284,7 +286,8 @@ namespace Tests1.FavHistoryMgr
 
 	#region private methods
 
-		private static void classfSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		// private static void classfSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		private static void classfSampleData(DataManager<FavAndHistoryDataStore> datafile)
 		{
 			FilePath<FileNameSimple> pathClassf;
 
@@ -301,7 +304,8 @@ namespace Tests1.FavHistoryMgr
 			}
 		}
 
-		private static void smplSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		// private static void smplSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		private static void smplSampleData(DataManager<FavAndHistoryDataStore> datafile)
 		{
 			FilePath<FileNameSimple> pathClassf;
 			FilePath<FileNameSimple> pathSmpl;
@@ -325,7 +329,8 @@ namespace Tests1.FavHistoryMgr
 			}
 		}
 
-		private static void histSmplSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		// private static void histSmplSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		private static void histSmplSampleData(DataManager<FavAndHistoryDataStore> datafile)
 		{
 			FilePath<FileNameSimple> pathClassf;
 			FilePath<FileNameSimple> pathSmpl;
@@ -354,7 +359,8 @@ namespace Tests1.FavHistoryMgr
 			}
 		}
 
-		private static void histClasfSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		// private static void histClasfSampleData(BaseDataFile<FavAndHistoryDataStore> datafile)
+		private static void histClasfSampleData(DataManager<FavAndHistoryDataStore> datafile)
 		{
 			FilePath<FileNameSimple> pathClassf;
 

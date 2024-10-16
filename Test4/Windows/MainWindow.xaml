@@ -6,14 +6,18 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Test4.Windows"
 		xmlns:as="clr-namespace:AndyShared.ClassificationDataSupport.TreeSupport"
+		xmlns:t4="clr-namespace:Test4.Windows"
+		xmlns:custom="clr-namespace:SharedWPF.ShSupport"
 		Title="MainWindow"
-		Width="1600"
-		Height="900"
+		Width="2200"
+		Height="1200"
 		DataContext="{Binding ElementName=MainWin}"
 		mc:Ignorable="d"
 		Background="#222222"
 		>
 	<Window.Resources>
+
+		<custom:PassThroughConverter x:Key="PassThru" />
 
 		<Style x:Key="tbxBase"
 				TargetType="TextBox"
@@ -53,6 +57,44 @@
 			<Setter Property="Margin" Value="0,5,0,0" />
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 		</Style>
+
+		<Style x:Key="ctrl_base"
+				TargetType="Control"
+				>
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Background" Value="black" />
+		</Style>
+
+		<Style x:Key="ctrl_test"
+				TargetType="Control"
+				BasedOn="{StaticResource ctrl_base}"
+				>
+			<Setter Property="Padding" Value="5,0,5,2" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+
+		<Style x:Key="ctrl_test_lbl"
+				TargetType="Control"
+				BasedOn="{StaticResource ctrl_test}"
+				>
+			<Setter Property="Foreground" Value="DimGray" />
+		</Style>
+
+		<Style x:Key="ctrl_test_input"
+				TargetType="Control"
+				BasedOn="{StaticResource ctrl_test}"
+				>
+			<Setter Property="Padding" Value="2,0,2,2" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Background" Value="#333333" />
+		</Style>
+
+
+
+
 
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill" Color="#FF595959" />
 		<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke" Color="#FF262626" />
@@ -131,11 +173,10 @@
 
 		</Style>
 
-
-
 		<Style x:Key="TreeViewContainerStyle1"
 				TargetType="{x:Type TreeViewItem}"
 				>
+			<!-- <Setter Property="IsSelected" Value="{Binding IsNodeSelected }"/> -->
 			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -268,10 +309,7 @@
 							DockPanel.Dock="Top"
 							/>
 
-
 				</ScrollViewer>
-
-
 			</Border>
 			<ControlTemplate.Triggers>
 				<Trigger Property="IsEnabled" Value="false">
@@ -283,14 +321,1635 @@
 			</ControlTemplate.Triggers>
 		</ControlTemplate>
 
+		<Style x:Key="FocusVisual">
+			<Setter Property="Control.Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Rectangle
+								Margin="2"
+								StrokeDashArray="1 2"
+								Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+								SnapsToDevicePixels="true"
+								StrokeThickness="1"
+								/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+
+		<SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA" />
+		<SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da" />
+		<SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA" />
+		<SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA" />
+		<SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA" />
+		<SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA" />
+
+
+		<Style x:Key="ListBoxItemContainerStyle1"
+				TargetType="{x:Type ListBoxItem}"
+				>
+
+			<!--  <EventSetter  -->
+			<!--  Event="Selected"  -->
+			<!--  Handler="Lbi_OnSelected"  -->
+			<!--  />  -->
+
+			<Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}, Mode=OneWay}" />
+
+
+			<Setter Property="SnapsToDevicePixels" Value="True" />
+			<Setter Property="Padding" Value="4,1" />
+			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="BorderBrush" Value="Transparent" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ListBoxItem}">
+						<Border x:Name="Bd"
+								Padding="{TemplateBinding Padding}"
+								Background="{TemplateBinding Background}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								SnapsToDevicePixels="true"
+								>
+							<ContentPresenter
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsMouseOver" Value="True" />
+								</MultiTrigger.Conditions>
+								<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.MouseOver.Background}" />
+								<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.MouseOver.Border}" />
+							</MultiTrigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="Selector.IsSelectionActive" Value="False" />
+									<Condition Property="IsSelected" Value="True" />
+								</MultiTrigger.Conditions>
+								<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedInactive.Background}" />
+								<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedInactive.Border}" />
+							</MultiTrigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="Selector.IsSelectionActive" Value="True" />
+									<Condition Property="IsSelected" Value="True" />
+								</MultiTrigger.Conditions>
+								<Setter TargetName="Bd" Property="Background" Value="{StaticResource Item.SelectedActive.Background}" />
+								<Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Item.SelectedActive.Border}" />
+							</MultiTrigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+
+
+
+		<DataTemplate x:Key="ListBoxItemTemplate1"
+				DataType="{x:Type as:ComparisonOperation}"
+				>
+			<DockPanel HorizontalAlignment="Stretch">
+
+				<Grid DockPanel.Dock="Top">
+					<!--  row 1  -->
+					<Border
+							Grid.Column="0"
+							Grid.Row="0"
+							Height="20"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Bottom"
+							Background="#444444"
+							DockPanel.Dock="bottom"
+							>
+					</Border>
+
+					<TextBlock
+							Grid.Column="0"
+							Grid.Row="0"
+							Margin="0,-2,0,2"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Top"
+							FontSize="14"
+							Background="Transparent"
+							Foreground="White"
+							DockPanel.Dock="Left"
+							Text="Comparison Operation"
+							/>
+
+				</Grid>
+
+
+
+				<DockPanel
+						Margin="0,2,0,0"
+						VerticalAlignment="Center"
+						DockPanel.Dock="Top"
+						>
+
+					<Border
+							Margin="0,0,3,0"
+							HorizontalAlignment="Left"
+							BorderThickness="0.5"
+							BorderBrush="Aqua"
+							>
+						<StackPanel Orientation="Horizontal">
+							<StackPanel
+									HorizontalAlignment="Left"
+									DockPanel.Dock="left"
+									Orientation="Vertical"
+									>
+
+								<TextBlock
+										Margin="0,-2,0,0"
+										FontSize="8"
+										Foreground="Gray"
+										Text="ibi"
+										/>
+
+								<TextBlock
+										FontSize="8"
+										Foreground="White"
+										Text="isSelected"
+										/>
+
+							</StackPanel>
+
+							<Rectangle
+									Margin="3,0,0,0"
+									Width="17"
+									Height="17"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top"
+									DockPanel.Dock="Left"
+									>
+
+
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+						</StackPanel>
+					</Border>
+
+
+					<Border
+							Margin="0,0,3,0"
+							HorizontalAlignment="Left"
+							BorderThickness="0.5"
+							BorderBrush="Aqua"
+							>
+						<StackPanel Orientation="Horizontal">
+							<StackPanel
+									Margin="2,0,0,0"
+									HorizontalAlignment="Left"
+									Orientation="Vertical"
+									>
+
+								<TextBlock
+										Margin="0,-2,0,0"
+										FontSize="8"
+										Foreground="Gray"
+										Text="CompOp"
+										/>
+
+								<TextBlock
+										FontSize="8"
+										Foreground="White"
+										Text="isSelected"
+										/>
+
+							</StackPanel>
+
+							<Rectangle
+									Margin="3,0,0,0"
+									Width="17"
+									Height="17"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Bottom"
+									DockPanel.Dock="Left"
+									>
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding IsSelected}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding IsSelected}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+						</StackPanel>
+					</Border>
+
+					<Border
+							HorizontalAlignment="Left"
+							BorderThickness="0.5"
+							BorderBrush="Aqua"
+							>
+						<StackPanel Orientation="Horizontal">
+							<StackPanel
+									Margin="2,0,0,0"
+									HorizontalAlignment="Left"
+									Orientation="Vertical"
+									>
+
+								<TextBlock
+										Margin="0,-2,0,0"
+										FontSize="8"
+										Foreground="Gray"
+										Text="CompOp"
+										/>
+
+								<TextBlock
+										FontSize="8"
+										Foreground="White"
+										Text="modified"
+										/>
+
+							</StackPanel>
+
+							<Rectangle
+									Margin="3,0,0,0"
+									Width="16"
+									Height="17"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Bottom"
+									>
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding CompOpModified}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding CompOpModified}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+						</StackPanel>
+					</Border>
+
+
+				</DockPanel>
+
+				<StackPanel
+						DockPanel.Dock="Top"
+						Orientation="Horizontal"
+						>
+
+
+					<Label
+							Content="Id"
+							Margin="5,2,5,2"
+							Style="{StaticResource lblTreeItem}"
+					/>
+
+					<TextBlock
+							Margin="0,2,10,2"
+							Width="45"
+							Padding="0,1,0,0"
+							Background="Black"
+							Foreground="White"
+							TextAlignment="Center"
+							Text="{Binding Path=ID, Mode=OneWay, FallbackValue='ID', TargetNullValue='ID'}"
+					/>
+
+
+
+					<Label
+							Content="modification"
+							Margin="2,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+
+					<CheckBox
+							Content="Modify Comp Op"
+							Margin="5,0,0,0"
+							Padding="5,0,0,0"
+							VerticalAlignment="Center"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Center"
+							Foreground="White"
+							IsThreeState="False"
+							IsChecked="{Binding ModifyCompOp,
+																	Mode=TwoWay,
+																	FallbackValue='false'}"
+							/>
+
+					<CheckBox
+							Content="Comp Op Modified"
+							Margin="10,0,0,0"
+							Padding="5,0,0,0"
+							VerticalAlignment="Center"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Center"
+							IsEnabled="False"
+							IsThreeState="False"
+							IsChecked="{Binding CompOpModified,
+																	Mode=OneWay,
+																	FallbackValue='false'}"
+							>
+						<CheckBox.Style>
+							<Style TargetType="CheckBox">
+								<Setter Property="Foreground" Value="DimGray" />
+							</Style>
+						</CheckBox.Style>
+					</CheckBox>
+
+
+				</StackPanel>
+
+				<StackPanel
+						DockPanel.Dock="Top"
+						Orientation="Horizontal"
+						>
+					<Label
+							Content="Comp Name Data"
+							Margin="2,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Name,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+
+					<Label
+							Content="val idx"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Index,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+
+					<Label
+							Content="Neumonic"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Neumonic,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+					<Label
+							Content="Abbrev Name"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.AbbrevName,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+				</StackPanel>
+
+
+				<Border
+						Margin="2"
+						HorizontalAlignment="Stretch"
+						BorderThickness="1"
+						BorderBrush="PowderBlue"
+						DockPanel.Dock="Top"
+						>
+
+					<Grid Margin="2">
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Label
+								Content="Id"
+								Grid.Column="0"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="0"
+								Text="{Binding Id,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Compare Value"
+								Grid.Column="2"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="0"
+								Text="{Binding CompareValue,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="IsFirstCompOp"
+								Grid.Column="4"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="0"
+								Text="{Binding IsFirstCompOp,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+
+						<Label
+								Content="Comp Comp Name"
+								Grid.Column="0"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="1"
+								Text="{Binding CompareComponentName,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Comp Comp Idx"
+								Grid.Column="2"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="1"
+								Text="{Binding CompareComponentIndex,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+						<Label
+								Content="IsInit"
+								Grid.Column="4"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="1"
+								Text="{Binding IsInitialized,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+
+
+						<Label
+								Content="Val Compare String"
+								Grid.Column="0"
+								Grid.Row="2"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="2"
+								Text="{Binding ValueCompareString,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Val Comp Op"
+								Grid.Column="2"
+								Grid.Row="2"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="2"
+								Text="{Binding ValueComparisonOpCode,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+						<Label
+								Content="IsDisabled"
+								Grid.Column="4"
+								Grid.Row="2"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="2"
+								Text="{Binding IsDisabled,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Log Compare String"
+								Grid.Column="0"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="3"
+								Text="{Binding LogicalCompareString,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+						<Label
+								Content="Log Comp Op"
+								Grid.Column="2"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="3"
+								Text="{Binding LogicalComparisonOpCode,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="TreeNodeModified"
+								Grid.Column="4"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="3"
+								Text="{Binding CompOpModified,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+					</Grid>
+
+				</Border>
+
+
+				<Border
+						Margin="2"
+						BorderThickness="1"
+						BorderBrush="PaleTurquoise"
+						DockPanel.Dock="Bottom"
+						>
+					<StackPanel>
+
+						<Grid Margin="2">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Label
+									Content="Val Comp Op Name"
+									Grid.Column="0"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="1"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.Name,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Val Comp OpCode"
+									Grid.Column="2"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="3"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.OpCode,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+
+							<Label
+									Content="Value of Op Code"
+									Grid.Column="4"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="5"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.OpCodeValue,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+						</Grid>
+
+
+
+						<Grid Margin="2">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Label
+									Content="Log Comp Op Name"
+									Grid.Column="0"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="1"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.Name,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Log Comp OpCode"
+									Grid.Column="2"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="3"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.OpCode,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Value of Op Code"
+									Grid.Column="4"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="5"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.OpCodeValue,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+						</Grid>
+
+					</StackPanel>
+				</Border>
+			</DockPanel>
+		</DataTemplate>
+
+
+
+		<DataTemplate x:Key="ListBoxItemTemplate2"
+				DataType="{x:Type as:ComparisonOperation}"
+				>
+			<DockPanel HorizontalAlignment="Stretch">
+
+				<Grid DockPanel.Dock="Top">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+
+					<!--  row 1  -->
+
+					<Border
+							Grid.Column="0"
+							Grid.Row="0"
+							Height="20"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Bottom"
+							Background="#444444"
+							DockPanel.Dock="bottom"
+							>
+					</Border>
+
+					<TextBlock
+							Grid.Column="0"
+							Grid.Row="0"
+							Margin="0,-2,0,2"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Top"
+							FontSize="14"
+							Background="Transparent"
+							Foreground="White"
+							DockPanel.Dock="Left"
+							Text="Comparison Operation"
+							/>
+
+				</Grid>
+
+				<DockPanel
+						Margin="0,2,0,0"
+						VerticalAlignment="Center"
+						DockPanel.Dock="Top"
+						>
+
+					<StackPanel
+							HorizontalAlignment="Left"
+							DockPanel.Dock="left"
+							Orientation="Vertical"
+							>
+
+						<TextBlock
+								Margin="0,-2,0,0"
+								FontSize="8"
+								Foreground="Gray"
+								Text="ibi"
+								/>
+
+						<TextBlock
+								FontSize="8"
+								Foreground="White"
+								Text="isSelected"
+								/>
+
+					</StackPanel>
+
+					<Rectangle
+							Margin="3,0,3,0"
+							Width="18"
+							Height="18"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							DockPanel.Dock="Left"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+
+
+					<StackPanel
+							Margin="3,0,0,0"
+							HorizontalAlignment="Left"
+							Orientation="Vertical"
+							>
+
+						<TextBlock
+								Margin="0,-2,0,0"
+								FontSize="8"
+								Foreground="Gray"
+								Text="CompOp"
+								/>
+
+						<TextBlock
+								FontSize="8"
+								Foreground="White"
+								Text="isSelected"
+								/>
+
+					</StackPanel>
+
+					<Rectangle
+							Margin="3,0,3,0"
+							Width="18"
+							Height="18"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							DockPanel.Dock="Left"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding IsSelected}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding IsSelected}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+
+
+					<StackPanel
+							Margin="3,0,0,0"
+							HorizontalAlignment="Left"
+							Orientation="Vertical"
+							>
+
+						<TextBlock
+								Margin="0,-2,0,0"
+								FontSize="8"
+								Foreground="Gray"
+								Text="CompOp"
+								/>
+
+						<TextBlock
+								FontSize="8"
+								Foreground="White"
+								Text="modified"
+								/>
+
+					</StackPanel>
+
+					<Rectangle
+							Margin="3,0,3,0"
+							Width="18"
+							Height="18"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding CompOpModified}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding CompOpModified}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+
+
+
+
+				</DockPanel>
+
+				<StackPanel
+						VerticalAlignment="Bottom"
+						DockPanel.Dock="Top"
+						Orientation="Horizontal"
+						>
+
+					<Label
+							Content="Id"
+							Padding="4,0,4,0"
+							Margin="0,2,5,2"
+							Style="{StaticResource lblTreeItem}"
+					/>
+
+					<TextBlock
+							Margin="0,2,10,2"
+							Width="45"
+							Padding="0,1,0,0"
+							Background="Black"
+							Foreground="White"
+							TextAlignment="Center"
+							Text="{Binding Path=ID, Mode=OneWay, FallbackValue='0', TargetNullValue='-1'}"
+					/>
+
+					<Label
+							Content="modification"
+							Margin="2,2,0,2"
+							VerticalAlignment="Bottom"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<CheckBox
+							Content="Modify Comp Op"
+							Margin="5,0,0,2"
+							Padding="5,0,0,0"
+							VerticalAlignment="Bottom"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Center"
+							Foreground="White"
+							IsThreeState="False"
+							IsChecked="{Binding ModifyCompOp,
+																	Mode=TwoWay,
+																	FallbackValue='false'}"
+							/>
+
+					<CheckBox
+							Content="Comp Op Modified"
+							Margin="10,0,0,2"
+							Padding="5,0,0,0"
+							VerticalAlignment="Bottom"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Center"
+							IsEnabled="False"
+							IsThreeState="False"
+							IsChecked="{Binding CompOpModified,
+																	Mode=OneWay,
+																	FallbackValue='false'}"
+							>
+						<CheckBox.Style>
+							<Style TargetType="CheckBox">
+								<Setter Property="Foreground" Value="DimGray" />
+							</Style>
+						</CheckBox.Style>
+					</CheckBox>
+
+
+				</StackPanel>
+
+				<StackPanel
+						DockPanel.Dock="Top"
+						Orientation="Horizontal"
+						>
+					<Label
+							Content="Comp Name Data"
+							Margin="2,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Name,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+
+					<Label
+							Content="val idx"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Index,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+
+					<Label
+							Content="Neumonic"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.Neumonic,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+					<Label
+							Content="Abbrev Name"
+							Margin="10,2,0,2"
+							Style="{StaticResource lblTreeItem}"
+							/>
+					<TextBox
+							Margin="5,2,0,2"
+							Text="{Binding CompNameData.AbbrevName,
+														 Mode=OneWay}"
+							Style="{StaticResource tbxTreeItemValue}"
+							/>
+
+				</StackPanel>
+
+
+
+
+
+
+				<Border
+						Margin="2"
+						HorizontalAlignment="Stretch"
+						BorderThickness="1"
+						BorderBrush="PowderBlue"
+						DockPanel.Dock="Top"
+						>
+
+					<Grid Margin="2">
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="120" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<!--  0  -->
+							<RowDefinition Height="*" />
+							<!--  1  -->
+							<RowDefinition Height="*" />
+							<!--  2  -->
+							<RowDefinition Height="*" />
+							<!--  3  -->
+							<RowDefinition Height="*" />
+							<!--  4  -->
+							<RowDefinition Height="*" />
+							<!--  5  -->
+						</Grid.RowDefinitions>
+
+						<!--  0  -->
+
+						<Label
+								Content="Id"
+								Grid.Column="0"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="0"
+								Text="{Binding Id,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Compare Value"
+								Grid.Column="2"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="0"
+								Text="{Binding CompareValue,
+															 Mode=TwoWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="IsFirstCompOp"
+								Grid.Column="4"
+								Grid.Row="0"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="0"
+								Text="{Binding IsFirstCompOp,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+						<!--  1  -->
+
+						<Label
+								Content="Comp Comp Name"
+								Grid.Column="0"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="1"
+								Text="{Binding CompareComponentName,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Comp Comp Idx"
+								Grid.Column="2"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="1"
+								Text="{Binding CompareComponentIndex,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="IsInit"
+								Grid.Column="4"
+								Grid.Row="1"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="1"
+								Text="{Binding IsInitialized,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+
+						<!--  2  -->
+
+						<ComboBox
+								Grid.Column="1"
+								Grid.Row="2"
+								Margin="3"
+								SelectedIndex="{Binding ValueCompOpCode,
+																				Mode=TwoWay,
+																				FallbackValue=0}"
+								ItemsSource="{Binding Source={x:Static as:CompareOperations.ValueCompareOps}}"
+								>
+							<ComboBox.Resources>
+
+								<Style TargetType="{x:Type ToggleButton}">
+									<Setter Property="Background" Value="Black" />
+								</Style>
+
+							</ComboBox.Resources>
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<Label
+											Content="{Binding Name,
+																				FallbackValue='name'}"
+											Margin="0,-1,0,0"
+											Padding="0"
+											/>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+
+						<!--  3  -->
+
+						<Label
+								Content="Val Compare String"
+								Grid.Column="0"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="3"
+								Text="{Binding ValueCompareString,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="Val Comp Op"
+								Grid.Column="2"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="3"
+								Text="{Binding ValueComparisonOpCode,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+						<Label
+								Content="IsDisabled"
+								Grid.Column="4"
+								Grid.Row="3"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="3"
+								Text="{Binding IsDisabled,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+						<!--  4  -->
+
+						<ComboBox
+								Grid.Column="1"
+								Grid.Row="4"
+								Margin="3"
+								Height="20"
+								SelectedIndex="{Binding LogicalCompOpCode,
+																				Mode=TwoWay,
+																				FallbackValue=0}"
+								ItemsSource="{Binding Source={x:Static as:CompareOperations.ValueCompareOps}}"
+								>
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<Label
+											Content="{Binding Name,
+																				FallbackValue='name'}"
+											Margin="0,-1,0,0"
+											Padding="0"
+											/>
+									<DataTemplate.Resources>
+										<Style TargetType="{x:Type Border}">
+											<Setter Property="Background" Value="Black" />
+											<Setter Property="BorderBrush" Value="Black" />
+										</Style>
+									</DataTemplate.Resources>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+
+
+						<Label
+								Content="Log Compare String"
+								Grid.Column="0"
+								Grid.Row="5"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="1"
+								Grid.Row="5"
+								Text="{Binding LogicalCompareString,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+
+						<Label
+								Content="Log Comp Op"
+								Grid.Column="2"
+								Grid.Row="5"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="3"
+								Grid.Row="5"
+								Text="{Binding LogicalComparisonOpCode,
+															 Mode=OneWay,
+															 TargetNullValue='null'}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+						<Label
+								Content="TreeNodeModified"
+								Grid.Column="4"
+								Grid.Row="5"
+								Margin="0,2,2,2"
+								Style="{StaticResource lblTreeItem}"
+								/>
+
+						<TextBox
+								Grid.Column="5"
+								Grid.Row="5"
+								Text="{Binding CompOpModified,
+															 Mode=OneWay}"
+								Style="{StaticResource tbxTreeItemValue}"
+								/>
+
+					</Grid>
+
+				</Border>
+
+
+				<Border
+						Margin="2"
+						BorderThickness="1"
+						BorderBrush="PaleTurquoise"
+						DockPanel.Dock="Bottom"
+						>
+					<StackPanel>
+
+						<Grid Margin="2">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Label
+									Content="Val Comp Op Name"
+									Grid.Column="0"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="1"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.Name,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Val Comp OpCode"
+									Grid.Column="2"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="3"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.OpCode,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+
+							<Label
+									Content="Value of Op Code"
+									Grid.Column="4"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="5"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding ValueCompareOp.OpCodeValue,
+																 Mode=OneWay}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+						</Grid>
+
+
+
+						<Grid Margin="2">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="120" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<Label
+									Content="Log Comp Op Name"
+									Grid.Column="0"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="1"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.Name,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Log Comp OpCode"
+									Grid.Column="2"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="3"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.OpCode,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+							<Label
+									Content="Value of Op Code"
+									Grid.Column="4"
+									Grid.Row="0"
+									Margin="0,2,2,2"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Grid.Column="5"
+									Grid.Row="0"
+									DockPanel.Dock="Bottom"
+									Text="{Binding LogicalCompareOp.OpCodeValue,
+																 Mode=OneWay,
+																 TargetNullValue='null'}"
+									Style="{StaticResource tbxTreeItemValue}"
+									>
+							</TextBox>
+
+						</Grid>
+
+					</StackPanel>
+				</Border>
+			</DockPanel>
+		</DataTemplate>
+
+
+
 
 	</Window.Resources>
 
-	<Grid>
+	<Grid x:Name="grdPrime">
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="900" />
+			<ColumnDefinition Width="900" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
@@ -300,6 +1959,566 @@
 			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 
+		<TextBox
+				Grid.Row="1"
+				FontFamily="MS Gothic"
+				FontSize="14"
+				Background="Transparent"
+				Foreground="White"
+				Text="{Binding Path=MessageBox,
+											 FallbackValue='this is a text box'}"
+				/>
+
+		<TextBox
+				Grid.Column="2"
+				Grid.Row="0"
+				Grid.RowSpan="3"
+				FontFamily="MS Gothic"
+				FontSize="12"
+				Background="Transparent"
+				Foreground="White"
+				Text="{Binding Path=MessageBox2,
+											 FallbackValue='this is a text box'}"
+				>
+
+		</TextBox>
+
+		<Grid
+				Grid.Column="0"
+				Grid.Row="2"
+				>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition Height="26" />
+				<RowDefinition />
+
+			</Grid.RowDefinitions>
+
+
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="0"
+					Grid.ColumnSpan="6"
+					HorizontalAlignment="Stretch"
+					>
+
+				<DockPanel VerticalAlignment="Stretch">
+					<Rectangle
+							Margin="0,0,0,0"
+							Width="8"
+							Height="8"
+							VerticalAlignment="Center"
+							DockPanel.Dock="Top"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=NodeCopy.TreeNodeChildItemModified}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=NodeCopy.TreeNodeChildItemModified}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+
+
+					<Rectangle
+							Margin="0,1,0,1"
+							Width="8"
+							Height="8"
+							VerticalAlignment="Center"
+							DockPanel.Dock="Top"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=NodeCopy.Item.ShtCatModified}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=NodeCopy.Item.ShtCatModified}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+
+
+					<Rectangle
+							Margin="0,0,0,0"
+							Width="8"
+							Height="8"
+							VerticalAlignment="Center"
+							DockPanel.Dock="Top"
+							>
+						<Rectangle.Style>
+							<Style TargetType="Rectangle">
+								<Setter Property="Fill" Value="DimGray" />
+								<Style.Triggers>
+									<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=NodeCopy.Item.ChildCompOpModified}">
+										<Setter Property="Fill" Value="LawnGreen" />
+									</DataTrigger>
+
+									<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=NodeCopy.Item.ChildCompOpModified}">
+										<Setter Property="Fill" Value="Red" />
+									</DataTrigger>
+
+								</Style.Triggers>
+							</Style>
+						</Rectangle.Style>
+					</Rectangle>
+				</DockPanel>
+
+
+				<Label
+						Content="Select node"
+						Margin="0"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						VerticalContentAlignment="Center"
+						Background="#444444"
+						DockPanel.Dock="Right"
+						Style="{StaticResource ctrl_test_input}"
+						/>
+
+			</DockPanel>
+
+			<!--  row 2  -->
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="1"
+					Grid.ColumnSpan="4"
+					>
+				<Label
+						Content="modify"
+						DockPanel.Dock="Left"
+						Style="{StaticResource ctrl_test_lbl}"
+						/>
+
+
+				<!-- removed
+
+				<CheckBox
+						Content="Modify TreeNode"
+						Margin="5,0,0,0"
+						Padding="5,0,0,0"
+						VerticalAlignment="Center"
+						HorizontalContentAlignment="Left"
+						VerticalContentAlignment="Center"
+						Foreground="White"
+						IsThreeState="False"
+						IsChecked="{Binding NodeCopy.ModifyTreeNode,
+															Mode=TwoWay}"
+				/>
+
+				
+				<Rectangle
+						Margin="10,5,0,5"
+						Width="15"
+						HorizontalAlignment="Left"
+				>
+					<Rectangle.Style>
+						<Style TargetType="Rectangle">
+							<Setter Property="Fill" Value="DimGray" />
+							<Style.Triggers>
+								<DataTrigger Value="true" Binding="{Binding NodeCopy.TreeNodeModified}">
+									<Setter Property="Fill" Value="LawnGreen" />
+								</DataTrigger>
+
+								<DataTrigger Value="false" Binding="{Binding NodeCopy.TreeNodeModified}">
+									<Setter Property="Fill" Value="Red" />
+								</DataTrigger>
+
+							</Style.Triggers>
+						</Style>
+					</Rectangle.Style>
+				</Rectangle>
+
+				<CheckBox
+						Content="TreeNode Modified"
+						Margin="5,0,0,0"
+						Padding="5,0,0,0"
+						VerticalAlignment="Center"
+						HorizontalContentAlignment="Left"
+						VerticalContentAlignment="Center"
+						Foreground="DimGray"
+						IsThreeState="False"
+						IsChecked="{Binding NodeCopy.TreeNodeModified,
+															Mode=OneWay}"
+				/>
+
+				<Rectangle
+						Width="2"
+						Margin="5,0,0,0"
+						Fill="DeepSkyBlue"
+						/>
+
+						-->
+
+				<CheckBox
+						Content="Modify Child Item"
+						Margin="5,0,0,0"
+						Padding="5,0,0,0"
+						VerticalAlignment="Center"
+						HorizontalContentAlignment="Left"
+						VerticalContentAlignment="Center"
+						Foreground="White"
+						IsThreeState="False"
+						IsChecked="{Binding NodeCopy.ModifyTreeNodeItem,
+																Mode=TwoWay}"
+						/>
+
+				<Rectangle
+						Margin="5,5,5,5"
+						Width="15"
+						HorizontalAlignment="Left"
+						>
+					<Rectangle.Style>
+						<Style TargetType="Rectangle">
+							<Setter Property="Fill" Value="DimGray" />
+							<Style.Triggers>
+								<DataTrigger Value="true" Binding="{Binding NodeCopy.TreeNodeChildItemModified}">
+									<Setter Property="Fill" Value="LawnGreen" />
+								</DataTrigger>
+
+								<DataTrigger Value="false" Binding="{Binding NodeCopy.TreeNodeChildItemModified}">
+									<Setter Property="Fill" Value="Red" />
+								</DataTrigger>
+
+							</Style.Triggers>
+						</Style>
+					</Rectangle.Style>
+				</Rectangle>
+
+				<CheckBox
+						Content="Child Item Modified"
+						Margin="5,0,0,0"
+						Padding="5,0,0,0"
+						VerticalAlignment="Center"
+						HorizontalContentAlignment="Left"
+						VerticalContentAlignment="Center"
+						Foreground="DimGray"
+						IsThreeState="False"
+						IsChecked="{Binding NodeCopy.TreeNodeChildItemModified,
+																Mode=OneWay}"
+						/>
+
+
+
+
+			</DockPanel>
+
+
+
+			<Label
+					Content="{Binding TvNamePath,
+														Mode=OneWay,
+														FallbackValue='path'}"
+					Grid.Column="0"
+					Grid.Row="2"
+					Grid.ColumnSpan="4"
+					Foreground="White"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+			<Label
+					Content="{Binding NodeCopy.Item.ComponentName,
+														Mode=OneWay,
+														FallbackValue='name'}"
+					Grid.Column="4"
+					Grid.Row="2"
+					Grid.ColumnSpan="2"
+					Foreground="White"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+			<!--  row 2  -->
+
+			<Label
+					Content="{Binding NodeCopy.Item.Title,
+														Mode=OneWay,
+														FallbackValue='title'}"
+					Grid.Column="0"
+					Grid.Row="3"
+					Foreground="White"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+			<!--  row 3  -->
+
+			<DockPanel
+					Grid.Column="0"
+					Grid.Row="4"
+					Grid.ColumnSpan="6"
+					>
+
+				<Rectangle
+						Margin="0,5,0,5"
+						Width="15"
+						HorizontalAlignment="Left"
+						>
+					<Rectangle.Style>
+						<Style TargetType="Rectangle">
+							<Setter Property="Fill" Value="DimGray" />
+							<Style.Triggers>
+								<DataTrigger Value="true" Binding="{Binding NodeCopy.Item.ShtCatModified}">
+									<Setter Property="Fill" Value="LawnGreen" />
+								</DataTrigger>
+
+								<DataTrigger Value="false" Binding="{Binding NodeCopy.Item.ShtCatModified}">
+									<Setter Property="Fill" Value="Red" />
+								</DataTrigger>
+
+							</Style.Triggers>
+						</Style>
+					</Rectangle.Style>
+				</Rectangle>
+
+				<Rectangle
+						Margin="5,5,5,5"
+						Width="15"
+						HorizontalAlignment="Left"
+						>
+					<Rectangle.Style>
+						<Style TargetType="Rectangle">
+							<Setter Property="Fill" Value="DimGray" />
+							<Style.Triggers>
+								<DataTrigger Value="true" Binding="{Binding NodeCopy.Item.ChildCompOpModified}">
+									<Setter Property="Fill" Value="LawnGreen" />
+								</DataTrigger>
+
+								<DataTrigger Value="false" Binding="{Binding NodeCopy.Item.ChildCompOpModified}">
+									<Setter Property="Fill" Value="Red" />
+								</DataTrigger>
+
+							</Style.Triggers>
+						</Style>
+					</Rectangle.Style>
+				</Rectangle>
+
+
+
+				<Label
+						Content="Sheet Category"
+						HorizontalAlignment="Stretch"
+						Background="#444444"
+						Style="{StaticResource ctrl_test_input}"
+						/>
+			</DockPanel>
+
+			<!--  row 4  -->
+			<StackPanel
+					Grid.Column="0"
+					Grid.Row="5"
+					Orientation="Horizontal"
+					Margin="0,0,10,0"
+					>
+
+				<Label
+						Content="Id"
+						Padding="4,0,4,0"
+						Margin="0,2,5,2"
+						Style="{StaticResource lblTreeItem}"
+				/>
+
+				<TextBlock
+						Margin="0,2,10,2"
+						Width="45"
+						Padding="0,1,0,0"
+						Background="Black"
+						Foreground="White"
+						TextAlignment="Center"
+						Text="{Binding Path=NodeCopy.Item.ID, Mode=OneWay, FallbackValue='0', TargetNullValue='-1'}"
+				/>
+
+
+
+				<Label
+						Content="ShtCat Title"
+
+						Style="{StaticResource ctrl_test_lbl}" />
+			</StackPanel>
+
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="5"
+
+					Foreground="White"
+					Text="{Binding NodeCopy.Item.Title,
+												 Mode=TwoWay,
+												 FallbackValue='title'}"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+			<Label
+					Content="ShtCat Desc"
+					Grid.Column="2"
+					Grid.Row="5"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+			<TextBox
+					Grid.Column="3"
+					Grid.Row="5"
+					Foreground="White"
+					Text="{Binding NodeCopy.Item.Description,
+												 Mode=TwoWay,
+												 FallbackValue='desc'}"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+			<Label
+					Content="CompOp Count"
+					Grid.Column="4"
+					Grid.Row="5"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+			<Label
+					Content="{Binding NodeCopy.Item.CompareOps.Count,
+														Mode=OneWay,
+														FallbackValue='count'}"
+					Grid.Column="5"
+					Grid.Row="5"
+					Foreground="White"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+
+			<!--  row 5  -->
+
+			<StackPanel
+					Grid.Column="0"
+					Grid.Row="6"
+					Orientation="Horizontal"
+					>
+
+				<Label
+						Content="sel idx"
+						Style="{StaticResource ctrl_test_lbl}"
+				/>
+
+				<TextBlock
+						Text="{Binding NodeCopy.Item.CompOpSelectedIdx, 
+						Mode=OneWay, FallbackValue='0', TargetNullValue='-1'}"
+						Foreground="White"
+						Background="Black"
+						Width="25"
+						Margin="3,0,10,0"
+						Padding="1"
+						VerticalAlignment="Center"
+						TextAlignment="Center"
+						/>
+
+
+				<Label
+						Content="Comp Idx"
+						Style="{StaticResource ctrl_test_lbl}"
+						/>
+
+			</StackPanel>
+
+
+			<TextBox
+					Grid.Column="1"
+					Grid.Row="6"
+					Foreground="White"
+					Text="{Binding NodeCopy.Item.Depth,
+												 Mode=TwoWay,
+												 FallbackValue='comp idx'}"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+			<Label
+					Content="Comp Name"
+					Grid.Column="2"
+					Grid.Row="6"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+			<Label
+					Content="{Binding NodeCopy.Item.ComponentName,
+														Mode=OneWay,
+														FallbackValue='comp name'}"
+					Grid.Column="3"
+					Grid.Row="6"
+					Foreground="DarkGray"
+					Style="{StaticResource ctrl_test_lbl}"
+					/>
+
+
+			<!--  row 6  -->
+
+			<ListBox x:Name="lbx"
+					Grid.Column="0"
+					Grid.Row="7"
+					Grid.ColumnSpan="6"
+					Margin="0,0,0,5"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					Background="Black"
+					d:ItemsSource="{d:SampleData ItemCount=2}"
+					DockPanel.Dock="Top"
+					ScrollViewer.VerticalScrollBarVisibility="Visible"
+					ScrollViewer.CanContentScroll="False"
+					SelectedIndex="{Binding NodeCopy.Item.CompOpSelectedIdx,
+																	Mode=TwoWay
+																	
+																	}"
+					SelectionMode="Single"
+					ItemTemplate="{DynamicResource ListBoxItemTemplate2}"
+					ItemsSource="{Binding Path=NodeCopy.Item.CompareOps}"
+					>
+				<ListBox.ItemContainerStyle>
+					<Style
+							TargetType="ListBoxItem"
+							BasedOn="{StaticResource ListBoxItemContainerStyle1}"
+							>
+						<EventSetter
+								Event="Selected"
+								Handler="Lbi_OnSelected_Alt"
+								/>
+					</Style>
+				</ListBox.ItemContainerStyle>
+			</ListBox>
+
+
+
+			<!--  row 6  -->
+
+		</Grid>
 
 		<Grid
 				Grid.Column="1"
@@ -314,7 +2533,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="120" />
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="140" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
@@ -324,6 +2543,61 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
+
+
+			<Rectangle
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="0,1,0,0"
+					Width="20"
+					HorizontalAlignment="Left"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.ClassificationFile.CanSave}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+
+							<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.ClassificationFile.CanSave}">
+								<Setter Property="Fill" Value="Red" />
+							</DataTrigger>
+
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+			</Rectangle>
+
+
+			<!-- removed
+			<Rectangle
+					Grid.Column="0"
+					Grid.Row="3"
+					Margin="0,1,0,0"
+					Width="20"
+					HorizontalAlignment="Left"
+			>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.TreeItemModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+
+							<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.TreeItemModified}">
+								<Setter Property="Fill" Value="Red" />
+							</DataTrigger>
+
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+			</Rectangle>
+			-->
+
+
+
 
 			<!--  row 0  -->
 			<Label
@@ -454,6 +2728,17 @@
 					Style="{StaticResource tbxTreeItemValue}"
 					/>
 
+			<Label
+					Content="Modification status"
+					Grid.Column="5"
+					Grid.Row="1"
+					Grid.ColumnSpan="2"
+					Margin="2"
+					Background="#333333"
+					Style="{StaticResource lblTreeItem}"
+					/>
+
+
 
 			<!--  row 2  -->
 
@@ -500,6 +2785,61 @@
 					Style="{StaticResource tbxTreeItemValue}"
 					/>
 
+			<CheckBox
+					Content="Modify TreeNode"
+					Grid.Column="5"
+					Grid.Row="2"
+					Margin="5,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Center"
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="White"
+					IsThreeState="False"
+					IsChecked="{Binding ModifyTreeNode,
+															Mode=TwoWay}"
+					/>
+
+
+			<Rectangle
+					Grid.Column="6"
+					Grid.Row="2"
+					Margin="0,0,0,1"
+					Width="20"
+					HorizontalAlignment="Left"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding TreeNodeModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+
+							<DataTrigger Value="false" Binding="{Binding TreeNodeModified}">
+								<Setter Property="Fill" Value="Red" />
+							</DataTrigger>
+
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+			</Rectangle>
+
+			<CheckBox
+					Content="TreeNode Modified"
+					Grid.Column="6"
+					Grid.Row="2"
+					Margin="25,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Center"
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="DimGray"
+					IsThreeState="False"
+					IsChecked="{Binding TreeNodeModified,
+															Mode=OneWay}"
+					/>
+
 
 
 			<!--  row 3  -->
@@ -526,10 +2866,84 @@
 					/>
 
 
+			<Label
+					Content="is initialized"
+					Grid.Column="3"
+					Grid.Row="3"
+					Margin="2"
+					Style="{StaticResource lblTreeItem}"
+					/>
 
+			<TextBox
+					Grid.Column="4"
+					Grid.Row="3"
+					Margin="2"
+					Padding="5,-2,0,0"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Text="{Binding IsInitialized,
+												 FallbackValue=is init}"
+					Style="{StaticResource tbxTreeItemValue}"
+					/>
+
+
+
+
+			<CheckBox
+					Content="Modify Child Item"
+					Grid.Column="5"
+					Grid.Row="3"
+					Margin="5,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Center"
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="White"
+					IsThreeState="False"
+					IsChecked="{Binding ModifyTreeNodeItem,
+															Mode=TwoWay}"
+					/>
+
+			<Rectangle
+					Grid.Column="6"
+					Grid.Row="3"
+					Margin="0,1,0,0"
+					Width="20"
+					HorizontalAlignment="Left"
+					>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding TreeNodeChildItemModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+
+							<DataTrigger Value="false" Binding="{Binding TreeNodeChildItemModified}">
+								<Setter Property="Fill" Value="Red" />
+							</DataTrigger>
+
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+			</Rectangle>
+
+			<CheckBox
+					Content="Child Item Modified"
+					Grid.Column="6"
+					Grid.Row="3"
+					Margin="25,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Center"
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="DimGray"
+					IsThreeState="False"
+					IsChecked="{Binding TreeNodeChildItemModified,
+															Mode=OneWay}"
+					/>
 
 		</Grid>
-
 
 		<StackPanel
 				Grid.Column="0"
@@ -539,6 +2953,62 @@
 				Orientation="Horizontal"
 				>
 
+
+			<Button Name="btnDelSelCompOp"
+					Content="Del Sel CompOp"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnDelSelCompOp_OnClick"
+					/>
+
+			<Button Name="btnAddCompOp"
+					Content="Add CompOp"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnAddCompOp_OnClick"
+					/>
+
+
+			<Button Name="btnUpdate"
+					Content="Update"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnUpdate_OnClick"
+					/>
+
+			<Button Name="btnDeselect"
+					Content="Deselect"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnDeselect_OnClick"
+					/>
+
+			<Button Name="btnCheckClone"
+					Content="clone test"
+					Margin="5"
+					Width="80"
+					Height="30"
+					MaxHeight="60"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="BtnCheckClone_OnClick"
+					/>
 
 			<Button Name="btnClassifyTest"
 					Content="Classify"
@@ -576,18 +3046,6 @@
 
 		</StackPanel>
 
-
-		<TextBox
-				Grid.Row="1"
-				FontFamily="MS Gothic"
-				FontSize="14"
-				Background="Transparent"
-				Foreground="White"
-				Text="{Binding Path=MessageBox,
-											 FallbackValue='this is a text box'}"
-				/>
-
-
 		<TreeView x:Name="tv_parent"
 				Grid.Column="1"
 				Grid.Row="1"
@@ -605,10 +3063,12 @@
 				Visibility="Visible"
 				ScrollViewer.HorizontalScrollBarVisibility="Visible"
 				ScrollViewer.VerticalScrollBarVisibility="Visible"
+				SelectedItemChanged="tv1_SelectedItemChanged"
 				ItemsSource="{Binding Path=Children}"
 				ItemContainerStyle="{DynamicResource TreeViewContainerStyle1}"
 				Template="{DynamicResource TreeViewTemplate1}"
 				>
+
 
 			<TreeView.Style>
 				<Style TargetType="TreeView">
@@ -621,632 +3081,1067 @@
 						DataType="{x:Type as:TreeNode}"
 						ItemsSource="{Binding Children}"
 						>
-
-					<DockPanel
-							Margin="0,0,0,10"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Top"
-							DockPanel.Dock="left"
-							>
-						<TextBox
+					<DockPanel>
+						<TextBlock
 								Padding="2"
 								HorizontalAlignment="Stretch"
+								FontSize="14"
 								Background="#444444"
+								Foreground="White"
+								Text="TreeNode"
 								DockPanel.Dock="Top"
-								Text="SheetCategory"
-								Style="{StaticResource tbxTreeItemValue}"
 								/>
+						<!--  Style="{StaticResource tbxTreeItemValue}"  -->
+
+						<StackPanel
+								Margin="0,0,0,2"
+								DockPanel.Dock="Top"
+								Orientation="Horizontal"
+								>
+
+							<Rectangle
+									Margin="0,0,0,0"
+									Width="20"
+									>
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding Path=IsNodeSelected}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding Path=IsNodeSelected}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+
+							<Label
+									Content="Tree Node modifications"
+									Margin="5,2,2,2"
+									Padding="0,0,5,0"
+									HorizontalAlignment="Left"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<CheckBox
+									Content="Modify TreeNode"
+									Margin="5,0,0,0"
+									Padding="5,0,0,0"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									VerticalContentAlignment="Center"
+									Foreground="White"
+									IsThreeState="False"
+									IsChecked="{Binding ModifyTreeNode,
+																			Mode=TwoWay}"
+									/>
+
+							<Rectangle
+									Margin="15,0,0,0"
+									Width="20"
+									>
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding TreeNodeModified}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding TreeNodeModified}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+
+
+							<CheckBox
+									Content="TreeNode Modified"
+									Margin="5,0,0,0"
+									Padding="5,0,0,0"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									VerticalContentAlignment="Center"
+									Foreground="DimGray"
+									IsThreeState="False"
+									IsChecked="{Binding TreeNodeModified,
+																			Mode=OneWay}"
+									/>
+
+							<Rectangle
+									Margin="15,0,0,0"
+									Width="20"
+									>
+								<Rectangle.Style>
+									<Style TargetType="Rectangle">
+										<Setter Property="Fill" Value="DimGray" />
+										<Style.Triggers>
+											<DataTrigger Value="true" Binding="{Binding TreeNodeChildItemModified}">
+												<Setter Property="Fill" Value="LawnGreen" />
+											</DataTrigger>
+
+											<DataTrigger Value="false" Binding="{Binding TreeNodeChildItemModified}">
+												<Setter Property="Fill" Value="Red" />
+											</DataTrigger>
+
+										</Style.Triggers>
+									</Style>
+								</Rectangle.Style>
+							</Rectangle>
+
+							<CheckBox
+									Content="Child Item Modified"
+									Margin="15,0,0,0"
+									Padding="5,0,0,0"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									VerticalContentAlignment="Center"
+									Foreground="DimGray"
+									IsThreeState="False"
+									IsChecked="{Binding TreeNodeChildItemModified,
+																			Mode=OneWay}"
+									/>
+
+							<Label
+									Content="is initialized"
+									Margin="15,2,2,2"
+									Padding="0,0,5,0"
+									HorizontalAlignment="Left"
+									Foreground="DimGray"
+									Style="{StaticResource lblTreeItem}"
+									/>
+
+							<TextBox
+									Padding="0,0,5,0"
+									HorizontalAlignment="Stretch"
+									Text="{Binding IsInitialized}"
+									Style="{StaticResource tbxTreeItemValue}"
+									/>
+
+
+							<!--  <CheckBox  -->
+							<!--  IsThreeState="False"  -->
+							<!--  IsChecked="{Binding TestChecked, Mode=TwoWay}"  -->
+							<!--  VerticalAlignment="Center"  -->
+							<!--  Padding="5,0,0,0"  -->
+							<!--  Foreground="White"  -->
+							<!--  Content="test checked"  -->
+							<!--  Margin="15,0,0,0"  -->
+							<!--  VerticalContentAlignment="Center"  -->
+							<!--  HorizontalContentAlignment="Left"  -->
+							<!--  />  -->
+
+						</StackPanel>
 
 						<DockPanel
+								Margin="0,0,0,10"
 								HorizontalAlignment="Stretch"
-								DockPanel.Dock="Top"
+								VerticalAlignment="Top"
+								DockPanel.Dock="left"
 								>
+							<TextBlock
+									Padding="2"
+									HorizontalAlignment="Stretch"
+									FontSize="14"
+									Background="#444444"
+									Foreground="White"
+									DockPanel.Dock="Top"
+									Text="SheetCategory"
+									/>
 
 							<DockPanel
 									HorizontalAlignment="Stretch"
-									DockPanel.Dock="top"
+									DockPanel.Dock="Top"
 									>
-								<TextBox
-										Margin="5,2,2,2"
-										Width="250"
-										HorizontalAlignment="Stretch"
-										DockPanel.Dock="left"
-										Text="{Binding Path=Item.Title,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
 
-								<TextBox
-										Margin="5,2,2,2"
+								<DockPanel
 										HorizontalAlignment="Stretch"
-										DockPanel.Dock="right"
-										Text="{Binding Path=Item.Description,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
+										DockPanel.Dock="top"
+										>
+
+									<TextBox
+											Margin="5,2,2,2"
+											Width="250"
+											HorizontalAlignment="Stretch"
+											DockPanel.Dock="left"
+											Text="{Binding Path=Item.Title,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+									<TextBox
+											Margin="5,2,2,2"
+											HorizontalAlignment="Stretch"
+											DockPanel.Dock="right"
+											Text="{Binding Path=Item.Description,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+
+								</DockPanel>
+
+								<StackPanel
+										DockPanel.Dock="Bottom"
+										Orientation="Horizontal"
+										>
+
+
+
+									<Label
+											Content="item modified"
+											Margin="5,2,2,2"
+											Padding="0,0,5,0"
+											HorizontalAlignment="Left"
+											Style="{StaticResource lblTreeItem}"
+											/>
+
+									<CheckBox
+											Content="Modify Sheet Cat"
+											Margin="5,0,0,0"
+											Padding="5,0,0,0"
+											VerticalAlignment="Center"
+											HorizontalContentAlignment="Left"
+											VerticalContentAlignment="Center"
+											Foreground="White"
+											IsThreeState="False"
+											IsChecked="{Binding Item.ModifyShtCat,
+																					Mode=TwoWay}"
+											/>
+
+									<Rectangle
+											Margin="15,0,0,0"
+											Width="20"
+											>
+										<Rectangle.Style>
+											<Style TargetType="Rectangle">
+												<Setter Property="Fill" Value="DimGray" />
+												<Style.Triggers>
+													<DataTrigger Value="true" Binding="{Binding Item.ShtCatModified}">
+														<Setter Property="Fill" Value="LawnGreen" />
+													</DataTrigger>
+
+													<DataTrigger Value="false" Binding="{Binding Item.ShtCatModified}">
+														<Setter Property="Fill" Value="Red" />
+													</DataTrigger>
+
+												</Style.Triggers>
+											</Style>
+										</Rectangle.Style>
+									</Rectangle>
+
+
+									<CheckBox
+											Content="Sheet Cat Modified"
+											Margin="5,0,0,0"
+											Padding="5,0,0,0"
+											VerticalAlignment="Center"
+											HorizontalContentAlignment="Left"
+											VerticalContentAlignment="Center"
+											Foreground="Gray"
+											IsThreeState="False"
+											IsChecked="{Binding Item.ShtCatModified,
+																					Mode=OneWay}"
+											/>
+
+									<Rectangle
+											Margin="15,0,0,0"
+											Width="20"
+											>
+										<Rectangle.Style>
+											<Style TargetType="Rectangle">
+												<Setter Property="Fill" Value="DimGray" />
+												<Style.Triggers>
+													<DataTrigger Value="true" Binding="{Binding Item.ChildCompOpModified}">
+														<Setter Property="Fill" Value="LawnGreen" />
+													</DataTrigger>
+
+													<DataTrigger Value="false" Binding="{Binding Item.ChildCompOpModified}">
+														<Setter Property="Fill" Value="Red" />
+													</DataTrigger>
+
+												</Style.Triggers>
+											</Style>
+										</Rectangle.Style>
+									</Rectangle>
+
+									<CheckBox
+											Content="Child Modified"
+											Margin="5,0,0,0"
+											Padding="5,0,0,0"
+											VerticalAlignment="Center"
+											HorizontalContentAlignment="Left"
+											VerticalContentAlignment="Center"
+											Foreground="Gray"
+											IsThreeState="False"
+											IsChecked="{Binding Item.ChildCompOpModified,
+																					Mode=OneWay}"
+											/>
+
+									<Label
+											Content="IsFixed"
+											Margin="10,2,2,2"
+											Width="60"
+											Style="{StaticResource lblTreeItem}"
+											/>
+									<TextBox
+											Margin="2,2,2,2"
+											Width="55"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.IsFixed,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+									<Label
+											Content="IsLocked"
+											Margin="10,2,2,2"
+											Width="60"
+											Style="{StaticResource lblTreeItem}"
+											/>
+									<TextBox
+											Margin="2,2,2,2"
+											Width="55"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.IsLocked,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+									<Label
+											Content="IsVisible"
+											Margin="5,2,2,2"
+											Width="80"
+											Style="{StaticResource lblTreeItem}"
+											/>
+									<TextBox
+											Margin="2,2,2,2"
+											Width="60"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.IsVisible,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+								</StackPanel>
+
+								<StackPanel
+										DockPanel.Dock="Bottom"
+										Orientation="Horizontal"
+										>
+
+									
+									<Label
+											Content="Id"
+											Margin="5,2,5,2"
+											Style="{StaticResource lblTreeItem}"
+									/>
+
+									<TextBlock
+											Margin="0,2,10,2"
+											Width="45"
+											Padding="0,1,0,0"
+											Background="Black"
+											Foreground="White"
+											TextAlignment="Center"
+											Text="{Binding Path=Item.ID, Mode=OneWay, TargetNullValue='-1'}"
+									/>
+
+									<Label
+											Content="sel idx"
+											Margin="5,2,5,2"
+											Style="{StaticResource lblTreeItem}"
+											/>
+
+									<TextBlock
+											Margin="0,2,10,2"
+											Width="25"
+											Padding="0,1,0,0"
+											Background="Black"
+											Foreground="White"
+											TextAlignment="Center"
+											Text="{Binding Path=Item.CompOpSelectedIdx, Mode=OneWay, TargetNullValue='-1'}"
+											/>
+
+
+
+
+									<TextBox
+											Margin="5,2,2,2"
+											Width="250"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.ComponentName,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+									<Label
+											Content="Child Count"
+											Margin="5,2,2,2"
+											Width="80"
+											Style="{StaticResource lblTreeItem}"
+											/>
+
+									<TextBox
+											Margin="2,2,2,2"
+											Width="60"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=ChildCount,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+
+									<Label
+											Content="CompOp Count"
+											Margin="5,2,2,2"
+											Style="{StaticResource lblTreeItem}"
+											/>
+
+									<TextBox
+											Margin="2,2,2,2"
+											Width="50"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.CompareOps.Count,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+									<Label
+											Content="is initialized"
+											Margin="5,2,2,2"
+											Style="{StaticResource lblTreeItem}"
+											/>
+
+									<TextBox
+											Margin="2,2,2,2"
+											Width="50"
+											HorizontalAlignment="Stretch"
+											Text="{Binding Path=Item.IsInitialized,
+																		 Mode=OneWay}"
+											Style="{StaticResource tbxTreeItemValue}"
+											/>
+
+								</StackPanel>
 
 
 							</DockPanel>
-
-							<StackPanel
-									DockPanel.Dock="Bottom"
-									Orientation="Horizontal"
-							>
-								<Label
-										Content="IsFixed"
-										Margin="5,2,2,2"
-										Width="60"
-										Style="{StaticResource lblTreeItem}"
-								/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="55"
-										Padding="0"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsFixed,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-								/>
-
-								<Label
-										Content="IsLocked"
-										Margin="10,2,2,2"
-										Width="60"
-										Style="{StaticResource lblTreeItem}"
-								/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="55"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsLocked,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-								/>
-
-								<Label
-										Content="IsVisible"
-										Margin="5,2,2,2"
-										Width="80"
-										Style="{StaticResource lblTreeItem}"
-								/>
-								<TextBox
-										Margin="2,2,2,2"
-										Width="60"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.IsVisible,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-								/>
-							</StackPanel>
-
-
-							<StackPanel
-									DockPanel.Dock="Bottom"
-									Orientation="Horizontal"
-									>
-								<TextBox
-										Margin="5,2,2,2"
-										Width="250"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.ComponentName,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
-
-								<Label
-										Content="Child Count"
-										Margin="5,2,2,2"
-										Width="80"
-										Style="{StaticResource lblTreeItem}"
-										/>
-
-								<TextBox
-										Margin="2,2,2,2"
-										Width="60"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=ChildCount,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
-
-
-								<Label
-										Content="CompOp Count"
-										Margin="5,2,2,2"
-										Style="{StaticResource lblTreeItem}"
-										/>
-
-								<TextBox
-										Margin="2,2,2,2"
-										Width="50"
-										Padding="0"
-										HorizontalAlignment="Stretch"
-										Text="{Binding Path=Item.CompareOps.Count,
-																	 Mode=OneWay}"
-										Style="{StaticResource tbxTreeItemValue}"
-										/>
-
-
-
-
-							</StackPanel>
-
-
-						</DockPanel>
-
-						<DockPanel
-								HorizontalAlignment="Stretch"
-								DockPanel.Dock="Bottom"
-								>
-							<ListBox
-									Margin="0,0,0,5"
-									Height="Auto"
+							<DockPanel
 									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Stretch"
-									Background="Black"
-									DockPanel.Dock="Top"
-									ScrollViewer.VerticalScrollBarVisibility="Disabled"
-									ItemsSource="{Binding Path=Item.CompareOps}"
+									DockPanel.Dock="Bottom"
 									>
-								<ListBox.Resources>
-									<Style TargetType="{x:Type ScrollViewer}">
-										<Setter Property="IsEnabled" Value="False" />
-									</Style>
+								<ListBox x:Name="lb1"
+										Margin="0,0,0,5"
+										Height="Auto"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Stretch"
+										Background="Black"
+										DockPanel.Dock="Top"
+										ScrollViewer.VerticalScrollBarVisibility="Disabled"
+										PreviewMouseWheel="UIElement_OnPreviewMouseWheel"
+										SelectionMode="Single"
+										SelectedIndex="{Binding Item.CompOpSelectedIdx, Mode=TwoWay, FallbackValue='-1'}"
+										ItemTemplate="{DynamicResource ListBoxItemTemplate1}"
+										ItemsSource="{Binding Item.CompareOps}"
+										>
+
+									<ListBox.ItemContainerStyle>
+										<Style
+												TargetType="ListBoxItem"
+												BasedOn="{StaticResource ListBoxItemContainerStyle1}"
+												>
+											<EventSetter
+													Event="Selected"
+													Handler="Lbi_OnSelected"
+													/>
+										</Style>
+									</ListBox.ItemContainerStyle>
+
+									<!--  ItemContainerStyle="{DynamicResource ListBoxItemContainerStyle1}"  -->
+
+									<!-- hidden
+									<ListBox.ItemTemplate>
+
+										<DataTemplate DataType="{x:Type as:ComparisonOperation}">
+											<DockPanel HorizontalAlignment="Stretch">
+												<StackPanel
+														DockPanel.Dock="Top"
+														Orientation="Horizontal"
+														>
+													<Rectangle
+															Width="20"
+															HorizontalAlignment="Left"
+															DockPanel.Dock="Top"
+															>
+														<Rectangle.Style>
+															<Style TargetType="Rectangle">
+																<Setter Property="Fill" Value="DimGray" />
+																<Style.Triggers>
+																	<DataTrigger Value="true" Binding="{Binding IsSelected}">
+																		<Setter Property="Fill" Value="LawnGreen" />
+																	</DataTrigger>
+
+																	<DataTrigger Value="false" Binding="{Binding IsSelected}">
+																		<Setter Property="Fill" Value="Red" />
+																	</DataTrigger>
+
+																</Style.Triggers>
+															</Style>
+														</Rectangle.Style>
+													</Rectangle>
 
 
-								</ListBox.Resources>
-
-								<ListBox.ItemTemplate>
-									<DataTemplate DataType="{x:Type as:ComparisonOperation}">
-										<DockPanel HorizontalAlignment="Stretch">
-											<TextBox
-													Padding="2"
-													HorizontalAlignment="Stretch"
-													Background="#444444"
-													DockPanel.Dock="Top"
-													Text="Comparison Operation"
-													Style="{StaticResource tbxTreeItemValue}"
+													<TextBlock
+															Padding="2"
+															HorizontalAlignment="Stretch"
+															FontSize="14"
+															Background="#444444"
+															Foreground="White"
+															DockPanel.Dock="Top"
+															Text="Comparison Operation"
 													/>
 
-											<StackPanel
-													DockPanel.Dock="Top"
-													Orientation="Horizontal"
-													>
-												<Label
-														Content="Comp Name Data|"
-														Margin="2,2,0,2"
-														Style="{StaticResource lblTreeItem}"
-														/>
-												<TextBox
-														Margin="5,2,0,2"
-														Text="{Binding CompNameData.Name,
-																					 Mode=OneWay}"
-														Style="{StaticResource tbxTreeItemValue}"
-														/>
-
-
-												<Label
-														Content="val idx"
-														Margin="10,2,0,2"
-														Style="{StaticResource lblTreeItem}"
-														/>
-												<TextBox
-														Margin="5,2,0,2"
-														Text="{Binding CompNameData.Index,
-																					 Mode=OneWay}"
-														Style="{StaticResource tbxTreeItemValue}"
-														/>
-
-
-												<Label
-														Content="Neumonic"
-														Margin="10,2,0,2"
-														Style="{StaticResource lblTreeItem}"
-														/>
-												<TextBox
-														Margin="5,2,0,2"
-														Text="{Binding CompNameData.Neumonic,
-																					 Mode=OneWay}"
-														Style="{StaticResource tbxTreeItemValue}"
-														/>
-
-												<Label
-														Content="Abbrev Name"
-														Margin="10,2,0,2"
-														Style="{StaticResource lblTreeItem}"
-														/>
-												<TextBox
-														Margin="5,2,0,2"
-														Text="{Binding CompNameData.AbbrevName,
-																					 Mode=OneWay}"
-														Style="{StaticResource tbxTreeItemValue}"
-														/>
-
-											</StackPanel>
-
-
-											<Border
-													Margin="2"
-													HorizontalAlignment="Stretch"
-													BorderThickness="1"
-													BorderBrush="PowderBlue"
-													DockPanel.Dock="Top"
-													>
-
-												<Grid Margin="2">
-
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="120" />
-														<ColumnDefinition Width="*" />
-														<ColumnDefinition Width="120" />
-														<ColumnDefinition Width="*" />
-														<ColumnDefinition Width="120" />
-														<ColumnDefinition Width="*" />
-													</Grid.ColumnDefinitions>
-
-													<Grid.RowDefinitions>
-														<RowDefinition Height="*" />
-														<RowDefinition Height="*" />
-														<RowDefinition Height="*" />
-														<RowDefinition Height="*" />
-													</Grid.RowDefinitions>
-
-													<Label
-															Content="Id"
-															Grid.Column="0"
-															Grid.Row="0"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="1"
-															Grid.Row="0"
-															Text="{Binding Id,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Compare Value"
-															Grid.Column="2"
-															Grid.Row="0"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="3"
-															Grid.Row="0"
-															Text="{Binding CompareValue,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Comp Comp Name"
-															Grid.Column="0"
-															Grid.Row="1"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="1"
-															Grid.Row="1"
-															Text="{Binding CompareComponentName,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Comp Comp Idx"
-															Grid.Column="2"
-															Grid.Row="1"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="3"
-															Grid.Row="1"
-															Text="{Binding CompareComponentIndex,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-
-													<Label
-															Content="IsFirstCompOp"
-															Grid.Column="4"
-															Grid.Row="1"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="5"
-															Grid.Row="1"
-															Text="{Binding IsFirstCompOp,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Val Compare String"
-															Grid.Column="0"
-															Grid.Row="2"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="1"
-															Grid.Row="2"
-															Text="{Binding ValueCompareString,
-																						 Mode=OneWay,
-																						 TargetNullValue='null'}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Val Comp Op Code"
-															Grid.Column="2"
-															Grid.Row="2"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="3"
-															Grid.Row="2"
-															Text="{Binding LogicalComparisonOpCode,
-																						 Mode=OneWay,
-																						 TargetNullValue='null'}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-													<Label
-															Content="IsDisabled"
-															Grid.Column="4"
-															Grid.Row="2"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="5"
-															Grid.Row="2"
-															Text="{Binding IsDisabled,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="Log Compare String"
-															Grid.Column="0"
-															Grid.Row="3"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="1"
-															Grid.Row="3"
-															Text="{Binding LogicalCompareString,
-																						 Mode=OneWay,
-																						 TargetNullValue='null'}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-
-													<Label
-															Content="Log Comp Op Code"
-															Grid.Column="2"
-															Grid.Row="3"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="3"
-															Grid.Row="3"
-															Text="{Binding LogicalCompOpCode,
-																						 Mode=OneWay,
-																						 TargetNullValue='null'}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-													<Label
-															Content="IsModified"
-															Grid.Column="4"
-															Grid.Row="3"
-															Margin="0,2,2,2"
-															Style="{StaticResource lblTreeItem}"
-															/>
-
-													<TextBox
-															Grid.Column="5"
-															Grid.Row="3"
-															Text="{Binding IsModified,
-																						 Mode=OneWay}"
-															Style="{StaticResource tbxTreeItemValue}"
-															/>
-
-												</Grid>
-
-											</Border>
-
-
-											<Border
-													Margin="2"
-													BorderThickness="1"
-													BorderBrush="PaleTurquoise"
-													DockPanel.Dock="Bottom"
-													>
-												<StackPanel>
-													<Grid Margin="2">
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-														</Grid.ColumnDefinitions>
-
-														<Grid.RowDefinitions>
-															<RowDefinition Height="*" />
-															<RowDefinition Height="*" />
-															<RowDefinition Height="*" />
-															<RowDefinition Height="*" />
-														</Grid.RowDefinitions>
-
-														<Label
-																Content="Log Comp Op Name"
-																Grid.Column="0"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="1"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding LogicalCompareOp.Name,
-																							 Mode=OneWay,
-																							 TargetNullValue='null'}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-														<Label
-																Content="Log Comp OpCode"
-																Grid.Column="2"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="3"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding LogicalCompareOp.OpCode,
-																							 Mode=OneWay,
-																							 TargetNullValue='null'}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-														<Label
-																Content="Value ofOp Code"
-																Grid.Column="4"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="5"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding LogicalCompareOp.OpCodeValue,
-																							 Mode=OneWay,
-																							 TargetNullValue='null'}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-													</Grid>
-
-													<Grid Margin="2">
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-															<ColumnDefinition Width="120" />
-															<ColumnDefinition Width="*" />
-														</Grid.ColumnDefinitions>
-
-														<Grid.RowDefinitions>
-															<RowDefinition Height="*" />
-														</Grid.RowDefinitions>
-
-														<Label
-																Content="Val Comp Op Name"
-																Grid.Column="0"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="1"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding ValueCompareOp.Name,
-																							 Mode=OneWay}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-														<Label
-																Content="Val Comp OpCode"
-																Grid.Column="2"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="3"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding ValueCompareOp.OpCode,
-																							 Mode=OneWay}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-
-														<Label
-																Content="Value of Op Code"
-																Grid.Column="4"
-																Grid.Row="0"
-																Margin="0,2,2,2"
-																Style="{StaticResource lblTreeItem}"
-																/>
-
-														<TextBox
-																Grid.Column="5"
-																Grid.Row="0"
-																DockPanel.Dock="Bottom"
-																Text="{Binding ValueCompareOp.OpCodeValue,
-																							 Mode=OneWay}"
-																Style="{StaticResource tbxTreeItemValue}"
-																>
-														</TextBox>
-
-													</Grid>
 												</StackPanel>
-											</Border>
-										</DockPanel>
-									</DataTemplate>
-								</ListBox.ItemTemplate>
 
-							</ListBox>
+												<StackPanel
+														DockPanel.Dock="Top"
+														Orientation="Horizontal"
+														>
+
+													<Rectangle
+															Margin="0,1,0,0"
+															Width="20"
+															>
+														<Rectangle.Style>
+															<Style TargetType="Rectangle">
+																<Setter Property="Fill" Value="DimGray" />
+																<Style.Triggers>
+																	<DataTrigger Value="true" Binding="{Binding CompOpModified}">
+																		<Setter Property="Fill" Value="LawnGreen" />
+																	</DataTrigger>
+
+																	<DataTrigger Value="false" Binding="{Binding CompOpModified}">
+																		<Setter Property="Fill" Value="Red" />
+																	</DataTrigger>
+
+																</Style.Triggers>
+															</Style>
+														</Rectangle.Style>
+													</Rectangle>
+
+													<Label
+															Content="modification"
+															Margin="2,2,0,2"
+															Style="{StaticResource lblTreeItem}"
+															/>
+													<CheckBox
+															Content="Modify Comp Op"
+															Margin="5,0,0,0"
+															Padding="5,0,0,0"
+															VerticalAlignment="Center"
+															HorizontalContentAlignment="Left"
+															VerticalContentAlignment="Center"
+															Foreground="White"
+															IsThreeState="False"
+															IsChecked="{Binding ModifyCompOp,
+																									Mode=TwoWay,
+																									FallbackValue='false'}"
+															/>
+
+													<CheckBox
+															Content="Comp Op Modified"
+															Margin="10,0,0,0"
+															Padding="5,0,0,0"
+															VerticalAlignment="Center"
+															HorizontalContentAlignment="Left"
+															VerticalContentAlignment="Center"
+															IsEnabled="False"
+															IsThreeState="False"
+															IsChecked="{Binding CompOpModified,
+																									Mode=OneWay,
+																									FallbackValue='false'}"
+															>
+														<CheckBox.Style>
+															<Style TargetType="CheckBox">
+																<Setter Property="Foreground" Value="DimGray" />
+															</Style>
+														</CheckBox.Style>
+													</CheckBox>
+
+
+												</StackPanel>
+
+												<StackPanel
+														DockPanel.Dock="Top"
+														Orientation="Horizontal"
+														>
+													<Label
+															Content="Comp Name Data"
+															Margin="2,2,0,2"
+															Style="{StaticResource lblTreeItem}"
+															/>
+													<TextBox
+															Margin="5,2,0,2"
+															Text="{Binding CompNameData.Name,
+																						 Mode=OneWay}"
+															Style="{StaticResource tbxTreeItemValue}"
+															/>
+
+
+													<Label
+															Content="val idx"
+															Margin="10,2,0,2"
+															Style="{StaticResource lblTreeItem}"
+															/>
+													<TextBox
+															Margin="5,2,0,2"
+															Text="{Binding CompNameData.Index,
+																						 Mode=OneWay}"
+															Style="{StaticResource tbxTreeItemValue}"
+															/>
+
+
+													<Label
+															Content="Neumonic"
+															Margin="10,2,0,2"
+															Style="{StaticResource lblTreeItem}"
+															/>
+													<TextBox
+															Margin="5,2,0,2"
+															Text="{Binding CompNameData.Neumonic,
+																						 Mode=OneWay}"
+															Style="{StaticResource tbxTreeItemValue}"
+															/>
+
+													<Label
+															Content="Abbrev Name"
+															Margin="10,2,0,2"
+															Style="{StaticResource lblTreeItem}"
+															/>
+													<TextBox
+															Margin="5,2,0,2"
+															Text="{Binding CompNameData.AbbrevName,
+																						 Mode=OneWay}"
+															Style="{StaticResource tbxTreeItemValue}"
+															/>
+
+												</StackPanel>
+
+
+												<Border
+														Margin="2"
+														HorizontalAlignment="Stretch"
+														BorderThickness="1"
+														BorderBrush="PowderBlue"
+														DockPanel.Dock="Top"
+														>
+
+													<Grid Margin="2">
+
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="120" />
+															<ColumnDefinition Width="*" />
+															<ColumnDefinition Width="120" />
+															<ColumnDefinition Width="*" />
+															<ColumnDefinition Width="120" />
+															<ColumnDefinition Width="*" />
+														</Grid.ColumnDefinitions>
+
+														<Grid.RowDefinitions>
+															<RowDefinition Height="*" />
+															<RowDefinition Height="*" />
+															<RowDefinition Height="*" />
+															<RowDefinition Height="*" />
+														</Grid.RowDefinitions>
+
+														<Label
+																Content="Id"
+																Grid.Column="0"
+																Grid.Row="0"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="1"
+																Grid.Row="0"
+																Text="{Binding Id,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="Compare Value"
+																Grid.Column="2"
+																Grid.Row="0"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="3"
+																Grid.Row="0"
+																Text="{Binding CompareValue,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="IsFirstCompOp"
+																Grid.Column="4"
+																Grid.Row="0"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="5"
+																Grid.Row="0"
+																Text="{Binding IsFirstCompOp,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+
+
+														<Label
+																Content="Comp Comp Name"
+																Grid.Column="0"
+																Grid.Row="1"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="1"
+																Grid.Row="1"
+																Text="{Binding CompareComponentName,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="Comp Comp Idx"
+																Grid.Column="2"
+																Grid.Row="1"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="3"
+																Grid.Row="1"
+																Text="{Binding CompareComponentIndex,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+
+														<Label
+																Content="IsInit"
+																Grid.Column="4"
+																Grid.Row="1"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="5"
+																Grid.Row="1"
+																Text="{Binding IsInitialized,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+
+
+
+														<Label
+																Content="Val Compare String"
+																Grid.Column="0"
+																Grid.Row="2"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="1"
+																Grid.Row="2"
+																Text="{Binding ValueCompareString,
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="Val Comp Op"
+																Grid.Column="2"
+																Grid.Row="2"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="3"
+																Grid.Row="2"
+																Text="{Binding ValueComparisonOpCode,
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+														<Label
+																Content="IsDisabled"
+																Grid.Column="4"
+																Grid.Row="2"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="5"
+																Grid.Row="2"
+																Text="{Binding IsDisabled,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="Log Compare String"
+																Grid.Column="0"
+																Grid.Row="3"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="1"
+																Grid.Row="3"
+																Text="{Binding LogicalCompareString,
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+
+														<Label
+																Content="Log Comp Op"
+																Grid.Column="2"
+																Grid.Row="3"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="3"
+																Grid.Row="3"
+																Text="{Binding LogicalComparisonOpCode,
+																							 Mode=OneWay,
+																							 TargetNullValue='null'}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+														<Label
+																Content="TreeNodeModified"
+																Grid.Column="4"
+																Grid.Row="3"
+																Margin="0,2,2,2"
+																Style="{StaticResource lblTreeItem}"
+																/>
+
+														<TextBox
+																Grid.Column="5"
+																Grid.Row="3"
+																Text="{Binding CompOpModified,
+																							 Mode=OneWay}"
+																Style="{StaticResource tbxTreeItemValue}"
+																/>
+
+													</Grid>
+
+												</Border>
+
+
+												<Border
+														Margin="2"
+														BorderThickness="1"
+														BorderBrush="PaleTurquoise"
+														DockPanel.Dock="Bottom"
+														>
+													<StackPanel>
+
+														<Grid Margin="2">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+															</Grid.ColumnDefinitions>
+
+															<Grid.RowDefinitions>
+																<RowDefinition Height="*" />
+															</Grid.RowDefinitions>
+
+															<Label
+																	Content="Val Comp Op Name"
+																	Grid.Column="0"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="1"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding ValueCompareOp.Name,
+																								 Mode=OneWay}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+															<Label
+																	Content="Val Comp OpCode"
+																	Grid.Column="2"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="3"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding ValueCompareOp.OpCode,
+																								 Mode=OneWay}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+
+															<Label
+																	Content="Value of Op Code"
+																	Grid.Column="4"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="5"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding ValueCompareOp.OpCodeValue,
+																								 Mode=OneWay}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+														</Grid>
+
+
+
+														<Grid Margin="2">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+																<ColumnDefinition Width="120" />
+																<ColumnDefinition Width="*" />
+															</Grid.ColumnDefinitions>
+
+															<Grid.RowDefinitions>
+																<RowDefinition Height="*" />
+																<RowDefinition Height="*" />
+																<RowDefinition Height="*" />
+																<RowDefinition Height="*" />
+															</Grid.RowDefinitions>
+
+															<Label
+																	Content="Log Comp Op Name"
+																	Grid.Column="0"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="1"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding LogicalCompareOp.Name,
+																								 Mode=OneWay,
+																								 TargetNullValue='null'}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+															<Label
+																	Content="Log Comp OpCode"
+																	Grid.Column="2"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="3"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding LogicalCompareOp.OpCode,
+																								 Mode=OneWay,
+																								 TargetNullValue='null'}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+															<Label
+																	Content="Value of Op Code"
+																	Grid.Column="4"
+																	Grid.Row="0"
+																	Margin="0,2,2,2"
+																	Style="{StaticResource lblTreeItem}"
+																	/>
+
+															<TextBox
+																	Grid.Column="5"
+																	Grid.Row="0"
+																	DockPanel.Dock="Bottom"
+																	Text="{Binding LogicalCompareOp.OpCodeValue,
+																								 Mode=OneWay,
+																								 TargetNullValue='null'}"
+																	Style="{StaticResource tbxTreeItemValue}"
+																	>
+															</TextBox>
+
+														</Grid>
+
+													</StackPanel>
+												</Border>
+											</DockPanel>
+										</DataTemplate>
+									</ListBox.ItemTemplate>									-->
+
+								</ListBox>
+
+							</DockPanel>
 
 						</DockPanel>
-
 					</DockPanel>
 
 				</HierarchicalDataTemplate>
 			</TreeView.ItemTemplate>
 
 		</TreeView>
-
 
 	</Grid>
 </Window>
