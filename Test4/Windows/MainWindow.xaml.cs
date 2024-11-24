@@ -22,6 +22,8 @@ using JetBrains.Annotations;
 using Test4.SheetMgr;
 using Test4.Windows;
 using System.Runtime.Serialization;
+using AndyShared.ClassificationDataSupport.SheetSupport;
+using UtilityLibrary;
 
 
 namespace Test4
@@ -219,7 +221,8 @@ namespace Test4
 			ms = new MainWinSupport(this);
 			sm = SheetPdfManager.Instance;
 
-			if (ms.GetClassifFile("PdfSample 1"))
+			// if (ms.GetClassifFile("PdfSample 1"))
+			if (ms.GetClassifFile("Pdf Test 2"))
 			{
 				Debug.WriteLine("get classification file worked");
 
@@ -254,11 +257,16 @@ namespace Test4
 
 		// private
 
-		private void updateCompOps()
+		private bool update()
 		{
-			if (!nodeCopy.Item.ChildCompOpModified) return;
+			if (!nodeCopy.Item.ChildCompOpModified
+				&&
+				!nodeCopy.Item.ShtCatModified
+				) return false;
 
-			node.Item.MergeCompOps(nodeCopy.Item);
+			node.Item.Merge(nodeCopy.Item);
+
+			return true;
 		}
 
 		private void deSelect()
@@ -325,7 +333,8 @@ namespace Test4
 
 		private void btnClassifyTest_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (ms.FilterSamples("PdfSample 4"))
+			// if (ms.FilterSamples("PdfSample 4"))
+			if (ms.FilterSamples(ms.ClassificationFile.SampleFileName))
 			{
 				Debug.WriteLine("filter worked");
 				OnPropertyChanged(nameof(ms.ClassificationFile));
@@ -355,8 +364,8 @@ namespace Test4
 			FileNameSheetIdentifiers.ShtNumComps2 nd = op.CompNameData;
 			LogicalComparisonOp lcop = op.LogicalComparisonOpCode;
 			ValueComparisonOp vcop = op.ValueComparisonOpCode;
-			LogicalCompareOp lcp = op.LogicalCompareOp;
-			ValueCompareOp Vcp = op.ValueCompareOp;
+			LogicalCompOpDef lcp = op.LogicalCompOpDef;
+			ValueCompOpDef Vcp = op.ValueCompOpDef;
 
 			TreeNode na = c0[0];
 			SheetCategory sa = na.Item;
@@ -395,10 +404,6 @@ namespace Test4
 
 		}
 
-		// private void Select_OnClick(object sender, RoutedEventArgs e)
-		// {
-		// 	select();
-		// }
 
 		// causes the nested listbox to transfer wheel movements to the parent treeview
 		private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -429,7 +434,7 @@ namespace Test4
 
 				TvNamePath = ms.GetNodePath(node);
 
-				nodeCopy = (TreeNode) ((TreeNode) e.NewValue).Clone(false);
+				nodeCopy = (TreeNode) ((TreeNode) e.NewValue).Clone(0);
 				// nodeCopy.IsNodeSelected = true;
 				// nodeCopy.Parent = null;
 
@@ -534,9 +539,8 @@ namespace Test4
 
 		private void BtnUpdate_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (!nodeCopy.Item.ChildCompOpModified) return;
+			if (!update()) return;
 
-			updateCompOps();
 			deSelect();
 		}
 
@@ -545,11 +549,21 @@ namespace Test4
 			nodeCopy.Item.AddPrelimCompOp();
 		}
 
-
 		private void BtnDelSelCompOp_OnClick(object sender, RoutedEventArgs e)
 		{
 			nodeCopy.Item.DeleteSelectedCompOp();
 		}
+
+		private void BtnClrNodeMod_OnClick(object sender, RoutedEventArgs e)
+		{
+			TreeBase.NotifyChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_NODE_MODIFICATION);
+		}
+
+		private void BtnClrItemMod_OnClick(object sender, RoutedEventArgs e)
+		{
+			TreeBase.NotifyChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION);
+		}
+
 	}
 }
 

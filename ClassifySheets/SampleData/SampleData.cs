@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AndyShared.ClassificationDataSupport.SheetSupport;
 using UtilityLibrary;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
@@ -14,7 +15,8 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonO
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using TreeNode = AndyShared.ClassificationDataSupport.TreeSupport.TreeNode;
-
+using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
+using static AndyShared.ClassificationDataSupport.SheetSupport.ItemClassDef;
 
 #endregion
 
@@ -29,7 +31,7 @@ namespace ClassifySheets.SampleData
 	#endif
 	{
 	#if DEBUG
-		
+
 
 	#region private fields
 
@@ -45,14 +47,20 @@ namespace ClassifySheets.SampleData
 
 		static SampleData()
 		{
+			FileNameSheetParser.Instance.CreateSpecialDisciplines(null);
+			FileNameSheetParser.Instance.CreateFileNamePattern();
+
+			makeSampleShts();
 
 			TreeBase = new BaseOfTree();
-
+			
 			Sample(TreeBase);
 
 			Building = "A";
 
 			TreeBase.Initalize();
+
+			OnPropertyChange_S(nameof(TreeBase));
 
 			SampleFiles(FileList2);
 
@@ -94,7 +102,7 @@ namespace ClassifySheets.SampleData
 
 		public static string Building
 		{
-			get => building; 
+			get => building;
 			private set
 			{
 				building = value;
@@ -115,27 +123,23 @@ namespace ClassifySheets.SampleData
 
 		public static void Sample(BaseOfTree tn)
 		{
-			// TreeNode.Ct = 0;
-			// SheetCategory.Cs = 0;
-
 			root = tn;
 
-			// SheetCategory item = new SheetCategory("Base of Tree", "Base of Tree");
-			//
-			// item.MergeItems = new ObservableCollection<MergeItem>();
-			//
-			// MergeItem mi = new MergeItem(0, sht1);
-			// item.MergeItems.Add(mi);
-			//
+			root.Item.MergeItems = new ObservableCollection<MergeItem>();
+			
+			MergeItem mi = new MergeItem(0, sht1);
+			root.Item.MergeItems.Add(mi);
+			
 			// mi = new MergeItem(0, sht2);
-			// item.MergeItems.Add(mi);
+			// root.Item.MergeItems.Add(mi);
 			//
 			// mi = new MergeItem(0, sht3);
-			// item.MergeItems.Add(mi);
-			//
-			// root.Item = item;
+			// root.Item.MergeItems.Add(mi);
 
 			MakeChildren(root, 0);
+
+			root.CountExtMergeItems();
+
 			// MakeChildren2(root);
 			// MakeChildren3();
 		}
@@ -146,13 +150,16 @@ namespace ClassifySheets.SampleData
 
 			FilePath<FileNameSheetPdf> sheet;
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 - This is a Test A10x.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A-100 This is a Test A105.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A-100 - This is a Test A105x.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A - This is a Test A20x.pdf");
 			fileList.AddPath(sheet);
 			//
 			// sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
@@ -161,13 +168,13 @@ namespace ClassifySheets.SampleData
 			// sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.1 This is a Test A21.pdf");
 			// fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A GRN.1(left│right) This is a Test GRN1.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A GRN.1(left│right) - This is a Test GRN1x.pdf");
 			fileList.AddPath(sheet);
 
-			sheet = new FilePath<FileNameSheetPdf>(@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A-101 This is a Test A101.pdf");
+			sheet = new FilePath<FileNameSheetPdf>(
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A-101 - This is a Test A101x.pdf");
 			fileList.AddPath(sheet);
-
-			
 		}
 
 	#endregion
@@ -181,16 +188,15 @@ namespace ClassifySheets.SampleData
 			List < FilePath<FileNameSheetPdf>> fileList = new List<FilePath<FileNameSheetPdf>>();
 
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-101 This is a Test B A101.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-101 - This is a Test B A101y.pdf"));
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-102 This is a Test B A102.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-102 - This is a Test B A102y.pdf"));
 			fileList.Add(new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-103 This is a Test B A103.pdf"));
+				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\B A-103 - This is a Test B A103y.pdf"));
 
 			NonApplicableFiles.Add("B", fileList);
 			NonApplicableFiles.Add("C", fileList);
 			NonApplicableFiles.Add("D", fileList);
-
 		}
 
 
@@ -199,15 +205,26 @@ namespace ClassifySheets.SampleData
 		private static int CHILDMAX = 5;
 		private static int BRANCH = 0;
 
-		private static FilePath<FileNameSheetPdf> sht1 = 
-			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 This is a Test A10.pdf");
-		private static FilePath<FileNameSheetPdf> sht2 =
-			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A This is a Test A20.pdf");
-		private static FilePath<FileNameSheetPdf> sht3 =
-			new FilePath<FileNameSheetPdf>(
-				@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 This is a Test LS30.pdf");
+		private static FilePath<FileNameSheetPdf> sht1;
+
+		private static FilePath<FileNameSheetPdf> sht2;
+
+		private static FilePath<FileNameSheetPdf> sht3;
+
+
+		private static void makeSampleShts()
+		{
+			sht1 =
+				new FilePath<FileNameSheetPdf>(
+					@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A1.0-0 - This is a Test A10z.pdf");
+			sht2 =
+				new FilePath<FileNameSheetPdf>(
+					@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A A2.0-0A - This is a Test A20z.pdf");
+			sht3 =
+				new FilePath<FileNameSheetPdf>(
+					@"C:\2099-999 Sample Project\Publish\Bulletins\2017-07-01 arch only\Individual PDFs\A LS3.11-0.1 - This is a Test LS30z.pdf");
+		}
+
 
 		private static void MakeChildren(TreeNode parent, int depth)
 		{
@@ -226,19 +243,31 @@ namespace ClassifySheets.SampleData
 					BRANCH = i;
 				}
 
-				SheetCategory item = new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
+				SheetCategory item =
+					new SheetCategory($"node title {BRANCH:D2}:{depth:D2}:{i:D2}", $"node description");
 				// item.Depth = depth + 1;
+
+				item.ItemClass = Item_Class.IC_BOOKMARK;
 
 				item.MergeItems = new ObservableCollection<MergeItem>();
 
-				MergeItem mi = new MergeItem(0, sht1);
-				item.MergeItems.Add(mi);
+				if ((i) % 3 != 0)
+				{
+					MergeItem mi = new MergeItem(0, sht1);
+					item.MergeItems.Add(mi);
 
-				mi = new MergeItem(0, sht2);
-				item.MergeItems.Add(mi);
+					mi = new MergeItem(0, sht2);
+					item.MergeItems.Add(mi);
 
-				mi = new MergeItem(0, sht3);
-				item.MergeItems.Add(mi);
+					mi = new MergeItem(0, sht3);
+					item.MergeItems.Add(mi);
+
+					if (i == 0) item.IsVisible = false;
+
+					item.UpdateMergeProperties();
+
+				}
+
 
 				node = new TreeNode(parent, item, false);
 
@@ -248,55 +277,51 @@ namespace ClassifySheets.SampleData
 
 				if (i == 0)
 				{
-					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
+					// item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) STARTS_WITH], "A", true));
 					item.IsFixed = true;
 
 					// node = new TreeNode(parent, item, false);
-
 				}
 				else if (i == 2)
 				{
-					// item.CompareOps.Add(new ValueCompOp(null, ValueCompareOps[(int) STARTS_WITH], "A", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, STARTS_WITH, "A", compComponent));
+					// item.CompareOps.Add(new ComparisonOp(null, ValueCompareOps[(int) STARTS_WITH], "A", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_NO_OP, STARTS_WITH, "A", compComponent));
 					// node = new TreeNode(parent, item, false);
 
 					item.IsFixed = true;
 				}
 				else if (i == 3 || i == 5)
 				{
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 					item.IsFixed = true;
 				}
 				else if (i == 4)
 				{
-					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
+					// item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) EQUALTO], "1", isFirst: true, ignore: false));
 					// item.CompareOps.Add(new LogicalCompOp(LogicalCompareOps[(int) LOGICAL_AND]));
-					// item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
+					// item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) DOES_NOT_EQUAL], "2"));
 					// node = new TreeNode(parent, item, false);
-
-				} 
+				}
 				else if (i == 1)
 				{
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent + 1));
 
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "2", compComponent+1));
-
-					ValueCompOp v = new ValueCompOp(LOGICAL_OR,DOES_NOT_END_WITH, "A", compComponent);
+					ComparisonOp v = new ComparisonOp(LOGICAL_OR, DOES_NOT_END_WITH, "A", compComponent);
 					v.IsDisabled = true;
 
 
 					item.CompareOps.Add(v);
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_AND, GREATER_THAN_OR_EQUAL, "1", compComponent));
-					item.CompareOps.Add(new ValueCompOp(LOGICAL_OR, DOES_NOT_START_WITH, "Z", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_AND, GREATER_THAN_OR_EQUAL, "1", compComponent));
+					item.CompareOps.Add(new ComparisonOp(LOGICAL_OR, DOES_NOT_START_WITH, "Z", compComponent));
 
 					// node = new TreeNode(parent, item, false);
 
 					if (depth == 0) Temp = node;
-
-				} 
+				}
 
 				if (i == 3)
 				{
@@ -313,10 +338,14 @@ namespace ClassifySheets.SampleData
 				node.IsExpandedAlt = true;
 
 				root.AddNode(node);
+
+				root.UpdateProperties();
+
+
 			}
 		}
 
-		
+
 		// private void MakeChildren2(TreeNode parent)
 		// {
 		// 	TreeNode node;
@@ -325,7 +354,7 @@ namespace ClassifySheets.SampleData
 		// 	{
 		// 		SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
 		//
-		// 		item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+		// 		item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) STARTS_WITH], 
 		// 			char.ConvertFromUtf32(65 + i), true));
 		//
 		// 		node = new TreeNode(parent, item, false);
@@ -338,7 +367,7 @@ namespace ClassifySheets.SampleData
 		// private void MakeChildren3()
 		// {
 		// 	SheetCategory item = new SheetCategory($"node title {0:D2}:{0:D2}:{0:D2}", $"node description");
-		// 	item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH],"A", true));
+		// 	item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) STARTS_WITH],"A", true));
 		//
 		// 	TreeNode rootNode = new TreeNode(root, item, false);
 		//
@@ -348,7 +377,7 @@ namespace ClassifySheets.SampleData
 		// 	{
 		// 		item = new SheetCategory($"node title {0:D2}:{0:D2}:{i:D2}", $"node description");
 		//
-		// 		item.CompareOps.Add(new ValueCompOp(ValueCompareOps[(int) STARTS_WITH], 
+		// 		item.CompareOps.Add(new ComparisonOp(ValueCompareOps[(int) STARTS_WITH], 
 		// 			char.ConvertFromUtf32(65 + i), true));
 		// 		node = new TreeNode(rootNode, item, false);
 		// 		item.IsFixed = true;
@@ -372,7 +401,7 @@ namespace ClassifySheets.SampleData
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-		
+
 		public static event PropertyChangedEventHandler PropertyChanged_S;
 
 		private static void OnPropertyChange_S([CallerMemberName] string memberName = "")

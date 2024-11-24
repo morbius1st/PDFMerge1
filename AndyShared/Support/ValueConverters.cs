@@ -93,11 +93,30 @@ namespace AndyShared.Support
 #region null to bool (true) value converter
 
 	[ValueConversion(typeof(object), typeof(bool))]
-	public class NullObjToBool : IValueConverter
+	public class NullObjToTrue : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			object o = parameter;
 			return value == null;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
+#region null to bool (true) value converter
+
+	[ValueConversion(typeof(object), typeof(bool))]
+	public class NullObjToFalse : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value != null;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -180,7 +199,7 @@ namespace AndyShared.Support
 
 #endregion
 
-#region int valus comparison
+#region int value comparison
 
 	/// <summary>
 	/// based on the string provided return<br/>
@@ -254,14 +273,10 @@ namespace AndyShared.Support
 
 #endregion
 
-
-
-
-
 #region multi bool "or" value converter
 
 	[ValueConversion(typeof(bool), typeof(bool))]
-	public class BoolOr : IMultiValueConverter
+	public class MultiBoolOr : IMultiValueConverter
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
@@ -291,6 +306,39 @@ namespace AndyShared.Support
 
 #endregion
 
+#region multi bool "and" value converter
+
+	[ValueConversion(typeof(bool), typeof(bool))]
+	public class MultiBoolAnd : IMultiValueConverter
+	{
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (values.Length == 0 ||
+				!(values[0] is bool) ||
+				!(values[1] is bool) ) return false;
+
+			bool result = (bool) values[0];
+
+			if (values.Length == 1) return result;
+
+			for (int i = 1; i < values.Length; i++)
+			{
+				if (!(values[i] is bool)) continue;
+
+				result = result && (bool) values[i];
+			}
+
+			return result;
+		}
+
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
+
+#endregion
+
 #region multi "equals to" value converter
 
 	[ValueConversion(typeof(object), typeof(bool))]
@@ -298,8 +346,8 @@ namespace AndyShared.Support
 	{
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (values.Length < 2 ||
-				!(values[0].GetType() == values[1].GetType())) return false;
+			if (values.Length < 2  || values[0]==null || values[1]== null ||
+				!( (values[0]?.GetType())== values[1]?.GetType())) return false;
 
 			return values[0].Equals(values[1]);
 		}

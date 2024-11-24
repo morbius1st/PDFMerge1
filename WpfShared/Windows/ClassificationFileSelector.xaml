@@ -28,7 +28,7 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/ScrollBar.xaml" />
 				<!-- <ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" /> -->
-				<ResourceDictionary Source="/File-Open-00.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<support:NullStringToMessage x:Key="NullStringToMessage" />
@@ -1138,8 +1138,8 @@
 						HorizontalOffset="20"
 						Placement="Bottom"
 						PlacementTarget="{Binding ElementName=TbxFileId}"
-						PopupAnimation="Fade"
 						VerticalOffset="5"
+						PopupAnimation="Fade"
 						>
 					<Border
 							Padding="3"

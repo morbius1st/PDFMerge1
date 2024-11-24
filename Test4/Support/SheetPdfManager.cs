@@ -119,7 +119,7 @@ namespace Test4.SheetMgr
 			Samples3.MakeSamples();
 
 			last =  Samples3.Sheets3.Count;
-			end = 10;
+			end = last;
 			start = 0;
 
 			ConfigFileNameParser();
@@ -137,6 +137,7 @@ namespace Test4.SheetMgr
 				return false;
 			}
 
+			showFileList(cf4.fileList);
 
 			cf4.PreProcess();
 
@@ -145,8 +146,6 @@ namespace Test4.SheetMgr
 			return true;
 		}
 
-
-
 		public void CreateFilterList()
 		{
 			Samples3.fileList = new SheetFileList();
@@ -154,12 +153,24 @@ namespace Test4.SheetMgr
 
 			for (var i = start; i < end; i++)
 			{
-				FilePath<FileNameSheetPdf> x = new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName);
+				// FilePath<FileNameSheetPdf> x = new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName);
 
 				Samples3.fileList.Files.Add(new FilePath<FileNameSheetPdf>(Samples3.Sheets3[i].FileName));
 			}
-
 		}
+
+
+		private void showFileList(SheetFileList fileList)
+		{
+			Debug.WriteLine($"\n\nfile list");
+
+			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
+			{
+				Debug.WriteLine($"{file.FileNameObject.SheetNumber,-10} {file.FileNameObject.SheetName}");
+			}
+		}
+
+
 
 		// version 2 + 3
 		private void showShtNumber4(ShtNumber sn, List<string> sheetComps, int idx)

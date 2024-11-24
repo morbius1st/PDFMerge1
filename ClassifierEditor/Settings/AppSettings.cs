@@ -40,8 +40,12 @@ namespace SettingsManager
 
 		[IgnoreDataMember]
 		public string DataFileNotes => "app / any notes go here";
+		
+		// [DataMember(Order = 1)]
+		// public string Name { get; set; } = "Andy";
+
 		[DataMember(Order = 1)]
-		public string Name { get; set; } = "Andy";
+		public List<string> AdminUsers { get; set; } = new List<string>();
 
 		// [DataMember(Order = 2)]
 		// public bool AllowPropertyEditing { get; set; } = false;

@@ -10,7 +10,8 @@ using UtilityLibrary;
 using AndyShared.FileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.Support;
-
+// using ClassifierEditor.Windows;
+// using WpfShared.Windows;
 
 #endregion
 
@@ -170,14 +171,14 @@ namespace AndyShared.SampleFileSupport
 			return filePath;
 		}
 
-		private static void DialogInvalidSampleFile(string fileName)
+		private static void DialogInvalidSampleFile(string fileName, IntPtr handle =  default)
 		{
 			CommonTaskDialogs.CommonErrorDialog(
 				"Invalid Sample File",
 				"Invalid Sample File",
 				"The Sample File selected \"" + (fileName ?? "(unknown)") + "\" " +
 				"Cannot be used as it is the wrong file type.  Please select a file of type \""
-				+ FilePathConstants.SAMPLE_FILE_EXT);
+				+ FilePathConstants.SAMPLE_FILE_EXT, handle);
 
 			// TaskDialog td = new TaskDialog();
 			// td.Caption = "Invalid Sample File";

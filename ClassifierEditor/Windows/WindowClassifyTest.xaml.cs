@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using AndyShared.ClassificationDataSupport.SheetSupport;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.MergeSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
+using DebugCode;
 using SettingsManager;
 using UtilityLibrary;
 
@@ -15,11 +22,10 @@ namespace ClassifierEditor.Windows
 {
 	public enum Exp_Collapse_State
 	{
-		EXP_TREE,		// exp tree & hide listviews
-		COLLAPSE_ALL,	// collapse all
-		EXP_ALL,		// exp tree & show listviews
+		EXP_TREE,     // exp tree & hide listviews
+		COLLAPSE_ALL, // collapse all
+		EXP_ALL,      // exp tree & show listviews
 		COUNT
-
 	}
 
 	/// <summary>
@@ -31,8 +37,8 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
-		private string[] TreeViewTitleList = new [] {"Initial BookMark Tree", "Final BookMark Tree"};
-		private string[] expCollapseStateList = new [] {"Collapse to Tree ", "Collapse All ", "Expand All"};
+		private string[] TreeViewTitleList = new [] { "Initial BookMark Tree", "Final BookMark Tree" };
+		private string[] expCollapseStateList = new [] { "Collapse to Tree ", "Collapse All ", "Expand All" };
 
 		private int treeViewTitleIndex = 0;
 
@@ -46,10 +52,10 @@ namespace ClassifierEditor.Windows
 		// private Orator.ConfRoom.Announcer announcerx;
 
 		private bool isConfigured;
-		
+
 		// private bool isExpandedEx;
 
-		private string tbx1Message;
+		private string tbx1Message = null;
 
 		private Exp_Collapse_State expCollapseStateIdx ; // = Exp_Collapse_State.EXP_TREE;
 
@@ -68,21 +74,21 @@ namespace ClassifierEditor.Windows
 			isConfigured = false;
 
 			pb1ProgressValue = new Progress<double>(value => Pb1.Value = value);
-
 		}
 
 	#endregion
 
 	#region public properties
 
-		public bool ShowNonApplicableFiles => (classify?.NonApplicableFilesTotalCount?? 0) > 0;
+		public bool ShowNonApplicableFiles => (classify?.NonApplicableFilesTotalCount ?? 0) > 0;
 
 		public string NonApplicableFilesDescription
 		{
 			get
 			{
-				return classify == null ? null : 
-					classify.NonApplicableFilesTotalCount.ToString("###0") + " Non-applicable Files";
+				return classify == null
+					? null
+					: "Found (" + classify.NonApplicableFilesTotalCount.ToString("###0") + ") Non-applicable Files";
 			}
 		}
 
@@ -115,9 +121,9 @@ namespace ClassifierEditor.Windows
 			get
 			{
 				if (testFileList == null) return "No Title Yet";
-		
+
 				string result = "";
-		
+
 				if (!testFileList.Building.IsVoid())
 				{
 					result = "Building " + testFileList.Building;
@@ -126,22 +132,19 @@ namespace ClassifierEditor.Windows
 				{
 					result = "Base of Tree";
 				}
-		
+
 				if ((BaseOfTree?.Item.MergeItemCount ?? 0) > 0)
 				{
 					result += " / Un-categorized Sheet Files";
 				}
-		
+
 				return result;
 			}
 		}
-		
+
 		public string TreeViewTitle
 		{
-			get
-			{
-				return TreeViewTitleList[treeViewTitleIndex];
-			}
+			get { return TreeViewTitleList[treeViewTitleIndex]; }
 		}
 
 		public int TreeViewTitleIndex
@@ -153,7 +156,7 @@ namespace ClassifierEditor.Windows
 				OnPropertyChange();
 				OnPropertyChange(nameof(TreeViewTitle));
 			}
-		} 
+		}
 
 		public string PhaseBuilding => testFileList?.Building;
 
@@ -204,7 +207,6 @@ namespace ClassifierEditor.Windows
 				// OnPropertyChanged();
 
 				((IProgress<double>) pb1ProgressValue).Report(value);
-
 			}
 		}
 
@@ -218,6 +220,10 @@ namespace ClassifierEditor.Windows
 
 		public bool Configure(ClassificationFile classfFile)
 		{
+		#if DML1
+			DM.Start0();
+		#endif
+
 			isConfigured = false;
 
 			if (classfFile != null && classfFile.TreeBase.HasChildren)
@@ -232,6 +238,10 @@ namespace ClassifierEditor.Windows
 
 				updateProperties();
 			}
+
+		#if DML1
+			DM.End0();
+		#endif
 
 			return isConfigured;
 		}
@@ -278,8 +288,18 @@ namespace ClassifierEditor.Windows
 
 			classify.PreProcess();
 
+			// Debug.WriteLine("start process3");
+
 			classify.Process3();
 
+			// Debug.WriteLine("after process3");
+			// Debug.WriteLine("after process3 - start post process");
+
+			// classify.postProcessMergeLists();
+			//
+			// Debug.WriteLine("after post process");
+
+			OnPropertyChange(nameof(Classify));
 		}
 
 		private void ExpandCollapseTree(TreeNode node)
@@ -337,6 +357,48 @@ namespace ClassifierEditor.Windows
 			ExpCollapseStateIdx = (Exp_Collapse_State) e;
 		}
 
+		private int depth = 0;
+
+		private void listTree(TreeNode node)
+		{
+			foreach (TreeNode child in node.Children)
+			{
+				if (child.Item.ItemClass == Item_Class.IC_BOOKMARK)
+				{
+					Tbx1Message += $"{"  ".Repeat(depth)}{child.Item.Title} ({child.Item.Description})\n";
+				}
+
+				if (child.Item.HasMergeItems)
+				{
+					listMergeItems(child.Item.MergeItems);
+				} 
+
+				if (child.HasChildren)
+				{
+					depth++;
+					listTree(child);
+					depth--;
+				}
+			}
+
+		}
+
+		private void listMergeItems(ObservableCollection<MergeItem> mItems)
+		{
+			foreach (MergeItem mi in mItems)
+			{
+				Tbx1Message += $"{"  ".Repeat(depth+1)}{mi.FilePath.FileNameObject.SheetNumber,-14} {mi.FilePath.FileNameObject.SheetName}\n";
+			}
+		}
+
+		private void listMergeItems(ListCollectionView view)
+		{
+			foreach (MergeItem mi in view)
+			{
+				Tbx1Message += $"{"  ".Repeat(depth+1)}{mi.FilePath.FileNameObject.SheetNumber,-14} {mi.FilePath.FileNameObject.SheetName} (comparisons {mi.CompareCount})\n";
+			}
+		}
+
 
 	#endregion
 
@@ -373,21 +435,22 @@ namespace ClassifierEditor.Windows
 			this.Left = UserSettings.Data.WinClassifyPos.X;
 		}
 
-		private void OnGetAnnouncement(object sender, object value)
-		{
-			if (displayDebugMsgs)
-			{
-				if (value is string)
-				{
-					Tbx1Message += (string) value;
-				}
-			}
-		}
+		// private void OnGetAnnouncement(object sender, object value)
+		// {
+		// 	if (displayDebugMsgs)
+		// 	{
+		// 		if (value is string)
+		// 		{
+		// 			Tbx1Message += (string) value;
+		// 		}
+		// 	}
+		// }
+
+		// buttons
 
 		private void BtnTest_OnClick(object sender, RoutedEventArgs e)
 		{
 			go();
-
 		}
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
@@ -396,15 +459,23 @@ namespace ClassifierEditor.Windows
 
 			OnPropertyChange("BaseOfTree");
 
+			Classify c = classify;
+
 			Debug.WriteLine("@debug");
 		}
 
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
-
 			// BaseOfTree b = this.BaseOfTree;
 			//
 			this.Visibility = Visibility.Collapsed;
+
+		#if DML1
+			DM.Start0(true);
+		#endif
+		#if DML1
+			DM.End0();
+		#endif
 
 			Close();
 		}
@@ -416,8 +487,21 @@ namespace ClassifierEditor.Windows
 			ExpandCollapseTree(BaseOfTree);
 
 			// adjustExpCollapseState();
-
 		}
+
+		private void BtnReport_OnClick(object sender, RoutedEventArgs e)
+		{
+			depth = 0;
+
+			Tbx1Message += $"{"  ".Repeat(depth)}{BaseOfTree.Item.Title} ({BaseOfTree.Item.Description})\n";
+
+			listTree(BaseOfTree);
+
+			Tbx1Message += $"\n{"  ".Repeat(depth)}total of {classify.CompareCountTotal} comparisons\n";
+		}
+
+
+		// other
 
 		private void Classify_OnClassifyCompletion(object sender)
 		{
@@ -430,12 +514,25 @@ namespace ClassifierEditor.Windows
 			TreeViewTitleIndex = 1;
 
 			ExpCollapseStateIdx = Exp_Collapse_State.EXP_ALL;
-			
+
 			ExpandCollapseTree(BaseOfTree);
-			
+
 			updateClassifyProperties();
-			
 		}
+
+		private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (!e.Handled)
+			{
+				e.Handled = true;
+				MouseWheelEventArgs eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+				eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+				eventArg.Source = sender;
+				var parent = ((Control)sender).Parent as UIElement;
+				parent.RaiseEvent(eventArg);
+			}
+		}
+
 
 		// private void Classify_OnFileChange(object sender, FileChangeEventArgs e)
 		// {
@@ -467,10 +564,6 @@ namespace ClassifierEditor.Windows
 			return "this is Class1";
 		}
 
-
-		#endregion
-
-
-			
+	#endregion
 	}
 }

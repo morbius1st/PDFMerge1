@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AndyShared.Support;
+using DisciplineEditor.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 #endregion
@@ -29,7 +30,8 @@ namespace DisciplineEditor.Support
 					+ $"{filepath}\n"
 					+ "already exists.  This will delete the existing "
 					+ "Discipline Data File\n"
-					+ "Please confirm the deletion of this file");
+					+ "Please confirm the deletion of this file",
+					MainWindow.WinHandle);
 
 			return result == TaskDialogResult.Yes;
 		}
@@ -43,7 +45,7 @@ namespace DisciplineEditor.Support
 					"Deleting the Discipline Data File may result "
 					+ "in the loss of your data.  Deleting this "
 					+ "file cannot be undone.\n"
-					+ "Please confirm the deletion of this file",
+					+ "Please confirm the deletion of this file", MainWindow.WinHandle, 
 					TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.Cancel
 					);
 
@@ -60,7 +62,8 @@ namespace DisciplineEditor.Support
 				"The Discipline Data File is missing",
 				"The Discipline Data File is required in order "
 				+ "to proceed. Since this is missing, the "
-				+ "program will exit.");
+				+ "program will exit.",
+				MainWindow.WinHandle);
 		}
 
 		public static void DisciplineDataFileDeleteFailed()
@@ -70,7 +73,8 @@ namespace DisciplineEditor.Support
 				"Deleting the Discipline Data File failed",
 				"For an unknown reason, the Discipline Data File "
 				+ "could not be deleted.  Please verify that the "
-				+ "file exists and permissions are correctly set");
+				+ "file exists and permissions are correctly set",
+				MainWindow.WinHandle);
 		}
 
 		public static void DisciplineDataFileSaveAsFailed()
@@ -80,7 +84,8 @@ namespace DisciplineEditor.Support
 				"SaveAs the Discipline Data File failed",
 				"For an unknown reason, the copy of the Discipline Data File "
 				+ "could not be saved.  Please verify that the "
-				+ "permissions are correctly set");
+				+ "permissions are correctly set",
+				MainWindow.WinHandle);
 		}
 
 
@@ -93,7 +98,8 @@ namespace DisciplineEditor.Support
 				+ "proceed.  This file is located here:\n"
 				+ $"{filePath}\n"
 				+ "please resolve make sure that this location is "
-				+ "accessible / is not protected or locked");
+				+ "accessible / is not protected or locked",
+				MainWindow.WinHandle);
 		}
 
 		public static TaskDialogResult RequestReplaceMissingDiscDataFile(string fileName, string folderPath)
@@ -106,7 +112,8 @@ namespace DisciplineEditor.Support
 				+ $"{folderPath}\n"
 				+ $"File Name: {fileName}\n\n"
 				+ "Select YES to provide an empty replacement file\n"
-				+ "Select NO to do nothing and exit");
+				+ "Select NO to do nothing and exit", "",
+				MainWindow.WinHandle);
 
 			return result;
 		}
@@ -124,7 +131,7 @@ namespace DisciplineEditor.Support
 			CommonTaskDialogs.CommonErrorDialog(
 				"The General Error",
 				"The program has received a General Error",
-				msg);
+				msg, MainWindow.WinHandle);
 		}
 
 	}

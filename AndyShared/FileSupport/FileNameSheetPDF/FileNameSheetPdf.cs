@@ -370,14 +370,20 @@ namespace UtilityLibrary
 
 		private bool config()
 		{
-			string origShtNum;
+			string origShtNum = null;
+
+			string f = this.FileName;
 
 			if (fxc.IsCorrectFileType(extensionNoSep) && !FileName.IsVoid())
 			{
 				if (parser.SplitFileName(this, out origShtNum, out sheetTitle))
 				{
+					string n = origShtNum;
+					string t = sheetTitle;
+
 					if (!origShtNum.IsVoid())
 					{
+						// parse the sheet number
 						shtNumberObj = new ShtNumber(origShtNum, true);
 
 						StatusCode = shtNumberObj.StatusCode;
@@ -430,7 +436,7 @@ namespace UtilityLibrary
 
 		public override string ToString()
 		{
-			return "this is FileNameAsSheetFileName";
+			return $"{SheetNumber} - {SheetTitle} | {statusCode}";
 		}
 
 	#endregion

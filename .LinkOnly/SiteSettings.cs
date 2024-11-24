@@ -27,7 +27,7 @@ namespace SettingsManager
 	//
 	// #endregion
 
-	#region user data class
+#region user data class
 
 	// this is the actual data set saved to the user's configuration file
 	// this is unique for each program
@@ -38,7 +38,7 @@ namespace SettingsManager
 		public string DataFileVersion => "site 7.4si";
 
 		[IgnoreDataMember]
-		public string DataFileDescription =>"site setting file for SettingsManager v7.4";
+		public string DataFileDescription => "site setting file for SettingsManager v7.4";
 
 		[IgnoreDataMember]
 		public string DataFileNotes => "site / any notes go here";
@@ -53,18 +53,14 @@ namespace SettingsManager
 				}
 			};
 
-		// public SortedDictionary<string, ConfigSeedFile> InstalledSeedFiles { get; set; }
-		//			= new Dictionary<string, ConfigSeedFile>()
-		//			{
-		//				{"Andy :: No User",  new ConfigSeedFile("Andy", "No User", "Seed Files", "Basic", "")}
-		//			};
-		//
-		//
-		// public string MakeKey(string userName, string id)
-		// {
-		// 	return userName + " :: " + id;
-		// }
+		[DataMember(Order = 2)]
+		public ObservableCollection<string> AdminUsers { get; set; } = new ObservableCollection<string>()
+		{
+			"jeffs"
+		};
+
+
 	}
 
-	#endregion
+#endregion
 }

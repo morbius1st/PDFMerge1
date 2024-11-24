@@ -94,11 +94,17 @@ namespace AndyShared.ClassificationFileSupport
 
 			OnPropertyChange(nameof(Initialized));
 
-			allClassfFolderPath = MachSettings.Path.SettingFolderPath +
-				FilePathConstants.USER_STORAGE_FOLDER;
+			// allClassfFolderPath = MachSettings.Path.SettingFolderPath +
+			// 	FilePathConstants.USER_STORAGE_FOLDER;
+
+			string baseFolder = FilePathUtil.AssembleFolderPath(false, MachSettings.Path.SettingFolderPath,
+				FilePathConstants.USER_STORAGE_FOLDER);
+
+			allClassfFolderPath = FilePathUtil.AssembleFolderPath(false, 
+				baseFolder, FilePathConstants.DEFAULT_FOLDER_NAME);
 
 			userClassfFolderPath = FilePathUtil.AssembleFolderPath(false,
-				AllClassifFolderPath, Environment.UserName);
+				baseFolder, Environment.UserName);
 
 			Reinitialize();
 		}
@@ -148,8 +154,28 @@ namespace AndyShared.ClassificationFileSupport
 
 		private bool GetFiles()
 		{
-			foreach (string file in Directory.EnumerateFiles(AllClassifFolderPath,
-				FilePathConstants.USER_STORAGE_PATTERN, SearchOption.AllDirectories))
+			return getDefaultFiles() && getUserFiles();
+
+
+			// foreach (string file in Directory.EnumerateFiles(AllClassifFolderPath,
+			// 	FilePathConstants.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+			// {
+			// 	ClassificationFile userFile = new ClassificationFile(file);
+			//
+			// 	if (!userFile.IsValid) continue;
+			//
+			// 	userClassificationFiles.Add(userFile);
+			// }
+			//
+			// OnPropertyChange("UserClassificationFiles");
+			//
+			// return userClassificationFiles.Count > 0;
+		}
+
+		private bool getDefaultFiles()
+		{
+			foreach (string file in Directory.EnumerateFiles(allClassfFolderPath,
+						FilePathConstants.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 
@@ -158,10 +184,31 @@ namespace AndyShared.ClassificationFileSupport
 				userClassificationFiles.Add(userFile);
 			}
 
-			OnPropertyChange("UserClassificationFiles");
+			OnPropertyChange(nameof(UserClassificationFiles));
 
 			return userClassificationFiles.Count > 0;
 		}
+
+
+		private bool getUserFiles()
+		{
+			foreach (string file in Directory.EnumerateFiles(userClassfFolderPath,
+						FilePathConstants.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+			{
+				ClassificationFile userFile = new ClassificationFile(file);
+
+				if (!userFile.IsValid) continue;
+
+				userClassificationFiles.Add(userFile);
+			}
+
+			OnPropertyChange(nameof(UserClassificationFiles));
+
+			return userClassificationFiles.Count > 0;
+		}
+
+
+
 
 		private void UpdateProperties()
 		{

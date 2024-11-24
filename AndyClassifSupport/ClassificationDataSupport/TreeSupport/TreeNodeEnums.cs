@@ -27,6 +27,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	public enum NodeType
 	{
+		ROOT,
 		BRANCH,
 		LEAF
 	}

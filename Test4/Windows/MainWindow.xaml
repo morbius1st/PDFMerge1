@@ -1020,7 +1020,7 @@
 									Grid.Column="1"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.Name,
+									Text="{Binding ValueCompOpDef.Name,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1038,7 +1038,7 @@
 									Grid.Column="3"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.OpCode,
+									Text="{Binding ValueCompOpDef.OpCode,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1057,7 +1057,7 @@
 									Grid.Column="5"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.OpCodeValue,
+									Text="{Binding ValueCompOpDef.OpCodeValue,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1096,7 +1096,7 @@
 									Grid.Column="1"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.Name,
+									Text="{Binding LogicalCompOpDef.Name,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -1115,7 +1115,7 @@
 									Grid.Column="3"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.OpCode,
+									Text="{Binding LogicalCompOpDef.OpCode,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -1134,7 +1134,7 @@
 									Grid.Column="5"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.OpCodeValue,
+									Text="{Binding LogicalCompOpDef.OpCodeValue,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -1811,7 +1811,7 @@
 									Grid.Column="1"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.Name,
+									Text="{Binding ValueCompOpDef.Name,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1829,7 +1829,7 @@
 									Grid.Column="3"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.OpCode,
+									Text="{Binding ValueCompOpDef.OpCode,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1848,7 +1848,7 @@
 									Grid.Column="5"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding ValueCompareOp.OpCodeValue,
+									Text="{Binding ValueCompOpDef.OpCodeValue,
 																 Mode=OneWay}"
 									Style="{StaticResource tbxTreeItemValue}"
 									>
@@ -1887,7 +1887,7 @@
 									Grid.Column="1"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.Name,
+									Text="{Binding LogicalCompOpDef.Name,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -1906,7 +1906,7 @@
 									Grid.Column="3"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.OpCode,
+									Text="{Binding LogicalCompOpDef.OpCode,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -1925,7 +1925,7 @@
 									Grid.Column="5"
 									Grid.Row="0"
 									DockPanel.Dock="Bottom"
-									Text="{Binding LogicalCompareOp.OpCodeValue,
+									Text="{Binding LogicalCompOpDef.OpCodeValue,
 																 Mode=OneWay,
 																 TargetNullValue='null'}"
 									Style="{StaticResource tbxTreeItemValue}"
@@ -2569,6 +2569,30 @@
 				</Rectangle.Style>
 			</Rectangle>
 
+			<Rectangle
+					Grid.Column="0"
+					Grid.Row="2"
+					Margin="25,1,0,0"
+					Width="20"
+					HorizontalAlignment="Left"
+			>
+				<Rectangle.Style>
+					<Style TargetType="Rectangle">
+						<Setter Property="Fill" Value="DimGray" />
+						<Style.Triggers>
+							<DataTrigger Value="true" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.ClassificationFile.IsModified}">
+								<Setter Property="Fill" Value="LawnGreen" />
+							</DataTrigger>
+
+							<DataTrigger Value="false" Binding="{Binding ElementName=MainWin, Path=MainWinSupport.ClassificationFile.IsModified}">
+								<Setter Property="Fill" Value="Red" />
+							</DataTrigger>
+
+						</Style.Triggers>
+					</Style>
+				</Rectangle.Style>
+			</Rectangle>
+
 
 			<!-- removed
 			<Rectangle
@@ -2785,11 +2809,26 @@
 					Style="{StaticResource tbxTreeItemValue}"
 					/>
 
-			<CheckBox
-					Content="Modify TreeNode"
+			<Button
+					x:Name="BtnClrNodeMod"
+					Width="15"
+					Height="15"
 					Grid.Column="5"
 					Grid.Row="2"
 					Margin="5,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="White"
+					Click="BtnClrNodeMod_OnClick"
+			/>
+
+			<CheckBox
+					Content="Mod Node"
+					Grid.Column="5"
+					Grid.Row="2"
+					Margin="30,0,0,0"
 					Padding="5,0,0,0"
 					VerticalAlignment="Center"
 					HorizontalContentAlignment="Left"
@@ -2886,14 +2925,27 @@
 					Style="{StaticResource tbxTreeItemValue}"
 					/>
 
-
-
-
-			<CheckBox
-					Content="Modify Child Item"
+			<Button
+					x:Name="BtnClrItemMod"
+					Width="15"
+					Height="15"
 					Grid.Column="5"
 					Grid.Row="3"
 					Margin="5,0,0,0"
+					Padding="5,0,0,0"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Left"
+					VerticalContentAlignment="Center"
+					Foreground="White"
+					Click="BtnClrItemMod_OnClick"
+			/>
+
+
+			<CheckBox
+					Content="Mod Item"
+					Grid.Column="5"
+					Grid.Row="3"
+					Margin="30,0,0,0"
 					Padding="5,0,0,0"
 					VerticalAlignment="Center"
 					HorizontalContentAlignment="Left"
@@ -4078,7 +4130,7 @@
 																	Grid.Column="1"
 																	Grid.Row="0"
 																	DockPanel.Dock="Bottom"
-																	Text="{Binding LogicalCompareOp.Name,
+																	Text="{Binding LogicalCompOpDef.Name,
 																								 Mode=OneWay,
 																								 TargetNullValue='null'}"
 																	Style="{StaticResource tbxTreeItemValue}"
@@ -4097,7 +4149,7 @@
 																	Grid.Column="3"
 																	Grid.Row="0"
 																	DockPanel.Dock="Bottom"
-																	Text="{Binding LogicalCompareOp.OpCode,
+																	Text="{Binding LogicalCompOpDef.OpCode,
 																								 Mode=OneWay,
 																								 TargetNullValue='null'}"
 																	Style="{StaticResource tbxTreeItemValue}"
@@ -4116,7 +4168,7 @@
 																	Grid.Column="5"
 																	Grid.Row="0"
 																	DockPanel.Dock="Bottom"
-																	Text="{Binding LogicalCompareOp.OpCodeValue,
+																	Text="{Binding LogicalCompOpDef.OpCodeValue,
 																								 Mode=OneWay,
 																								 TargetNullValue='null'}"
 																	Style="{StaticResource tbxTreeItemValue}"

@@ -1,4 +1,6 @@
 ﻿#region using
+
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -6,15 +8,19 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Windows.Data;
+using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.MergeSupport;
-using AndyShared.Support;
 using JetBrains.Annotations;
-
+using UtilityLibrary;
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp;
 using  static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
+using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
+using static AndyShared.ClassificationDataSupport.SheetSupport.ItemClassDef;
+
 #endregion
 
 // ReSharper disable CommentTypo
@@ -64,20 +70,69 @@ using  static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
 */
 // ReSharper restore CommentTypo
 
-namespace AndyShared.ClassificationDataSupport.TreeSupport
+
+namespace  AndyShared.ClassificationDataSupport.SheetSupport
 {
+	// messages between notes and between node items
+	public enum INTERNODE_MESSAGES
+	{
+		// item / item-comp op messages
+		IM_COMP_OPS_MODIFIED        = -3,
+		IM_CLEAR_ITEM_MODIFICATION  = -2,
+		IM_PARENT_FIXED_CHANGED     = -1,
+
+		// both messages		    
+		IM_IS_MODIFIED              = 0,
+
+		// node messages		    
+		IM_CLEAR_NODE_MODIFICATION  = 1,
+		IM_EXPAND_ALL               = 2,
+		IM_COLLAPSE_ALL             = 3,
+	}
+
+	public enum Item_Class
+	{
+		// IC_UNASSIGNED = 0,
+		IC_BOOKMARK = 1,
+		IC_COMPONENT = 2
+	}
+
+	[DataContract(Namespace = "")]
+	public class ItemClassDef : ACompareOp<Item_Class>
+	{
+		public ItemClassDef() { }
+		public ItemClassDef(string name, Item_Class op) : base(name, op) { }
+
+		public override string Name { get; protected set; }
+		public override Item_Class OpCode { get; set; }
+
+		public override object Clone()
+		{
+			return new ItemClassDef(Name, OpCode);
+		}
+
+		public static Dictionary<int, ItemClassDef> ItemClassDefs { get; private set; }
+
+		static ItemClassDef()
+		{
+			init();
+		}
+
+		public static void init()
+		{
+			ItemClassDefs = new Dictionary<int, ItemClassDef>();
+
+			// ItemClassDefs.Add(new ItemClassDef("unassigned", Item_Class.IC_UNASSIGNED));
+			ItemClassDefs.Add((int) Item_Class.IC_BOOKMARK, new ItemClassDef("Bookmark Item", Item_Class.IC_BOOKMARK));
+			ItemClassDefs.Add((int) Item_Class.IC_COMPONENT,
+				new ItemClassDef("Component Item", Item_Class.IC_COMPONENT));
+		}
+	}
 
 	[DataContract(Name = "SheetCategoryDescription", Namespace = "", IsReference = true)]
 	[SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
-	public class SheetCategory : INotifyPropertyChanged, ITreeNodeItem
+	public class SheetCategory : INotifyPropertyChanged //, ITreeNodeItem
 	{
-		public enum ITEM_CHANGE
-		{
-			IC_COMP_OPS_MODIFIED,
-			IC_IS_MODIFIED,
-			IC_CLEAR_MODIFICATION
-		}
-
 	#region private fields
 
 		// static fields
@@ -94,6 +149,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// final PDF set
 		private ObservableCollection<MergeItem> mergeItems;
 
+		private ListCollectionView mergeItemsView;
+
 		private bool isInitialized;
 		private bool shtCatModified;
 		private bool isLocked;
@@ -106,6 +163,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		private bool childCompOpModified;
 		private ComparisonOperation compOpSelected;
 		private int compOpSelectedIdx;
+		private bool needsSaving;
+
+		private Item_Class itemClass;
+
+		private string sortCode;
+		private bool isMatched;
+		private bool isModified;
 
 	#endregion
 
@@ -113,10 +177,12 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public SheetCategory(string title, string description)
 		{
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ctor");
+			// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ctor");
 
 			this.title = title;
 			this.description = description;
+			this.itemClass = Item_Class.IC_BOOKMARK;
+			this.sortCode = "MM";
 
 			CompareOps = new ObservableCollection<ComparisonOperation>();
 
@@ -125,17 +191,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private void OnCreated()
 		{
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ oncreated");
-
 			compareOps.CollectionChanged += CompareOpsOnCollectionChanged;
-			
-			// listen to parent, initialize
-			// Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
-			//
-			// // listen to parent, changes have been saved
-			// Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
-			//
-			// onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			mergeItems = new ObservableCollection<MergeItem>();
 
@@ -145,14 +201,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				compOp.IsInitialized = true;
 			}
 
-			// isInitialized = true;
-
-			// foreach (ComparisonOperation cop in compareOps)
-			// {
-			// 	cop.ComparisonOpChanged += CopOnPropertyChanged;
-			// }
-
 			ID = ClassificationFile.M_IDX++.ToString("X");
+
+			if (ItemClass == 0) itemClass = Item_Class.IC_BOOKMARK;
+
+			if (sortCode.IsVoid()) sortCode = "MM";
+
+			UpdateInternalProperties();
 		}
 
 		[OnDeserialized]
@@ -163,13 +218,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// private void CopOnPropertyChanged(object sender, string memberName)
 		// {
-		// 	RaiseCompOpChangedEvent(ITEM_CHANGE.SCC_COMP_OPS_MODIFIED);
+		// 	RaiseCompOpChangedEvent(INTERNODE_MESSAGES.SCC_COMP_OPS_MODIFIED);
 		// }
-
 
 	#endregion
 
 	#region public properties
+
+		/* data members*/
 
 		[IgnoreDataMember]
 		public string ID { get; set; }
@@ -183,7 +239,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(title) ?? false) return;
 
-				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ title| changed");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ title| changed");
 				title = value;
 				OnPropertyChanged();
 
@@ -206,7 +262,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(description) ?? false) return;
 
-				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ description| changed");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ description| changed");
 				description = value;
 				OnPropertyChanged();
 
@@ -217,6 +273,40 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 // track changes: yes
 		[DataMember(Order = 3)]
+		public Item_Class ItemClass
+		{
+			get => itemClass;
+			set
+			{
+				if (value == itemClass) return;
+				itemClass = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(ItemClassName));
+				OnPropertyChanged(nameof(ItemClassIndex));
+
+				// tracking
+				if (isInitialized) ShtCatModified = true;
+			}
+		}
+
+// track changes: yes
+		[DataMember(Order = 5)]
+		public string SortCode
+		{
+			get => sortCode;
+			set
+			{
+				if (value == sortCode) return;
+				sortCode = value;
+				OnPropertyChanged();
+
+				// tracking
+				if (isInitialized) ShtCatModified = true;
+			}
+		}
+
+// track changes: yes
+		[DataMember(Order = 10)]
 		public TreeNode Parent
 		{
 			get => parent;
@@ -228,11 +318,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				// tracking
 				if (isInitialized) ShtCatModified = true;
+
+				UpdateInternalProperties();
 			}
 		}
 
 		// track changes: yes (but indirect)
-		[DataMember(Order = 10)]
+		[DataMember(Order = 15)]
 		public ObservableCollection<ComparisonOperation> CompareOps
 		{
 			get => compareOps;
@@ -240,12 +332,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value?.Equals(compareOps) ?? false) return;
 
-				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ CompareOps| changed");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ CompareOps| changed");
 				compareOps = value;
 				OnPropertyChanged();
 				if (isInitialized) ShtCatModified = true;
 			}
 		}
+
+
+		/* non-data members*/
 
 		// track changes: no
 		[IgnoreDataMember]
@@ -255,8 +350,17 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			set
 			{
 				mergeItems = value;
+
+				OnPropertyChanged();
 			}
 		}
+
+		// [IgnoreDataMember]
+		// public ListCollectionView MergeItemsView
+		// {
+		// 	get => mergeItemsView;
+		// 	set => mergeItemsView = value;
+		// }
 
 		// track changes: no
 		[IgnoreDataMember]
@@ -278,7 +382,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 				depth = value;
 
-				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ depth| changed");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ depth| changed");
 
 				// Cs++;
 
@@ -298,7 +402,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string ComponentName
 		{
 			// get => SheetNumberComponentTitles[Depth].Name ?? ""; 
-			get => FileNameSheetIdentifiers.SheetNumComponentData[Depth*2].Name ?? ""; 
+			get => FileNameSheetIdentifiers.SheetNumComponentData[Depth * 2].Name ?? "";
 		}
 
 		[IgnoreDataMember]
@@ -325,7 +429,6 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-
 		// status / settings
 
 		// track changes: no
@@ -334,7 +437,104 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public int MergeItemLockIdx { get; set; }
 
+		[IgnoreDataMember]
+		public string ItemClassName => ItemClassDef.ItemClassDefs[(int) ItemClass].Name;
 
+		[IgnoreDataMember]
+		public int ItemClassIndex
+		{
+			get => (int) itemClass;
+			set => ItemClass = (Item_Class) (value);
+		}
+
+		/* status & settings*/
+
+		/* data members*/
+
+// track changes: yes
+
+
+		/// <summary>
+		/// means this is item is a fixed node and cannot be<br/>
+		/// deleted but may be locked (but not by the user)<br/>
+		/// for this to happen, the XML file would have to be<br/>
+		/// manually edited
+		/// </summary>
+		[DataMember(Order = 4)]
+		public bool IsFixed
+		{
+			get => isFixed;
+			set
+			{
+				if (value == isFixed) return;
+
+				isFixed = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(CannotSelect));
+
+				// tracking
+				if (isInitialized)
+				{
+					ShtCatModified = true;
+					notifyParentOfItemChange(INTERNODE_MESSAGES.IM_PARENT_FIXED_CHANGED);
+				}
+			}
+		}
+
+// track changes: yes
+		/// <summary>
+		/// locked node cannot be changed - deleted or modified<br/>
+		/// but could be fixed.  However, a fixed and locked node<br/>
+		/// has limited value. for this to happen, the XML file would<br/>
+		/// have to be manually edited
+		/// </summary>
+		[DataMember(Order = 5)]
+		public bool IsLocked
+		{
+			get => isLocked;
+			set
+			{
+				if (value == isLocked) return;
+
+				isLocked = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(CannotSelect));
+
+				// tracking
+				if (isInitialized) ShtCatModified = true;
+			}
+		}
+
+		/* non-data members*/
+
+		[IgnoreDataMember]
+		public bool IsParentExCannotSelect => IsExParent(2);
+
+		[IgnoreDataMember]
+		public bool IsParentExLocked => IsExParent(0);
+
+		[IgnoreDataMember]
+		public bool IsParentExFixed
+		{
+			get
+			{
+				string name = title;
+
+				bool result = IsExParent(1);
+
+				return result;
+			}
+		}
+		
+		// public bool PopupIsOpen
+		// {
+		// 	get => popupIsOpen;
+		// 	set
+		// 	{
+		// 		popupIsOpen = value;
+		// 		OnPropertyChanged();
+		// 	}
+		// }
 
 		// track changes: no
 		[IgnoreDataMember]
@@ -350,63 +550,35 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-// track changes: yes
-		/// <summary>
-		/// means this is item is a fixed node and cannot be<br/>
-		/// deleted but may be locked (but not by the user)<br/>
-		/// for this to happen, the XML file would have to be<br/>
-		/// manually edited
-		/// </summary>
-		[DataMember(Order = 4)]
-		public bool IsFixed
+		[IgnoreDataMember]
+		public bool IsMatched
 		{
-			get => isFixed;
-
+			get => isMatched;
 			set
 			{
-				if (value == isFixed) return;
-
-				isFixed = value;
+				if (value == isMatched) return;
+				isMatched = value;
 				OnPropertyChanged();
-				
-				// tracking
-				if (isInitialized) ShtCatModified = true;
 			}
 		}
 
-// track changes: yes
-		/// <summary>
-		/// locked node cannot be changed - deleted or modified<br/>
-		/// but could be fixed.  However, a fixed and locked node<br/>
-		/// has limited value. for this to happen, the XML file would<br/>
-		/// have to be manually edited
-		/// </summary>
-		[DataMember(Order = 5)]
-		public bool IsLocked
+		[IgnoreDataMember]
+		public bool IsModified
 		{
-			get => isLocked;
-
+			get => isModified;
 			set
 			{
-				if (value == isLocked) return;
-
-				isLocked = value;
+				if (value == isModified) return;
+				isModified = value;
 				OnPropertyChanged();
-
-				// tracking
-				if (isInitialized) ShtCatModified = true;
 			}
 		}
 
 		// track changes: no
 		[IgnoreDataMember]
-		public bool CanSelect
-		{
-			get => isFixed || isLocked; 
-			set { }
-		}
+		public bool HasMergeItems => MergeItemCount > 0;
 
-// track changes: yes
+// track changes: no
 		[IgnoreDataMember]
 		public bool IsVisible
 		{
@@ -418,13 +590,20 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				OnPropertyChanged();
 
 				// tracking
-				if (isInitialized) ShtCatModified = true;
+				// if (isInitialized) ShtCatModified = true;
 			}
 		}
 
 		// track changes: no
 		[IgnoreDataMember]
-		public bool HasMergeItems => MergeItemCount > 0;
+		public bool CannotSelect
+		{
+			get => isFixed || isLocked;
+			set { }
+		}
+
+		[IgnoreDataMember]
+		public bool NeedsSaving => ShtCatModified || ChildCompOpModified;
 
 		// inter object communications - status only
 		// that is, this ONLY holds the modification status
@@ -441,25 +620,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (!isInitialized) return;
 
-				// if (Common.SHOW_DEBUG_MESSAGE1)
-				// 	Debug.WriteLine("@ sheetcat|@ ismodified| changed| value| " 
-				// 	+ value + "| ismodified| " + shtCatModified + " | who| " + this.ToString());
-
 				if (value == shtCatModified) return;
 
 				shtCatModified = value;
 				OnPropertyChanged();
+				OnPropertyChanged(nameof(NeedsSaving));
+				Parent.UpdateProperties();
 
-				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ sheetcat|@ ismodified| changed| isinitialized| " + isInitialized);
-
-				// if (isInitialized)
-				// {
-				// 	onModifiedAnnouncer.Announce(true);
-				//
-				// 	// RaiseCompOpChangedEvent(ITEM_CHANGE.IC_IS_MODIFIED);
-				// }
-
-				if (value) notifyParentOfItemChange(ITEM_CHANGE.IC_IS_MODIFIED);
+				if (value) notifyParentOfItemChange(INTERNODE_MESSAGES.IM_IS_MODIFIED);
 			}
 		}
 
@@ -475,9 +643,13 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				if (value == childCompOpModified) return;
 				childCompOpModified = value;
 				OnPropertyChanged();
+				OnPropertyChanged(nameof(NeedsSaving));
+
+				Parent.UpdateProperties();
 			}
 		}
 
+	#if Test4
 		// track changes: n/a
 		[IgnoreDataMember]
 		public bool ModifyShtCat
@@ -487,13 +659,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				if (value == modifyShtCat) return;
 
-				Debug.WriteLine($"\n******* {nameof(ModifyShtCat)} *** set to {value} *********");
+				// Debug.WriteLine($"\n******* {nameof(ModifyShtCat)} *** set to {value} *********");
 				modifyShtCat = value;
 				OnPropertyChanged();
 
-				if (value) notifyParentOfItemChange(ITEM_CHANGE.IC_IS_MODIFIED);
+				if (value) notifyParentOfItemChange(INTERNODE_MESSAGES.IM_IS_MODIFIED);
 			}
 		}
+
+	#endif
 
 	#endregion
 
@@ -503,48 +677,51 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region public methods
 
-		public void ItemChangeFromParentNode(ITEM_CHANGE change)
+		public void GetChangeFromParent(INTERNODE_MESSAGES modification)
 		{
-			Debug.Write($"{Title,-26}|{nameof(ItemChangeFromParentNode),-30} | proceed? | ");
+			// Debug.Write($"{Title,-26}|{nameof(GetChangeFromParent),-30} | proceed? | ");
 
-			if (change == ITEM_CHANGE.IC_CLEAR_MODIFICATION)
+			if (modification == INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION)
 			{
 				shtCatModified = false;
-				OnPropertyChanged(nameof(ShtCatModified));
+
+				// OnPropertyChanged(nameof(ShtCatModified));
+				// OnPropertyChanged(nameof(NeedsSaving));
 
 				// temp info
 				modifyShtCat = false;
+
+			#if Test4
 				OnPropertyChanged(nameof(ModifyShtCat));
+
+			#endif
 
 				if (!childCompOpModified)
 				{
-					Debug.WriteLine("nope - STOP here (no child changes)");
+					// Debug.WriteLine("nope - STOP here (no child changes)");
 					return;
 				}
 
-				Debug.WriteLine("yep - continue (got child changes))");
+				// Debug.WriteLine("yep - continue (got child changes))");
 
-				childCompOpModified = false;
-				OnPropertyChanged(nameof(ChildCompOpModified));
-
+				ChildCompOpModified = false;
 			}
 			else
 			{
-				Debug.WriteLine("nope - STOP here (unknown ITEM_CHANGE)");
+				// Debug.WriteLine("nope - STOP here (unknown INTERNODE_MESSAGES)");
 				return;
 			}
 
-			notifyChildCompOpsOfChange(change);
+			notifyChildCompOpsOfChange(modification);
 		}
 
-		public void CompOpChangeFromChild(ITEM_CHANGE change)
+		public void CompOpChangeFromChild(INTERNODE_MESSAGES modification)
 		{
-			Debug.WriteLine($"{Title,-26}|{$"CompOpChangeFromChild",-30} | {change}");
-			childCompOpModified = true;
-			OnPropertyChanged(nameof(ChildCompOpModified));
-			
-			notifyParentOfItemChange(change);
+			OnPropertyChanged(nameof(ShtCatModified));
 
+			ChildCompOpModified = true;
+
+			notifyParentOfItemChange(modification);
 		}
 
 		// ReSharper disable once UnusedMember.Global
@@ -558,11 +735,18 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return -1;
 		}
 
+		public void UpdateInternalProperties()
+		{
+			OnPropertyChanged(nameof(IsParentExCannotSelect));
+			OnPropertyChanged(nameof(IsParentExFixed));
+			OnPropertyChanged(nameof(IsParentExLocked));
+			OnPropertyChanged(nameof(CannotSelect));
+		}
+
 		public void UpdateProperties()
 		{
 			OnPropertyChanged("Title");
 			OnPropertyChanged("Description");
-			OnPropertyChanged("Pattern");
 		}
 
 		public void UpdateMergeProperties()
@@ -571,26 +755,29 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			OnPropertyChanged("MergeItemCount");
 		}
 
-		public static SheetCategory TempSheetCategory(int depth = 0)
+		public static SheetCategory TempSheetCategory(int depth = 0, int compIdx = 0 )
 		{
 			// keep description null
-			SheetCategory temp = new SheetCategory($"{tempIdx:D3} New Node Title", null);
+			SheetCategory temp = new SheetCategory($"{tempIdx++:D3} New Node Title", null);
 
 			temp.depth = depth;
 
-			temp.CompareOps.Add(new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "1", temp.depth));
+			ComparisonOp tempCo = (new ComparisonOp(LOGICAL_NO_OP, EQUALTO, "1", temp.depth));
+			tempCo.CompareComponentIndex = compIdx + 1;
+
+			// temp.CompareOps.Add(new ComparisonOp(LOGICAL_NO_OP, EQUALTO, "1", temp.depth));
+			temp.CompareOps.Add(tempCo);
 
 			return temp;
 		}
 
 		public void AddPrelimCompOp()
 		{
-			ValueCompOp vco = ComparisonOperation.CreateInitialCompOp(this);
+			ComparisonOp vco = ComparisonOperation.CreateInitialCompOp(this);
 
 			compareOps.Add(vco);
 
 			OnPropertyChanged(nameof(CompareOps));
-			
 		}
 
 		public void RemoveCompOpAt(int idx)
@@ -619,29 +806,103 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			return true;
 		}
 
+		public bool IsExParent(int which)
+		{
+			if (which == 0) return IsParentLocked();
+			if (which == 1) return IsParentFixed();
+			if (which == 2) return IsParentCannotSelect();
+
+			return false;
+		}
+
+		/* removed
+		public void ConfigMergeItems()
+		{
+			
+			mergeItems = new ObservableCollection<MergeItem>();
+
+			mergeItemsView = CollectionViewSource.GetDefaultView(mergeItems) as ListCollectionView;
+				
+			mergeItemsView.SortDescriptions.Add(
+				new SortDescription(nameof(MergeItem.SheetNumber), ListSortDirection.Ascending));
+		}*/
+
 	#endregion
 
 	#region private methods
 
-		private void notifyParentOfItemChange(ITEM_CHANGE change)
+		private void notifyParentOfItemChange(INTERNODE_MESSAGES modification)
 		{
-			Debug.WriteLine($"{Title,-26}|{nameof(notifyParentOfItemChange),-30} | {change}");
+			// Debug.WriteLine($"{Title,-26}|{nameof(notifyParentOfItemChange),-30} | {modification}");
 
 			if (parent == null) return;
 
 			shtCatModified = true;
 			OnPropertyChanged(nameof(ShtCatModified));
-			parent.ItemChangeFromChild(this, change);
+			OnPropertyChanged(nameof(NeedsSaving));
+
+			parent.ItemChangeFromChild(this, modification);
 		}
 
-		private void notifyChildCompOpsOfChange(ITEM_CHANGE change)
+		private void notifyChildCompOpsOfChange(INTERNODE_MESSAGES modification)
 		{
 			CompOpSelectedIdx = -1;
 
 			foreach (ComparisonOperation compOp in compareOps)
 			{
-				compOp.ClearCompOpModified(change);
+				compOp.ClearCompOpModified(modification);
 			}
+		}
+
+		private bool IsParentLocked()
+		{
+			TreeNode testParent = this.parent.Parent;
+
+			for (int i = depth - 1; i >= 1 ; i--)
+			{
+				if (testParent.Item.IsLocked) return true;
+
+				testParent = testParent.Parent;
+			}
+
+			return false;
+		}
+
+		private bool IsParentFixed()
+		{
+			TreeNode testParent = this.parent.Parent;
+
+			for (int i = depth - 1; i >= 1 ; i--)
+			{
+				if (testParent.Item.IsFixed) return true;
+
+				testParent = testParent.Parent;
+			}
+
+			return false;
+		}
+
+		private bool IsParentCannotSelect()
+		{
+			// TreeNode firstParent = this.parent.Parent;
+			// TreeNode lastParent;
+
+			TreeNode testParent = this.parent.Parent;
+
+			// Debug.WriteLine($"\nstart test parent = {testParent.Item.Title} | depth={depth} vs ({testParent.Depth})");
+
+			for (int i = depth - 1; i >= 1 ; i--)
+			{
+				if (testParent.CannotSelect) return true;
+
+				testParent = testParent.Parent;
+
+				// Debug.WriteLine($"next  test parent = {testParent.Item.Title}");
+
+				// lastParent = testParent;
+			}
+
+			return false;
 		}
 
 	#endregion
@@ -680,14 +941,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		protected void OnPropertyChanged([CallerMemberName] string memberName = "") =>
 			PropertyChanged?.Invoke(this,  new PropertyChangedEventArgs(memberName));
 
-		
-		// public delegate void CompOpChangedEventHandler(object sender, ITEM_CHANGE change);
+
+		// public delegate void CompOpChangedEventHandler(object sender, INTERNODE_MESSAGES modification);
 		//
 		// public event SheetCategory.CompOpChangedEventHandler CompOpChanged;
 		//
-		// protected virtual void RaiseCompOpChangedEvent(ITEM_CHANGE change)
+		// protected virtual void RaiseCompOpChangedEvent(INTERNODE_MESSAGES modification)
 		// {
-		// 	CompOpChanged?.Invoke(this, change);
+		// 	CompOpChanged?.Invoke(this, modification);
 		// }
 
 	#endregion
@@ -696,12 +957,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public SheetCategory Clone(TreeNode parent)
 		{
-			copyIdx++;
-
-			string t = title + $" (copy {copyIdx})";
-			string d = description + $" (copy {copyIdx})";
-
-			SheetCategory clone = new SheetCategory(t, d) {depth = depth };
+			// SheetCategory clone = new SheetCategory($"{title} (copy {copyIdx++})", description) { depth = depth };
+			SheetCategory clone = new SheetCategory(title, description) { depth = depth };
 			ComparisonOperation copy;
 
 			foreach (ComparisonOperation compOp in compareOps)
@@ -716,15 +973,23 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			{
 				clone.mergeItems.Add((MergeItem) mergeItem.Clone());
 			}
+
+			clone.itemClass = itemClass;
+			clone.sortCode = sortCode;
 			clone.isFixed = isFixed;
 			clone.isLocked = isLocked;
 			clone.isVisible = isVisible;
+			clone.childCompOpModified = false;
+			clone.shtCatModified = false;
+
+			clone.parent = parent;
 
 			clone.childCompOpModified = false;
 			clone.shtCatModified = false;
 
-			clone.isInitialized=true;
-			clone.parent = parent;
+			clone.isInitialized = true;
+
+			UpdateInternalProperties();
 
 			return clone;
 		}
@@ -733,15 +998,16 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		{
 			copyIdx++;
 
-			string t = title + $" (copy {copyIdx})";
-			string d = description + $" (copy {copyIdx})";
+			// string t = title + $" (copy {copyIdx})";
+			// string d = description + $" (copy {copyIdx})";
 
-			SheetCategory clone = new SheetCategory(t, d) {depth = depth };
+			// SheetCategory clone = new SheetCategory($"{title} (copy {copyIdx++})", description) { depth = depth };
+			SheetCategory clone = new SheetCategory(title, description) { depth = depth };
 			ComparisonOperation copy;
 
 			foreach (ComparisonOperation compOp in compareOps)
 			{
-				copy = (ValueCompOp) compOp.Clone();
+				copy = (ComparisonOp) compOp.Clone();
 				copy.IsInitialized = false;
 				copy.Parent = clone;
 				copy.IsInitialized = true;
@@ -756,23 +1022,34 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				clone.mergeItems.Add((MergeItem) mergeItem.Clone());
 			}
 
+			clone.itemClass = itemClass;
+			clone.sortCode = sortCode;
 			clone.isFixed = isFixed;
 			clone.isLocked = isLocked;
 			clone.isVisible = isVisible;
 			clone.shtCatModified = false;
-			clone.childCompOpModified = false;
+
 
 			// the clone is parentless - until added into the collection, 
 			// the parent field does not make sense
 			clone.parent = null;
 			clone.childCompOpModified = false;
 			clone.shtCatModified = false;
-			clone.isInitialized=false;
+			clone.isInitialized = false;
+
+			UpdateInternalProperties();
 
 			return clone;
 		}
 
-		public void MergeCompOps(SheetCategory newShtCat)
+		public void Merge(SheetCategory updatedShtCat)
+		{
+			if (updatedShtCat.ShtCatModified) merge(updatedShtCat);
+
+			if (updatedShtCat.ChildCompOpModified) mergeCompOps(updatedShtCat.CompareOps);
+		}
+
+		private void mergeCompOps(ObservableCollection<ComparisonOperation> newCompOps)
 		{
 			// 4 cases:
 			// 1: both lists are the same size
@@ -782,55 +1059,65 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			//		* add new items
 			// 4: new compop count is 0 - this is an error - return
 
-			if (newShtCat.CompOpCount < 1) return;
+			if (newCompOps.Count < 1) return;
 
-			if (CompareOps.Count == newShtCat.CompOpCount)
+			if (CompareOps.Count == newCompOps.Count)
 			{
-				mergeCompOps(0, CompareOps.Count, newShtCat);
+				mergeCompOps(0, CompareOps.Count, newCompOps);
 			}
-			else
-			if (CompareOps.Count > newShtCat.CompOpCount)
+			else if (CompareOps.Count > newCompOps.Count)
 			{
 				// delete some
 				// copy from 0 to end1
 				// remove from end1 to end 3
 
-				mergeCompOps(0, newShtCat.CompOpCount, newShtCat);
-				removeCompOps(newShtCat.CompOpCount, CompareOps.Count);
-
+				mergeCompOps(0, newCompOps.Count, newCompOps);
+				removeCompOps(newCompOps.Count, CompareOps.Count);
 			}
-			else
-			if (CompareOps.Count < newShtCat.CompOpCount)
+			else if (CompareOps.Count < newCompOps.Count)
 			{
 				// add some
 				// copy from 0 to end1
 				// add from end1 to end 2
 
-				mergeCompOps(0, CompareOps.Count, newShtCat);
-				addCompOps(CompareOps.Count, newShtCat.CompOpCount, newShtCat);
+				mergeCompOps(0, CompareOps.Count, newCompOps);
+				addCompOps(CompareOps.Count, newCompOps.Count, newCompOps);
 			}
 
 			OnPropertyChanged(nameof(CompareOps));
 		}
 
-		private void mergeCompOps(int start, int end, SheetCategory newShtCat)
+		private void merge(SheetCategory updatedShtCat)
+		{
+			Title = updatedShtCat.Title;
+			Description = updatedShtCat.Description;
+			ShtCatModified = true;
+			ItemClass = updatedShtCat.itemClass;
+
+			SortCode = updatedShtCat.sortCode;
+
+			IsFixed = updatedShtCat.isFixed;
+			IsLocked = updatedShtCat.isLocked;
+		}
+
+		private void mergeCompOps(int start, int end, ObservableCollection<ComparisonOperation> newCompOps)
 		{
 			for (int i = start; i < end; i++)
 			{
-				if (!newShtCat.CompareOps[i].CompOpModified) continue;
+				if (!newCompOps[i].CompOpModified) continue;
 
-				CompareOps[i].Merge(this, newShtCat.CompareOps[i]);
+				CompareOps[i].Merge(this, newCompOps[i]);
 			}
 		}
 
-		private void addCompOps(int start, int end, SheetCategory newShtCat)
+		private void addCompOps(int start, int end, ObservableCollection<ComparisonOperation> newCompOps)
 		{
 			for (int i = start; i < end; i++)
 			{
-				newShtCat.CompareOps[i].CompOpModified = false;
-				newShtCat.CompareOps[i].Parent = this;
+				newCompOps[i].CompOpModified = false;
+				newCompOps[i].Parent = this;
 
-				CompareOps.Add(newShtCat.CompareOps[i]);
+				CompareOps.Add(newCompOps[i]);
 			}
 
 			if (start != end) ChildCompOpModified = true;
@@ -846,7 +1133,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			if (start != end) ChildCompOpModified = true;
 		}
 
-		public override string ToString() => "this is SheetCategory| " + title;
+		public override string ToString() => $"SheetCategory| {ID,-5} | {title}";
 
 	#endregion
 	}

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -124,7 +125,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 				@"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?=[ -][^0-9])))?)[ -]?(?<SheetId>(?<Discipline>(?>";
 				// @"^(?<SheetNum>(?<PhBldgid>(?>(?:[0-9]{0,3}[A-Z]{0,3}(?= [^0-9])))?) ?(?<SheetId>(?<Discipline>(?>";
 			string patternSuffix =
-				@"[A-Z]{0,3}(?=[\-\. 0-9]|$)))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>(?>\w*?(?=[\-\.]|$))*)(?<sep3>[\-\.]?)(?<SubModifier>(?>\w*?(?=[\-\.]|$))*)(?<sep4>[\-\.]?)(?<Identifier>(?>\w*?(?=[\-\.]|$))*)(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)))(?>\s-\s(?<SheetTitle>.*))*";
+				@"[a-zA-Z]{0,3}(?=[\-\. 0-9]|$)))(?<sep0>[\-\. ]?)(?<Category>\w*)(?<sep1>[\-\.]?)(?<SubCategory>\w*)(?<sep2>[\-\.]?)(?<Modifier>(?>\w*?(?=[\-\.]|$))*)(?<sep3>[\-\.]?)(?<SubModifier>(?>\w*?(?=[\-\.]|$))*)(?<sep4>[\-\.]?)(?<Identifier>(?>\w*?(?=[\-\.]|$))*)(?<sep5>[\-\.]?)(?<SubIdentifier>\w*)))(?>\s-\s(?<SheetTitle>.*))*";
 
 			PdfFileNamePattern = $"{patternPrefix}{SpecialDisciplines}{patternSuffix}";
 
@@ -152,12 +153,16 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		{
 			shtNumber = "";
 			shtTitle = "";
+			string[] parts;
 
 			if (file == null) return false;
 
-			string[] parts = file.FileNameNoExt.Split(new [] { " - " }, 2, StringSplitOptions.None);
+			parts = file.FileNameNoExt.Split(new [] {" - " }, 2, StringSplitOptions.None);
 
-			// if (parts.Length != 2 ) return false;
+			int c = parts.Length;
+
+
+			if (parts.Length != 2 ) return false;
 
 			shtNumber = parts[0];
 			shtTitle = parts[1];

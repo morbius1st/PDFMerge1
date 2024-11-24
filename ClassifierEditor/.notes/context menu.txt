@@ -1,0 +1,293 @@
+﻿
+notes:
+    all menu items 1 through 9
+    > initial visibility is visible
+    > initial enable is enabled
+    > use the same trigger for all paths:
+        > enable per associated menu item
+        > foreground is lawngreen when enabled and dimgray when disabled (via trigger)
+
+
+menu type 1:
+
+    expand / collapse
+
+    right click notes:
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+
+    > disable when cannot expand / collapse (child count == 0)
+
+    > change to collapse when item is expanded
+
+
+
+menu type 2:
+
+    add before
+    add after
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > OK at fixed or locked
+
+
+
+menu type 3:
+
+    add child
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+
+
+menu type 4:
+
+    move before (moveOp = 1)
+    move after (moveOp = 2)
+    move as child (moveOp = 3)
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+    > highlight as start move
+
+
+menu type 5:
+    not used
+
+
+menu type 6:
+
+    duplicate
+    duplicate as child
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+
+
+menu type 7:
+
+    duplicate branch
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+    > disable menu item when not a branch
+
+
+
+
+menu type 8:
+
+    delete
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > NOT ok at fixed or locked
+    > disable menu item at fixed or locked
+
+
+menu type 9:
+    
+    separator
+
+    right click notes:
+    > collapse if ContextNodeSource != null
+    > n/a
+
+
+
+menu type 10:
+
+    apply ...
+
+    right click notes:
+    > default is enabled
+    > initial - collapsed
+    > visible if ContextNodeSource != null
+
+    > see move study below
+
+    > adjust heading to match move type
+
+
+menu type 11:
+
+    cancel ... 
+
+    always available when move is active
+
+move study
+
+                    1.0  root node
+                        
+                +---F->  2.1 child > ------------+
+                |                                |
+                | +-E->  2.2 child > ------+     |
+                | |                        |     |
+                | |          3.1 child <-B-+ <-A-+
+                | |                               
+                | |  +---D-> 3.2 child > ------+
+                | |  |                         |
+                | |  | +-H-> 3.3 child         |
+                | |  | |                       |
+                +-+--+-+------ < 4.1 child     |
+                                               |
+                                 4.2 child <-C-+
+
+                                 4.3 child > --+
+                                               |
+                                 4.4 child     |
+                                               |
+                                 4.5 child     |
+                                               |
+                                 4.6 child <-G-+
+
+
+move G
+  from 4.3 to after 4.6
+  4.3 is the source
+  4.6 is the target
+
+  moving
+   > target (4.5) is NOT the same as the source (4.3)  (true)
+   > target (4.5) is NOT a child of source (4.3)       (true)
+   > move IS ok
+
+  highlighting / enableing
+  > when source (4.3) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (4.3) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+    context nodes tests
+        4.2 (not child of 4.3) - (before - highlight) (after - highlight) (child - highlight)
+        3.3 (not child of 4.3) - (before - highlight) (after - highlight) (child - highlight)
+
+
+move A
+  from 2.1 to after 3.1
+  2.1 is the source
+  3.1 is the target
+
+  moving
+  > target (3.1) is NOT the same as the source (2.1)  (true)
+  > target (3.1) is NOT a child of source (2.1)       (true)
+  > move IS ok
+
+  highlighting / enableing
+  > when source (2.1) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (2.1) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+      context nodes tests
+        1.0 - (not child of 2.1) - (before - highlight) (after - highlight) (child - highlight)
+        2.2 - (not child of 2.1) - (before - highlight) (after - highlight) (child - highlight)
+        3.3 - (not child of 2.1) - (before - highlight) (after - highlight) (child - highlight)
+
+
+move B
+  from 2.2 to after 3.1
+  2.2 is the source
+  3.1 is the target
+
+  moving
+  > target (3.1) is NOT the same as the source (2.2)  (true)
+  > target (3.1) IS a child of source (2.2)           (false)
+  > move is NOT ok
+
+  highlighting / enableing
+  > when source (2.2) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (2.2) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+      context nodes tests
+        1.0 - (not child of 2.2) - (before - highlight) (after - highlight) (child - highlight)
+        2.1 - (not child of 2.2) - (before - highlight) (after - highlight) (child - highlight)
+        3.3 - (is child of 2.2) - (before - disable) (after - disable) (child - disable)
+
+
+move C
+  from 3.2 to after 4.2
+  3.2 is the source
+  4.2 is the target
+
+  moving
+  > target (4.2) is NOT the same as the source (3.2)  (true)
+  > target (4.2) IS a child of source (3.2)           (false)
+  > move is NOT ok
+
+  highlighting / enableing
+  > when source (3.2) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (3.2) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+
+
+move D
+  from 4.1 to after 3.2
+  4.1 is the source
+  3.2 is the target
+
+  moving
+  > target (3.2) is NOT the same as the source (4.1)  (true)
+  > target (3.2) is NOT a child of source (4.1)       (true)
+  > move IS ok
+
+  highlighting / enableing
+  > when source (4.1) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (4.1) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+      context nodes tests
+        1.0 - (not child of 4.1) - (before - highlight) (after - highlight) (child - highlight)
+        4.2 - (not child of 4.1) - (before - highlight) (after - highlight) (child - highlight)
+
+
+move E
+  from 4.1 to after 2.2
+  4.1 is the source
+  2.2 is the target
+
+  moving
+  > target (2.2) is NOT the same as the source (4.1)  (true)
+  > target (2.2) is NOT a child of source (4.1)       (true)
+  > move IS ok
+
+  highlighting / enableing
+  > when source (4.1) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (4.1) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+
+
+move F
+  from 4.1 to after 2.1
+  4.1 is the source
+  2.1 is the target
+
+  moving
+  > target (2.1) is NOT the same as the source (4.1)  (true)
+  > target (2.1) is NOT a child of source (4.1)       (true)
+  > move IS ok
+
+  highlighting / enableing
+  > when source (4.1) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (4.1) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled
+
+
+move H
+  from 4.1 to after 3.3
+  4.1 is the source
+  3.3 is the target
+
+  moving
+  > target (3.3) is NOT the same as the source (4.1)  (true)
+  > target (3.3) is NOT a child of source (4.1)       (true)
+  > move IS ok
+
+  highlighting / enableing
+  > when source (4.1) is the same as context node - disable / do not highlight
+  > when context node is IS the child of source (4.1) - disable / do not highlight
+  > all other nodes, ok to highlight / keep enabled

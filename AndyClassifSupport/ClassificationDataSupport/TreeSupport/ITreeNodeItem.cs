@@ -8,7 +8,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		bool ShtCatModified { get; set; }
 
-		bool CanSelect { get; set; }
+		bool CannotSelect { get; set; }
 
 		int Depth { get; set; }
 

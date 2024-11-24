@@ -37,7 +37,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WPF, SM74, USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DML1,WPF, SM74, USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -151,6 +151,10 @@
     <Compile Include="..\AndyResources\XamlResources\Behaviors.cs">
       <Link>Windows\ResourceFiles\XamlResources\Behaviors.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ClassificationTreeResources.xaml.cs">
+      <Link>Windows\ResourceFiles\XamlResources\ClassificationTreeResources.xaml.cs</Link>
+      <DependentUpon>ClassificationTreeResources.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
@@ -170,8 +174,9 @@
       <DependentUpon>ClassificationFileSelector.xaml</DependentUpon>
       <Link>Windows\ClassificationFileSelector.xaml.cs</Link>
     </Compile>
-    <Compile Include="SampleData\SampleFileList.cs" />
     <Compile Include="SampleData\SampleData.cs" />
+    <Compile Include="SampleData\SampleFileList.cs" />
+    <Compile Include="SampleData\SampleData-old.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\Support\MwClassfEdSupport.cs" />
     <Compile Include="Windows\Support\MwClassfEdValueConverters.cs" />
@@ -182,6 +187,36 @@
     <Compile Include="Windows\WindowClassifyTest.xaml.cs">
       <DependentUpon>WindowClassifyTest.xaml</DependentUpon>
     </Compile>
+    <Page Include="..\AndyResources\SVG\File-Open-00.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\File-Open-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar01.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconArrowsScrollBar01.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar02.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconArrowsScrollBar02.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconCheckMark.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconCheckMark.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDelete-0x.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconDelete-0x.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ClassificationTreeResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ClassificationTreeResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -194,6 +229,11 @@
     </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\MenuItem.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\MenuItem.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -303,6 +343,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".notes\context menu.txt" />
   </ItemGroup>
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />

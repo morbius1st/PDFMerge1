@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -15,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using JetBrains.Annotations;
 using UtilityLibrary;
 using WpfShared.Dialogs.DialogSupport;
 
@@ -38,6 +40,13 @@ namespace WpfShared.Windows
 		private bool clicked = true;
 
 		private string message;
+		private bool popupIsOpen;
+		private static ObservableCollection<string> cbxItems;
+
+		static Window1()
+		{
+			addItems();
+		}
 
 		public Window1()
 		{
@@ -58,7 +67,7 @@ namespace WpfShared.Windows
 			set
 			{
 				message = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -68,7 +77,7 @@ namespace WpfShared.Windows
 			set
 			{
 				eventStatus[(int) EventStat.Favorite] = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -78,7 +87,7 @@ namespace WpfShared.Windows
 			set
 			{
 				eventStatus[(int) EventStat.History] = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -88,7 +97,7 @@ namespace WpfShared.Windows
 			set
 			{
 				eventStatus[(int) EventStat.SelectFldr] = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
 		}
 
@@ -98,8 +107,31 @@ namespace WpfShared.Windows
 			set
 			{
 				eventStatus[(int) EventStat.PathChg] = value;
-				OnPropertyChange();
+				OnPropertyChanged();
 			}
+		}
+
+		public static ObservableCollection<string> CbxItems
+		{
+			get => cbxItems;
+			set
+			{
+				if (Equals(value, cbxItems)) return;
+				cbxItems = value;
+
+			}
+		}
+
+		private static void addItems()
+		{
+			cbxItems = new ObservableCollection<string>();
+
+			cbxItems.Add("Item 1a");
+			cbxItems.Add("Item 2b");
+			cbxItems.Add("Item 3c");
+			cbxItems.Add("Item 4d");
+			cbxItems.Add("Item 5e");
+
 		}
 
 
@@ -187,7 +219,7 @@ namespace WpfShared.Windows
 		{
 			eventStatus[(int) idx] = msg;
 			string e = idx.ToString();
-			OnPropertyChange(e);
+			OnPropertyChanged(e);
 
 			Timer t = new Timer(ClearEventMessage, idx, 500, 0);
 		}
@@ -200,18 +232,55 @@ namespace WpfShared.Windows
 
 			eventStatus[(int) idx] = "";
 
-			OnPropertyChange(e);
+			OnPropertyChanged(e);
 
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private void OnPropertyChange([CallerMemberName] string memberName = "")
+		[DebuggerStepThrough]
+		[NotifyPropertyChangedInvocator]
+		private void OnPropertyChanged([CallerMemberName] string memberName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
+		public bool PopupIsOpen
+		{
+			get => popupIsOpen;
+			set
+			{
+				if (value == popupIsOpen) return;
+				popupIsOpen = value;
+				OnPropertyChanged();
+			}
+		}
 
-		
+		private void Cbx2_OnMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			Debug.WriteLine("combobox | mouse up");
+
+			PopupIsOpen = true;
+		}
+
+		private void Popup_OnClosed(object sender, EventArgs e)
+		{
+			Debug.WriteLine("combobox | popup is closed");
+
+			PopupIsOpen = false;
+		}
+
+		// private void Cbx2_OnLostFocus(object sender, RoutedEventArgs e)
+		// {
+		// 	Debug.WriteLine("combobox | lost focus");
+		//
+		// 	PopupIsOpen = false;
+		// }
+		// private void Cbx2_OnMouseLeave(object sender, MouseEventArgs e)
+		// {
+		// 		Debug.WriteLine("combobox | mouse leave");
+		// 	
+		// 		PopupIsOpen = false;
+		// }
 	}
 }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AndyShared.ClassificationDataSupport.SheetSupport;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using UtilityLibrary;
-
+using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
+using static AndyShared.ClassificationDataSupport.SheetSupport.ItemClassDef;
 
 #endregion
 
@@ -17,7 +19,36 @@ namespace AndyShared.MergeSupport
 {
 	public static class MrgSupport
 	{
-		
+		private static TreeNode currentMergeHeading = null;
+
+		public static void ConsolidateMergeItems(BaseOfTree treeBase)
+		{
+			consolidateMergeItems(treeBase, treeBase);
+		}
+
+		private static void consolidateMergeItems(TreeNode node, TreeNode currHdg)
+		{
+			foreach (TreeNode child in node.Children)
+			{
+				if (child.Item.ItemClass == Item_Class.IC_BOOKMARK)
+				{
+					currHdg = child;
+				} 
+				else
+				{
+					foreach (MergeItem mi in child.Item.MergeItems)
+					{
+						currHdg.Item.MergeItems.Add(mi);
+					}
+
+					child.Item.MergeItems.Clear();
+				}
+
+				if (child.HasChildren) consolidateMergeItems(child, currHdg);
+			}
+		}
+
+
 		public static IEnumerable<MergeItem> EnumerateMergeItems(BaseOfTree treeBase)
 		{
 			foreach (MergeItem mi in GetNtMergeItem(treeBase))
@@ -36,7 +67,6 @@ namespace AndyShared.MergeSupport
 			}
 			yield break;
 		}
-
 
 		public static string FormatMergeList(TreeNode node)
 		{

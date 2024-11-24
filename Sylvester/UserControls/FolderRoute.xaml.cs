@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 
 using UtilityLibrary;
-using Sylvester.FolderSupport;
+// using Sylvester.FolderSupport;
 
 namespace Sylvester.UserControls
 {
@@ -81,8 +81,12 @@ namespace Sylvester.UserControls
 			SpPath.Children.Clear();
 		}
 
+		public void ClearPath()
+		{
 
-		private void SetPath(FilePath<FileNameSimple> newPath)
+		}
+
+		public void SetPath(FilePath<FileNameSimple> newPath)
 		{
 			clearObliqueButtons();
 

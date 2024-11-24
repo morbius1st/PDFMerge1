@@ -1,34 +1,188 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="ClassifierEditor.Windows.MainWindowClassifierEditor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="1.5" Width="1.5" />
+    <Position X="22.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>FBAPmDEACYABIFqCYQCEACgCjhCQgAFARhYKUIIEHAA=</HashCode>
+      <HashCode>FBEHmDEADYABoFqCYYmFACgCjhCUgAFARlIKUoMAlAA=</HashCode>
       <FileName>Windows\MainWindowClassifierEditor.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="ClassifierEditor.Windows.NotBoolConverter" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
+    <Position X="20.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Windows\MainWindowClassifierEditor.xaml.cs</FileName>
+      <FileName>Windows\Support\MwClassfEdValueConverters.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="ClassifierEditor.Windows.Lv1ConditionTemplateSelector" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="17.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Windows\MainWindowClassifierEditor.xaml.cs</FileName>
+      <FileName>Windows\Support\MwClassifEdTemplateSelectors.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassifierEditor.Windows.Lv2ConditionTemplateSelector" Collapsed="true">
-    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Position X="14.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Windows\MainWindowClassifierEditor.xaml.cs</FileName>
+      <FileName>Windows\Support\MwClassifEdTemplateSelectors.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOperation">
+    <Position X="2.5" Y="6.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAASACUSIoIAkABGJIAEQAIgjCQKARMEAAAEBAYIABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ACompareOp&lt;T&gt;">
+    <Position X="2.75" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompOpDef">
+    <Position X="0.5" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAABQ=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompOpDef">
+    <Position X="4.25" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAgIAAACAAAAAAgAABDIAJAQAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ComparisonOp">
+    <Position X="7.25" Y="6.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAIAABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.TreeNode">
+    <Position X="21" Y="9" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>dQAA0WFQQIwLkATEoRUVSAFcg3AsAAEmDJgJJjoIBRM=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.BaseOfTree">
+    <Position X="15.5" Y="9" Width="4.5" />
+    <NestedTypes>
+      <Delegate Name="AndyShared.ClassificationDataSupport.TreeSupport.BaseOfTree.TreeModifiedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="AndyShared.ClassificationDataSupport.TreeSupport.BaseOfTree.TreeItemModifiedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BACAAABMCAAhkAwEAAAAIAAAAIMgAAQBAKCAiABIEAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AndyShared.MergeSupport.MergeItem">
+    <Position X="27.75" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAEAAAAEAAAAAAAAAAAAAAAAAABAAAAAABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\MergeSupport\MergeItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory">
+    <Position X="8" Y="10.5" Width="4" />
+    <NestedTypes>
+      <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory.ITEM_MODIFICATION" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\SheetCategory.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SheetCategory.Item_Class" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\SheetCategory.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAFECUEQWEMwlFBloB4AUIAAgiLQAQAsCDEALESAQBg=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\SheetCategory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="AndyShared.ClassificationDataSupport.TreeSupport.ITreeNodeItem">
+    <Position X="13.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAgBAAAAgCAAABAAAABA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ITreeNodeItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonOp">
+    <Position X="9.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAABAAABAAAQAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp">
+    <Position X="12.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAgAwQAEAIAIAEACAAQACBAAEAAAAAAAEgAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodePlacement" Collapsed="true">
+    <Position X="18.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectMode" Collapsed="true">
+    <Position X="17" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.SelectState" Collapsed="true">
+    <Position X="18.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.NodeType" Collapsed="true">
+    <Position X="20.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AndyShared.ClassificationDataSupport.TreeSupport.CheckedState" Collapsed="true">
+    <Position X="17" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\TreeNodeEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="10" />
 </ClassDiagram>

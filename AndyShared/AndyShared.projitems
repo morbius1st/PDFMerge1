@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SheetFileList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFileListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\CommonTaskDialogs.cs" />
@@ -58,6 +59,7 @@
     <!-- <Link>.Linked\CsUtilities.cs</Link> -->
     <!-- </Compile> -->
     <Compile Include="$(MSBuildThisFileDirectory)Support\Orator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Support\TreeNodeValueConverters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ValueConverters.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -40,14 +40,14 @@
       <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompareOp">
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompOpDef">
     <Position X="7" Y="3.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompareOp">
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompOpDef">
     <Position X="11" Y="3.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>

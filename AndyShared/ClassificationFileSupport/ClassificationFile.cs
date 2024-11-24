@@ -1,4 +1,5 @@
 ﻿// #define SHOWTICKS
+
 #define DML1
 
 #region using directives
@@ -9,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using AndyShared.ClassificationDataSupport.SheetSupport;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using SettingsManager;
 using UtilityLibrary;
@@ -19,6 +21,8 @@ using AndyShared.Support;
 using DebugCode;
 using JetBrains.Annotations;
 using static AndyShared.FileSupport.FileNameUserAndId;
+using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
+using static AndyShared.ClassificationDataSupport.SheetSupport.ItemClassDef;
 
 #endregion
 
@@ -30,7 +34,6 @@ namespace AndyShared.ClassificationFileSupport
 	[DataContract(Namespace = "")]
 	public class ClassificationFile : INotifyPropertyChanged
 	{
-
 		public static int M_IDX = 1000;
 
 	#region private fields
@@ -40,10 +43,10 @@ namespace AndyShared.ClassificationFileSupport
 		private SampleFile sampleFile;
 
 		private DataManager<ClassificationFileData> dataFile;
-	// #if SM74
-	// #else
-	// 	// private BaseDataFile<ClassificationFileData> dataFile;
-	// #endif
+		// #if SM74
+		// #else
+		// 	// private BaseDataFile<ClassificationFileData> dataFile;
+		// #endif
 
 		private bool isSelected;
 		private bool isModified;
@@ -55,30 +58,16 @@ namespace AndyShared.ClassificationFileSupport
 
 	#region ctor
 
-		public ClassificationFile(string filePath, bool fileSelected = false)
+		// public ClassificationFile(string filePath, bool fileSelected = false)
+		public ClassificationFile(string filePath)
 		{
 		#if DML1
-			DM.InOut0();
+			DM.Start0();
 		#endif
 
 			FilePathLocal = new FilePath<FileNameUserAndId>(filePath);
 
 			if (!filePathLocal.IsValid) return;
-
-			// setup inter-class communication
-			// tell parent, I have been modified announcer
-
-			// listen to parent, initialize
-			// Orator.Listen(OratorRooms.TN_INIT, OnAnnounceTnInit);
-
-			// listen to children - they have been modified
-			// Orator.Listen(OratorRooms.MODIFIED, OnAnnounceSubChildModified);
-
-			// listen to parent, changes have been saved
-			// Orator.Listen(OratorRooms.SAVED, OnAnnounceSaved);
-
-			// // announce to treenode (treebase) / and components initialized and to initialize
-			// OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize treenode & components");
 
 			// bool a = !SettingsSupport.ValidateXmlFile(filePath);
 			// bool b = !ValidateAgainstUsername(filePathLocal);
@@ -89,6 +78,11 @@ namespace AndyShared.ClassificationFileSupport
 				)
 			{
 				FilePathLocal = FilePath<FileNameUserAndId>.Invalid;
+
+			#if DML1
+				DM.End0("end 1");
+			#endif
+
 				return;
 			}
 
@@ -97,7 +91,7 @@ namespace AndyShared.ClassificationFileSupport
 			InitailizeSample(FilePathLocal.FullFilePath);
 
 		#if DML1
-			DM.InOut0();
+			DM.End0();
 		#endif
 		}
 
@@ -262,6 +256,9 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
+		/// <summary>
+		/// flag noting that this object has been modified
+		/// </summary>
 		public bool IsModified
 		{
 			get => isModified;
@@ -287,7 +284,6 @@ namespace AndyShared.ClassificationFileSupport
 		// 		OnPropertyChanged();
 		// 	}
 		// }
-
 
 	#endregion
 
@@ -323,7 +319,6 @@ namespace AndyShared.ClassificationFileSupport
 
 		public void UpdateSampleFile(string sampleFile)
 		{
-
 			dataFile.Data.SampleFile = sampleFile;
 			dataFile.Admin.Write();
 
@@ -341,16 +336,32 @@ namespace AndyShared.ClassificationFileSupport
 
 			dataFile = new DataManager<ClassificationFileData>(filePath);
 
-		// #if SM74
-		// #else
-		// 	// dataFile = new BaseDataFile<ClassificationFileData>();
-		// 	// dataFile.Configure(FolderPath, FileNameNoExt, null, FileNameExtNoSep);
-		// #endif
+			// #if SM74
+			// #else
+			// 	// dataFile = new BaseDataFile<ClassificationFileData>();
+			// 	// dataFile.Configure(FolderPath, FileNameNoExt, null, FileNameExtNoSep);
+			// #endif
 
-	#if DML1
-		DM.End0();
-	#endif
+		#if DML1
+			DM.End0();
+		#endif
+		}
 
+		public void Initialize2()
+		{
+		#if DML1
+			DM.Start0();
+		#endif
+
+			// PreInitialize();
+
+			dataFile.Admin.Read();
+
+			initialize();
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		public void Initialize()
@@ -359,13 +370,19 @@ namespace AndyShared.ClassificationFileSupport
 			DM.Start0();
 		#endif
 
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| start-init");
 			PreInitialize();
 
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| read");
 			dataFile.Admin.Read();
 
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ classF|@ initialize| baseoftree-init");
+			initialize();
+
+		#if DML1
+			DM.End0();
+		#endif
+		}
+
+		private void initialize()
+		{
 			dataFile.Data.BaseOfTree.Initalize();
 
 			IsInitialized = true;
@@ -374,17 +391,17 @@ namespace AndyShared.ClassificationFileSupport
 
 			TreeBase.TreeItemModified += TreeBaseOnTreeItemModified;
 			TreeBase.TreeModified     += TreeBaseOnTreeModified;
-
-		#if DML1
-			DM.End0();
-		#endif
-
 		}
 
 		public void Write(bool createBackup = true)
 		{
 			if (createBackup)
 			{
+				string s1 = dataFile.Path.SettingFilePath;
+				string s2 = dataFile.Path.FileNameNoExt;
+				string s3 = dataFile.Path.FileName;
+				string s4 = dataFile.Path.SettingFolderPath;
+
 				// string filename = dataFile.Path.
 				string newFileName = dataFile.Path.FileNameNoExt + FilePathUtil.EXT_SEPARATOR
 					+ FilePathUtil.BACKUP_EXTNOSEP;
@@ -400,13 +417,12 @@ namespace AndyShared.ClassificationFileSupport
 		public void UpdateProperties()
 		{
 			OnPropertyChanged("IsValid");
-			OnPropertyChanged("HasSampleFile");
+
 			OnPropertyChanged("FileName");
 			OnPropertyChanged("FileNameNoExt");
-			OnPropertyChanged("GetFullFilePath");
-			OnPropertyChanged("GetPath");
+
 			OnPropertyChanged("SampleFilePath");
-			OnPropertyChanged("DataDescription");
+
 			OnPropertyChanged("TreeBase");
 		}
 
@@ -429,8 +445,10 @@ namespace AndyShared.ClassificationFileSupport
 			if (fileId.IsVoid())
 			{
 				dest =
-					FileUtilities.UniqueFileName(AssembleFileNameNoExt(Environment.UserName, "Pdf Classfications {0:D3}"),
-						FilePathConstants.CLASSF_FILE_EXT_NO_SEP, path + FilePathUtil.PATH_SEPARATOR + Environment.UserName);
+					FileUtilities.UniqueFileName(
+						AssembleFileNameNoExt(Environment.UserName, "Pdf Classfications {0:D3}"),
+						FilePathConstants.CLASSF_FILE_EXT_NO_SEP,
+						path + FilePathUtil.PATH_SEPARATOR + Environment.UserName);
 			}
 			else
 			{
@@ -444,7 +462,7 @@ namespace AndyShared.ClassificationFileSupport
 
 			DataManager<ClassificationFileData> df =
 				new DataManager<ClassificationFileData>(null, dest.FolderPath, dest.FileName);
-			#else
+		#else
 			BaseDataFile<ClassificationFileData> df =
 				new BaseDataFile<ClassificationFileData>();
 		#endif
@@ -459,7 +477,7 @@ namespace AndyShared.ClassificationFileSupport
 			TreeNode tn = new TreeNode(df.Data.BaseOfTree, new SheetCategory("Initial Item", "Initial Item"), false);
 
 			df.Data.BaseOfTree.AddNode(tn);
-			
+
 			// df.Data.BaseOfTree.Item = new SheetCategory("Base of Tree", "Base of Tree");
 
 			df.Admin.Write();
@@ -567,10 +585,7 @@ namespace AndyShared.ClassificationFileSupport
 			return true;
 		}
 
-
-
-
-				/// <summary>
+		/// <summary>
 		/// gets an existing ClassificationFile for the specific user based on
 		/// the fileId.  ClassificationFile object is configured but no data is
 		/// read.  use ".Initialize()" to read and process the data in the file
@@ -578,13 +593,19 @@ namespace AndyShared.ClassificationFileSupport
 		public static ClassificationFile GetUserClassfFile(string fileId)
 		{
 		#if DML1
-			DM.InOut0();
+			DM.Start0(false, $"geting file id = {fileId ?? "null"}");
 		#endif
 
 			if (fileId.IsVoid()) return null;
 
-			return new ClassificationFile(ClassificationFile.AssembleClassfFilePath(fileId,
+			ClassificationFile c = new ClassificationFile(ClassificationFile.AssembleClassfFilePath(fileId,
 				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
+
+		#if DML1
+			DM.End0();
+		#endif
+
+			return c;
 		}
 
 		public static FilePath<FileNameUserAndId> AssembleClassfFilePath(string newFileId, params string[] folders)
@@ -597,8 +618,6 @@ namespace AndyShared.ClassificationFileSupport
 				FilePathUtil.AssembleFilePathS(AssembleFileNameNoExt(Environment.UserName, newFileId),
 					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
 		}
-		
-
 
 		/// <summary>
 		/// Check if the proposed classification file exists and 
@@ -614,13 +633,14 @@ namespace AndyShared.ClassificationFileSupport
 		/// <param name="msg"></param>
 		/// <returns></returns>
 		public static bool ValidateProposedClassfFile(FilePath<FileNameUserAndId> fp,
-			bool test, string title, string msg)
+			bool test, string title, string msg, IntPtr handle =  default)
 		{
 			if (fp.IsFound == test) return true;
 
 			CommonTaskDialogs.CommonErrorDialog(title,
 				"The classification file already exists",
-				"The classification File Id provided: \"");
+				"The classification File Id provided: \"",
+				handle);
 
 			// TaskDialog td = new TaskDialog();
 			// td.Caption = title;
@@ -641,13 +661,10 @@ namespace AndyShared.ClassificationFileSupport
 			return false;
 		}
 
-
-
-
 		public static FilePath<FileNameSimple> GetSampleFilePathFromFile(string classfFilePath)
 		{
 		#if DML1
-			DM.Start0();
+			DM.InOut0();
 		#endif
 
 			string sampleFileNameNoExt = SampleFileNameFromFile(classfFilePath);
@@ -658,9 +675,9 @@ namespace AndyShared.ClassificationFileSupport
 
 			sampleFilePath.ChangeFileName(sampleFileNameNoExt, FilePathConstants.SAMPLE_FILE_EXT);
 
-		#if DML1
-			DM.End0();
-		#endif
+			// #if DML1
+			// 	DM.End0();
+			// #endif
 
 			return sampleFilePath;
 		}
@@ -694,8 +711,6 @@ namespace AndyShared.ClassificationFileSupport
 			return fileName;
 		}
 
-
-
 	#endregion
 
 	#region private methods
@@ -703,7 +718,7 @@ namespace AndyShared.ClassificationFileSupport
 		private void InitailizeSample(string classfFilePath)
 		{
 		#if DML1
-			DM.InOut0();
+			DM.Start0();
 		#endif
 			sampleFile = new SampleFile();
 

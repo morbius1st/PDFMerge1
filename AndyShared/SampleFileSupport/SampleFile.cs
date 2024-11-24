@@ -79,7 +79,7 @@ namespace AndyShared.SampleFileSupport
 		public bool InitializeFromClassfFilePath(string classfFilePath)
 		{
 		#if DML1
-			DM.InOut0();
+			DM.Start0();
 		#endif
 			SampleFilePath = ClassificationFile.GetSampleFilePathFromFile(classfFilePath);
 

@@ -23,7 +23,7 @@ namespace Sylvester
 		}
 
 		public static readonly DependencyProperty CanSelectProperty = DependencyProperty.Register(
-			"CanSelect", typeof(bool), typeof(lvTestControl), new PropertyMetadata(true) );
+			"CannotSelect", typeof(bool), typeof(lvTestControl), new PropertyMetadata(true) );
 
 		public bool CanSelect
 		{

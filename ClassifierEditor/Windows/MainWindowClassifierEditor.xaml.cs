@@ -1,16 +1,20 @@
 ﻿// #define SHOWTICKS
+// #define DML1
 
 #region using
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using AndyShared.ClassificationDataSupport.SheetSupport;
 using ClassifierEditor.SampleData;
 using SettingsManager;
 using UtilityLibrary;
@@ -22,8 +26,13 @@ using static AndyShared.ClassificationDataSupport.TreeSupport.LogicalComparisonO
 using static AndyShared.ClassificationDataSupport.TreeSupport.ValueComparisonOp;
 using static AndyShared.ClassificationDataSupport.TreeSupport.CompareOperations;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.ConfigSupport;
+using AndyShared.Settings;
+using DebugCode;
 using JetBrains.Annotations;
 using WpfShared.Windows;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
+using System.Windows.Interop;
 
 #endregion
 
@@ -229,7 +238,7 @@ namespace ClassifierEditor.Windows
 	/// <summary>
 	/// Interaction logic for MainWindowClassifierEditor.xaml
 	/// </summary>
-	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged
+	public partial class MainWindowClassifierEditor : Window, INotifyPropertyChanged, IWin
 	{
 		public static int objIdx = 0;
 
@@ -244,8 +253,10 @@ namespace ClassifierEditor.Windows
 		public string ContextCmdMoveAfter { get; }         = "moveAfter";
 		public string ContextCmdCopy { get; }              = "clone";
 		public string ContextCmdCopyAsChild { get; }       = "cloneAsChild";
-		public string ContextCmdExpand { get; }            = "Expand";
-		public string ContextCmdCollapse { get; }          = "Collapse";
+		public string ContextCmdExpand { get; }            = "Expand Category";
+		public string ContextCmdCollapse { get; }          = "Collapse Category";
+		public string ContextCmdExpandAll { get; }         = "Expand All";
+		public string ContextCmdCollapseAll { get; }       = "Collapse All";
 
 	#endregion
 
@@ -259,21 +270,40 @@ namespace ClassifierEditor.Windows
 
 	#region private fields
 
-		private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> us =
-			UserSettings.Admin;
+		public static string[] ContextMoveTitles { get; set; } = new []
+		{
+			"Cancel Move Operation", "Move Before this Category", "Move After this Category",
+			"Move as Sub-Category to this Category"
+		};
+
+
+		// private SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, 
+		// 	UserSettingDataFile> us = UserSettings.Admin;
 
 		private ClassificationFile classificationFile;
 
+		public static MainWindowClassifierEditor Me { get; set; }
+		
 		private MwClassfEdSupport mws;
 
 		// private Configuration config;
 		// private TreeNode nodeSelected;
-		private TreeNode nodeCopy;
-		private TreeNode nodeContextSelected;
-		private TreeNode contextSelectedParent;
+		// private TreeNode nodeCopy;
+		private TreeNode nodeContextTarget;
+		private TreeNode contextSelectedTargetParent;
 
-		private bool bypassContextDeHighlight = false;
+		// private bool bypassContextDeHighlight = false;
 		private string fileIdNew;
+		private bool cancelEnabled;
+		private bool saveEnabled;
+		private TreeNode nodeContextSource;
+
+		private int moveOp = 0;
+		private bool cannotSelect;
+
+		private bool expanderGotMouse = false;
+
+		private bool justSelected = false;
 
 		// private Orator.ConfRoom.Announcer OnCfInitAnnouncer;
 		// private Orator.ConfRoom.Announcer OnSavedAnnouncerx;
@@ -294,41 +324,28 @@ namespace ClassifierEditor.Windows
 
 			showTicks("start @1");
 		#endif
+			Me = this;
+
+			ItemClassDef.init();
+
 			mws = new MwClassfEdSupport(this);
 
 			InitializeComponent();
 
+			WinHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
 
-		#if SHOWTICKS
-			showTicks("start @2");
-		#endif
+			DM.init(5, this);
 
-			// OnSavedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVED, "Modifications have been saved");
-			// OnSavingAnnouncer = Orator.GetAnnouncer(this, OratorRooms.SAVING, "Before Modifications get saved");
-			// OnTnInitAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_INIT, "Initialize");
-			// OnRemExCollapseStateAnnouncer = Orator.GetAnnouncer(this, OratorRooms.TN_REM_EXCOLLAPSE_STATE,
-			// 	"Remember Exp-Collapse State");
+			DM.DbxSetIdx(0, 0);
+			DM.DbxSetDefaultWhere(0, ShowWhere.DEBUG);
 
-			// SampleData.SampleData SD = new SampleData.SampleData();
-
-		#if SHOWTICKS
-			showTicks("start @3");
-		#endif
 		}
 
 	#endregion
 
-	#if SHOWTICKS
-		private void showTicks(string title)
-		{
-			tickNow = DateTime.Now.Ticks;
-			Debug.Print(title + "|  " + (tickNow - ticksStart)
-				+ "  diff| " + (tickNow - tickPrior));
-			tickPrior =  tickNow;
-		}
-	#endif
-
 	#region public properties
+
+		public static IntPtr WinHandle { get; private set; }
 
 		public ClassificationFile ClassificationFile
 		{
@@ -337,11 +354,15 @@ namespace ClassifierEditor.Windows
 			{
 				if (value == null) return;
 
+			#if DML1
+				DM.Start0("(property)", true, "at mainwin property");
+			#endif
+
 				classificationFile = value;
 
-				if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
+				// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| initialize classFfile");
 
-				classificationFile.Initialize();
+				classificationFile.Initialize2();
 
 				FileList = new SheetFileList();
 				FileList.ReadSampleSheetFileList(classificationFile.SampleFilePath);
@@ -350,6 +371,10 @@ namespace ClassifierEditor.Windows
 
 				UpdateProperties();
 				OnPropertyChanged(nameof(FileList));
+
+			#if DML1
+				DM.End0("(property)", true);
+			#endif
 			}
 		}
 
@@ -376,39 +401,51 @@ namespace ClassifierEditor.Windows
 		// 	}
 		// }
 
-		public TreeNode NodeContextSelected
+		public TreeNode NodeContextTarget
 		{
-			get => nodeContextSelected;
+			get => nodeContextTarget;
 			private set
 			{
-				if (value == nodeContextSelected) return;
+				if (value == nodeContextTarget) return;
 
-				if (nodeContextSelected != null)
+				if (value == null)
 				{
-					nodeContextSelected.IsContextSelected = false;
-					nodeContextSelected.IsContextHighlighted = false;
+					nodeContextTarget.IsContextTarget = false;
+					// nodeContextTarget.IsContextSource = false;
+					nodeContextTarget = null;
+				}
+				else
+				{
+					nodeContextTarget = value;
+					nodeContextTarget.IsContextTarget = true;
 				}
 
-				nodeContextSelected = value;
-				contextSelectedParent = nodeContextSelected.Parent;
-
 				OnPropertyChanged();
-
-				if (value == null) return;
-
-				nodeContextSelected.IsContextSelected = true;
-				nodeContextSelected.IsContextHighlighted = true;
+				OnPropertyChanged(nameof(HasContextSelection));
 			}
 		}
 
-		public TreeNode NodeCopy
+		public TreeNode NodeContextSource
 		{
-			get => nodeCopy;
+			get => nodeContextSource;
 			set
 			{
-				// if (Equals(value, nodeCopy)) return;
-				nodeCopy = value;
+				if (Equals(value, nodeContextSource)) return;
+
+
+				if (value == null)
+				{
+					nodeContextSource.IsContextTarget = false;
+					nodeContextSource = null;
+				}
+				else
+				{
+					nodeContextSource = value;
+					nodeContextSource.IsContextSource = true;
+				}
+
 				OnPropertyChanged();
+				OnPropertyChanged(nameof(HasContextSelection));
 			}
 		}
 
@@ -429,21 +466,61 @@ namespace ClassifierEditor.Windows
 
 		// status
 
+		public string MoveTitle => ContextMoveTitles[MoveOp];
+
+		public int MoveOp
+		{
+			get => moveOp;
+			set
+			{
+				if (value == moveOp) return;
+				moveOp = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(MoveTitle));
+			}
+		}
+
+		public bool HasEditingChanges => mws.NodeEditing?.TreeNodeChildItemModified ?? false;
+
 		public bool HasSelection => mws.NodeSelected != null;
 
-		public bool HasContextSelection => nodeContextSelected != null;
+		public bool HasContextSelection => nodeContextTarget != null;
 
+		public bool HasContextSourceSel => nodeContextSource != null;
 
-		// public TreeNode NodeSelected
-		// {
-		// 	get => nodeSelected;
-		// 	set
-		// 	{
-		// 		if (Equals(value, nodeSelected)) return;
-		// 		nodeSelected = value;
-		// 		OnPropertyChanged();
-		// 	}
-		// }
+		public bool UserIsAdmin => Security.Instance.UserIsAdministrator;
+
+		public bool CannotSelect
+		{
+			get => cannotSelect;
+			set
+			{
+				if (value == cannotSelect) return;
+				cannotSelect = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public string Messages
+		{
+			get => messages;
+			set
+			{
+				if (value == messages) return;
+				messages = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public void DebugMsgLine(string msg)
+		{
+			Messages += msg + "\n";
+		}
+		public void DebugMsg(string msg)
+		{
+			Messages += msg;
+
+		}
 
 	#region public property settings
 
@@ -457,6 +534,8 @@ namespace ClassifierEditor.Windows
 				OnPropertyChanged();
 			}
 		}
+
+		// public bool CancelReady { get; set; }
 
 
 		// public bool CanSave
@@ -507,9 +586,12 @@ namespace ClassifierEditor.Windows
 
 		private void initSettings()
 		{
+
 		#if SHOWTICKS
 			showTicks("setg @1");
 		#endif
+
+			DM.Suspend = true;
 
 			UserSettings.Admin.Read();
 
@@ -551,6 +633,15 @@ namespace ClassifierEditor.Windows
 		#if SHOWTICKS
 			showTicks("setg @9");
 		#endif
+
+			SiteSettings.Admin.Read();
+			SiteSettings.Admin.Write();
+
+			DM.Suspend = false;
+
+			string s = SiteSettings.Data.AdminUsers[0];
+
+			string un = CsUtilities.UserName;
 		}
 
 		private void UpdateProperties()
@@ -558,7 +649,7 @@ namespace ClassifierEditor.Windows
 		{
 			OnPropertyChanged("ClassificationFile");
 			OnPropertyChanged("BaseOfTree");
-			OnPropertyChanged("NodeContextSelected");
+			OnPropertyChanged("NodeContextTarget");
 			OnPropertyChanged("HasSelection");
 			OnPropertyChanged("FileList");
 		}
@@ -566,6 +657,7 @@ namespace ClassifierEditor.Windows
 		public void UpdateProperties2()
 
 		{
+			OnPropertyChanged(nameof(Me));
 			OnPropertyChanged(nameof(Mws));
 			OnPropertyChanged(nameof(HasSelection));
 			OnPropertyChanged(nameof(ClassificationFile));
@@ -580,7 +672,6 @@ namespace ClassifierEditor.Windows
 				ClassificationFile = test;
 				OnPropertyChanged(nameof(ClassificationFile));
 			}
-
 		}
 
 	#endregion
@@ -589,6 +680,16 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
+			DM.init(5, this);
+
+			DM.DbxSetIdx(0, 0);
+			DM.DbxSetDefaultWhere(0, ShowWhere.DBG_TBX);
+
+
+		#if DML1
+			DM.Start0(true);
+		#endif
+
 		#if SHOWTICKS
 			showTicks("init @1");
 		#endif
@@ -601,13 +702,23 @@ namespace ClassifierEditor.Windows
 		#if SHOWTICKS
 			showTicks("init @2");
 		#endif
+
+		#if DML1
+			DM.End0();
+		#endif
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+		#if DML1
+			DM.Start0(true);
+		#endif
+
 		#if SHOWTICKS
 			showTicks("load @1");
 		#endif
+			OnPropertyChanged(nameof(UserIsAdmin));
+
 
 			// SampleData.SampleData sd = SampleData.SampleData.sd;
 
@@ -639,7 +750,7 @@ namespace ClassifierEditor.Windows
 					ClassificationFile = ClassificationFile.GetUserClassfFile("PdfSample 1");
 
 				#if SHOWTICKS
-					showTicks("load @3.1");
+									showTicks("load @3.1");
 				#endif
 
 					WindowClassifyTest winTest = new WindowClassifyTest();
@@ -671,12 +782,25 @@ namespace ClassifierEditor.Windows
 					// inform all of the current setting
 					// OnRemExCollapseStateAnnouncer.Announce(UserSettings.Data.RememberNodeExpandState);
 
-					// Debug.WriteLine("@MainWin load| load classification file");
-					ClassificationFile = ClassificationFile.GetUserClassfFile(fileId);
+					TreeNode.RememberExpCollapseState = UserSettings.Data.RememberNodeExpandState;
+
+
+					if (true)
+					{
+						// Debug.WriteLine("@MainWin load| load classification file");
+						ClassificationFile = ClassificationFile.GetUserClassfFile(fileId);
+					}
+					else
+					{
+						// comment the above and un-comment this to open a specific file
+						// ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Test 1");
+						// ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Test 2");
+						ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Test 3");
+					}
 				}
 			}
 
-			if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
+			// if (Common.SHOW_DEBUG_MESSAGE1) Debug.WriteLine("@ mainwin|@ onload| cancel all modifications");
 
 			// string f = SampleData.SampleData.FullFilePath;
 
@@ -691,6 +815,10 @@ namespace ClassifierEditor.Windows
 		#if SHOWTICKS
 			showTicks("load @6");
 		#endif
+		#if DML1
+			DM.End0();
+		#endif
+
 		}
 
 		private void MainWin_Closing(object sender, CancelEventArgs e)
@@ -699,17 +827,17 @@ namespace ClassifierEditor.Windows
 			UserSettings.Data.MainWinPos.Y = (int) this.Top;
 			UserSettings.Admin.Write();
 
-			if (Common.SHOW_DEBUG_MESSAGE1)
-				Debug.WriteLine("@MainWin| is modified == | " + classificationFile.IsModified.ToString());
+			// if (Common.SHOW_DEBUG_MESSAGE1)
+			// 	Debug.WriteLine("@MainWin| is modified == | " + classificationFile.CanSave.ToString());
 
 
-			if (classificationFile.IsModified == true)
+			if (classificationFile.CanSave == true)
 			{
 				TaskDialogResult result =
 					CommonTaskDialogs.CommonWarningDialog(
 						"Classifier Editor",
 						"There are changes that have not been saved",
-						"Do you want to save your changes?",
+						"Do you want to save your changes?", WinHandle,
 						(TaskDialogStandardButtons.Cancel | TaskDialogStandardButtons.No)
 						);
 
@@ -728,7 +856,6 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
-
 		private void listCompOps(TreeNode parentNode)
 		{
 			foreach (TreeNode childNode in parentNode.Children)
@@ -743,28 +870,28 @@ namespace ClassifierEditor.Windows
 					Debug.WriteLine("");
 					MessageUtilities.logMsgDbLn2("Id", compOp.Id);
 
-					if (compOp.ValueCompareOp != null)
+					if (compOp.ValueCompOpDef != null)
 					{
-						MessageUtilities.logMsgDbLn2("ValueCompareOp.name", compOp.ValueCompareOp.Name);
-						MessageUtilities.logMsgDbLn2("ValueCompareOp.opcode", compOp.ValueCompareOp.OpCode.ToString());
+						MessageUtilities.logMsgDbLn2("ValueCompOpDef.name", compOp.ValueCompOpDef.Name);
+						MessageUtilities.logMsgDbLn2("ValueCompOpDef.opcode", compOp.ValueCompOpDef.OpCode.ToString());
 					}
 					else
 					{
-						MessageUtilities.logMsgDbLn2("ValueCompareOp", "is null");
+						MessageUtilities.logMsgDbLn2("ValueCompOpDef", "is null");
 					}
 
 					MessageUtilities.logMsgDbLn2("ValueCompareString", compOp.ValueCompareString);
 
 
-					if (compOp.LogicalCompareOp != null)
+					if (compOp.LogicalCompOpDef != null)
 					{
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp.name", compOp.LogicalCompareOp.Name);
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp.opcode",
-							compOp.LogicalCompareOp.OpCode.ToString());
+						MessageUtilities.logMsgDbLn2("LogicalCompOpDef.name", compOp.LogicalCompOpDef.Name);
+						MessageUtilities.logMsgDbLn2("LogicalCompOpDef.opcode",
+							compOp.LogicalCompOpDef.OpCode.ToString());
 					}
 					else
 					{
-						MessageUtilities.logMsgDbLn2("LogicalCompareOp", "is null");
+						MessageUtilities.logMsgDbLn2("LogicalCompOpDef", "is null");
 					}
 
 					MessageUtilities.logMsgDbLn2("LogicalCompareString", compOp.LogicalCompareString);
@@ -785,12 +912,12 @@ namespace ClassifierEditor.Windows
 		//
 		// 		foreach (ComparisonOperation compOp in childNode.Item.CompareOps)
 		// 		{
-		// 			if (compOp.LogicalCompareOp != null)
-		// 				compOp.LogicalCompareOp =
+		// 			if (compOp.LogicalCompOpDef != null)
+		// 				compOp.LogicalCompOpDef =
 		// 					CompareOperations.LogicalCompareOps[compOp.LogicalCompOpCode];
 		//
-		// 			if (compOp.ValueCompareOp != null)
-		// 				compOp.ValueCompareOp =
+		// 			if (compOp.ValueCompOpDef != null)
+		// 				compOp.ValueCompOpDef =
 		// 					CompareOperations.ValueCompareOps[compOp.ValueCompOpCode];
 		// 		}
 		// 	}
@@ -803,232 +930,523 @@ namespace ClassifierEditor.Windows
 	#region control event methods
 
 		// private void Lv2_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
-		private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			Grid g = (sender as Grid);
-			TreeViewItem tvi = (g.Tag as TreeViewItem);
-			TreeNode t = ((TreeNode) tvi?.DataContext) ?? null;
+		// private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		// {
+		// 	Grid g = (sender as Grid);
+		// 	TreeViewItem tvi = (g.Tag as TreeViewItem);
+		// 	TreeNode t = ((TreeNode) tvi?.DataContext) ?? null;
+		//
+		// 	if (tvi != null) tvi.IsSelected = true;
+		// }
 
-			if (tvi != null) tvi.IsSelected = true;
-		}
+		// treeview
 
-		// when a selection has been made
-		private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+
+		private void TreeViewItem_OnMouseUp(object sender, MouseButtonEventArgs e)
 		{
+			TreeViewItem tvi = sender as TreeViewItem;
+			TreeNode tn = tvi.DataContext as TreeNode;
+
+
+			// Debug.Write($"treeview item got on mouse up {sender?.GetType().Name ?? "is null"}  ");
+
+			// if (tn != null)
+			// {
+			// 	Debug.WriteLine($"{$"@ mw 1| treeview mouse UP |",-50} {tn.Item.Title} ({tn.ID})");
+			//
+			// 	Debug.WriteLine(
+			// 		$"{$"@ mw 7| treeview mouse UP | selected item |",-50} {((TreeNode) Tv1.SelectedItem)?.Item.Title ?? "null"} ({((TreeNode) Tv1.SelectedItem)?.ID ?? "null"})");
+			//
+			// 	Debug.Write("\n");
+			// }
+			// else
+			// {
+			// 	Debug.WriteLine($"@ mw 2| treeview mouse UP | tn is null");
+			// }
+
 			e.Handled = true;
 
-			// if (e.NewValue == null) return;
-			//
-			// TreeNode selected = (TreeNode) e.NewValue;
-			//
-			// if (selected != null && selected.Item.IsFixed || selected.Item.IsLocked)
-			// {
-			// 	NodeSelected = null;
-			// 	return;
-			// }
-			//
-			// TreeNode x =  selected.Clone() as TreeNode;
-			//
-			// NodeSelected = selected;
-			// BaseOfTree.SelectedNode = nodeSelected;
+			if (justSelected)
+			{
+				justSelected = false;
+				return;
+			}
 
-			mws.SelectNode(e.NewValue as TreeNode);
+			if (expanderGotMouse) return;
+			if (nodeContextSource != null) return;
+			if (mws.NodeEditing?.Item.NeedsSaving ?? false) return;
+			if (mws.NodeSelected == null) return;
+
+			mws.NodeSelected.IsNodeSelected = false;
+			DeSelect();
 		}
 
+		private void TreeViewItem_OnSelected(object sender, RoutedEventArgs e)
+		{
+			TreeViewItem tvi = sender as TreeViewItem;
+			TreeNode tn = tvi.DataContext as TreeNode;
+
+			// Debug.Write($"treeview itemselected {sender?.GetType().Name ?? "is null"}  ");
+			// if (tn != null)
+			// {
+			// 	Debug.WriteLine($"{"@ mw 3| treeview item selected |",-50} {tn.Item.Title} ({tn.ID})  ");
+			// }
+			// else
+			// {
+			// 	Debug.WriteLine($"@ mw 4| treeview item selected | tn is null  ");
+			// }
+
+			e.Handled = true;
+
+			if (expanderGotMouse) return;
+			if (nodeContextSource != null) return;
+			if (mws.NodeEditing?.Item.NeedsSaving ?? false)
+			{
+				return;
+			}
+
+			justSelected = true;
+
+
+			if (tn != null && tn.Item.IsFixed && UserIsAdmin == false) return;
+
+			mws.SelectNode(tn);
+		}
+
+		private void TreeViewItem_OnUnSelected(object sender, RoutedEventArgs e)
+		{
+			e.Handled = true;
+			// return;
+
+			TreeViewItem tvi = sender as TreeViewItem;
+			TreeNode tn = tvi.DataContext as TreeNode;
+
+			// if (tn != null)
+			// {
+			// 	Debug.WriteLine($"{"@ mw 5| treeview item UN-selected |",-50} {tn.Item.Title} ({tn.ID}) ");
+			// }
+			// else
+			// {
+			// 	Debug.WriteLine($"@mw 6| treeview item UN-selected | tn is null  ");
+			// }
+
+			e.Handled = true;
+
+			if (!mws.NodeEditing?.Item.NeedsSaving ?? false)
+			{
+				tn.IsNodeSelected = false;
+			}
+		}
+
+		// private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		// {
+		// 	if (mws.NodeEditing?.Item.NeedsSaving ?? false)
+		// 	{
+		// 		TreeNode tn = e.NewValue  as TreeNode;
+		//
+		// 		e.Handled = true;
+		// 	}
+		// }
+
+
+		// when a selection has been made
+		// private void Tv1_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		// {
+		// 	// Debug.WriteLine($"@ node selected changed | {(e.NewValue as TreeNode)?.Item?.Title ?? "is null"}");
+		//
+		// 	// e.Handled = true;
+		//
+		// 	if (nodeContextSource != null) return;
+		//
+		// 	TreeNode temp = e.NewValue as TreeNode;
+		//
+		// 	if (temp !=null && temp.Item.IsFixed && UserIsAdmin==false) return;
+		//
+		// 	// if (temp == null || temp.Parent == null)
+		// 	// {
+		// 	// 	return;
+		// 	// }
+		//
+		// 	// mws.SelectNode(temp);
+		// }
+
+		// context menu
+
 		// context menu events
+
 		private void Tv1ContextMenu_OnOpened(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
 			// sender.datacontect is the treenode
-			NodeContextSelected = (TreeNode) ((ContextMenu) sender).DataContext;
-		}
 
+			// Debug.WriteLine($"got ctx opened {sender?.GetType().Name ?? "is null"}");
+
+			if (HasEditingChanges) return;
+
+			TreeNode tn = ((ContextMenu) sender).DataContext as TreeNode;
+
+			if (tn.CannotSelect) return;
+
+			if (tn == null) return;
+
+			if (nodeContextSource != null && tn.Equals(nodeContextSource)) return;
+
+			ContextSelect(tn);
+
+			// NodeContextTarget = (TreeNode) ((ContextMenu) sender).DataContext;
+		}
 
 		private void Tv1ContextMenu_OnClosed(object sender, RoutedEventArgs e)
 		{
 			// sender is contextmenu
 			// sender.datacontect is the treenode
 
-			if (!bypassContextDeHighlight) ContextDeHighlight();
+			// Debug.WriteLine($"got closed {sender?.GetType().Name ?? "is null"}");
+
+
+			// if (!bypassContextDeHighlight) ContextDeHighlight();
+
+			// NodeContextTarget = null;
+
+
+			contextTargetDeselect();
 		}
 
+		private void Expander_MouseEnter(object sender, MouseEventArgs e)
+		{
+			// Debug.WriteLine("expander enter");
+			expanderGotMouse = true;
+		}
+
+		private void Expander_MouseLeave(object sender, MouseEventArgs e)
+		{
+			// Debug.WriteLine("expander leave");
+			expanderGotMouse = false;
+		}
+
+		// causes the nested listbox to transfer wheel movements to the parent treeview
+		private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (!e.Handled)
+			{
+				e.Handled = true;
+				MouseWheelEventArgs eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+				eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+				eventArg.Source = sender;
+				var parent = ((Control)sender).Parent as UIElement;
+				parent.RaiseEvent(eventArg);
+			}
+		}
+
+		// /// <summary>
+		// /// used to select and de-select notes on mouse down
+		// /// </summary>
+		// private void TreeViewItem_OnPreviewLeftMouseDown(object sender, MouseButtonEventArgs e)
+		// {
+		// 	// note that BaseOfTree.SelectedNode is set in the selection change event
+		//
+		// 	if (expanderGotMouse) return;
+		//
+		// 	bool gotReturn = false;
+		//
+		// 	TreeViewItem tvi = sender as TreeViewItem;
+		// 	TreeNode tn = tvi.DataContext as TreeNode;
+		//
+		// 	// Debug.Write($"treeview item got on preview left mouse down {sender?.GetType().Name ?? "is null"}  ");
+		// 	if (tn != null)
+		// 	{
+		// 		Debug.Write($"treeview item got on preview left mouse down {tn.Item.Title} ({tn.ID})  ");
+		// 	} else
+		// 	{
+		// 		Debug.Write($"treeview item got on preview left mouse down | tn is null  ");
+		// 	}
+		//
+		// 	// must be first
+		// 	// this is the first event - nothing currently selected
+		// 	// so select the node provided - the selection process is top down
+		// 	// that is, the highest level item is clicked first, then the next level down
+		// 	if (mws.NodeSelected == null)
+		// 	{
+		// 		// if (tn.IsNodeSelected) tn.IsNodeSelected = false;
+		//
+		// 		Debug.WriteLine("| node selected is null");
+		// 		gotReturn = true;
+		//
+		// 		// e.Handled = true;  nope
+		// 		return;
+		// 	}
+		//
+		// 	if (mws.NodeEditing.TreeNodeModified || mws.NodeEditing.TreeNodeChildItemModified)
+		// 	{
+		// 		Debug.WriteLine("| editing treeode is modified / handled is true");
+		// 		gotReturn = true;
+		//
+		// 		// e.Handled = true;
+		// 		return;
+		// 	}
+		//
+		// 	if (mws.NodeSelected.Equals(tn))
+		// 	{
+		// 		Debug.WriteLine("| selected treeode equals selected / handled is true");
+		// 		gotReturn = true;
+		//
+		// 		// mws.NodeSelected.IsNodeSelected = false;
+		//
+		// 		// kills further processing
+		// 		// e.Handled = true;
+		// 	}
+		//
+		// 	if (!gotReturn) Debug.Write("\n");
+		//
+		// 	
+		// }
+
+
+		private void CbxLabel_OnMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			ComboBox cbx = sender as ComboBox;
+
+			if (cbx is null) return;
+
+			cbx.IsDropDownOpen = !cbx.IsDropDownOpen;
+		}
+
+
+	#region treeview editor context menu functions
+
 		// context menu commands
+
+		/*  status: developing
+		*/
+		private void Tv1ContextMenuExpColAll_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (BaseOfTree.HasGrandChildrenExpanded)
+			{
+				BaseOfTree.CollapseAll();
+			}
+			else
+			{
+				BaseOfTree.ExpandAll();
+			}
+		}
+
+		/*  status: ok
+		*/
 		private void Tv1ContextMenuExpand_OnClick(object sender, RoutedEventArgs e)
 		{
 			string command = ((MenuItem) sender).CommandParameter as string;
 
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+
+			// if (nodeContextTarget == null) return;
 
 			if (command.Equals(ContextCmdExpand))
 			{
-				nodeContextSelected.IsExpanded = true;
+				nodeContextTarget.IsExpanded = true;
 			}
 			else
 			{
-				nodeContextSelected.IsExpanded = false;
+				nodeContextTarget.IsExpanded = false;
 			}
 		}
 
-
-	#region treeview editor functions
-
-		/*
-		* status: 
+		/*  status: ok
 		*/
 		private void Tv1ContextMenuAddChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null) return;
 
-			if (nodeContextSelected == null) return;
+			// NodeContextTarget.Item.CompOpSelectedIdx += 1;
 
-			BaseOfTree.AddNewChild2(nodeContextSelected);
+			TreeNode newNode = BaseOfTree.AddNewChild2(nodeContextTarget);
 
-			OnPropertyChanged("BaseOfTree");
-			OnPropertyChanged("NodeContextSelected");
+			OnPropertyChanged(nameof(BaseOfTree));
+			OnPropertyChanged(nameof(NodeContextTarget));
 
-			nodeContextSelected.IsExpanded = true;
+			nodeContextTarget.IsExpanded = true;
 
-			ContextDeselect();
+			mws.ValidateTree2();
+
+			mws.SelectNode(newNode);
 		}
 
-		/*
-		* status: 
+		/* status: testing
 		*/
 		private void Tv1ContextMenuAddBefore_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null) return;
 
-			if (nodeContextSelected == null) return;
+			TreeNode newNode = BaseOfTree.AddNewBefore2(nodeContextTarget);
 
-			BaseOfTree.AddNewBefore2(nodeContextSelected);
+			OnPropertyChanged(nameof(BaseOfTree));
+			OnPropertyChanged(nameof(NodeContextTarget));
 
-			OnPropertyChanged("BaseOfTree");
-			OnPropertyChanged("NodeContextSelected");
+			mws.ValidateTree2();
 
-			ContextDeselect();
+			mws.SelectNode(newNode);
 		}
 
-		/*
-		* status: 
+		/*  status: testing
 		*/
 		private void Tv1ContextMenuAddAfter_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null) return;
 
-			if (nodeContextSelected == null) return;
+			TreeNode newNode = BaseOfTree.AddNewAfter2(nodeContextTarget);
 
-			BaseOfTree.AddNewAfter2(nodeContextSelected);
+			OnPropertyChanged(nameof(BaseOfTree));
+			OnPropertyChanged(nameof(NodeContextTarget));
 
-			OnPropertyChanged("BaseOfTree");
-			OnPropertyChanged("NodeContextSelected");
+			mws.ValidateTree2();
 
-			ContextDeselect();
+			mws.SelectNode(newNode);
 		}
 
-		/*
-		* status: 
+		/* status: ok
 		*/
 		private void Tv1ContextMenuMoveBefore_OnClick(object sender, RoutedEventArgs e)
 		{
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// if (nodeContextTarget == null || mws.NodeSelected == null) return;
 
-			if (nodeContextSelected == null || mws.NodeSelected == null) return;
-
-			BaseOfTree.MoveBefore(nodeContextSelected, mws.NodeSelected);
+			NodeContextSource = nodeContextTarget;
 
 			DeSelect();
 
-			ContextDeselect();
+			NodeContextTarget = null;
+
+			MoveOp = 1;
 		}
 
-		/*
-		* status: 
+		/* status: ok
 		*/
 		private void Tv1ContextMenuMoveAfter_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null || mws.NodeSelected == null) return;
 
-			if (nodeContextSelected == null || mws.NodeSelected == null) return;
+			// BaseOfTree.MoveAfter(nodeContextTarget, mws.NodeSelected);
 
-			BaseOfTree.MoveAfter(nodeContextSelected, mws.NodeSelected);
+			NodeContextSource = nodeContextTarget;
 
 			DeSelect();
 
-			ContextDeselect();
+			NodeContextTarget = null;
+
+			MoveOp = 2;
 		}
 
-		/*
-		* status: 
+		/* status: ok
 		*/
 		private void Tv1ContextMenuMoveChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null || mws.NodeSelected == null) return;
 
-			if (nodeContextSelected == null || mws.NodeSelected == null) return;
+			// BaseOfTree.MoveAsChild(nodeContextTarget, mws.NodeSelected);
 
-			BaseOfTree.MoveAsChild(nodeContextSelected, mws.NodeSelected);
+			NodeContextSource = nodeContextTarget;
 
 			DeSelect();
 
-			ContextDeselect();
+			NodeContextTarget = null;
+
+			MoveOp = 3;
 		}
 
-		/*
-		* status: 
+		/* status: ok
 		*/
-		private void Tv1ContextMenuSelCopy_OnClick(object sender, RoutedEventArgs e)
+		private void Tv1ContextMenuDuplicate_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add contextselected after this leaf
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null) return;
 
-			if (nodeContextSelected == null) return;
+			TreeNode newNode = nodeContextTarget.Clone() as TreeNode;
+			newNode.Item.Title = $"{newNode.Item.Title} (copy)";
 
-			TreeNode newNode = nodeContextSelected.Clone() as TreeNode;
-
-			BaseOfTree.AddAfter2(nodeContextSelected, newNode);
+			BaseOfTree.AddAfter2(nodeContextTarget, newNode);
 
 			DeSelect();
 
-			ContextDeselect();
+			// ContextDeselect();
+
+			OnPropertyChanged(nameof(BaseOfTree));
+			OnPropertyChanged(nameof(NodeContextTarget));
+
+			mws.ValidateTree2();
+
+			mws.SelectNode(newNode);
 		}
 
-		/*
-		* status: 
+		/* status: ok
 		*/
-		private void Tv1ContextMenuCopySelAsChild_OnClick(object sender, RoutedEventArgs e)
+		private void Tv1ContextMenuDuplicateBranch_OnClick(object sender, RoutedEventArgs e)
+		{
+			TreeNode newNode = nodeContextTarget.CloneEx() as TreeNode;
+			newNode.Item.Title = $"{newNode.Item.Title} (copy)";
+
+			BaseOfTree.AddAfter2(nodeContextTarget, newNode);
+
+			DeSelect();
+
+			mws.ValidateTree2();
+
+			mws.SelectNode(newNode);
+		}
+
+		/* status: testing
+		*/
+		private void Tv1ContextMenuDuplicateAsChild_OnClick(object sender, RoutedEventArgs e)
 		{
 			// add a child to this leaf - also make a branch.
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (nodeContextTarget == null) return;
 
-			if (nodeContextSelected == null) return;
+			TreeNode newNode  = nodeContextTarget.Clone(2) as TreeNode;
+			newNode.Item.Title = $"{newNode.Item.Title} (copy)";
 
-			TreeNode newNode = mws.NodeSelected.Clone() as TreeNode;
-
-			BaseOfTree.AddChild2(nodeContextSelected, newNode);
+			BaseOfTree.AddChild2(nodeContextTarget, newNode);
 
 			DeSelect();
 
-			ContextDeselect();
+			mws.ValidateTree2();
+
+			mws.SelectNode(newNode);
 		}
 
-		/*
-		* status: 
-		*/
+		/*  status:  ok
+		 */
 		private void Tv1ContextMenuDelete_OnClick(object sender, RoutedEventArgs e)
 		{
-			bypassContextDeHighlight = true;
+			// bypassContextDeHighlight = true;
 
+			// NodeContextTarget = (TreeNode) ((MenuItem) sender).DataContext;
+			//
+			// if (NodeContextTarget ==null) return;
+
+			mws.DeleteNode(NodeContextTarget);
+
+/*
 			string msg;
 
-			NodeContextSelected = (TreeNode) ((MenuItem) sender).DataContext;
 
-			int extChildCount = nodeContextSelected.ExtChildCount;
+			int extChildCount = nodeContextTarget.ExtChildCount;
 
 			if (extChildCount > 0)
 			{
@@ -1040,7 +1458,7 @@ namespace ClassifierEditor.Windows
 				msg = "no categories or sub-categories.";
 			}
 
-			string title = nodeContextSelected.Item.Title;
+			string title = nodeContextTarget.Item.Title;
 
 			TaskDialogResult result = CommonTaskDialogs.CommonWarningDialog(
 				"Classifier Editor",
@@ -1069,19 +1487,64 @@ namespace ClassifierEditor.Windows
 
 			if (result == TaskDialogResult.Ok)
 			{
-				BaseOfTree.RemoveNode2(nodeContextSelected);
+				BaseOfTree.RemoveNode2(nodeContextTarget);
+			}
+*/
+			mws.ValidateTree2();
+
+			OnPropertyChanged(nameof(BaseOfTree));
+		}
+
+		/* status: ok
+		 */
+		private void Tv1ContextMenuApply_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (moveOp == 0)
+			{
+				return;
 			}
 
-			ContextDeselect();
+			switch (moveOp)
+			{
+			case 1:
+				{
+					BaseOfTree.MoveBefore(nodeContextTarget, nodeContextSource);
+					break;
+				}
+			case 2:
+				{
+					BaseOfTree.MoveAfter(nodeContextTarget, nodeContextSource);
+					break;
+				}
+			case 3:
+				{
+					BaseOfTree.MoveAsChild(nodeContextTarget, nodeContextSource);
+					break;
+				}
+			}
+
+			moveOp = 0;
+
+			mws.ValidateTree2();
+
+			contextSourceDeselect();
+		}
+
+		/* status: ok
+		*/
+		private void Tv1ContextMenuCancel_OnClick(object sender, RoutedEventArgs e)
+		{
+			contextSourceDeselect();
 		}
 
 	#endregion
-
 
 		private void CkbxDisable_OnChecked(object sender, RoutedEventArgs e)
 		{
 			if (HasSelection)
 			{
+				// ComparisonOperation c =  ((ComparisonOperation) ((CheckBox) sender).DataContext);
+
 				int id = ((ComparisonOperation) ((CheckBox) sender).DataContext).Id;
 
 				// int idx = nodeSelected.Item.FindCompOp(id) - 1;
@@ -1091,53 +1554,123 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
-		private void CkbxLocked_OnChecked(object sender, RoutedEventArgs e)
-		{
-			CheckBox ckbx = (CheckBox) sender;
+		// private void CkbxLocked_OnChecked(object sender, RoutedEventArgs e)
+		// {
+		// 	CheckBox ckbx = (CheckBox) sender;
+		//
+		// 	if (ckbx.IsChecked.Value != true) return;
+		//
+		// 	// TreeNode selected = ckbx.DataContext as TreeNode;
+		// 	//
+		// 	// if (selected == null) return;
+		//
+		// 	// has been checked
+		//
+		// 	mws.NodeSelected.IsNodeSelected = false;
+		// }
 
-			if (ckbx.IsChecked.Value != true) return;
-
-			TreeNode selected = ckbx.DataContext as TreeNode;
-
-			if (selected == null) return;
-
-			// has been checked
-
-			selected.IsNodeSelected = false;
-		}
-
+		/// <summary>
+		/// de-select base of tree selected node and support node selected
+		/// </summary>
 		private void DeSelect()
 		{
-			BaseOfTree.SelectedNode.IsNodeSelected = false;
+			if (BaseOfTree.SelectedNode != null)
+			{
+				BaseOfTree.SelectedNode.IsNodeSelected = false;
+			}
 
-			mws.NodeSelected = null;
+			if (mws.NodeSelected != null)
+			{
+				mws.NodeSelected = null;
+				mws.NodeEditing = null;
+			}
 		}
 
 		private void ContextHighlight()
 		{
-			nodeContextSelected.IsContextHighlighted = true;
+			// ContextMenu cm =sender as ContextMenu;
+
+			// nodeContextTarget.IsContextHighlighted = true;
 		}
 
 		private void ContextDeHighlight()
 		{
-			if (nodeContextSelected != null)
-				nodeContextSelected.IsContextHighlighted = false;
+			// if (nodeContextTarget != null)
+			// 	nodeContextTarget.IsContextHighlighted = false;
 		}
 
-		private void ContextDeselect()
+		private void ContextSelect(TreeNode selected)
 		{
-			bypassContextDeHighlight = false;
+			NodeContextTarget = selected;
 
-			if (nodeContextSelected != null)
-			{
-				nodeContextSelected.IsContextSelected = false;
-				nodeContextSelected.IsContextHighlighted = false;
+			contextSelectedTargetParent = nodeContextTarget.Parent;
+			nodeContextTarget.IsContextTarget = true;
+			// nodeContextTarget.IsContextSource = false;
+		}
 
-				nodeContextSelected = null;
-			}
+		private void contextTargetDeselect()
+		{
+			if (nodeContextTarget == null) return;
+
+			nodeContextTarget.IsContextTarget = false;
+			nodeContextTarget.IsContextSource = false;
+			contextSelectedTargetParent = null;
+
+			NodeContextTarget = null;
+		}
+
+		private void contextSourceDeselect()
+		{
+			if (nodeContextSource == null) return;
+
+			nodeContextSource.IsContextTarget = false;
+			nodeContextSource.IsContextSource = false;
+
+			NodeContextSource = null;
+		}
+
+
+		// private void ContextDeselect()
+		// {
+		// 	// bypassContextDeHighlight = false;
+		//
+		// 	nodeContextTarget.IsContextTarget = false;
+		// 	nodeContextTarget.IsContextSource = false;
+		// 	contextSelectedTargetParent = null;
+		//
+		// 	NodeContextTarget = null;
+		// }
+
+		/// <summary>
+		/// move ContextSource to before ContextTarget
+		/// </summary>
+		private void ContextMoveBefore() { }
+
+
+		// context item disable
+		// all branch items when the item is not a branch
+		// is (node.cannot select)
+		// any "to a sub-category" when depth + 1 > max depth
+
+		private void setCannotContextSelect(TreeNode selected)
+		{
+			// cannot select because
+			// if selected == source
+			// if selected.cannotselect (ie., is fixed, or locked, or ismax depth
+			// if doing a branch move to one of the branches own children
+			// 
 		}
 
 	#region buttons
+
+		private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
+		{
+			TreeNode tn = ((Button) sender).DataContext as TreeNode;
+
+			if (tn == null) return;
+
+			mws.DeleteNode(tn);
+		}
 
 		private void BtnRemExCollapseState_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -1150,16 +1683,18 @@ namespace ClassifierEditor.Windows
 		{
 			if (HasSelection)
 			{
-				if (mws.NodeSelected.Item.CompareOps.Count == 0)
+				if (mws.NodeEditing.Item.CompareOps.Count == 0)
 				{
-					mws.NodeSelected.Item.CompareOps.Add(
-						new ValueCompOp(LOGICAL_NO_OP, EQUALTO, "A", mws.NodeSelected.Depth));
+					mws.NodeEditing.Item.CompareOps.Add(
+						new ComparisonOp(LOGICAL_NO_OP, EQUALTO, "A", mws.NodeEditing.Depth));
+					mws.NodeEditing.Item.ChildCompOpModified = true;
 				}
 				else
 				{
-					mws.NodeSelected.Item.CompareOps.Add(
-						new ValueCompOp(LOGICAL_OR, EQUALTO, "A",
-							mws.NodeSelected.Item.CompareOps[0].CompareComponentIndex));
+					mws.NodeEditing.Item.CompareOps.Add(
+						new ComparisonOp(LOGICAL_OR, EQUALTO, "A",
+							mws.NodeEditing.Item.CompareOps[0].CompareComponentIndex));
+					mws.NodeEditing.Item.ChildCompOpModified = true;
 				}
 			}
 		}
@@ -1170,10 +1705,10 @@ namespace ClassifierEditor.Windows
 			{
 				int id = ((ComparisonOperation) ((Button) sender).DataContext).Id;
 
-				int idx = mws.NodeSelected.Item.FindCompOp(id) ;
+				int idx = mws.NodeEditing.Item.FindCompOp(id) ;
 
 				// nodeSelected.Item.RemoveCompOpAt(idx--);
-				mws.NodeSelected.Item.RemoveCompOpAt(idx);
+				mws.NodeEditing.Item.RemoveCompOpAt(idx);
 			}
 		}
 
@@ -1181,8 +1716,29 @@ namespace ClassifierEditor.Windows
 		{
 			mws.NodeSelected.IsNodeSelected = false;
 			mws.NodeSelected = null;
-			mws.NodeCopy = null;
+			mws.NodeEditing = null;
 		}
+
+		private void BtnCancelEdit_OnClick(object sender, RoutedEventArgs e)
+		{
+			// mws.NodeSelected.IsNodeSelected = false;
+			// mws.NodeSelected = null;
+			// mws.NodeEditing = null;
+
+			DeSelect();
+		}
+
+		private void BtnSaveEdit_OnClick(object sender, RoutedEventArgs e)
+		{
+			mws.NodeSelected.Item.Merge(mws.NodeEditing.Item);
+
+			// mws.NodeSelected.IsNodeSelected = false;
+			// mws.NodeSelected = null;
+			// mws.NodeEditing = null;
+
+			DeSelect();
+		}
+
 
 		private void BtnSelect_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -1194,6 +1750,9 @@ namespace ClassifierEditor.Windows
 			if (result != true) return;
 
 			ClassificationFile = ClassificationFile.GetUserClassfFile(dialog.SelectedFileId);
+
+			UserSettings.Data.LastClassificationFileId = dialog.SelectedFileId;
+			UserSettings.Admin.Write();
 
 			// OnTnInitAnnouncer.Announce(null);
 
@@ -1211,34 +1770,80 @@ namespace ClassifierEditor.Windows
 			// OnTnInitAnnouncer.Announce(null);
 		}
 
+		private void BtnClassify_OnClick(object sender, RoutedEventArgs e)
+		{
+		#if DML1
+			DM.Start0(true);
+		#endif
+			WindowClassifyTest winTest = new WindowClassifyTest();
+
+			bool init = winTest.Configure(classificationFile);
+
+			winTest.Owner = this;
+
+
+			if (init) winTest.ShowDialog();
+
+		#if DML1
+			DM.End0();
+		#endif
+		}
+
 
 		private void BtnSave_OnClick(object sender, RoutedEventArgs e)
 		{
 			// OnSavingAnnouncer.Announce(true);
 
-			classificationFile.Write();
+			classificationFile.Write(true);
+
+			BaseOfTree.NotifyChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_NODE_MODIFICATION);
+			BaseOfTree.NotifyChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION);
+
+			// BaseOfTree.IsNodeSelected = false;
+			// BaseOfTree.TreeNodeChildItemModified = false;
+			//
+			// ClassificationFile.IsModified = false;
 
 			// OnSavedAnnouncer.Announce(true);
 		}
 
-		private void BtnClassify_OnClick(object sender, RoutedEventArgs e)
-		{
-			WindowClassifyTest winTest = new WindowClassifyTest();
-
-			bool init = winTest.Configure(classificationFile);
-
-			if (init) winTest.Show();
-		}
-
 		private void BtnDone_OnClick(object sender, RoutedEventArgs e)
 		{
+		#if DML1
+			DM.Start0(true);
+		#endif
 			this.Close();
 		}
 
+		private void BtnUpdateClassifFile_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (fileIdNew.IsVoid()) return;
+
+			OpenClassifFile(fileIdNew);
+		}
+
+		private void BtnValidate_OnClick(object sender, RoutedEventArgs e)
+		{
+			mws.ValidateTree();
+
+			Debug.WriteLine("\n*** Validation Complete ***\n\n");
+		}
+
+		private void BtnRepair_OnClick(object sender, RoutedEventArgs e)
+		{
+			mws.RepairTree();
+
+			Debug.WriteLine("\n*** Repair Complete ***");
+
+			OnPropertyChanged(nameof(BaseOfTree));
+		}
+
+		// debug
+
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
-			List< ValueCompareOp > v = ValueCompareOps;
-			List< LogicalCompareOp > l = LogicalCompareOps;
+			List< ValueCompOpDef > v = ValueCompareOps;
+			List< LogicalCompOpDef > l = LogicalCompareOps;
 
 			ListView lv = Lv2;
 			// ComboBox cbx = Lv2.ItemTemplate.FindName("Cbx1", Lv2) as ComboBox;
@@ -1251,23 +1856,30 @@ namespace ClassifierEditor.Windows
 			bool itemMod = bot.TreeNodeChildItemModified;
 
 			bool b = ClassificationFile.IsModified;
+			bool c = ClassificationFile.CanSave;
+			bool ed = ClassificationFile.CanEdit;
 
 			SheetFileList f = FileList;
 
 			TreeNode tns = mws.NodeSelected;
-			TreeNode tnc = mws.NodeCopy;
+			TreeNode tne = mws.NodeEditing;
+			TreeNode tnct = NodeContextTarget;
+			TreeNode tncs = NodeContextSource;
 
+			bool isSel = mws?.NodeSelected?.IsNodeSelected ?? false;
+
+			bool isAdmin = this.UserIsAdmin;
+
+			string ic = tns?.Item.ItemClassName ?? "null";
+
+			List<LogicalCompOpDef> lc = CompareOperations.LogicalCompareOps;
+			List<ValueCompOpDef> vc = CompareOperations.ValueCompareOps;
+
+			MainWindowClassifierEditor m = Me;
 
 			Debug.WriteLine("at debug");
 		}
 
-		private void BtnUpdateClassifFile_OnClick(object sender, RoutedEventArgs e)
-		{
-			if (fileIdNew.IsVoid()) return;
-
-			OpenClassifFile(fileIdNew);
-		}
-	
 	#endregion
 
 	#endregion
@@ -1287,8 +1899,30 @@ namespace ClassifierEditor.Windows
 
 	#endregion
 
-		
+		// private void CbxItemClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		// {
+		//
+		// }
+
+		// private void Tv1ContextMenu_OnContextMenuClosing(object sender, ContextMenuEventArgs e)
+		// {
+		// 	Debug.WriteLine($"got closed ctxm {sender?.GetType().Name ?? "is null"}");
+		// }
+		//
+		// private void Tv1ContextMenu_OnContextMenuOpening(object sender, ContextMenuEventArgs e)
+		// {
+		// 	Debug.WriteLine($"got open ctxm {sender?.GetType().Name ?? "is null"}");
+		// }
+
+
+		private bool expcolwhich = false;
+		private string messages;
+
+		// private void tbx32_TextChanged(object sender, TextChangedEventArgs e) { }
+
+		private void BtnDisableTv1_OnClick(object sender, RoutedEventArgs e)
+		{
+			Tv1.IsEnabled = !Tv1.IsEnabled;
+		}
 	}
-
-
 }

@@ -126,7 +126,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public List<string> ShtNumComps { get; private set; }
 
 		// all used
-		public string PhaseBldg      => ShtNumComps[VI_PHBLDG]        ;
+		public string PhaseBldg      => ShtNumComps[VI_PHBLDG]        ; 
 		// public string PhaseBldgSep   => ShtNumComps[VI_PBSEP
 		public string Discipline     => ShtNumComps[VI_DISCIPLINE]    ;
 		public string Seperator0     => ShtNumComps[VI_SEP0]          ;
@@ -141,6 +141,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public string Identifier     => ShtNumComps[VI_IDENTIFIER]    ;
 		public string Seperator5     => ShtNumComps[VI_SEP5]          ;
 		public string Subidentifier  => ShtNumComps[VI_SUBIDENTIFIER] ;
+		public string SortSuffix     => ShtNumComps[VI_SORT_SUFFIX] ;
 
 		// public
 

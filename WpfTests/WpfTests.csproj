@@ -123,14 +123,26 @@
     <Compile Include="..\AndyFavsAndHistory\Windows\FavsAndHistory.xaml.cs">
       <Link>.Linked\FavsAndHistory.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ScrollBarAttached.cs">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBarAttached.cs</Link>
+    </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ScrollViewerVariable.xaml.cs">
+      <Link>Windows\Support\ScrollViewerEx\ScrollViewerVariable.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
+    <Compile Include="..\Sylvester\UserControls\FolderRoute.xaml.cs">
+      <Link>Windows\Support\FolderRoute\FolderRoute.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\Sylvester\UserControls\ObliqueButton.xaml.cs">
+      <Link>Windows\Support\FolderRoute\ObliqueButton.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\Sylvester\UserControls\PathChangeArgs.cs">
+      <Link>Windows\Support\FolderRoute\PathChangeArgs.cs</Link>
+    </Compile>
     <Compile Include="..\WpfShared\Dialogs\DialogSupport\PathChangeArgs.cs">
       <Link>.Linked\PathChangeArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml.cs">
-      <Link>Windows\Support\FolderRoute\FolderRoute.xaml.cs</Link>
     </Compile>
     <Compile Include="..\WpfShared\Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
       <Link>Windows\Support\ScrollViewerEx\ScrollViewerExtended.xaml.cs</Link>
@@ -146,13 +158,138 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AndyResources\SVG\File-Open-00.xaml">
+      <Link>Windows\ResourceFiles\SVG\File-Open-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\Folder-Pair-00.xaml">
+      <Link>Windows\ResourceFiles\SVG\Folder-Pair-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\Folder-project-00.xaml">
+      <Link>Windows\ResourceFiles\SVG\Folder-project-00.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar01.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar01.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar02.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar02.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconArrowsTree01.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconArrowsTree01.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconCheckMark.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconCheckMark.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDash.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconDash.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDelete-0x.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconDelete-0x.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconDelete.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconDelete.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconHistory.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconHistory.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconNot.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconNot.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconPlus.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconPlus.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconRect.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconRect.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconStar.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconStar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconTriangle.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconTriangle.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\IconTriangleOblique.xaml">
+      <Link>Windows\ResourceFiles\SVG\IconTriangleOblique.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\SVG\_IconMT.xaml">
+      <Link>Windows\ResourceFiles\SVG\_IconMT.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\Gallery.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\Gallery.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
       <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\WpfShared\Windows\ResourceFiles\FolderRoute\FolderRoute.xaml">
+    <Page Include="..\AndyResources\XamlResources\ScrollBar.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBar.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollBarMetrics.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ScrollBarMetrics.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollViewerNarrow.xaml">
+      <Link>Windows\Support\ScrollViewerEx\ScrollViewerNarrow.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ScrollViewerVariable.xaml">
+      <Link>Windows\Support\ScrollViewerEx\ScrollViewerVariable.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Sylvester\UserControls\FolderRoute.xaml">
       <Link>Windows\Support\FolderRoute\FolderRoute.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Sylvester\UserControls\ObliqueButton.xaml">
+      <Link>Windows\Support\FolderRoute\ObliqueButton.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

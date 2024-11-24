@@ -15,6 +15,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 using static AndyShared.ClassificationFileSupport.ClassificationFile;
 using System.Diagnostics;
+using AndyShared.Support;
 
 
 namespace WpfShared.Windows
@@ -61,14 +62,14 @@ namespace WpfShared.Windows
 
 		static ClassificationFileSelector()
 		{
-
 			ClassificationFiles cfgClsFiles = ClassfFileSelectorSampleData.CfgClsFiles;
 		}
-
 
 		public ClassificationFileSelector()
 		{
 			InitializeComponent();
+
+			WinHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
 
 			UserSettings.Admin.Read();
 
@@ -81,6 +82,8 @@ namespace WpfShared.Windows
 	#endregion
 
 	#region public properties
+
+		public static IntPtr WinHandle { get; private set; }
 
 		public ClassificationFiles CfgClsFiles => cfgClsFiles;
 

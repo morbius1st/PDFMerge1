@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 using UtilityLibrary;
@@ -148,6 +150,8 @@ namespace ClassifySheets.Windows
 		{
 			get => classificationFile?.TreeBase ?? null;
 		}
+
+		public BaseOfTree AltBaseOfTree { get; set; }
 
 		public TreeNode UserSelected
 		{
@@ -424,28 +428,34 @@ namespace ClassifySheets.Windows
 
 		private void go()
 		{
-			prepClassify();
-
-			classify.PreProcess();
-
-			classify.Process3();
-		}
-
-		private void prepClassify()
-		{
 			Pb2Value = 0;
 			Pb2MaximumValue = testFileList.Files.Count;
 
 			classify.Configure(BaseOfTree, TestFileList);
+
 			classify.ConfigureAsyncReporting(pbProgValue);
+
+			classify.PreProcess();
+
+			classify.Process3();
+
+			OnPropertyChange(nameof(BaseOfTree));
 		}
+
 
 	#endregion
 
 	#region event consuming
 
+		// window events
+
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+
+			// BaseOfTree a = ClassifySheets.SampleData.SampleData.TreeBase;
+
+
+
 			#if DML1
 				DM.Start0();
 			#endif
@@ -468,7 +478,7 @@ namespace ClassifySheets.Windows
 					if (classfFileArg.IsVoid())
 					{
 						// ClassificationFile = ClassificationFile.GetUserClassfFile("PdfSample 1");
-						ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Test 1");
+						ClassificationFile = ClassificationFile.GetUserClassfFile("Pdf Classfications 001");
 					}
 					else
 					{
@@ -513,6 +523,12 @@ namespace ClassifySheets.Windows
 			// tell classify to display debug messages
 			// announcer.Announce(displayDebugMsgs);
 
+
+			AltBaseOfTree = ClassifySheets.SampleData.SampleData.TreeBase;
+			AltBaseOfTree.CountExtMergeItems();
+			//
+			OnPropertyChange(nameof(AltBaseOfTree));
+
 		#if DML1
 			DM.End0();
 		#endif
@@ -525,6 +541,8 @@ namespace ClassifySheets.Windows
 
 			await WinStartAsync();
 		}
+
+		// buttons
 
 		private void BtnDebug_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -565,7 +583,9 @@ namespace ClassifySheets.Windows
 		{
 			Tbx2Message = "Start";
 
-			await Task.Run(() => { ListTreeBase(false); } );
+			// await Task.Run(() => { ListTreeBase(false); } );
+
+			ListTreeBase();
 		}
 
 		private async void BtnShow_OnClick(object sender, RoutedEventArgs e)
@@ -583,6 +603,9 @@ namespace ClassifySheets.Windows
 		{
 			Environment.Exit(0);
 		}
+
+
+		// control events
 
 		private void classify_OnTreeNodeChange(object sender, TreeNodeChangeEventArgs e)
 		{
@@ -605,6 +628,9 @@ namespace ClassifySheets.Windows
 
 			UpdateProperties();
 		}
+
+		// other
+
 
 	#endregion
 
@@ -691,6 +717,7 @@ namespace ClassifySheets.Windows
 			}
 		}
 
+
 		private void formatNodeDescription(TreeNode node, bool showMerge)
 		{
 			string marginStr = "  ".Repeat(node.Depth);
@@ -721,7 +748,7 @@ namespace ClassifySheets.Windows
 			if (showMerge)
 			{
 				Tbx2Message += (" item count | ");
-				Tbx2Message += (node.ItemCount.ToString("##0"));
+				Tbx2Message += (node.MergeItemCount.ToString("##0"));
 				Tbx2Message += (" ex last item count| ");
 				Tbx2Message += (node.ExtMergeItemCount.ToString("##0"));
 				Tbx2Message += ("\n");
@@ -787,7 +814,7 @@ namespace ClassifySheets.Windows
 				Tbx2Message += (margin + "merge node| " +
 					node.Item.Title + "\n");
 
-				if (node.ItemCount > 0)
+				if (node.MergeItemCount > 0)
 				{
 					foreach (MergeItem mi in node.Item.MergeItems)
 					{
@@ -851,5 +878,32 @@ namespace ClassifySheets.Windows
 			DM.End0();
 		#endif
 		}
+
+
+		
+		private void listTreeBase2()
+		{
+			Tbx2Message += ("***** List Tree Base ***\n\n");
+
+			formatNodeDescription(AltBaseOfTree, true);
+
+			listTreeBase2(AltBaseOfTree);
+		}
+
+
+		private void listTreeBase2(TreeNode node)
+		{
+			foreach (TreeNode childNode in node.Children)
+			{
+				formatNodeDescription(childNode, true);
+
+				if (childNode.ChildCount > 0)
+				{
+					listTreeBase2(childNode);
+				}
+
+			}
+		}
+
 	}
 }

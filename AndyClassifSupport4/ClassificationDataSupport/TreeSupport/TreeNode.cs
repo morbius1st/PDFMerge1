@@ -39,7 +39,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private TreeNode parent;
 		private int depth;
-		private static int maxDepth = 7;
+		// private static int maxDepth = 7;
 
 		private int extMergeItemCount;
 		// protected int extItemCountCurrent;

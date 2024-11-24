@@ -16,7 +16,10 @@
 									FallbackValue=-1}"
 		>
 
+
 	<UserControl.Resources>
+
+
 
 		<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red" />
 		<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Blue" />

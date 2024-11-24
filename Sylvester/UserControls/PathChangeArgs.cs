@@ -1,12 +1,12 @@
-﻿// Solution:     PDFMerge1
+﻿
+using System;
+
+// using Sylvester.FileSupport;
+using UtilityLibrary;
+// Solution:     PDFMerge1
 // Project:       Sylvester
 // File:             PathChangeArgs.cs
 // Created:      -- ()
-
-using System;
-
-using Sylvester.FileSupport;
-using UtilityLibrary;
 
 namespace Sylvester.UserControls 
 {

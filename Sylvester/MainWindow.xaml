@@ -1435,6 +1435,8 @@
 
 		<!--#endregion-->
 
+		<!--#region > buttons  -->
+
 		<StackPanel
 				Grid.Column="2"
 				Grid.Row="6"
@@ -1442,7 +1444,7 @@
 				HorizontalAlignment="Right"
 				DockPanel.Dock="Right"
 				Orientation="Horizontal"
-				>
+		>
 
 			<Button Name="btnAddFavs"
 					Height="{StaticResource Button.Height.Tall}"
@@ -1450,17 +1452,17 @@
 					VerticalAlignment="Bottom"
 					Style="{StaticResource Button.Style.Standard.Left}"
 					Click="BtnAddToFavs_OnClick"
-					>
+			>
 				<Button.Content>
 					<StackPanel Orientation="Vertical">
 						<Label
 								Content="Add as"
 								Style="{StaticResource Label.Button.StackedText}"
-								/>
+						/>
 						<Label
 								Content="Favorite"
 								Style="{StaticResource Label.Button.StackedText}"
-								/>
+						/>
 					</StackPanel>
 				</Button.Content>
 				<Button.IsEnabled>
@@ -1469,12 +1471,12 @@
 								ElementName="mainwin"
 								FallbackValue="false"
 								Path="pm.FileCollectionCurrent.HasFolder"
-								/>
+						/>
 						<Binding
 								ElementName="mainwin"
 								FallbackValue="false"
 								Path="pm.FileCollectionRevision.HasFolder"
-								/>
+						/>
 					</MultiBinding>
 				</Button.IsEnabled>
 			</Button>
@@ -1487,7 +1489,7 @@
 					DockPanel.Dock="Right"
 					Style="{StaticResource Button.Style.Standard.Left}"
 					Click="BtnDone_OnClick"
-					/>
+			/>
 
 
 			<Button Name="btnTest1"
@@ -1496,7 +1498,7 @@
 					Visibility="Collapsed"
 					Style="{StaticResource btn}"
 					Click="BtnTest1_OnClick"
-					/>
+			/>
 
 			<Button Name="btnDebug"
 					Content="Debug"
@@ -1504,7 +1506,7 @@
 					Visibility="Collapsed"
 					Style="{StaticResource btn}"
 					Click="BtnDebug_OnClick"
-					/>
+			/>
 
 			<Button Name="btnReset"
 					Content="Reset"
@@ -1512,9 +1514,11 @@
 					Visibility="Collapsed"
 					Style="{StaticResource btn}"
 					Click="BtnReset_OnClick"
-					/>
+			/>
 
 		</StackPanel>
+
+		<!--#endregion -->
 
 	</Grid>
 </Window>

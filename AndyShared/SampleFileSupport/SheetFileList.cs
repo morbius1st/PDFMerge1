@@ -1,4 +1,6 @@
-﻿#region using
+﻿#define DML1
+
+#region using
 
 using System;
 using System.Collections.ObjectModel;
@@ -17,6 +19,9 @@ using DebugCode;
 
 namespace AndyShared.SampleFileSupport
 {
+	public class SheetPdf : FilePath<FileNameSheetPdf> { }
+
+
 	/// <summary>
 	/// holds a list of sheet files to be classified
 	/// </summary>
@@ -29,6 +34,13 @@ namespace AndyShared.SampleFileSupport
 	#endregion
 	
 	#region ctor
+
+		public SheetFileList()
+		{
+		#if DML1
+			DM.InOut0();
+		#endif
+		}
 
 	#endregion
 	

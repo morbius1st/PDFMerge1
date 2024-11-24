@@ -30,8 +30,8 @@ namespace WpfShared
 		{
 			Initalize();
 
-			StartWin(WindowId.DIALOG_SELECT_CLASSF_FILE);
-			// StartWin(WindowId.WINDOW1);
+			// StartWin(WindowId.DIALOG_SELECT_CLASSF_FILE);
+			StartWin(WindowId.WINDOW1);
 		}
 
 		private static void Initalize()

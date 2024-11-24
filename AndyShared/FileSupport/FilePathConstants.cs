@@ -12,6 +12,7 @@ namespace AndyShared.FileSupport
 	public static class FilePathConstants
 	{
 		public const string USER_STORAGE_FOLDER_NAME = @"User Classification Files";
+		public const string DEFAULT_FOLDER_NAME = @"Default";
 
 		public const string USER_STORAGE_PATTERN = @"*.xml";
 		public const string USER_STORAGE_FOLDER = FilePathUtil.PATH_SEPARATOR + USER_STORAGE_FOLDER_NAME;

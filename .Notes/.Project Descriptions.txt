@@ -28,7 +28,7 @@ ConfigClassificationUser	creates and holds a list of the user's classification f
 
 --- Test apps -----
 PDFMerge1		test app to merge PDF files
-ClassifySheets		95%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
+ClassifySheets		75%		takes a classificationFile and a samplelist and applies to see if and how the classification settings work
                             Also uses async routines to monitor progress / to classify the sheets
 
 test3			test using a tri-state tree using events and methods | tests FileNameSheetPdf file object for FilePath<> | generic access to classification file

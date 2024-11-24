@@ -5,8 +5,9 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:local="clr-namespace:WpfTests.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:folderRoute="clr-namespace:WpfShared.Windows.ResourceFiles.FolderRoute"
+
 		xmlns:scrollViewerEx="clr-namespace:WpfShared.Windows.ResourceFiles.ScrollViewerEx"
+		xmlns:userControls="clr-namespace:Sylvester.UserControls"
 		Title="Fav&amp;History Test"
 		Width="800"
 		Height="450"
@@ -23,6 +24,12 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!-- <ResourceDictionary Source="../AndyResources/XamlResources/MasterVisualResources.xaml"></ResourceDictionary> -->
+				<ResourceDictionary Source="ResourceFiles/XamlResources/IconDelete-0x.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/IconResources.xaml" />				
+				<ResourceDictionary Source="/../Sylvester/UserControls/ObliqueButton.xaml"></ResourceDictionary>
+				<ResourceDictionary Source="/../Sylvester/UserControls/FolderRoute.xaml"></ResourceDictionary>
+
+
 			</ResourceDictionary.MergedDictionaries>
 
 			<local:HeightWidthConverter x:Key="HeightWidthConverter" />
@@ -74,7 +81,7 @@
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Top"
 				>
-			<folderRoute:FolderRoute x:Name="FolderRoute"
+			<userControls:FolderRoute x:Name="FolderRoute"
 					Margin="7,0,0,0"
 					Height="28"
 					VerticalAlignment="Top"

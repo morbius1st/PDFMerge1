@@ -9,7 +9,7 @@ using AndyShared.FileSupport;
 using AndyShared.Support;
 
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Dialogs.Controls;
+
 using UtilityLibrary;
 
 #endregion
@@ -23,7 +23,7 @@ namespace AndyShared.Support
 	{
 
 		public static void CommonErrorDialog(
-			string title, string main, string message)
+			string title, string main, string message, IntPtr handle =  default)
 		{
 			TaskDialog td = new TaskDialog();
 			td.Caption = title;
@@ -31,8 +31,15 @@ namespace AndyShared.Support
 			td.Text = message;
 			td.Icon = TaskDialogStandardIcon.Error;
 			td.Cancelable = false;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+
+			if (handle != IntPtr.Zero)
+			{
+				// add WinHandle to a static IntPtr to the main window and update usage
+				// see MainWindowClassifierEditor for example
+				td.OwnerWindowHandle = handle;
+				td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			}
+
 			td.Opened += Common.TaskDialog_Opened;
 			td.Show();
 		}
@@ -42,8 +49,8 @@ namespace AndyShared.Support
 		/// two button options (default) - OK or Cancel
 		/// </summary>
 		public static TaskDialogResult CommonWarningDialog(string title, 
-			string main, string message, 
-			TaskDialogStandardButtons buttons =
+			string main, string message, IntPtr handle =  default, 
+				TaskDialogStandardButtons buttons =
 				TaskDialogStandardButtons.Ok | TaskDialogStandardButtons.Cancel)
 		{
 			TaskDialog td = new TaskDialog();
@@ -53,8 +60,15 @@ namespace AndyShared.Support
 			td.Icon = TaskDialogStandardIcon.Warning;
 			td.Cancelable = false;
 			td.StandardButtons = buttons;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+
+			if (handle != IntPtr.Zero)
+			{
+				// add WinHandle to a static IntPtr to the main window and update usage
+				// see MainWindowClassifierEditor for example
+				td.OwnerWindowHandle = handle;
+				td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			}
+
 			td.Opened += Common.TaskDialog_Opened;
 
 			return td.Show();
@@ -65,10 +79,10 @@ namespace AndyShared.Support
 		/// one button option (default) - OK
 		/// </summary>
 		public static TaskDialogResult CommonNotificationDialog(string title, 
-			string main, string message, 
+			string main, string message, IntPtr handle =  default,
 			TaskDialogStandardButtons buttons = TaskDialogStandardButtons.Ok)
 		{
-			return CommonWarningDialog(title, main, message, buttons);
+			return CommonWarningDialog(title, main, message, handle, buttons);
 		}
 
 		/// <summary>
@@ -76,7 +90,7 @@ namespace AndyShared.Support
 		/// two button choices (by default) - Yes or No
 		/// </summary>
 		public static TaskDialogResult CommonErrorRequestDialog(string title, 
-			string main, string message, string footer = "", 
+			string main, string message, string footer = "", IntPtr handle =  default, 
 			TaskDialogStandardButtons buttons =
 				TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No)
 		{
@@ -88,8 +102,14 @@ namespace AndyShared.Support
 			td.Icon = TaskDialogStandardIcon.Error;
 			td.Cancelable = false;
 			td.StandardButtons = buttons;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+
+			if (handle != IntPtr.Zero)
+			{
+				// add WinHandle to a static IntPtr to the main window and update usage
+				// see MainWindowClassifierEditor for example
+				td.OwnerWindowHandle = handle;
+				td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			}
 
 			if (!footer.IsVoid())
 			{
@@ -97,7 +117,6 @@ namespace AndyShared.Support
 				td.FooterText = footer;
 			}
 
-			
 			return td.Show();
 		}
 
@@ -106,7 +125,7 @@ namespace AndyShared.Support
 		/// two button choices (by default) - Yes or No
 		/// </summary>
 		public static TaskDialogResult CommonTestDialog(string title, 
-			string main, string message, 
+			string main, string message, IntPtr handle =  default, 
 			TaskDialogStandardButtons buttons =
 				TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No)
 		{
@@ -118,8 +137,15 @@ namespace AndyShared.Support
 			td.Icon = TaskDialogStandardIcon.Error;
 			td.Cancelable = false;
 			td.StandardButtons = buttons;
-			td.OwnerWindowHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
-			td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+
+			if (handle != IntPtr.Zero)
+			{
+				// add WinHandle to a static IntPtr to the main window and update usage
+				// see MainWindowClassifierEditor for example
+				td.OwnerWindowHandle = handle;
+				td.StartupLocation = TaskDialogStartupLocation.CenterOwner;
+			}
+
 			// td.Opened += Common.TaskDialog_Opened;
 
 			td.FooterIcon = TaskDialogStandardIcon.Shield;

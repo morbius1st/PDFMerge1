@@ -17,8 +17,8 @@ using WpfShared.Dialogs.DialogSupport;
 using WpfShared.Windows;
 using static WpfTests.Windows.MainWindow.EventStat;
 using SettingsManager;
-
 using AndyShared.Support;
+using Sylvester.UserControls;
 
 // using AndyFavsAndHistory.Windows;
 
@@ -32,30 +32,17 @@ using AndyShared.Support;
 
 namespace WpfTests.Windows
 {
-
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
-
-	public class HouseInfo
-	{
-		public string House
+		public class HouseInfo
 		{
-			get;
-			set;
+			public string House { get; set; }
+
+			public ObservableCollection<String> Details { get; set; }
 		}
-
-		public ObservableCollection<String> Details
-		{
-			get;
-			set;
-		}
-	}
-
-
-
 
 	#region private fields
 
@@ -67,7 +54,7 @@ namespace WpfTests.Windows
 			Favorite
 		}
 
-		private string[] eventStatus = new [] {"", "", "", "" };
+		private string[] eventStatus = new [] { "", "", "", "" };
 
 		private string message;
 
@@ -85,10 +72,10 @@ namespace WpfTests.Windows
 
 			LoadHouseInfo();
 
-			FolderRoute.OnFavoritesPressed += FolderRouteOnOnFavoritesPressed;
-			FolderRoute.OnHistoryPressed += FolderRouteOnOnHistoryPressed;
-			FolderRoute.OnSelectFolderRequested += FolderRouteOnOnSelectFolderRequested;
-			FolderRoute.OnPathChange += FolderRouteOnOnPathChange;
+			// FolderRoute.Favorites += FolderRouteOnOnFavoritesPressed;
+			// FolderRoute.History += FolderRouteOnOnHistoryPressed;
+			// FolderRoute.SelectFolder += FolderRouteOnOnSelectFolderRequested;
+			// FolderRoute.PathChange += FolderRoute_PathChange;
 
 			WriteLine("pgm setting| isconfigured| " + isConfigured.ToString());
 			WriteLine("pgm setting|     username| " + userName);
@@ -97,8 +84,6 @@ namespace WpfTests.Windows
 			WriteLine("suite setg| root folder| " + SuiteSettings.Path.RootFolderPath);
 			WriteLine("suite setg| setg folder| " + SuiteSettings.Path.SettingFolderPath);
 			WriteLine("suite setg| site root path| " + SuiteSettings.Data.SiteRootPath);
-
-			
 		}
 
 	#endregion
@@ -166,7 +151,7 @@ namespace WpfTests.Windows
 			}
 		}
 
-		
+
 		public string UserName
 		{
 			get => userName;
@@ -199,7 +184,6 @@ namespace WpfTests.Windows
 			}
 		}
 
-
 	#endregion
 
 	#region private properties
@@ -213,7 +197,6 @@ namespace WpfTests.Windows
 			UserName = userName;
 			ProjNumber = projectNumber;
 		}
-
 
 	#endregion
 
@@ -261,7 +244,7 @@ namespace WpfTests.Windows
 		}
 
 
-		private void FolderRouteOnOnPathChange(object sender, PathChangeArgs e)
+		private void FolderRoute_PathChange(object sender, Sylvester.UserControls.PathChangeArgs e)
 		{
 			EventMessage("Changed", EventStat.PathChg);
 		}
@@ -314,7 +297,7 @@ namespace WpfTests.Windows
 		{
 			SuiteSettings.Admin.Read();
 
-			var s = 
+			var s =
 				SuiteSettings.Admin;
 
 			FavsAndHistory fav = new FavsAndHistory();
@@ -322,18 +305,17 @@ namespace WpfTests.Windows
 			fav.Configure(Environment.UserName);
 
 			fav.ShowDialog();
-
 		}
 
 		private void btnAdd_OnClick(object sender, RoutedEventArgs e)
 		{
-			FolderRoute.SetPath(new FilePath<FileNameSimple>(
-				@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 one level"));
+			// FolderRoute.SetPath(new FilePath<FileNameSimple>(
+			// 	@"P:\2099-900 Sample Project\Publish\Bulletins\2017-07-00 one level"));
 		}
 
 		private void BtnClr_OnClick(object sender, RoutedEventArgs e)
 		{
-			FolderRoute.ClearPath();
+			// FolderRoute.ClearPath();
 		}
 
 	#endregion
@@ -357,24 +339,22 @@ namespace WpfTests.Windows
 		}
 
 	#endregion
-
-		
 	}
 
-[ValueConversion(typeof(double), typeof(double))]
-public class HeightWidthConverter : IMultiValueConverter
-{
-	public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+	[ValueConversion(typeof(double), typeof(double))]
+	public class HeightWidthConverter : IMultiValueConverter
 	{
-		double width = (double) values[0];
-		double height = (double) values[1];
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			double width = (double) values[0];
+			double height = (double) values[1];
 
-		return height - width <= 0 ? height : width;
-	}
+			return height - width <= 0 ? height : width;
+		}
 
-	public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-	{
-		return null;
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
 	}
-}
 }

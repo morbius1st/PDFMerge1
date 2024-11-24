@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -43,7 +44,7 @@ namespace DebugCode
 		DBG_TBX = 4,  // debug and text box
 	}
 
-	[DebuggerStepThrough]
+	// [DebuggerStepThrough]
 	public class DM
 	{
 	#if WPF
@@ -58,10 +59,10 @@ namespace DebugCode
 		private const int ALT_PREFACE_WIDTH = -45; // when using file path and caller name
 		private static int prefaceWidth = ALT_PREFACE_WIDTH;
 
-		private const int MODULE_WIDTH = -110;
-		private const int MODULE_WIDTH_A = -30;
-		private const int MODULE_WIDTH_B = -45;
-		private const int MODULE_WIDTH_C = 25;
+		private const int MODULE_WIDTH = -100;  // space for module tree / margin for comments
+		private const int MODULE_WIDTH_A = -35; // left module column
+		private const int MODULE_WIDTH_B = -35; // center module column
+		private const int MODULE_WIDTH_C = 35; // right module column
 
 
 		private const int CALLER_WIDTH = -70;
@@ -76,6 +77,8 @@ namespace DebugCode
 		public static int[,] dmx;
 
 		private static int priorMarginIdx = -1;
+
+		public static bool Suspend { get; set; } = false;
 
 	#if WPF
 		public static void init(int qty, IWin iw)
@@ -93,11 +96,12 @@ namespace DebugCode
 			configDebugMsgList();
 		}
 
-		[DebuggerStepThrough]
+		// [DebuggerStepThrough]
 		public static bool Start0(bool highlightlocation = false,
 			string msg1 = null, string notes1 = null,
 			[CallerMemberName] string caller = null,
-			[CallerFilePath] string module = null)
+			[CallerFilePath] string module = null, 
+			string suffix = null)
 		{
 			if (highlightlocation) highlightLocation(0, caller);
 
@@ -120,12 +124,29 @@ namespace DebugCode
 
 			string priorPath = getPriorPath();
 
-			// DbxLineEx(0, "start", 0, 1, ShowWhere.NONE, notes1, caller, module, priorCaller);
-			DbxLineEx(0, msg1, 0, 1, ShowWhere.NONE, notes1, caller, null, priorCaller, priorPath);
+			DbxLineEx(0, suffix, msg1, 0, 1, ShowWhere.NONE, notes1, caller, null, priorCaller, priorPath);
 
 			return true;
-			;
 		}
+
+
+		public static bool Start0(string suffix, bool highlightlocation = false,
+			string msg1 = null, string notes1 = null,
+			[CallerMemberName] string caller = null,
+			[CallerFilePath] string module = null)
+		{
+
+			if (highlightlocation) highlightLocation(0, caller);
+
+			string priorCaller = new StackFrame(2, false).GetMethod().Name;
+
+			string priorPath = getPriorPath();
+
+			DbxLineEx(0, suffix, msg1, 0, 1, ShowWhere.NONE, notes1, caller, null, priorCaller, priorPath);
+
+			return true;
+		}
+
 
 		[DebuggerStepThrough]
 		private static string getPriorPath()
@@ -144,18 +165,34 @@ namespace DebugCode
 			return $"{className3, MODULE_WIDTH_A} . {callername3, MODULE_WIDTH_B} -> {className2,MODULE_WIDTH_C} |  ";
 		}
 
-		[DebuggerStepThrough]
+		// [DebuggerStepThrough]
 		public static bool End0(string msg = null,
+			string notes1 = null,
+			[CallerMemberName] string caller = null,
+			[CallerFilePath] string module = null, string suffix = null)
+		{
+			string priorPath = getPriorPath();
+
+			DbxLineEx(0, suffix, msg, -1, 0, ShowWhere.NONE, notes1, caller, null, null, priorPath);
+
+			return true;
+
+		}
+
+		[DebuggerStepThrough]
+		public static bool End0(string suffix, bool highlightlocation, string msg = null,
 			string notes1 = null,
 			[CallerMemberName] string caller = null,
 			[CallerFilePath] string module = null)
 		{
 			string priorPath = getPriorPath();
 
-			DbxLineEx(0, msg, -1, 0, ShowWhere.NONE, notes1, caller, null, null, priorPath);
+			DbxLineEx(0, suffix, msg, -1, 0, ShowWhere.NONE, notes1, caller, null, null, priorPath);
+
+			if (highlightlocation) highlightLocation(0, caller);
 
 			return true;
-			;
+
 		}
 
 		[DebuggerStepThrough]
@@ -249,7 +286,7 @@ namespace DebugCode
 		}
 
 
-		[DebuggerStepThrough]
+		// [DebuggerStepThrough]
 		public static void DbxLineEx(int idx,
 			string msg1,
 			int chgIdxPre = 0,
@@ -260,7 +297,7 @@ namespace DebugCode
 			[CallerFilePath] string module = null,   // module
 			string priorCaller = null,
 			string priorPath = null,
-			string termination = "\n"
+			string termination = "\n", string suffix = null
 			)
 		{
 			if (dmx == null ||
@@ -277,9 +314,30 @@ namespace DebugCode
 				module = priorPath;
 			}
 
-			Dbx(idx, msg1, termination, chgIdxPre, chgIdxPost, where, notes1, module, zx, caller, priorCaller);
+			Dbx(idx, msg1, termination, chgIdxPre, chgIdxPost, where, notes1, module, zx, caller, priorCaller, suffix);
 
 		}
+
+		public static void DbxLineEx(int idx, string suffix, 
+			string msg1,
+			int chgIdxPre = 0,
+			int chgIdxPost = 0,
+			ShowWhere where = ShowWhere.NONE,
+			string notes1 = null,                    // addl notes
+			[CallerMemberName] string caller = null, // caller
+			[CallerFilePath] string module = null,   // module
+			string priorCaller = null,
+			string priorPath = null,
+			string termination = "\n"
+			)
+		{
+			DbxLineEx(idx, msg1, chgIdxPre, chgIdxPost, where, notes1, caller, module, priorCaller, priorPath,
+				termination, suffix );
+
+		}
+
+
+
 
 		[DebuggerStepThrough]
 		public static void DbxEx(int idx, string msg1,
@@ -337,6 +395,8 @@ namespace DebugCode
 		[DebuggerStepThrough]
 		private static void showDmx(int idx, string msg, ShowWhere where)
 		{
+			if (Suspend) return;
+
 			ShowWhere w = where == ShowWhere.NONE ? (ShowWhere) dmx[idx, 1] : where;
 
 			if (w == ShowWhere.CONSOLE || w == ShowWhere.DBG_CONS)
@@ -370,7 +430,12 @@ namespace DebugCode
 		}
 
 
-		[DebuggerStepThrough]
+
+		/*
+		 *             = -100                 -70                 -8                   -16
+		 *  >{module, MODULE_WIDTH}{caller, CALLER_WIDTH}{msg1, MSG1_WIDTH}{notes2,NOTES2_WIDTH} {notes1}
+		 */
+		// [DebuggerStepThrough]
 		public static void Dbx(int idx,
 			string msg1, // primary notes
 			string t1,   // newline or not
@@ -381,28 +446,19 @@ namespace DebugCode
 			string module = null, // module name
 			string notes2 = null, // addl notes 2
 			string caller = null, // caller name
-			string priorCaller = null)
+			string priorCaller = null,
+			string suffix = null)
 		{
 			if (dmx[idx, 0] < 0) return;
 
 			string s1 = " ";
-			// string s2 = "";
-			// string s3;
 			string s4 = "  ";
 
-			// s2= $"{dmx[idx, 0],2:F0} +";
 
 			dmx[idx, 0] = dmx[idx, 0] + chgIdxPre < 0 ? 0 : dmx[idx, 0] + chgIdxPre;
 
 			int post = dmx[idx, 0] + chgIdxPost < 0 ? 0 : dmx[idx, 0] + chgIdxPost;
 
-			// s2 += $"{chgIdxPre,2:F0} ={dmx[idx, 0],2:F0} +{chgIdxPost,2:F0} ={post,2:F0} ";
-
-			// if (msg1.StartsWith(IN_OUT_STRING))
-			// {
-			// 	// s2 += " > < ";
-			// }
-			// else 
 			if (post > priorMarginIdx)
 			{
 				// s2 += " >>  ";
@@ -421,38 +477,33 @@ namespace DebugCode
 			{
 				s1 = "   ";
 				s4 = "";
-				// s2 += "     ";
 			}
 
-			// priorMarginIdx = dmx[idx, 0];
 			priorMarginIdx = post;
 
-			// string margin1 = "";
 			string margin2 = "";
 
 			if (dmx[idx, 0] > 0)
 			{
-				// margin1 = "  |".Repeat(dmx[idx, 0]);
 				margin2 = "|  ".Repeat(dmx[idx, 0]);
 			}
 
+			// the final string
 			string m;
 
 			m = $"{module,MODULE_WIDTH}";
 
-			caller = $"{margin2}{s1}{caller}{s4}";
+			caller = $"{margin2}{s1}{caller}{s4} {suffix}";
+			// caller = $"{margin2}{s1}{caller}{s4}";
 
 			m += $"{caller,CALLER_WIDTH}";
 
 			m += $"{msg1,MSG1_WIDTH}";
 
-			// m += $"{priorCaller,PRIOR_CALLER_WIDTH}";
-
-			// m += $"|{s2}";
-
-			// s3 = $"{margin2}{msg1,-8}";
-			//
-			// m += $"{s3,MSG1_WIDTH} ";
+			if (!priorCaller.IsVoid())
+			{
+				m += $" {priorCaller}";
+			}
 
 			if (!notes2.IsVoid())
 			{

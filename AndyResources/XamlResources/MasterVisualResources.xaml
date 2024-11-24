@@ -22,6 +22,10 @@
 	<Color x:Key="TreeView.Background.C">#FF212121</Color>
 
 	<Color x:Key="TreeViewRow.BorderBrush.Light.C">#FFAAEAF3</Color>
+	<Color x:Key="TreeViewRow.BorderBrush.Light2.C">#FF92D7DF</Color>
+	<Color x:Key="TreeViewRow.BorderBrush.Selected2.C">#FFBAEEF5</Color>
+	<Color x:Key="TreeViewRow.BorderBrush.Selected.C">#FFD2F4F9</Color>
+	<!-- <Color x:Key="TreeViewRow.BorderBrush.Selected.C">#FF658B8F</Color> -->
 	<Color x:Key="TreeViewRow.BorderBrush.Dark.C">#FF111132</Color>
 
 	<!--  Control colors.  -->
@@ -46,7 +50,7 @@
 	<SolidColorBrush x:Key="ItemsControl.Background" Color="{StaticResource Gray.150}" />
 	<SolidColorBrush x:Key="ItemsControl.MouseOver.Background" Color="{StaticResource Blue.250}" />
 	<SolidColorBrush x:Key="ItemsControl.Selected.InActive.Background" Color="{StaticResource Light.Blue.150}" />
-	<SolidColorBrush x:Key="ItemsControl.Selected.Active.Background" Color="{StaticResource Blue.220}" />
+	<SolidColorBrush x:Key="ItemsControl.Selected.Active.Background" Color="{StaticResource Blue.300}" />
 
 
 	<SolidColorBrush x:Key="ItemsControl.Item.Background.Normal" Color="{StaticResource Blue.200}" />
@@ -86,6 +90,7 @@
 	<SolidColorBrush x:Key="ItemsControl.Text.Normal" Color="{StaticResource Gray.950}" />
 	<SolidColorBrush x:Key="ItemsControl.Text.Disabled" Color="{StaticResource Gray.600}" />
 	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt" Color="{StaticResource Gray.730}" />
+	<SolidColorBrush x:Key="ItemsControl.Text.Disabled.Alt2" Color="{StaticResource Gray.200}" />
 
 	<SolidColorBrush x:Key="Element.Title.Background.Normal" Color="{StaticResource Dark.Blue.400}" />
 	<SolidColorBrush x:Key="Element.Icon.Background.Normal" Color="{StaticResource Blue.400}" />
@@ -110,9 +115,12 @@
 	<SolidColorBrush x:Key="TreeView.Selected.Background" Color="{StaticResource Blue.150}" />
 	<SolidColorBrush x:Key="TreeView.Selected.MouseOver.Background" Color="{StaticResource Blue.010}" />
 
+	<SolidColorBrush x:Key="TreeView.ContextTarget.Background" Color="{StaticResource Dark.Brown.100}" />
+	<SolidColorBrush x:Key="TreeView.ContextSource.Background" Color="{StaticResource Tan.050}" />
+
 	<SolidColorBrush x:Key="TreeView.MouseOver.Background" Color="{StaticResource Blue.050}" />
-	<SolidColorBrush x:Key="TreeView.ContextSelected.Background" Color="{StaticResource Medium.Brown.050}" />
-	<SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" />
+	<!-- <SolidColorBrush x:Key="TreeView.Popup.Selected.Background" Color="{StaticResource Blue.200}" /> -->
+
 
 	<SolidColorBrush x:Key="TreeViewRow.BorderBrush.Light" Color="{StaticResource TreeViewRow.BorderBrush.Light.C}" />
 
@@ -125,13 +133,18 @@
 	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Stroke" Color="#FF1CC4F7" />
 	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill" Color="#FF82DFFB" />
 
-	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill2" Color="PaleVioletRed" />
+	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Fill2" Color="Red" />
+	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.Static.Checked.Stroke2" Color="Red" />
+	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Fill2" Color="DarkSlateGray" />
+	<SolidColorBrush x:Key="TreeViewItem.TreeArrow.MouseOver.Checked.Fill2" Color="SlateGray" />
+
+
 
 	<SolidColorBrush x:Key="ContextMenu.Background" Color="{StaticResource Gray.200}" />
 	<SolidColorBrush x:Key="ContextMenu.Background.Icons" Color="{StaticResource Gray.220}" />
 	<SolidColorBrush x:Key="ContextMenu.Background.Icons.Divider" Color="{StaticResource Gray.200}" />
 
-	<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.200}" />
+	<SolidColorBrush x:Key="Dg.CellLabel.Background" Color="{StaticResource Gray.220}" />
 
 	<SolidColorBrush x:Key="ListView.Background" Color="{StaticResource Gray.150}" />
 	<SolidColorBrush x:Key="ListView.Selected.Background" Color="{StaticResource Blue.150}" />
@@ -152,6 +165,8 @@
 	<SolidColorBrush x:Key="ListBox.Disabled.Border" Color="{StaticResource Blue.Gray.050}" />
 
 	<SolidColorBrush x:Key="CheckBox.Background" Color="{StaticResource Deep.Orange.500}" />
+	<SolidColorBrush x:Key="CheckBox.Background.Value" Color="{StaticResource Deep.Orange.300}" />
+	<SolidColorBrush x:Key="CheckBox.Background.Disabled" Color="{StaticResource Deep.Orange.100}" />
 
 	<SolidColorBrush x:Key="Control.Disabled.Background" Color="{StaticResource Gray.600}" />
 
@@ -185,11 +200,15 @@
 
 	<SolidColorBrush x:Key="TextBox.Background" Color="{StaticResource Gray.250}" />
 
+
+
 	<SolidColorBrush x:Key="ComboBox.Normal.Background" Color="{StaticResource Gray.250}" />
 	<SolidColorBrush x:Key="ComboBox.Selected.Background" Color="{StaticResource Gray.350}" />
 	<SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="{StaticResource Gray.200}" />
 
 	<SolidColorBrush x:Key="ComboBox.Title.Foreground.Subdued" Color="{StaticResource ResourceKey=Gray.650}" />
 	
+
+
 
 </ResourceDictionary>

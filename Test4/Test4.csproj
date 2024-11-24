@@ -10,10 +10,11 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants); MACH_SETTINGS; SITE_SETTINGS; SUITE_SETTINGS;APP_SETTINGS;WPF;SM74; USER_SETTINGS</DefineConstants>
+    <DefineConstants>$(DefineConstants); MACH_SETTINGS; SITE_SETTINGS; SUITE_SETTINGS; USER_SETTINGS;APP_SETTINGS;SM74;WPF;Test4</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

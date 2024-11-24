@@ -179,6 +179,12 @@ namespace Test4.Windows
 		public void ReadClassfFile()
 		{
 			ClassificationFile = ClassificationFile.GetUserClassfFile(UserSettings.Data.LastClassificationFileId);
+
+			int count;
+			string path = @"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 1.xml";
+
+			count = CsXmlUtilities.CountXmlElements(path, "TreeNode");
+
 			ClassificationFile.Initialize();
 
 			OnPropertyChanged(nameof(ClassificationFile));
@@ -201,7 +207,7 @@ namespace Test4.Windows
 
 		// public static void AddPrelimCompOp(SheetCategory item)
 		// {
-		// 	ValueCompOp vco = new ValueCompOp(LOGICAL_AND, DOES_NOT_EQUAL, "1", 2);
+		// 	ComparisonOp vco = new ComparisonOp(LOGICAL_AND, DOES_NOT_EQUAL, "1", 2);
 		// 	vco.Parent = item;
 		// 	vco.CompOpModified = true;
 		//
@@ -268,9 +274,6 @@ namespace Test4.Windows
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
-
-
 
 	#endregion
 

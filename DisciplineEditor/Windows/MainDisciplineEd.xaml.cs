@@ -245,6 +245,8 @@ namespace DisciplineEditor.Windows
 			InitializeComponent();
 			DM.End0("complete window InitializeComponent");
 
+			WinHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
+
 			config();
 
 			DM.End0();
@@ -421,6 +423,8 @@ namespace DisciplineEditor.Windows
 	#endregion
 
 	#region public properties
+
+		public static IntPtr WinHandle { get; private set; }
 
 		public string TextBoxString
 		{

@@ -91,7 +91,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private TreeNode2<T> parent;
 		private int depth;
-		private static int maxDepth = 7;
+		// private static int maxDepth = 7;
 
 		// private int extMergeItemCount;
 		// protected int extItemCountCurrent;
@@ -201,7 +201,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// [OnSerializing]
 		// private void Onerializing(StreamingContext c)
 		// {
-		// 	if (!rememberExpCollapseState) isExpanded = false;
+		// 	if (!RememberExpCollapseState) isExpanded = false;
 		// }
 
 		// private void RemExCollapseListenConfig()
@@ -574,8 +574,8 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			}
 		}
 
-		[IgnoreDataMember]
-		public bool IsMaxDepth => depth >= maxDepth;
+		// [IgnoreDataMember]
+		// public bool IsMaxDepth => depth >= maxDepth;
 
 
 	#endregion
@@ -1007,9 +1007,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// private void OnAnnouncedRemExCollapseState(object sender, object value)
 		// {
 		// 	
-		// 	rememberExpCollapseState = (bool) (value ?? false);
+		// 	RememberExpCollapseState = (bool) (value ?? false);
 		//
-		// 	Debug.WriteLine("@TreeNode2<T> onAnnounced| remember?| " + rememberExpCollapseState.ToString());
+		// 	Debug.WriteLine("@TreeNode2<T> onAnnounced| remember?| " + RememberExpCollapseState.ToString());
 		// }
 
 		// private void OnAnnouncedTnInit(object sender, object value)

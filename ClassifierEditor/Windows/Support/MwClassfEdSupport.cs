@@ -9,7 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.Support;
 using JetBrains.Annotations;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 #endregion
 
@@ -25,8 +27,14 @@ namespace ClassifierEditor.Windows
 		public int mwsIdx = 0;
 
 		private MainWindowClassifierEditor mw;
-		private TreeNode nodeCopy;
+		private TreeNode nodeEditing;
 		private TreeNode nodeSelected;
+		// private bool selNodeNeedsSaving;
+
+		private static MwClassfEdSupport me;
+
+		private List<TreeNode> invalidParentNode;
+		private List<TreeNode> invalidParentItem;
 
 	#endregion
 
@@ -37,12 +45,17 @@ namespace ClassifierEditor.Windows
 			this.mw = mw;
 
 			mwsIdx = MainWindowClassifierEditor.objIdx++;
+
+			me = this;
 		}
 
 	#endregion
 
 	#region public properties
 
+		/// <summary>
+		/// the node selected in the treeview
+		/// </summary>
 		public TreeNode NodeSelected
 		{
 			get => nodeSelected;
@@ -56,12 +69,15 @@ namespace ClassifierEditor.Windows
 			}
 		}
 
-		public TreeNode NodeCopy
+		/// <summary>
+		/// the node used by the category editor
+		/// </summary>
+		public TreeNode NodeEditing
 		{
-			get => nodeCopy;
+			get => nodeEditing;
 			set
 			{
-				nodeCopy = value;
+				nodeEditing = value;
 				OnPropertyChanged();
 			}
 		}
@@ -76,35 +92,181 @@ namespace ClassifierEditor.Windows
 
 		public void SelectNode(TreeNode node)
 		{
-			nodeSelected = node;
+			// if (node == null) return;
 
-			if (nodeSelected == null || 
-				(nodeSelected != null &&
-				nodeSelected.Item.IsFixed ||
-				nodeSelected.Item.IsLocked))
+			NodeSelected = node;
+
+			if (nodeSelected == null)
 			{
-				NodeSelected = null;
-				NodeCopy = null;
+				NodeEditing = null;
 				return;
 			}
 
+			// Debug.WriteLine($"@ select node | {nodeSelected.Item.Title} is selected = {nodeSelected?.IsNodeSelected}");
 
 			nodeSelected.IsNodeSelected = true;
 
 			mw.BaseOfTree.SelectedNode = nodeSelected;
 
-			OnPropertyChanged(nameof(NodeSelected));
+			// OnPropertyChanged(nameof(NodeSelected));
 
-			nodeCopy = nodeSelected.Clone(false);
+			nodeEditing = nodeSelected.Clone(1);
 
-			OnPropertyChanged(nameof(NodeCopy));
+			OnPropertyChanged(nameof(NodeEditing));
 
 		}
 
+		public void DeleteNode(TreeNode node)
+		{
+			string msg;
+			int extChildCount = node.ExtChildCount;
+
+			if (extChildCount > 0)
+			{
+				msg = "a total of " + extChildCount + " categories "
+					+ "and sub-categories.";
+			}
+			else
+			{
+				msg = "no categories or sub-categories.";
+			}
+
+			string title = node.Item.Title;
+
+			TaskDialogResult result = CommonTaskDialogs.CommonWarningDialog(
+				"Classifier Editor",
+				"You are about to delete the category\n\"" + title + "\"",
+				"The category \"" + title + "\" has " + msg + "\nIs it OK to delete this category?"
+				, MainWindowClassifierEditor.WinHandle
+				);
+
+
+			if (result == TaskDialogResult.Ok)
+			{
+				mw.BaseOfTree.RemoveNode2(node);
+			}
+		}
+
+		public void ValidateTree()
+		{
+			validateTree(mw.BaseOfTree, mw.BaseOfTree);
+		}
+
+		public void ValidateTree2()
+		{
+			invalidParentNode = new List<TreeNode>();
+			invalidParentItem = new List<TreeNode>();
+
+			validateTree2(mw.BaseOfTree, mw.BaseOfTree);
+
+			showValidateWarningDialog();
+
+		}
+
+		public void RepairTree()
+		{
+			repairTree(mw.BaseOfTree, mw.BaseOfTree);
+		}
 
 	#endregion
 
 	#region private methods
+
+		private void validateTree(TreeNode trueParentNode, TreeNode node)
+		{
+			foreach (TreeNode childNode in node.Children)
+			{
+				if (childNode.HasChildren)
+				{
+					validateTree(childNode, childNode);
+				}
+
+				if (!childNode.Parent.Equals(trueParentNode))
+				{
+					Debug.Write($"child.parent vs. true parent mis-match found: node: {childNode.Item.Title}/{childNode.Item.Description} ({childNode.ID}) ");
+					Debug.Write($"has parent {childNode.Parent.Item.Title}/{childNode.Parent.Item.Description} ({childNode.Parent.ID}) ");
+					Debug.Write($"but should be {trueParentNode.Item.Title}/{trueParentNode.Item.Description} ({trueParentNode.Parent.ID})\n");
+				}
+
+				if (!childNode.Equals(childNode.Item.Parent))
+				{
+					Debug.WriteLine($"child / item.parent mis-match found: node: {childNode.Item.Title}/{childNode.Item.Description} ({childNode.ID}) ");
+					Debug.WriteLine($"item has parent {childNode.Parent.Item.Parent.Item.Title}/{childNode.Parent.Item.Parent.Item.Description} ({childNode.Parent.Item.Parent.ID}) ");
+					Debug.WriteLine($"but should match\n");
+				}
+
+			}
+		}
+
+		private void validateTree2(TreeNode trueParentNode, TreeNode node)
+		{
+			foreach (TreeNode childNode in node.Children)
+			{
+				if (childNode.HasChildren)
+				{
+					validateTree(childNode, childNode);
+				}
+
+				if (!childNode.Parent.Equals(trueParentNode))
+				{
+					invalidParentNode.Add(childNode);
+
+					childNode.Parent = trueParentNode;
+				}
+
+				if (!childNode.Equals(childNode.Item.Parent))
+				{
+					invalidParentItem.Add(childNode);
+
+					childNode.Item.Parent = childNode;
+
+				}
+
+			}
+		}
+
+		private void repairTree(TreeNode trueParentNode, TreeNode node)
+		{
+			foreach (TreeNode childNode in node.Children)
+			{
+				if (childNode.HasChildren)
+				{
+					repairTree(childNode, childNode);
+				}
+
+				if (!childNode.Parent.Equals(trueParentNode))
+				{
+					Debug.Write($"child.parent vs. true parent mis-match fixed: node: {childNode.Item.Title}/{childNode.Item.Description} ({childNode.ID})\n");
+
+					childNode.Parent = trueParentNode;
+
+				}
+
+				if (!childNode.Equals(childNode.Item.Parent))
+				{
+					Debug.WriteLine($"child / item.parent mis-match fixed: node: {childNode.Item.Title}/{childNode.Item.Description} ({childNode.ID})\n");
+
+					childNode.Item.Parent = childNode;
+				}
+
+			}
+		}
+
+		private void showValidateWarningDialog()
+		{
+			int count = invalidParentNode.Count + invalidParentItem.Count;
+
+			if (count > 0)
+			{
+				CommonTaskDialogs.CommonWarningDialog(
+					"Classifier Editor",
+					"Intranode referencing errors were detected",
+					$"A total of {count} node errors were found and repaired.\n"
+					, MainWindowClassifierEditor.WinHandle
+					);
+			}
+
+		}
 
 	#endregion
 
@@ -122,7 +284,7 @@ namespace ClassifierEditor.Windows
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
-
+		
 	#endregion
 
 	#region system overrides

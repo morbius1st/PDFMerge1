@@ -106,6 +106,10 @@
     <Compile Include="..\.LinkOnly\SuiteSettings.cs">
       <Link>Settings\SuiteSettings.cs</Link>
     </Compile>
+    <Compile Include="..\AndyResources\XamlResources\ClassificationTreeResources.xaml.cs">
+      <Link>Windows\ResourceFiles\XamlResources\ClassificationTreeResources.xaml.cs</Link>
+      <DependentUpon>ClassificationTreeResources.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
@@ -118,6 +122,11 @@
     <Compile Include="Windows\Support\ProgressBarManager.cs" />
     <Page Include="..\AndyResources\XamlResources\Andy.xaml">
       <Link>Windows\ResourceFiles\XamlResources\Andy.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AndyResources\XamlResources\ClassificationTreeResources.xaml">
+      <Link>Windows\ResourceFiles\XamlResources\ClassificationTreeResources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -187,6 +196,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include=".TreeView - Tv1 - Roadmap.pdf" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

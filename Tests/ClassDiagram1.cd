@@ -286,14 +286,14 @@
       <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompareOp" Collapsed="true">
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.ValueCompOpDef" Collapsed="true">
     <Position X="12.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\AndyClassifSupport\ClassificationDataSupport\TreeSupport\ComparisonOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompareOp" Collapsed="true">
+  <Class Name="AndyShared.ClassificationDataSupport.TreeSupport.LogicalCompOpDef" Collapsed="true">
     <Position X="14.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>

@@ -58,7 +58,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	#region private fields
 
 		protected ValueCompareOp valueCompOp = ValueCompareOps[(int) VALUE_NO_OP];
-		protected LogicalCompareOp logicalCompOp = null;
+		protected LogicalCompOpDef logicalCompOp = null;
 
 		protected int compareComponentIndex;
 
@@ -110,7 +110,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public string ValueCompareString => ValueCompareOp.Name;
 
 		[IgnoreDataMember]
-		public string LogicalCompareString => LogicalCompareOp?.Name ?? "";
+		public string LogicalCompareString => LogicalCompOpDef?.Name ?? "";
 
 		[DataMember(Order = 0)]
 		public int CompareComponentIndex
@@ -175,7 +175,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		// [DataMember(Order = 1)]
 		[IgnoreDataMember]
-		public LogicalCompareOp LogicalCompareOp
+		public LogicalCompOpDef LogicalCompOpDef
 		{
 			get => logicalCompOp;
 
@@ -344,7 +344,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 //		public ValueCompOp(ValueCompareOp op, string value, bool isFirst = false) : this(op, value, isFirst) { }
 
-//		public ValueCompOp(LogicalCompareOp l_op,
+//		public ValueCompOp(LogicalCompOpDef l_op,
 //			ValueCompareOp v_op,
 //			string value,
 //			int compComponentIndex,
@@ -353,7 +353,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 //			ValueComparisonOpCode = v_op.OpCode;
 //			LogicalComparisonOpCode = l_op?.OpCode ?? LOGICAL_NO_OP;
 //			// ValueCompareOp = v_op;
-//			// LogicalCompareOp = l_op;
+//			// LogicalCompOpDef = l_op;
 //			CompareValue = value;
 //			CompareComponentIndex = compComponentIndex;
 //			IsDisabled = disable;
@@ -400,14 +400,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			get => logicalCompOp?.OpCodeValue ?? 0;
 			set
 			{
-				// LogicalCompareOp = LogicalCompareOps[value];
+				// LogicalCompOpDef = LogicalCompareOps[value];
 				if (value == 0)
 				{
-					LogicalCompareOp = null;
+					LogicalCompOpDef = null;
 				}
 				else
 				{
-					LogicalCompareOp = LogicalCompareOps[value];
+					LogicalCompOpDef = LogicalCompareOps[value];
 				}
 			}
 		}
@@ -424,9 +424,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	// [DataContract(Namespace = "")]
 	// public class LogicalCompOp : ComparisonOperation
 	// {
-	// 	public LogicalCompOp(LogicalCompareOp op)
+	// 	public LogicalCompOp(LogicalCompOpDef op)
 	// 	{
-	// 		LogicalCompareOp = op;
+	// 		LogicalCompOpDef = op;
 	// 		CompareValue = null;
 	// 		IsDisabled = ignore;
 	// 	}
@@ -437,14 +437,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	// 		get => valueCompOp.OpCodeValue;
 	// 		set
 	// 		{
-	// 			LogicalCompareOp = LogicalCompareOps[value];
+	// 			LogicalCompOpDef = LogicalCompareOps[value];
 	//
 	// 		}
 	// 	}
 	//
 	// 	public override object Clone()
 	// 	{
-	// 		LogicalCompOp clone = new LogicalCompOp((LogicalCompareOp) valueCompOp, isDsableCompOp);
+	// 		LogicalCompOp clone = new LogicalCompOp((LogicalCompOpDef) valueCompOp, isDsableCompOp);
 	//
 	// 		return clone;
 	// 	}
@@ -458,7 +458,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	[DataContract(Namespace = "")]
 	[KnownType(typeof(ValueCompareOp))]
-	[KnownType(typeof(LogicalCompareOp))]
+	[KnownType(typeof(LogicalCompOpDef))]
 	public abstract class ACompareOp<T> where T : Enum
 	{
 		public ACompareOp() { }
@@ -492,11 +492,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	}
 
 	[DataContract(Namespace = "")]
-	public class LogicalCompareOp : ACompareOp<LogicalComparisonOp>
+	public class LogicalCompOpDef : ACompareOp<LogicalComparisonOp>
 	{
-		public LogicalCompareOp() { }
+		public LogicalCompOpDef() { }
 
-		public LogicalCompareOp(string name, LogicalComparisonOp op) : base(name, op) { }
+		public LogicalCompOpDef(string name, LogicalComparisonOp op) : base(name, op) { }
 
 		public override string Name { get; protected set;  }
 
@@ -516,7 +516,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 	#region public properties
 
-		public static List<LogicalCompareOp> LogicalCompareOps { get; private set; }
+		public static List<LogicalCompOpDef> LogicalCompareOps { get; private set; }
 
 		// public static ICollectionView LogicalView { get; private set; }
 
@@ -570,7 +570,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				}
 				else
 				{
-					if (compOp.LogicalCompareOp.OpCode.Equals(LOGICAL_AND))
+					if (compOp.LogicalCompOpDef.OpCode.Equals(LOGICAL_AND))
 					{
 					#if SHOW
 						Debug.WriteLine("\t".Repeat(depth) + count++ + "  AND Compare against| " + compOp.ValueCompareOp.Name + " value| " + compOp.CompareValue); 
@@ -612,7 +612,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					result = compare(value, compareOp);
 				}
-				else if (compareOp.LogicalCompareOp.OpCode.Equals(LOGICAL_AND))
+				else if (compareOp.LogicalCompOpDef.OpCode.Equals(LOGICAL_AND))
 				{
 					result &= compare(value, compareOp);
 				}
@@ -633,7 +633,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		private static void defineLogicalCompareOps()
 		{
-			LogicalCompareOps = new List<LogicalCompareOp>();
+			LogicalCompareOps = new List<LogicalCompOpDef>();
 
 			configureCompareOpList(LogicalCompareOps, (int) LOGICAL_COUNT);
 
@@ -650,7 +650,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		//
 		// 	LogicalView.Filter = item =>
 		// 	{
-		// 		LogicalCompareOp op = item as LogicalCompareOp;
+		// 		LogicalCompOpDef op = item as LogicalCompOpDef;
 		// 		return op.OpCode != LogicalComparisonOp.LOGICAL_NO_OP;
 		// 	};
 		// }
@@ -696,9 +696,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			list[(int) op] = new ValueCompareOp(name, op);
 		}
 
-		private static void setLogicalCompareOp(List<LogicalCompareOp> list, string name, LogicalComparisonOp op)
+		private static void setLogicalCompareOp(List<LogicalCompOpDef> list, string name, LogicalComparisonOp op)
 		{
-			list[(int) op] = new LogicalCompareOp(name, op);
+			list[(int) op] = new LogicalCompOpDef(name, op);
 		}
 
 		private static void configureCompareOpList<T>(List<T> conditionList, int count)  where T : new()

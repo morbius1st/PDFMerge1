@@ -238,6 +238,8 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public const int VI_SEP5          = 13; // 
 		public const int VI_SUBIDENTIFIER = 14; // 7
 
+		public const int VI_SORT_SUFFIX   = 15; // 8
+
 		public const int VI_SHTNUM        = 15;
 		public const int VI_SHTID         = 16;
 		public const int VI_SHTTITLE      = 17;

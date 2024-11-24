@@ -22,7 +22,9 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using AndyShared.ClassificationDataSupport.TreeSupport;
+using AndyShared.FileSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.SampleFileSupport;
 using AndyShared.Support;
@@ -77,7 +79,7 @@ namespace AndyShared.MergeSupport
 		private Dictionary<string, List<FilePath<FileNameSheetPdf>>> nonApplicableFiles;
 
 		private BaseOfTree treeBase;
-		private SheetFileList fileList;
+		public SheetFileList fileList;
 
 		private CancellationTokenSource cancelTokenSrc;
 		private CancellationToken cancelToken;
@@ -90,6 +92,13 @@ namespace AndyShared.MergeSupport
 
 		private ClassifyStatus classifyStatus = ClassifyStatus.CREATED;
 
+		private int compareCountTotal;
+		private int compareCount;
+
+		private TimeSpan ticks;
+
+		private Classify me;
+
 	#endregion
 
 	#region ctor
@@ -99,6 +108,8 @@ namespace AndyShared.MergeSupport
 		#if DML1
 			DM.Start0();
 		#endif
+
+			me = this;
 
 			// Orator.Listen("toClassify", OnGetAnnouncement);
 			// toParentAnnounce =	Orator.GetAnnouncer(this, "fromClassify", "");
@@ -133,6 +144,8 @@ namespace AndyShared.MergeSupport
 		}
 
 		public TaskStatus TaskStatus => task?.Status ?? TaskStatus.WaitingToRun;
+
+		public int CompareCountTotal => compareCountTotal;
 
 	#endregion
 
@@ -184,23 +197,31 @@ namespace AndyShared.MergeSupport
 		/// </summary>
 		public void PreProcess()
 		{
+			compareCountTotal = 0;
+
 			if (Status != ClassifyStatus.CONFIGURED1
 				&& Status != ClassifyStatus.CONFIGURED2) return;
 
+			lockList = new List<object>();
+
 			treeBase.Item.MergeItems = new ObservableCollection<MergeItem>();
 
-			lockList = new List<object>();
+			treeBase.Item.MergeItemLockIdx = lockList.Count;
+
+			object loc = new object();
+
+			BindingOperations.EnableCollectionSynchronization(treeBase.Item.MergeItems, loc);
+
+			lockList.Add(loc);
 
 			Status = ClassifyStatus.PREPROCESSING;
 
 			preProcessFiles(treeBase);
 
+			nonApplicableFiles = new Dictionary<string, List<FilePath<FileNameSheetPdf>>>();
+
 			Status = ClassifyStatus.PREPROCESSED;
 		}
-
-	#endregion
-
-	#region private methods
 
 		/// <summary>
 		/// setup item processing.
@@ -216,9 +237,17 @@ namespace AndyShared.MergeSupport
 
 			setCancelToken();
 
+			// Debug.WriteLine("Starting task");
+
 			task = Task.Run(() => { processFiles3(); }, cancelToken);
 
+			// Debug.WriteLine("awaiting task");
+
 			await task;
+
+			// Debug.WriteLine("ended task");
+
+			postProcessMergeLists();
 
 			UpdateNonApplicableProperties();
 
@@ -226,7 +255,23 @@ namespace AndyShared.MergeSupport
 
 			RaiseOnClassifyCompletionEvent();
 
+			Debug.WriteLine($"\ntotal of {CompareCountTotal} comparisons");
+			Debug.WriteLine($"total elapsed {ticks.TotalSeconds} seconds\n");
+			
+
 		}
+
+		public void postProcessMergeLists()
+		{
+			sortMergeLists(treeBase);
+
+			MrgSupport.ConsolidateMergeItems(treeBase);
+		}
+
+	#endregion
+
+	#region private methods
+
 
 		/// <summary>
 		/// runs through the list of files and classify the file.
@@ -240,8 +285,19 @@ namespace AndyShared.MergeSupport
 
 			int fileCount = 1;
 
+			compareCountTotal = 0;
+
+			Stopwatch a = new Stopwatch();
+
+			a.Start();
+
+		#if SHOW
+			Debug.WriteLine($"\nbegin classify");
+		#endif
+
 			foreach (FilePath<FileNameSheetPdf> file in fileList.Files)
 			{
+
 				if (cancelToken.IsCancellationRequested)
 				{
 					Status = ClassifyStatus.CANCELED;
@@ -252,33 +308,75 @@ namespace AndyShared.MergeSupport
 
 				RaiseOnFileChangeEvent(new FileChangeEventArgs(file));
 
+				if (file.FileNameObject.StatusCode != FileNameParseStatusCodes.SC_NONE)
+				{
+					addNonApplicableFile(file);
+
+					continue;
+				}
+
+
 				if (usePhBldg)
 				{
 					if ((!file.FileNameObject.PhaseBldg?.Equals(assignedPhBldg)) ?? false)
 					{
+					#if SHOW
+						Debug.WriteLine($"\n\add to non-applicable file list {file.FileName}");
+					#endif
+
 						addNonApplicableFile(file);
 						continue;
 					}
 				}
 
-				classify3(treeBase, file, 0);
+				compareCount = 0;
+				processDepth = 0;
+
+				if (!classify3(treeBase, file, 0)) //, 0))
+				{
+				#if SHOW
+					Debug.WriteLine($"\n\add to non-applicable file list {file.FileName}");
+				#endif
+					addNonApplicableFile(file);
+				}
+
+				compareCountTotal += compareCount;
 			}
 
 			Status = ClassifyStatus.COMPLETE;
+
+			a.Stop();
+
+			ticks = a.Elapsed;
+
+			OnPropertyChange(nameof(NonApplicableFiles));
+
 		}
 
+		/* replaced
 		/// <summary>
 		/// process a single sheet pdf and apply the classification criteria.
 		/// add matches to the list within the node
 		/// </summary>
-		private bool classify3(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth)
+		private bool classify4(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth, int count)
 		{
 			bool localMatchFlag;
 			bool matchFlag = false;
 
+			int tempCount = 0;
+			int compCount = count;
+
+			Debug.WriteLine($"\nclassify {sheetFilePath.FileNameNoExt} versus");
+
 			foreach (TreeNode childNode in treeNode.Children)
 			{
-				// Thread.Sleep(100);
+				// if (childNode.Item.ItemClass == Item_Class.IC_BOOKMARK)
+				// {
+				// 	currentHeading = childNode;
+				// 	Debug.WriteLine($"current heading node = {currentHeading.Item.Title}");
+				// }
+
+				Debug.WriteLine($"\t{childNode.Item.Title}");
 
 				CompareOperations.Depth = depth;
 
@@ -286,31 +384,56 @@ namespace AndyShared.MergeSupport
 
 				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
 
-				bool result = CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps);
+				// bool result = CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps);
 
-				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps))
+				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps, out tempCount))
 				{
+					compCount += tempCount;
+
+					Debug.WriteLine($"\tcompared count {tempCount} | total {compCount}");
+
+					tempCount = 0;
+
 					// may be a bug here
 					// if item matches but is the top level item,
 					// localMatchFlag match is false and the item will not be added
 					// to the merge list
 					if (childNode.HasChildren)
 					{
-						localMatchFlag = classify3(childNode, sheetFilePath, depth + 1);
+						Debug.WriteLine($"\t\tgoing down");
+						localMatchFlag = classify4(childNode, sheetFilePath, depth + 1, compCount);
+
 					}
+
+					compCount += tempCount;
+					Debug.WriteLine($"\tchild compared count {tempCount} | total {compCount}");
 
 					if (!localMatchFlag)
 					{
 						lock(lockList[childNode.Item.MergeItemLockIdx])
 						{
+							compareCount = compCount;
+
+							Debug.WriteLine($"\t\tA saved count {compCount}");
+
 							MergeItem mi = new MergeItem(0, sheetFilePath);
+							mi.CompareCount = compareCount;
+
 							childNode.Item.MergeItems.Add(mi);
+							
+
 							childNode.Item.UpdateMergeProperties();
 						}
 					}
 
 					matchFlag = true;
+					break;
 				}
+
+				compCount += tempCount;
+
+				Debug.WriteLine($"\t\tloop total {compCount}");
+
 			}
 
 			// worst case, at depth zero and not matchflag is false
@@ -318,7 +441,13 @@ namespace AndyShared.MergeSupport
 			{
 				lock(lockList[treeNode.Item.MergeItemLockIdx])
 				{
+					compareCount = compCount;
+
+					Debug.WriteLine($"\tB saved count {compCount}");
+
 					MergeItem mi = new MergeItem(0, sheetFilePath);
+					mi.CompareCount = compareCount;
+
 					treeNode.Item.MergeItems.Add(mi);
 					treeNode.Item.UpdateMergeProperties();
 				}
@@ -326,10 +455,155 @@ namespace AndyShared.MergeSupport
 				matchFlag = true;
 			}
 
+			count = compCount;
+
+			Debug.WriteLine($"\tfinal total {compCount}");
+
+			// return true when categorized
+			// else return false
+			return matchFlag;
+		}*/
+
+		private int processDepth = 0;
+
+		/// <summary>
+		/// process a single sheet pdf and apply the classification criteria.
+		/// add matches to the list within the node
+		/// </summary>
+		private bool classify3(TreeNode treeNode, FilePath<FileNameSheetPdf> sheetFilePath, int depth) //, int count)
+		{
+			bool localMatchFlag;
+			bool matchFlag = false;
+
+			int tempCount = 0;
+			// int compCount = count;
+
+			string margin0 = "  ".Repeat(processDepth++);
+			string margin1 = "  ".Repeat(processDepth);
+			string margin2 = "  ".Repeat(processDepth + 1);
+			string margin3 = "  ".Repeat(processDepth + 2);
+			string margin4 = "  ".Repeat(processDepth + 2);
+
+		#if SHOW
+			Debug.WriteLine($"\n{margin0}classify {sheetFilePath.FileNameNoExt} versus");
+		#endif
+
+			foreach (TreeNode childNode in treeNode.Children)
+			{
+				// if (childNode.Item.ItemClass == Item_Class.IC_BOOKMARK)
+				// {
+				// 	currentHeading = childNode;
+				// 	Debug.WriteLine($"{margin1}current heading node = {currentHeading.Item.Title}");
+				// }
+
+			#if SHOW
+				Debug.WriteLine($"{margin2}{childNode.Item.Title} | {childNode.Item.ItemClassName}");
+			#endif
+
+				CompareOperations.Depth = depth;
+
+				localMatchFlag = false;
+
+				RaiseTreeNodeChangeEvent(new TreeNodeChangeEventArgs(childNode));
+
+				// bool result = CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps);
+
+			#if SHOW
+				Debug.WriteLine($"{margin3}compare next");
+			#endif
+
+				if (CompareOperations.Compare2(sheetFilePath.FileNameObject, childNode.Item.CompareOps, out tempCount))
+				{
+					compareCount += tempCount;
+
+				#if SHOW
+					Debug.WriteLine($"{margin3}compare done - got true");
+					Debug.WriteLine($"{margin3}compared count {tempCount} | total {compareCount}");
+				#endif
+
+					// may be a bug here
+					// if item matches but is the top level item,
+					// localMatchFlag match is false and the item will not be added
+					// to the merge list
+					if (childNode.HasChildren)
+					{
+					#if SHOW
+						Debug.WriteLine($"{margin4}going down");
+					#endif
+						localMatchFlag = classify3(childNode, sheetFilePath, depth + 1); //, compCount);
+
+						// compCount += tempCount;
+						// Debug.WriteLine($"{margin2}child compared count {tempCount} | total {compCount}");
+
+					}
+
+					if (!localMatchFlag)
+					{
+						lock(lockList[childNode.Item.MergeItemLockIdx])
+						{
+							// compareCount = compCount;
+						#if SHOW
+							Debug.WriteLine($"\n{margin3}A saved / final count {compareCount})");
+						#endif
+
+							MergeItem mi = new MergeItem(0, sheetFilePath);
+							mi.CompareCount = compareCount;
+
+							childNode.Item.MergeItems.Add(mi);
+
+							childNode.Item.UpdateMergeProperties();
+						}
+					}
+
+					matchFlag = true;
+					break;
+				} 
+				else
+				{
+				#if SHOW
+					Debug.WriteLine($"{margin3}compare done - got false");
+				#endif
+					compareCount += tempCount;
+				}
+
+				// compCount += tempCount;
+
+			#if SHOW
+				Debug.WriteLine($"{margin3}loop total {compareCount}");
+			#endif
+
+			}
+
+			// worst case, at depth zero and not matchflag is false
+			if (!matchFlag && depth == 0)
+			{
+				lock(lockList[treeNode.Item.MergeItemLockIdx])
+				{
+				#if SHOW
+					Debug.WriteLine($"{margin3}B saved / final count {compareCount}");
+				#endif
+
+					MergeItem mi = new MergeItem(0, sheetFilePath);
+
+					mi.CompareCount = compareCount;
+
+					treeNode.Item.MergeItems.Add(mi);
+
+					treeNode.Item.UpdateMergeProperties();
+				}
+
+				matchFlag = true;
+			}
+
+			// count = compCount;
+
+			// Debug.WriteLine($"{margin2}inal total {compareCount}");
+
 			// return true when categorized
 			// else return false
 			return matchFlag;
 		}
+
 
 		/// <summary>
 		/// preprocess each child in the tree (recursive)
@@ -343,9 +617,8 @@ namespace AndyShared.MergeSupport
 			{
 				if (child.HasChildren) preProcessFiles(child);
 
-				child.Item.MergeItems = new ObservableCollection<MergeItem>();
 				child.Item.MergeItemLockIdx = lockList.Count;
-				
+
 				object loc = new object();
 
 				BindingOperations.EnableCollectionSynchronization(child.Item.MergeItems, loc);
@@ -354,20 +627,40 @@ namespace AndyShared.MergeSupport
 			}
 		}
 
-		private void UpdateNonApplicableProperties()
+		private void sortMergeLists(TreeNode node)
+		{
+			foreach (TreeNode child in node.Children)
+			{
+				if (child.HasChildren) sortMergeLists(child);
+
+				if (child.Item.MergeItemCount > 1)
+				{
+					List<MergeItem> items = child.Item.MergeItems.ToList();
+
+					items.Sort((x, y) => x.SheetNumber.CompareTo(y.SheetNumber));
+
+					child.Item.MergeItems = new ObservableCollection<MergeItem>(items);
+				}
+			}
+		}
+
+		public void UpdateNonApplicableProperties()
 		{
 			OnPropertyChange(nameof(NonApplicableFiles));
 			OnPropertyChange(nameof(NonApplicableFilesTotalCount));
 		}
 
-
 		private void addNonApplicableFile(FilePath<FileNameSheetPdf> file)
 		{
-			string phBld = file.FileNameObject.PhaseBldg;
+			string phBld = file.FileNameObject.SheetID;
+
+			phBld = phBld.IsVoid() ?"Not Associated with a Building" : $"Associated with Building: {phBld}";
 
 			if (!nonApplicableFiles.ContainsKey(phBld))
 			{
 				nonApplicableFiles.Add(phBld, new List<FilePath<FileNameSheetPdf>>());
+				
+				me.UpdateNonApplicableProperties();
 			}
 
 			nonApplicableFiles[phBld].Add(file);
@@ -393,6 +686,7 @@ namespace AndyShared.MergeSupport
 
 			cancelToken = cancelTokenSrc.Token;
 		}
+
 
 	#endregion
 
