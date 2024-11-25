@@ -27,7 +27,7 @@
 	  <Compile Remove="Settings\SuiteSettings.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="AndySheets.csproj.Backup.tmp" />
+	  <None Remove="SheetsEditor.csproj.Backup.tmp" />
 	</ItemGroup>
   <!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AllDBG|AnyCPU'"> -->
   <!--   <DebugType>portable</DebugType> -->
@@ -97,7 +97,7 @@
     <Content Include=".notes\notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SheetData\" />
+    <Folder Include="SheetData\Support\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>

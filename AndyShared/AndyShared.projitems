@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\ShtNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameUserAndId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSimpleSelect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FilePathConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileLocationSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MergeSupport\MrgSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFile.cs" />

@@ -1,0 +1,15 @@
+setting manager
+
+data file locations
+
+general
+
+two general locations
+
+* all users (aka program data) -  to be app+ setting information & to be program support information - 
+* user - user app data - to be user setting information
+
+based on the above
+classification files:
+1. all users: at program data
+2. user's: at app data

@@ -109,6 +109,10 @@ namespace ClassifySheets.Windows
 			
 			pbProgValue = new Progress<double>(value => Pb2.Value = value);
 
+
+			ClassificationFiles cfs = new ClassificationFiles();
+			cfs.Initialize();
+
 			init();
 		}
 
@@ -365,7 +369,7 @@ namespace ClassifySheets.Windows
 			DM.Start0();
 		#endif
 
-			Tbx1Message = "Building is| " + testFileList.Building + "\n\n";
+			Tbx1Message = "Building is| " + (testFileList?.Building ?? "null") + "\n\n";
 			Tbx2Message = "";
 
 			await Task.Run(() => { ListSampleFileList(); } );

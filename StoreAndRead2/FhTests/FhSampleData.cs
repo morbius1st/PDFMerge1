@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AndyShared.FileSupport;
 using SettingsManager;
 using StoreAndRead.Annotations;
 using StoreAndRead2.FavHistoryAdmin;
@@ -136,8 +137,13 @@ namespace StoreAndRead2.FhTests
 			{
 				key = FhKey.ClassfKey(JOB_NUMBER, favFilenamelist[1, 0]);
 				path = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+					FileLocationSupport.ClassifFileLocationUser + "\\"  + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
+				
+				// path = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+
 				description = "Favorite for| " + favFilenamelist[1, 1];
 				value = new FhClassfValue(favFilenamelist[1, 1], description, favFilenamelist[i, 2], path );
 
@@ -163,14 +169,20 @@ namespace StoreAndRead2.FhTests
 			{
 				key = FhKey.PairfKey(JOB_NUMBER,favFilenamelist[i, 0], smplFilenamelist[1, 0]);
 
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+				//
+				// pathSmpl = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
+				// 	+ smplFilenamelist[i, 0]
+				// 	+ ".sample");
 
-				pathSmpl = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
-					+ smplFilenamelist[i, 0]
-					+ ".sample");
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+"." + FileLocationSupport.DATA_FILE_EXT);
+
+				pathSmpl = new FilePath<FileNameSimple>(FileLocationSupport.ClassifSampleFileLocationUser +"\\"+ smplFilenamelist[i, 0]
+					+ "." + FileLocationSupport.SAMPLE_FILE_EXT);
 
 
 				description = "Favorite pair for| " + smplFilenamelist[1, 1];
@@ -198,9 +210,13 @@ namespace StoreAndRead2.FhTests
 			for (int i = 0; i < favFilenamelist.GetLength(0) / 2; i++)
 			{
 				key = FhKey.ClassfKey(JOB_NUMBER, favFilenamelist[1, 0]);
-				path = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// path = new FilePath<FileNameSimple>(?
+					// @"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+					// + ".xml");
+
+				path = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser + "\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
+
 				description = "Favorite for| " + favFilenamelist[1, 1];
 				value = new FhClassfValue(favFilenamelist[1, 1], description, favFilenamelist[i, 2], path );
 
@@ -225,15 +241,20 @@ namespace StoreAndRead2.FhTests
 			{
 				key = FhKey.PairfKey(JOB_NUMBER, favFilenamelist[1, 0], smplFilenamelist[1, 0]);
 
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+				//
+				// pathSmpl = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
+				// 	+ smplFilenamelist[i, 0]
+				// 	+ ".sample");
 
-				pathSmpl = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
-					+ smplFilenamelist[i, 0]
-					+ ".sample");
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
 
+				pathSmpl = new FilePath<FileNameSimple>(FileLocationSupport.ClassifSampleFileLocationUser +"\\"+ smplFilenamelist[i, 0]
+					+ "." + FileLocationSupport.SAMPLE_FILE_EXT);
 
 				description = "Favorite pair for| " + smplFilenamelist[1, 1];
 				value = new FhPairValue(smplFilenamelist[1, 1], description,

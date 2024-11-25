@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5fd08b38-c1ff-4417-86af-26f068bdcbcb</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AndyItextCode</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory).Import\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ElementCreation\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ElementExtraction\" />
+    <Folder Include="$(MSBuildThisFileDirectory)PdfCalculations\" />
+  </ItemGroup>
+</Project>

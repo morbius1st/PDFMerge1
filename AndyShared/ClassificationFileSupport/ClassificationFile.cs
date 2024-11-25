@@ -34,6 +34,9 @@ namespace AndyShared.ClassificationFileSupport
 	[DataContract(Namespace = "")]
 	public class ClassificationFile : INotifyPropertyChanged
 	{
+		
+
+
 		public static int M_IDX = 1000;
 
 	#region private fields
@@ -437,7 +440,7 @@ namespace AndyShared.ClassificationFileSupport
 		public static ClassificationFile Create(string fileId = null, string classfRootFolderPath = null)
 		{
 			string path = classfRootFolderPath.IsVoid()
-				? SettingsSupport.AllClassifFolderPath.FullFilePath
+				? FileLocationSupport.AllClassifFolderPath.FullFilePath
 				: classfRootFolderPath;
 
 			FilePath<FileNameUserAndId> dest;
@@ -447,7 +450,7 @@ namespace AndyShared.ClassificationFileSupport
 				dest =
 					FileUtilities.UniqueFileName(
 						AssembleFileNameNoExt(Environment.UserName, "Pdf Classfications {0:D3}"),
-						FilePathConstants.CLASSF_FILE_EXT_NO_SEP,
+						FileLocationSupport.DATA_FILE_EXT,
 						path + FilePathUtil.PATH_SEPARATOR + Environment.UserName);
 			}
 			else
@@ -537,7 +540,7 @@ namespace AndyShared.ClassificationFileSupport
 		public static bool Exists(string fileId)
 		{
 			return ClassificationFile
-			.AssembleClassfFilePath(fileId, SettingsSupport.UserClassifFolderPath.FullFilePath).Exists;
+			.AssembleClassfFilePath(fileId, FileLocationSupport.UserClassifFolderPath.FullFilePath).Exists;
 		}
 
 		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
@@ -599,7 +602,7 @@ namespace AndyShared.ClassificationFileSupport
 			if (fileId.IsVoid()) return null;
 
 			ClassificationFile c = new ClassificationFile(ClassificationFile.AssembleClassfFilePath(fileId,
-				SettingsSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
+				FileLocationSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
 
 		#if DML1
 			DM.End0();
@@ -616,7 +619,7 @@ namespace AndyShared.ClassificationFileSupport
 
 			return new FilePath<FileNameUserAndId>(
 				FilePathUtil.AssembleFilePathS(AssembleFileNameNoExt(Environment.UserName, newFileId),
-					FilePathConstants.CLASSF_FILE_EXT_NO_SEP, folders));
+					FileLocationSupport.DATA_FILE_EXT, folders));
 		}
 
 		/// <summary>
@@ -673,7 +676,7 @@ namespace AndyShared.ClassificationFileSupport
 
 			FilePath<FileNameSimple> sampleFilePath = DeriveSampleFolderPath(classfFilePath);
 
-			sampleFilePath.ChangeFileName(sampleFileNameNoExt, FilePathConstants.SAMPLE_FILE_EXT);
+			sampleFilePath.ChangeFileName(sampleFileNameNoExt, FileLocationSupport.SAMPLE_FILE_EXT);
 
 			// #if DML1
 			// 	DM.End0();
@@ -686,7 +689,7 @@ namespace AndyShared.ClassificationFileSupport
 		{
 			FilePath<FileNameSimple> sampleFolderPath = new FilePath<FileNameSimple>(classfFilePath);
 
-			sampleFolderPath.Down((FilePathConstants.SAMPLE_FOLDER));
+			sampleFolderPath.Down((FileLocationSupport.SAMPLE_FOLDER));
 
 			return sampleFolderPath;
 		}

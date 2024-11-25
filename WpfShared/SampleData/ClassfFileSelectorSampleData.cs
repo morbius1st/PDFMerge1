@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
+using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 
 namespace WpfShared.SampleData
@@ -29,34 +30,32 @@ namespace WpfShared.SampleData
 			cfgClsFiles = new ClassificationFiles();
 			
 			cfgClsFiles.UserClassificationFiles = new ObservableCollection<ClassificationFile>();
-			// cfgClsFiles.Initialize();
 
-			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 1.xml");
+
+			selected = new ClassificationFile(FileLocationSupport.ClassifFileLocationUser + "\\"+ @"(jeffs) PdfSample 1.xml");
 			selected.SampleFilePath =
-				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample A.sample";
-			
+				FileLocationSupport.ClassifSampleFileLocationUser + "\\"+ @"PdfSample A.sample";
 
 			cfgClsFiles.UserClassificationFiles.Add(selected);
 
-			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 1A.xml");
+			selected = new ClassificationFile(FileLocationSupport.ClassifFileLocationUser + "\\"+ @"(jeffs) PdfSample 1A.xml");
 			selected.SampleFilePath =
-				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample B.sample";
+				FileLocationSupport.ClassifSampleFileLocationUser + "\\"+ @"PdfSample B.sample";
 
 			cfgClsFiles.UserClassificationFiles.Add(selected);
 
-			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 2.xml");
+			selected = new ClassificationFile(FileLocationSupport.ClassifFileLocationUser + "\\"+ @"(jeffs) PdfSample 2.xml");
 			selected.SampleFilePath =
-				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample C.sample";
-
-			cfgClsFiles.UserClassificationFiles.Add(selected);
-			
-			selected = new ClassificationFile(@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\(jeffs) PdfSample 3.xml");
-			selected.SampleFilePath =
-				@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\PdfSample B.sample";
+				FileLocationSupport.ClassifSampleFileLocationUser + "\\"+ @"PdfSample C.sample";
 
 			cfgClsFiles.UserClassificationFiles.Add(selected);
 			
+			selected = new ClassificationFile(FileLocationSupport.ClassifFileLocationUser + "\\"+ @"(jeffs) PdfSample 3.xml");
+			selected.SampleFilePath =
+				FileLocationSupport.ClassifSampleFileLocationUser + "\\"+ @"PdfSample B.sample";
 
+			cfgClsFiles.UserClassificationFiles.Add(selected);
+			
 
 			// cfgClsFiles.UpdateView();
 

@@ -158,7 +158,7 @@ namespace AndyShared.SampleFileSupport
 	
 			sampleFilesView.SortDescriptions.Clear();
 			sampleFilesView.SortDescriptions.Add(
-				new SortDescription(FilePathConstants.SORT_NAME_PROP, ListSortDirection.Ascending));
+				new SortDescription(FileLocationSupport.SORT_NAME_PROP, ListSortDirection.Ascending));
 	
 			OnPropertyChange("View");
 		}

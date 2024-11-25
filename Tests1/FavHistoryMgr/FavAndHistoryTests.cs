@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AndyShared.FileSupport;
 using SettingsManager;
 using Tests1.FaveHistoryMgr;
 using UtilityLibrary;
@@ -293,9 +294,12 @@ namespace Tests1.FavHistoryMgr
 
 			for (var i = 0; i < favFilenamelist.GetLength(0); i++)
 			{
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
 
 				if (FhMgr.AddFavClassf(jobNum, favFilenamelist[i, 1], favFilenamelist[i, 2], pathClassf).Value == false)
 				{
@@ -312,14 +316,20 @@ namespace Tests1.FavHistoryMgr
 
 			for (var i = 0; i < smplFilenamelist.GetLength(0); i++)
 			{
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+				//
+				// pathSmpl = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
+				// 	+ smplFilenamelist[i, 0]
+				// 	+ ".sample");
 
-				pathSmpl = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
-					+ smplFilenamelist[i, 0]
-					+ ".sample");
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
+
+				pathSmpl = new FilePath<FileNameSimple>(FileLocationSupport.ClassifSampleFileLocationUser +"\\"+ smplFilenamelist[i, 0]
+					+ "." + FileLocationSupport.SAMPLE_FILE_EXT);
 
 				if (FhMgr.AddFavPair(jobNum, smplFilenamelist[i, 0],
 					favFilenamelist[i, 2], pathClassf, smplFilenamelist[i, 2], pathSmpl) == false)
@@ -342,14 +352,21 @@ namespace Tests1.FavHistoryMgr
 			{
 				key = new UserListKey(jobNum, favFilenamelist[i, 1]);
 
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+				//
+				// pathSmpl = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
+				// 	+ smplFilenamelist[i, 0]
+				// 	+ ".sample");
 
-				pathSmpl = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files\"
-					+ smplFilenamelist[i, 0]
-					+ ".sample");
+
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
+
+				pathSmpl = new FilePath<FileNameSimple>(FileLocationSupport.ClassifSampleFileLocationUser +"\\"+ smplFilenamelist[i, 0]
+					+ "." + FileLocationSupport.SAMPLE_FILE_EXT);
 
 				if (FhMgr.AddToHistPair(jobNum, favFilenamelist[i, 1],  favFilenamelist[i, 2],
 					pathClassf, smplFilenamelist[i, 2], pathSmpl) == false)
@@ -371,9 +388,12 @@ namespace Tests1.FavHistoryMgr
 			{
 				key = new UserListKey(jobNum, favFilenamelist[i, 1]);
 
-				pathClassf = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
-					+ ".xml");
+				// pathClassf = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + favFilenamelist[i, 0]
+				// 	+ ".xml");
+
+				pathClassf = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser +"\\" + favFilenamelist[i, 0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
 
 				if (FhMgr.AddHistClassf(jobNum, favFilenamelist[i, 1], favFilenamelist[i, 2], pathClassf) == false)
 				{

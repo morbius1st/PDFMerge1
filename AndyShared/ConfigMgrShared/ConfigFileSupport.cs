@@ -31,7 +31,7 @@ namespace AndyShared.ConfigMgrShared
 
 	public static class ConfigSeedFileSupport
 	{
-		public const string INFO_FILE_EXT = ".xml";
+		public const string INFO_FILE_EXT = "." + FileLocationSupport.DATA_FILE_EXT;
 
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";

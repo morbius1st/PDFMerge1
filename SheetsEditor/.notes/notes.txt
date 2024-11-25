@@ -1,0 +1,4 @@
+﻿purpose
+
+1. scan pdf to determine pdf data locations -> goes into general, application, folder
+2. 

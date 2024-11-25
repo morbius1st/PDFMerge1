@@ -37,8 +37,14 @@
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs">
       <Link>.Linked\CsXmlUtilities.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\.LinkOnly\DebugMessages.cs">
-      <Link>.Linked\DebugMessages.cs</Link>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsFloatOps.cs">
+      <Link>.Linked\CsFloatOps.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsMath.cs">
+      <Link>.Linked\CsMath.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsDebugMessages.cs">
+      <Link>.Linked\CsDebugMessages.cs</Link>
     </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>

@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AndyFavsAndHistory.FavHistoryMgr;
+using AndyShared.ClassificationFileSupport;
+using AndyShared.FileSupport;
 using UtilityLibrary;
 
 #endregion
@@ -58,9 +60,11 @@ namespace AndyFavsAndHistory.Samples
 
 			for (var i = 0; i < filenamelist.GetLength(0); i++)
 			{
-				file = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + filenamelist[i,0]
-					+ ".xml");
+				// file = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\" + filenamelist[i,0]
+				// 	+ ".xml");
+				file = new FilePath<FileNameSimple>(FileLocationSupport.ClassifFileLocationUser + "\\" + filenamelist[i,0]
+					+"." + FileLocationSupport.DATA_FILE_EXT);
 
 				key = new FileListKey("2099999", FileListKeyTypes.CLASSF_FILE);
 				item = new FileListItem( filenamelist[i,1], file);
@@ -88,9 +92,11 @@ namespace AndyFavsAndHistory.Samples
 
 			for (var i = 0; i < filenamelist.Length; i++)
 			{
-				file = new FilePath<FileNameSimple>(
-					@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files" + filenamelist[i,0]
-					+ ".xml");
+				// file = new FilePath<FileNameSimple>(
+				// 	@"C:\ProgramData\CyberStudio\Andy\User Classification Files\jeffs\Sample Files" + filenamelist[i,0]
+				// 	+ ".xml");
+				file = new FilePath<FileNameSimple>(FileLocationSupport.ClassifSampleFileLocationUser + "\\" + filenamelist[i,0]
+					+ "." + FileLocationSupport.DATA_FILE_EXT);
 
 				key = new FileListKey("2099999", FileListKeyTypes.CLASSF_FILE);
 				item = new FileListItem( filenamelist[i,1], file);

@@ -6,12 +6,12 @@ using System.Windows;
 
 #endregion
 
-// projname: AndySheets
+// projname: SheetsEditor
 // itemname: MainWindow
 // username: jeffs
 // created:  11/23/2024 3:58:37 PM
 
-namespace AndySheets.Windows
+namespace SheetsEditor.Windows
 {
 
 

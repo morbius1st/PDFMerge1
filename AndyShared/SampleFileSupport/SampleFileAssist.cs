@@ -22,7 +22,7 @@ namespace AndyShared.SampleFileSupport
 {
 	public static class SampleFileAssist
 	{
-		public const string SAMPLE_FILE_PATTERN = @"*." + FilePathConstants.SAMPLE_FILE_EXT;
+		public const string SAMPLE_FILE_PATTERN = @"*." + FileLocationSupport.SAMPLE_FILE_EXT;
 
 	#region private fields
 
@@ -116,7 +116,7 @@ namespace AndyShared.SampleFileSupport
 		/// <returns></returns>
 		public static string GetSampleFile(string path, string fileNameNoExt, bool isTarget = false)
 		{
-			string sampleFile = path + FilePathUtil.PATH_SEPARATOR + fileNameNoExt + FilePathConstants.SAMPLE_FILE_EXT;
+			string sampleFile = path + FilePathUtil.PATH_SEPARATOR + fileNameNoExt + FileLocationSupport.SAMPLE_FILE_EXT;
 
 			if (!isTarget && !File.Exists(sampleFile))
 			{
@@ -129,7 +129,7 @@ namespace AndyShared.SampleFileSupport
 		public static string GetSampleFolderPath(string userClassfFolderPath)
 		{
 			return userClassfFolderPath + FilePathUtil.PATH_SEPARATOR
-				+ FilePathConstants.SAMPLE_FOLDER;
+				+ FileLocationSupport.SAMPLE_FOLDER;
 		}
 
 
@@ -158,7 +158,7 @@ namespace AndyShared.SampleFileSupport
 
 				filePath = new FilePath<FileNameSimple>(file);
 
-				if (!filePath.FileExtensionNoSep.Equals(FilePathConstants.SAMPLE_FILE_EXT))
+				if (!filePath.FileExtensionNoSep.Equals(FileLocationSupport.SAMPLE_FILE_EXT))
 				{
 					DialogInvalidSampleFile(filePath.FileNameNoExt);
 
@@ -178,7 +178,7 @@ namespace AndyShared.SampleFileSupport
 				"Invalid Sample File",
 				"The Sample File selected \"" + (fileName ?? "(unknown)") + "\" " +
 				"Cannot be used as it is the wrong file type.  Please select a file of type \""
-				+ FilePathConstants.SAMPLE_FILE_EXT, handle);
+				+ FileLocationSupport.SAMPLE_FILE_EXT, handle);
 
 			// TaskDialog td = new TaskDialog();
 			// td.Caption = "Invalid Sample File";

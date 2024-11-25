@@ -94,17 +94,24 @@ namespace AndyShared.ClassificationFileSupport
 
 			OnPropertyChange(nameof(Initialized));
 
-			// allClassfFolderPath = MachSettings.Path.SettingFolderPath +
-			// 	FilePathConstants.USER_STORAGE_FOLDER;
+			// string rootfolderx = FileLocationSupport.UserFileRootLocation();
+			// string basefolderx = FileLocationSupport.ClassifFileLocation();
+			// string allClassfFolderPathx = FileLocationSupport.ClassifFileLocationDefault();
+			// string userClassfFolderPathx = FileLocationSupport.ClassifFileLocationUser();
+			//
+			//
+			// string baseFolder = FilePathUtil.AssembleFolderPath(false, MachSettings.Path.SettingFolderPath,
+			// 	FileLocationSupport.CLASSIF_STORAGE_FOLDER_NAME);
+			//
+			// allClassfFolderPath = FilePathUtil.AssembleFolderPath(false, 
+			// 	baseFolder, FileLocationSupport.DEFAULT_FOLDER_NAME);
+			//
+			// userClassfFolderPath = FilePathUtil.AssembleFolderPath(false,
+			// 	baseFolder, Environment.UserName);
 
-			string baseFolder = FilePathUtil.AssembleFolderPath(false, MachSettings.Path.SettingFolderPath,
-				FilePathConstants.USER_STORAGE_FOLDER);
+			allClassfFolderPath = FileLocationSupport.ClassifFileLocationDefault;
+			userClassfFolderPath = FileLocationSupport.ClassifFileLocationUser;
 
-			allClassfFolderPath = FilePathUtil.AssembleFolderPath(false, 
-				baseFolder, FilePathConstants.DEFAULT_FOLDER_NAME);
-
-			userClassfFolderPath = FilePathUtil.AssembleFolderPath(false,
-				baseFolder, Environment.UserName);
 
 			Reinitialize();
 		}
@@ -175,7 +182,7 @@ namespace AndyShared.ClassificationFileSupport
 		private bool getDefaultFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(allClassfFolderPath,
-						FilePathConstants.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+						FileLocationSupport.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 
@@ -193,7 +200,7 @@ namespace AndyShared.ClassificationFileSupport
 		private bool getUserFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(userClassfFolderPath,
-						FilePathConstants.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+						FileLocationSupport.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 
