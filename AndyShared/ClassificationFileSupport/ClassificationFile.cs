@@ -18,7 +18,7 @@ using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using AndyShared.Settings;
 using AndyShared.Support;
-using DebugCode;
+
 using JetBrains.Annotations;
 using static AndyShared.FileSupport.FileNameUserAndId;
 using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
@@ -440,7 +440,7 @@ namespace AndyShared.ClassificationFileSupport
 		public static ClassificationFile Create(string fileId = null, string classfRootFolderPath = null)
 		{
 			string path = classfRootFolderPath.IsVoid()
-				? FileLocationSupport.AllClassifFolderPath.FullFilePath
+				? FileLocationSupport.ClassifFileLocationPath.FullFilePath
 				: classfRootFolderPath;
 
 			FilePath<FileNameUserAndId> dest;
@@ -540,7 +540,7 @@ namespace AndyShared.ClassificationFileSupport
 		public static bool Exists(string fileId)
 		{
 			return ClassificationFile
-			.AssembleClassfFilePath(fileId, FileLocationSupport.UserClassifFolderPath.FullFilePath).Exists;
+			.AssembleClassfFilePath(fileId, FileLocationSupport.ClassifFilePathUser.FullFilePath).Exists;
 		}
 
 		public static bool Duplicate(FilePath<FileNameUserAndId> source, string newFileId)
@@ -602,7 +602,7 @@ namespace AndyShared.ClassificationFileSupport
 			if (fileId.IsVoid()) return null;
 
 			ClassificationFile c = new ClassificationFile(ClassificationFile.AssembleClassfFilePath(fileId,
-				FileLocationSupport.UserClassifFolderPath.FullFilePath).FullFilePath);
+				FileLocationSupport.ClassifFilePathUser.FullFilePath).FullFilePath);
 
 		#if DML1
 			DM.End0();

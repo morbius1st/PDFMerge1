@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AndyShared.ClassificationDataSupport.TreeSupport;
 using AndyShared.FileSupport.FileNameSheetPDF;
-using DebugCode;
+
 using JetBrains.Annotations;
 using Test4.SheetMgr;
 using Test4.Windows;

@@ -1,8 +1,4 @@
-﻿// Solution:     PDFMerge1
-// Project:       WpfShared
-// File:             ClassfFileSelectorSampleData.cs
-// Created:      2020-09-14 (12:28 PM)
-
+﻿
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -10,6 +6,13 @@ using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
+using SettingsManager;
+
+
+// Solution:     PDFMerge1
+// Project:       WpfShared
+// File:             ClassfFileSelectorSampleData.cs
+// Created:      2020-09-14 (12:28 PM)
 
 namespace WpfShared.SampleData
 {

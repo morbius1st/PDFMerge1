@@ -9,12 +9,12 @@ using System.Windows;
 // associated with an assembly.
 [assembly: AssemblyTitle("ClassifierEditor")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CyberStudio")]
 [assembly: AssemblyProduct("ClassifierEditor")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: AssemblyConfiguration("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

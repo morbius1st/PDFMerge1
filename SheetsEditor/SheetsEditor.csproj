@@ -97,7 +97,6 @@
     <Content Include=".notes\notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SheetData\Support\" />
     <Folder Include="Windows\ResourceFiles\ImageResources\" />
     <Folder Include="Windows\Support\" />
   </ItemGroup>

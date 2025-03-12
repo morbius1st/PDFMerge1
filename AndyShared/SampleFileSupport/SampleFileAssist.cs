@@ -13,6 +13,8 @@ using AndyShared.Support;
 // using ClassifierEditor.Windows;
 // using WpfShared.Windows;
 
+using SettingsManager;
+
 #endregion
 
 // username: jeffs

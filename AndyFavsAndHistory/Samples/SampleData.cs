@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AndyFavsAndHistory.FavHistoryMgr;
 using AndyShared.ClassificationFileSupport;
 using AndyShared.FileSupport;
+using SettingsManager;
 using UtilityLibrary;
 
 #endregion

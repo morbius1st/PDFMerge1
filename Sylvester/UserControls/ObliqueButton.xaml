@@ -15,10 +15,15 @@
 									Path=Index,
 									FallbackValue=-1}"
 		>
-
-
 	<UserControl.Resources>
 
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/VisualStates.xaml"></ResourceDictionary>
+				<ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/IconResources.xaml"></ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
+
+	
 
 
 		<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red" />
@@ -28,10 +33,10 @@
 		<SolidColorBrush x:Key="{x:Static SystemColors.GrayTextBrushKey}" Color="HotPink" />
 
 
-		<!--  <SolidColorBrush  -->
-		<!--  x:Key="Path.Favorite.Fill"  -->
-		<!--  Color="OrangeRed"  -->
-		<!--  />  -->
+		<SolidColorBrush
+		x:Key="Path.Favorite.Fill"
+		Color="OrangeRed"
+		/>
 		<!--    -->
 		<!--  <SolidColorBrush  -->
 		<!--  x:Key="Path.Plus.Fill"  -->
@@ -160,6 +165,9 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
+
+		</ResourceDictionary>
 
 	</UserControl.Resources>
 

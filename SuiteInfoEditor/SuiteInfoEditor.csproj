@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <!-- <Configurations>AllDBG;AndyCfgDBG;AndyDBG;AndyFavsDBG;AndyShtsDBG;AODeliv;ClassifyEdDBG;ClassifySheetsDBG;Debug;DiscEdDBG;Release;StorNread2DBG;SylvestDBG;Test3DBG;Test4DBG;Tests1DBG;Tests2DBG;TestsDBG;WpfShrdDBG;WpfTestDBG</Configurations> -->
+    <Configurations>Debug;Release</Configurations>
+    <Title>SuiteInfoEditor</Title>
+    <Company>CyberStudio</Company>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>$(DefineConstants);WPF;SM74;USER_SETTINGS; APP_SETTINGS; SUITE_SETTINGS; MACH_SETTINGS; SITE_SETTINGS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>USER_SETTINGS; APP_SETTINGS; SUITE_SETTINGS; MACH_SETTINGS; SITE_SETTINGS</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs" Link="Settings\HeadingSettings.cs" />
+    <Compile Include="..\.LinkOnly\MachineSettings.cs" Link="Settings\MachineSettings.cs" />
+    <Compile Include="..\.LinkOnly\SiteSettings.cs" Link="Settings\SiteSettings.cs" />
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs" Link="Settings\SuiteSettings.cs" />
+    <Compile Include="\\CRONOS\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilitiesMedia.cs">
+      <Link>.Linked\CsUtilitiesMedia.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Windows\ResourceFiles\ImageResources\" />
+    <Folder Include="Windows\Support\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CSLibraryIo">
+      <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
+  <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
+  <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
+</Project>

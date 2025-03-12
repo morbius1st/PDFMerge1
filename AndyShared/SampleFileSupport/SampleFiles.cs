@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using UtilityLibrary;
+using SettingsManager;
 using AndyShared.FileSupport;
 
 #endregion

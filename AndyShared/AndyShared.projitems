@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SampleFileSupport\SampleFiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\SettingsSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatusSupport\StatusMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\CommonTaskDialogs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Support\ObservableCollectionSupport.cs" />

@@ -182,7 +182,7 @@ namespace AndyShared.ClassificationFileSupport
 		private bool getDefaultFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(allClassfFolderPath,
-						FileLocationSupport.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+						FileLocationSupport.FILE_PATTERN, SearchOption.TopDirectoryOnly))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 
@@ -200,7 +200,7 @@ namespace AndyShared.ClassificationFileSupport
 		private bool getUserFiles()
 		{
 			foreach (string file in Directory.EnumerateFiles(userClassfFolderPath,
-						FileLocationSupport.USER_STORAGE_PATTERN, SearchOption.TopDirectoryOnly))
+						FileLocationSupport.FILE_PATTERN, SearchOption.TopDirectoryOnly))
 			{
 				ClassificationFile userFile = new ClassificationFile(file);
 

@@ -20,7 +20,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using AndyShared.FileSupport.FileNameSheetPDF;
 using AndyShared.Support;
-using DebugCode;
+
 using DisciplineEditor.Windows;
 using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;

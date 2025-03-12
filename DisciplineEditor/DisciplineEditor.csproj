@@ -107,12 +107,20 @@
     <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\ValueConverters.cs">
       <Link>Windows\ResourceFiles\XamlResources\ValueConverters.cs</Link>
     </Compile>
+    <Compile Include="..\.LinkOnly\HeadingSettings.cs">
+      <Link>Settings\HeadingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\MachineSettings.cs">
+      <Link>Settings\MachineSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\SiteSettings.cs">
+      <Link>Settings\SiteSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\.LinkOnly\SuiteSettings.cs">
+      <Link>Settings\SuiteSettings.cs</Link>
+    </Compile>
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\DataSet.cs" />
-    <Compile Include="Settings\HeadingSetting.cs" />
-    <Compile Include="Settings\MachineSettings.cs" />
-    <Compile Include="Settings\SiteSettings.cs" />
-    <Compile Include="Settings\SuiteSettings.cs" />
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Windows\Support\ValueConverters.cs" />
     <Page Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSkin\CyberStudioSkin.xaml">

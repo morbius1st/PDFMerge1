@@ -8,10 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>AndyItextCode</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory).Import\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ElementCreation\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ElementExtraction\" />
-    <Folder Include="$(MSBuildThisFileDirectory)PdfCalculations\" />
-  </ItemGroup>
 </Project>

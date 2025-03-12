@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>234d1197-9265-48ed-86ee-e3122b20a2b3</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AndySh</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)ShItext\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ShTempCode\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ShScan\ScanManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShSheetData\SheetData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShSheetData\SheetMetricData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShSheetData\SheetRectData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShSheetData\SheetRectDataSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShSupport\StatusMgr.cs" />
+  </ItemGroup>
+</Project>

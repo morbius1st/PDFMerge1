@@ -237,9 +237,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public const int VI_IDENTIFIER    = 12; // 6
 		public const int VI_SEP5          = 13; // 
 		public const int VI_SUBIDENTIFIER = 14; // 7
-
 		public const int VI_SORT_SUFFIX   = 15; // 8
-
 		public const int VI_SHTNUM        = 15;
 		public const int VI_SHTID         = 16;
 		public const int VI_SHTTITLE      = 17;
@@ -270,7 +268,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 		public static readonly CompNameInfo CNI_PHBLD     = new CompNameInfo(N_PHBLD , VI_PHBLDG       , ShtIdType.ST_PHBLD);
 		public static readonly CompNameInfo CNI_DISCP     = new CompNameInfo(N_DISCP , VI_DISCIPLINE   , ShtIdType.ST_NOT_PHBLD);
 		public static readonly CompNameInfo CNI_CAT       = new CompNameInfo(N_CAT   , VI_CATEGORY     , ShtIdType.ST_TYPE01);
-		public static readonly CompNameInfo CNI_SUBCAT    = new CompNameInfo(N_SUBCAT, VI_SUBIDENTIFIER, ShtIdType.ST_TYPE02);
+		public static readonly CompNameInfo CNI_SUBCAT    = new CompNameInfo(N_SUBCAT, VI_SUBCATEGORY  , ShtIdType.ST_TYPE02);
 		public static readonly CompNameInfo CNI_MOD       = new CompNameInfo(N_MOD   , VI_MODIFIER     , ShtIdType.ST_TYPE03);
 		public static readonly CompNameInfo CNI_SUBMOD    = new CompNameInfo(N_SUBMOD, VI_SUBMODIFIER  , ShtIdType.ST_TYPE04);
 		public static readonly CompNameInfo CNI_ID        = new CompNameInfo(N_ID    , VI_IDENTIFIER   , ShtIdType.ST_TYPE05);
@@ -291,11 +289,11 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 			// {VI_PBSEP        , PBSEP},		//		1
 			{VI_DISCIPLINE   , CNI_DISCP},		// 1	2
 			{VI_SEP0         , CNI_SEP0},		//		3
-			{VI_CATEGORY     , CNI_CAT},			// 2	4
+			{VI_CATEGORY     , CNI_CAT},		// 2	4
 			{VI_SEP1         , CNI_SEP1},		//		5
 			{VI_SUBCATEGORY  , CNI_SUBCAT},		// 3	6
 			{VI_SEP2         , CNI_SEP2},		//		7
-			{VI_MODIFIER     , CNI_MOD},			// 4	8
+			{VI_MODIFIER     , CNI_MOD},		// 4	8
 			{VI_SEP3         , CNI_SEP3},		//		9
 			{VI_SUBMODIFIER  , CNI_SUBMOD},		// 5	10
 			{VI_SEP4         , CNI_SEP4},		//		11
