@@ -3,7 +3,7 @@
 // File:             IInput.cs
 // Created:      2024-12-25 (10:30 PM)
 
-namespace AndyScan.Support;
+namespace AndyScan.SbSystem;
 
 public interface IInput
 {

@@ -1,5 +1,4 @@
-﻿#region using directives
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -16,7 +15,7 @@ using SettingsManager;
 using static AndyShared.ClassificationDataSupport.SheetSupport.SheetCategory;
 using static AndyShared.ClassificationDataSupport.SheetSupport.ItemClassDef;
 using static UtilityLibrary.MessageUtilities;
-#endregion
+
 
 // username: jeffs
 // created:  5/2/2020 9:28:15 AM
@@ -671,7 +670,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				{
 					// Debug.WriteLine($"\n******* {nameof(ModifyTreeNodeItem)} *** set false *********");
 
-					GetChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION);
+					// todo - fix
+					// GetChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION);
+					// todo - is this correct?
+					Debug.WriteLine("is this correct??");
+					ItemChangeFromParent(INTERNODE_MESSAGES.IM_CLEAR_ITEM_MODIFICATION);
 				}
 			}
 		}

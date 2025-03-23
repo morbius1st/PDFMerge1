@@ -6,6 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
+using AndyScan.SbSystem;
+
 using UtilityLibrary;
 
 namespace AndyScan.Support;
@@ -45,7 +48,7 @@ public class SwitchBoardManager : IProcessOption, IInput
 		this.menu = menu;
 		this.menuIdx = menuIdx;
 		
-		startSb();
+		showSb();
 		
 		DM.End0();
 	}
@@ -72,30 +75,25 @@ public class SwitchBoardManager : IProcessOption, IInput
 		return -1;
 	}
 
-	private void startSb()
+	private void showSb()
 	{
-		Sb.SelectSbOption(menu, menuIdx);
+		Sb.ShowSb(menu, menuIdx);
 	}
 
-	private Tuple<int, string, string> getChoice(List<string> selectedOptions)
-	{
-		return divideMenuChoice(selectedOptions[^1]);
-	}
-
-	private Tuple<int, string, string> divideMenuChoice(string choice)
+	private Tuple<int, string, string> getChoice(List<Tuple<int,string>> menuChoices)
 	{
 		int menuIdx = -1;
+		string menuChoice;
 		string title = "";
-		string[] option = choice.Split('_');
 
-		if (option.Length != 2 ) return new Tuple<int, string, string>(menuIdx, "", "");
+		if (menuChoices == null || menuChoices.Count == 0) 
+			return new Tuple<int, string, string>(menuIdx, "", "");
 
-		if (int.TryParse(option[0], out menuIdx))
-		{
-			title = getMenuTitle(menuIdx, option[1]);
-		}
+		menuIdx = menuChoices[^1].Item1;
+		menuChoice = menuChoices[^1].Item2;
+		title = getMenuTitle(menuIdx, menuChoice);
 
-		return new Tuple<int, string, string>(menuIdx, option[1], title);
+		return new Tuple<int, string, string>(menuIdx, menuChoice, title);
 	}
 
 	private string getMenuTitle(int menuIdx, string menuKey)
@@ -151,7 +149,7 @@ public class SwitchBoardManager : IProcessOption, IInput
 					return;
 				}
 
-				startSb();
+				showSb();
 					
 				break;
 			}
@@ -178,18 +176,18 @@ public class SwitchBoardManager : IProcessOption, IInput
 
 	// show info
 
-	private void showSelected()
-	{
-		Tuple<int, string, string> choice;
-
-		iw.TblkFmtdLine($"selected| is ({(Sb.IsValid ? "valid" : "invalid")})");
-
-		for (var i = 0; i < Sb.SelectedOption.Count; i++)
-		{
-			choice = divideMenuChoice(Sb.SelectedOption[i]);
-
-			iw.TblkFmtdLine($"\t| ({i}) | menu ({choice.Item1}) | item ({choice.Item2}) | title [{choice.Item3}]");
-		}
-	}
+	// private void showSelected()
+	// {
+	// 	Tuple<int, string, string> choice;
+	//
+	// 	iw.TblkFmtdLine($"selected| is ({(Sb.IsValid ? "valid" : "invalid")})");
+	//
+	// 	for (var i = 0; i < Sb.SelectedOption.Count; i++)
+	// 	{
+	// 		choice = divideMenuChoice(Sb.SelectedOption[i]);
+	//
+	// 		iw.TblkFmtdLine($"\t| ({i}) | menu ({choice.Item1}) | item ({choice.Item2}) | title [{choice.Item3}]");
+	// 	}
+	// }
 
 }

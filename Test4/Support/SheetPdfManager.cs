@@ -113,7 +113,6 @@ namespace Test4.SheetMgr
 			FileNameSheetParser.Instance.CreateFileNamePattern();
 		}
 
-
 		public bool FilterSheetNames4(ClassificationFile cf, Classify cf4)
 		{
 			Samples3.MakeSamples();

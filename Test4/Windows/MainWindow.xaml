@@ -1959,14 +1959,15 @@
 			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 
-		<TextBox
+		<TextBlock
+				x:Name="MsgBlk"
 				Grid.Row="1"
 				FontFamily="MS Gothic"
 				FontSize="14"
 				Background="Transparent"
 				Foreground="White"
 				Text="{Binding Path=MessageBox,
-											 FallbackValue='this is a text box'}"
+											 FallbackValue='this is a text block'}"
 				/>
 
 		<TextBox

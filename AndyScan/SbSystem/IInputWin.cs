@@ -5,7 +5,7 @@
 
 using System.Windows;
 
-namespace AndyScan.Support;
+namespace AndyScan.SbSystem;
 
 public interface IInputWin
 {

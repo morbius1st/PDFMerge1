@@ -30,6 +30,8 @@
 	  <Compile Remove=".Settings\MachineSettings.cs" />
 	  <Compile Remove=".Settings\SiteSettings.cs" />
 	  <Compile Remove=".Settings\SuiteSettings.cs" />
+	  <Compile Remove="Support\Switchboard2.cs" />
+	  <Compile Remove="Support\SwitchBoardProcess2.cs" />
 	  <Compile Remove="Support\TextBlockFormatSupport.cs" />
 	  <Compile Remove="Support\TextBlockFormatSupport2.cs" />
 	</ItemGroup>

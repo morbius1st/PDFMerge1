@@ -6,11 +6,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace AndyScan.Support;
+namespace AndyScan.SbSystem;
 
 public interface IMenu
 {
-	Dictionary<string, Tuple<List<string>, List<string>, List<string>, int, List<int>>>[] Menus { get; set; }
+	Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[] Menus { get; set; }
 	// Dictionary<string, Tuple<string, int>>[] Menus4 { get; set; }
 
 	public int ProcessMenuChoice(Tuple<int, string, string> menuKey);
@@ -21,9 +21,11 @@ public interface IMenu
 	public string getTitlePlain(int menuIdx, string key);
 	public string getKeyFormatted(int menuIdx, string menuKey);
 	public string getTitleFormatted(int menuIdx, string menuKey);
+
 	public string getHeaderFormatted(int menuIdx, string menuKey);
-	public string getBlankLineFormatted(int menuIdx);
+	public string getBlankLineFormatted(int menuIdx, string menuKey);
 	public string getMenuItemFormatted(int menuIdx, string menuKey);
+
 	public bool? ValidateOption(int menuIdx, string choice, out int subMenuIdx);
 
 

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using UtilityLibrary;
 
-namespace ShTempCode.DebugCode
+namespace AndyScan.Samples
 {
 	public struct Sample
 	{
@@ -253,11 +253,9 @@ namespace ShTempCode.DebugCode
 		public string BlankSampleFpNotes = "for assembly: not used\nfor scan: not used\n"
 			+ "for create: folder with the blank titleblock samples are located which get used\n"
 			+ "rather than creating on a blank page - names must be a 1 to 1 match";
-
 	}
 
-
-	public class ShSamples
+	public class SampleData
 	{
 		public const string DATA_FILE_FOLDER = @"C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\_SamplesScan\";
 
@@ -266,7 +264,8 @@ namespace ShTempCode.DebugCode
 
 		public const string ROOT_PATH_01 = @"C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\_SamplesScan\TestBoxes\";
 
-		static ShSamples() { }
+		/*
+		static SampleData() { }
 
 		private static void init()
 		{
@@ -275,6 +274,7 @@ namespace ShTempCode.DebugCode
 				FilesNames_01[i] = ROOT_PATH_01 + FilesNames_01[i];
 			}
 		}
+		*/
 
 		public bool? SelectScanSample(int def, bool selectDefault)
 		{
@@ -406,7 +406,7 @@ namespace ShTempCode.DebugCode
 		}
 
 		// for scan and create
-		public Dictionary<int, Sample> SampleScanData = new Dictionary<int, Sample>()
+		public static Dictionary<int, Sample> SampleScanData = new Dictionary<int, Sample>()
 		{
 			{
 				0,
@@ -449,6 +449,17 @@ namespace ShTempCode.DebugCode
 					DATA_FILE_FOLDER+@"SheetMetric7.xml",
 					DATA_FILE_FOLDER+@"Test7\PDF Files\",
 					DATA_FILE_FOLDER+@"Sheet Metric 7.pdf",
+					null
+					)
+			},
+			{
+				9,
+				new Sample(9, 
+					"Special Small Sample Set with (3) different Rotations 9",
+					null, null, null, null,
+					DATA_FILE_FOLDER+@"SheetMetric9.xml",
+					DATA_FILE_FOLDER+@"9 PageRotationTest\",
+					DATA_FILE_FOLDER+@"Sheet Test 9.pdf",
 					null
 					)
 			},

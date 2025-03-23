@@ -3,7 +3,7 @@
 // File:             IProcessOption.cs
 // Created:      2024-12-25 (10:31 PM)
 
-namespace AndyScan.Support;
+namespace AndyScan.SbSystem;
 
 public interface IProcessOption
 {

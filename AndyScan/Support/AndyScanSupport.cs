@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using Settings;
 using SettingsManager;
 using ShScan;
-using ShTempCode.DebugCode;
 using UtilityLibrary;
+using AndyScan.Samples;
 
 #endregion
 
@@ -34,7 +34,7 @@ namespace AndyScan.Support
 
 	#region private fields
 
-		private ShSamples smpl;
+		private SampleData smpl;
 
 		private ITblkFmt iw;
 		private bool canScan;
@@ -47,7 +47,7 @@ namespace AndyScan.Support
 		{
 			iw = w;
 
-			smpl = new ShSamples();
+			smpl = new SampleData();
 		}
 
 	#endregion

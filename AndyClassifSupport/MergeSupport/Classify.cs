@@ -32,6 +32,7 @@ using AndyShared.Support;
 using UtilityLibrary;
 
 
+
 #endregion
 
 // username: jeffs
@@ -192,8 +193,8 @@ namespace AndyShared.MergeSupport
 		}
 
 		/// <summary>
-		/// init merg item list
-		/// init async lock
+		/// init merg item list<br/>
+		/// init async lock<br/>
 		/// runs the recursive preprocess routine for each child
 		/// </summary>
 		public void PreProcess()
@@ -607,9 +608,9 @@ namespace AndyShared.MergeSupport
 
 
 		/// <summary>
-		/// preprocess each child in the tree (recursive)
-		/// init each child's merge item list
-		/// init each child's async lock
+		/// preprocess each child in the tree (recursive)<br/>
+		/// init each child's merge item list<br/>
+		/// init each child's async lock<br/>
 		/// init collection sync used for async operations
 		/// </summary>
 		private void preProcessFiles(TreeNode parent)

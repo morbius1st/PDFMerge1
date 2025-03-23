@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
+using AndyScan.SbSystem;
+
 namespace AndyScan.Support;
 
 public class WinInput
@@ -33,7 +35,6 @@ public class WinInput
 
 		iPut.OnKeyUp = e.Text.ToUpper();
 	}
-
 
 	public void EnableInput()
 	{

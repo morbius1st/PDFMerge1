@@ -1,6 +1,7 @@
 ﻿#region using
 
-using System.ComponentModel;
+	using System;
+	using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -8,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
+using AndyScan.SbLocal;
+using AndyScan.SbSystem;
 using AndyScan.Support;
 using JetBrains.Annotations;
 using UtilityLibrary;
@@ -111,7 +114,6 @@ namespace AndyScan.Windows
 			return result;
 		}
 
-
 		public UIElement GetInputWindow()
 		{
 			return MsgBlk;
@@ -134,6 +136,26 @@ namespace AndyScan.Windows
 		private void closeApp()
 		{
 			this.Close();
+		}
+
+
+		private const int START_MSG_WIDTH = 26;
+
+		private void startMsg()
+		{
+			string msg;
+			int width;
+
+			Debug.WriteLine("*".Repeat(START_MSG_WIDTH));
+
+			msg = $"*** starting - {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+			width = START_MSG_WIDTH - msg.Length-4;
+
+			Debug.WriteLine($"{msg}{" ".Repeat(width)} ***");
+
+			Debug.WriteLine("*".Repeat(START_MSG_WIDTH));
+			Debug.WriteLine("\n\n");
+
 		}
 
 	#endregion
@@ -244,6 +266,8 @@ namespace AndyScan.Windows
 
 		private void BtnSbTest1_OnClick(object sender, RoutedEventArgs e)
 		{
+			startMsg();
+
 			DM.Start0(true);
 			DM.Stat0("button pressed");
 

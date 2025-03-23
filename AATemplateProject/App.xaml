@@ -1,16 +1,15 @@
 ﻿<Application
-		x:Class="AndyScan.App"
+		x:Class="AATemplateProject.App"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:local="clr-namespace:AndyScan"
-		StartupUri="Windows/MainWinAndyScan.xaml"
+		xmlns:local="clr-namespace:AATemplateProject"
+		StartupUri="/Windows/MainWindow.xaml"
 		>
 	<Application.Resources>
-
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Windows/ResourceFiles/XamlResources/MasterColorList.xaml" />
-				<ResourceDictionary Source="Windows/ResourceFiles/XamlResources/VisualStates.xaml" />
+				<ResourceDictionary Source="Windows/ResourceFiles/XamlResourcesLinked/MasterColorList.xaml" />
+				<ResourceDictionary Source="Windows/ResourceFiles/XamlResourcesLinked/VisualStates.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 

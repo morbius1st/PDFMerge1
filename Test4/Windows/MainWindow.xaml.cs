@@ -31,7 +31,7 @@ namespace Test4
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged, IWin
+	public partial class MainWindow : Window, INotifyPropertyChanged, IWin, ITblkFmt
 	{
 		// private static MainWindow mw;
 
@@ -48,6 +48,7 @@ namespace Test4
 		private TreeViewItem priorTviAlt;
 		private ListBoxItem priorLbiAlt;
 
+		private ITblkSpanSupport Tblks = new CsTextBlockFormatting();
 
 
 		// private ListBoxItem lixi;
@@ -76,7 +77,8 @@ namespace Test4
 		{
 			InitializeComponent();
 
-			DM.Iw = (IWin) this;
+			// todo - fix
+			DM.Iw = (ITblkFmt) this;
 
 			init();
 		}
@@ -245,6 +247,56 @@ namespace Test4
 			// }
 		}
 
+
+	#region message methods
+
+		public void TblkMsgClear()
+		{
+			MsgBlk.Inlines.Clear();
+		}
+
+		public void TblkMsgLine(string msg)
+		{
+			// Debug.WriteLine(msg);
+
+			TblkMsg3(new Run(msg + "\n"));
+		}
+
+		public void TblkMsg(string msg)
+		{
+			// Debug.WriteLine(msg);
+
+			TblkMsg3(new Run(msg));
+		}
+
+		public void TblkFmtdLine(string msg)
+		{
+			// Debug.WriteLine(msg);
+
+			TblkMsg3(Tblks.ProcessText(msg + "\n"));
+		}
+
+		public void TblkFmtd(string msg)
+		{
+			// Debug.WriteLine(msg);
+
+			TblkMsg3(Tblks.ProcessText(msg));
+		}
+
+		private void TblkMsg3(Span span)
+		{
+			MsgBlk.Inlines.Add(span);
+
+			Tblks.Reset();
+		}
+
+		private void TblkMsg3(Run run)
+		{
+			MsgBlk.Inlines.Add(run);
+
+			Tblks.Reset();
+		}
+
 		public void DebugMsg(string msg)
 		{
 			MessageBox += msg;
@@ -254,6 +306,9 @@ namespace Test4
 		{
 			MessageBox += msg + "\n";
 		}
+
+	#endregion
+
 
 		// private
 

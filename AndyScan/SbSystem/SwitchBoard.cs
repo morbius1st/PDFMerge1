@@ -8,12 +8,30 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+
+using AndyScan.Support;
+
 using UtilityLibrary;
 
-namespace AndyScan.Support
+namespace AndyScan.SbSystem
 {
+	public struct SbMnuItemId(int value)
+	{
+		public int Value { get; } = value;
+		public int SubValue { get; set; } = -1;
+	}
+
+	public class SbmnuItems
+	{
+		public static SbMnuItemId SBMI_PRIOR   = new (-2);
+		public static SbMnuItemId SBMI_EXIT    = new (-1);
+		public static SbMnuItemId SBMI_INVALID = new (0);
+		public static SbMnuItemId SBMI_BLANK   = new (1);
+		public static SbMnuItemId SBMI_SPACER  = new (2);
+		public static SbMnuItemId SBMI_HEADER  = new (11);
+		public static SbMnuItemId SBMI_TITLE   = new (21);
+	}
+
 	public class SwitchBoard : IInput
 	{
 		private IInputWin iwi;
@@ -28,12 +46,14 @@ namespace AndyScan.Support
 
 		private WinInput wIput;
 
-		private List<string> selectedOption;
+		private List<Tuple<int,string>> selectedOption;
 		private bool isValid;
 
 		private int menuIdx;
 		private int subMenuIdx;
-		private Dictionary<string, Tuple<List<string>, List<string>, List<string>, int, List<int>>>[]menus;
+
+		private Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[]
+			menus;
 		// private string[] multiCharOptions;
 
 		public SwitchBoard(ITblkFmt iw, IInputWin iwi, IProcessOption ipo)
@@ -41,7 +61,7 @@ namespace AndyScan.Support
 			this.iw = iw;
 			this.iwi = iwi;
 			this.ipo = ipo;
-			
+
 			input = iwi.GetInputWindow();
 
 			// enableDisableInput(false);
@@ -51,7 +71,7 @@ namespace AndyScan.Support
 			wIput = new WinInput(iwi, this);
 			wIput.DisableInput();
 
-			this.ProcessKeyUp += OnProcessKeyUp;
+			ProcessKeyUp += OnProcessKeyUp;
 		}
 
 		public void SetMenu(IMenu menu)
@@ -59,7 +79,7 @@ namespace AndyScan.Support
 			this.menu = menu;
 		}
 
-		public List<string> SelectedOption
+		public List<Tuple<int,string>> SelectedOption
 		{
 			get => selectedOption;
 			private set => selectedOption = value;
@@ -67,45 +87,36 @@ namespace AndyScan.Support
 
 		public bool IsValid => isValid;
 
-		public Dictionary<string, Tuple<List<string>, List<string>, List<string>, int, List<int>>>[] Menu
+		public Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[] Menu
 		{
 			get => menus;
 			set => menus = value;
 		}
 
-		public void SelectSbOption(IMenu menu, int startMenu)
+
+		// because this is drawn in a window (textblock), the normal process
+		// of waiting for a keypress will not work.
+		// these routines only draw the switchboard.  the window then
+		// waits for the user to enter a key.  the key is then processed
+
+		// show the switchboard
+
+		public void ShowSb(IMenu menu, int startMenu)
 		{
 			DM.Start0();
-			
+
 			this.menu = menu;
 			menus = menu.Menus;
 			menuIdx = startMenu;
 
-			selectedOption = new List<string>();
-
-			showSbStart();
-			
-			DM.End0();
-		}
-
-		private void showSbStart()
-		{
-			DM.Start0();
-
-			choice = null;
-
-			processKeyIdx = 0;
-
-			if (menuIdx == 0) iw.TblkMsgClear();
+			selectedOption = new List<Tuple<int,string>>();
 
 			showSb();
 
-			requestOption();
-			
 			DM.End0();
 		}
 
-		private void requestOption()
+		private void requestOptionMsg()
 		{
 			enableDisableInput(true);
 
@@ -118,36 +129,51 @@ namespace AndyScan.Support
 		{
 			DM.Start0();
 
+			choice = null;
+
+			processKeyIdx = 0;
+
+			if (menuIdx == 0) iw.TblkMsgClear();
+
+			drawSb();
+
+			requestOptionMsg();
+
+			DM.End0();
+		}
+
+		private void drawSb()
+		{
+			DM.Start0();
+
 			int menuWidth = 50;
 
 			string text;
 
-			foreach (KeyValuePair<string, Tuple<List<string>, List<string>, List<string>, int, List<int>>> kvp in menus[menuIdx])
-			{
+			foreach (KeyValuePair<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>
+						kvp in menus[menuIdx])
 				if (kvp.Key.StartsWith('>'))
-				{
-					text = menu.getHeaderFormatted(menuIdx, kvp.Key);
+					// text = menu.getHeaderFormatted(menuIdx, kvp.Key);
 					iw.TblkFmtdLine(menu.getHeaderFormatted(menuIdx, kvp.Key));
-				}
-				else
+				else 
 				if (kvp.Key.StartsWith('<'))
-				{
-					text = menu.getBlankLineFormatted(menuIdx);
-					iw.TblkFmtdLine(menu.getBlankLineFormatted(menuIdx));
-				}
+					// text = menu.getBlankLineFormatted(menuIdx);
+					iw.TblkFmtdLine(menu.getBlankLineFormatted(menuIdx, kvp.Key));
 				else
-				{
-					text = menu.getMenuItemFormatted(menuIdx, kvp.Key);
+					// text = menu.getMenuItemFormatted(menuIdx, kvp.Key);
 					iw.TblkFmtdLine(menu.getMenuItemFormatted(menuIdx, kvp.Key));
-				}
-			}
+
+			DM.End0();
 		}
+
+
+		// keystroke processing
 
 		public string OnKeyUp
 		{
 			set
 			{
-				DM.Start0();
+				DM.Start0($"got | {value}");
 
 				RaiseProcessKeyUpEvent(value);
 
@@ -183,11 +209,13 @@ namespace AndyScan.Support
 				{
 					if (!inputOk)
 					{
-						DM.End0("end 1");
+						DM.End0("end 1 - input not good");
 						return;
 					}
 
-					getOption(k);
+					if (getOption(k) == true)
+						handleOption();
+
 					break;
 				}
 			case 1:
@@ -207,7 +235,17 @@ namespace AndyScan.Support
 			DM.End0();
 		}
 
-		private void getOption(string c)
+		private void handleOption()
+		{
+			DM.Start0();
+
+			enableDisableInput(false);
+			processOption();
+
+			DM.End0();
+		}
+
+		private bool? getOption(string c)
 		{
 			DM.Start0();
 
@@ -217,7 +255,7 @@ namespace AndyScan.Support
 
 			// bool? result = validateOption();
 
-			// validate the user's choice incrementally - verify each set characters as entered
+			// validate the user's choice incrementally - verify each group of characters as entered
 			// return
 			// false = choice is not valid - characters, as entered, do not match
 			// true = choice has matched, return the associated menu index
@@ -230,23 +268,26 @@ namespace AndyScan.Support
 				choice = null;
 				isValid = false;
 
-				requestOption();
-				DM.End0("end 1");
-				return;
-			} 
-
+				requestOptionMsg();
+				DM.Stat0("end 1 - invalid choice");
+			}
+			else 
 			if (result == true)
 			{
 				// option is one of the valid choices
 
+				DM.Stat0("valid choice");
+
 				iw.TblkMsg("\n"); // no more entries on the enter choice line
 				isValid = true;
 
-				enableDisableInput(false);
-				processOption();
+				// enableDisableInput(false);
+				// processOption();
 			}
 
 			DM.End0();
+
+			return result;
 		}
 
 		// what to do next
@@ -259,43 +300,27 @@ namespace AndyScan.Support
 		{
 			DM.Start0();
 
-			// iw.DebugFmtd("<linebreak/><linebreak/>");
 			iw.TblkMsg("\n");
 
-			selectedOption.Add($"{menuIdx}_{choice}");
+			selectedOption.Add(new (menuIdx, choice));
 
 			if (subMenuIdx >= 0)
-			{
 				menuIdx = subMenuIdx;
-			}
-			else
-			if (subMenuIdx == -2)
+			else if (subMenuIdx == -2)
 			{
 				menuIdx = ipo.SelectedOption();
 				subMenuIdx = 0;
 			}
-			else
-			if (subMenuIdx == -100)
-			{
+			else if (subMenuIdx == -100)
 				menuIdx = ipo.SelectedExit();
-			}
-			else
-			if (subMenuIdx == -101)
-			{
+			else if (subMenuIdx == -101)
 				menuIdx = 0;
-			}
 
 			if (menuIdx >= 0)
-			{
 				if (menuIdx == 0 && subMenuIdx >= 0)
-				{
 					verifyProcessEnd();
-				}
 				else
-				{
-					showSbStart();
-				}
-			} 
+					showSb();
 
 			DM.End0();
 		}
@@ -337,8 +362,7 @@ namespace AndyScan.Support
 
 			iw.TblkMsgLine($"{k}\n");
 
-			showSbStart();
+			showSb();
 		}
-
 	}
 }
