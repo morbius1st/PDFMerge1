@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\ValueConverters.cs" Link="Windows\ValueConverters.cs" />
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsTextBlockFormatting.cs" Link=".External\CsTextBlockFormatting.cs" />
     <Compile Include="..\.LinkOnly\HeadingSettings.cs" Link="Settings\HeadingSettings.cs" />
     <Compile Include="..\.LinkOnly\MachineSettings.cs" Link="Settings\MachineSettings.cs" />
     <Compile Include="..\.LinkOnly\SiteSettings.cs" Link="Settings\SiteSettings.cs" />

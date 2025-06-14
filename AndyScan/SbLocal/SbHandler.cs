@@ -11,6 +11,7 @@ using UtilityLibrary;
 using static AndyScan.SbLocal.SbMainMnuItemExt;
 using static AndyScan.SbSystem.SbmnuItems;
 using AndyScan.SbSystem;
+using AndyScan.Support;
 
 // username: jeffs
 // created:  3/16/2025 7:58:03 AM
@@ -21,12 +22,14 @@ namespace AndyScan.SbLocal
 	{
 	#region private fields
 
-		private IMenu menu;
+		private IMenu2 menu;
 
-		private ITblkFmt iw;
+		private IFdFmt iw;
 
 		private  Dictionary<string, Tuple<SbMnuItemId, List<string>,
 			List<string>, List<string>, int, List<int>>>[] Menus;
+
+		private AndyScanSupport aSupp;
 
 		private int menuIdx;
 
@@ -38,13 +41,15 @@ namespace AndyScan.SbLocal
 
 	#region ctor
 
-		public SbHandler(ITblkFmt iw, IMenu im)
+		public SbHandler(IFdFmt iw, IMenu2 im)
 		{
 			DM.Start0();
 			this.iw = iw;
 			menu = im;
-
+			
 			Menus = menu.Menus;
+
+			aSupp = new AndyScanSupport(iw);
 
 			DM.End0();
 		}
@@ -125,6 +130,10 @@ namespace AndyScan.SbLocal
 			{
 				result = menuExit();
 				menuIdx = -2;
+			}
+			else if (menuChoice.Value == MMI_SHOW_RPT1.Value)
+			{
+				result = showReport1();
 			}
 			else if (menuChoice.Value == MMI_INIT_1.Value)
 			{
@@ -243,6 +252,13 @@ namespace AndyScan.SbLocal
 		}
 
 		// menu 0 procedures
+
+		private bool? showReport1()
+		{
+			aSupp.ShowStatus();
+
+			return true;
+		}
 
 		private bool? menu0Init1()
 		{

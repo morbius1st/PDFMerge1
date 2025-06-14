@@ -35,8 +35,8 @@ namespace AndyShared.ConfigMgrShared
 
 		public const string SEED_PATTERN = @"*.seed" + INFO_FILE_EXT;
 		public const string SEED_FOLDER_NAME = @"Seed Files";
-		public const string SEED_FOLDER_SITE = @"\Site " + SEED_FOLDER_NAME;
-		public const string SEED_FOLDER_LOCAL = @"\Local " + SEED_FOLDER_NAME;
+		public const string SEED_FOLDER_SITE = @"\.Site " + SEED_FOLDER_NAME;
+		public const string SEED_FOLDER_LOCAL = @"\.Local " + SEED_FOLDER_NAME;
 		public const string SEED_FOLDER_INSTALLED = @"\Installed " + SEED_FOLDER_NAME;
 
 		public static bool GetFiles(ObservableCollection<ConfigSeedFile> collection,

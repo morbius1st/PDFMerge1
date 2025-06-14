@@ -20,14 +20,14 @@ public class SwitchBoardManager : IProcessOption, IInput
 	private WinInput wIput;
 	private int processKeyIdx;
 
-	private IMenu menu;
+	private IMenu2 menu;
 	private int menuIdx = 0;
 
-	private ITblkFmt iw;
+	private IFdFmt iw;
 	private IInputWin iwi;
 	private IWinMain iwm;
 
-	public SwitchBoardManager(ITblkFmt iw, IInputWin iwi, IWinMain iwm)
+	public SwitchBoardManager(IFdFmt iw, IInputWin iwi, IWinMain iwm)
 	{
 		this.iw = iw;
 		this.iwi = iwi;
@@ -41,7 +41,7 @@ public class SwitchBoardManager : IProcessOption, IInput
 		this.ProcessKeyUp += OnProcessKeyUp;
 	}
 
-	public void ProcessSb(IMenu menu, int menuIdx = 0)
+	public void ProcessSb(IMenu2 menu, int menuIdx = 0)
 	{
 		DM.Start0();
 		
@@ -57,11 +57,13 @@ public class SwitchBoardManager : IProcessOption, IInput
 	{
 		DM.Start0();
 
-		int result = menu.ProcessMenuChoice(getChoice(Sb.SelectedOption));
+		// int result = menu.ProcessMenuChoice(getChoice(Sb.SelectedOption));
 
 		DM.End0();
 
-		return result;
+		// return result;
+
+		return 0;
 	}
 
 	public int SelectedExit()
@@ -98,7 +100,9 @@ public class SwitchBoardManager : IProcessOption, IInput
 
 	private string getMenuTitle(int menuIdx, string menuKey)
 	{
-		return this.menu.getTitlePlain(menuIdx, menuKey);
+		// return this.menu.getTitlePlain(menuIdx, menuKey);
+
+		return "";
 	}
 
 	public string OnKeyUp

@@ -1,0 +1,337 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD6F745-9A26-4875-9B89-690CA892EB3B}|Test4\\Test4.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\test4\\windows\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD6F745-9A26-4875-9B89-690CA892EB3B}|Test4\\Test4.csproj|solutionrelative:test4\\windows\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\aandylibrary\\settingssupport\\suitesettinglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|solutionrelative:aandylibrary\\settingssupport\\suitesettinglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\aandylibrary\\windows\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|solutionrelative:aandylibrary\\windows\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F41577F-5C25-409F-82B7-EB08521A26D7}|AndyScan\\AndyScan.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\andyscan\\windows\\mainwinandyscan.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F41577F-5C25-409F-82B7-EB08521A26D7}|AndyScan\\AndyScan.csproj|solutionrelative:andyscan\\windows\\mainwinandyscan.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\aandylibrary\\windows\\support\\processmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|solutionrelative:aandylibrary\\windows\\support\\processmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\aandylibrary\\windows\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{74747F29-82BE-C67E-F393-9AB6A59939FE}|AAndyLibrary\\AAndyLibrary.csproj|solutionrelative:aandylibrary\\windows\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F41577F-5C25-409F-82B7-EB08521A26D7}|AndyScan\\AndyScan.csproj|c:\\users\\jeffs\\documents\\programming\\visualstudioprojects\\pdf solutions\\pdfmerge1\\andyscan\\windows\\mainwinandyscan.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7F41577F-5C25-409F-82B7-EB08521A26D7}|AndyScan\\AndyScan.csproj|solutionrelative:andyscan\\windows\\mainwinandyscan.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 291,
+          "SelectedChildIndex": 29,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{37fe8527-01e7-45dc-b1ef-5a8b12618770}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3da7753e-51d7-52a4-886a-c3f408fc504e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{401f80a9-c289-52a9-a9cf-7efc659073ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{778b5376-ad77-4751-acdc-f3d18343f8dd}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{92f432fc-a0cd-5087-a713-2e44878d2f25}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{dcca5c53-7a37-4f9b-be15-e1063d061497}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f2e84780-2af1-11d1-a7fa-00a0c9110051}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{ca8cc5c7-0231-406a-95cd-aa5ed6ac0190}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b03e7fb9-8379-52db-b904-eb2479499478}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{59862695-e342-45e5-b59c-bd9eadf0e94b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{21457f7c-a428-477e-ae6d-e2b608734650}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{4a18f9d0-b838-11d0-93eb-00a0c90f2734}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SuiteSettingLib.cs",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\SettingsSupport\\SuiteSettingLib.cs",
+              "RelativeDocumentMoniker": "AAndyLibrary\\SettingsSupport\\SuiteSettingLib.cs",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\SettingsSupport\\SuiteSettingLib.cs",
+              "RelativeToolTip": "AAndyLibrary\\SettingsSupport\\SuiteSettingLib.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T14:56:56.284Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 411,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{ecb7191a-597b-41f5-9843-03a4cf275dde}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e8868fee-d2f2-5e1b-967f-50e1f9ad5d0e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\Test4\\Windows\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Test4\\Windows\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\Test4\\Windows\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Test4\\Windows\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgBAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T20:20:11.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProcessManager.cs",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\Support\\ProcessManager.cs",
+              "RelativeDocumentMoniker": "AAndyLibrary\\Windows\\Support\\ProcessManager.cs",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\Support\\ProcessManager.cs",
+              "RelativeToolTip": "AAndyLibrary\\Windows\\Support\\ProcessManager.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACgAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T16:16:37.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainWinAndyScan.xaml",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AndyScan\\Windows\\MainWinAndyScan.xaml",
+              "RelativeDocumentMoniker": "AndyScan\\Windows\\MainWinAndyScan.xaml",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AndyScan\\Windows\\MainWinAndyScan.xaml",
+              "RelativeToolTip": "AndyScan\\Windows\\MainWinAndyScan.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-23T15:57:06.497Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWinAndyScan.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AndyScan\\Windows\\MainWinAndyScan.xaml.cs",
+              "RelativeDocumentMoniker": "AndyScan\\Windows\\MainWinAndyScan.xaml.cs",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AndyScan\\Windows\\MainWinAndyScan.xaml.cs",
+              "RelativeToolTip": "AndyScan\\Windows\\MainWinAndyScan.xaml.cs",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAywMAAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T15:13:52.211Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 246,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0504ff91-9d61-11d0-a794-00a0c9110051}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{8f167ce3-b6b9-446c-9c22-7da52a102d41}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "68807409-38c6-491e-b8d8-dcb51b00ace3",
+        "Display": 1,
+        "X": 122,
+        "Y": 46,
+        "Width": 2890,
+        "Height": 1557,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 224,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "AAndyLibrary\\Windows\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\MainWindow.xaml",
+              "RelativeToolTip": "AAndyLibrary\\Windows\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-23T14:53:52.824Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 176,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "AAndyLibrary\\Windows\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\jeffs\\Documents\\Programming\\VisualStudioProjects\\PDF SOLUTIONS\\PDFMerge1\\AAndyLibrary\\Windows\\MainWindow.xaml.cs",
+              "RelativeToolTip": "AAndyLibrary\\Windows\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T14:54:02.273Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

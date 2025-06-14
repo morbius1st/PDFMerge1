@@ -1,0 +1,109 @@
+
+
+
+Settings files
+   usersettings, etc.
+
+AndyConfigMgr
+   (setting files) (done)
+
+AndyFavsAndHistory
+   (setting files) (done)
+
+AndyScan
+   ***  support / AndyScanSuppport / ShtMetricDataMgr
+
+AndyShared
+	(setting files) (n/a)
+
+   *** ClassificationFileSupport / ClassificationFile / df (datafile)
+
+
+ClassifierEditor
+   (setting files) (done)
+
+
+DisciplineEditor
+   (setting files) (done)
+   *** Support / DataFileManager / disciplineMgr
+   *** Windows / MainDiscipline ... / dfm
+
+Felix
+   (setting files) (done)
+
+StoreAndRead
+   (ignore)
+   DataMgr / DataManager1 / testData1
+   DataMgr / DataManager2 / testData2
+   StoreMgr / StorageManager / DataStore
+   Windows / MainWindow / dm1
+   Windows / MainWindow / dm2
+
+StoreAndRead2
+   (ignore)
+   FavHistoreAdmin / FhManager / fhData
+   FhTests / FhSampleData / fhMgr
+
+Sylvester
+   (setting files) (done)
+   *** Process / ProcessManager / [Read]
+
+Test4\Windows
+   (setting files) (done)
+
+Tests2
+   (setting files) (done)
+
+WpfShared\Windows
+   (setting files) (done)
+
+WpfTests\Windows
+   (setting files) (done)
+
+
+
+
+Using UserSettings  (C:\Users\jeffs\AppData\Roaming\CyberStudio\Andy\{app name})
+	ClassifierEditor (done)
+	ClassifySheets (done)
+	DisciplineEditor  (do)
+	Felix  (not found)
+	Sylvester  (hold)
+	Test4  (no)
+	Tests2 (no)
+	WpfShared  (no)
+
+
+Using SuiteSettings
+	(global) (done)
+	AndyConfig  (uses global)
+	AndyFavsAndHistory (uses global)
+	WpfTests (no)
+
+Using AppSettings
+	{none}
+
+Using MachSettings
+	(global) (done)
+	ClassifierEditor (uses global)
+
+Using SiteSettings
+	(global done)
+	AndyConfig (uses global)
+	AndyShared (n/a)
+	ClassifierEditor (uses global)
+
+
+	
+	// references UserSettings but is a shared project so does not use UserSettings
+	AndyShared
+
+	ALSO FOUND HERE:
+		.Sheet Metrics Files  (done)
+
+		.UserClassification Files
+
+		installed seed files : ... classifiereditor/.sample/installed seed files
+
+		Local Seed Files : c:/programdata/cyberstudio/andy/.user classification files / {name} / {files}
+

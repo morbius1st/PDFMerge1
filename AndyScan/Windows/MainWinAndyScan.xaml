@@ -79,6 +79,14 @@
 					Click="BtnTest1_OnClick"
 			/>
 
+			<Button x:Name="BtnTest2"
+					Margin="0,5,0,0"
+					Content="test read"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnTest2_OnClick"
+			/>
+
 		</StackPanel>
 
 
@@ -115,26 +123,33 @@
 
 			<DockPanel></DockPanel>
 
-			<TextBox
-					
+
+			<ScrollViewer
 					Grid.Column="0"
 					Grid.Row="0"
-					FontFamily="Consolas"
-					Background="Transparent"
-					Foreground="White"
-
 					HorizontalScrollBarVisibility="Visible"
 					VerticalScrollBarVisibility="Visible"
-					>
-				<TextBox.Resources>
+					Padding="5"
+					Focusable="False"
+			>
+
+				<TextBlock
+						x:Name="MsgBlk0"
+						FontFamily="Consolas"
+						Background="Transparent"
+						Foreground="White"
+				/>
+				<ScrollViewer.Resources>
 					<Style TargetType="{x:Type ScrollViewer}">
 						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
 						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
 						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
 					</Style>
-				</TextBox.Resources>
+				</ScrollViewer.Resources>
+			</ScrollViewer>
 
-			</TextBox>
+
+
 
 			<ScrollViewer
 					Grid.Column="1"

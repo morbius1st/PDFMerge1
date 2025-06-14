@@ -35,9 +35,9 @@ namespace AndyScan.SbSystem
 	public class SwitchBoard : IInput
 	{
 		private IInputWin iwi;
-		private ITblkFmt iw;
+		private IFdFmt iw;
 		private IProcessOption ipo;
-		private IMenu menu;
+		private IMenu2 menu;
 
 		private UIElement input;
 		private bool inputOk;
@@ -52,11 +52,10 @@ namespace AndyScan.SbSystem
 		private int menuIdx;
 		private int subMenuIdx;
 
-		private Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[]
-			menus;
+		private Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[] menus;
 		// private string[] multiCharOptions;
 
-		public SwitchBoard(ITblkFmt iw, IInputWin iwi, IProcessOption ipo)
+		public SwitchBoard(IFdFmt iw, IInputWin iwi, IProcessOption ipo)
 		{
 			this.iw = iw;
 			this.iwi = iwi;
@@ -74,7 +73,7 @@ namespace AndyScan.SbSystem
 			ProcessKeyUp += OnProcessKeyUp;
 		}
 
-		public void SetMenu(IMenu menu)
+		public void SetMenu(IMenu2 menu)
 		{
 			this.menu = menu;
 		}
@@ -101,13 +100,13 @@ namespace AndyScan.SbSystem
 
 		// show the switchboard
 
-		public void ShowSb(IMenu menu, int startMenu)
+		public void ShowSb(IMenu2 menu, int startMenu)
 		{
 			DM.Start0();
 
 			this.menu = menu;
 			menus = menu.Menus;
-			menuIdx = startMenu;
+			// menuIdx = startMenu;
 
 			selectedOption = new List<Tuple<int,string>>();
 
@@ -281,8 +280,8 @@ namespace AndyScan.SbSystem
 				iw.TblkMsg("\n"); // no more entries on the enter choice line
 				isValid = true;
 
-				// enableDisableInput(false);
-				// processOption();
+				enableDisableInput(false);
+				processOption();
 			}
 
 			DM.End0();
@@ -308,7 +307,10 @@ namespace AndyScan.SbSystem
 				menuIdx = subMenuIdx;
 			else if (subMenuIdx == -2)
 			{
-				menuIdx = ipo.SelectedOption();
+				menu.ProcessMenuChoice(new Tuple<int, string, string>(menuIdx, choice, choice));
+
+				// menuIdx = ipo.SelectedOption();
+				menuIdx = subMenuIdx;
 				subMenuIdx = 0;
 			}
 			else if (subMenuIdx == -100)

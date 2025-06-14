@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Intrinsics.X86;
 using System.Runtime.Serialization;
 using iText.Kernel.Geom;
 using static ShSheetData.SheetRectType;
@@ -54,7 +55,12 @@ namespace ShSheetData
 		[IgnoreDataMember]
 		public Rectangle PageSizeWithRotation
 		{
-			get => ShtRects[SheetRectId.SM_SHT].BoxSettings.Rect;
+			get
+			{
+				if (ShtRects.ContainsKey(SheetRectId.SM_SHT)) return ShtRects[SheetRectId.SM_SHT].BoxSettings.Rect;
+
+				return null;
+			}
 			set
 			{
 				if (ShtRects == null) return;
@@ -106,10 +112,10 @@ namespace ShSheetData
 		[IgnoreDataMember]
 		public bool AnyOptRectsFound => OptRects.Count > 0;
 
-		[DataMember(Order = 5)]
+		[DataMember(Order = 6)]
 		public Dictionary<SheetRectId, SheetRectData<SheetRectId>> ShtRects { get; set; }
 
-		[DataMember(Order = 6)]
+		[DataMember(Order = 7)]
 		public Dictionary<SheetRectId, SheetRectData<SheetRectId>> OptRects { get; set; }
 	}
 

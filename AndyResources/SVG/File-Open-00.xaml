@@ -10,7 +10,7 @@
 			<TranslateTransform X="0" Y="0" />
 		</Canvas.RenderTransform>
 		<Canvas.Resources>
-			<LinearGradientBrush x:Key="linearGradient3104-5" MappingMode="Absolute" StartPoint="18,31" EndPoint="16,6">
+			<LinearGradientBrush x:Key="linearGradient31045" MappingMode="Absolute" StartPoint="18,31" EndPoint="16,6">
 				<LinearGradientBrush.GradientStops>
 					<GradientStopCollection>
 						<GradientStop Offset="0" Color="#FF424242" />
@@ -21,7 +21,7 @@
 					<MatrixTransform Matrix="0.55422216 0 0 0.51089425 11.929172 24.368741" />
 				</LinearGradientBrush.Transform>
 			</LinearGradientBrush>
-			<LinearGradientBrush x:Key="linearGradient9772" MappingMode="Absolute" StartPoint="22,37" EndPoint="22,32">
+			<LinearGradientBrush x:Key="LinearGradient9772" MappingMode="Absolute" StartPoint="22,37" EndPoint="22,32">
 				<LinearGradientBrush.GradientStops>
 					<GradientStopCollection>
 						<GradientStop Offset="0" Color="#FF6194CB" />
@@ -32,7 +32,7 @@
 					<MatrixTransform Matrix="0.54021218 0 0 0.50925007 11.988744 24.444141" />
 				</LinearGradientBrush.Transform>
 			</LinearGradientBrush>
-			<LinearGradientBrush x:Key="linearGradient322-1" MappingMode="Absolute" StartPoint="13,33" EndPoint="13,47">
+			<LinearGradientBrush x:Key="linearGradient3221" MappingMode="Absolute" StartPoint="13,33" EndPoint="13,47">
 				<LinearGradientBrush.GradientStops>
 					<GradientStopCollection>
 						<GradientStop Color="#CBFFFFFF" />
@@ -56,7 +56,7 @@
 			<Path
 				Name="path2165"
 				Fill="#FFFFFFFF"
-				Stroke="{StaticResource linearGradient3104-5}"
+				Stroke="{StaticResource linearGradient31045}"
 				StrokeEndLineCap="Round"
 				StrokeLineJoin="Round"
 				StrokeMiterLimit="4"
@@ -93,7 +93,7 @@
 				StrokeThickness="0.710799" />
 			<Path
 				Name="path2335"
-				Fill="{StaticResource linearGradient9772}"
+				Fill="{StaticResource LinearGradient9772}"
 				Stroke="#FF3465A4"
 				StrokeEndLineCap="Flat"
 				StrokeLineJoin="Round"
@@ -107,7 +107,7 @@
 			<Path
 				Name="path3043"
 				Opacity="0.465909"
-				Stroke="{StaticResource linearGradient322-1}"
+				Stroke="{StaticResource linearGradient3221}"
 				StrokeEndLineCap="Round"
 				StrokeLineJoin="Miter"
 				StrokeStartLineCap="Round"

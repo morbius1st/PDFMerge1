@@ -19,11 +19,11 @@ public class InputTest
 {
 	public Window win;
 	private IInputWin iwi;
-	public ITblkFmt iw;
+	public IFdFmt iw;
 
 	private UIElement input;
 
-	public InputTest(ITblkFmt iw, IInputWin iwi)
+	public InputTest(IFdFmt iw, IInputWin iwi)
 	{
 		this.iw = iw;
 		this.iwi = iwi;

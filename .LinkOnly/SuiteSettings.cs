@@ -36,10 +36,10 @@ namespace SettingsManager
 		public string DataFileVersion => "suite 7.4su";
 
 		[IgnoreDataMember]
-		public string DataFileDescription => "suite setting file for SettingsManager v7.4";
+		public string DataFileDescription => "template suite setting file for SettingsManager v7.4";
 
 		[IgnoreDataMember]
-		public string DataFileNotes => "suite / any notes go here";
+		public string DataFileNotes => "template suite / any notes go here";
 
 		[DataMember(Order = 1)]
 		public string SiteRootPath { get; set; }

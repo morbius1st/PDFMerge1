@@ -27,7 +27,7 @@
 				<ResourceDictionary Source="ResourceFiles/XamlResources/MasterVisualResources.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/VisualStates.xaml" />
 				<ResourceDictionary Source="ResourceFiles/XamlResources/Andy.xaml" />
-				<ResourceDictionary Source="ResourceFiles/XamlResources/SVG/File-Open-00.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResources/File-Open-00.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Pair-00.xaml" /> -->
 			<!-- <ResourceDictionary Source="/Windows/ResourceFiles/XamlResources/SVG/Folder-Project-00.xaml" /> -->
@@ -889,6 +889,7 @@
 				VerticalContentAlignment="Bottom"
 				HorizontalScrollBarVisibility="Visible"
 				VerticalScrollBarVisibility="Auto"
+
 				Template="{DynamicResource SvMain_ControlTemplate1}"
 				>
 			<Grid>

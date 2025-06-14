@@ -374,7 +374,6 @@ namespace ShSheetData
 		[DataMember(Order =  1)]
 		public T Id { get; private set; }
 
-
 		[IgnoreDataMember]
 		public float TbOriginX { get; set; }
 

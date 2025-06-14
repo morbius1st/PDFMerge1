@@ -1,0 +1,229 @@
+﻿<Window x:Name="MainWin"
+		x:Class="AAndyLibrary.Windows.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:AAndyLibrary.Windows"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:shsup="clr-namespace:SharedWPF.ShSupport"
+		Title="MainWindow"
+		Width="1400"
+		Height="900"
+		mc:Ignorable="d"
+		Background="{StaticResource Normal.Window.Background}"
+		Foreground="White"
+		Loaded="MainWindow_OnLoaded"
+		>
+	<Window.Resources>
+		<ResourceDictionary>
+
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceFiles/XamlResourcesLinked/CsScrollBar.xaml" />
+				<ResourceDictionary Source="ResourceFiles/XamlResourcesLinked/CsScrollViewer.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<sys:Double x:Key="BtnWidth">84</sys:Double>
+			<sys:Double x:Key="BtnHeight">28</sys:Double>
+
+		</ResourceDictionary>
+	</Window.Resources>
+
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="120" />
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+
+		<StackPanel
+				Grid.Column="1"
+				Grid.Row="0"
+				Margin="5"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Top"
+				Orientation="Vertical"
+				>
+
+			<Button x:Name="BtnSettings"
+					Content="Settings"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnSettings_OnClick"
+					/>
+
+
+			<Button
+					Content="Project Settings"
+					Margin="0,5,0,0"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					CommandParameter="this is a command test"
+					/>
+
+
+			<Button
+					Content="test 1"
+					Margin="0,5,0,0"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="Test1_OnClick"
+					/>
+
+		</StackPanel>
+
+
+
+		<StackPanel
+				Grid.Column="0"
+				Grid.Row="2"
+				Grid.ColumnSpan="2"
+				Margin="5"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Orientation="Horizontal"
+				>
+
+			<Button x:Name="BtnExit"
+					Content="Exit"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnExit_OnClick"
+					/>
+
+		</StackPanel>
+
+		<Grid
+				Grid.Column="0"
+				Grid.Row="0"
+				Grid.RowSpan="2"
+				>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<FlowDocumentScrollViewer
+					x:Name="FdSv1"
+					Grid.Column="0"
+					Grid.Row="1"
+					HorizontalScrollBarVisibility="Visible"
+					Background="Black"
+
+					>
+			<FlowDocumentScrollViewer.Document>
+					<FlowDocument
+							x:Name="FdMsg"
+							FontStyle="Normal"
+							FontFamily="Consolas"
+							FontSize="16"
+							Background="Black"
+							Foreground="Aqua"
+							MinPageWidth="3000"
+							MaxPageWidth="10000"
+					/>
+				</FlowDocumentScrollViewer.Document>
+
+				<FlowDocumentScrollViewer.Resources>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
+						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
+					</Style>
+
+				</FlowDocumentScrollViewer.Resources>
+				
+			</FlowDocumentScrollViewer>
+
+
+			<ScrollViewer
+					Grid.Column="0"
+					Grid.Row="0"
+					Padding="5"
+					HorizontalScrollBarVisibility="Visible"
+					VerticalScrollBarVisibility="Visible"
+					Focusable="False"
+					>
+				<TextBlock x:Name="StatBlk"
+						FontFamily="Consolas"
+						Background="Transparent"
+						Foreground="White"
+						>
+					<!--  HorizontalScrollBarVisibility="Visible"  -->
+					<!--  VerticalScrollBarVisibility="Visible"  -->
+					<!-- <TextBlock.Resources> -->
+					<!-- 	<Style TargetType="{x:Type ScrollViewer}"> -->
+					<!-- 		<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" /> -->
+					<!-- 		<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" /> -->
+					<!-- 		<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" /> -->
+					<!-- 	</Style> -->
+					<!-- </TextBlock.Resources> -->
+
+				</TextBlock>
+
+				<ScrollViewer.Resources>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
+						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
+					</Style>
+				</ScrollViewer.Resources>
+
+			</ScrollViewer>
+
+			<ScrollViewer
+					Grid.Column="1"
+					Grid.Row="0"
+					Grid.RowSpan="2"
+					Padding="5"
+					HorizontalScrollBarVisibility="Visible"
+					VerticalScrollBarVisibility="Visible"
+					Focusable="False"
+					>
+
+				<TextBlock x:Name="MsgBlk"
+						FontFamily="Consolas"
+						FontSize="14"
+						Foreground="White"
+						Focusable="True"
+						Text="{Binding ElementName=WinMain,
+													 Path=Messages}"
+						/>
+
+				<ScrollViewer.Resources>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+						<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
+						<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
+					</Style>
+				</ScrollViewer.Resources>
+			</ScrollViewer>
+
+			<Button x:Name="BtnCopy"
+					Content="Copy"
+					Grid.Column="1"
+					Grid.Row="1"
+					Margin="0,0,20,15"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Background="Transparent"
+					Foreground="White"
+					BorderThickness="0"
+					/>
+
+		</Grid>
+
+	</Grid>
+</Window>

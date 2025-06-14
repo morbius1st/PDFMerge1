@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsExtensions.cs" Link="CsExtensions.cs" />
+  </ItemGroup>
+  
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(ConfigurationName) == Release (copy /y &quot;$(TargetPath)&quot; &quot;C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\.Referenced&quot;)&#xD;&#xA;if $(ConfigurationName) == Debug (copy /y &quot;$(TargetDir)$(TargetName).*&quot; &quot;C:\Users\jeffs\Documents\Programming\VisualStudioProjects\PDF SOLUTIONS\PDFMerge1\.Referenced&quot;)" />
+  </Target>
+  
+
+</Project>

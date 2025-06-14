@@ -61,6 +61,9 @@
     <Reference Include="CSLibraryIo">
       <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
+    <Reference Include="CsUtilityLibrary">
+      <HintPath>..\.Referenced\CsUtilityLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="CustomMarshalers" />
     <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
@@ -183,8 +186,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

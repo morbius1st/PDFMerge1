@@ -3,10 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using AndyShared.FileSupport.FileNameSheetPDF;
 using UtilityLibrary;
 
 using static AndyShared.FileSupport.FileNameSheetPDF.FileNameSheetIdentifiers;
@@ -30,22 +34,28 @@ namespace SuiteInfoEditor.Support
 		private const int VALUE_WIDTH_2 = -16;
 		private const int VALUE_WIDTH_3 = -10;
 
-		private ITblkFmt w;
+		private const string SPACER = CsFlowDocManager.HORIZ_LINE;
+		private const string DIVIDER = CsFlowDocManager.VERT_LINE;
+		private const string INTERSECTION = $"{SPACER}{CsFlowDocManager.INTERRSECTION}{SPACER}";
+
+		// private IFdFmt w;
 
 
 		private static readonly Lazy<Identifiers> instance =
 			new Lazy<Identifiers>(() => new Identifiers());
 
-	#endregion
+		private CsFlowDocManager w = CsFlowDocManager.Instance;
 
-	#region ctor
+		#endregion
+
+		#region ctor
 
 		private Identifiers() { }
 
-		public void Init(ITblkFmt w)
-		{
-			this.w = w;
-		}
+		// public void Init(IFdFmt w)
+		// {
+		// 	this.w = w;
+		// }
 
 	#endregion
 
@@ -59,132 +69,245 @@ namespace SuiteInfoEditor.Support
 
 	#endregion
 
+
 	#region public methods
 
+		private int[] cols = [ 17, 15, 15];
+		private string[] preFmt = ["<textformat background='40, 40, 40'/>", null];
+		string[][] fldFmt = [ ["<lawngreen>", "</lawngreen>"],["<cyan>", "</cyan>"], ["<slategray>", "</slategray>"] ];
+		private string hdrFmt = "<foreground color='lightgray'/>";
+		private string baseFmt = "<foreground color='gray'/>";
+		
 		public void showShtNumComponentConstants1()
 		{
-			w.TblkMsgLine("Showing sheet number component names");
+			// CsFlowDocUtilities cu = new CsFlowDocUtilities();
+			// cu.reportRowTest();
+			//
+			// return;
 
-			w.TblkMsgLine($"\t{"N_PHBLD "    , SUBJECT_WIDTH} | {N_PHBLD }");
-			w.TblkMsgLine($"\t{"N_PHBLDG"    , SUBJECT_WIDTH} | {N_PHBLDG}");
-			w.TblkMsgLine($"\t{"N_DISCP "    , SUBJECT_WIDTH} | {N_DISCP }");
-			w.TblkMsgLine($"\t{"N_CAT   "    , SUBJECT_WIDTH} | {N_CAT   }");
-			w.TblkMsgLine($"\t{"N_SUBCAT"    , SUBJECT_WIDTH} | {N_SUBCAT}");
-			w.TblkMsgLine($"\t{"N_MOD   "    , SUBJECT_WIDTH} | {N_MOD   }");
-			w.TblkMsgLine($"\t{"N_SUBMOD"    , SUBJECT_WIDTH} | {N_SUBMOD}");
-			w.TblkMsgLine($"\t{"N_ID    "    , SUBJECT_WIDTH} | {N_ID    }");
-			w.TblkMsgLine($"\t{"N_SUBID "    , SUBJECT_WIDTH} | {N_SUBID }");
-			w.TblkMsgLine("\n");
+			w.ClearAltRowFormat();
 
-			w.TblkMsgLine($"\t{"N_PBSEP "    , SUBJECT_WIDTH} |>{N_PBSEP }<");
-			w.TblkMsgLine("\n");
+			w.StartTb(hdrFmt);
 
+			w.AddTextLineTb("Showing sheet number component names (in ShtNumComps2, CompNameInfo)");
+			w.AddTextLineTb($"file| {typeof(FileNameSheetIdentifiers).FullName}\n" );
 
-			w.TblkMsgLine($"\t{"N_SEP0"    , SUBJECT_WIDTH} |>{N_SEP0}<");
-			w.TblkMsgLine($"\t{"N_SEP1"    , SUBJECT_WIDTH} |>{N_SEP1}<");
-			w.TblkMsgLine($"\t{"N_SEP2"    , SUBJECT_WIDTH} |>{N_SEP2}<");
-			w.TblkMsgLine($"\t{"N_SEP3"    , SUBJECT_WIDTH} |>{N_SEP3}<");
-			w.TblkMsgLine($"\t{"N_SEP4"    , SUBJECT_WIDTH} |>{N_SEP4}<");
-			w.TblkMsgLine($"\t{"N_SEP5"    , SUBJECT_WIDTH} |>{N_SEP5}<");
-			w.TblkMsgLine("\n");
+			w.StartTb(baseFmt);
 
-			w.TblkMsgLine($"\t{"N_SHTNUM  "    , SUBJECT_WIDTH} | {N_SHTNUM  }");
-			w.TblkMsgLine($"\t{"N_SHTID   "    , SUBJECT_WIDTH} | {N_SHTID   }");
-			w.TblkMsgLine($"\t{"N_SHTTITLE"    ,  SUBJECT_WIDTH} | {N_SHTTITLE}");
-			w.TblkMsgLine("\n");
+			w.AddDescTextLineTb(w.ReportRow(cols, ["Const", "Value"]));
+			w.AddDescTextLineTb(w.ReportRow(cols, [2], null, null, null, null, true, [SPACER], [INTERSECTION]));
 
-			// private
-			// w.DebugMsgLine($"\t{"N_SEP "    , SUBJECT_WIDTH} | {N_SEP }");
-			// w.DebugMsgLine($"\t{"N_SEPR"    , SUBJECT_WIDTH} | {N_SEPR}");
-			// w.DebugMsgLine($"\t{"PBSEP "    , SUBJECT_WIDTH} | {PBSEP }");
+			w.AssignAltRowFormat(preFmt);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_PHBLD ), N_PHBLD ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_DISCP ), N_DISCP ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_CAT   ), N_CAT   ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SUBCAT), N_SUBCAT], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_MOD   ), N_MOD   ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SUBMOD), N_SUBMOD], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_ID    ), N_ID    ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SUBID ), N_SUBID ], fldFmt));
+
+			w.AddLineBreaks(1);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_PBSEP), N_PBSEP], fldFmt));
+			
+			w.AddLineBreaks(1);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP0), N_SEP0], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP1), N_SEP1], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP2), N_SEP2], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP3), N_SEP3], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP4), N_SEP4], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP5), N_SEP5], fldFmt));
+			
+			w.AddLineBreaks(1);
+			
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SHTNUM  ), N_SHTNUM  ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SHTID   ), N_SHTID   ], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SHTTITLE), N_SHTTITLE], fldFmt));
+
 		}
 
 		public void showShtNumComponentConstants2()
 		{
-			w.TblkMsgLine("Showing sheet number array const's");
+			w.ClearAltRowFormat();
 
-			w.TblkMsgLine($"\t{"VI_PHBLDG       "    , SUBJECT_WIDTH} | {VI_PHBLDG       }");
-			w.TblkMsgLine($"\t{"VI_PBSEP        "    , SUBJECT_WIDTH} | {VI_PBSEP        }");
-			w.TblkMsgLine($"\t{"VI_DISCIPLINE   "    , SUBJECT_WIDTH} | {VI_DISCIPLINE   }");
-			w.TblkMsgLine($"\t{"VI_SEP0         "    , SUBJECT_WIDTH} | {VI_SEP0         }");
-			w.TblkMsgLine($"\t{"VI_CATEGORY     "    , SUBJECT_WIDTH} | {VI_CATEGORY     }");
-			w.TblkMsgLine($"\t{"VI_SEP1         "    , SUBJECT_WIDTH} | {VI_SEP1         }");
-			w.TblkMsgLine($"\t{"VI_SUBCATEGORY  "    , SUBJECT_WIDTH} | {VI_SUBCATEGORY  }");
-			w.TblkMsgLine($"\t{"VI_SEP2         "    , SUBJECT_WIDTH} | {VI_SEP2         }");
-			w.TblkMsgLine($"\t{"VI_MODIFIER     "    , SUBJECT_WIDTH} | {VI_MODIFIER     }");
-			w.TblkMsgLine($"\t{"VI_SEP3         "    , SUBJECT_WIDTH} | {VI_SEP3         }");
-			w.TblkMsgLine($"\t{"VI_SUBMODIFIER  "    , SUBJECT_WIDTH} | {VI_SUBMODIFIER  }");
-			w.TblkMsgLine($"\t{"VI_SEP4         "    , SUBJECT_WIDTH} | {VI_SEP4         }");
-			w.TblkMsgLine($"\t{"VI_IDENTIFIER   "    , SUBJECT_WIDTH} | {VI_IDENTIFIER   }");
-			w.TblkMsgLine($"\t{"VI_SEP5         "    , SUBJECT_WIDTH} | {VI_SEP5         }");
-			w.TblkMsgLine($"\t{"VI_SUBIDENTIFIER"    , SUBJECT_WIDTH} | {VI_SUBIDENTIFIER}");
-			w.TblkMsgLine($"\t{"VI_SORT_SUFFIX  "    , SUBJECT_WIDTH} | {VI_SORT_SUFFIX  }");
-			w.TblkMsgLine($"\t{"VI_SHTNUM       "    , SUBJECT_WIDTH} | {VI_SHTNUM       }");
-			w.TblkMsgLine($"\t{"VI_SHTID        "    , SUBJECT_WIDTH} | {VI_SHTID        }");
-			w.TblkMsgLine($"\t{"VI_SHTTITLE     "    , SUBJECT_WIDTH} | {VI_SHTTITLE     }");
+			w.StartTb(hdrFmt);
 
-			w.TblkMsgLine("\n");
+			w.AddTextLineTb("Showing sheet number array const's (array: SheetNumComponentData)");
+			w.AddTextLineTb($"file| {typeof(FileNameSheetIdentifiers).FullName}\n" );
 
-			w.TblkMsgLine($"\t{"VI_COMP_COUNT" , SUBJECT_WIDTH} | {VI_COMP_COUNT, VALUE_WIDTH_1}  (number of sheet components [up to & incl. VI_SUBIDENTIFIER] )");
-			w.TblkMsgLine($"\t{"VI_COUNT"      , SUBJECT_WIDTH} | {VI_COUNT     , VALUE_WIDTH_1}  (maximum component value in this list + 1 [equal to VI_SHTTITLE + 1] ))");
-			w.TblkMsgLine($"\t{"VI_MIN"        , SUBJECT_WIDTH} | {VI_MIN       , VALUE_WIDTH_1}  (minimum component value in this list [equal to VI_PHBLDG] )");
+			w.StartTb(baseFmt);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, ["Const", "Value"]));
+			w.AddDescTextLineTb(w.ReportRow(cols, ["", ""], null, null, null, null, true, [SPACER], [INTERSECTION]));
+
+			w.AssignAltRowFormat(preFmt);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_PHBLDG       ), VI_PHBLDG       .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_PBSEP        ), VI_PBSEP        .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_DISCIPLINE   ), VI_DISCIPLINE   .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP0         ), VI_SEP0         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_CATEGORY     ), VI_CATEGORY     .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP1         ), VI_SEP1         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SUBCATEGORY  ), VI_SUBCATEGORY  .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP2         ), VI_SEP2         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_MODIFIER     ), VI_MODIFIER     .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP3         ), VI_SEP3         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SUBMODIFIER  ), VI_SUBMODIFIER  .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP4         ), VI_SEP4         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_IDENTIFIER   ), VI_IDENTIFIER   .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SEP5         ), VI_SEP5         .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SUBIDENTIFIER), VI_SUBIDENTIFIER.ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SORT_SUFFIX  ), VI_SORT_SUFFIX  .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SHTNUM       ), VI_SHTNUM       .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SHTID        ), VI_SHTID        .ToString()], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SHTTITLE     ), VI_SHTTITLE     .ToString()], fldFmt));
+
+			w.AddLineBreaks(1);
+
+			cols[2] = 70;
+
+			w.ClearAltRowFormat();
+
+			w.AddDescTextLineTb(w.ReportRow(cols, ["Const", "Value", "Description"]));
+			w.AddDescTextLineTb(w.ReportRow(cols, [3], null, null, null, null, true, [SPACER], [INTERSECTION]));
+
+			w.AssignAltRowFormat(preFmt);
+
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_COMP_COUNT),  VI_COMP_COUNT, "(number of sheet components [up to and incl. VI_SUBIDENTIFIER] )"], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_COUNT)     ,  VI_COUNT     , "(maximum component value in this list + 1 [equal to VI_SHTTITLE + 1] ))"], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_MIN)       ,  VI_MIN       , "(minimum component value in this list [equal to VI_PHBLDG] )"], fldFmt));
 
 		}
 
 		public void ShowCompNameInfo1()
 		{
-			w.TblkMsgLine("Showing component name info (individual data elements)");
+			int[] pos = [ cols[0], cols[1], 20, 20, 20, 20 ];
+			string[][] fldFmt = [ ["<lawngreen>", "</lawngreen>"],["<cyan>", "</cyan>"], ["<magenta>", "</magenta>"], ["<magenta>", "</magenta>"], ["<white>", "</white>"] ];
 
-			w.TblkMsgLine($"\t{"CNI_SHTID   "    , SUBJECT_WIDTH} | {CNI_SHTID   .Index, 4}, {CNI_SHTID   .Name, VALUE_WIDTH_1}, {CNI_SHTID   .Type}");
-			w.TblkMsgLine($"\t{"CNI_SHTTITLE"    , SUBJECT_WIDTH} | {CNI_SHTTITLE.Index, 4}, {CNI_SHTTITLE.Name, VALUE_WIDTH_1}, {CNI_SHTTITLE.Type}");
-			w.TblkMsgLine($"\t{"CNI_PHBLD   "    , SUBJECT_WIDTH} | {CNI_PHBLD   .Index, 4}, {CNI_PHBLD   .Name, VALUE_WIDTH_1}, {CNI_PHBLD   .Type}");
-			w.TblkMsgLine($"\t{"CNI_DISCP   "    , SUBJECT_WIDTH} | {CNI_DISCP   .Index, 4}, {CNI_DISCP   .Name, VALUE_WIDTH_1}, {CNI_DISCP   .Type}");
-			w.TblkMsgLine($"\t{"CNI_CAT     "    , SUBJECT_WIDTH} | {CNI_CAT     .Index, 4}, {CNI_CAT     .Name, VALUE_WIDTH_1}, {CNI_CAT     .Type}");
-			w.TblkMsgLine($"\t{"CNI_SUBCAT  "    , SUBJECT_WIDTH} | {CNI_SUBCAT  .Index, 4}, {CNI_SUBCAT  .Name, VALUE_WIDTH_1}, {CNI_SUBCAT  .Type}");
-			w.TblkMsgLine($"\t{"CNI_MOD     "    , SUBJECT_WIDTH} | {CNI_MOD     .Index, 4}, {CNI_MOD     .Name, VALUE_WIDTH_1}, {CNI_MOD     .Type}");
-			w.TblkMsgLine($"\t{"CNI_SUBMOD  "    , SUBJECT_WIDTH} | {CNI_SUBMOD  .Index, 4}, {CNI_SUBMOD  .Name, VALUE_WIDTH_1}, {CNI_SUBMOD  .Type}");
-			w.TblkMsgLine($"\t{"CNI_ID      "    , SUBJECT_WIDTH} | {CNI_ID      .Index, 4}, {CNI_ID      .Name, VALUE_WIDTH_1}, {CNI_ID      .Type}");
-			w.TblkMsgLine($"\t{"CNI_SUBID   "    , SUBJECT_WIDTH} | {CNI_SUBID   .Index, 4}, {CNI_SUBID   .Name, VALUE_WIDTH_1}, {CNI_SUBID   .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP0    "    , SUBJECT_WIDTH} | {CNI_SEP0    .Index, 4}, {CNI_SEP0    .Name, VALUE_WIDTH_1}, {CNI_SEP0    .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP1    "    , SUBJECT_WIDTH} | {CNI_SEP1    .Index, 4}, {CNI_SEP1    .Name, VALUE_WIDTH_1}, {CNI_SEP1    .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP2    "    , SUBJECT_WIDTH} | {CNI_SEP2    .Index, 4}, {CNI_SEP2    .Name, VALUE_WIDTH_1}, {CNI_SEP2    .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP3    "    , SUBJECT_WIDTH} | {CNI_SEP3    .Index, 4}, {CNI_SEP3    .Name, VALUE_WIDTH_1}, {CNI_SEP3    .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP4    "    , SUBJECT_WIDTH} | {CNI_SEP4    .Index, 4}, {CNI_SEP4    .Name, VALUE_WIDTH_1}, {CNI_SEP4    .Type}");
-			w.TblkMsgLine($"\t{"CNI_SEP5    "    , SUBJECT_WIDTH} | {CNI_SEP5    .Index, 4}, {CNI_SEP5    .Name, VALUE_WIDTH_1}, {CNI_SEP5    .Type}");
+			w.ClearAltRowFormat();
+
+			w.StartTb(hdrFmt);
+
+			w.AddTextLineTb("Showing component name info (individual data elements)(CompNameInfo)");
+			w.AddTextLineTb($"file| {typeof(FileNameSheetIdentifiers).FullName}\n" );
 
 
-			w.TblkMsgLine("\nShowing same info in the Dictionary: 'CompNames'");
+			w.StartTb(baseFmt);
+			w.AddDescTextLineTb(w.ReportRow(pos, ["Const", "Index", "Value", "ShtIdType", "Value"]));
+			w.AddDescTextLineTb(w.ReportRow(pos, [5], null, null, null, null, true, [SPACER], [INTERSECTION]));
+
+			w.AssignAltRowFormat(preFmt);
+
+			//                                    col 0                      col 1                    col 2              col 3                    col 4
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SHTID   ),  $" {CNI_SHTID   .Index, 4}", CNI_SHTID   .Name, CNI_SHTID   .Type, (int) CNI_SHTID   .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SHTTITLE),  $" {CNI_SHTTITLE.Index, 4}", CNI_SHTTITLE.Name, CNI_SHTTITLE.Type, (int) CNI_SHTTITLE.Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_PHBLD   ),  $" {CNI_PHBLD   .Index, 4}", CNI_PHBLD   .Name, CNI_PHBLD   .Type, (int) CNI_PHBLD   .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_DISCP   ),  $" {CNI_DISCP   .Index, 4}", CNI_DISCP   .Name, CNI_DISCP   .Type, (int) CNI_DISCP   .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_CAT     ),  $" {CNI_CAT     .Index, 4}", CNI_CAT     .Name, CNI_CAT     .Type, (int) CNI_CAT     .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SUBCAT  ),  $" {CNI_SUBCAT  .Index, 4}", CNI_SUBCAT  .Name, CNI_SUBCAT  .Type, (int) CNI_SUBCAT  .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_MOD     ),  $" {CNI_MOD     .Index, 4}", CNI_MOD     .Name, CNI_MOD     .Type, (int) CNI_MOD     .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SUBMOD  ),  $" {CNI_SUBMOD  .Index, 4}", CNI_SUBMOD  .Name, CNI_SUBMOD  .Type, (int) CNI_SUBMOD  .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_ID      ),  $" {CNI_ID      .Index, 4}", CNI_ID      .Name, CNI_ID      .Type, (int) CNI_ID      .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SUBID   ),  $" {CNI_SUBID   .Index, 4}", CNI_SUBID   .Name, CNI_SUBID   .Type, (int) CNI_SUBID   .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP0    ),  $" {CNI_SEP0    .Index, 4}", CNI_SEP0    .Name, CNI_SEP0    .Type, (int) CNI_SEP0    .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP1    ),  $" {CNI_SEP1    .Index, 4}", CNI_SEP1    .Name, CNI_SEP1    .Type, (int) CNI_SEP1    .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP2    ),  $" {CNI_SEP2    .Index, 4}", CNI_SEP2    .Name, CNI_SEP2    .Type, (int) CNI_SEP2    .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP3    ),  $" {CNI_SEP3    .Index, 4}", CNI_SEP3    .Name, CNI_SEP3    .Type, (int) CNI_SEP3    .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP4    ),  $" {CNI_SEP4    .Index, 4}", CNI_SEP4    .Name, CNI_SEP4    .Type, (int) CNI_SEP4    .Type], fldFmt));
+			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP5    ),  $" {CNI_SEP5    .Index, 4}", CNI_SEP5    .Name, CNI_SEP5    .Type, (int) CNI_SEP5    .Type], fldFmt));
+
+			w.AddLineBreaks(1);
+
+			w.ClearAltRowFormat();
+
+			w.StartTb(hdrFmt);
+			w.AddTextLineTb("Showing same info in the Dictionary: 'CompNames'");
+
+			w.AddLineBreaks(1);
 
 			int idx = 0;
 
-			w.TblkMsgLine($"\t     | key  | idx | name                | type");
+			w.StartTb(baseFmt);
+			w.AddDescTextLineTb(w.ReportRow(pos, ["Idx", "Key", "Indx", "Name", "Type"]));
+			w.AddDescTextLineTb(w.ReportRow(pos, [2], null, null, null, null, true, [SPACER], [INTERSECTION]));
+
+			w.AssignAltRowFormat(preFmt);
 
 			foreach (KeyValuePair<int, CompNameInfo> cni in CompNames)
 			{
-				w.TblkMsgLine($"\t {idx++,-3} | {cni.Key, 4} | {cni.Value.Index, 4}, {cni.Value.Name, VALUE_WIDTH_1}, {cni.Value.Type}");
+				w.AddDescTextLineTb(w.ReportRow(pos, [$"{idx++,-3}", $"{cni.Key, 4}", $"{cni.Value.Index, 4}", cni.Value.Name, cni.Value.Type], fldFmt));
 			}
 
 		}
 
 		public void ShowSheetNumComponentData()
 		{
+			const int COL5 = 22;
+			const int COL6 = 18;
+			const int COL8 = 14;
+			const int COL9 = 10;
+			//             0  1  2  3   4   5     6      7  8
+			int[] pos1 = [ 7, 7, 7, 18, 12, COL5, COL6];
+			int[] pos2 = [ 7, 7, 7, 18, 12, COL5, COL6, 20, COL8, COL9, COL9];
+			int[] pos = pos1;
+
+			string[][] fmt = [ 
+				["<lawngreen>", "</lawngreen>"],
+				["<cyan>", "</cyan>"], 
+				["<magenta>", "</magenta>"], 
+				["<magenta>", "</magenta>"], 
+				["<magenta>", "</magenta>"], 
+				["<magenta>", "</magenta>"], 
+				["<magenta>", "</magenta>"], 
+				["<white>", "</white>"],
+				["<dimgray>", "</dimgray>"],
+				["<red>", "</red>"],
+				["<dimgray>", "</dimgray>"],
+			];
+
+			List<object> vals;
+
+			object[] values = null;
+
 			int idx = 0;
+
+			w.ClearAltRowFormat();
+
+			w.StartTb(hdrFmt);
+
+			w.AddTextLineTb("Showing sheet number component data (in classifier editor)");
+			w.AddTextLineTb($"file| {typeof(FileNameSheetIdentifiers).FullName}\n" );
+
+			w.StartTb(baseFmt);
+			// col                                 0      1      2        3               4        5                6                   7                 8                  9                  10
+			w.AddDescTextLineTb(w.ReportRow(pos2, [""   , ""   , "◂---", "◂---", "Value ---▸", $"{"---▸", COL5}", $"{"---▸", COL6}", ""]));
+			w.AddDescTextLineTb(w.ReportRow(pos2, [""   , ""   , "",      "",            "Abbv",   "Item",          "Group" ,           "Neumonic ---▸", $"{"---▸", COL8}", $"{"---▸", COL9}", $"{"---▸|", COL9}"]));
+			// col                                 0      1      2        3               4         5               6                   7                 8                  9                  10
+			w.AddDescTextLineTb(w.ReportRow(pos2, ["Idx", "Key", "Index", "Name",        "Name",    "Class",        "Id",               "Value",          "Preface",         "Body",            "Suffix"]));
+			w.AddDescTextLineTb(w.ReportRow(pos2, [11], null, null, null, null, true, [SPACER], [INTERSECTION]));
+
+			w.AssignAltRowFormat(preFmt);
+
+
 
 			foreach (KeyValuePair<int, ShtNumComps2> snc in SheetNumComponentData)
 			{
-				w.TblkMsg($"\t {idx++,-3} | {snc.Key, 4} | {snc.Value.Index, 4} {snc.Value.Name, VALUE_WIDTH_2}");
-				w.TblkMsg($" {snc.Value.AbbrevName , VALUE_WIDTH_3}");
-				w.TblkMsg($" {snc.Value.ItemClass  , VALUE_WIDTH_1}");
-				w.TblkMsg($" {snc.Value.GroupId    , VALUE_WIDTH_2}");
+				pos = pos1;
+				vals = [idx++, snc.Key, snc.Value.Index, snc.Value.Name, snc.Value.AbbrevName, snc.Value.ItemClass, snc.Value.GroupId];
 
 				if (!snc.Value.Neumonic.ToString().IsVoid())
 				{
-					w.TblkMsg($" {snc.Value.Neumonic   , VALUE_WIDTH_1}");
-					w.TblkMsgLine($" ( >{snc.Value.Neumonic.Preface}< >{snc.Value.Neumonic.Body}< >{snc.Value.Neumonic.Suffix}< )");
-				} else
-				{
-					w.TblkMsgLine("---");
+					pos = pos2;
+					vals.Add(snc.Value.Neumonic);
+					vals.Add(snc.Value.Neumonic.Preface);
+					vals.Add(snc.Value.Neumonic.Body);
+					vals.Add(snc.Value.Neumonic.Suffix);
 				}
+
+				w.AddDescTextLineTb(w.ReportRow(pos, vals.ToArray(), fmt));
 			}
 		}
 

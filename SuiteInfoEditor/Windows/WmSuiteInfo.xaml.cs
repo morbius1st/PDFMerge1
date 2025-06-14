@@ -1,10 +1,16 @@
 ﻿#region using
 
-using System.ComponentModel;
+	using System;
+	using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using AndyShared.ConfigMgrShared;
 using JetBrains.Annotations;
+using Settings;
+using SettingsManager;
 using SuiteInfoEditor.Support;
 using UtilityLibrary;
 
@@ -17,28 +23,39 @@ using UtilityLibrary;
 
 namespace SuiteInfoEditor.Windows
 {
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class WmSuiteInfo : Window, INotifyPropertyChanged, ITblkFmt, IWin
+	public partial class WmSuiteInfo : Window, INotifyPropertyChanged // , ITblkFmtSupport //, IWin
 	{
+
+	#region fields
+
 		private string messages;
 
-	#region private fields
-
-		private Operations1 op1;
+		private static CsFlowDocManager fdMgr;
 
 	#endregion
+
 
 	#region ctor
 
 		public WmSuiteInfo()
 		{
 			InitializeComponent();
+			//
+			// TbkF = new CsTextBlockFmtgSupport([FdMsg]);
+			//
+			// op1 = new Operations1(this.TbkF);
+			// Identifiers.Instance.Init(this.TbkF);
 
-			op1 = new Operations1(this);
-			Identifiers.Instance.Init(this);
+			Config();
+		}
 
+		private void Config()
+		{
+			fdMgr = CsFlowDocManager.Instance;
 		}
 
 	#endregion
@@ -56,6 +73,8 @@ namespace SuiteInfoEditor.Windows
 			}
 		}
 
+		// public IFdFmt TbkF { get; set; }
+
 	#endregion
 
 	#region private properties
@@ -64,15 +83,6 @@ namespace SuiteInfoEditor.Windows
 
 	#region public methods
 
-		public void TblkMsgLine(string msg)
-		{
-			DebugMsgLine(msg);
-		}
-		public void TblkMsg(string msg)
-		{
-			DebugMsg(msg);
-		}
-
 		public void DebugMsgLine(string msg)
 		{
 			Messages += msg + "\n";
@@ -80,19 +90,6 @@ namespace SuiteInfoEditor.Windows
 		public void DebugMsg(string msg)
 		{
 			Messages += msg;
-		}
-
-		public void TblkFmtdLine(string msg)
-		{
-			DebugMsgLine(msg);
-		}
-		public void TblkFmtd(string msg)
-		{
-			DebugMsg(msg);
-		}
-		public void TblkMsgClear()
-		{
-			Messages = null;
 		}
 
 	#endregion
@@ -133,9 +130,24 @@ namespace SuiteInfoEditor.Windows
 
 	#endregion
 
-		private void BtnLocations_OnClick(object sender, RoutedEventArgs e)
+		private void BtnShowFlowDoc_OnClick(object sender, RoutedEventArgs e)
 		{
-			SettingsManager.FileLocationSupport.ShowLocations(this);
+			fdMgr.ShowFlowDocInfo();
+		}
+
+		private void BtnShowTbIls_OnClick(object sender, RoutedEventArgs e)
+		{
+			fdMgr.ShowTbInlines();
+		}
+
+		private void BtnLocations1_OnClick(object sender, RoutedEventArgs e)
+		{
+			SettingsManager.FileLocationShowInfo.ShowLocations();
+		}
+
+		private void BtnLocations2_OnClick(object sender, RoutedEventArgs e)
+		{
+			SettingsManager.FileLocationShowInfo.ShowLocations2();
 		}
 
 		private void BtnCompConsts_OnClick(object sender, RoutedEventArgs e)
@@ -157,6 +169,76 @@ namespace SuiteInfoEditor.Windows
 		{
 			Identifiers.Instance.ShowSheetNumComponentData();
 		}
+
+		private void WmSuiteInfo_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			fdMgr.Register(FdSv01, FdVn.FIRST_FDSV);
+			fdMgr.Register(Tblk01, SvTblk01, TbVn.FIRST_TBLK);
+		}
+
+		private void BtnClrFd_OnClick(object sender, RoutedEventArgs e)
+		{
+			fdMgr.Clear(FdVn.FIRST_FDSV);
+			
+		}
+
+		private void BtnClrTb_OnClick(object sender, RoutedEventArgs e)
+		{
+			fdMgr.Clear(TbVn.FIRST_TBLK);
+		}
+
+		private void BtnCopyFd_OnClick(object sender, RoutedEventArgs e)
+		{
+			TextRange tr = new TextRange(FdMsg.ContentStart, FdMsg.ContentEnd);
+
+			Clipboard.SetText(tr.Text, TextDataFormat.Text);
+		}
+
+		private void BtnCopyTb_OnClick(object sender, RoutedEventArgs e)
+		{
+			Clipboard.SetDataObject(Tblk01.Text);
+		}
+
+		private void BtnCommonSettings_OnClick(object sender, RoutedEventArgs e)
+		{
+			GeneralSettingsMgr gsMgr = new GeneralSettingsMgr();
+
+			UserSettingsMgr usMgr = new UserSettingsMgr();
+
+			gsMgr.ShowCommonSettings();
+		}
+
+		private void BtnUserSettings_OnClick(object sender, RoutedEventArgs e)
+		{
+			GeneralSettingsMgr gsMgr = new GeneralSettingsMgr();
+
+			UserSettingsMgr usMgr = new UserSettingsMgr();
+
+			usMgr.ShowUserSettings();
+		}
+
+		private void BtnSheetMetricsStatus_OnClick(object sender, RoutedEventArgs e)
+		{
+			SheetMetricDataMgr mxMgr = new SheetMetricDataMgr();
+
+			mxMgr.ShowZeroShtMetxFileStat();
+
+		}
+
+		private void BtnSheetMetricsStatusAll_OnClick(object sender, RoutedEventArgs e)
+		{
+			SheetMetricDataMgr mxMgr = new SheetMetricDataMgr();
+
+			mxMgr.ShowAllShtMetxFileStat();
+		}
+
+		private void BtnClassifFiles_OnClick(object sender, RoutedEventArgs e)
+		{
+			ClassifFilesMgr cfm = new ClassifFilesMgr();
+
+			cfm.GetFileInfo();
+		}
+
 
 	}
 }

@@ -1,6 +1,5 @@
-﻿<!-- ReSharper disable once Xaml.RedundantNamespaceAlias -->
-<Window
-		x:Name="WinMain"
+﻿<!--  ReSharper disable once Xaml.RedundantNamespaceAlias  -->
+<Window x:Name="WinMain"
 		x:Class="SuiteInfoEditor.Windows.WmSuiteInfo"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,32 +7,54 @@
 		xmlns:local="clr-namespace:SuiteInfoEditor.Windows"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:shsup="clr-namespace:SharedWPF.ShSupport"
 		Title="MainWindow"
 		Width="1600"
 		Height="950"
-		Foreground="White"
-		mc:Ignorable="d"
 		DataContext="{Binding ElementName=WinMain}"
+		mc:Ignorable="d"
 		Background="{StaticResource Normal.Window.Background}"
-
+		Foreground="White"
+		Loaded="WmSuiteInfo_OnLoaded"
 		>
-		
+
 	<Window.Resources>
 
 		<ResourceDictionary>
-		<ResourceDictionary.MergedDictionaries>
-			<ResourceDictionary Source="ResourceFiles\XamlResources\MasterColorList.xaml" />
-			<ResourceDictionary Source="ResourceFiles\XamlResources\VisualStates.xaml" />
-		</ResourceDictionary.MergedDictionaries>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ResourceFiles\XamlResources\CsScrollBar.xaml" />
+				<ResourceDictionary Source="ResourceFiles\XamlResources\CsScrollViewer.xaml" />
+				<ResourceDictionary Source="ResourceFiles\XamlResources\MasterColorList.xaml" />
+				<ResourceDictionary Source="ResourceFiles\XamlResources\VisualStates.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
-		<sys:Double x:Key="BtnWidth">124</sys:Double>
-		<sys:Double x:Key="BtnHeight">28</sys:Double>
+			<sys:Double x:Key="BtnWidth">124</sys:Double>
+			<sys:Double x:Key="BtnHeight">28</sys:Double>
+
+			<Style x:Key="TblkBtnTop"
+					TargetType="TextBlock"
+					>
+				<Setter Property="Margin" Value="0,-2,0,0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="TextAlignment" Value="Center" />
+			</Style>
+
+			<Style x:Key="TblkBtnBottom"
+					TargetType="TextBlock"
+					BasedOn="{StaticResource TblkBtnTop}"
+					>
+				<Setter Property="Margin" Value="0,-2,0,2" />
+				<Setter Property="FontSize" Value="8" />
+			</Style>
+
 
 		</ResourceDictionary>
 	</Window.Resources>
 
 	<Grid>
-			<Grid.ColumnDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="8" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="140" />
 		</Grid.ColumnDefinitions>
@@ -42,103 +63,387 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
-		
-		<TextBox Grid.Column="0"
-				Grid.Row="0"
-				Foreground="White"
-				Background="Black" 
-				FontFamily="Consolas"
-				Text="{Binding Messages}"
-				FontSize="16"
+
+		<GridSplitter x:Name="gridSplitter"
+				Grid.Column="1"
+				Margin="0,2,0,0"
+				Width="4"
+				Height="30"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
 				/>
 
-		<!--#region > operation buttons  -->
-
-		<StackPanel
-				Grid.Column="1"
+		<ScrollViewer x:Name="SvTblk01"
+				Grid.Column="0"
 				Grid.Row="0"
+				HorizontalScrollBarVisibility="Visible"
+				VerticalScrollBarVisibility="Visible"
 
+				>
+
+			<TextBlock x:Name="Tblk01"
+					FontFamily="Consolas"
+					FontSize="16"
+					Background="Black"
+					Foreground="White"
+					Text="{Binding Messages}"
+					Padding="5"
+					/>
+
+			<ScrollViewer.Resources>
+				<Style TargetType="{x:Type ScrollViewer}">
+					<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+					<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
+					<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
+					<Setter Property="shsup:CsScrollViewerAp.ScrollViewerBorderColor" Value="White" />
+					<Setter Property="shsup:CsScrollViewerAp.ScrollViewerBorderThickness" Value="1" />
+					<Setter Property="Margin" Value="1" />
+					<Setter Property="BorderThickness" Value="1" />
+				</Style>
+			</ScrollViewer.Resources>
+
+		</ScrollViewer>
+
+
+
+		<FlowDocumentScrollViewer x:Name="FdSv01"
+				Grid.Column="2"
+				Grid.Row="0"
+				FontFamily="Consolas"
+				FontSize="16"
+				Background="Black"
+				Foreground="White"
+				HorizontalScrollBarVisibility="Visible"
+
+				>
+			<FlowDocumentScrollViewer.Document>
+				<FlowDocument x:Name="FdMsg"
+						FontStyle="Normal"
+						FontFamily="Consolas"
+						FontSize="16"
+						Foreground="Aqua"
+						MinPageWidth="3000"
+						MaxPageWidth="10000"
+						PagePadding="5"
+						/>
+			</FlowDocumentScrollViewer.Document>
+
+			<FlowDocumentScrollViewer.Resources>
+				<Style TargetType="{x:Type ScrollViewer}">
+					<Setter Property="Template" Value="{StaticResource CsScrollViewerCt}" />
+					<Setter Property="shsup:CsScrollBarAp.ScrollBarWidth" Value="6" />
+					<Setter Property="shsup:CsScrollBarAp.TrackWidth" Value="6" />
+					<Setter Property="shsup:CsScrollViewerAp.ScrollViewerBorderColor" Value="White" />
+					<Setter Property="shsup:CsScrollViewerAp.ScrollViewerBorderThickness" Value="1" />
+					<Setter Property="Margin" Value="1" />
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="Tag" Value="{Binding ElementName=FdSV_1, Mode=OneTime}" />
+				</Style>
+			</FlowDocumentScrollViewer.Resources>
+
+		</FlowDocumentScrollViewer>
+
+
+		<!--#region > operation buttons-->
+
+		<DockPanel
+				Grid.Column="3"
+				Grid.Row="0"
 				Margin="5"
 				HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				Orientation="Vertical"
-		>
+				VerticalAlignment="Stretch"
 
-			<Button
-					x:Name="BtnLocations"
+				>
+			<Grid 
+					DockPanel.Dock="Top"
+					HorizontalAlignment="Stretch">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Button x:Name="BtnClrTb"
+						Content="Clr TBlk"
+						Grid.Column="0"
+						Margin="0,0,2.5,5"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Stretch"
+						DockPanel.Dock="Left"
+						Click="BtnClrTb_OnClick"
+						/>
+				<Button x:Name="BtnClrFd"
+						Content="Clr TBlk"
+						Grid.Column="1"
+						Margin="2.5,0,0,5"
+						Height="{StaticResource BtnHeight}"
+						HorizontalAlignment="Stretch"
+						DockPanel.Dock="Right"
+						Click="BtnClrFd_OnClick"
+						/>
+
+			</Grid>
+
+
+			<Button x:Name="BtnLocations1"
+					DockPanel.Dock="Top"
+					Content="Locations 1"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Locations"
-					Click="BtnLocations_OnClick"
-			/>
+					Click="BtnLocations1_OnClick"
+					/>
 
-			<Button
-					x:Name="BtnCompConsts"
+
+			<Button x:Name="BtnLocations2"
+					DockPanel.Dock="Top"
+					Content="Locations 2"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Comp Consts"
+					Click="BtnLocations2_OnClick"
+					/>
+
+
+			<Button x:Name="BtnGeneralSettings"
+					DockPanel.Dock="Top"
+					Content="Show Common Setg"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnCommonSettings_OnClick"
+					/>
+
+			<Button x:Name="BtUserSettings"
+					DockPanel.Dock="Top"
+					Content="Show User Settings"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnUserSettings_OnClick"
+					/>
+
+
+
+
+			<Button x:Name="BtnCompConsts"
+					DockPanel.Dock="Top"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Padding="0,0,0,0"
 					Click="BtnCompConsts_OnClick"
-			/>
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Component Consts"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<TextBlock
+								Text="Sht Number Comp Names"
+								Style="{StaticResource TblkBtnBottom}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
 
-			<Button
-					x:Name="BtnCompConsts2"
+			<Button x:Name="BtnCompConsts2"
+					DockPanel.Dock="Top"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Comp Consts2"
 					Click="BtnCompConsts2_OnClick"
-			/>
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Component Consts2"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<TextBlock
+								Text="Sht Number Array Consts"
+								Style="{StaticResource TblkBtnBottom}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
 
-			<Button
-					x:Name="BtnCompNameInfo1"
+			<Button x:Name="BtnCompNameInfo1"
+					DockPanel.Dock="Top"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Comp Name Info 1"
 					Click="BtnCompNameInfo1_OnClick"
-			/>
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Comp Name Info 1"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<TextBlock
+								Text="Individual Data Elements"
+								Style="{StaticResource TblkBtnBottom}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
 
-			<Button
-					x:Name="BtnSheetNumComponentData"
+			<Button x:Name="BtnSheetNumComponentData"
+					DockPanel.Dock="Top"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Sht Num Comp Data"
 					Click="BtnSheetNumComponentData_OnClick"
-			/>
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Sht Num Comp Data"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button x:Name="BtnSheetMetricsStatus"
+					DockPanel.Dock="Top"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnSheetMetricsStatus_OnClick"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Sht Metrics Stats"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<TextBlock
+								Text="for sample (0)"
+								Style="{StaticResource TblkBtnBottom}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button x:Name="BtnSheetMetricsStatusAll"
+					DockPanel.Dock="Top"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnSheetMetricsStatusAll_OnClick"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Sht Metrics Stats"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<TextBlock
+								Text="for all samples"
+								Style="{StaticResource TblkBtnBottom}"
+								/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button x:Name="BtnClassifFiles"
+					DockPanel.Dock="Top"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnClassifFiles_OnClick"
+			>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Classif Files"
+								Style="{StaticResource TblkBtnTop}"
+						/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
 
 
-		</StackPanel>
-		<!--#endregion -->
+
+			<Button x:Name="BtnShowTbIls"
+					DockPanel.Dock="Bottom"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnShowTbIls_OnClick"
+					VerticalAlignment="Bottom"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Show TextBlock Ils"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<!--  <TextBlock  -->
+						<!--  Text="Individual Data Elements"  -->
+						<!--  Style="{StaticResource TblkBtnBottom}"  -->
+						<!--  />  -->
+					</StackPanel>
+				</Button.Content>
+			</Button>
 
 
+		</DockPanel>
+		<!--#endregion-->
 
 
-		<!--#region > control buttons  -->
+		<!--#region > control buttons-->
 
 		<StackPanel
 				Grid.Column="0"
 				Grid.Row="1"
-				Grid.ColumnSpan="2"
+				Grid.ColumnSpan="4"
 				Margin="5"
 				HorizontalAlignment="Right"
 				VerticalAlignment="Bottom"
 				Orientation="Horizontal"
-		>
+				>
 
-			<Button
-					x:Name="BtnExit"
+			<Button x:Name="BtnExit"
+					Content="Exit"
 					Width="{StaticResource BtnWidth}"
 					Height="{StaticResource BtnHeight}"
-					Content="Exit"
 					Click="BtnExit_OnClick"
-			/>
+					/>
 
 		</StackPanel>
-		
-		<!--#endregion -->
+
+		<!--#endregion-->
+
+		<Button x:Name="BtnCopyTb"
+				Content="Copy"
+				Grid.Column="0"
+				Grid.Row="0"
+				Margin="0,0,20,15"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Background="Transparent"
+				Foreground="White"
+				BorderThickness="0"
+				Click="BtnCopyTb_OnClick"
+				/>
+
+
+		<Button x:Name="BtnCopyFd"
+				Content="Copy"
+				Grid.Column="2"
+				Grid.Row="0"
+				Margin="0,0,20,15"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Background="Transparent"
+				Foreground="White"
+				BorderThickness="0"
+				Click="BtnCopyFd_OnClick"
+				/>
+
 
 	</Grid>
 </Window>

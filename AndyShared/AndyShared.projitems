@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigSupport\ConfigFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigFileSupport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigMgrShared\ConfigSeedLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileLocationShowInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameParseStatusCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplineDataSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSupport\FileNameSheetPDF\FileNameSheetDisciplines.cs" />

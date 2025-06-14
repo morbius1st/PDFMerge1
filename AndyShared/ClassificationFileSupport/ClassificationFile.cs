@@ -35,8 +35,6 @@ namespace AndyShared.ClassificationFileSupport
 	public class ClassificationFile : INotifyPropertyChanged
 	{
 		
-
-
 		public static int M_IDX = 1000;
 
 	#region private fields

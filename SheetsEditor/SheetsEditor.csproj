@@ -85,10 +85,13 @@
   <!--   <DebugType>portable</DebugType> -->
   <!-- </PropertyGroup> -->
   <ItemGroup>
+    <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\CsSupport.cs" Link="Windows\ResourceFiles\XamlResources\CsSupport.cs" />
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsTextBlockFormatting.cs" Link=".Linked\CsTextBlockFormatting.cs" />
     <Compile Include="..\.LinkOnly\HeadingSettings.cs" Link="Settings\HeadingSettings.cs" />
     <Compile Include="..\.LinkOnly\MachineSettings.cs" Link="Settings\MachineSettings.cs" />
     <Compile Include="..\.LinkOnly\SiteSettings.cs" Link="Settings\SiteSettings.cs" />
     <Compile Include="..\.LinkOnly\SuiteSettings.cs" Link="Settings\SuiteSettings.cs" />
+    <Compile Include="..\AndyScan\Support\StatusMgrData.cs" Link=".Linked\StatusMgrData.cs" />
     <Compile Include="\\CRONOS\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilitiesMedia.cs">
       <Link>.Linked\CsUtilitiesMedia.cs</Link>
     </Compile>
@@ -130,5 +133,5 @@
   <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
-  <Import Project="..\AndyShSheets\AndyShSheets.projitems" Label="Shared" />
+  <Import Project="..\AndySh\AndySh.projitems" Label="Shared" />
 </Project>

@@ -30,12 +30,14 @@ namespace AndyScan.SbLocal
 		public static SbMnuItemId MMI_DATA_SEL1   = new SbMnuItemId(401);
 		public static SbMnuItemId MMI_DATA_READ1  = new SbMnuItemId(421);
 
-		public static SbMnuItemId MMI_OP_SCAN1    = new SbMnuItemId(501);
+		public static SbMnuItemId MMI_SHOW_RPT1  = new SbMnuItemId(501);
+
+		public static SbMnuItemId MMI_OP_SCAN1    = new SbMnuItemId(801);
 
 		public static SbMnuItemId MMI_OP_2_SCDATA    = new SbMnuItemId(1000);
 	}
 
-	public class SbMain : IMenu
+	public class SbMain : IMenu2
 	{
 		private const int MENU_WIDTH = 30;
 		private const int MENU_OPTION_WIDTH = 6;
@@ -49,7 +51,7 @@ namespace AndyScan.SbLocal
 		private string keyUp;
 		private int processKeyIdx;
 
-		private ITblkFmt iw;
+		private IFdFmt iw;
 		private IWinMain iwm;
 
 		private int menuIdx;
@@ -58,7 +60,7 @@ namespace AndyScan.SbLocal
 
 	#region ctor
 
-		public SbMain(ITblkFmt iw, IWinMain iwm)
+		public SbMain(IFdFmt iw, IWinMain iwm)
 		{
 			DM.Start0();
 			this.iw = iw;
@@ -461,6 +463,12 @@ namespace AndyScan.SbLocal
 			addheaderItem("Data to Scan");
 			addMenuItem("SD", MMI_DATA_SEL1, ITEM_OPTION_FORMAT, new () { "▪ ", "Select data" }                  , ITEM_TITLE_FORMAT_ACTIVE_1, 0, new () { 2 }, " [select a data set]"  , ITEM_HELP_FORMAT_01);
 			addMenuItem("RD", MMI_DATA_READ1, ITEM_OPTION_FORMAT, new () { "▪ ", "Read Files" }                  , ITEM_TITLE_FORMAT_INACTIVE, 0, new () { -2 }, " [read the data file]"  , ITEM_HELP_FORMAT_01);
+
+			addSpacerItem();
+
+			addheaderItem("Reports");
+			addMenuItem("S1", MMI_SHOW_RPT1, ITEM_OPTION_FORMAT, new () { "▪ ", "Show Report 1" }                  , ITEM_TITLE_FORMAT_ACTIVE_1, 0, new () { -2 });
+
 
 			addSpacerItem();
 

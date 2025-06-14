@@ -174,6 +174,12 @@ namespace AndyConfig.Windows
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
+			SettingsMgr<UserSettingPath, UserSettingInfo<UserSettingDataFile>, UserSettingDataFile> a = UserSettings.Admin;
+			UserSettingDataFile b = UserSettings.Data;
+			UserSettingPath c = UserSettings.Path;
+
+
+
 			cfgMgr = new ConfigManager();
 
 			cfgMgr.Initialize();

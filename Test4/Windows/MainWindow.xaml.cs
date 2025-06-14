@@ -31,7 +31,7 @@ namespace Test4
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged, IWin, ITblkFmt
+	public partial class MainWindow : Window, INotifyPropertyChanged, IWin, IFdFmt
 	{
 		// private static MainWindow mw;
 
@@ -78,7 +78,7 @@ namespace Test4
 			InitializeComponent();
 
 			// todo - fix
-			DM.Iw = (ITblkFmt) this;
+			DM.Iw = (IFdFmt) this;
 
 			init();
 		}
@@ -179,7 +179,6 @@ namespace Test4
 			}
 		}
 
-
 		public TreeNode NodeCopy
 		{
 			get => nodeCopy;
@@ -189,6 +188,9 @@ namespace Test4
 				OnPropertyChanged();
 			}
 		}
+
+		public TextBlock[] MsgTblocks { get; set; }
+		public int MaxTblks {get; set; }
 
 		// public SheetCategory ShtCatCopy
 		// {
@@ -220,6 +222,11 @@ namespace Test4
 		{
 			bool result;
 
+			MaxTblks = 1;
+			MsgTblocks = new TextBlock[MaxTblks];
+
+			MsgTblocks[0] = MsgBlk;
+
 			ms = new MainWinSupport(this);
 			sm = SheetPdfManager.Instance;
 
@@ -250,51 +257,64 @@ namespace Test4
 
 	#region message methods
 
-		public void TblkMsgClear()
+		public void TblkMsgClear(SHOW_WHICH which)
 		{
+			if (!IsShowWhichOk(which)) return;
+
 			MsgBlk.Inlines.Clear();
 		}
 
-		public void TblkMsgLine(string msg)
+		public void TblkMsgLine(string msg, SHOW_WHICH which = SHOW_WHICH.SW_TBLK0)
 		{
-			// Debug.WriteLine(msg);
+			if (!IsShowWhichOk(which)) return;
 
-			TblkMsg3(new Run(msg + "\n"));
+			TblkMsg3(new Run(msg + "\n"), which);
 		}
 
-		public void TblkMsg(string msg)
+		public void TblkMsg(string msg, SHOW_WHICH which = SHOW_WHICH.SW_TBLK0)
 		{
-			// Debug.WriteLine(msg);
+			if (!IsShowWhichOk(which)) return;
 
-			TblkMsg3(new Run(msg));
+			TblkMsg3(new Run(msg), which);
 		}
 
-		public void TblkFmtdLine(string msg)
+		public void TblkFmtdLine(string msg, SHOW_WHICH which = SHOW_WHICH.SW_TBLK0)
 		{
-			// Debug.WriteLine(msg);
+			if (!IsShowWhichOk(which)) return;
 
-			TblkMsg3(Tblks.ProcessText(msg + "\n"));
+			TblkMsg3(Tblks.ProcessText(msg + "\n"), which);
 		}
 
-		public void TblkFmtd(string msg)
+		public void TblkFmtd(string msg, SHOW_WHICH which = SHOW_WHICH.SW_TBLK0)
 		{
+			if (!IsShowWhichOk(which)) return;
+
 			// Debug.WriteLine(msg);
 
-			TblkMsg3(Tblks.ProcessText(msg));
+			TblkMsg3(Tblks.ProcessText(msg), which);
 		}
 
-		private void TblkMsg3(Span span)
+		private void TblkMsg3(Span span, SHOW_WHICH which)
 		{
+			if (!IsShowWhichOk(which)) return;
+
 			MsgBlk.Inlines.Add(span);
 
 			Tblks.Reset();
 		}
 
-		private void TblkMsg3(Run run)
+		private void TblkMsg3(Run run, SHOW_WHICH which)
 		{
+			if (!IsShowWhichOk(which)) return;
+
 			MsgBlk.Inlines.Add(run);
 
 			Tblks.Reset();
+		}
+
+		public bool IsShowWhichOk(SHOW_WHICH which)
+		{
+			return (which >=0 && (int) which < MaxTblks);
 		}
 
 		public void DebugMsg(string msg)

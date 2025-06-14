@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace AndyScan.SbSystem;
 
-public interface IMenu
+public interface IMenu2
 {
 	Dictionary<string, Tuple<SbMnuItemId, List<string>, List<string>, List<string>, int, List<int>>>[] Menus { get; set; }
 	// Dictionary<string, Tuple<string, int>>[] Menus4 { get; set; }

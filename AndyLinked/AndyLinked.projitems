@@ -9,7 +9,7 @@
     <Import_RootNamespace>AndyLinked</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory).Linked\" />
+    <Folder Include="$(MSBuildThisFileDirectory).Linked\FlowDoc\" />
     <Folder Include="$(MSBuildThisFileDirectory)Settings\" />
   </ItemGroup>
   <ItemGroup>
@@ -21,9 +21,6 @@
     </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsObservableDictionary.cs">
       <Link>.Linked\CsObservableDictionary.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsExtensions.cs">
-      <Link>.Linked\CsExtensions.cs</Link>
     </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\MessageUtilities.cs">
       <Link>.Linked\MessageUtilities.cs</Link>
@@ -48,6 +45,21 @@
     </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs">
       <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocConverter.cs">
+      <Link>.Linked\FlowDoc\CsFlowDocConverter.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocConvertUtilities.cs">
+      <Link>.Linked\FlowDoc\CsFlowDocConvertUtilities.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocManager.cs">
+      <Link>.Linked\FlowDoc\CsFlowDocManager.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocMenuSelect.cs">
+      <Link>.Linked\FlowDoc\CsFlowDocMenuSelect.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocTagData.cs">
+      <Link>.Linked\FlowDoc\CsFlowDocTagData.cs</Link>
     </Compile>
   </ItemGroup>
 </Project>
