@@ -20,8 +20,11 @@ namespace Settings
 #region data class
 
 	[DataContract(Namespace = "")]
-	public class SheetMetricData : IDataFile
+	public class SheetMetricData : IDataStore
 	{
+		[IgnoreDataMember]
+		public string DataFileType { get; } = nameof(SheetMetricData);
+
 		[IgnoreDataMember]
 		public static string DataFileName { get; } = "SheetData0.xml";
 

@@ -245,7 +245,7 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 
 
 		internal const int VI_COMP_COUNT = VI_SUBIDENTIFIER +1; // 28 (req'd # // +1 - zero based
-		internal const int VI_COUNT = VI_SHTTITLE +1;      // 18 (req'd # // +1 - zero based
+		public const int VI_COUNT = VI_SHTTITLE +1;      // 18 (req'd # // +1 - zero based
 		internal const int VI_MIN = VI_PHBLDG;
 
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using AndyShared.ClassificationFileSupport;
+using AndyShared.ConfigMgrShared;
 using AndyShared.FileSupport;
 using AndyShared.SampleFileSupport;
 using SettingsManager;

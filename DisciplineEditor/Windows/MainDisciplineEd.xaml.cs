@@ -224,7 +224,7 @@ namespace DisciplineEditor.Windows
 		{
 			startMsg();
 
-			DM.init(5, this);
+			DM.init(5);
 			DM.DbxSetIdx(0, 0);
 			DM.DbxSetDefaultWhere(0, ShowWhere.DEBUG);
 

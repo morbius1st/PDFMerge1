@@ -48,55 +48,55 @@ namespace SettingsManager
 
 			addToTblk($"from", $"{typeof(SettingsManager.FileLocationSupport).FullName}");
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			
 			addToTblk("*** consts (1) ***");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("data file extension (1)"                       , $"{DATA_FILE_EXT}");
 			addToTblk("data file pattern (2)"                         , $"{FILE_PATTERN}");
 			addToTblk("sort name prop (3)"                            , $"{SORT_NAME_PROP}");
 			addToTblk("default folder name (4)"                       , $"{DEFAULT_FOLDER_NAME}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** system (101) ***");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			
 			addToTblk("user name (101)"                               , $"{Environment.UserName}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** locations - general (A) ***");
 
 			addToTblk("FileRootLocationUser (A1)"                     , $"{FileRootLocationUser}");
 			addToTblk("FileRootLocationDefault (A2)"                  , $"{FileRootLocationDefault}");
 
-			w.AddLineBreaks(2);
+			w.AddLineBreaksTb(2);
 			addToTblk("<background color='70, 70, 70'>*** locations - sheet metrics (B1) ***<repeat text=' ' tocolumn='54'/></background>");
 
 			addToTblk("sheet metrics folder name (B1)"                , $"{SHEET_STORAGE_FOLDER_NAME}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** locations - sheet metrics - user (B11) ***");
 
 			addToTblk("general user's location         (B11=A1+B1)"  , $"{ShtMetricsFileLocation}");
 			addToTblk("user's location                 (B12=B11+101)", $"{ShtMetricsFileLocationUser}");
 			addToTblk("user's file name                (B101=B12++)" , $"{ShtMetricsFilePathUser("{{USER FILE ID}}")}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** locations - sheet metrics - default (machine) (B51) ***");
 
 			addToTblk("general default location       (A21)"        , $"{FileRootLocationDefault}");
 			addToTblk("default location               (B51=B11+4)"  , $"{ShtMetricsFileLocationDefault}");
 			addToTblk("default's file name            (B102=B51++)" , $"{ShtMetricsFilePathDefault("{{DEFAULT FILE ID}}")}");
 
-			w.AddLineBreaks(2);
+			w.AddLineBreaksTb(2);
 			addToTblk("<background color='70, 70, 70'>*** locations - classification file (C1) ***<repeat text=' ' tocolumn='54'/></background>");
 
 			addToTblk("SAMPLE_FOLDER (C1)"                          , $"{SAMPLE_FOLDER}");
 			addToTblk("SAMPLE_FILE_EXT (C2)"                        , $"{SAMPLE_FILE_EXT}");
 			addToTblk("CLASSIF_STORAGE_FOLDER_NAME (C3)"            , $"{CLASSIF_STORAGE_FOLDER_NAME}");
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** locations - classification file - user (C11) ***");
 			
 			// user location
@@ -108,7 +108,7 @@ namespace SettingsManager
 			addToTblk("user's sample location         (C15=C11+4))" , $"{ClassifSampleFileLocationUser}");
 			addToTblk("user's sample file name        (C101=C13++)" , $"{ClassifSampleFilePathUser("{{USER FILE ID}}")}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			addToTblk("*** locations - classification file - default (C51) ***");
 			
 			addToTblk("general default location       (A2)"         , $"{FileRootLocationDefault}");
@@ -145,7 +145,7 @@ namespace SettingsManager
 
 			addToTblk("Suite Name", $"{Heading.SuiteName}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 
 			addToTblk("Site Setting File - suite specific settings per site (company)");
@@ -154,7 +154,7 @@ namespace SettingsManager
 			addToTblk("File Name", $"{SiteSettings.Path.FileName}");
 			addToTblk("Exists?"  , $"{SiteSettings.Path.Exists}");
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			
 			addToTblk("Admin Users Count", $"{SiteSettings.Data.AdminUsers.Count}");
 
@@ -165,11 +165,11 @@ namespace SettingsManager
 				addToTblk($"Admin User {idx}", $"{admin}");
 			}
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("Installed Seed Files Count", $"{SiteSettings.Data.InstalledSeedFiles.Count}");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.ClearAltRowFormat();
 			w.StartTb($"{baseFmt}<indent spaces='4'/>");
@@ -194,12 +194,12 @@ namespace SettingsManager
 				
 				w.AddDescTextLineTb(w.ReportRow(pos2, ["'FilePathLocal'", sd.FilePathLocal.FullFilePath]));
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 			}
 
 			w.AddDescTextTb("<indent/>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("Machine Setting File - suite specific settings per machine");
 
@@ -208,7 +208,7 @@ namespace SettingsManager
 			addToTblk("Exists?"  , $"{MachSettings.Path.Exists}");
 			addToTblk("Data", "no data");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("Suite Setting File - suite specific settings per user");
 
@@ -218,7 +218,7 @@ namespace SettingsManager
 			addToTblk("Exists?"  , $"{SuiteSettings.Path.Exists}");
 			addToTblk("Data", $"{SuiteSettings.Data.SiteRootPath}");
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("App Setting File - app specific settings per user");
 
@@ -227,7 +227,7 @@ namespace SettingsManager
 			addToTblk("Exists?"  , $"{AppSettings.Path.Exists}");
 			addToTblk("Data", "no data");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			addToTblk("User Setting File - personal settings per app");
 

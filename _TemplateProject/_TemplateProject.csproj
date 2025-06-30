@@ -61,8 +61,8 @@
 
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
 
-  <ItemGroup>
-    <Compile Update="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs" Link=".Settings\SettingsMgr.cs" />
-  </ItemGroup>
+  <!-- <ItemGroup> -->
+  <!--   <Compile Update="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs" Link=".Settings\SettingsMgr.cs" /> -->
+  <!-- </ItemGroup> -->
 
 </Project>

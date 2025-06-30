@@ -101,7 +101,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			childrenView = CollectionViewSource.GetDefaultView(children) as ListCollectionView;
 		}
 
-		public TreeNode(TreeNode parent, SheetCategory item)
+		public TreeNode(TreeNode parent, SheetCategory item) 
 		{
 			// Debug.WriteLine("@TreeNode ctor| item.title| " + parent.Item.Title 
 			// 	+ " parent depth| " + parent.depth );
@@ -119,7 +119,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		public TreeNode() : this(null, null)
 		{
 			// Debug.WriteLine("@TreeNode ctor| empty treenode created");
-
+			
 		}
 
 		protected  TreeNode(SheetCategory item, bool isExpanded)
@@ -164,6 +164,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 			// onModifiedAnnouncer = Orator.GetAnnouncer(this, OratorRooms.MODIFIED);
 
 			IsInitialized = true;
+			IsBaseOfTree = false;
 
 			if (item != null)
 			{
@@ -571,6 +572,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 				OnPropertyChanged();
 			}
 		}
+
+		// track changes: no
+		[IgnoreDataMember]
+		public bool IsBaseOfTree { get; protected set; }
 
 		// track changes: no
 		[IgnoreDataMember]
@@ -1417,6 +1422,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			item = new SheetCategory("Initial Item", "Initial Item");
 
+			IsBaseOfTree = true;
 		}
 
 		public void Initalize()

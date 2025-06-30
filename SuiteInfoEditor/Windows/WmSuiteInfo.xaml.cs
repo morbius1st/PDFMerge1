@@ -3,9 +3,11 @@
 	using System;
 	using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Documents;
 using AndyShared.ConfigMgrShared;
 using JetBrains.Annotations;
@@ -32,9 +34,14 @@ namespace SuiteInfoEditor.Windows
 
 	#region fields
 
+		private static InlineCollection tbIlc;
+
 		private string messages;
+		private FlowDocument fd;
 
 		private static CsFlowDocManager fdMgr;
+
+		private static WmSuiteInfo instance;
 
 	#endregion
 
@@ -51,6 +58,7 @@ namespace SuiteInfoEditor.Windows
 			// Identifiers.Instance.Init(this.TbkF);
 
 			Config();
+
 		}
 
 		private void Config()
@@ -61,6 +69,8 @@ namespace SuiteInfoEditor.Windows
 	#endregion
 
 	#region public properties
+
+		public static WmSuiteInfo Instance => instance ??= new WmSuiteInfo();
 
 		public string Messages
 		{
@@ -73,15 +83,48 @@ namespace SuiteInfoEditor.Windows
 			}
 		}
 
+		public InlineCollection TbIlc
+		{
+			get => tbIlc;
+			// set
+			// {
+			// 	if (value == tbIlc) return;
+			// 	tbIlc = value;
+			// 	OnPropertyChanged();
+			// }
+		}
+
+		public void UpdateIlc(Inline il)
+		{
+			tbIlc.Add(il);
+			OnPropertyChanged(nameof(TbIlc));
+		}
+
+		public static void Test(Inline il)
+		{
+			
+		}
+
 		// public IFdFmt TbkF { get; set; }
 
+		public FlowDocument FD
+		{
+			get => fd;
+			set
+			{
+				// if (Equals(value, fd)) return;
+				// fd = value;
+				OnPropertyChanged();
+			}
+		}
+
 	#endregion
 
-	#region private properties
+		#region private properties
 
-	#endregion
+		#endregion
 
-	#region public methods
+		#region public methods
 
 		public void DebugMsgLine(string msg)
 		{
@@ -118,6 +161,16 @@ namespace SuiteInfoEditor.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
 		}
 
+		//
+		// public static event PropertyChangedEventHandler PropertyChangedS;
+		//
+		// [DebuggerStepThrough]
+		// [NotifyPropertyChangedInvocator]
+		// private static void OnPropertyChanged([CallerMemberName] string memberName = "")
+		// {
+		// 	PropertyChangedS?.Invoke(, new PropertyChangedEventArgs(memberName));
+		// }
+
 
 	#endregion
 
@@ -130,14 +183,25 @@ namespace SuiteInfoEditor.Windows
 
 	#endregion
 
+
+		private void WmSuiteInfo_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			fdMgr.Register(FdSv01, FdVn.FIRST_FDSV);
+			fdMgr.Register(Tblk01, SvTblk01, TbVn.FIRST_TBLK);
+
+			tbIlc = Tblk01.Inlines;
+		}
+
+
+
 		private void BtnShowFlowDoc_OnClick(object sender, RoutedEventArgs e)
 		{
-			fdMgr.ShowFlowDocInfo();
+			fdMgr.ShowInfoFd();
 		}
 
 		private void BtnShowTbIls_OnClick(object sender, RoutedEventArgs e)
 		{
-			fdMgr.ShowTbInlines();
+			fdMgr.ShowInfoTb();
 		}
 
 		private void BtnLocations1_OnClick(object sender, RoutedEventArgs e)
@@ -170,12 +234,6 @@ namespace SuiteInfoEditor.Windows
 			Identifiers.Instance.ShowSheetNumComponentData();
 		}
 
-		private void WmSuiteInfo_OnLoaded(object sender, RoutedEventArgs e)
-		{
-			fdMgr.Register(FdSv01, FdVn.FIRST_FDSV);
-			fdMgr.Register(Tblk01, SvTblk01, TbVn.FIRST_TBLK);
-		}
-
 		private void BtnClrFd_OnClick(object sender, RoutedEventArgs e)
 		{
 			fdMgr.Clear(FdVn.FIRST_FDSV);
@@ -191,7 +249,7 @@ namespace SuiteInfoEditor.Windows
 		{
 			TextRange tr = new TextRange(FdMsg.ContentStart, FdMsg.ContentEnd);
 
-			Clipboard.SetText(tr.Text, TextDataFormat.Text);
+			Clipboard.SetDataObject(tr.Text);
 		}
 
 		private void BtnCopyTb_OnClick(object sender, RoutedEventArgs e)
@@ -236,9 +294,28 @@ namespace SuiteInfoEditor.Windows
 		{
 			ClassifFilesMgr cfm = new ClassifFilesMgr();
 
-			cfm.GetFileInfo();
+			cfm.ShowFileInfo();
 		}
 
 
+		private void BtnClassifFilesSummary_OnClick(object sender, RoutedEventArgs e)
+		{
+			ClassifFilesMgr cfm = new ClassifFilesMgr();
+
+			cfm.ShowFileInfoSummary();
+		}
+	}
+
+	public class InlineConverter : IValueConverter {
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+			if (value is InlineCollection inlines) {
+				return inlines;
+			}
+			return null;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+			throw new NotImplementedException();
+		}
 	}
 }

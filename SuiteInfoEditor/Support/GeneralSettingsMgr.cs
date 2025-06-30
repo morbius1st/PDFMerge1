@@ -35,6 +35,28 @@ namespace SuiteInfoEditor.Support
 			set => showSetgColumn = value;
 		}
 
+		
+		public static string ShowIntro(string line1, string line2, int len, string[] fmt, string[] l1Fmt, string[] l2Fmt)
+		{
+			StringBuilder sb = new StringBuilder(fmt[0]);
+
+			sb.Append("\u256d").Append("\u2500".Repeat(len-2)).AppendLine("\u256e");
+			sb.Append("\u2502").Append(" ".Repeat(len-2)).AppendLine("\u2502");
+			sb.Append("\u2502").Append(l1Fmt[0]).Append(CsStringUtil.JustifyString(line1, CsStringUtil.JustifyHoriz.CENTER, len-2)).Append(l1Fmt[1]).AppendLine("\u2502");
+			sb.Append("\u2502").Append(" ".Repeat(len-2)).AppendLine("\u2502");
+
+			if (!line2.IsVoid())
+			{
+				sb.Append("\u2502").Append(l2Fmt[0]).Append(CsStringUtil.JustifyString(line2, CsStringUtil.JustifyHoriz.CENTER, len-2)).Append(l2Fmt[1]).AppendLine("\u2502");
+				sb.Append("\u2502").Append("".Repeat(len-2)).AppendLine("\u2502");
+			}
+
+			sb.Append("\u2570").Append("\u2500".Repeat(len-2)).AppendLine("\u256f");
+
+			sb.Append(fmt[1]);
+
+			return sb.ToString();
+		}
 
 		public void ShowCommonSettings()
 		{
@@ -49,16 +71,16 @@ namespace SuiteInfoEditor.Support
 
 			ShowSiteSettings();
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			w.AddDescTextLineTb("<repeat text='-' quantity='85'/>");
 		}
 
 		public void ShowHeaderSettings()
 		{
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			w.AddDescTextLineTb("<repeat text='-' quantity='85'/>");
 			w.AddDescTextLineTb("<lawngreen>SettingsManager.Heading Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.StartTb("<indent spaces='4'/>");
 
@@ -68,9 +90,9 @@ namespace SuiteInfoEditor.Support
 			ShowSetting("ClassVersionName", $"{SettingsManager.Heading.ClassVersionName} (not used)");
 			ShowSetting("SettingsVersionName", $"{SettingsManager.Heading.SettingsVersionName} (not used)");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			w.AddDescTextLineTb("<lawngreen>Admin.Info.Header</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			ShowSetting("AssemblyVersion" , SuiteSettings.Info.Header.AssemblyVersion);
 			ShowSetting("AssemblyName"    , SuiteSettings.Info.Header.AssemblyName);
@@ -78,7 +100,7 @@ namespace SuiteInfoEditor.Support
 
 			w.AddDescTextTb("<indent/>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		}
 
 		public void ShowSuiteSettings()
@@ -87,10 +109,10 @@ namespace SuiteInfoEditor.Support
 
 			ShowSetting("SiteRootPath", SuiteSettings.Data.SiteRootPath);
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb("<lawngreen>Suite Settings (Data & Info) Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			ShowSetting("Info / Header / SavedBy", SuiteSettings.Info.Header.SavedBy);
 			ShowSetting("Info / Header / SavedDateTime", SuiteSettings.Info.Header.SaveDateTime);
@@ -99,7 +121,7 @@ namespace SuiteInfoEditor.Support
 			ShowSetting("Info / Description", SuiteSettings.Info.Description);
 			ShowSetting("Info / Notes", SuiteSettings.Info.Notes);
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextTb("<indent/>");
 
@@ -107,7 +129,7 @@ namespace SuiteInfoEditor.Support
 			// ShowSetting("Info / Header / Notes", SuiteSettings.Info.Header.Notes);
 			// ShowSetting("Description"     , SuiteSettings.Info.Header.Description);
 			// ShowSetting("DataClassVersion", SuiteSettings.Info.Header.DataClassVersion);
-			// w.AddLineBreaks(1);
+			// w.AddLineBreaksTb(1);
 			// template information - used when a "from scratch" suite file is created
 			// ShowSetting("Info / Data / FileDescription", SuiteSettings.Info.Data.DataFileDescription);
 			// ShowSetting("Info / Data / FileNotes", SuiteSettings.Info.Data.DataFileNotes);
@@ -123,10 +145,10 @@ namespace SuiteInfoEditor.Support
 
 			ShowSetting("LastClassificationFileId", MachSettings.Data.LastClassificationFileId);
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb("<lawngreen>Machine Settings (Data & Info) Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			ShowSetting("Info / Header / SavedBy", MachSettings.Info.Header.SavedBy);
 			ShowSetting("Info / Header / SavedDateTime", MachSettings.Info.Header.SaveDateTime);
@@ -135,7 +157,7 @@ namespace SuiteInfoEditor.Support
 			ShowSetting("Info / Description", MachSettings.Info.Description);
 			ShowSetting("Info / Notes", MachSettings.Info.Notes);
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextTb("<indent/>");
 		}
@@ -163,7 +185,7 @@ namespace SuiteInfoEditor.Support
 
 
 			w.AddDescTextLineTb("List of Admin Users");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			if (SiteSettings.Data.AdminUsers != null && SiteSettings.Data.AdminUsers.Count > 0) 
 			{
@@ -179,10 +201,10 @@ namespace SuiteInfoEditor.Support
 
 			count = 0;
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb("List of Installed Seed Files");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			if (SiteSettings.Data.InstalledSeedFiles != null && SiteSettings.Data.InstalledSeedFiles.Count > 0)
 			{
@@ -210,24 +232,24 @@ namespace SuiteInfoEditor.Support
 					];
 					w.AddDescTextLineTb(w.ReportRow(pos1, vals.ToArray(), fmt));
 
-					w.AddLineBreaks(1);
+					w.AddLineBreaksTb(1);
 
 					ShowSetting("FilePathLocal",  seedFileData.FilePathLocal.FullFilePath);
 					ShowSetting("SampleFilePath", seedFileData.SampleFilePath);
 					ShowSetting("SampleFile",     seedFileData.SampleFile.FullFilePath);
 
-					w.AddLineBreaks(1);
+					w.AddLineBreaksTb(1);
 				}
 			}
 			else
 			{
 				ShowSetting("Seed Files", "<red>No Seed Files Found</red>");
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 			}
 			
 			w.AddDescTextLineTb("<lawngreen>Site Settings (Data & Info) Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			ShowSetting("Info / Header / SavedBy", SiteSettings.Info.Header.SavedBy);
 			ShowSetting("Info / Header / SavedDateTime", SiteSettings.Info.Header.SaveDateTime);
@@ -236,7 +258,7 @@ namespace SuiteInfoEditor.Support
 			ShowSetting("Info / Description", SiteSettings.Info.Description);
 			ShowSetting("Info / Notes", SiteSettings.Info.Notes);
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextTb("<indent/>");
 		}
@@ -253,21 +275,21 @@ namespace SuiteInfoEditor.Support
 
 		public static void ShowSettingFilePreface(string title, string path, bool exists, bool indent1=true, bool indent2=true, int ident1=4, int ident2=8)
 		{
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			if (indent1) w.StartTb($"<indent spaces='{ident1}'/>");
 
 			w.AddDescTextLineTb("<repeat text='-' quantity='85'/>");
 			w.AddDescTextLineTb($"<lawngreen>{title}</lawngreen>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			if (indent2) w.StartTb($"<indent spaces='{ident2}'/>");
 
 			w.AddDescTextLineTb($"<darkgray>Path   | </darkgray><dimgray>{path}</dimgray>");
 			w.AddDescTextLineTb($"<darkgray>Exists | </darkgray><dimgray>{exists}</dimgray>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		}
 
 		public override string ToString()

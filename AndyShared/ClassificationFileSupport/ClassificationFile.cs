@@ -142,6 +142,23 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		}
 
+		public string HeaderVersion
+		{
+			get => dataFile.Info.DataClassVersion;
+			set
+			{
+				if (value?.Equals(dataFile.Info.DataClassVersion) ?? false) return;
+
+				dataFile.Info.DataClassVersion = value;
+
+				// dataFile.Admin.Write();
+
+				OnPropertyChanged();
+
+				IsModified = true;
+			}
+		}
+
 
 		public string FolderPathLocal
 		{
@@ -302,7 +319,7 @@ namespace AndyShared.ClassificationFileSupport
 			}
 		} // this will pre-configure to disallow editing
 
-		private bool IsUserClassfFile
+		public bool IsUserClassfFile
 		{
 			get => isUserClassfFile;
 			set

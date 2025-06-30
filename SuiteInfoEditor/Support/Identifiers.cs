@@ -108,11 +108,11 @@ namespace SuiteInfoEditor.Support
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_ID    ), N_ID    ], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SUBID ), N_SUBID ], fldFmt));
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_PBSEP), N_PBSEP], fldFmt));
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP0), N_SEP0], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP1), N_SEP1], fldFmt));
@@ -121,7 +121,7 @@ namespace SuiteInfoEditor.Support
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP4), N_SEP4], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SEP5), N_SEP5], fldFmt));
 			
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SHTNUM  ), N_SHTNUM  ], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(N_SHTID   ), N_SHTID   ], fldFmt));
@@ -165,7 +165,7 @@ namespace SuiteInfoEditor.Support
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SHTID        ), VI_SHTID        .ToString()], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(cols, [nameof(VI_SHTTITLE     ), VI_SHTTITLE     .ToString()], fldFmt));
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			cols[2] = 70;
 
@@ -219,14 +219,14 @@ namespace SuiteInfoEditor.Support
 			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP4    ),  $" {CNI_SEP4    .Index, 4}", CNI_SEP4    .Name, CNI_SEP4    .Type, (int) CNI_SEP4    .Type], fldFmt));
 			w.AddDescTextLineTb(w.ReportRow(pos, [nameof(CNI_SEP5    ),  $" {CNI_SEP5    .Index, 4}", CNI_SEP5    .Name, CNI_SEP5    .Type, (int) CNI_SEP5    .Type], fldFmt));
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.ClearAltRowFormat();
 
 			w.StartTb(hdrFmt);
 			w.AddTextLineTb("Showing same info in the Dictionary: 'CompNames'");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			int idx = 0;
 

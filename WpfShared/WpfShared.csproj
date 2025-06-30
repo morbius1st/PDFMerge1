@@ -1,19 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C4CF3E3E-620E-400C-BC59-B701E5C2E637}</ProjectGuid>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfShared</RootNamespace>
-    <AssemblyName>WpfShared</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,210 +17,49 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WPF;SM74;SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS, USER_SETTINGS, APP_SETTINGS, FORMS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <Configurations>AllDBG;AndyCfgDBG;AndyDBG;AndyFavsDBG;AndyShtsDBG;AODeliv;ClassifyEdDBG;ClassifySheetsDBG;Debug;DiscEdDBG;Release;StorNread2DBG;SylvestDBG;Test3DBG;Test4DBG;Tests1DBG;Tests2DBG;TestsDBG;WpfShrdDBG;WpfTestDBG</Configurations>
     <StartupObject>WpfShared.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;WPF;SM74;SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS, USER_SETTINGS, APP_SETTINGS, FORMS</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS, USER_SETTINGS, APP_SETTINGS, FORMS</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;USER_SETTINGS, SUITE_SETTINGS, SITE_SETTINGS, MACH_SETTINGS, APP_SETTINGS,FORMS</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>CS0436</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;USER_SETTINGS, APP_SETTINGS, SUITE_SETTINGS, MACH_SETTINGS, SITE_SETTINGS</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSLibraryIo">
       <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
-    <Reference Include="CustomMarshalers" />
-    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="CsUtilityLibrary">
+      <HintPath>..\.Referenced\CsUtilityLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.5.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.5\lib\net48\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\AndyResources\SVG\File-Open-00.xaml">
-      <Link>Windows\ResourceFiles\SVG\File-Open-00.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\Folder-Pair-00.xaml">
-      <Link>Windows\ResourceFiles\SVG\Folder-Pair-00.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\Folder-project-00.xaml">
-      <Link>Windows\ResourceFiles\SVG\Folder-project-00.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar01.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar01.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconArrowsScrollBar02.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconArrowsScrollBar02.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconArrowsTree01.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconArrowsTree01.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconCheckMark.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconCheckMark.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconDash.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconDash.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconDelete.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconDelete.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconHistory.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconHistory.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconNot.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconNot.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconPlus.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconPlus.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconRect.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconRect.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconStar.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconStar.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconTriangle.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconTriangle.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\SVG\IconTriangleOblique.xaml">
-      <Link>Windows\ResourceFiles\SVG\IconTriangleOblique.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\IconResources.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\IconResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\MasterColorList.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\MasterColorList.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\MasterVisualResources.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\MasterVisualResources.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\AndyResources\XamlResources\VisualStates.xaml">
-      <Link>Windows\ResourceFiles\XamlResources\VisualStates.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="..\..\..\UtilityLibrary\Templates\C#\TemplatesProject\WPF\BOD\WpfProject02\SharedWPF\ShSupport\CsSupport.cs" Link=".Linked\CsSupport.cs" />
     <Compile Include="..\.LinkOnly\HeadingSettings.cs">
       <Link>Settings\HeadingSettings.cs</Link>
     </Compile>
@@ -251,119 +78,6 @@
     <Compile Include="..\AndyResources\XamlResources\XmalMarkup.cs">
       <Link>Windows\ResourceFiles\XamlResources\XmalMarkup.cs</Link>
     </Compile>
-    <Compile Include="Dialogs\DialogGetFileId.xaml.cs">
-      <DependentUpon>DialogGetFileId.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DialogRequestValues.xaml.cs">
-      <DependentUpon>DialogRequestValues.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DialogSupport\PathChangeArgs.cs" />
-    <Compile Include="SampleData\ClassfFileSelectorSampleData.cs" />
-    <Compile Include="SavedFolders\SavedFldrManager.cs" />
-    <Compile Include="SavedFolders\SavedFoldersWin.xaml.cs">
-      <DependentUpon>SavedFoldersWin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SavedFolders\SelectFolder.cs" />
-    <Compile Include="SavedFolders\SubFolder\SubFolderManager.cs" />
-    <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
-    <Compile Include="Settings\UsrSetgWindowMgmt.cs" />
-    <Compile Include="Windows\Balloon\Balloon.cs" />
-    <Compile Include="Windows\ResourceFiles\FolderRoute\FolderRoute.xaml.cs">
-      <DependentUpon>FolderRoute.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml.cs">
-      <DependentUpon>ScrollViewerExtended.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml.cs">
-      <DependentUpon>SkewedButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\WindowManager.cs" />
-    <Page Include="Dialogs\DialogGetFileId.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\DialogRequestValues.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SavedFolders\SavedFoldersWin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Balloon\Balloon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\ClassificationFileSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Main.cs" />
-    <Compile Include="Windows\ClassificationFileSelector.xaml.cs">
-      <DependentUpon>ClassificationFileSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Windows\ResourceFiles\FolderRoute\FolderRoute.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\ScrollViewerEx\ScrollViewerExtended.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\SkewedBtn\SkewedButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ResourceFiles\XamlResources\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="app.manifest" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".Linked\" />
@@ -385,18 +99,8 @@
   <Import Project="..\AndyShared\AndyShared.projitems" Label="Shared" />
   <Import Project="..\AndyLinked\AndyLinked.projitems" Label="Shared" />
   <Import Project="..\AndyClassifSupport\AndyClassifSupport.projitems" Label="Shared" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)\Andy\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\AndyConfig\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\AODeliverable\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\ClassifierEditor\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\Felix\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\Sylvester\bin\x86\debug"
-copy /y "$(TargetPath)" "$(SolutionDir)\WpfTests\bin\x86\debug"</PostBuildEvent>
-  </PropertyGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Andy\bin\x86\debug&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\AndyConfig\bin\x86\debug&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\AODeliverable\bin\x86\debug&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\ClassifierEditor\bin\debug\net8.0-windows&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Felix\bin\x86\debug&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Sylvester\bin\x86\debug&quot;&#xD;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\WpfTests\bin\x86\debug&quot;" />
+	</Target>
+
 </Project>

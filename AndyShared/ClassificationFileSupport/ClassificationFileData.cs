@@ -15,8 +15,11 @@ namespace AndyShared.ClassificationFileSupport
 {
 	// this is the actual data set saved to the data file
 	[DataContract(Name = "SheetCategoryData", Namespace = "", IsReference = true)]
-	public class ClassificationFileData : INotifyPropertyChanged, IDataFile
+	public class ClassificationFileData : INotifyPropertyChanged, IDataStore
 	{
+		[IgnoreDataMember]
+		public string DataFileType { get; } = "SheetCategoryData";
+
 	#region public properties
 
 		// [DataMember(Order = 2)]

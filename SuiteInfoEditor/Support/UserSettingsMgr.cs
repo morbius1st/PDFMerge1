@@ -42,7 +42,7 @@ namespace SuiteInfoEditor.Support
 
 			w.AddDescTextTb("<indent/>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 			w.AddDescTextLineTb("<repeat text='-' quantity='85'/>");
 		}
 
@@ -53,10 +53,10 @@ namespace SuiteInfoEditor.Support
 			GeneralSettingsMgr.ShowSetting("LastClassificationFileId", classifierEditorSetg.LastClassificationFileId);
 			GeneralSettingsMgr.ShowSetting("RememberNodeExpandState", classifierEditorSetg.RememberNodeExpandState.ToString());
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb("<lawngreen>ClassifierEditor User (Data & Info) Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			GeneralSettingsMgr.ShowSetting("Info / Header / SavedBy", classifierEditorSetg.Info_Header_SavedBy);
 			GeneralSettingsMgr.ShowSetting("Info / Header / SavedDateTime", classifierEditorSetg.Info_Header_SavedDateTime);
@@ -71,7 +71,7 @@ namespace SuiteInfoEditor.Support
 			
 			w.AddDescTextTb("<indent/>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		}
 
 		
@@ -82,10 +82,10 @@ namespace SuiteInfoEditor.Support
 			
 			GeneralSettingsMgr.ShowSetting("LastClassificationFileId", classifiySheetsSetg.LastClassificationFileId);
 		
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		
 			w.AddDescTextLineTb("<lawngreen>AndyShared User (Data & Info) Settings</lawngreen>");
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		
 			GeneralSettingsMgr.ShowSetting("Info / Header / SavedBy", classifiySheetsSetg.Info_Header_SavedBy);
 			GeneralSettingsMgr.ShowSetting("Info / Header / SavedDateTime", classifiySheetsSetg.Info_Header_SavedDateTime);
@@ -96,7 +96,7 @@ namespace SuiteInfoEditor.Support
 		
 			w.AddDescTextTb("<indent/>");
 		
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 		}
 
 
@@ -117,26 +117,26 @@ namespace SuiteInfoEditor.Support
 		// {
 		// 	GeneralSettingsMgr.ShowSettingFilePreface("AndyShared User Settings",andySharedSetg.Path, andySharedSetg.PathExists);
 		//
-		// 	// w.AddLineBreaks(1);
+		// 	// w.AddLineBreaksTb(1);
 		// 	//
 		// 	// w.StartTb("<indent spaces='4'/>");
 		// 	//
 		// 	// w.AddDescTextLineTb("<repeat text='-' quantity='85'/>");
 		// 	// w.AddDescTextLineTb("<lawngreen>AndyShared User Settings</lawngreen>");
 		// 	//
-		// 	// w.AddLineBreaks(1);
+		// 	// w.AddLineBreaksTb(1);
 		// 	// w.StartTb("<indent spaces='8'/>");
 		// 	//
 		// 	// w.AddDescTextLineTb($"<darkgray>Path | </darkgray><dimgray>{andySharedSetg.Path}</dimgray>");
 		// 	//
-		// 	// w.AddLineBreaks(1);
+		// 	// w.AddLineBreaksTb(1);
 		//
 		// 	GeneralSettingsMgr.ShowSetting("LastClassificationFileId", andySharedSetg.LastClassificationFileId);
 		//
-		// 	w.AddLineBreaks(1);
+		// 	w.AddLineBreaksTb(1);
 		//
 		// 	w.AddDescTextLineTb("<lawngreen>AndyShared User (Data & Info) Settings</lawngreen>");
-		// 	w.AddLineBreaks(1);
+		// 	w.AddLineBreaksTb(1);
 		//
 		// 	GeneralSettingsMgr.ShowSetting("Info / Header / SavedBy", andySharedSetg.Info_Header_SavedBy);
 		// 	GeneralSettingsMgr.ShowSetting("Info / Header / SavedDateTime", andySharedSetg.Info_Header_SavedDateTime);
@@ -150,7 +150,7 @@ namespace SuiteInfoEditor.Support
 		//
 		// 	w.AddDescTextTb("<indent/>");
 		//
-		// 	w.AddLineBreaks(1);
+		// 	w.AddLineBreaksTb(1);
 		// }
 
 	}

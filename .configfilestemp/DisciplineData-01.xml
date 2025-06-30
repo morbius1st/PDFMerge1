@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataStorage xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <FileType>SETTING_MGR_DATA</FileType>
+  <DataFileType i:nil="true" />
   <Header>
     <SaveDateTime>2024-08-23 - 18:09 -07:00</SaveDateTime>
     <SavedBy>jeffs</SavedBy>

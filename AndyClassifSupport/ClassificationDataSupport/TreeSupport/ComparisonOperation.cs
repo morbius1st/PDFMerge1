@@ -219,6 +219,11 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		[IgnoreDataMember]
 		public string ValueCompareString => ValueCompOpDef.Name;
 
+		// track changes: no
+		[IgnoreDataMember]
+		public string ValueCompareSymbol => ValueCompOpDef.Symbol;
+
+
 		// track changes: yes
 		// consts - object does not modification
 
@@ -311,6 +316,10 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		/// </summary>
 		[IgnoreDataMember]
 		public string LogicalCompareString => LogicalCompOpDef?.Name ?? "";
+
+		// track changes: no
+		[IgnoreDataMember]
+		public string LogicalCompareSymbol => LogicalCompOpDef?.Symbol ?? "¿?";
 
 		// track changes: yes
 		// [DataMember(Order = 1)]
@@ -686,11 +695,15 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 		public ACompareOp() { }
 
-		public ACompareOp(string name, T op)
+		public ACompareOp(string name, T op, string sym)
 		{
 			Name = name;
 			OpCode = op;
+			Symbol = sym;
 		}
+
+		[IgnoreDataMember]
+		public string Symbol { get; protected set; }
 
 		[DataMember]
 		public abstract string Name { get; protected set;  }
@@ -709,7 +722,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 		public ValueCompOpDef() { }
 
-		public ValueCompOpDef(string name, ValueComparisonOp op) : base(name, op) { }
+		public ValueCompOpDef(string name, ValueComparisonOp op, string sym) : base(name, op, sym) { }
 
 		public override string Name { get; protected set; }
 
@@ -717,7 +730,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override object Clone()
 		{
-			return new ValueCompOpDef(Name, OpCode);
+			return new ValueCompOpDef(Name, OpCode, Symbol);
 		}
 	}
 
@@ -726,7 +739,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 	{
 		public LogicalCompOpDef() { }
 
-		public LogicalCompOpDef(string name, LogicalComparisonOp op) : base(name, op) { }
+		public LogicalCompOpDef(string name, LogicalComparisonOp op, string sym) : base(name, op, sym) { }
 
 		public override string Name { get; protected set;  }
 
@@ -734,7 +747,7 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 		public override object Clone()
 		{
-			return new LogicalCompOpDef(Name, OpCode);
+			return new LogicalCompOpDef(Name, OpCode, Symbol);
 		}
 	}
 
@@ -902,9 +915,9 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			configureCompareOpList(LogicalCompareOps, (int) LOGICAL_COUNT);
 
-			setLogicalCompareOp(LogicalCompareOps, "No Op", LOGICAL_NO_OP);
-			setLogicalCompareOp(LogicalCompareOps, "And", LOGICAL_AND);
-			setLogicalCompareOp(LogicalCompareOps, "Or", LOGICAL_OR);
+			setLogicalCompareOp(LogicalCompareOps, "□", "No Op", LOGICAL_NO_OP);
+			setLogicalCompareOp(LogicalCompareOps, "&&", "And", LOGICAL_AND);
+			setLogicalCompareOp(LogicalCompareOps, "||", "Or", LOGICAL_OR);
 		}
 
 		private static void defineValueCompareOps()
@@ -913,21 +926,21 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 
 			configureCompareOpList(ValueCompareOps, (int) VALUE_COUNT);
 
-			setValueCompareOp(ValueCompareOps, "No Op", VALUE_NO_OP);
-			setValueCompareOp(ValueCompareOps, "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
-			setValueCompareOp(ValueCompareOps, "Is Less Than", LESS_THAN);
-			setValueCompareOp(ValueCompareOps, "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
-			setValueCompareOp(ValueCompareOps, "Is Greater Than", GREATER_THAN);
-			setValueCompareOp(ValueCompareOps, "Is Exactly Equal", EQUALTO);
-			setValueCompareOp(ValueCompareOps, "Is Not Exactly Equal", DOES_NOT_EQUAL);
-			setValueCompareOp(ValueCompareOps, "Contains", CONTAINS );
-			setValueCompareOp(ValueCompareOps, "Does Not Contain", DOES_NOT_CONTAIN );
-			setValueCompareOp(ValueCompareOps, "Starts with", STARTS_WITH );
-			setValueCompareOp(ValueCompareOps, "Does Not Start with", DOES_NOT_START_WITH);
-			setValueCompareOp(ValueCompareOps, "Ends with", ENDS_WITH);
-			setValueCompareOp(ValueCompareOps, "Does Not End with", DOES_NOT_END_WITH);
-			setValueCompareOp(ValueCompareOps, "Matches the Pattern", MATCHES);
-			setValueCompareOp(ValueCompareOps, "Does Not Match the Pattern", DOES_NOT_MATCH);
+			setValueCompareOp(ValueCompareOps, "□", "No Op", VALUE_NO_OP);
+			setValueCompareOp(ValueCompareOps, "\u2264", "Is Less Than or Equal", LESS_THAN_OR_EQUAL);
+			setValueCompareOp(ValueCompareOps, "\u02c2", "Is Less Than", LESS_THAN);
+			setValueCompareOp(ValueCompareOps, "\u2265", "Is Greater Than or Equal", GREATER_THAN_OR_EQUAL);
+			setValueCompareOp(ValueCompareOps, "\u02c3", "Is Greater Than", GREATER_THAN);
+			setValueCompareOp(ValueCompareOps, "==", "Is Exactly Equal", EQUALTO);
+			setValueCompareOp(ValueCompareOps, "×=", "Is Not Exactly Equal", DOES_NOT_EQUAL);
+			setValueCompareOp(ValueCompareOps, "[\u221a]", "Contains", CONTAINS );
+			setValueCompareOp(ValueCompareOps, "[\u00d7]", "Does Not Contain", DOES_NOT_CONTAIN );
+			setValueCompareOp(ValueCompareOps, "|\u02c2", "Starts with", STARTS_WITH );
+			setValueCompareOp(ValueCompareOps, "\u00d7\u02c2", "Does Not Start with", DOES_NOT_START_WITH);
+			setValueCompareOp(ValueCompareOps, "\u02c3|", "Ends with", ENDS_WITH);
+			setValueCompareOp(ValueCompareOps, "\u02c3\u00d7", "Does Not End with", DOES_NOT_END_WITH);
+			setValueCompareOp(ValueCompareOps, "\u2117", "Matches the Pattern", MATCHES);
+			setValueCompareOp(ValueCompareOps, "!\u2117", "Does Not Match the Pattern", DOES_NOT_MATCH);
 
 			// defineValueView();
 		}
@@ -943,14 +956,14 @@ namespace AndyShared.ClassificationDataSupport.TreeSupport
 		// };
 		// }
 
-		private static void  setValueCompareOp(List<ValueCompOpDef> list, string name, ValueComparisonOp op)
+		private static void  setValueCompareOp(  List<ValueCompOpDef> list, string sym, string name, ValueComparisonOp op)
 		{
-			list[(int) op] = new ValueCompOpDef(name, op);
+			list[(int) op] = new ValueCompOpDef(name, op, sym);
 		}
 
-		private static void setLogicalCompareOp(List<LogicalCompOpDef> list, string name, LogicalComparisonOp op)
+		private static void setLogicalCompareOp(  List<LogicalCompOpDef> list, string sym, string name, LogicalComparisonOp op)
 		{
-			list[(int) op] = new LogicalCompOpDef(name, op);
+			list[(int) op] = new LogicalCompOpDef(name, op, sym);
 		}
 
 		private static void configureCompareOpList<T>(List<T> conditionList, int count)  where T : new()

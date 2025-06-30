@@ -101,7 +101,7 @@ namespace  AndyShared.ClassificationDataSupport.SheetSupport
 	public class ItemClassDef : ACompareOp<Item_Class>
 	{
 		public ItemClassDef() { }
-		public ItemClassDef(string name, Item_Class op) : base(name, op) { }
+		public ItemClassDef(string name, Item_Class op) : base(name, op, "") { }
 
 		public override string Name { get; protected set; }
 		public override Item_Class OpCode { get; set; }

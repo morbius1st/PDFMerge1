@@ -77,7 +77,7 @@ namespace SuiteInfoEditor.Support
 
 				showSheetMetrics();
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 			}
 
 			w.AddDescTextLineTb("<repeat text='-' tocolumn='85'/>");
@@ -94,7 +94,7 @@ namespace SuiteInfoEditor.Support
 			w.AddDescTextTb("<darkgray>Sample Info for </darkgray>");
 			w.AddDescTextLineTb($"[<cyan>{sample.Description}</cyan>]");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			GeneralSettingsMgr.ShowSetting("DataFilePath", $"{sample.DataFilePath}");
 			GeneralSettingsMgr.ShowSetting("Path Notes", "");
@@ -115,17 +115,17 @@ namespace SuiteInfoEditor.Support
 
 			w.StartTb("<indent spaces ='4'/>");
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			showSampleHeader();
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			if (!IsConfig)
 			{
 				w.AddDescTextLineTb("<red>this sample is not configured</red>");
 				w.AddDescTextTb("<indent spaces='-4'/>");
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 				return;
 			}
 
@@ -139,7 +139,7 @@ namespace SuiteInfoEditor.Support
 				if (isZero) w.AddDescTextLineTb("but has <red>Zero</red> sheets");
 				else w.AddDescTextLineTb($"and has (<lawngreen>{(metricsMgr?.Data.SheetDataList.Count ?? 0)}</lawngreen>) {((metricsMgr?.Data.SheetDataList.Count ?? 0)== 1? "Sheet":"Sheets")}");
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 
 				GeneralSettingsMgr.ShowSetting("Description", $"{metricsMgr.Info.Description}");
 				GeneralSettingsMgr.ShowSetting("Notes", $"{metricsMgr.Info.Notes}");
@@ -155,7 +155,7 @@ namespace SuiteInfoEditor.Support
 				w.AddDescTextLineTb("is <red>NOT</red> configured");
 			}
 
-			w.AddLineBreaks(1);
+			w.AddLineBreaksTb(1);
 
 			w.AddDescTextLineTb("<indent/>");
 		}
@@ -200,14 +200,14 @@ namespace SuiteInfoEditor.Support
 				GeneralSettingsMgr.ShowSetting("SheetRotation", sd.SheetRotation.ToString());
 				GeneralSettingsMgr.ShowSetting("PageSizeWithRotation", (sd.PageSizeWithRotation ?? new Rectangle(0f,0f)).ToStringRect());
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 
 
 				if (sd.ShtRects.Count > 0)
 				{
 					GeneralSettingsMgr.ShowSetting("** ShtRects Count **", sd.ShtRects.Count.ToString(), "dimgray", "lawngreen");
 
-					w.AddLineBreaks(1);
+					w.AddLineBreaksTb(1);
 
 					showRects(sd.ShtRects);
 				}
@@ -220,7 +220,7 @@ namespace SuiteInfoEditor.Support
 				{
 					GeneralSettingsMgr.ShowSetting("** OptRects Count **", sd.OptRects.Count.ToString(), "dimgray", "lawngreen");
 
-					w.AddLineBreaks(1);
+					w.AddLineBreaksTb(1);
 
 					showRects(sd.OptRects);
 				}
@@ -229,7 +229,7 @@ namespace SuiteInfoEditor.Support
 					w.AddDescTextLineTb("<limegreen>There are no OptRects</limegreen>");
 				}
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 
 				w.AddDescTextTb("<indent spaces='-4'/>");
 				
@@ -261,7 +261,7 @@ namespace SuiteInfoEditor.Support
 				showTextSettings(srd.TextSettings);
 				w.AddDescTextTb("<indent spaces='-4'/>");
 
-				w.AddLineBreaks(1);
+				w.AddLineBreaksTb(1);
 
 				w.AddDescTextTb("<indent spaces='-4'/>");
 			}

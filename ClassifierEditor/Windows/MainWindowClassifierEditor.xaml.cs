@@ -30,9 +30,10 @@ using AndyShared.ConfigSupport;
 using AndyShared.Settings;
 
 using JetBrains.Annotations;
-using WpfShared.Windows;
+// using WpfShared.Windows;
 using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 using System.Windows.Interop;
+using WpfShared.Windows;
 
 #endregion
 
@@ -334,7 +335,7 @@ namespace ClassifierEditor.Windows
 
 			WinHandle = ScreenParameters.GetWindowHandle(Common.GetCurrentWindow());
 
-			DM.init(5, this);
+			DM.init(5);
 
 			DM.DbxSetIdx(0, 0);
 			DM.DbxSetDefaultWhere(0, ShowWhere.DEBUG);
@@ -680,7 +681,7 @@ namespace ClassifierEditor.Windows
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
-			DM.init(5, this);
+			DM.init(5);
 
 			DM.DbxSetIdx(0, 0);
 			DM.DbxSetDefaultWhere(0, ShowWhere.DBG_TBX);
@@ -1872,8 +1873,8 @@ namespace ClassifierEditor.Windows
 
 			string ic = tns?.Item.ItemClassName ?? "null";
 
-			List<LogicalCompOpDef> lc = CompareOperations.LogicalCompareOps;
-			List<ValueCompOpDef> vc = CompareOperations.ValueCompareOps;
+			// List<ValueCompOpDef> vc = CompareOperations.ValueCompareOps;
+			// List<LogicalCompOpDef> lc = CompareOperations.LogicalCompareOps;
 
 			MainWindowClassifierEditor m = Me;
 

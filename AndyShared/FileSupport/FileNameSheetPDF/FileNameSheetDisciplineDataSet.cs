@@ -28,8 +28,11 @@ namespace AndyShared.FileSupport.FileNameSheetPDF
 	// this is unique for each program
 	[DataContract(Namespace = "")]
 	// [CollectionDataContract(Namespace = "", IsReference = true, Name = "ObservableDictionary", ItemName = "KeyValuePair", KeyName = "string", ValueName = "DisciplineListData")]
-	public class DisciplinesDataSet : INotifyPropertyChanged, IDataFile
+	public class DisciplinesDataSet : INotifyPropertyChanged, IDataStore
 	{
+		[IgnoreDataMember]
+		public string DataFileType { get; } = "DisciplinesDataSet";
+
 		[IgnoreDataMember]
 		private ICollectionView disciplineView;
 

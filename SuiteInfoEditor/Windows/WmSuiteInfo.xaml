@@ -31,6 +31,8 @@
 			<sys:Double x:Key="BtnWidth">124</sys:Double>
 			<sys:Double x:Key="BtnHeight">28</sys:Double>
 
+			<local:InlineConverter x:Key="ilConvert"></local:InlineConverter>
+
 			<Style x:Key="TblkBtnTop"
 					TargetType="TextBlock"
 					>
@@ -86,9 +88,11 @@
 					FontSize="16"
 					Background="Black"
 					Foreground="White"
-					Text="{Binding Messages}"
 					Padding="5"
+
 					/>
+					<!-- Text="{Binding Messages}" -->
+
 
 			<ScrollViewer.Resources>
 				<Style TargetType="{x:Type ScrollViewer}">
@@ -114,9 +118,10 @@
 				Background="Black"
 				Foreground="White"
 				HorizontalScrollBarVisibility="Visible"
-
+				
 				>
 			<FlowDocumentScrollViewer.Document>
+
 				<FlowDocument x:Name="FdMsg"
 						FontStyle="Normal"
 						FontFamily="Consolas"
@@ -125,6 +130,7 @@
 						MinPageWidth="3000"
 						MaxPageWidth="10000"
 						PagePadding="5"
+
 						/>
 			</FlowDocumentScrollViewer.Document>
 
@@ -172,7 +178,7 @@
 						Click="BtnClrTb_OnClick"
 						/>
 				<Button x:Name="BtnClrFd"
-						Content="Clr TBlk"
+						Content="Clr FdSv"
 						Grid.Column="1"
 						Margin="2.5,0,0,5"
 						Height="{StaticResource BtnHeight}"
@@ -348,7 +354,7 @@
 				</Button.Content>
 			</Button>
 
-			<Button x:Name="BtnClassifFiles"
+			<Button x:Name="BtnClassifFilesDetail"
 					DockPanel.Dock="Top"
 					Margin="0,0,0,5"
 					Width="{StaticResource BtnWidth}"
@@ -358,9 +364,36 @@
 				<Button.Content>
 					<StackPanel Orientation="Vertical">
 						<TextBlock
-								Text="Classif Files"
+								Text="Classif Files (Detail)"
 								Style="{StaticResource TblkBtnTop}"
 						/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<Button x:Name="BtnClassifFilesSummary"
+					DockPanel.Dock="Top"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnClassifFilesSummary_OnClick"
+			>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+
+								Text="Classif Files (Summary)"
+								Style="{StaticResource TblkBtnTop}"
+						>
+							<TextBlock.LayoutTransform>
+								<TransformGroup>
+									<ScaleTransform ScaleX="0.85"/>
+									<SkewTransform/>
+									<RotateTransform/>
+									<TranslateTransform/>
+								</TransformGroup>
+							</TextBlock.LayoutTransform>
+						</TextBlock>
 					</StackPanel>
 				</Button.Content>
 			</Button>
@@ -388,6 +421,32 @@
 					</StackPanel>
 				</Button.Content>
 			</Button>
+
+
+
+			<Button x:Name="BtnShowFdInfo"
+					DockPanel.Dock="Bottom"
+					Margin="0,0,0,5"
+					Width="{StaticResource BtnWidth}"
+					Height="{StaticResource BtnHeight}"
+					Click="BtnShowFlowDoc_OnClick"
+					VerticalAlignment="Bottom"
+					>
+				<Button.Content>
+					<StackPanel Orientation="Vertical">
+						<TextBlock
+								Text="Show FlowDoc Info"
+								Style="{StaticResource TblkBtnTop}"
+								/>
+						<!--  <TextBlock  -->
+						<!--  Text="Individual Data Elements"  -->
+						<!--  Style="{StaticResource TblkBtnBottom}"  -->
+						<!--  />  -->
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+
 
 
 		</DockPanel>

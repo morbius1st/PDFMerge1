@@ -13,6 +13,12 @@
     <Folder Include="$(MSBuildThisFileDirectory)Settings\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\Current\SettingsMgr.cs">
+      <Link>Settings\SettingsMgr.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsMath.cs">
+      <Link>.Linked\CsMath.cs</Link>
+    </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsUtilities.cs">
       <Link>.Linked\CsUtilities.cs</Link>
     </Compile>
@@ -37,28 +43,22 @@
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsFloatOps.cs">
       <Link>.Linked\CsFloatOps.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsMath.cs">
-      <Link>.Linked\CsMath.cs</Link>
-    </Compile>
     <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\CsDebugMessages.cs">
       <Link>.Linked\CsDebugMessages.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs">
-      <Link>Settings\SettingsMgr.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocConverter.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\Current\CsFlowDocConverter_Curr.cs">
       <Link>.Linked\FlowDoc\CsFlowDocConverter.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocConvertUtilities.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\Current\CsFlowDocConvertUtilities_Curr.cs">
       <Link>.Linked\FlowDoc\CsFlowDocConvertUtilities.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocManager.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\Current\CsFlowDocManager_Curr.cs">
       <Link>.Linked\FlowDoc\CsFlowDocManager.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocMenuSelect.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\Current\CsFlowDocMenuSelect_Curr.cs">
       <Link>.Linked\FlowDoc\CsFlowDocMenuSelect.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\v1.0\CsFlowDocTagData.cs">
+    <Compile Include="C:\Users\jeffs\Documents\Programming\VisualStudioProjects\UtilityLibrary\UtilityLibrary\FlowDocument\Current\CsFlowDocTagData_Curr.cs">
       <Link>.Linked\FlowDoc\CsFlowDocTagData.cs</Link>
     </Compile>
   </ItemGroup>

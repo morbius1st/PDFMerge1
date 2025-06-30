@@ -116,6 +116,9 @@
     <Reference Include="CSLibraryIo">
       <HintPath>..\..\..\UtilityLibrary\UtilityLibrary\Libraries\CSLibraryIo.dll</HintPath>
     </Reference>
+    <Reference Include="CsUtilityLibrary">
+      <HintPath>..\.Referenced\CsUtilityLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

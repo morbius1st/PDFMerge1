@@ -25,7 +25,7 @@
     <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsUtilities.cs" Link=".Linked\CsUtilities.cs" />
     <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\CsXmlUtilities.cs" Link=".Linked\CsXmlUtilities.cs" />
     <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\FilePath\V3.1\CsFilePath.cs" Link=".Linked\CsFilePath.cs" />
-    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\SettingManager\v7.5\SettingsMgr.cs" Link=".Linked\SettingsMgr.cs" />
+    <Compile Include="..\..\..\UtilityLibrary\UtilityLibrary\SettingManager\Current\SettingsMgr.cs" Link=".Linked\SettingsMgr.cs" />
     <Compile Include="..\.LinkOnly\HeadingSettings.cs" Link="Settings\HeadingSettings.cs" />
     <Compile Include="..\ClassifierEditor\Settings\UserSettings.cs" Link="Settings\UserSettings.cs" />
   </ItemGroup>
